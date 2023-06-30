@@ -1,122 +1,212 @@
 #include "..\..\Header\Transform.h"
 
 CTransform::CTransform()
-	: m_vAngle(0.f, 0.f, 0.f)
-	, m_vScale(1.f, 1.f, 1.f)	
+	: m_pParent(nullptr)
+	, m_vAngle(0.f, 0.f, 0.f)
+	, m_vLocalScale(1.f, 1.f, 1.f)
 {
 	ZeroMemory(m_vInfo, sizeof(m_vInfo));
-	D3DXMatrixIdentity(&m_matWorld);
 }
 
 CTransform::CTransform(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CComponent(pGraphicDev)
 	, m_vAngle(0.f, 0.f, 0.f)
-	, m_vScale(1.f, 1.f, 1.f)
+	, m_vLocalScale(1.f, 1.f, 1.f)
 {
 	ZeroMemory(m_vInfo, sizeof(m_vInfo));
-	D3DXMatrixIdentity(&m_matWorld);
 }
 
 CTransform::CTransform(const CTransform & rhs)
 	: CComponent(rhs)
 	, m_vAngle(rhs.m_vAngle)
-	, m_vScale(rhs.m_vScale)
+	, m_vLocalScale(rhs.m_vLocalScale)
 {
 	for (size_t i = 0; i < INFO_END; ++i)
 		m_vInfo[i] = rhs.m_vInfo[i];
-
-	m_matWorld = rhs.m_matWorld;
 }
 
 CTransform::~CTransform()
 {
 }
 
-void CTransform::Chase_Target(const _vec3 * pTargetPos, const _float & fTimeDelta, const _float & fSpeed)
+void CTransform::Translate(_vec3& _vTranslation)
 {
-	_vec3		vDir = *pTargetPos - m_vInfo[INFO_POS];
-	m_vInfo[INFO_POS] += *D3DXVec3Normalize(&vDir, &vDir) * fTimeDelta * fSpeed;
-
-	_matrix			matRot = *Compute_LookAtTarget(pTargetPos);
-	_matrix			matScale, matTrans;
-
-	D3DXMatrixScaling(&matScale, m_vScale.x, m_vScale.y, m_vScale.z);
-	D3DXMatrixTranslation(&matTrans, 
-		m_vInfo[INFO_POS].x,
-		m_vInfo[INFO_POS].y,
-		m_vInfo[INFO_POS].z);
-	
-	m_matWorld = matScale * matRot * matTrans;
+	m_vInfo[INFO_POS] += _vTranslation;
 }
 
-const _matrix * CTransform::Compute_LookAtTarget(const _vec3 * pTargetPos)
+void CTransform::Translate(const _vec3& _vTranslation)
 {
-	_vec3		vDir = *pTargetPos - m_vInfo[INFO_POS];
-
-	_matrix		matRot;
-	_vec3		vAxis, vUp;
-
-	/*_vec3		vAxis = *D3DXVec3Cross(&vAxis, &m_vInfo[INFO_UP], &vDir);
-
-	_matrix		matRot;
-	_vec3		vUp = m_vInfo[INFO_UP];
-	D3DXVec3Normalize(&vUp, &vUp);
-	D3DXVec3Normalize(&vDir, &vDir);
-
-	_float		fDot = D3DXVec3Dot(&vUp, &vDir);
-	_float		fAngle = acosf(fDot);
-
-	D3DXMatrixRotationAxis(&matRot, &vAxis, fAngle);*/
-
-	return D3DXMatrixRotationAxis(&matRot, 
-										 D3DXVec3Cross(&vAxis, &m_vInfo[INFO_UP], &vDir),
-										acosf(D3DXVec3Dot(D3DXVec3Normalize(&vDir, &vDir), 
-														 D3DXVec3Normalize(&vUp, &m_vInfo[INFO_UP]))));
+	Translate(const_cast<_vec3&>(_vTranslation));
 }
+
+void CTransform::Scale(_vec3& _vScale)
+{
+	for (_int i = 0; i < INFO_POS; ++i)
+	{
+		D3DXVec3Normalize(&m_vInfo[i], &m_vInfo[i]);
+		m_vInfo[i] *= *(((_float*)&_vScale) + i);
+	}
+}
+
+void CTransform::Scale(const _vec3& _vScale)
+{
+	Scale(const_cast<_vec3&>(_vScale));
+}
+
+void CTransform::Rotate(_vec3& _vEulers)
+{
+	*(((_float*)&m_vAngle) + INFO_RIGHT) += _vEulers.x;
+	*(((_float*)&m_vAngle) + INFO_UP) += _vEulers.y;
+	*(((_float*)&m_vAngle) + INFO_LOOK) += _vEulers.z;
+
+	_quat quat;
+	_matrix matRotate;
+	D3DXQuaternionRotationYawPitchRoll(&quat, _vEulers.x, _vEulers.y, _vEulers.z);
+	D3DXMatrixRotationQuaternion(&matRotate, &quat);
+
+	m_vInfo[INFO_RIGHT].x *= matRotate._11;
+	m_vInfo[INFO_RIGHT].y *= matRotate._21;
+	m_vInfo[INFO_RIGHT].z *= matRotate._31;
+
+	m_vInfo[INFO_UP].x *= matRotate._12;
+	m_vInfo[INFO_UP].y *= matRotate._22;
+	m_vInfo[INFO_UP].z *= matRotate._32;
+
+	m_vInfo[INFO_LOOK].x *= matRotate._13;
+	m_vInfo[INFO_LOOK].y *= matRotate._23;
+	m_vInfo[INFO_LOOK].z *= matRotate._33;
+	// 테스트 필요함.
+}
+
+void CTransform::Rotate(const _vec3& _vEulers)
+{
+	Rotate(const_cast<_vec3&>(_vEulers));
+}
+
+void CTransform::Rotate(const _float& _fXangle, const _float& _fYangle, const _float& _fZangle)
+{
+	Rotate(_vec3(_fXangle, _fYangle, _fZangle));
+	// 테스트 필요함.
+}
+
+void CTransform::Rotate(ROTATION eType, const _float& fAngle)
+{
+	*(((_float*)&m_vAngle) + eType) += fAngle;
+
+	Rotate(_vec3(m_vAngle[INFO_RIGHT], m_vAngle[INFO_UP], m_vAngle[INFO_LOOK]));
+}
+
+void CTransform::RotateAround(const _vec3& _vPoint, const _vec3& _vAxis, const _float& _fAngle)
+{
+	_quat quat;
+	_matrix matRotate;
+	_vec3 vOut;
+
+	D3DXQuaternionRotationAxis(&quat, &_vAxis, _fAngle);
+	D3DXMatrixRotationQuaternion(&matRotate, &quat);
+	// D3DXMatrixRotationAxis(&matRotate, &_vAxis, _fAngle);
+	D3DXVec3TransformCoord(&vOut, &(m_vInfo[INFO_POS] - _vPoint), &matRotate);
+
+	m_vInfo[INFO_POS] = vOut + _vPoint;
+	// 공전은 하지만 자전은 하지 않음.
+}
+
+const _matrix CTransform::WorldMatrix()
+{
+	_matrix matWorld;
+	D3DXMatrixIdentity(&matWorld);
+
+	for (int i = 0; i < 4; ++i)
+		::CopyMemory(&matWorld.m[i], m_vInfo[i], sizeof(_vec3));
+
+	return matWorld;
+}
+
+//void CTransform::Chase_Target(const _vec3 * pTargetPos, const _float & fTimeDelta, const _float & fSpeed)
+//{
+//	_vec3		vDir = *pTargetPos - m_vInfo[INFO_POS];
+//	m_vInfo[INFO_POS] += *D3DXVec3Normalize(&vDir, &vDir) * fTimeDelta * fSpeed;
+//
+//	_matrix			matRot = *Compute_LookAtTarget(pTargetPos);
+//	_matrix			matScale, matTrans;
+//
+//	D3DXMatrixScaling(&matScale, m_vScale.x, m_vScale.y, m_vScale.z);
+//	D3DXMatrixTranslation(&matTrans, 
+//		m_vInfo[INFO_POS].x,
+//		m_vInfo[INFO_POS].y,
+//		m_vInfo[INFO_POS].z);
+//	
+//	m_matWorld = matScale * matRot * matTrans;
+//}
+//
+//const _matrix * CTransform::Compute_LookAtTarget(const _vec3 * pTargetPos)
+//{
+//	_vec3		vDir = *pTargetPos - m_vInfo[INFO_POS];
+//
+//	_matrix		matRot;
+//	_vec3		vAxis, vUp;
+//
+//	/*_vec3		vAxis = *D3DXVec3Cross(&vAxis, &m_vInfo[INFO_UP], &vDir);
+//
+//	_matrix		matRot;
+//	_vec3		vUp = m_vInfo[INFO_UP];
+//	D3DXVec3Normalize(&vUp, &vUp);
+//	D3DXVec3Normalize(&vDir, &vDir);
+//
+//	_float		fDot = D3DXVec3Dot(&vUp, &vDir);
+//	_float		fAngle = acosf(fDot);
+//
+//	D3DXMatrixRotationAxis(&matRot, &vAxis, fAngle);*/
+//
+//	return D3DXMatrixRotationAxis(&matRot, 
+//										 D3DXVec3Cross(&vAxis, &m_vInfo[INFO_UP], &vDir),
+//										acosf(D3DXVec3Dot(D3DXVec3Normalize(&vDir, &vDir), 
+//														 D3DXVec3Normalize(&vUp, &m_vInfo[INFO_UP]))));
+//}
 
 HRESULT CTransform::Ready_Transform()
 {
-	D3DXMatrixIdentity(&m_matWorld);
-
-	for (_int i = 0; i < INFO_END; ++i)
-		memcpy(&m_vInfo[i], &m_matWorld.m[i][0], sizeof(_vec3));
+	::ZeroMemory(m_vInfo, sizeof(m_vInfo));
+	m_vInfo[INFO_RIGHT].x = 1.f;
+	m_vInfo[INFO_UP].y = 1.f;
+	m_vInfo[INFO_LOOK].z = 1.f;
 
 	return S_OK;
 }
 
 _int CTransform::Update_Component(const _float & fTimeDelta)
 {
-	D3DXMatrixIdentity(&m_matWorld);
+	//D3DXMatrixIdentity(&m_matWorld);
 
-	for (_int i = 0; i < INFO_POS; ++i)
-		memcpy(&m_vInfo[i], &m_matWorld.m[i][0], sizeof(_vec3));
-	
-	// 크기 변환
-	for (_int i = 0; i < INFO_POS; ++i)
-	{
-		D3DXVec3Normalize(&m_vInfo[i], &m_vInfo[i]);
-		m_vInfo[i] *= *(((_float*)&m_vScale) + i);
-	}
-	
-	// 회전 변환
-	_matrix			matRot[ROT_END];
+	//for (_int i = 0; i < INFO_POS; ++i)
+	//	memcpy(&m_vInfo[i], &m_matWorld.m[i][0], sizeof(_vec3));
+	//
+	//// 크기 변환
+	//for (_int i = 0; i < INFO_POS; ++i)
+	//{
+	//	D3DXVec3Normalize(&m_vInfo[i], &m_vInfo[i]);
+	//	m_vInfo[i] *= *(((_float*)&m_vScale) + i);
+	//}
+	//
+	//// 회전 변환
+	//_matrix			matRot[ROT_END];
 
-	D3DXMatrixRotationX(&matRot[ROT_X], m_vAngle.x);
-	D3DXMatrixRotationY(&matRot[ROT_Y], m_vAngle.y);
-	D3DXMatrixRotationZ(&matRot[ROT_Z], m_vAngle.z);
+	//D3DXMatrixRotationX(&matRot[ROT_X], m_vAngle.x);
+	//D3DXMatrixRotationY(&matRot[ROT_Y], m_vAngle.y);
+	//D3DXMatrixRotationZ(&matRot[ROT_Z], m_vAngle.z);
 
-	for (_int i = 0; i < INFO_POS; ++i)
-	{
-		for (_int j = 0; j < ROT_END; ++j)
-		{
-			D3DXVec3TransformNormal(&m_vInfo[i], &m_vInfo[i], &matRot[j]);
-		}
-	}
+	//for (_int i = 0; i < INFO_POS; ++i)
+	//{
+	//	for (_int j = 0; j < ROT_END; ++j)
+	//	{
+	//		D3DXVec3TransformNormal(&m_vInfo[i], &m_vInfo[i], &matRot[j]);
+	//	}
+	//}
 
-	// 월드 행렬 구성
+	//// 월드 행렬 구성
 
-	for (_int i = 0; i < INFO_END; ++i)
-		memcpy(&m_matWorld.m[i][0], &m_vInfo[i], sizeof(_vec3));
+	//for (_int i = 0; i < INFO_END; ++i)
+	//	memcpy(&m_matWorld.m[i][0], &m_vInfo[i], sizeof(_vec3));
 
 	return 0;
 }

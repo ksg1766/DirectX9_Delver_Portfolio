@@ -25,7 +25,8 @@ HRESULT CRcCol::Ready_Buffer(void)
 	m_dwTriCnt = 2;
 	m_dwVtxCnt = 6;
 	m_dwVtxSize = sizeof(VTXCOL);
-
+	m_IdxFmt = D3DFMT_X8R8G8B8;
+	m_dwIdxSize = sizeof(INDEX32);
 	FAILED_CHECK_RETURN(CVIBuffer::Ready_Buffer(), E_FAIL);
 
 	VTXCOL*		pVertex = nullptr;

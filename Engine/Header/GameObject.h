@@ -38,7 +38,9 @@ protected:
 	map<COMPONENTTAG, CComponent*>		m_mapComponent[ID_END];
 	LPDIRECT3DDEVICE9					m_pGraphicDev;
 	_bool								m_IsDead;
+
 	OBJECTTAG							m_eObjectTag;
+	CTransform*							m_pTransform;	// Transform Attached to this GameObject
 
 public:
 	virtual void		Free();

@@ -21,11 +21,11 @@ public:
 	void MakeWorldSpaceUI();
 	void ShowSceneUI();
 	void ShowPopupUI();
-	void ClosePopupUI(UI_Popup popup);
+	void ClosePopupUI(UI_Popup* popup);
 	void ClosePopupUI();
 
 private:
-	//stack<UI_Popup> m_stackPopup;
+	//stack<UI_Popup*> m_stackPopup;
 	UI_Scene* m_pSceneUI;
 
 	virtual void Free() override;

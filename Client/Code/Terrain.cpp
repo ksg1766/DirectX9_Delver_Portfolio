@@ -42,7 +42,7 @@ void CTerrain::LateUpdate_Object(void)
 
 void CTerrain::Render_Object(void)
 {
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_WorldMatrix());
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransformCom->WorldMatrix());
 
 	m_pTextureCom->Render_Texture(0);
 	m_pBufferCom->Render_Buffer();

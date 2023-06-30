@@ -22,7 +22,7 @@ HRESULT CSkyBox::Ready_Object(void)
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 	m_eObjectTag = OBJECTTAG::SKYBOX;
 
-	m_pTransformCom->m_vScale = { 40.f, 40.f, 40.f };
+	m_pTransformCom->Scale(_vec3(40.f, 40.f, 40.f));
 
 	return S_OK;
 }
@@ -45,14 +45,15 @@ void CSkyBox::LateUpdate_Object(void)
 	m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
 	D3DXMatrixInverse(&matView, NULL, &matView);
 
-	m_pTransformCom->Set_Pos(matView._41, matView._42 + 3.f, matView._43);
+	::CopyMemory(m_pTransformCom->m_vInfo[INFO_POS], matView.m[3], sizeof(_vec3));
+	//m_pTransformCom->m_vInfo[INFO_POS] = _vec3(matView._41, matView._42 + 3.f, matView._43);
 
 
 }
 
 void CSkyBox::Render_Object(void)
 {
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_WorldMatrix());
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransformCom->WorldMatrix());
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 

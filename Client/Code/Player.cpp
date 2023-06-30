@@ -46,7 +46,7 @@ void CPlayer::LateUpdate_Object(void)
 
 void CPlayer::Render_Object(void)
 {
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_WorldMatrix());
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransformCom->WorldMatrix());
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
 	m_pBufferCom->Render_Buffer();
@@ -72,38 +72,38 @@ HRESULT CPlayer::Add_Component(void)
 
 void CPlayer::Key_Input(const _float& fTimeDelta)
 {
-	m_pTransformCom->Get_Info(INFO_UP, &m_vDir);
+	m_vDir = m_pTransformCom->m_vInfo[INFO_UP];
 
 	if (GetAsyncKeyState(VK_UP))
 	{
 		D3DXVec3Normalize(&m_vDir, &m_vDir);
-		m_pTransformCom->Move_Pos(&m_vDir, fTimeDelta, m_fSpeed);
+		m_pTransformCom->Translate(m_vDir);
+		//m_pTransformCom->Move_Pos(&m_vDir, fTimeDelta, m_fSpeed);
 	}
 
 	if (GetAsyncKeyState(VK_DOWN))
 	{
 		D3DXVec3Normalize(&m_vDir, &m_vDir);
-		m_pTransformCom->Move_Pos(&m_vDir, fTimeDelta, -m_fSpeed);
-
+		m_pTransformCom->Translate(-m_vDir);
 	}
 
 	if (GetAsyncKeyState('Q'))
-		m_pTransformCom->Rotation(ROT_X, D3DXToRadian(180.f * fTimeDelta));
+		m_pTransformCom->Rotate(ROT_X, D3DXToRadian(180.f * fTimeDelta));
 
 	if (GetAsyncKeyState('A'))
-		m_pTransformCom->Rotation(ROT_X, D3DXToRadian(-180.f * fTimeDelta));
+		m_pTransformCom->Rotate(ROT_X, D3DXToRadian(-180.f * fTimeDelta));
 	
 	if (GetAsyncKeyState('W'))
-		m_pTransformCom->Rotation(ROT_Y, D3DXToRadian(180.f * fTimeDelta));
+		m_pTransformCom->Rotate(ROT_Y, D3DXToRadian(180.f * fTimeDelta));
 
 	if (GetAsyncKeyState('S'))
-		m_pTransformCom->Rotation(ROT_Y, D3DXToRadian(-180.f * fTimeDelta));
+		m_pTransformCom->Rotate(ROT_Y, D3DXToRadian(-180.f * fTimeDelta));
 
 	if (GetAsyncKeyState('E'))
-		m_pTransformCom->Rotation(ROT_Z, D3DXToRadian(180.f * fTimeDelta));
+		m_pTransformCom->Rotate(ROT_Z, D3DXToRadian(180.f * fTimeDelta));
 
 	if (GetAsyncKeyState('D'))
-		m_pTransformCom->Rotation(ROT_Z, D3DXToRadian(-180.f * fTimeDelta));
+		m_pTransformCom->Rotate(ROT_Z, D3DXToRadian(-180.f * fTimeDelta));
 
 }
 

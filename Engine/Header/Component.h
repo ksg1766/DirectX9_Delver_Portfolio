@@ -6,6 +6,7 @@
 BEGIN(Engine)
 
 class CGameObject;
+class CTransform;
 class ENGINE_DLL CComponent : public CBase
 {
 protected:
@@ -19,12 +20,15 @@ public:
 	virtual void LateUpdate_Component(void) {}
 
 public:
-	void	SetHost(CGameObject* _pHost) { m_pHost = _pHost; }
+	void	InitProperty(CGameObject* _pHost);
 
 protected:
 	LPDIRECT3DDEVICE9		m_pGraphicDev;
 	_bool					m_bClone;
+
 	CGameObject*			m_pHost;
+	OBJECTTAG				m_eObjectTag;
+	CTransform*				m_pTransform;	// Transform Attached to this GameObject
 
 public:
 	virtual CComponent*		Clone(void)		PURE;
