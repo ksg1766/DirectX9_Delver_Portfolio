@@ -1,4 +1,29 @@
-﻿  Transform.cpp
+﻿  Camera.cpp
+  Collider.cpp
+  CollisionManager.cpp
+  Component.cpp
+  CubeTex.cpp
+  EventManager.cpp
+  GameObject.cpp
+  Layer.cpp
+  Pipeline.cpp
+  PrototypeManager.cpp
+  RcCol.cpp
+  RcTex.cpp
+  Renderer.cpp
+  RigidBody.cpp
+  Scene.cpp
+  SceneManager.cpp
+  TerrainTex.cpp
+  Texture.cpp
+  Transform.cpp
+  TriCol.cpp
+  코드를 생성하고 있습니다...
+  컴파일하고 있습니다...
+  UIManager.cpp
+  VIBuffer.cpp
+  코드를 생성하고 있습니다...
+     ../Bin\Utility.lib 라이브러리 및 ../Bin\Utility.exp 개체를 생성하고 있습니다.
   Utility.vcxproj -> C:\Users\star1\Desktop\jusin\5th_SR_Team3Project\Engine\Utility\Bin\Utility.dll
   .\Engine\Utility\Code\*.h 
   지정된 파일을 찾을 수 없습니다.
