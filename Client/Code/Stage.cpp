@@ -66,7 +66,6 @@ CStage* CStage::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 
 HRESULT CStage::Ready_Prototype()
 {
-	
 
 	return S_OK;
 }
@@ -110,6 +109,11 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 
 	// Terrain
 	pGameObject = CTerrain::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	Engine::EventManager()->CreateObject(pGameObject, _eLayerTag);
+
+	// Player
+	pGameObject = CPlayer::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	Engine::EventManager()->CreateObject(pGameObject, _eLayerTag);
 

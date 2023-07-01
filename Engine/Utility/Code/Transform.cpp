@@ -55,27 +55,14 @@ void CTransform::Scale(const _vec3& _vScale)
 
 void CTransform::Rotate(_vec3& _vEulers)
 {
-	*(((_float*)&m_vAngle) + INFO_RIGHT) += _vEulers.x;
-	*(((_float*)&m_vAngle) + INFO_UP) += _vEulers.y;
-	*(((_float*)&m_vAngle) + INFO_LOOK) += _vEulers.z;
+	for(int i = 0; i < INFO_POS; ++i)
+		*(((_float*)&m_vAngle) + i) += *(((_float*)&_vEulers) + i);
 
-	_quat quat;
 	_matrix matRotate;
-	D3DXQuaternionRotationYawPitchRoll(&quat, _vEulers.x, _vEulers.y, _vEulers.z);
-	D3DXMatrixRotationQuaternion(&matRotate, &quat);
+	D3DXMatrixRotationQuaternion(&matRotate, D3DXQuaternionRotationYawPitchRoll(&_quat(), _vEulers.y, _vEulers.x, _vEulers.z));
 
-	m_vInfo[INFO_RIGHT].x *= matRotate._11;
-	m_vInfo[INFO_RIGHT].y *= matRotate._21;
-	m_vInfo[INFO_RIGHT].z *= matRotate._31;
-
-	m_vInfo[INFO_UP].x *= matRotate._12;
-	m_vInfo[INFO_UP].y *= matRotate._22;
-	m_vInfo[INFO_UP].z *= matRotate._32;
-
-	m_vInfo[INFO_LOOK].x *= matRotate._13;
-	m_vInfo[INFO_LOOK].y *= matRotate._23;
-	m_vInfo[INFO_LOOK].z *= matRotate._33;
-	// 테스트 필요함.
+	for(int i = 0; i < INFO_POS; ++i)
+		D3DXVec3TransformNormal(&m_vInfo[i], &m_vInfo[i], &matRotate);
 }
 
 void CTransform::Rotate(const _vec3& _vEulers)
@@ -86,14 +73,14 @@ void CTransform::Rotate(const _vec3& _vEulers)
 void CTransform::Rotate(const _float& _fXangle, const _float& _fYangle, const _float& _fZangle)
 {
 	Rotate(_vec3(_fXangle, _fYangle, _fZangle));
-	// 테스트 필요함.
 }
 
 void CTransform::Rotate(ROTATION eType, const _float& fAngle)
 {
-	*(((_float*)&m_vAngle) + eType) += fAngle;
-
-	Rotate(_vec3(m_vAngle[INFO_RIGHT], m_vAngle[INFO_UP], m_vAngle[INFO_LOOK]));
+	_vec3 vAngle = _vec3(0.f, 0.f, 0.f);
+	*(((_float*)&vAngle) + eType) += fAngle;
+		
+	Rotate(_vec3(vAngle[INFO_RIGHT], vAngle[INFO_UP], vAngle[INFO_LOOK]));
 }
 
 void CTransform::RotateAround(const _vec3& _vPoint, const _vec3& _vAxis, const _float& _fAngle)

@@ -45,11 +45,11 @@ void CRenderer::Render_Priority(LPDIRECT3DDEVICE9& pGraphicDev)
 	for (auto iter : m_RenderGroup[RENDER_PRIORITY])
 		iter->Render_Object();
 }
-
+	
 void CRenderer::Render_Nonalpha(LPDIRECT3DDEVICE9& pGraphicDev)
 {
 	for (auto iter : m_RenderGroup[RENDER_NONALPHA])
-		iter->Render_Object();
+			iter->Render_Object();
 }
 
 void CRenderer::Render_Alpha(LPDIRECT3DDEVICE9& pGraphicDev)

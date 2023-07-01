@@ -1,8 +1,12 @@
 #include "..\..\Header\Camera.h"
-#include "Pipeline.h"
 
 CCamera::CCamera(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev)
+{
+}
+
+CCamera::CCamera(const CCamera& rhs)
+	: CGameObject(rhs)//, ~~~~
 {
 }
 

@@ -21,7 +21,7 @@ CTriCol::~CTriCol()
 
 HRESULT CTriCol::Ready_Buffer(void)
 {
-	m_dwFVF = FVF_COL;
+	m_dwFVF = VTXCOL::format;
 	m_dwTriCnt = 1;
 	m_dwVtxCnt = 3;
 	m_dwVtxSize = sizeof(VTXCOL);

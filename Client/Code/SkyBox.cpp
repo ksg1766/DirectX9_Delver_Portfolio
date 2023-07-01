@@ -68,7 +68,7 @@ HRESULT CSkyBox::Add_Component(void)
 {
 	CComponent*			pComponent = nullptr;
 
-	pComponent = m_pBufferCom = dynamic_cast<CCubeTex*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_CubeTex"));
+	pComponent = m_pBufferCom = dynamic_cast<CCubeBf*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_CubeBf"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BUFFER, pComponent);
 

@@ -3,7 +3,7 @@
 
 BEGIN(Engine)
 
-class CCubeTex;
+class CCubeBf;
 class CTransform;
 class CTexture;
 
@@ -28,7 +28,7 @@ private:
 	HRESULT		Add_Component(void);
 
 private:
-	CCubeTex*		m_pBufferCom = nullptr;
+	CCubeBf*		m_pBufferCom = nullptr;
 	CTexture*		m_pTextureCom = nullptr;
 	CTransform*		m_pTransformCom = nullptr;
 

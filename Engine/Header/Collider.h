@@ -15,6 +15,7 @@ private:
 public:
 	HRESULT			Ready_Collider();
 	virtual void	LateUpdate_Component()	override;
+	void			Render_Collider();
 
 	void			InitOBB(_vec3& _vCenter, _vec3* _vAxisDir, float* _fAxisLen);
 

@@ -30,7 +30,7 @@ HRESULT CDynamicCamera::Ready_Object(const _vec3 * pEye, const _vec3 * pAt, cons
 
 _int CDynamicCamera::Update_Object(const _float & fTimeDelta)
 {
-	Key_Input(fTimeDelta);
+	//Key_Input(fTimeDelta);
 
 	if (false == m_bFix)
 	{

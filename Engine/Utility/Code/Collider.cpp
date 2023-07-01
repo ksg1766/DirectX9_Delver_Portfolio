@@ -40,6 +40,11 @@ void CCollider::LateUpdate_Component()
 	//	memcpy(&m_vAxisDir[i], &matWorld.m[i][0], 3 * sizeof(float));
 }
 
+void CCollider::Render_Collider()
+{
+
+}
+
 void CCollider::InitOBB(_vec3 & _vCenter, _vec3 * _vAxisDir, float * _fAxisLen)
 {
 	m_vCenterPos = _vCenter;
@@ -51,6 +56,9 @@ void CCollider::InitOBB(_vec3 & _vCenter, _vec3 * _vAxisDir, float * _fAxisLen)
 	m_fAxisLen[0] = _fAxisLen[0];
 	m_fAxisLen[1] = _fAxisLen[1];
 	m_fAxisLen[2] = _fAxisLen[2];
+
+	//
+
 }
 
 void CCollider::OnCollisionEnter(CCollider * _pOther)

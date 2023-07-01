@@ -48,7 +48,7 @@ HRESULT CTerrainTex::Ready_Buffer(const _ulong& dwCntX, const _ulong& dwCntZ, co
 
 	D3DXSaveTextureToFile(L"../Bin/Resource/Texture/Terrain/137bmp.bmp", D3DXIFF_BMP, pTexture, NULL);*/
 
-	m_dwFVF = FVF_TEX;
+	m_dwFVF = VTXTEX::format;
 	m_dwTriCnt = (dwCntX - 1) * (dwCntZ - 1) * 2;
 	m_dwVtxCnt = dwCntX * dwCntZ;
 	m_dwVtxSize = sizeof(VTXTEX);

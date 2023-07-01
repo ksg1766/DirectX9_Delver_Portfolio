@@ -21,7 +21,7 @@ CRcTex::~CRcTex()
 
 HRESULT CRcTex::Ready_Buffer(void)
 {
-	m_dwFVF = FVF_TEX;
+	m_dwFVF = VTXTEX::format;
 	m_dwTriCnt = 2;
 	m_dwVtxCnt = 4;
 	m_dwVtxSize = sizeof(VTXTEX);

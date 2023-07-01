@@ -1,28 +1,11 @@
-﻿  Camera.cpp
-  Collider.cpp
-  CollisionManager.cpp
-  Component.cpp
-  CubeTex.cpp
-  EventManager.cpp
-  GameObject.cpp
-  Layer.cpp
-  Pipeline.cpp
-  PrototypeManager.cpp
-  RcCol.cpp
-  RcTex.cpp
-  Renderer.cpp
-  RigidBody.cpp
-  Scene.cpp
-  SceneManager.cpp
-  TerrainTex.cpp
-  Texture.cpp
-  Transform.cpp
-  TriCol.cpp
-  코드를 생성하고 있습니다...
-  컴파일하고 있습니다...
-  UIManager.cpp
-  VIBuffer.cpp
-  코드를 생성하고 있습니다...
+﻿  unity_BS7S33WDH9B6C34O.cpp
+  unity_WFVLL8YUKJ7KCFQT.cpp
+  unity_E5XC0OHC2KONPTOC.cpp
+  unity_EUUFP3PG47H2Y1M2.cpp
+  unity_096Z4ATPGV26ZHGN.cpp
+  unity_NBA0QT58EQKCY14T.cpp
+  unity_UARIVMNYESD6DPDO.cpp
+  unity_JI9D2G1X8KVEYIAN.cpp
      ../Bin\Utility.lib 라이브러리 및 ../Bin\Utility.exp 개체를 생성하고 있습니다.
   Utility.vcxproj -> C:\Users\star1\Desktop\jusin\5th_SR_Team3Project\Engine\Utility\Bin\Utility.dll
   .\Engine\Utility\Code\*.h 
@@ -37,7 +20,8 @@
   .\Engine\Header\Collider.h
   .\Engine\Header\CollisionManager.h
   .\Engine\Header\Component.h
-  .\Engine\Header\CubeTex.h
+  .\Engine\Header\Cube.h
+  .\Engine\Header\CubeBf.h
   .\Engine\Header\Engine_Define.h
   .\Engine\Header\Engine_Enum.h
   .\Engine\Header\Engine_Function.h
@@ -55,8 +39,8 @@
   .\Engine\Header\InputDev.h
   .\Engine\Header\Layer.h
   .\Engine\Header\Pipeline.h
+  .\Engine\Header\PlayerBf.h
   .\Engine\Header\PrototypeManager.h
-  .\Engine\Header\RcCol.h
   .\Engine\Header\RcTex.h
   .\Engine\Header\Renderer.h
   .\Engine\Header\RigidBody.h
@@ -70,7 +54,7 @@
   .\Engine\Header\TriCol.h
   .\Engine\Header\UIManager.h
   .\Engine\Header\VIBuffer.h
-         37개 파일이 복사되었습니다.
+         38개 파일이 복사되었습니다.
   .\Engine\Header\Export_System.inl
   .\Engine\Header\Export_Utility.inl
           2개 파일이 복사되었습니다.

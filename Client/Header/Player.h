@@ -4,7 +4,7 @@
 
 BEGIN(Engine)
 
-class CRcCol;
+class CPlayerBf;
 class CTransform;
 
 END
@@ -27,11 +27,11 @@ private:
 	void		Key_Input(const _float& fTimeDelta);
 
 private:
-	CRcCol*			m_pBufferCom = nullptr;
-	CTransform*		m_pTransformCom = nullptr;
+	CPlayerBf*		m_pBuffer = nullptr;
+	CTransform*		m_pTransform = nullptr;
 
-	_vec3			m_vDir;
-	_float			m_fSpeed;
+	//_vec3			m_vDir;
+	_float			m_fSpeed = 10.f;
 
 public:
 	static CPlayer*		Create(LPDIRECT3DDEVICE9 pGraphicDev);

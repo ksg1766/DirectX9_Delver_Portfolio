@@ -8,10 +8,10 @@
 #include "Renderer.h"
 
 #include "TriCol.h"
-#include "RcCol.h"
+#include "PlayerBf.h"
 #include "RcTex.h"
 #include "TerrainTex.h"
-#include "CubeTex.h"
+#include "CubeBf.h"
 
 #include "Transform.h"
 #include "Texture.h"

@@ -30,6 +30,7 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
+    <EnableUnitySupport>true</EnableUnitySupport>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
@@ -89,13 +90,14 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;UTILITY_EXPORTS;%(PreprocessorDefinitions);ENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>../../Header;../../../Base;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <DisableSpecificWarnings>26495</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -170,7 +172,8 @@ call CopyUtility.bat</Command>
     <ClInclude Include="..\..\Header\Collider.h" />
     <ClInclude Include="..\..\Header\CollisionManager.h" />
     <ClInclude Include="..\..\Header\Component.h" />
-    <ClInclude Include="..\..\Header\CubeTex.h" />
+    <ClInclude Include="..\..\Header\Cube.h" />
+    <ClInclude Include="..\..\Header\CubeBf.h" />
     <ClInclude Include="..\..\Header\EventManager.h" />
     <ClInclude Include="..\..\Header\Export_Utility.h" />
     <ClInclude Include="..\..\Header\GameObject.h" />
@@ -179,7 +182,7 @@ call CopyUtility.bat</Command>
     <ClInclude Include="..\..\Header\SceneManager.h" />
     <ClInclude Include="..\..\Header\Pipeline.h" />
     <ClInclude Include="..\..\Header\PrototypeManager.h" />
-    <ClInclude Include="..\..\Header\RcCol.h" />
+    <ClInclude Include="..\..\Header\PlayerBf.h" />
     <ClInclude Include="..\..\Header\RcTex.h" />
     <ClInclude Include="..\..\Header\Renderer.h" />
     <ClInclude Include="..\..\Header\Scene.h" />
@@ -195,7 +198,8 @@ call CopyUtility.bat</Command>
     <ClCompile Include="..\Code\Collider.cpp" />
     <ClCompile Include="..\Code\CollisionManager.cpp" />
     <ClCompile Include="..\Code\Component.cpp" />
-    <ClCompile Include="..\Code\CubeTex.cpp" />
+    <ClCompile Include="..\Code\Cube.cpp" />
+    <ClCompile Include="..\Code\CubeBf.cpp" />
     <ClCompile Include="..\Code\EventManager.cpp" />
     <ClCompile Include="..\Code\GameObject.cpp" />
     <ClCompile Include="..\Code\Layer.cpp" />
@@ -203,7 +207,7 @@ call CopyUtility.bat</Command>
     <ClCompile Include="..\Code\SceneManager.cpp" />
     <ClCompile Include="..\Code\Pipeline.cpp" />
     <ClCompile Include="..\Code\PrototypeManager.cpp" />
-    <ClCompile Include="..\Code\RcCol.cpp" />
+    <ClCompile Include="..\Code\PlayerBf.cpp" />
     <ClCompile Include="..\Code\RcTex.cpp" />
     <ClCompile Include="..\Code\Renderer.cpp" />
     <ClCompile Include="..\Code\Scene.cpp" />
