@@ -19,8 +19,8 @@ CSkyBox::~CSkyBox()
 
 HRESULT CSkyBox::Ready_Object(void)
 {
-	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 	m_eObjectTag = OBJECTTAG::SKYBOX;
+	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	m_pTransformCom->Scale(_vec3(40.f, 40.f, 40.f));
 
@@ -57,7 +57,7 @@ void CSkyBox::Render_Object(void)
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 
-	m_pTextureCom->Render_Texture(3);
+	m_pTextureCom->Render_Texture(2);
 	m_pBufferCom->Render_Buffer();
 
 	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);

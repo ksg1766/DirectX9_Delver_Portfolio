@@ -15,8 +15,6 @@ public:
     HRESULT		    Ready_Object();
     _int		    Update_Object(const _float& fTimeDelta);
 
-    virtual void    Render_Object(void) override;
-
 protected:
     //map<COMPONENTTAG, CComponent*>	m_mapComponent[ID_END];
     //LPDIRECT3DDEVICE9					m_pGraphicDev;

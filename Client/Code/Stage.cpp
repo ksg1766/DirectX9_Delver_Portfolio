@@ -89,7 +89,7 @@ HRESULT CStage::Ready_Layer_Environment(LAYERTAG _eLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	Engine::EventManager()->CreateObject(pGameObject, _eLayerTag);
 	
-	// Terrain
+	// SkyBox
 	pGameObject = CSkyBox::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	Engine::EventManager()->CreateObject(pGameObject, _eLayerTag);
@@ -116,6 +116,12 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	pGameObject = CPlayer::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	Engine::EventManager()->CreateObject(pGameObject, _eLayerTag);
+
+	// TempCube
+	pGameObject = CCubeBlock::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	Engine::EventManager()->CreateObject(pGameObject, _eLayerTag);
+
 
 	m_mapLayer.insert({ _eLayerTag, pLayer });
 

@@ -43,9 +43,6 @@
     <Filter Include="02. GameObject\01. Stage\01. Player">
       <UniqueIdentifier>{20823db4-7296-49fd-9b7e-f63ac149528c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\01. Stage\02. Monster">
-      <UniqueIdentifier>{acc0d059-900d-4485-8f0e-b7cd0bbc5293}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObject\01. Stage\03. Terrain">
       <UniqueIdentifier>{5b40bb16-6bf6-4df5-8660-8d3ca952fcf7}</UniqueIdentifier>
     </Filter>
@@ -60,6 +57,15 @@
     </Filter>
     <Filter Include="02. GameObject\01. Stage\04. SkyBox">
       <UniqueIdentifier>{2c89ba8f-9d33-4cd1-b868-932d2dbd28fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\05. Cube">
+      <UniqueIdentifier>{d8cb7475-93e7-49af-be6f-f3bb2f1807d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\05. Cube\00. CubeBlock">
+      <UniqueIdentifier>{80562d12-8b51-4d26-8a46-27c389c3432f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\05. Cube\01. CubeTrigger">
+      <UniqueIdentifier>{6d47c444-55f5-4873-b6f3-b2b12b1b1035}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -87,9 +93,6 @@
     <ClInclude Include="..\Header\Player.h">
       <Filter>02. GameObject\01. Stage\01. Player</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\Monster.h">
-      <Filter>02. GameObject\01. Stage\02. Monster</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\Stage.h">
       <Filter>01. Scene\01. Stage</Filter>
     </ClInclude>
@@ -104,6 +107,9 @@
     </ClInclude>
     <ClInclude Include="..\Header\SkyBox.h">
       <Filter>02. GameObject\01. Stage\04. SkyBox</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CubeBlock.h">
+      <Filter>02. GameObject\01. Stage\05. Cube\00. CubeBlock</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -125,9 +131,6 @@
     <ClCompile Include="..\Code\Player.cpp">
       <Filter>02. GameObject\01. Stage\01. Player</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\Monster.cpp">
-      <Filter>02. GameObject\01. Stage\02. Monster</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\Stage.cpp">
       <Filter>01. Scene\01. Stage</Filter>
     </ClCompile>
@@ -142,6 +145,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\SkyBox.cpp">
       <Filter>02. GameObject\01. Stage\04. SkyBox</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CubeBlock.cpp">
+      <Filter>02. GameObject\01. Stage\05. Cube\00. CubeBlock</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

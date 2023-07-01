@@ -37,15 +37,6 @@
     <Filter Include="04. Component\01. VIBuffer">
       <UniqueIdentifier>{71c8fe85-b634-4c60-b3ac-7ac5d6d10c19}</UniqueIdentifier>
     </Filter>
-    <Filter Include="04. Component\01. VIBuffer\00. TriCol">
-      <UniqueIdentifier>{9bfb612b-62b0-4b43-9232-2b625080af00}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04. Component\01. VIBuffer\03. RcTex">
-      <UniqueIdentifier>{6d237d50-e41c-46ab-a585-122cf4b489d0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04. Component\01. VIBuffer\04. TerrainTex">
-      <UniqueIdentifier>{471259d0-f2cd-4590-928c-73307088378e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="04. Component\02. Transform">
       <UniqueIdentifier>{bb29c6d4-4195-4298-8275-dba0a89a8e20}</UniqueIdentifier>
     </Filter>
@@ -76,11 +67,23 @@
     <Filter Include="03. GameObject\02. Cube">
       <UniqueIdentifier>{4290d5ff-2278-4229-af4a-98e10cc60da0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="04. Component\01. VIBuffer\05. CubeBf">
+    <Filter Include="04. Component\01. VIBuffer\00. VIBuffer">
+      <UniqueIdentifier>{51b0b468-48c0-4720-a0b2-218565d25ad5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. Component\01. VIBuffer\01. PlayerBf">
+      <UniqueIdentifier>{306bc3f8-0fce-4597-aac7-687a976ec7aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. Component\01. VIBuffer\02. TerrainTex">
+      <UniqueIdentifier>{471259d0-f2cd-4590-928c-73307088378e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. Component\01. VIBuffer\03. RcTex">
+      <UniqueIdentifier>{6d237d50-e41c-46ab-a585-122cf4b489d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. Component\01. VIBuffer\04. CubeBf">
       <UniqueIdentifier>{5af647de-da05-491c-8067-ab40bbdb8b80}</UniqueIdentifier>
     </Filter>
-    <Filter Include="04. Component\01. VIBuffer\02. PlayerBf">
-      <UniqueIdentifier>{306bc3f8-0fce-4597-aac7-687a976ec7aa}</UniqueIdentifier>
+    <Filter Include="03. GameObject\03. Monster">
+      <UniqueIdentifier>{9c3ec071-343f-42c1-9938-b27807fcb74a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -93,14 +96,8 @@
     <ClInclude Include="..\..\Header\Export_Utility.h">
       <Filter>99. Export</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Header\VIBuffer.h">
-      <Filter>04. Component\01. VIBuffer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Header\TriCol.h">
-      <Filter>04. Component\01. VIBuffer\00. TriCol</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Header\PlayerBf.h">
-      <Filter>04. Component\01. VIBuffer\02. PlayerBf</Filter>
+      <Filter>04. Component\01. VIBuffer\01. PlayerBf</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Header\Transform.h">
       <Filter>04. Component\02. Transform</Filter>
@@ -112,7 +109,7 @@
       <Filter>04. Component\01. VIBuffer\03. RcTex</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Header\TerrainTex.h">
-      <Filter>04. Component\01. VIBuffer\04. TerrainTex</Filter>
+      <Filter>04. Component\01. VIBuffer\02. TerrainTex</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Header\Camera.h">
       <Filter>03. GameObject\01. Camera</Filter>
@@ -121,7 +118,7 @@
       <Filter>07. Pipeline</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Header\CubeBf.h">
-      <Filter>04. Component\01. VIBuffer\05. CubeBf</Filter>
+      <Filter>04. Component\01. VIBuffer\04. CubeBf</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Header\SceneManager.h">
       <Filter>00. Managers\00. SceneManager.h</Filter>
@@ -156,6 +153,12 @@
     <ClInclude Include="..\..\Header\GameObject.h">
       <Filter>03. GameObject\00. BaseClass</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Header\VIBuffer.h">
+      <Filter>04. Component\01. VIBuffer\00. VIBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Header\Monster.h">
+      <Filter>03. GameObject\03. Monster</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\Scene.cpp">
@@ -164,14 +167,8 @@
     <ClCompile Include="..\Code\Layer.cpp">
       <Filter>02. Layer</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\VIBuffer.cpp">
-      <Filter>04. Component\01. VIBuffer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\TriCol.cpp">
-      <Filter>04. Component\01. VIBuffer\00. TriCol</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\PlayerBf.cpp">
-      <Filter>04. Component\01. VIBuffer\02. PlayerBf</Filter>
+      <Filter>04. Component\01. VIBuffer\01. PlayerBf</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Transform.cpp">
       <Filter>04. Component\02. Transform</Filter>
@@ -183,7 +180,7 @@
       <Filter>04. Component\01. VIBuffer\03. RcTex</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\TerrainTex.cpp">
-      <Filter>04. Component\01. VIBuffer\04. TerrainTex</Filter>
+      <Filter>04. Component\01. VIBuffer\02. TerrainTex</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Camera.cpp">
       <Filter>03. GameObject\01. Camera</Filter>
@@ -192,7 +189,7 @@
       <Filter>07. Pipeline</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\CubeBf.cpp">
-      <Filter>04. Component\01. VIBuffer\05. CubeBf</Filter>
+      <Filter>04. Component\01. VIBuffer\04. CubeBf</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\SceneManager.cpp">
       <Filter>00. Managers\00. SceneManager.h</Filter>
@@ -226,6 +223,12 @@
     </ClCompile>
     <ClCompile Include="..\Code\Cube.cpp">
       <Filter>03. GameObject\02. Cube</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\VIBuffer.cpp">
+      <Filter>04. Component\01. VIBuffer\00. VIBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Monster.cpp">
+      <Filter>03. GameObject\03. Monster</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

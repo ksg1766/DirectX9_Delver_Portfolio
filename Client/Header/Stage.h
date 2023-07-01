@@ -5,6 +5,7 @@
 #include "DynamicCamera.h"
 #include "SkyBox.h"
 #include "Player.h"
+#include "CubeBlock.h"
 
 class CStage : public Engine::CScene
 {

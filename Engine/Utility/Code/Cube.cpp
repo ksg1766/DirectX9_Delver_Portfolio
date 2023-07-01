@@ -17,22 +17,17 @@ CCube::~CCube()
 HRESULT CCube::Ready_Object()
 {
 
-
 	return S_OK;
 }
 
 _int CCube::Update_Object(const _float& fTimeDelta)
 {
+	_int iExit = __super::Update_Object(fTimeDelta);
 
-
-	return _int();
-}
-
-void CCube::Render_Object(void)
-{
+	return iExit;
 }
 
 void CCube::Free(void)
 {
-	CGameObject::Free();
+	__super::Free();
 }

@@ -19,8 +19,8 @@ CTerrain::~CTerrain()
 
 HRESULT CTerrain::Ready_Object(void)
 {
-	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 	m_eObjectTag = OBJECTTAG::TERRAIN;
+	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	return S_OK;
 }
