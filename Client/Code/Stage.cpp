@@ -87,12 +87,14 @@ HRESULT CStage::Ready_Layer_Environment(LAYERTAG _eLayerTag)
 											0.1f, 
 											1000.f);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	Engine::EventManager()->CreateObject(pGameObject, _eLayerTag);
+	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+	//Engine::EventManager()->CreateObject(pGameObject, _eLayerTag);
 	
 	// SkyBox
 	pGameObject = CSkyBox::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	Engine::EventManager()->CreateObject(pGameObject, _eLayerTag);
+	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+	//Engine::EventManager()->CreateObject(pGameObject, _eLayerTag);
 
 
 	m_mapLayer.insert({ _eLayerTag, pLayer });
@@ -105,25 +107,30 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	Engine::CLayer*		pLayer = Engine::CLayer::Create(_eLayerTag);
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
 
+	m_mapLayer.insert({ _eLayerTag, pLayer });
+
 	Engine::CGameObject*		pGameObject = nullptr;
 
 	// Terrain
 	pGameObject = CTerrain::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	Engine::EventManager()->CreateObject(pGameObject, _eLayerTag);
+	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+	//Engine::EventManager()->CreateObject(pGameObject, _eLayerTag);
 
 	// Player
 	pGameObject = CPlayer::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	Engine::EventManager()->CreateObject(pGameObject, _eLayerTag);
+	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+	//Engine::EventManager()->CreateObject(pGameObject, _eLayerTag);
+	dynamic_cast<CPlayer*>(pGameObject)->Set_Terrain(dynamic_cast<CTerrain*>(pLayer->Get_ObjectList(OBJECTTAG::TERRAIN).front()));
+
 
 	// TempCube
 	pGameObject = CCubeBlock::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	Engine::EventManager()->CreateObject(pGameObject, _eLayerTag);
+	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+	//Engine::EventManager()->CreateObject(pGameObject, _eLayerTag);
 
-
-	m_mapLayer.insert({ _eLayerTag, pLayer });
 
 	return S_OK;
 }

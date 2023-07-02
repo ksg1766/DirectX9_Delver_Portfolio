@@ -89,13 +89,14 @@ void CTransform::RotateAround(const _vec3& _vPoint, const _vec3& _vAxis, const _
 	_matrix matRotate;
 	_vec3 vOut;
 
-	D3DXQuaternionRotationAxis(&quat, &_vAxis, _fAngle);
-	D3DXMatrixRotationQuaternion(&matRotate, &quat);
 	// D3DXMatrixRotationAxis(&matRotate, &_vAxis, _fAngle);
+	D3DXQuaternionRotationAxis(&quat, &_vAxis, D3DXToRadian(_fAngle));
+	D3DXMatrixRotationQuaternion(&matRotate, &quat);
 	D3DXVec3TransformCoord(&vOut, &(m_vInfo[INFO_POS] - _vPoint), &matRotate);
+	for (int i = 0; i < INFO_POS; ++i)
+		D3DXVec3TransformNormal(&m_vInfo[i], &m_vInfo[i], &matRotate);
 
 	m_vInfo[INFO_POS] = vOut + _vPoint;
-	// 공전은 하지만 자전은 하지 않음.
 }
 
 const _matrix CTransform::WorldMatrix()

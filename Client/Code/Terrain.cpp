@@ -22,6 +22,15 @@ HRESULT CTerrain::Ready_Object(void)
 	m_eObjectTag = OBJECTTAG::TERRAIN;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
+	void*		pVertices = nullptr;
+	m_pBuffer->m_pVB->Lock(0, m_pBuffer->m_dwVtxCnt * m_pBuffer->m_dwVtxSize, &pVertices, 0);
+	for (UINT i = 0; i < m_pBuffer->m_dwVtxCnt; ++i)
+	{
+		m_vecTerrainVertex.push_back((((VTXNTX*)pVertices) + i)->vPosition);
+	}
+	m_pBuffer->m_pVB->Unlock();
+
+
 	return S_OK;
 }
 
@@ -42,25 +51,25 @@ void CTerrain::LateUpdate_Object(void)
 
 void CTerrain::Render_Object(void)
 {
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransformCom->WorldMatrix());
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
 
-	m_pTextureCom->Render_Texture(0);
-	m_pBufferCom->Render_Buffer();
+	m_pTexture->Render_Texture(0);
+	m_pBuffer->Render_Buffer();
 }
 
 HRESULT CTerrain::Add_Component(void)
 {
 	CComponent*			pComponent = nullptr;
 
-	pComponent = m_pBufferCom = dynamic_cast<CTerrainTex*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_TerrainTex"));
+	pComponent = m_pBuffer = dynamic_cast<CTerrainTex*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_TerrainTex"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BUFFER, pComponent);
 
-	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_Terrain"));
+	pComponent = m_pTexture = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_Terrain"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE, pComponent);
 
-	pComponent = m_pTransformCom = dynamic_cast<CTransform*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Transform"));
+	pComponent = m_pTransform = dynamic_cast<CTransform*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Transform"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::TRANSFORM, pComponent);
 

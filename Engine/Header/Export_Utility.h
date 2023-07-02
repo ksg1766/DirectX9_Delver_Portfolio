@@ -6,6 +6,7 @@
 #include "EventManager.h"
 #include "PrototypeManager.h"
 #include "Renderer.h"
+#include "LightManager.h"
 
 #include "TriCol.h"
 #include "PlayerBf.h"

@@ -16,7 +16,7 @@ public:
 	virtual HRESULT			Ready_Buffer(void);
 	virtual void			Render_Buffer(void);
 
-protected:
+//protected: // Terrain을 Utility로 옮긴후에 다시 protected
 	LPDIRECT3DVERTEXBUFFER9			m_pVB;
 	LPDIRECT3DINDEXBUFFER9			m_pIB;
 

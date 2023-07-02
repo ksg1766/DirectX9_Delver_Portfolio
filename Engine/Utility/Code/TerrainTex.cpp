@@ -48,17 +48,17 @@ HRESULT CTerrainTex::Ready_Buffer(const _ulong& dwCntX, const _ulong& dwCntZ, co
 
 	D3DXSaveTextureToFile(L"../Bin/Resource/Texture/Terrain/137bmp.bmp", D3DXIFF_BMP, pTexture, NULL);*/
 
-	m_dwFVF = VTXTEX::format;
+	m_dwFVF = VTXNTX::format;
 	m_dwTriCnt = (dwCntX - 1) * (dwCntZ - 1) * 2;
 	m_dwVtxCnt = dwCntX * dwCntZ;
-	m_dwVtxSize = sizeof(VTXTEX);
+	m_dwVtxSize = sizeof(VTXNTX);
 
 	m_dwIdxSize = sizeof(INDEX32);
 	m_IdxFmt = D3DFMT_INDEX32;
 
 	FAILED_CHECK_RETURN(CVIBuffer::Ready_Buffer(), E_FAIL);
 
-	m_hFile = CreateFile(L"../Bin/Resource/Texture/Terrain/Height2.bmp", GENERIC_READ, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
+	m_hFile = CreateFile(L"../Bin/Resource/Texture/Terrain/Height.bmp", GENERIC_READ, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
 
 	_ulong	dwByte = 0;
 
@@ -71,7 +71,7 @@ HRESULT CTerrainTex::Ready_Buffer(const _ulong& dwCntX, const _ulong& dwCntZ, co
 
 	CloseHandle(m_hFile);
 
-	VTXTEX*		pVertex = nullptr;
+	VTXNTX*		pVertex = nullptr;
 
 	_ulong		dwIndex = 0;
 
@@ -83,20 +83,20 @@ HRESULT CTerrainTex::Ready_Buffer(const _ulong& dwCntX, const _ulong& dwCntZ, co
 		{
 			dwIndex = i * dwCntX + j;
 
-			pVertex[dwIndex].vPosition = { _float(j * dwVtxItv), 
-				0.f/*_float(pPixel[dwIndex] & 0x000000ff) / 30.f*/,
-				_float(i * dwVtxItv) };
-			pVertex[dwIndex].vTexUV = {_float(j) / (dwCntX - 1)  * 20.f, 
+			pVertex[dwIndex].vPosition = { _float(j * dwVtxItv) - VTXCNTX / 2.f,
+				_float(pPixel[dwIndex] & 0x000000ff) / 20.f,
+				_float(i * dwVtxItv) - VTXCNTZ / 2.f };
+			pVertex[dwIndex].vTexture = {_float(j) / (dwCntX - 1)  * 20.f, 
 										_float(i) / (dwCntZ - 1) * 20.f };			
 		}
 	}	
-	m_pVB->Unlock();
+	
 
 	Safe_Delete_Array(pPixel);
 
 	_ulong		dwTriCnt = 0;
 
-	INDEX32*			pIndex = nullptr;
+	INDEX32*	pIndex = nullptr;
 
 	m_pIB->Lock(0, 0, (void**)&pIndex, 0);
 
@@ -106,24 +106,49 @@ HRESULT CTerrainTex::Ready_Buffer(const _ulong& dwCntX, const _ulong& dwCntZ, co
 		{
 			dwIndex = i * dwCntX + j;
 
+			_int baseIdx = dwIndex + dwCntX + 1;
+			_int firstIdx = dwIndex + dwCntX;
+			_int secondIdx = dwIndex + 1;
+
 			// 오른쪽 위
-			pIndex[dwTriCnt]._0 = dwIndex + dwCntX;
-			pIndex[dwTriCnt]._1 = dwIndex + dwCntX + 1;
-			pIndex[dwTriCnt]._2 = dwIndex + 1;
+			pIndex[dwTriCnt]._0 = firstIdx;
+			pIndex[dwTriCnt]._1 = baseIdx;
+			pIndex[dwTriCnt]._2 = secondIdx;
 			dwTriCnt++;
+
+			D3DXVECTOR3 v;
+			D3DXVec3Cross(&v, &(pVertex[secondIdx].vPosition - pVertex[baseIdx].vPosition), &(pVertex[firstIdx].vPosition - pVertex[baseIdx].vPosition));
+			D3DXVec3Normalize(&v, &v);
+
+			pVertex[firstIdx].vNormal += v;
+			pVertex[baseIdx].vNormal += v;
+			pVertex[secondIdx].vNormal += v;
+			
+			baseIdx = dwIndex;
+			firstIdx = dwIndex + dwCntX;
+			secondIdx = dwIndex + 1;
 
 			// 왼쪽 아래
 			pIndex[dwTriCnt]._0 = dwIndex + dwCntX;
 			pIndex[dwTriCnt]._1 = dwIndex + 1;
 			pIndex[dwTriCnt]._2 = dwIndex;
 			dwTriCnt++;
+
+			D3DXVec3Cross(&v, &(pVertex[secondIdx].vPosition - pVertex[baseIdx].vPosition), &(pVertex[firstIdx].vPosition - pVertex[baseIdx].vPosition));
+			D3DXVec3Normalize(&v, &v);
+
+			pVertex[firstIdx].vNormal += v;
+			pVertex[baseIdx].vNormal += v;
+			pVertex[secondIdx].vNormal += v;
+			// 조명 추가 후 vNormal 점검 요망.
 		}
-	}	
+	}
 
+	for (_ulong i = 0; i < m_dwVtxCnt; ++i)
+		D3DXVec3Normalize(&pVertex[i].vNormal, &pVertex[i].vNormal);
+
+	m_pVB->Unlock();
 	m_pIB->Unlock();
-
-
-
 
 	return S_OK;
 }

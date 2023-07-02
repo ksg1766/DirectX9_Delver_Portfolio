@@ -85,15 +85,17 @@ HRESULT CLogo::Ready_Layer_Environment(LAYERTAG _eLayerTag)
 	Engine::CLayer*		pLayer = Engine::CLayer::Create(_eLayerTag);
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
 
+	m_mapLayer.insert({ _eLayerTag, pLayer });
+
 	Engine::CGameObject*		pGameObject = nullptr;
 
 	// BackGround
 	pGameObject = CBackGround::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	Engine::EventManager()->CreateObject(pGameObject, _eLayerTag);
+	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+	//Engine::EventManager()->CreateObject(pGameObject, _eLayerTag);
 
 	
-	m_mapLayer.insert({ _eLayerTag, pLayer });
 
 	return S_OK;
 }

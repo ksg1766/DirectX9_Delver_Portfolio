@@ -85,6 +85,9 @@
     <Filter Include="03. GameObject\03. Monster">
       <UniqueIdentifier>{9c3ec071-343f-42c1-9938-b27807fcb74a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="00. Managers\06. LightManager">
+      <UniqueIdentifier>{93f1d9c0-3cad-48b4-826b-44e76269e75f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Header\Scene.h">
@@ -159,6 +162,9 @@
     <ClInclude Include="..\..\Header\Monster.h">
       <Filter>03. GameObject\03. Monster</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Header\LightManager.h">
+      <Filter>00. Managers\06. LightManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\Scene.cpp">
@@ -229,6 +235,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\Monster.cpp">
       <Filter>03. GameObject\03. Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\LightManager.cpp">
+      <Filter>00. Managers\06. LightManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
