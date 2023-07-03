@@ -84,7 +84,7 @@ HRESULT CTerrainTex::Ready_Buffer(const _ulong& dwCntX, const _ulong& dwCntZ, co
 			dwIndex = i * dwCntX + j;
 
 			pVertex[dwIndex].vPosition = { _float(j * dwVtxItv) - VTXCNTX / 2.f,
-				_float(pPixel[dwIndex] & 0x000000ff) / 20.f,
+				0.f,//_float(pPixel[dwIndex] & 0x000000ff) / 20.f,
 				_float(i * dwVtxItv) - VTXCNTZ / 2.f };
 			pVertex[dwIndex].vTexture = {_float(j) / (dwCntX - 1)  * 20.f, 
 										_float(i) / (dwCntZ - 1) * 20.f };			

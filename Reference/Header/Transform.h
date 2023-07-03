@@ -48,7 +48,7 @@ public:
 	_vec3			m_vAngle;
 	_vec3			m_vLocalScale;
 
-	_matrix			m_matWorld;
+	//_matrix			m_matWorld;
 
 public:
 	static CTransform*		Create(LPDIRECT3DDEVICE9 pGraphicDev);

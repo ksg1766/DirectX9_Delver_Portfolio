@@ -4,5 +4,4 @@
   unity_ST8O1ZIIELMOW7BS.cpp
 C:\Users\star1\Desktop\jusin\5th_SR_Team3Project\Client\Code\Player.cpp(115,11): warning C4244: '초기화 중': 'float'에서 'Engine::_int'(으)로 변환하면서 데이터가 손실될 수 있습니다. (소스 파일 컴파일 중 Debug\unity_ST8O1ZIIELMOW7BS.cpp)
 C:\Users\star1\Desktop\jusin\5th_SR_Team3Project\Client\Code\Player.cpp(116,11): warning C4244: '초기화 중': 'float'에서 'Engine::_int'(으)로 변환하면서 데이터가 손실될 수 있습니다. (소스 파일 컴파일 중 Debug\unity_ST8O1ZIIELMOW7BS.cpp)
-     ../Bin\Client.lib 라이브러리 및 ../Bin\Client.exp 개체를 생성하고 있습니다.
   Client.vcxproj -> C:\Users\star1\Desktop\jusin\5th_SR_Team3Project\Client\Bin\Client.exe
