@@ -19,6 +19,7 @@
 #include "Collider.h"
 #include "RigidBody.h"
 #include "Pipeline.h"
+#include "Light.h"
 
 #include "GameObject.h"
 

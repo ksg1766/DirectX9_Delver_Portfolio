@@ -88,6 +88,12 @@
     <Filter Include="00. Managers\06. LightManager">
       <UniqueIdentifier>{93f1d9c0-3cad-48b4-826b-44e76269e75f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="00. Managers\07. MapTool">
+      <UniqueIdentifier>{e26fb72a-acc3-4bfe-af01-388217029136}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. Component\06. Light">
+      <UniqueIdentifier>{a5de899b-8df8-4571-a843-e0aeb3bffec1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Header\Scene.h">
@@ -165,6 +171,9 @@
     <ClInclude Include="..\..\Header\LightManager.h">
       <Filter>00. Managers\06. LightManager</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Header\Light.h">
+      <Filter>04. Component\06. Light</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\Scene.cpp">
@@ -238,6 +247,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\LightManager.cpp">
       <Filter>00. Managers\06. LightManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Light.cpp">
+      <Filter>04. Component\06. Light</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

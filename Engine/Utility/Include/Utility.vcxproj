@@ -178,6 +178,7 @@ call CopyUtility.bat</Command>
     <ClInclude Include="..\..\Header\Export_Utility.h" />
     <ClInclude Include="..\..\Header\GameObject.h" />
     <ClInclude Include="..\..\Header\Layer.h" />
+    <ClInclude Include="..\..\Header\Light.h" />
     <ClInclude Include="..\..\Header\LightManager.h" />
     <ClInclude Include="..\..\Header\Monster.h" />
     <ClInclude Include="..\..\Header\RigidBody.h" />
@@ -204,6 +205,7 @@ call CopyUtility.bat</Command>
     <ClCompile Include="..\Code\EventManager.cpp" />
     <ClCompile Include="..\Code\GameObject.cpp" />
     <ClCompile Include="..\Code\Layer.cpp" />
+    <ClCompile Include="..\Code\Light.cpp" />
     <ClCompile Include="..\Code\LightManager.cpp" />
     <ClCompile Include="..\Code\Monster.cpp" />
     <ClCompile Include="..\Code\RigidBody.cpp" />

@@ -4,6 +4,7 @@
 
 BEGIN(Engine)
 
+class CLight;
 class ENGINE_DLL CLightManager :
     public CBase
 {
@@ -14,7 +15,10 @@ private:
 	virtual ~CLightManager();
 
 public:
-	
+	void	Swtich_All();
+
+private:
+	vector<CLight*>	m_LightList;
 	
 public:
     virtual void Free() override;

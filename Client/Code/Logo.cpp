@@ -3,6 +3,7 @@
 
 #include "Export_Function.h"
 #include "Stage.h"
+#include "Editor.h"
 
 CLogo::CLogo(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
@@ -19,7 +20,8 @@ HRESULT CLogo::Ready_Scene()
 
 	FAILED_CHECK_RETURN(Ready_Layer_Environment(LAYERTAG::ENVIRONMENT), E_FAIL);
 	
-	m_pLoading = CLoading::Create(m_pGraphicDev, CLoading::LOADING_STAGE);
+	//m_pLoading = CLoading::Create(m_pGraphicDev, CLoading::LOADINGID::LOADING_STAGE);
+	m_pLoading = CLoading::Create(m_pGraphicDev, CLoading::LOADINGID::LOADING_EDITOR);
 	NULL_CHECK_RETURN(m_pLoading, E_FAIL);
 
 	return S_OK;
@@ -31,7 +33,8 @@ Engine::_int CLogo::Update_Scene(const _float& fTimeDelta)
 
 	if (true == m_pLoading->Get_Finish())
 	{
-		CScene*		pScene = CStage::Create(m_pGraphicDev);
+		//CScene*		pScene = CStage::Create(m_pGraphicDev);
+		CScene* pScene = CEditor::Create(m_pGraphicDev);
 		NULL_CHECK_RETURN(pScene, -1);
 
 		FAILED_CHECK_RETURN(Engine::SceneManager()->Set_Scene(pScene), E_FAIL);
@@ -74,6 +77,7 @@ CLogo* CLogo::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 
 HRESULT CLogo::Ready_Prototype()
 {
+	// 로고 씬에서 사용될 컴포넌트
 	FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_RcTex", CRcTex::Create(m_pGraphicDev)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Logo", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Logo/IU.jpg")), E_FAIL);
 

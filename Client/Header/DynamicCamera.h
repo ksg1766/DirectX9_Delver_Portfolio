@@ -20,6 +20,11 @@ public:
 	_int		Update_Object(const _float& fTimeDelta);
 	void		Render_Object() {}
 
+public:
+	_vec3		Picking(HWND hWnd,
+		const CVIBuffer* pTargetBuffer,
+		const CTransform* pTargetTransform);
+
 private:
 	void		Key_Input(const _float& fTimeDelta);
 	void		Mouse_Move();

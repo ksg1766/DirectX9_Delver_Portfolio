@@ -22,13 +22,12 @@ HRESULT CStage::Ready_Scene()
 
 	//m_pGraphicDev->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
 	//m_pGraphicDev->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
-			
+
 	return S_OK;
 }
 
 Engine::_int CStage::Update_Scene(const _float& fTimeDelta)
 {
-
 	__super::Update_Scene(fTimeDelta);
 
 	return 0;

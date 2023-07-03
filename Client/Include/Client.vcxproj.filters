@@ -67,6 +67,9 @@
     <Filter Include="02. GameObject\01. Stage\05. Cube\01. CubeTrigger">
       <UniqueIdentifier>{6d47c444-55f5-4873-b6f3-b2b12b1b1035}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Scene\02. Editor">
+      <UniqueIdentifier>{b7993b52-caa6-4ac3-a2ea-dab6a5593137}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -111,6 +114,9 @@
     <ClInclude Include="..\Header\CubeBlock.h">
       <Filter>02. GameObject\01. Stage\05. Cube\00. CubeBlock</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\Editor.h">
+      <Filter>01. Scene\02. Editor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -148,6 +154,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\CubeBlock.cpp">
       <Filter>02. GameObject\01. Stage\05. Cube\00. CubeBlock</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Editor.cpp">
+      <Filter>01. Scene\02. Editor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -33,6 +33,10 @@ public:
 
 private:
 	CComponent*			Find_Component(COMPONENTTAG pComponentTag, COMPONENTID eID);
+	
+
+public:
+	CTransform*							m_pTransform;	// Transform Attached to this GameObject
 
 protected:
 	map<COMPONENTTAG, CComponent*>		m_mapComponent[ID_END];
@@ -40,7 +44,6 @@ protected:
 	_bool								m_IsDead;
 
 	OBJECTTAG							m_eObjectTag;
-	CTransform*							m_pTransform;	// Transform Attached to this GameObject
 
 public:
 	virtual void		Free();
