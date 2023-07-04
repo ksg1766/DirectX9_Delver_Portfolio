@@ -110,6 +110,12 @@ const _matrix CTransform::WorldMatrix()
 	return matWorld;
 }
 
+void CTransform::Set_WorldMatrix(_matrix& _matWorld)
+{
+	for (_int i = 0; i < INFO_END; ++i)
+		::CopyMemory(&m_vInfo[i], _matWorld.m[i], sizeof(_vec3));
+}
+
 HRESULT CTransform::Ready_Transform()
 {
 	::ZeroMemory(m_vInfo, sizeof(m_vInfo));

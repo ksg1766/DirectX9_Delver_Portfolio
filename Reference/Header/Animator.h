@@ -14,7 +14,7 @@ private:
 
 public:
 	HRESULT			Ready_Animator();
-	virtual _int	LateUpdate_Component(const _float& fTimeDelta);
+	virtual void	LateUpdate_Component()	override;
 
 protected:
 	

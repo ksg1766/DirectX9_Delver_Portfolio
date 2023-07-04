@@ -137,7 +137,7 @@ void CPlayer::ForceHeight(_vec3 _vPos)
 		_vec3 uy = B - A;
 		_vec3 vy = C - A;
 
-		height = A.y + (uy.y * dx) + (vy.y * dz) + 1.f;
+		height = A.y + (uy.y * dx) + (vy.y * dz) + m_pTransform->m_vInfo[INFO_POS].y;
 		m_pTransform->m_vInfo[INFO_POS].y = height;
 	}// c-a b-a cba
 	else
@@ -145,7 +145,7 @@ void CPlayer::ForceHeight(_vec3 _vPos)
 		_vec3 uy = C - D;
 		_vec3 vy = B - D;
 
-		height = D.y + (uy.y * (1.f - dx)) + (vy.y * (1.f - dz)) + 1.f;
+		height = D.y + (uy.y * (1.f - dx)) + (vy.y * (1.f - dz)) + m_pTransform->m_vInfo[INFO_POS].y;
 		m_pTransform->m_vInfo[INFO_POS].y = height;
 	}
 }

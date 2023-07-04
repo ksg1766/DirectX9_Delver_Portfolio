@@ -21,8 +21,12 @@
 #include "Collider.h"
 #include "RigidBody.h"
 #include "Light.h"
+#include "Camera.h"
 #include "BasicStat.h"
 #include "MonsterAI.h"
+#include "Animator.h"
+#include "Particle.h"
+#include "BillBoard.h"
 
 #include "GameObject.h"
 

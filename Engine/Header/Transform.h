@@ -28,6 +28,7 @@ public:
 	void	Translate(const _vec3& _vTranslation);
 
 	const _matrix	WorldMatrix();
+	void	Set_WorldMatrix(_matrix& _matWorld);
 
 public:
 	HRESULT			Ready_Transform();

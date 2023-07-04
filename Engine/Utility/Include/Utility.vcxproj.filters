@@ -79,9 +79,6 @@
     <Filter Include="04. Component\06. Light">
       <UniqueIdentifier>{a5de899b-8df8-4571-a843-e0aeb3bffec1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="04. Component\09. AI">
-      <UniqueIdentifier>{79996208-1762-41cd-b22f-c09bb01161cf}</UniqueIdentifier>
-    </Filter>
     <Filter Include="04. Component\07. Camera">
       <UniqueIdentifier>{c5ac6bd4-5b28-4eb9-afc9-59d6632e23cc}</UniqueIdentifier>
     </Filter>
@@ -132,6 +129,12 @@
     </Filter>
     <Filter Include="04. Component\08. Stat\03. CosumStat">
       <UniqueIdentifier>{24dcd881-f609-40d1-930c-13fcb62c6734}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. Component\12. BillBoard">
+      <UniqueIdentifier>{ba0906d7-d1de-4c25-8f6c-84db08456e9b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. Component\09. MonsterAI">
+      <UniqueIdentifier>{79996208-1762-41cd-b22f-c09bb01161cf}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -211,7 +214,7 @@
       <Filter>04. Component\06. Light</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Header\MonsterAI.h">
-      <Filter>04. Component\09. AI</Filter>
+      <Filter>04. Component\09. MonsterAI</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Header\Camera.h">
       <Filter>04. Component\07. Camera</Filter>
@@ -236,6 +239,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Header\BasicStat.h">
       <Filter>04. Component\08. Stat\00. BasicStat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Header\BillBoard.h">
+      <Filter>04. Component\12. BillBoard</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -312,7 +318,7 @@
       <Filter>04. Component\06. Light</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\MonsterAI.cpp">
-      <Filter>04. Component\09. AI</Filter>
+      <Filter>04. Component\09. MonsterAI</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Camera.cpp">
       <Filter>04. Component\07. Camera</Filter>
@@ -337,6 +343,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\BasicStat.cpp">
       <Filter>04. Component\08. Stat\00. BasicStat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\BillBoard.cpp">
+      <Filter>04. Component\12. BillBoard</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

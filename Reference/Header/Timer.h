@@ -12,6 +12,7 @@ private:
 
 public:
 	_float			Get_TimeDelta() { return m_fTimeDelta; }
+
 public:
 	HRESULT			Ready_Timer();
 	void			Update_Timer();

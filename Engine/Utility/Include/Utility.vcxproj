@@ -169,6 +169,7 @@ call CopyUtility.bat</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Header\Animator.h" />
+    <ClInclude Include="..\..\Header\BillBoard.h" />
     <ClInclude Include="..\..\Header\Boss.h" />
     <ClInclude Include="..\..\Header\Camera.h" />
     <ClInclude Include="..\..\Header\Item.h" />
@@ -205,6 +206,7 @@ call CopyUtility.bat</Command>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\Animator.cpp" />
+    <ClCompile Include="..\Code\BillBoard.cpp" />
     <ClCompile Include="..\Code\Boss.cpp" />
     <ClCompile Include="..\Code\Camera.cpp" />
     <ClCompile Include="..\Code\Item.cpp" />

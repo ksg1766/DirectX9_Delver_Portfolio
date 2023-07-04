@@ -25,9 +25,9 @@ HRESULT CAnimator::Ready_Animator()
 	return S_OK;
 }
 
-_int CAnimator::LateUpdate_Component(const _float& fTimeDelta)
+void CAnimator::LateUpdate_Component()
 {
-	return _int();
+	
 }
 
 CAnimator* CAnimator::Create(LPDIRECT3DDEVICE9 pGraphicDev)
