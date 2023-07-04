@@ -20,7 +20,13 @@ public:
 	virtual _int	Update_Component(const _float& fTimeDelta);
 
 public:
-	
+	// TODO : 외부에서 호출할 일이 없다면 protected으로 두고 Update내에서 호출해도 됨. 충분히 고려해 볼 것.
+	virtual void	SetViewSpcae();
+	virtual void	SetProjection();
+
+private:
+	_matrix	m_matView;
+	_matrix	m_matProj;
 
 public:
 	static CCamera*		Create(LPDIRECT3DDEVICE9 pGraphicDev);

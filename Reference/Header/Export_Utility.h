@@ -20,7 +20,6 @@
 #include "Texture.h"
 #include "Collider.h"
 #include "RigidBody.h"
-#include "Pipeline.h"
 #include "Light.h"
 #include "BasicStat.h"
 #include "MonsterAI.h"

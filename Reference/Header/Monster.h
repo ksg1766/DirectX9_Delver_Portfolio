@@ -13,10 +13,14 @@ protected:
     virtual ~CMonster();
 
 public:
-    HRESULT		    Ready_Object();
-    _int		    Update_Object(const _float& fTimeDelta);
+    HRESULT     Ready_Object();
+    _int        Update_Object(const _float& fTimeDelta);
 
 protected:
+    // MONSTER_ID m_eMonserID;
+    // MonsterAI Component 추가해서 사용
+
+// CGameObject로부터 상속
     //map<COMPONENTTAG, CComponent*>	m_mapComponent[ID_END];
     //LPDIRECT3DDEVICE9					m_pGraphicDev;
     //_bool								m_IsDead;

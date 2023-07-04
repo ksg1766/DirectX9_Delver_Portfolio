@@ -16,9 +16,6 @@
     <Filter Include="99. Export">
       <UniqueIdentifier>{254f8fb1-1e58-4868-8f35-a3c2bdcbdc4e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="07. Pipeline">
-      <UniqueIdentifier>{9ff2e2df-5a67-4c23-b80d-def77aa86952}</UniqueIdentifier>
-    </Filter>
     <Filter Include="00. Managers">
       <UniqueIdentifier>{2845308d-e12d-4ce0-b8f2-2f9770dca64f}</UniqueIdentifier>
     </Filter>
@@ -82,9 +79,6 @@
     <Filter Include="04. Component\06. Light">
       <UniqueIdentifier>{a5de899b-8df8-4571-a843-e0aeb3bffec1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="04. Component\08. BasicStat">
-      <UniqueIdentifier>{42f4859e-9f12-42ee-84f5-0765b917ee73}</UniqueIdentifier>
-    </Filter>
     <Filter Include="04. Component\09. AI">
       <UniqueIdentifier>{79996208-1762-41cd-b22f-c09bb01161cf}</UniqueIdentifier>
     </Filter>
@@ -118,6 +112,27 @@
     <Filter Include="04. Component\11. Particle">
       <UniqueIdentifier>{97c7a651-d0e6-4fa9-9eb0-7ef531eb5d72}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. GameObject\04. Boss">
+      <UniqueIdentifier>{fa927c00-7bb4-41b0-ac52-142ddfcff89a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\05. Item">
+      <UniqueIdentifier>{d3dc4707-b10b-4b7e-a67b-fcaacde0ed08}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. Component\08. Stat">
+      <UniqueIdentifier>{42f4859e-9f12-42ee-84f5-0765b917ee73}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. Component\08. Stat\01. PlayerStat">
+      <UniqueIdentifier>{31313138-29b6-49be-9b23-3d14a537eae1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. Component\08. Stat\00. BasicStat">
+      <UniqueIdentifier>{a66b9f4b-4676-435a-81fc-b8fb190cceb0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. Component\08. Stat\02. EquipStat">
+      <UniqueIdentifier>{5c3eee5c-0cbc-4dc7-9839-e17fcd6f4686}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. Component\08. Stat\03. CosumStat">
+      <UniqueIdentifier>{24dcd881-f609-40d1-930c-13fcb62c6734}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Header\Scene.h">
@@ -146,9 +161,6 @@
     </ClInclude>
     <ClInclude Include="..\..\Header\TempCamera.h">
       <Filter>03. GameObject\01. TempCamera</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Header\Pipeline.h">
-      <Filter>07. Pipeline</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Header\CubeBf.h">
       <Filter>04. Component\01. VIBuffer\04. CubeBf</Filter>
@@ -198,9 +210,6 @@
     <ClInclude Include="..\..\Header\Light.h">
       <Filter>04. Component\06. Light</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Header\BasicStat.h">
-      <Filter>04. Component\08. BasicStat</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Header\MonsterAI.h">
       <Filter>04. Component\09. AI</Filter>
     </ClInclude>
@@ -218,6 +227,15 @@
     </ClInclude>
     <ClInclude Include="..\..\Header\Particle.h">
       <Filter>04. Component\11. Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Header\Boss.h">
+      <Filter>03. GameObject\04. Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Header\Item.h">
+      <Filter>03. GameObject\05. Item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Header\BasicStat.h">
+      <Filter>04. Component\08. Stat\00. BasicStat</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -244,9 +262,6 @@
     </ClCompile>
     <ClCompile Include="..\Code\TempCamera.cpp">
       <Filter>03. GameObject\01. TempCamera</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\Pipeline.cpp">
-      <Filter>07. Pipeline</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\CubeBf.cpp">
       <Filter>04. Component\01. VIBuffer\04. CubeBf</Filter>
@@ -296,9 +311,6 @@
     <ClCompile Include="..\Code\Light.cpp">
       <Filter>04. Component\06. Light</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\BasicStat.cpp">
-      <Filter>04. Component\08. BasicStat</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\MonsterAI.cpp">
       <Filter>04. Component\09. AI</Filter>
     </ClCompile>
@@ -316,6 +328,15 @@
     </ClCompile>
     <ClCompile Include="..\Code\Particle.cpp">
       <Filter>04. Component\11. Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Boss.cpp">
+      <Filter>03. GameObject\04. Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Item.cpp">
+      <Filter>03. GameObject\05. Item</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\BasicStat.cpp">
+      <Filter>04. Component\08. Stat\00. BasicStat</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

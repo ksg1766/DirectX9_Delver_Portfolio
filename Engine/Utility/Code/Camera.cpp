@@ -30,20 +30,35 @@ _int CCamera::Update_Component(const _float& fTimeDelta)
 
 void CCamera::SetViewSpcae()
 {
+
+
+	m_pGraphicDev->SetTransform(D3DTS_VIEW, &m_matView);
 }
 
 void CCamera::SetProjection()
 {
+
+
+	m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &m_matProj);
 }
 
 CCamera* CCamera::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 {
-	return nullptr;
+	CCamera* pInstance = new CCamera(pGraphicDev);
+	// TODO : 매개변수 추가
+	if (FAILED(pInstance->Ready_Camera()))
+	{
+		Safe_Release(pInstance);
+		MSG_BOX("Camera Create Failed");
+		return nullptr;
+	}
+
+	return pInstance;
 }
 
 CComponent* CCamera::Clone(void)
 {
-	return nullptr;
+	return new CCamera(*this);
 }
 
 void CCamera::Free()

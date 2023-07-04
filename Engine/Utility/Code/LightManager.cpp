@@ -13,8 +13,9 @@ CLightManager::~CLightManager()
 
 void CLightManager::Swtich_All()
 {
-	for (auto& iter : m_LightList)
-		iter->Light_Switch();
+	for (auto& iterType : m_mapLights)
+		for(auto& iter : iterType.second)
+			iter->Light_Switch();
 }
 
 void CLightManager::Free()

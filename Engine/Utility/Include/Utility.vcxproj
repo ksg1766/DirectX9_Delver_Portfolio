@@ -169,7 +169,9 @@ call CopyUtility.bat</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Header\Animator.h" />
+    <ClInclude Include="..\..\Header\Boss.h" />
     <ClInclude Include="..\..\Header\Camera.h" />
+    <ClInclude Include="..\..\Header\Item.h" />
     <ClInclude Include="..\..\Header\MonsterAI.h" />
     <ClInclude Include="..\..\Header\BasicStat.h" />
     <ClInclude Include="..\..\Header\Particle.h" />
@@ -190,7 +192,6 @@ call CopyUtility.bat</Command>
     <ClInclude Include="..\..\Header\Monster.h" />
     <ClInclude Include="..\..\Header\RigidBody.h" />
     <ClInclude Include="..\..\Header\SceneManager.h" />
-    <ClInclude Include="..\..\Header\Pipeline.h" />
     <ClInclude Include="..\..\Header\PrototypeManager.h" />
     <ClInclude Include="..\..\Header\PlayerBf.h" />
     <ClInclude Include="..\..\Header\RcTex.h" />
@@ -204,7 +205,9 @@ call CopyUtility.bat</Command>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\Animator.cpp" />
+    <ClCompile Include="..\Code\Boss.cpp" />
     <ClCompile Include="..\Code\Camera.cpp" />
+    <ClCompile Include="..\Code\Item.cpp" />
     <ClCompile Include="..\Code\MonsterAI.cpp" />
     <ClCompile Include="..\Code\BasicStat.cpp" />
     <ClCompile Include="..\Code\Particle.cpp" />
@@ -224,7 +227,6 @@ call CopyUtility.bat</Command>
     <ClCompile Include="..\Code\Monster.cpp" />
     <ClCompile Include="..\Code\RigidBody.cpp" />
     <ClCompile Include="..\Code\SceneManager.cpp" />
-    <ClCompile Include="..\Code\Pipeline.cpp" />
     <ClCompile Include="..\Code\PrototypeManager.cpp" />
     <ClCompile Include="..\Code\PlayerBf.cpp" />
     <ClCompile Include="..\Code\RcTex.cpp" />

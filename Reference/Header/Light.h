@@ -3,8 +3,6 @@
 
 BEGIN(Engine)
 
-enum class LIGHT_TYPE {LIGHT_DIRECTIONAL, LIGHT_POINT, LIGHT_SPOT, LIGHT_END};
-
 class ENGINE_DLL CLight :
     public CComponent
 {

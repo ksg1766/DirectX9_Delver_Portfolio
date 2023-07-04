@@ -15,10 +15,11 @@ private:
 	virtual ~CLightManager();
 
 public:
+	void	Add_Light(LIGHT_TYPE _eType, CLight* _pLight) { m_mapLights[_eType].push_back(_pLight); }
 	void	Swtich_All();
 
 private:
-	vector<CLight*>	m_LightList;
+	map<LIGHT_TYPE, vector<CLight*>>	m_mapLights;
 	
 public:
     virtual void Free() override;
