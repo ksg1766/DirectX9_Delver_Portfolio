@@ -26,7 +26,7 @@ HRESULT CMainApp::Ready_MainApp(void)
 
 int CMainApp::Update_MainApp(const float & fTimeDelta)
 {
-	Engine::Update_InputDev();
+	Engine::InputDev()->Update_InputDev();
 
 	NULL_CHECK_RETURN(m_pSceneManager, -1);
 	m_pSceneManager->Update_Scene(fTimeDelta);
@@ -72,7 +72,7 @@ HRESULT CMainApp::SetUp_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 	(*ppGraphicDev)->AddRef();
 	
 
-	FAILED_CHECK_RETURN(Engine::Ready_InputDev(g_hInst, g_hWnd), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::InputDev()->Ready_InputDev(g_hInst, g_hWnd), E_FAIL);
 
 	return S_OK;
 }

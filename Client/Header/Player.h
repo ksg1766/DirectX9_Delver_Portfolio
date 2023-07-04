@@ -33,7 +33,6 @@ private:
 
 private:
 	CPlayerBf*		m_pBuffer = nullptr;
-	CTransform*		m_pTransform = nullptr;
 
 	//_vec3			m_vDir;
 	_float			m_fSpeed = 10.f;

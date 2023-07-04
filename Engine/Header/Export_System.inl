@@ -1,3 +1,4 @@
+#include "Export_System.h"
 HRESULT		Ready_GraphicDev(HWND hWnd, WINMODE eMode, const _uint& iSizeX, const _uint& iSizeY, CGraphicDev** ppGraphicDev)
 {
 	return CGraphicDev::GetInstance()->Ready_GraphicDev(hWnd, eMode, iSizeX, iSizeY, ppGraphicDev);
@@ -33,25 +34,9 @@ HRESULT Ready_Frame(const _tchar* pFrameTag, const _float& fCallLimit)
 	return CFrameMgr::GetInstance()->Ready_Frame(pFrameTag, fCallLimit);
 }
 
-_byte	Get_DIKeyState(_ubyte byKeyID)
+inline CInputDev* InputDev()
 {
-	return CInputDev::GetInstance()->Get_DIKeyState(byKeyID);
-}
-_byte	Get_DIMouseState(MOUSEKEYSTATE eMouse)
-{
-	return CInputDev::GetInstance()->Get_DIMouseState(eMouse);
-}
-_long	Get_DIMouseMove(MOUSEMOVESTATE eMouseState)
-{
-	return CInputDev::GetInstance()->Get_DIMouseMove(eMouseState);
-}
-HRESULT	Ready_InputDev(HINSTANCE hInst, HWND hWnd)
-{
-	return CInputDev::GetInstance()->Ready_InputDev(hInst, hWnd);
-}
-void		Update_InputDev(void)
-{
-	CInputDev::GetInstance()->Update_InputDev();
+	return CInputDev::GetInstance();
 }
 
 void			Release_System()

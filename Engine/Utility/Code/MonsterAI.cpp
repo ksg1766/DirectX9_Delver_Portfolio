@@ -104,4 +104,5 @@ CComponent* CMonsterAI::Clone(void)
 
 void CMonsterAI::Free()
 {
+	CComponent::Free();
 }

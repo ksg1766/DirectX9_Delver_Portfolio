@@ -51,4 +51,5 @@ CComponent* CParticle::Clone(void)
 
 void CParticle::Free()
 {
+	CComponent::Free();
 }

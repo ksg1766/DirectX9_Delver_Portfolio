@@ -142,7 +142,7 @@ void CDynamicCamera::Key_Input(const _float & fTimeDelta)
 	_matrix		matCamWorld;
 	D3DXMatrixInverse(&matCamWorld, 0, &m_matView);
 
-	if (Engine::Get_DIKeyState(DIK_UP))
+	if (Engine::InputDev()->Key_Pressing(DIK_UP))
 	{
 		_vec3		vLook;
 		memcpy(&vLook, &matCamWorld.m[2][0], sizeof(_vec3));
@@ -154,7 +154,7 @@ void CDynamicCamera::Key_Input(const _float & fTimeDelta)
 
 	}
 
-	if (Engine::Get_DIKeyState(DIK_DOWN))
+	if (Engine::InputDev()->Key_Pressing(DIK_DOWN))
 	{
 		_vec3		vLook;
 		memcpy(&vLook, &matCamWorld.m[2][0], sizeof(_vec3));
@@ -165,7 +165,7 @@ void CDynamicCamera::Key_Input(const _float & fTimeDelta)
 		m_vAt  -= vLength;
 	}
 
-	if (Engine::Get_DIKeyState(DIK_LEFT))
+	if (Engine::InputDev()->Key_Pressing(DIK_LEFT))
 	{
 		_vec3		vRight;
 		memcpy(&vRight, &matCamWorld.m[0][0], sizeof(_vec3));
@@ -176,7 +176,7 @@ void CDynamicCamera::Key_Input(const _float & fTimeDelta)
 		m_vAt  -= vLength;
 	}
 
-	if (Engine::Get_DIKeyState(DIK_RIGHT))
+	if (Engine::InputDev()->Key_Pressing(DIK_RIGHT))
 	{
 		_vec3		vRight;
 		memcpy(&vRight, &matCamWorld.m[0][0], sizeof(_vec3));
@@ -187,7 +187,7 @@ void CDynamicCamera::Key_Input(const _float & fTimeDelta)
 		m_vAt  += vLength;
 	}
 
-	if (Engine::Get_DIKeyState(DIK_TAB))
+	if (Engine::InputDev()->Key_Down(DIK_TAB))
 	{
 		if (m_bCheck)
 			return;
@@ -213,7 +213,7 @@ void CDynamicCamera::Mouse_Move()
 
 	_long		dwMouseMove = 0;
 
-	if (dwMouseMove = Engine::Get_DIMouseMove(DIMS_Y))
+	if (dwMouseMove = Engine::InputDev()->Get_DIMouseMove(DIMS_Y))
 	{
 		_vec3	vRight;
 		memcpy(&vRight, &matCamWorld.m[0][0], sizeof(_vec3));
@@ -227,7 +227,7 @@ void CDynamicCamera::Mouse_Move()
 		m_vAt = m_vEye + vLook;
 	}
 
-	if (dwMouseMove = Engine::Get_DIMouseMove(DIMS_X))
+	if (dwMouseMove = Engine::InputDev()->Get_DIMouseMove(DIMS_X))
 	{
 		_vec3	vUp{ 0.f, 1.f, 0.f };
 

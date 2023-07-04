@@ -2,7 +2,7 @@
 
 CTransform::CTransform()
 	: m_pParent(nullptr)
-	, m_vAngle(0.f, 0.f, 0.f)
+	, m_pChild(nullptr)
 	, m_vLocalScale(1.f, 1.f, 1.f)
 {
 	ZeroMemory(m_vInfo, sizeof(m_vInfo));
@@ -10,7 +10,8 @@ CTransform::CTransform()
 
 CTransform::CTransform(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CComponent(pGraphicDev)
-	, m_vAngle(0.f, 0.f, 0.f)
+	, m_pParent(nullptr)
+	, m_pChild(nullptr)
 	, m_vLocalScale(1.f, 1.f, 1.f)
 {
 	ZeroMemory(m_vInfo, sizeof(m_vInfo));
@@ -18,7 +19,8 @@ CTransform::CTransform(LPDIRECT3DDEVICE9 pGraphicDev)
 
 CTransform::CTransform(const CTransform & rhs)
 	: CComponent(rhs)
-	, m_vAngle(rhs.m_vAngle)
+	, m_pParent(rhs.m_pParent)
+	, m_pChild(rhs.m_pChild)
 	, m_vLocalScale(rhs.m_vLocalScale)
 {
 	for (size_t i = 0; i < INFO_END; ++i)
@@ -32,6 +34,7 @@ CTransform::~CTransform()
 void CTransform::Translate(_vec3& _vTranslation)
 {
 	m_vInfo[INFO_POS] += _vTranslation;
+	if (m_pChild) { m_pChild->Translate(_vTranslation); }
 }
 
 void CTransform::Translate(const _vec3& _vTranslation)
@@ -46,6 +49,7 @@ void CTransform::Scale(_vec3& _vScale)
 		D3DXVec3Normalize(&m_vInfo[i], &m_vInfo[i]);
 		m_vInfo[i] *= *(((_float*)&_vScale) + i);
 	}
+	if (m_pChild) { m_pChild->Scale(_vScale); }
 }
 
 void CTransform::Scale(const _vec3& _vScale)
@@ -55,14 +59,21 @@ void CTransform::Scale(const _vec3& _vScale)
 
 void CTransform::Rotate(_vec3& _vEulers)
 {
-	for(int i = 0; i < INFO_POS; ++i)
-		*(((_float*)&m_vAngle) + i) += *(((_float*)&_vEulers) + i);
-
 	_matrix matRotate;
 	D3DXMatrixRotationQuaternion(&matRotate, D3DXQuaternionRotationYawPitchRoll(&_quat(), _vEulers.y, _vEulers.x, _vEulers.z));
 
 	for(int i = 0; i < INFO_POS; ++i)
 		D3DXVec3TransformNormal(&m_vInfo[i], &m_vInfo[i], &matRotate);
+
+	if (m_pChild)
+	{
+		if( 0.f != _vEulers.y )
+			m_pChild->RotateAround(m_vInfo[INFO_POS], m_vInfo[INFO_UP], _vEulers.y);
+		if (0.f != _vEulers.x)
+			m_pChild->RotateAround(m_vInfo[INFO_POS], m_vInfo[INFO_RIGHT], _vEulers.x);
+		if (0.f != _vEulers.z)
+			m_pChild->RotateAround(m_vInfo[INFO_POS], m_vInfo[INFO_LOOK], _vEulers.z);
+	}
 }
 
 void CTransform::Rotate(const _vec3& _vEulers)
@@ -90,7 +101,7 @@ void CTransform::RotateAround(const _vec3& _vPoint, const _vec3& _vAxis, const _
 	_vec3 vOut;
 
 	// D3DXMatrixRotationAxis(&matRotate, &_vAxis, _fAngle);
-	D3DXQuaternionRotationAxis(&quat, &_vAxis, D3DXToRadian(_fAngle));
+	D3DXQuaternionRotationAxis(&quat, &_vAxis, _fAngle);
 	D3DXMatrixRotationQuaternion(&matRotate, &quat);
 	D3DXVec3TransformCoord(&vOut, &(m_vInfo[INFO_POS] - _vPoint), &matRotate);
 	for (int i = 0; i < INFO_POS; ++i)
@@ -113,7 +124,8 @@ const _matrix CTransform::WorldMatrix()
 void CTransform::Set_WorldMatrix(_matrix& _matWorld)
 {
 	for (_int i = 0; i < INFO_END; ++i)
-		::CopyMemory(&m_vInfo[i], _matWorld.m[i], sizeof(_vec3));
+		::CopyMemory(&m_vInfo[i], &_matWorld.m[i][0], sizeof(_vec3));
+
 }
 
 HRESULT CTransform::Ready_Transform()

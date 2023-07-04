@@ -13,7 +13,7 @@ private:
 	virtual ~CTransform();
 
 public:
-	void	Set_Parent(CTransform* _pParent) { m_pParent = _pParent; }
+	void	Set_Parent(CTransform* _pParent) { m_pParent = _pParent; m_pParent->Set_Child(this); }
 
 	void	Scale(_vec3& _vEulers);
 	void	Scale(const _vec3& _vEulers);
@@ -36,12 +36,17 @@ public:
 
 public:
 	CTransform*		m_pParent;
+	
 
 	_vec3			m_vInfo[INFO_END];
-	_vec3			m_vAngle;
 	_vec3			m_vLocalScale;
 
-	//_matrix			m_matWorld;
+private:
+	void			Set_Child(CTransform* _pChild) { m_pChild = _pChild; }
+	CTransform*		m_pChild;
+
+	_matrix			m_matWorld;
+
 
 public:
 	static CTransform*		Create(LPDIRECT3DDEVICE9 pGraphicDev);

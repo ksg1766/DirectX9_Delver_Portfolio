@@ -51,4 +51,5 @@ CComponent* CAnimator::Clone(void)
 
 void CAnimator::Free()
 {
+	CComponent::Free();
 }

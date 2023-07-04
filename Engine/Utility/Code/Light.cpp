@@ -97,4 +97,5 @@ CComponent* CLight::Clone(void)
 
 void CLight::Free()
 {
+	CComponent::Free();
 }

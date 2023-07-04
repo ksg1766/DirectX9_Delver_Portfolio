@@ -4,6 +4,9 @@
 #include "Export_Function.h"
 #include "Terrain.h"
 
+// 임시 아이템
+#include "TempItem.h"
+
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CGameObject(pGraphicDev)
 {
@@ -24,7 +27,7 @@ HRESULT CPlayer::Ready_Object(void)
 	m_eObjectTag = OBJECTTAG::PLAYER;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pTransform->Scale(_vec3( 1.f, 2.f, 1.f ));
+	//m_pTransform->Scale(_vec3( 1.f, 2.f, 1.f ));
 	//m_fSpeed = 10.f;
 
 	return S_OK;
@@ -85,23 +88,39 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 {
 	//m_vDir = m_pTransform->m_vInfo[INFO_LOOK];
 
-	if (GetAsyncKeyState('W'))
+	if (Engine::InputDev()->Key_Pressing(DIK_W))
 	{
 		//D3DXVec3Normalize(&m_vDir, &m_vDir);
 		m_pTransform->Translate(m_fSpeed * fTimeDelta * m_pTransform->m_vInfo[INFO_LOOK]);
 	}
 
-	if (GetAsyncKeyState('S'))
+	if (Engine::InputDev()->Key_Pressing(DIK_S))
 	{
 		//D3DXVec3Normalize(&m_vDir, &m_vDir);
 		m_pTransform->Translate(m_fSpeed * fTimeDelta * -m_pTransform->m_vInfo[INFO_LOOK]);
 	}
 
-	if (GetAsyncKeyState('A'))
+	if (Engine::InputDev()->Key_Pressing(DIK_A))
 		m_pTransform->Rotate(ROT_Y, D3DXToRadian(-180.f * fTimeDelta));
 
-	if (GetAsyncKeyState('D'))
+	if (Engine::InputDev()->Key_Pressing(DIK_D))
 		m_pTransform->Rotate(ROT_Y, D3DXToRadian(180.f * fTimeDelta));
+	
+	/*if (Engine::InputDev()->Key_Pressing(DIK_Q))
+		m_pTransform->Rotate(ROT_X, D3DXToRadian(-180.f * fTimeDelta));
+
+	if (Engine::InputDev()->Key_Pressing(DIK_E))
+		m_pTransform->Rotate(ROT_X, D3DXToRadian(180.f * fTimeDelta));*/
+
+	if (Engine::InputDev()->Key_Down(DIK_1))
+	{
+		Engine::CGameObject* pGameObject = nullptr;
+		pGameObject = CTempItem::Create(m_pGraphicDev);
+		pGameObject->m_pTransform->Translate(m_pTransform->m_vInfo[INFO_POS] + _vec3(1.f, 0.5f, 1.f));
+		//pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+
+	}
 }
 
 void CPlayer::ForceHeight(_vec3 _vPos)

@@ -63,4 +63,5 @@ CComponent* CCamera::Clone(void)
 
 void CCamera::Free()
 {
+	CComponent::Free();
 }
