@@ -76,7 +76,7 @@ HRESULT CPlayer::Add_Component(void)
 	
 	for(int i = 0; i < ID_END; ++i)
 		for (auto& iter : m_mapComponent[i])
-			iter.second->InitProperty(this);
+			iter.second->Init_Property(this);
 
 	return S_OK;
 }

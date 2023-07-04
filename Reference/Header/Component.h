@@ -20,7 +20,7 @@ public:
 	virtual void LateUpdate_Component(void) {}
 
 public:
-	void	InitProperty(CGameObject* _pHost);
+	void	Init_Property(CGameObject* _pHost);
 
 protected:
 	LPDIRECT3DDEVICE9		m_pGraphicDev;

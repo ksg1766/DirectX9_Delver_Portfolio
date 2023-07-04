@@ -29,14 +29,6 @@ public:
 
 	const _matrix	WorldMatrix();
 
-	/*
-	void	Move_Pos(const _vec3* const pDir, const _float& fTimeDelta, const _float& fSpeed)
-			{ m_vInfo[INFO_POS] += *pDir * fTimeDelta * fSpeed; }
-
-	void	Chase_Target(const _vec3* pTargetPos, const _float& fTimeDelta, const _float& fSpeed);
-	const _matrix*		Compute_LookAtTarget(const _vec3* pTargetPos);
-	*/
-
 public:
 	HRESULT			Ready_Transform();
 	virtual _int	Update_Component(const _float& fTimeDelta);

@@ -7,6 +7,8 @@
           1개 파일이 복사되었습니다.
   다른 프로세스가 파일을 사용 중이기 때문에 프로세스가 액세스 할 수 없습니다.
           0개 파일이 복사되었습니다.
+  .\Engine\Header\Animator.h
+  .\Engine\Header\BasicStat.h
   .\Engine\Header\Camera.h
   .\Engine\Header\Collider.h
   .\Engine\Header\CollisionManager.h
@@ -29,16 +31,20 @@
   .\Engine\Header\GraphicDev.h
   .\Engine\Header\InputDev.h
   .\Engine\Header\Layer.h
+  .\Engine\Header\Light.h
   .\Engine\Header\LightManager.h
   .\Engine\Header\Monster.h
+  .\Engine\Header\MonsterAI.h
   .\Engine\Header\Pipeline.h
   .\Engine\Header\PlayerBf.h
+  .\Engine\Header\PoolManager.h
   .\Engine\Header\PrototypeManager.h
   .\Engine\Header\RcTex.h
   .\Engine\Header\Renderer.h
   .\Engine\Header\RigidBody.h
   .\Engine\Header\Scene.h
   .\Engine\Header\SceneManager.h
+  .\Engine\Header\TempCamera.h
   .\Engine\Header\TerrainTex.h
   .\Engine\Header\Texture.h
   .\Engine\Header\Timer.h
@@ -47,7 +53,7 @@
   .\Engine\Header\TriCol.h
   .\Engine\Header\UIManager.h
   .\Engine\Header\VIBuffer.h
-         40개 파일이 복사되었습니다.
+         46개 파일이 복사되었습니다.
   .\Engine\Header\Export_System.inl
   .\Engine\Header\Export_Utility.inl
           2개 파일이 복사되었습니다.

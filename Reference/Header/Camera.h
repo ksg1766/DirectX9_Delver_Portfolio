@@ -1,27 +1,32 @@
 #pragma once
-#include "GameObject.h"
+#include "Component.h"
 
 BEGIN(Engine)
 
 class ENGINE_DLL CCamera :
-	public CGameObject
+    public CComponent
 {
-protected:
+private:
+	explicit CCamera();
 	explicit CCamera(LPDIRECT3DDEVICE9 pGraphicDev);
 	explicit CCamera(const CCamera& rhs);
 	virtual ~CCamera();
 
 public:
-	HRESULT			Ready_Object();
-	_int			Update_Object(const _float& fTimeDelta);
+	
 
-protected:
-	_vec3			m_vEye, m_vAt, m_vUp;
-	_float			m_fNear, m_fFar, m_fAspect, m_fFov;
-	_matrix			m_matView, m_matProj;
+public:
+	HRESULT			Ready_Camera();
+	virtual _int	Update_Component(const _float& fTimeDelta);
 
-protected:
-	virtual void	Free(void);
+public:
+	
+
+public:
+	static CCamera*		Create(LPDIRECT3DDEVICE9 pGraphicDev);
+	virtual CComponent* Clone(void);
+private:
+	virtual void			Free();
 };
 
 END

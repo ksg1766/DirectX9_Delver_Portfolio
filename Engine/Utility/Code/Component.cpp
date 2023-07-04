@@ -23,7 +23,7 @@ CComponent::~CComponent()
 {
 }
 
-void CComponent::InitProperty(CGameObject * _pHost)
+void CComponent::Init_Property(CGameObject * _pHost)
 {
 	m_pHost = _pHost;
 	m_eObjectTag = m_pHost->Get_ObjectTag();

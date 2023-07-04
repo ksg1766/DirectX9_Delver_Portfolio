@@ -6,7 +6,9 @@
 #include "EventManager.h"
 #include "PrototypeManager.h"
 #include "Renderer.h"
+#include "UIManager.h"
 #include "LightManager.h"
+#include "PoolManager.h"
 
 #include "TriCol.h"
 #include "PlayerBf.h"
@@ -20,6 +22,8 @@
 #include "RigidBody.h"
 #include "Pipeline.h"
 #include "Light.h"
+#include "BasicStat.h"
+#include "MonsterAI.h"
 
 #include "GameObject.h"
 

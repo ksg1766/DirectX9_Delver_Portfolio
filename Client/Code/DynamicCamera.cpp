@@ -2,7 +2,7 @@
 #include "..\Header\DynamicCamera.h"
 
 CDynamicCamera::CDynamicCamera(LPDIRECT3DDEVICE9 pGraphicDev)
-	: CCamera(pGraphicDev)
+	: CTempCamera(pGraphicDev)
 {
 }
 
@@ -22,7 +22,7 @@ HRESULT CDynamicCamera::Ready_Object(const _vec3 * pEye, const _vec3 * pAt, cons
 	m_fAspect = fAspect;
 	m_fFov = fFov;
 
-	FAILED_CHECK_RETURN(CCamera::Ready_Object(), E_FAIL);
+	FAILED_CHECK_RETURN(CTempCamera::Ready_Object(), E_FAIL);
 	m_eObjectTag = OBJECTTAG::CAMERA;
 
 	return S_OK;
@@ -38,7 +38,7 @@ _int CDynamicCamera::Update_Object(const _float & fTimeDelta)
 		Mouse_Fix();
 	}	
 
-	_int iExit = CCamera::Update_Object(fTimeDelta);
+	_int iExit = CTempCamera::Update_Object(fTimeDelta);
 
 	return iExit;
 }
@@ -270,5 +270,5 @@ CDynamicCamera * CDynamicCamera::Create(LPDIRECT3DDEVICE9 pGraphicDev,
 
 void CDynamicCamera::Free()
 {
-	CCamera::Free();
+	CTempCamera::Free();
 }

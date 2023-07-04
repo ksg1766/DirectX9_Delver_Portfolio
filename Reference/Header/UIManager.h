@@ -12,7 +12,7 @@ class ENGINE_DLL CUIManager :
 	DECLARE_SINGLETON(CUIManager)
 
 public:
-	CUIManager();
+	explicit CUIManager();
 	virtual ~CUIManager();
 
 	void Update();

@@ -1,9 +1,9 @@
 #pragma once
 
 #include "Export_Function.h"
-#include "Camera.h"
+#include "TempCamera.h"
 
-class CDynamicCamera : public CCamera
+class CDynamicCamera : public CTempCamera
 {
 private:
 	explicit CDynamicCamera(LPDIRECT3DDEVICE9 pGraphicDev);

@@ -168,7 +168,14 @@ call CopyUtility.bat</Command>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Header\Animator.h" />
     <ClInclude Include="..\..\Header\Camera.h" />
+    <ClInclude Include="..\..\Header\MonsterAI.h" />
+    <ClInclude Include="..\..\Header\BasicStat.h" />
+    <ClInclude Include="..\..\Header\Particle.h" />
+    <ClInclude Include="..\..\Header\PoolManager.h" />
+    <ClInclude Include="..\..\Header\SpawningPool.h" />
+    <ClInclude Include="..\..\Header\TempCamera.h" />
     <ClInclude Include="..\..\Header\Collider.h" />
     <ClInclude Include="..\..\Header\CollisionManager.h" />
     <ClInclude Include="..\..\Header\Component.h" />
@@ -196,7 +203,14 @@ call CopyUtility.bat</Command>
     <ClInclude Include="..\..\Header\VIBuffer.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Code\Animator.cpp" />
     <ClCompile Include="..\Code\Camera.cpp" />
+    <ClCompile Include="..\Code\MonsterAI.cpp" />
+    <ClCompile Include="..\Code\BasicStat.cpp" />
+    <ClCompile Include="..\Code\Particle.cpp" />
+    <ClCompile Include="..\Code\PoolManager.cpp" />
+    <ClCompile Include="..\Code\SpawningPool.cpp" />
+    <ClCompile Include="..\Code\TempCamera.cpp" />
     <ClCompile Include="..\Code\Collider.cpp" />
     <ClCompile Include="..\Code\CollisionManager.cpp" />
     <ClCompile Include="..\Code\Component.cpp" />

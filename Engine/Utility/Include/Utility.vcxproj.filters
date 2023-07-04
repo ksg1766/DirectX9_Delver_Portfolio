@@ -61,9 +61,6 @@
     <Filter Include="03. GameObject\00. BaseClass">
       <UniqueIdentifier>{3756d236-7b6b-4191-8a4b-a3c18ccb3841}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. GameObject\01. Camera">
-      <UniqueIdentifier>{2217ea22-0b13-43e5-833e-c52fec4d8351}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03. GameObject\02. Cube">
       <UniqueIdentifier>{4290d5ff-2278-4229-af4a-98e10cc60da0}</UniqueIdentifier>
     </Filter>
@@ -72,12 +69,6 @@
     </Filter>
     <Filter Include="04. Component\01. VIBuffer\01. PlayerBf">
       <UniqueIdentifier>{306bc3f8-0fce-4597-aac7-687a976ec7aa}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04. Component\01. VIBuffer\02. TerrainTex">
-      <UniqueIdentifier>{471259d0-f2cd-4590-928c-73307088378e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04. Component\01. VIBuffer\03. RcTex">
-      <UniqueIdentifier>{6d237d50-e41c-46ab-a585-122cf4b489d0}</UniqueIdentifier>
     </Filter>
     <Filter Include="04. Component\01. VIBuffer\04. CubeBf">
       <UniqueIdentifier>{5af647de-da05-491c-8067-ab40bbdb8b80}</UniqueIdentifier>
@@ -88,11 +79,44 @@
     <Filter Include="00. Managers\06. LightManager">
       <UniqueIdentifier>{93f1d9c0-3cad-48b4-826b-44e76269e75f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="00. Managers\07. MapTool">
-      <UniqueIdentifier>{e26fb72a-acc3-4bfe-af01-388217029136}</UniqueIdentifier>
-    </Filter>
     <Filter Include="04. Component\06. Light">
       <UniqueIdentifier>{a5de899b-8df8-4571-a843-e0aeb3bffec1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. Component\08. BasicStat">
+      <UniqueIdentifier>{42f4859e-9f12-42ee-84f5-0765b917ee73}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. Component\09. AI">
+      <UniqueIdentifier>{79996208-1762-41cd-b22f-c09bb01161cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. Component\07. Camera">
+      <UniqueIdentifier>{c5ac6bd4-5b28-4eb9-afc9-59d6632e23cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. Component\10. Animator">
+      <UniqueIdentifier>{5ed448b6-a29c-4c69-b7ae-8d62ffa33271}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\01. TempCamera">
+      <UniqueIdentifier>{2217ea22-0b13-43e5-833e-c52fec4d8351}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Managers\08. MapTool">
+      <UniqueIdentifier>{e26fb72a-acc3-4bfe-af01-388217029136}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Managers\07. PoolManager">
+      <UniqueIdentifier>{3ca53c11-387c-45cc-a945-6b841ea0f775}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. Component\01. VIBuffer\03. RcBf">
+      <UniqueIdentifier>{6d237d50-e41c-46ab-a585-122cf4b489d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. Component\01. VIBuffer\02. TerrainBf">
+      <UniqueIdentifier>{471259d0-f2cd-4590-928c-73307088378e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Managers\07. PoolManager\00. PoolManager">
+      <UniqueIdentifier>{67eea8c4-5ece-4bb3-a6a1-6504c7af98d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Managers\07. PoolManager\01. SpawningPool">
+      <UniqueIdentifier>{912997c4-6543-42f8-9c05-342cbe7ed342}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. Component\11. Particle">
+      <UniqueIdentifier>{97c7a651-d0e6-4fa9-9eb0-7ef531eb5d72}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -115,13 +139,13 @@
       <Filter>04. Component\05. Texture</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Header\RcTex.h">
-      <Filter>04. Component\01. VIBuffer\03. RcTex</Filter>
+      <Filter>04. Component\01. VIBuffer\03. RcBf</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Header\TerrainTex.h">
-      <Filter>04. Component\01. VIBuffer\02. TerrainTex</Filter>
+      <Filter>04. Component\01. VIBuffer\02. TerrainBf</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Header\Camera.h">
-      <Filter>03. GameObject\01. Camera</Filter>
+    <ClInclude Include="..\..\Header\TempCamera.h">
+      <Filter>03. GameObject\01. TempCamera</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Header\Pipeline.h">
       <Filter>07. Pipeline</Filter>
@@ -174,6 +198,27 @@
     <ClInclude Include="..\..\Header\Light.h">
       <Filter>04. Component\06. Light</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Header\BasicStat.h">
+      <Filter>04. Component\08. BasicStat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Header\MonsterAI.h">
+      <Filter>04. Component\09. AI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Header\Camera.h">
+      <Filter>04. Component\07. Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Header\Animator.h">
+      <Filter>04. Component\10. Animator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Header\PoolManager.h">
+      <Filter>00. Managers\07. PoolManager\00. PoolManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Header\SpawningPool.h">
+      <Filter>00. Managers\07. PoolManager\01. SpawningPool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Header\Particle.h">
+      <Filter>04. Component\11. Particle</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\Scene.cpp">
@@ -192,13 +237,13 @@
       <Filter>04. Component\05. Texture</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\RcTex.cpp">
-      <Filter>04. Component\01. VIBuffer\03. RcTex</Filter>
+      <Filter>04. Component\01. VIBuffer\03. RcBf</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\TerrainTex.cpp">
-      <Filter>04. Component\01. VIBuffer\02. TerrainTex</Filter>
+      <Filter>04. Component\01. VIBuffer\02. TerrainBf</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\Camera.cpp">
-      <Filter>03. GameObject\01. Camera</Filter>
+    <ClCompile Include="..\Code\TempCamera.cpp">
+      <Filter>03. GameObject\01. TempCamera</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Pipeline.cpp">
       <Filter>07. Pipeline</Filter>
@@ -250,6 +295,27 @@
     </ClCompile>
     <ClCompile Include="..\Code\Light.cpp">
       <Filter>04. Component\06. Light</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\BasicStat.cpp">
+      <Filter>04. Component\08. BasicStat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\MonsterAI.cpp">
+      <Filter>04. Component\09. AI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Camera.cpp">
+      <Filter>04. Component\07. Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Animator.cpp">
+      <Filter>04. Component\10. Animator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\PoolManager.cpp">
+      <Filter>00. Managers\07. PoolManager\00. PoolManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\SpawningPool.cpp">
+      <Filter>00. Managers\07. PoolManager\01. SpawningPool</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Particle.cpp">
+      <Filter>04. Component\11. Particle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
