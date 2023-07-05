@@ -1,6 +1,4 @@
-﻿  unity_AHPZMV78W4H66OWS.cpp
-  unity_GNWENE0Y06HDYLP3.cpp
-  System.vcxproj -> C:\Users\star1\Desktop\jusin\5th_SR_Team3Project\Engine\System\Bin\System.dll
+﻿  System.vcxproj -> C:\Users\gksk7\Desktop\2023 File\3. Jusin 137C\JSProject_6_SR_5Team\SRProject\Engine\System\Bin\System.dll
   .\Engine\System\Code\*.h 
   지정된 파일을 찾을 수 없습니다.
           0개 파일이 복사되었습니다.
@@ -49,6 +47,7 @@
   .\Engine\Header\SpawningPool.h
   .\Engine\Header\State.h
   .\Engine\Header\TempCamera.h
+  .\Engine\Header\TempUI.h
   .\Engine\Header\TerrainTex.h
   .\Engine\Header\Texture.h
   .\Engine\Header\Timer.h
@@ -57,7 +56,7 @@
   .\Engine\Header\TriCol.h
   .\Engine\Header\UIManager.h
   .\Engine\Header\VIBuffer.h
-         51개 파일이 복사되었습니다.
+         52개 파일이 복사되었습니다.
   .\Engine\Header\Export_System.inl
   .\Engine\Header\Export_Utility.inl
           2개 파일이 복사되었습니다.

@@ -38,6 +38,7 @@ inline CPrototypeManager*	PrototypeManager();
 inline CCollisionManager*	CollisionManager();
 inline CEventManager*		EventManager();
 inline CRenderer*			Renderer();
+inline CUIManager*          UIManager();
 
 inline HRESULT			Create_SceneManager(LPDIRECT3DDEVICE9 pGraphicDev, CSceneManager** ppInstance);
 

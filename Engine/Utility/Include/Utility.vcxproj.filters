@@ -139,6 +139,9 @@
     <Filter Include="04. Component\13. State">
       <UniqueIdentifier>{c8aff655-0637-4774-8315-aedb256b73ba}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. GameObject\06. TempUI">
+      <UniqueIdentifier>{5909a8e6-855d-49bf-bb3b-b0014bca51cf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Header\Scene.h">
@@ -249,6 +252,9 @@
     <ClInclude Include="..\..\Header\State.h">
       <Filter>04. Component\13. State</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Header\TempUI.h">
+      <Filter>03. GameObject\06. TempUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\Scene.cpp">
@@ -355,6 +361,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\State.cpp">
       <Filter>04. Component\13. State</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\TempUI.cpp">
+      <Filter>03. GameObject\06. TempUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

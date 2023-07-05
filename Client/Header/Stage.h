@@ -6,6 +6,7 @@
 #include "SkyBox.h"
 #include "Player.h"
 #include "CubeBlock.h"
+#include "UIplayerhp.h"
 
 class CStage : public Engine::CScene
 {

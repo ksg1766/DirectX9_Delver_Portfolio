@@ -4,30 +4,37 @@
 
 BEGIN(Engine)
 
-class UI_Scene;
-class UI_Popup;
-class ENGINE_DLL CUIManager :
-	public CBase
+//class CTempUI;
+
+class ENGINE_DLL CUIManager : public CBase
 {
 	DECLARE_SINGLETON(CUIManager)
 
-public:
+private:
 	explicit CUIManager();
 	virtual ~CUIManager();
 
-	void Update();
-	void Render();
+public:
+	// 정보 전달 get/ set 등 함수 추가
+	void Add_UIGameobject(UILAYER eType, CGameObject* pGameObject);
 
-	void MakeWorldSpaceUI();
-	void ShowSceneUI();
-	void ShowPopupUI();
-	void ClosePopupUI(UI_Popup* popup);
-	void ClosePopupUI();
+public:
+	_int Update_UI(const _float& fTimeDelta);
+	void LateUpdate_UI();
+	void Render_UI(LPDIRECT3DDEVICE9 pGraphicDev);
 
 private:
-	//stack<UI_Popup*> m_stackPopup;
-	UI_Scene* m_pSceneUI;
+	//void MakeWorldSpaceUI();
+	//void ShowSceneUI();
+	//void ShowPopupUI();
+	//void ClosePopupUI(UI_Popup* popup);
+	//void ClosePopupUI();
 
+private:
+	vector<CGameObject*> m_UIList[UILAYER::UI_END];
+	//stack<UI_Popup*> m_stackPopup;
+
+private:
 	virtual void Free() override;
 };
 

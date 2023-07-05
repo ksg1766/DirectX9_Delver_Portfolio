@@ -66,8 +66,10 @@ void CRenderer::Render_Alpha(LPDIRECT3DDEVICE9& pGraphicDev)
 
 void CRenderer::Render_UI(LPDIRECT3DDEVICE9& pGraphicDev)
 {
-	for (auto iter : m_RenderGroup[RENDER_UI])
-		iter->Render_Object();
+	//for (auto iter : m_RenderGroup[RENDER_UI])
+	//	iter->Render_Object();
+
+	UIManager()->Render_UI(pGraphicDev);
 }
 
 void CRenderer::Free()

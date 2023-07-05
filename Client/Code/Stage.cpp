@@ -141,6 +141,10 @@ HRESULT CStage::Ready_Layer_UI(LAYERTAG _eLayerTag)
 
 	Engine::CGameObject*		pGameObject = nullptr;
 
+	pGameObject = CUIplayerhp::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	Engine::UIManager()->Add_UIGameobject(Engine::UILAYER::UI_DOWN, pGameObject);
+
 	m_mapLayer.insert({ _eLayerTag, pLayer });
 
 	return S_OK;

@@ -73,6 +73,9 @@
     <Filter Include="02. GameObject\01. Stage\02. Item">
       <UniqueIdentifier>{d0be1c89-cbb5-4efa-9e0c-f85e9c85026a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\03. UI">
+      <UniqueIdentifier>{1c8840b6-6cdc-4119-837e-ed3c510cef0c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -123,6 +126,9 @@
     <ClInclude Include="..\Header\TempItem.h">
       <Filter>02. GameObject\01. Stage\02. Item</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\UIplayerhp.h">
+      <Filter>02. GameObject\03. UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -166,6 +172,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\TempItem.cpp">
       <Filter>02. GameObject\01. Stage\02. Item</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UIplayerhp.cpp">
+      <Filter>02. GameObject\03. UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

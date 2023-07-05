@@ -24,6 +24,11 @@ inline CRenderer * Renderer()
 	return CRenderer::GetInstance();
 }
 
+inline CUIManager* UIManager()
+{
+	return CUIManager::GetInstance();
+}
+
 HRESULT		Create_SceneManager(LPDIRECT3DDEVICE9 pGraphicDev, CSceneManager** ppInstance)
 {
 	CSceneManager*		pSceneManager = CSceneManager::GetInstance();
@@ -87,5 +92,6 @@ void			Release_Utility()
 	CEventManager::GetInstance()->DestroyInstance();
 	CCollisionManager::GetInstance()->DestroyInstance();
 	CPrototypeManager::GetInstance()->DestroyInstance();
+	CUIManager::GetInstance()->DestroyInstance();
 	CSceneManager::GetInstance()->DestroyInstance();
 }
