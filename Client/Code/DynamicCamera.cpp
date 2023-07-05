@@ -11,7 +11,7 @@ CDynamicCamera::~CDynamicCamera()
 {
 }
 
-HRESULT CDynamicCamera::Ready_Object(const _vec3 * pEye, const _vec3 * pAt, const _vec3 * pUp, const float & fFov, const float & fAspect, const float & fNear, const float & fFar)
+HRESULT CDynamicCamera::Ready_Object(const _vec3* pEye, const _vec3* pAt, const _vec3* pUp, const float& fFov, const float& fAspect, const float& fNear, const float& fFar)
 {
 	m_vEye = *pEye;
 	m_vAt = *pAt;
@@ -22,120 +22,81 @@ HRESULT CDynamicCamera::Ready_Object(const _vec3 * pEye, const _vec3 * pAt, cons
 	m_fAspect = fAspect;
 	m_fFov = fFov;
 
+	// Camera Shake
+	m_bCameraCheck = false;
+	m_bShaking = false; // 흔들림 상태
+	m_fShakeElipsedTime = 0.f; // 중첩시간
+
+	m_fAmplitude = 0.005f; // 진폭
+	m_fDuration = 0.1f;  // 흔드는 시간
+	m_fFrequency = 1.f; // 흔드는 속도
+	m_vOriginPos = _vec3(0.f, 0.f, 0.f);
+
 	FAILED_CHECK_RETURN(CTempCamera::Ready_Object(), E_FAIL);
 	m_eObjectTag = OBJECTTAG::CAMERA;
+	m_eCamera_Mode = CAMERA_MODE::CAMERA_THIRD;
+
 
 	return S_OK;
 }
 
-_int CDynamicCamera::Update_Object(const _float & fTimeDelta)
+_int CDynamicCamera::Update_Object(const _float& fTimeDelta)
 {
 	Key_Input(fTimeDelta);
 
 	if (false == m_bFix)
 	{
-		Mouse_Move();
+		if (m_eCamera_Mode == CAMERA_MODE::CAMERA_THIRD)
+			Mouse_Move();
 		Mouse_Fix();
-	}	
+	}
+
+
+	switch (m_eCamera_Mode)
+	{
+	case CAMERA_MODE::CAMERA_FIRST:
+		First_Camera();
+		break;
+	case CAMERA_MODE::CAMERA_THIRD:
+		Third_Camera();
+		break;
+	}
+
+
+	if (m_bShaking)
+	{
+		m_fShakeElipsedTime += fTimeDelta;
+
+		if (m_fShakeElipsedTime < m_fDuration)
+		{
+			_float X = m_fAmplitude * cosf(m_fShakeElipsedTime * m_fFrequency + (((_float)rand() / (_float)RAND_MAX) * (D3DX_PI * 2)));
+			_float Y = m_fAmplitude * sinf(m_fShakeElipsedTime * m_fFrequency + (((_float)rand() / (_float)RAND_MAX) * (D3DX_PI * 2)));
+			m_vEye += _vec3(X, Y, 0);
+		}
+		else
+		{
+			m_vEye = m_vOriginPos;
+			m_bShaking = false;
+		}
+	}
 
 	_int iExit = CTempCamera::Update_Object(fTimeDelta);
 
 	return iExit;
 }
 
-_vec3 CDynamicCamera::Picking(HWND hWnd, const CVIBuffer* pTargetBuffer, const CTransform* pTargetTransform)
+HRESULT CDynamicCamera::Add_Component()
 {
-	//POINT		ptMouse{};
-	//GetCursorPos(&ptMouse);
-	//ScreenToClient(hWnd, &ptMouse);
+	CComponent* pComponent = nullptr;
 
-	//_vec3		vMousePos;
+	pComponent = m_pTransform = dynamic_cast<CTransform*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Transform"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::TRANSFORM, pComponent);
 
-	//D3DVIEWPORT9		ViewPort;
-	//ZeroMemory(&ViewPort, sizeof(D3DVIEWPORT9));
-	//m_pGraphicDev->GetViewport(&ViewPort);
-
-	////0,0      -> -1, 1
-	////400, 300 ->  0, 0
-	////800, 600 ->  1, -1
-
-	//// 뷰포트 -> 투영
-	//vMousePos.x = ptMouse.x / (ViewPort.Width * 0.5f) - 1.f;
-	//vMousePos.y = ptMouse.y / -(ViewPort.Height * 0.5f) + 1.f;
-	//vMousePos.z = 0.f;
-
-	//// 투영 -> 뷰 스페이스
-	//_matrix		matProj;
-	//m_pGraphicDev->GetTransform(D3DTS_PROJECTION, &matProj);
-	//D3DXMatrixInverse(&matProj, 0, &matProj);
-	//D3DXVec3TransformCoord(&vMousePos, &vMousePos, &matProj);
-
-	//_vec3	vRayPos, vRayDir;
-
-	//vRayPos = _vec3(0.f, 0.f, 0.f);
-	//vRayDir = vMousePos - vRayPos;
-
-	//// 뷰 스페이스 -> 월드 스페이스
-	//_matrix		matView;
-	//m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
-	//D3DXMatrixInverse(&matView, 0, &matView);
-
-	//D3DXVec3TransformCoord(&vRayPos, &vRayPos, &matView);
-	//D3DXVec3TransformNormal(&vRayDir, &vRayDir, &matView);
-	//// 밑으로 수정 필요
-	//const	_vec3* pTargetVtxPos = pTargetBuffer
-	//const	_vec3* pTerrainVtxPos = pTargetBuffer->Get_VtxPos();
-
-	//_ulong		dwVtxIdx[3]{};
-
-	//_float	fU = 0.f, fV = 0.f, fDist = 0.f;
-
-	//for (_ulong i = 0; i < VTXCNTZ - 1; ++i)
-	//{
-	//	for (_ulong j = 0; j < VTXCNTX - 1; ++j)
-	//	{
-	//		_ulong	dwIndex = i * VTXCNTX + j;
-
-	//		// 오른쪽 위
-	//		dwVtxIdx[0] = dwIndex + VTXCNTX;
-	//		dwVtxIdx[1] = dwIndex + VTXCNTX + 1;
-	//		dwVtxIdx[2] = dwIndex + 1;
-
-	//		if (D3DXIntersectTri(&pTerrainVtxPos[dwVtxIdx[1]],
-	//			&pTerrainVtxPos[dwVtxIdx[0]],
-	//			&pTerrainVtxPos[dwVtxIdx[2]],
-	//			&vRayPos, &vRayDir, &fU, &fV, &fDist))
-	//		{
-	//			// V1 + U(V2 - V1) + V(V3 - V1)
-
-	//			return _vec3(pTerrainVtxPos[dwVtxIdx[1]].x + fU * (pTerrainVtxPos[dwVtxIdx[0]].x - pTerrainVtxPos[dwVtxIdx[1]].x),
-	//				0.f,
-	//				pTerrainVtxPos[dwVtxIdx[1]].z + fV * (pTerrainVtxPos[dwVtxIdx[2]].z - pTerrainVtxPos[dwVtxIdx[1]].z));
-	//		}
-
-	//		// 왼쪽 아래
-	//		dwVtxIdx[0] = dwIndex + VTXCNTX;
-	//		dwVtxIdx[1] = dwIndex + 1;
-	//		dwVtxIdx[2] = dwIndex;
-
-	//		if (D3DXIntersectTri(&pTerrainVtxPos[dwVtxIdx[1]],
-	//			&pTerrainVtxPos[dwVtxIdx[0]],
-	//			&pTerrainVtxPos[dwVtxIdx[2]],
-	//			&vRayPos, &vRayDir, &fU, &fV, &fDist))
-	//		{
-	//			// V1 + U(V2 - V1) + V(V3 - V1)
-
-	//			return _vec3(pTerrainVtxPos[dwVtxIdx[1]].x + fU * (pTerrainVtxPos[dwVtxIdx[0]].x - pTerrainVtxPos[dwVtxIdx[1]].x),
-	//				0.f,
-	//				pTerrainVtxPos[dwVtxIdx[1]].z + fV * (pTerrainVtxPos[dwVtxIdx[2]].z - pTerrainVtxPos[dwVtxIdx[1]].z));
-	//		}
-	//	}
-	//}
-
-	return _vec3(0.f, 0.f, 0.f);
+	return S_OK;
 }
 
-void CDynamicCamera::Key_Input(const _float & fTimeDelta)
+void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 {
 
 
@@ -162,7 +123,7 @@ void CDynamicCamera::Key_Input(const _float & fTimeDelta)
 		_vec3	vLength = *D3DXVec3Normalize(&vLook, &vLook) * m_fSpeed * fTimeDelta;
 
 		m_vEye -= vLength;
-		m_vAt  -= vLength;
+		m_vAt -= vLength;
 	}
 
 	if (Engine::InputDev()->Key_Pressing(DIK_LEFT))
@@ -173,7 +134,7 @@ void CDynamicCamera::Key_Input(const _float & fTimeDelta)
 		_vec3	vLength = *D3DXVec3Normalize(&vRight, &vRight) * m_fSpeed * fTimeDelta;
 
 		m_vEye -= vLength;
-		m_vAt  -= vLength;
+		m_vAt -= vLength;
 	}
 
 	if (Engine::InputDev()->Key_Pressing(DIK_RIGHT))
@@ -184,10 +145,10 @@ void CDynamicCamera::Key_Input(const _float & fTimeDelta)
 		_vec3	vLength = *D3DXVec3Normalize(&vRight, &vRight) * m_fSpeed * fTimeDelta;
 
 		m_vEye += vLength;
-		m_vAt  += vLength;
+		m_vAt += vLength;
 	}
 
-	if (Engine::InputDev()->Key_Down(DIK_TAB))
+	if (Engine::InputDev()->Key_Pressing(DIK_TAB))
 	{
 		if (m_bCheck)
 			return;
@@ -201,7 +162,26 @@ void CDynamicCamera::Key_Input(const _float & fTimeDelta)
 	}
 	else
 		m_bCheck = false;
-	
+
+	if (Engine::InputDev()->Key_Pressing(DIK_5))
+	{
+		Shake_Camera();
+	}
+
+
+	if (Engine::InputDev()->Key_Pressing(DIK_1))
+	{
+		m_eCamera_Mode = CAMERA_MODE::CAMERA_FIRST;
+		m_bCameraCheck = false;
+	}
+
+	if (Engine::InputDev()->Key_Pressing(DIK_3))
+	{
+		m_eCamera_Mode = CAMERA_MODE::CAMERA_THIRD;
+		m_bCameraCheck = true;
+		Third_Camera();
+	}
+
 	if (false == m_bFix)
 		return;
 }
@@ -223,7 +203,7 @@ void CDynamicCamera::Mouse_Move()
 
 		D3DXMatrixRotationAxis(&matRot, &vRight, D3DXToRadian(dwMouseMove / 10.f));
 		D3DXVec3TransformNormal(&vLook, &vLook, &matRot);
-		
+
 		m_vAt = m_vEye + vLook;
 	}
 
@@ -251,12 +231,62 @@ void CDynamicCamera::Mouse_Fix()
 
 }
 
-
-CDynamicCamera * CDynamicCamera::Create(LPDIRECT3DDEVICE9 pGraphicDev,
-	const _vec3 * pEye, const _vec3 * pAt, const _vec3 * pUp,
-	const float& fFov, const float & fAspect, const float & fNear, const float & fFar)
+void CDynamicCamera::First_Camera()
 {
-	CDynamicCamera *	pInstance = new CDynamicCamera(pGraphicDev);
+	CComponent* pComponent = SceneManager()->GetInstance()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->Get_Component(COMPONENTTAG::TRANSFORM, COMPONENTID::ID_DYNAMIC);
+
+	_matrix matPlayerWorld = dynamic_cast<CTransform*>(pComponent)->WorldMatrix();
+
+	_vec3	vPlayerLook = dynamic_cast<CTransform*>(pComponent)->m_vInfo[INFO_LOOK];
+	_vec3	vPlayerUp = dynamic_cast<CTransform*>(pComponent)->m_vInfo[INFO_UP];
+
+	//_vec3 vCameraOffset = vPlayerUp * 1.0f + vPlayerLook * 1.0f;
+	//_vec3 vCameraPosition = dynamic_cast<CTransform*>(pComponent)->m_vInfo[INFO_POS] + vCameraOffset;
+
+	m_vAt = { matPlayerWorld._41 + vPlayerLook.x, matPlayerWorld._42 + vPlayerLook.y , matPlayerWorld._43 + vPlayerLook.z };
+	m_vEye = { matPlayerWorld._41, matPlayerWorld._42, matPlayerWorld._43 };
+	m_vEye += ((vPlayerUp * 0.5f) + (vPlayerLook * 0.5f));
+	m_vAt += ((vPlayerUp * 0.5f) + (vPlayerLook * 0.5f));
+
+	m_vUp = vPlayerUp;
+
+}
+
+void CDynamicCamera::Third_Camera()
+{
+	if (m_bCameraCheck)
+	{
+		m_vEye = _vec3(0.f, 10.f, -10.f);
+		m_vAt = _vec3(0.f, 0.f, 1.f);
+		m_vUp = _vec3(0.f, 1.f, 0.f);
+
+		m_fFar = 1000.f;
+		m_fNear = 0.1f;
+		m_fAspect = (_float)WINCX / WINCY;
+		m_fFov = D3DXToRadian(60.f);
+	}
+
+}
+
+void CDynamicCamera::Shake_Camera()
+{
+	CComponent* pComponent = SceneManager()->GetInstance()
+		->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()
+		->Get_Component(COMPONENTTAG::TRANSFORM, COMPONENTID::ID_DYNAMIC);
+
+	_vec3	vPlayerPos = dynamic_cast<CTransform*>(pComponent)->m_vInfo[INFO_POS];
+
+	m_fShakeElipsedTime = 0.f;
+	m_vOriginPos = vPlayerPos;
+	m_bShaking = true;
+}
+
+
+CDynamicCamera* CDynamicCamera::Create(LPDIRECT3DDEVICE9 pGraphicDev,
+	const _vec3* pEye, const _vec3* pAt, const _vec3* pUp,
+	const float& fFov, const float& fAspect, const float& fNear, const float& fFar)
+{
+	CDynamicCamera* pInstance = new CDynamicCamera(pGraphicDev);
 
 	if (FAILED(pInstance->Ready_Object(pEye, pAt, pUp, fFov, fAspect, fNear, fFar)))
 	{
@@ -264,7 +294,7 @@ CDynamicCamera * CDynamicCamera::Create(LPDIRECT3DDEVICE9 pGraphicDev,
 		MSG_BOX("Dynamic Camera Create Failed");
 		return nullptr;
 	}
-	
+
 	return pInstance;
 }
 
