@@ -22,7 +22,7 @@ HRESULT CCubeBlock::Ready_Object(void)
 	m_eObjectTag = OBJECTTAG::BLOCK;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pTransform->Translate(_vec3(4.f, 0.f, 4.f));
+	m_pTransform->Translate(_vec3(4.f, 1.f, 4.f));
 	
 	return S_OK;
 }

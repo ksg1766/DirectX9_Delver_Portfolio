@@ -125,7 +125,6 @@ void CTransform::Set_WorldMatrix(_matrix& _matWorld)
 {
 	for (_int i = 0; i < INFO_END; ++i)
 		::CopyMemory(&m_vInfo[i], &_matWorld.m[i][0], sizeof(_vec3));
-
 }
 
 HRESULT CTransform::Ready_Transform()

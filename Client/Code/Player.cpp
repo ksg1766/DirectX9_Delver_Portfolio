@@ -27,6 +27,7 @@ HRESULT CPlayer::Ready_Object(void)
 	m_eObjectTag = OBJECTTAG::PLAYER;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
+	m_pTransform->Translate (_vec3(0.f, 1.f, 0.f));
 	//m_pTransform->Scale(_vec3( 1.f, 2.f, 1.f ));
 	//m_fSpeed = 10.f;
 

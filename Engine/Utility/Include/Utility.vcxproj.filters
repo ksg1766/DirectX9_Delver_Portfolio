@@ -136,6 +136,9 @@
     <Filter Include="04. Component\09. MonsterAI">
       <UniqueIdentifier>{79996208-1762-41cd-b22f-c09bb01161cf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04. Component\13. State">
+      <UniqueIdentifier>{c8aff655-0637-4774-8315-aedb256b73ba}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Header\Scene.h">
@@ -243,6 +246,9 @@
     <ClInclude Include="..\..\Header\BillBoard.h">
       <Filter>04. Component\12. BillBoard</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Header\State.h">
+      <Filter>04. Component\13. State</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\Scene.cpp">
@@ -346,6 +352,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\BillBoard.cpp">
       <Filter>04. Component\12. BillBoard</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\State.cpp">
+      <Filter>04. Component\13. State</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

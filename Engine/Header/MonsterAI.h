@@ -37,7 +37,7 @@ protected:
 
 public:
 	static	CMonsterAI*		Create(LPDIRECT3DDEVICE9 pGraphicDev);
-	virtual CComponent* Clone(void);
+	virtual CComponent*		Clone(void);
 private:
 	virtual void			Free();
 

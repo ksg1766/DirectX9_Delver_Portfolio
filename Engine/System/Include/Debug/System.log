@@ -1,5 +1,5 @@
-﻿  LINK : ..\Bin\System.dll을(를) 찾을 수 없거나 마지막 증분 링크에 의해 빌드되지 않았습니다. 전체 링크를 수행하고 있습니다.
-     ../Bin\System.lib 라이브러리 및 ../Bin\System.exp 개체를 생성하고 있습니다.
+﻿  unity_AHPZMV78W4H66OWS.cpp
+  unity_GNWENE0Y06HDYLP3.cpp
   System.vcxproj -> C:\Users\star1\Desktop\jusin\5th_SR_Team3Project\Engine\System\Bin\System.dll
   .\Engine\System\Code\*.h 
   지정된 파일을 찾을 수 없습니다.
@@ -47,6 +47,7 @@
   .\Engine\Header\Scene.h
   .\Engine\Header\SceneManager.h
   .\Engine\Header\SpawningPool.h
+  .\Engine\Header\State.h
   .\Engine\Header\TempCamera.h
   .\Engine\Header\TerrainTex.h
   .\Engine\Header\Texture.h
@@ -56,7 +57,7 @@
   .\Engine\Header\TriCol.h
   .\Engine\Header\UIManager.h
   .\Engine\Header\VIBuffer.h
-         50개 파일이 복사되었습니다.
+         51개 파일이 복사되었습니다.
   .\Engine\Header\Export_System.inl
   .\Engine\Header\Export_Utility.inl
           2개 파일이 복사되었습니다.

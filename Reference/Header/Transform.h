@@ -37,7 +37,6 @@ public:
 public:
 	CTransform*		m_pParent;
 	
-
 	_vec3			m_vInfo[INFO_END];
 	_vec3			m_vLocalScale;
 
@@ -45,7 +44,7 @@ private:
 	void			Set_Child(CTransform* _pChild) { m_pChild = _pChild; }
 	CTransform*		m_pChild;
 
-	_matrix			m_matWorld;
+	//_matrix		m_matWorld;
 
 
 public:

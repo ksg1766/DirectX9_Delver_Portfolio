@@ -33,16 +33,16 @@ HRESULT CPlayerBf::Ready_Buffer(void)
 
 	m_pVB->Lock(0, 0, (void**)&pVertex, 0);
 	
-	pVertex[0].vPosition = { -1.f, 2.f, 0.f };
+	pVertex[0].vPosition = { -1.f, 1.f, 0.f };
 	pVertex[0].dwColor = D3DXCOLOR(1.f, 0.f, 0.f, 1.f);
 
-	pVertex[1].vPosition = { 1.f, 2.f, 0.f };
+	pVertex[1].vPosition = { 1.f, 1.f, 0.f };
 	pVertex[1].dwColor = D3DXCOLOR(1.f, 0.f, 0.f, 1.f);
 
-	pVertex[2].vPosition = { 1.f, 0.f, 0.f };
+	pVertex[2].vPosition = { 1.f, -1.f, 0.f };
 	pVertex[2].dwColor = D3DXCOLOR(1.f, 0.f, 0.f, 1.f);
 
-	pVertex[3].vPosition = { -1.f, 0.f, 0.f };
+	pVertex[3].vPosition = { -1.f, -1.f, 0.f };
 	pVertex[3].dwColor = D3DXCOLOR(0.f, 1.f, 0.f, 1.f);
 	
 	m_pVB->Unlock();
