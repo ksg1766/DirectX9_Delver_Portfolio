@@ -22,7 +22,7 @@ HRESULT CCubeBlock::Ready_Object(void)
 	m_eObjectTag = OBJECTTAG::BLOCK;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pTransform->Translate(_vec3(4.f, 4.f, 4.f));
+	m_pTransform->Translate(_vec3(4.f, 0.f, 4.f));
 	
 	return S_OK;
 }
@@ -63,6 +63,10 @@ HRESULT CCubeBlock::Add_Component(void)
 	pComponent = m_pTexture = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_SkyBox"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE, pComponent);
+
+	pComponent = dynamic_cast<CBillBoard*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BillBoard"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::BILLBOARD, pComponent);
 
 	for (int i = 0; i < ID_END; ++i)
 		for (auto& iter : m_mapComponent[i])

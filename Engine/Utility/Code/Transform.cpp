@@ -68,7 +68,7 @@ void CTransform::Rotate(_vec3& _vEulers)
 	if (m_pChild)
 	{
 		if( 0.f != _vEulers.y )
-			m_pChild->RotateAround(m_vInfo[INFO_POS], m_vInfo[INFO_UP], _vEulers.y);
+			m_pChild->RotateAround(m_vInfo[INFO_POS], _vec3(0.f, 1.f, 0.f), _vEulers.y);
 		if (0.f != _vEulers.x)
 			m_pChild->RotateAround(m_vInfo[INFO_POS], m_vInfo[INFO_RIGHT], _vEulers.x);
 		if (0.f != _vEulers.z)

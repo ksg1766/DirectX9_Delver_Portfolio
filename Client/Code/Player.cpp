@@ -106,11 +106,11 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 	if (Engine::InputDev()->Key_Pressing(DIK_D))
 		m_pTransform->Rotate(ROT_Y, D3DXToRadian(180.f * fTimeDelta));
 	
-	/*if (Engine::InputDev()->Key_Pressing(DIK_Q))
+	if (Engine::InputDev()->Key_Pressing(DIK_Q))
 		m_pTransform->Rotate(ROT_X, D3DXToRadian(-180.f * fTimeDelta));
 
 	if (Engine::InputDev()->Key_Pressing(DIK_E))
-		m_pTransform->Rotate(ROT_X, D3DXToRadian(180.f * fTimeDelta));*/
+		m_pTransform->Rotate(ROT_X, D3DXToRadian(180.f * fTimeDelta));
 
 	if (Engine::InputDev()->Key_Down(DIK_1))
 	{
