@@ -182,7 +182,15 @@ call CopyUtility.bat</Command>
   <ItemGroup>
     <ClInclude Include="..\..\Header\Animator.h" />
     <ClInclude Include="..\..\Header\BillBoard.h" />
-    <ClInclude Include="..\..\Header\Boss.h" />
+    <ClInclude Include="..\..\Header\Boss.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\Header\BossAI.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\Header\BossBf.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="..\..\Header\Camera.h" />
     <ClInclude Include="..\..\Header\Item.h" />
     <ClInclude Include="..\..\Header\MonsterAI.h" />
@@ -223,7 +231,15 @@ call CopyUtility.bat</Command>
   <ItemGroup>
     <ClCompile Include="..\Code\Animator.cpp" />
     <ClCompile Include="..\Code\BillBoard.cpp" />
-    <ClCompile Include="..\Code\Boss.cpp" />
+    <ClCompile Include="..\Code\Boss.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\Code\BossAI.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\Code\BossBf.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\Code\Camera.cpp" />
     <ClCompile Include="..\Code\Item.cpp" />
     <ClCompile Include="..\Code\MonsterAI.cpp" />

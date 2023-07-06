@@ -151,6 +151,12 @@
     <Filter Include="04. Component\09. MonsterAI\DungeonAI\SpiderAI">
       <UniqueIdentifier>{54309e0d-134d-4c43-ad74-f1ecb5a3d746}</UniqueIdentifier>
     </Filter>
+     <Filter Include="04. Component\09. MonsterAI\999,BossAI">
+      <UniqueIdentifier>{c4deb4c5-75bd-4a73-b330-499f80cbddff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. Component\01. VIBuffer\05. BossBf">
+      <UniqueIdentifier>{beb92803-f568-4903-9742-0586fb71b7ec}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Header\Scene.h">
@@ -270,6 +276,12 @@
     <ClInclude Include="..\..\Header\SpiderAI.h">
       <Filter>04. Component\09. MonsterAI\DungeonAI\SpiderAI</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Header\BossAI.h">
+      <Filter>04. Component\09. MonsterAI\999,BossAI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Header\BossBf.h">
+      <Filter>04. Component\01. VIBuffer\05. BossBf</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\Scene.cpp">
@@ -385,6 +397,12 @@
     </ClCompile>
     <ClCompile Include="..\Code\SpiderAI.cpp">
       <Filter>04. Component\09. MonsterAI\DungeonAI\SpiderAI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\BossAI.cpp">
+      <Filter>04. Component\09. MonsterAI\999,BossAI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\BossBf.cpp">
+      <Filter>04. Component\01. VIBuffer\05. BossBf</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

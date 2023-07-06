@@ -3,17 +3,14 @@
 #include "Item.h"
 
 BEGIN(Engine)
-
-class CTexture;
 class CRcTex;
-
 END
 
 class CTempItem :
     public Engine::CItem
 {
 private:
-	explicit CTempItem(LPDIRECT3DDEVICE9 pGraphicDev);	
+	explicit CTempItem(LPDIRECT3DDEVICE9 pGraphicDev);
 	explicit CTempItem(const CTempItem& rhs);
 	virtual ~CTempItem();
 
@@ -27,8 +24,7 @@ private:
 	HRESULT		Add_Component(void);
 
 private:
-	CRcTex*	  m_pBuffer = nullptr;
-	CTexture* m_pTexture = nullptr;
+	CRcTex* m_pBuffer = nullptr;
 
 public:
 	static CTempItem* Create(LPDIRECT3DDEVICE9 pGraphicDev);

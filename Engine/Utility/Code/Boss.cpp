@@ -1,12 +1,14 @@
 #include "../../Header/Boss.h"
 
 CBoss::CBoss(LPDIRECT3DDEVICE9 pGraphicDev)
-	:CMonster(pGraphicDev)
+	:CMonster(pGraphicDev), m_IsDead(false), m_eObjectTag(OBJECTTAG::MONSTER)
+	,m_pBossState(nullptr)
 {
 }
 
 CBoss::CBoss(const CBoss& rhs)
-	: CMonster(rhs)
+	: CMonster(rhs), m_IsDead(rhs.m_IsDead), m_eObjectTag(OBJECTTAG::MONSTER)
+	, m_pBossState(nullptr)
 {
 }
 
@@ -16,6 +18,8 @@ CBoss::~CBoss()
 
 HRESULT CBoss::Ready_Object()
 {
+
+
 
 	return S_OK;
 }

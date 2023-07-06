@@ -11,6 +11,7 @@
 #include "UItooltip.h"
 #include "UIplayerstat.h"
 #include "UIaimpoint.h"
+#include "SkeletonKing.h"
 
 class CStage : public Engine::CScene
 {

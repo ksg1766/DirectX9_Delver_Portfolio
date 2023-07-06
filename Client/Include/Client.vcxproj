@@ -167,7 +167,11 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\Framework_2019Test\5th_SR_Team3Project-develop\Client\Header\SkeletonKing.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="..\Header\BackGround.h" />
+    <ClInclude Include="..\Header\BossProjectile.h" />
     <ClInclude Include="..\Header\CubeBlock.h" />
     <ClInclude Include="..\Header\DungeonSpider.h" />
     <ClInclude Include="..\Header\DungeonWarrior.h" />
@@ -204,7 +208,11 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\Framework_2019Test\5th_SR_Team3Project-develop\Client\Code\SkeletonKing.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\Code\BackGround.cpp" />
+    <ClCompile Include="..\Code\BossProjectile.cpp" />
     <ClCompile Include="..\Code\CubeBlock.cpp" />
     <ClCompile Include="..\Code\DungeonSpider.cpp" />
     <ClCompile Include="..\Code\DungeonWarrior.cpp" />
