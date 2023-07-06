@@ -87,6 +87,30 @@
     </Filter>
     <Filter Include="01. Scene\02. Editor\01. ImGui\01. ImGui">
       <UniqueIdentifier>{8cedaef1-43e7-43f7-8137-0fdbb415cd01}</UniqueIdentifier>
+	</Filter>
+    <Filter Include="02. GameObject\03. UI\00. UIplayerhp">
+      <UniqueIdentifier>{d4d193c4-14ad-46c1-a39b-35c1c2f3c87a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\03. UI\01. UIemptyslot">
+      <UniqueIdentifier>{96dc402b-e48a-4825-94ba-ee28166b8e69}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\03. UI\02. UIitem">
+      <UniqueIdentifier>{7a317ac9-ac1d-42c4-977f-4c74b225bb6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\03. UI\03. UItooltip">
+      <UniqueIdentifier>{ddc9164e-7713-45f6-8c0c-a47d4efd9cfe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\03. UI\04. UIbutton">
+      <UniqueIdentifier>{20cb5742-3f30-4c17-861d-368d7e1974b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\03. UI\05. UIplayerstat">
+      <UniqueIdentifier>{ac4a79b5-2d78-423a-bfa4-dce9e6b02c50}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\03. UI\06. UIbigmap">
+      <UniqueIdentifier>{20b9ebe0-be21-4567-8ac2-88d6f781d916}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\03. UI\07. UIaimpoint">
+      <UniqueIdentifier>{0ff7b4e5-fe7b-4507-89a4-c65c67225eb3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -136,7 +160,28 @@
       <Filter>02. GameObject\01. Stage\02. Item</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\UIplayerhp.h">
-      <Filter>02. GameObject\03. UI</Filter>
+      <Filter>02. GameObject\03. UI\00. UIplayerhp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\UIemptyslot.h">
+      <Filter>02. GameObject\03. UI\01. UIemptyslot</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\UIitem.h">
+      <Filter>02. GameObject\03. UI\02. UIitem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\UItooltip.h">
+      <Filter>02. GameObject\03. UI\03. UItooltip</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\UIbutton.h">
+      <Filter>02. GameObject\03. UI\04. UIbutton</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\UIplayerstat.h">
+      <Filter>02. GameObject\03. UI\05. UIplayerstat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\UIbigmap.h">
+      <Filter>02. GameObject\03. UI\06. UIbigmap</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\UIaimpoint.h">
+      <Filter>02. GameObject\03. UI\07. UIaimpoint</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Editor.h">
       <Filter>01. Scene\02. Editor\00. EditorScene</Filter>
@@ -210,7 +255,28 @@
       <Filter>02. GameObject\01. Stage\02. Item</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\UIplayerhp.cpp">
-      <Filter>02. GameObject\03. UI</Filter>
+      <Filter>02. GameObject\03. UI\00. UIplayerhp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UIemptyslot.cpp">
+      <Filter>02. GameObject\03. UI\01. UIemptyslot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UIitem.cpp">
+      <Filter>02. GameObject\03. UI\02. UIitem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UItooltip.cpp">
+      <Filter>02. GameObject\03. UI\03. UItooltip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UIbutton.cpp">
+      <Filter>02. GameObject\03. UI\04. UIbutton</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UIplayerstat.cpp">
+      <Filter>02. GameObject\03. UI\05. UIplayerstat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UIbigmap.cpp">
+      <Filter>02. GameObject\03. UI\06. UIbigmap</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UIaimpoint.cpp">
+      <Filter>02. GameObject\03. UI\07. UIaimpoint</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Editor.cpp">
       <Filter>01. Scene\02. Editor\00. EditorScene</Filter>

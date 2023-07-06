@@ -11,21 +11,60 @@ CUIManager::~CUIManager()
 	Free();
 }
 
-void CUIManager::Add_UIGameobject(UILAYER eType, CGameObject* pGameObject)
+void CUIManager::Show_PopupUI(UIPOPUPLAYER _PopupID)
+{
+	for (size_t i = 0; i < UILAYER::UI_END; ++i)
+	{
+		for (auto& iter : m_mapPpopupUI[_PopupID][i])
+		{
+			iter->Set_Dead(false);
+		}
+	}
+}
+
+void CUIManager::Hide_PopupUI(UIPOPUPLAYER _PopupID)
+{
+	for (size_t i = 0; i < UILAYER::UI_END; ++i)
+	{
+		for (auto& iter : m_mapPpopupUI[_PopupID][i])
+		{
+			iter->Set_Dead(true);
+		}
+	}
+}
+
+void CUIManager::AddBasicGameobject_UI(UILAYER eType, CGameObject* pGameObject)
 {
 	if (UILAYER::UI_END <= eType || nullptr == pGameObject)
 		return;
 
-	m_UIList[eType].push_back(pGameObject);
+	m_vecUIbasic[eType].push_back(pGameObject);
 	//pGameObject->AddRef();
+}
+
+void CUIManager::AddPopupGameobject_UI(UIPOPUPLAYER ePopupLayer, UILAYER eType, CGameObject* pGameObject)
+{
+	if (UIPOPUPLAYER::POPUP_END <= ePopupLayer || UILAYER::UI_END <= eType || nullptr == pGameObject)
+		return;
+
+	m_mapPpopupUI[ePopupLayer][eType].push_back(pGameObject);
 }
 
 _int CUIManager::Update_UI(const _float& fTimeDelta)
 {
 	for (size_t i = 0; i < UILAYER::UI_END; ++i)
 	{
-		for (auto iter : m_UIList[i])
+		for (auto iter : m_vecUIbasic[i])
 			iter->Update_Object(fTimeDelta);
+	}
+
+	for (auto& Mapiter : m_mapPpopupUI)
+	{
+		for (size_t i = 0; i < UILAYER::UI_END; ++i)
+		{
+			for (auto iter : Mapiter.second[i])
+				iter->Update_Object(fTimeDelta);
+		}
 	}
 
 	return _int();
@@ -35,8 +74,17 @@ void CUIManager::LateUpdate_UI()
 {
 	for (size_t i = 0; i < UILAYER::UI_END; ++i)
 	{
-		for (auto iter : m_UIList[i])
+		for (auto iter : m_vecUIbasic[i])
 			iter->LateUpdate_Object();
+	}
+
+	for (auto& Mapiter : m_mapPpopupUI)
+	{
+		for (size_t i = 0; i < UILAYER::UI_END; ++i)
+		{
+			for (auto iter : Mapiter.second[i])
+				iter->LateUpdate_Object();
+		}
 	}
 }
 
@@ -52,7 +100,7 @@ void CUIManager::Render_UI(LPDIRECT3DDEVICE9 pGraphicDev)
 	UiViewPort.Width = WINCX;
 	UiViewPort.Height = WINCY;
 	UiViewPort.MinZ = 0;
-	UiViewPort.MaxZ = 1;
+	UiViewPort.MaxZ = 0;
 	pGraphicDev->SetViewport(&UiViewPort);
 
 	_matrix matView;
@@ -70,8 +118,17 @@ void CUIManager::Render_UI(LPDIRECT3DDEVICE9 pGraphicDev)
 
 	for (size_t i = 0; i < UILAYER::UI_END; ++i)
 	{
-		for (auto iter : m_UIList[i])
+		for (auto iter : m_vecUIbasic[i])
 			iter->Render_Object();
+	}
+
+	for (auto& Mapiter : m_mapPpopupUI)
+	{
+		for (size_t i = 0; i < UILAYER::UI_END; ++i)
+		{
+			for (auto iter : Mapiter.second[i])
+				iter->Render_Object();
+		}
 	}
 
 	pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE); // ¾ËÆÄ·»´õ¸µ OFF
@@ -90,7 +147,16 @@ void CUIManager::Free()
 {
 	for (size_t i = 0; i < UILAYER::UI_END; ++i)
 	{
-		for_each(m_UIList[i].begin(), m_UIList[i].end(), CDeleteObj());
-		m_UIList[i].clear();
+		for_each(m_vecUIbasic[i].begin(), m_vecUIbasic[i].end(), CDeleteObj());
+		m_vecUIbasic[i].clear();
+	}
+
+	for (auto& Mapiter : m_mapPpopupUI) 
+	{
+		for (size_t i = 0; i < UILAYER::UI_END; ++i)
+		{
+			for_each(Mapiter.second[i].begin(), Mapiter.second[i].end(), CDeleteObj());
+			Mapiter.second[i].clear();
+		}
 	}
 }

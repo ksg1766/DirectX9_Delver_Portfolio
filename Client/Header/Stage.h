@@ -7,6 +7,10 @@
 #include "Player.h"
 #include "CubeBlock.h"
 #include "UIplayerhp.h"
+#include "UIemptyslot.h"
+#include "UItooltip.h"
+#include "UIplayerstat.h"
+#include "UIaimpoint.h"
 
 class CStage : public Engine::CScene
 {

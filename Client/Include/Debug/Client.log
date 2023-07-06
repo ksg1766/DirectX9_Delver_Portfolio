@@ -1,0 +1,9 @@
+﻿  unity_3JMYUH1P0X00Y2X9.cpp
+  unity_84DT237VGOZEU765.cpp
+  unity_A8S5MM1JL3ST7FM4.cpp
+  unity_EKCV8H0UVSPJRCSU.cpp
+  unity_S50N2RCMZ15MT2GL.cpp
+  unity_T67RG14NQQKKLBAW.cpp
+C:\Users\gksk7\Desktop\2023 File\3. Jusin 137C\JSProject_6_SR_5Team\SRProject\Client\Code\Player.cpp(183,11): warning C4244: '초기화 중': 'float'에서 'Engine::_int'(으)로 변환하면서 데이터가 손실될 수 있습니다. (소스 파일 컴파일 중 Debug\unity_S50N2RCMZ15MT2GL.cpp)
+C:\Users\gksk7\Desktop\2023 File\3. Jusin 137C\JSProject_6_SR_5Team\SRProject\Client\Code\Player.cpp(184,11): warning C4244: '초기화 중': 'float'에서 'Engine::_int'(으)로 변환하면서 데이터가 손실될 수 있습니다. (소스 파일 컴파일 중 Debug\unity_S50N2RCMZ15MT2GL.cpp)
+  Client.vcxproj -> C:\Users\gksk7\Desktop\2023 File\3. Jusin 137C\JSProject_6_SR_5Team\SRProject\Client\Bin\Client.exe

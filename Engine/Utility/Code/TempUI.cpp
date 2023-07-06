@@ -19,8 +19,10 @@ HRESULT CTempUI::Ready_Object()
 	m_pBufferCom = nullptr;
 	m_pTextureCom = nullptr;
 
-	m_bPopup = false;
+	//m_bPopup = false;
 	m_bCollider = false;
+
+	m_fCurrentImage = 0;
 
 	//D3DXMatrixIdentity(&m_matWorld);
 	//m_fX = 0.f;
@@ -34,6 +36,7 @@ HRESULT CTempUI::Ready_Object()
 _int CTempUI::Update_Object(const _float & fTimeDelta)
 {
 	//_int iExit = CGameObject::Update_Object(fTimeDelta);
+	Key_Input();
 
 	return 0;
 }

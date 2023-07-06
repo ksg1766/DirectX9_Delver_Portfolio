@@ -25,6 +25,19 @@ public:
 
 private:
 	HRESULT		Add_Component(void);
+	void	    Key_Input(void);
+	void        Update_NumverUI(void);
+
+private:
+	CTexture*   m_pNumberTextureCom;
+	_int        m_iCurrentHp;
+	_int        m_iMaxHp;
+
+	_int        m_iCurrentOneNum;
+	_int        m_iCurrentTwoNum;
+
+	_float      m_fPosition;
+	_float      m_flength;
 
 public:
 	static CUIplayerhp*	Create(LPDIRECT3DDEVICE9 pGraphicDev);
