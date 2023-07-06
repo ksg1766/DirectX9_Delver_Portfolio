@@ -142,6 +142,15 @@
     <Filter Include="03. GameObject\06. TempUI">
       <UniqueIdentifier>{5909a8e6-855d-49bf-bb3b-b0014bca51cf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04. Component\09. MonsterAI\DungeonAI">
+      <UniqueIdentifier>{869522ca-7e3e-4f99-b1f7-ffc5568cbdec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. Component\09. MonsterAI\DungeonAI\WarriorAI">
+      <UniqueIdentifier>{84b9d32a-f459-4858-8682-22100dac7ea4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. Component\09. MonsterAI\DungeonAI\SpiderAI">
+      <UniqueIdentifier>{54309e0d-134d-4c43-ad74-f1ecb5a3d746}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Header\Scene.h">
@@ -255,6 +264,12 @@
     <ClInclude Include="..\..\Header\TempUI.h">
       <Filter>03. GameObject\06. TempUI</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Header\WarriorAI.h">
+      <Filter>04. Component\09. MonsterAI\DungeonAI\WarriorAI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Header\SpiderAI.h">
+      <Filter>04. Component\09. MonsterAI\DungeonAI\SpiderAI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\Scene.cpp">
@@ -364,6 +379,12 @@
     </ClCompile>
     <ClCompile Include="..\Code\TempUI.cpp">
       <Filter>03. GameObject\06. TempUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\WarriorAI.cpp">
+      <Filter>04. Component\09. MonsterAI\DungeonAI\WarriorAI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\SpiderAI.cpp">
+      <Filter>04. Component\09. MonsterAI\DungeonAI\SpiderAI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

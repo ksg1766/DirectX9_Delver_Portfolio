@@ -76,6 +76,18 @@
     <Filter Include="02. GameObject\03. UI">
       <UniqueIdentifier>{1c8840b6-6cdc-4119-837e-ed3c510cef0c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\01. Stage\06. Monster">
+      <UniqueIdentifier>{e682d795-9edd-4d9e-ae69-e402724e8dc4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\06. Monster\Dungeon">
+      <UniqueIdentifier>{ac5d703b-d8ad-4c14-818e-025f54e35bec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\06. Monster\Dungeon\Warrior">
+      <UniqueIdentifier>{3acaee40-2cc7-4e0c-a170-a91a727d0db9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\06. Monster\Dungeon\Spider">
+      <UniqueIdentifier>{363e6ffe-5ca6-4dbc-bd7d-f6a291feeb9f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -129,6 +141,12 @@
     <ClInclude Include="..\Header\UIplayerhp.h">
       <Filter>02. GameObject\03. UI</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\DungeonWarrior.h">
+      <Filter>02. GameObject\01. Stage\06. Monster\Dungeon\Warrior</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\DungeonSpider.h">
+      <Filter>02. GameObject\01. Stage\06. Monster\Dungeon\Spider</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -175,6 +193,12 @@
     </ClCompile>
     <ClCompile Include="..\Code\UIplayerhp.cpp">
       <Filter>02. GameObject\03. UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\DungeonWarrior.cpp">
+      <Filter>02. GameObject\01. Stage\06. Monster\Dungeon\Warrior</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\DungeonSpider.cpp">
+      <Filter>02. GameObject\01. Stage\06. Monster\Dungeon\Spider</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

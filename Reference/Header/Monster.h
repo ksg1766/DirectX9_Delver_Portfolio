@@ -4,8 +4,7 @@
 
 BEGIN(Engine)
 
-class ENGINE_DLL CMonster
-	:CGameObject
+class ENGINE_DLL CMonster : public CGameObject
 {
 protected:
     explicit CMonster(LPDIRECT3DDEVICE9 pGraphicDev);
@@ -22,11 +21,13 @@ protected:
 
 // CGameObject로부터 상속
     //map<COMPONENTTAG, CComponent*>	m_mapComponent[ID_END];
-    //LPDIRECT3DDEVICE9					m_pGraphicDev;
+    //LPDIRECT3DDEVICE9				  m_pGraphicDev;
     //_bool								m_IsDead;
 
-    //OBJECTTAG							m_eObjectTag;
+   // OBJECTTAG						  m_eObjectTag;
     //CTransform*                       m_pTransform;	// Transform Attached to this GameObject
+
+    
 
 protected:
     virtual void	Free(void);

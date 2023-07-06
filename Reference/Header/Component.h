@@ -16,6 +16,14 @@ protected:
 	virtual ~CComponent();
 
 public:
+	void		Set_Transform(CTransform* _pTransform) { m_pTransform = _pTransform; }
+	void		Set_ObjectTag(OBJECTTAG _eObject)	   { m_eObjectTag = _eObject; }
+
+public:
+	CTransform* Get_Transform()						  { return m_pTransform; }
+	OBJECTTAG	Get_ObjectTag()						  { return m_eObjectTag; }
+
+public:
 	virtual	_int Update_Component(const _float& fTimeDelta) { return 0; }
 	virtual void LateUpdate_Component(void) {}
 

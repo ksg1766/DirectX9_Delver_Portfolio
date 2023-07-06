@@ -4,6 +4,9 @@
 
 BEGIN(Engine)
 
+class CTexture;
+class CRcTex;
+
 END
 
 class CTempItem :
@@ -24,7 +27,8 @@ private:
 	HRESULT		Add_Component(void);
 
 private:
-	CRcTex* m_pBuffer = nullptr;
+	CRcTex*	  m_pBuffer = nullptr;
+	CTexture* m_pTexture = nullptr;
 
 public:
 	static CTempItem* Create(LPDIRECT3DDEVICE9 pGraphicDev);

@@ -48,6 +48,7 @@
   .\Engine\Header\Scene.h
   .\Engine\Header\SceneManager.h
   .\Engine\Header\SpawningPool.h
+  .\Engine\Header\SpiderAI.h
   .\Engine\Header\State.h
   .\Engine\Header\TempCamera.h
   .\Engine\Header\TempUI.h
@@ -59,7 +60,8 @@
   .\Engine\Header\TriCol.h
   .\Engine\Header\UIManager.h
   .\Engine\Header\VIBuffer.h
-         52개 파일이 복사되었습니다.
+  .\Engine\Header\WarriorAI.h
+         54개 파일이 복사되었습니다.
   .\Engine\Header\Export_System.inl
   .\Engine\Header\Export_Utility.inl
           2개 파일이 복사되었습니다.

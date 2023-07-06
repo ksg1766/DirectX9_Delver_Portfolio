@@ -178,6 +178,7 @@ call CopyUtility.bat</Command>
     <ClInclude Include="..\..\Header\Particle.h" />
     <ClInclude Include="..\..\Header\PoolManager.h" />
     <ClInclude Include="..\..\Header\SpawningPool.h" />
+    <ClInclude Include="..\..\Header\SpiderAI.h" />
     <ClInclude Include="..\..\Header\State.h" />
     <ClInclude Include="..\..\Header\TempCamera.h" />
     <ClInclude Include="..\..\Header\Collider.h" />
@@ -205,6 +206,7 @@ call CopyUtility.bat</Command>
     <ClInclude Include="..\..\Header\Transform.h" />
     <ClInclude Include="..\..\Header\UIManager.h" />
     <ClInclude Include="..\..\Header\VIBuffer.h" />
+    <ClInclude Include="..\..\Header\WarriorAI.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\Animator.cpp" />
@@ -217,6 +219,7 @@ call CopyUtility.bat</Command>
     <ClCompile Include="..\Code\Particle.cpp" />
     <ClCompile Include="..\Code\PoolManager.cpp" />
     <ClCompile Include="..\Code\SpawningPool.cpp" />
+    <ClCompile Include="..\Code\SpiderAI.cpp" />
     <ClCompile Include="..\Code\State.cpp" />
     <ClCompile Include="..\Code\TempCamera.cpp" />
     <ClCompile Include="..\Code\Collider.cpp" />
@@ -243,6 +246,7 @@ call CopyUtility.bat</Command>
     <ClCompile Include="..\Code\Transform.cpp" />
     <ClCompile Include="..\Code\UIManager.cpp" />
     <ClCompile Include="..\Code\VIBuffer.cpp" />
+    <ClCompile Include="..\Code\WarriorAI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Header\Export_Utility.inl" />

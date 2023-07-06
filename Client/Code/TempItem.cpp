@@ -1,7 +1,5 @@
 #include "stdafx.h"
 #include "..\Header\Player.h"
-
-
 #include "..\Header\TempItem.h"
 #include "Export_Function.h"
 
@@ -24,6 +22,7 @@ HRESULT CTempItem::Ready_Object(void)
 	m_eObjectTag = OBJECTTAG::ITEM;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
+	m_pTransform->Scale(_vec3(0.3f, 0.3f, 0.3f));
 	
 	return S_OK;
 }
@@ -32,7 +31,9 @@ _int CTempItem::Update_Object(const _float& fTimeDelta)
 {
 	_int iExit = __super::Update_Object(fTimeDelta);
 
-	Engine::Renderer()->Add_RenderGroup(RENDER_NONALPHA, this);
+	Engine::Renderer()->Add_RenderGroup(RENDER_ALPHA, this);
+
+
 
 	return iExit;
 }
@@ -48,6 +49,7 @@ void CTempItem::Render_Object(void)
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
+	m_pTexture->Render_Texture();
 	m_pBuffer->Render_Buffer();
 
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
@@ -64,6 +66,10 @@ HRESULT CTempItem::Add_Component(void)
 	pComponent = m_pTransform = dynamic_cast<CTransform*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Transform"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::TRANSFORM, pComponent);
+
+	pComponent = m_pTexture = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_Sword"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE, pComponent);
 	
 	/*pComponent = dynamic_cast<CBillBoard*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BillBoard"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);

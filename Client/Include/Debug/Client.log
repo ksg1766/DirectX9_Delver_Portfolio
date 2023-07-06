@@ -1,1 +1,6 @@
-﻿  Client.vcxproj -> C:\Users\JunYeop\Desktop\SR_team(Delver)\Client\Bin\Client.exe
+﻿  unity_67XLJZGHZ3NWJ4RA.cpp
+C:\Users\JunYeop\Desktop\SR_team(Delver)\Client\Code\DungeonSpider.cpp(49,2): warning C4002: 함수 같은 매크로 호출 'NULL_CHECK'에 대해 인수가 너무 많습니다.
+C:\Users\JunYeop\Desktop\SR_team(Delver)\Client\Code\DungeonSpider.cpp(49,2): warning C4035: 'CDungeonSpider::Update_Object': 반환 값이 없습니다.
+C:\Users\JunYeop\Desktop\SR_team(Delver)\Client\Code\DungeonSpider.cpp(165,11): warning C4244: '초기화 중': 'float'에서 'Engine::_int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\JunYeop\Desktop\SR_team(Delver)\Client\Code\DungeonSpider.cpp(166,11): warning C4244: '초기화 중': 'float'에서 'Engine::_int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Client.vcxproj -> C:\Users\JunYeop\Desktop\SR_team(Delver)\Client\Bin\Client.exe

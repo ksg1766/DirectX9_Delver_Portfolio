@@ -1,12 +1,12 @@
 #include "Monster.h"
 
 CMonster::CMonster(LPDIRECT3DDEVICE9 pGraphicDev)
-	:CGameObject(pGraphicDev)
+	: CGameObject(pGraphicDev)
 {
 }
 
 CMonster::CMonster(const CMonster& rhs)
-	:CGameObject(rhs)
+	: CGameObject(rhs)
 {
 }
 
@@ -16,7 +16,7 @@ CMonster::~CMonster()
 
 HRESULT CMonster::Ready_Object()
 {
-
+	
 	return S_OK;
 }
 

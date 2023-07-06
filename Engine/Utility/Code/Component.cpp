@@ -27,6 +27,7 @@ void CComponent::Init_Property(CGameObject * _pHost)
 {
 	m_pHost = _pHost;
 	m_eObjectTag = m_pHost->Get_ObjectTag();
+
 	if(m_eObjectTag == OBJECTTAG::BLOCK)
 		m_pTransform = dynamic_cast<CTransform*>(m_pHost->Get_Component(COMPONENTTAG::TRANSFORM, ID_STATIC));
 	else
