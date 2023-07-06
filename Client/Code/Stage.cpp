@@ -143,7 +143,34 @@ HRESULT CStage::Ready_Layer_UI(LAYERTAG _eLayerTag)
 
 	pGameObject = CUIplayerhp::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	Engine::UIManager()->Add_UIGameobject(Engine::UILAYER::UI_DOWN, pGameObject);
+	Engine::UIManager()->AddBasicGameobject_UI(Engine::UILAYER::UI_DOWN, pGameObject);
+
+	_float fX;
+	for (_uint i = 0; i < 5; ++i)
+	{
+		pGameObject = CUIemptyslot::Create(m_pGraphicDev);
+		NULL_CHECK_RETURN(pGameObject, E_FAIL);
+		pGameObject->m_pTransform->m_vInfo[INFO_POS].x = 520.f + (60.f * i);
+		pGameObject->m_pTransform->m_vInfo[INFO_POS].y = WINCY - 30.f;
+		dynamic_cast<CTempUI*>(pGameObject)->WorldMatrix(pGameObject->m_pTransform->m_vInfo[INFO_POS].x, pGameObject->m_pTransform->m_vInfo[INFO_POS].y, pGameObject->m_pTransform->m_vLocalScale.x, pGameObject->m_pTransform->m_vLocalScale.y);
+		Engine::UIManager()->AddBasicGameobject_UI(Engine::UILAYER::UI_DOWN, pGameObject);
+	}
+
+	HCURSOR Cursor = nullptr;
+	SetCursor(Cursor);
+	pGameObject = CUIaimpoint::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	Engine::UIManager()->AddPopupGameobject_UI(Engine::UIPOPUPLAYER::POPUP_MOUSE, Engine::UILAYER::UI_DOWN, pGameObject);
+
+
+
+	//pGameObject = CUItooltip::Create(m_pGraphicDev);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//Engine::UIManager()->Add_UIGameobject(Engine::UILAYER::UI_DOWN, pGameObject);
+
+	//pGameObject = CUIplayerstat::Create(m_pGraphicDev);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//Engine::UIManager()->Add_UIGameobject(Engine::UILAYER::UI_DOWN, pGameObject);
 
 	m_mapLayer.insert({ _eLayerTag, pLayer });
 

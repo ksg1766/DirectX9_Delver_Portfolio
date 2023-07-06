@@ -172,7 +172,14 @@
     <ClInclude Include="..\Header\Stage.h" />
     <ClInclude Include="..\Header\TempItem.h" />
     <ClInclude Include="..\Header\Terrain.h" />
+    <ClInclude Include="..\Header\UIaimpoint.h" />
+    <ClInclude Include="..\Header\UIbigmap.h" />
+    <ClInclude Include="..\Header\UIbutton.h" />
+    <ClInclude Include="..\Header\UIemptyslot.h" />
+    <ClInclude Include="..\Header\UIitem.h" />
     <ClInclude Include="..\Header\UIplayerhp.h" />
+    <ClInclude Include="..\Header\UIplayerstat.h" />
+    <ClInclude Include="..\Header\UItooltip.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
@@ -191,7 +198,14 @@
     <ClCompile Include="..\Code\Stage.cpp" />
     <ClCompile Include="..\Code\TempItem.cpp" />
     <ClCompile Include="..\Code\Terrain.cpp" />
+    <ClCompile Include="..\Code\UIaimpoint.cpp" />
+    <ClCompile Include="..\Code\UIbigmap.cpp" />
+    <ClCompile Include="..\Code\UIbutton.cpp" />
+    <ClCompile Include="..\Code\UIemptyslot.cpp" />
+    <ClCompile Include="..\Code\UIitem.cpp" />
     <ClCompile Include="..\Code\UIplayerhp.cpp" />
+    <ClCompile Include="..\Code\UIplayerstat.cpp" />
+    <ClCompile Include="..\Code\UItooltip.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
