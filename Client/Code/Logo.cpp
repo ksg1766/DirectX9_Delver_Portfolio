@@ -20,8 +20,8 @@ HRESULT CLogo::Ready_Scene()
 
 	FAILED_CHECK_RETURN(Ready_Layer_Environment(LAYERTAG::ENVIRONMENT), E_FAIL);
 	
-	m_pLoading = CLoading::Create(m_pGraphicDev, CLoading::LOADINGID::LOADING_STAGE);
-	//m_pLoading = CLoading::Create(m_pGraphicDev, CLoading::LOADINGID::LOADING_EDITOR);
+//	m_pLoading = CLoading::Create(m_pGraphicDev, CLoading::LOADINGID::LOADING_STAGE);
+	m_pLoading = CLoading::Create(m_pGraphicDev, CLoading::LOADINGID::LOADING_EDITOR);
 	NULL_CHECK_RETURN(m_pLoading, E_FAIL);
 
 	return S_OK;
@@ -33,8 +33,8 @@ Engine::_int CLogo::Update_Scene(const _float& fTimeDelta)
 
 	if (true == m_pLoading->Get_Finish())
 	{
-		CScene*		pScene = CStage::Create(m_pGraphicDev);
-		//CScene* pScene = CEditor::Create(m_pGraphicDev);
+	//	CScene*		pScene = CStage::Create(m_pGraphicDev);
+		CScene* pScene = CEditor::Create(m_pGraphicDev);
 		NULL_CHECK_RETURN(pScene, -1);
 
 		FAILED_CHECK_RETURN(Engine::SceneManager()->Set_Scene(pScene), E_FAIL);

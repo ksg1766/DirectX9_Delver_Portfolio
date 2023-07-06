@@ -1,4 +1,5 @@
 #include "..\..\Header\Scene.h"
+#include "Export_Function.h"
 
 CScene::CScene(LPDIRECT3DDEVICE9 pGraphicDev)
 	: m_pGraphicDev(pGraphicDev)

@@ -1,4 +1,5 @@
 #include "..\Header\Editor.h"
+#include "ImGuiManager.h"
 
 CEditor::CEditor(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
@@ -18,6 +19,8 @@ HRESULT CEditor::Ready_Scene()
 	FAILED_CHECK_RETURN(Ready_Layer_GameLogic(LAYERTAG::GAMELOGIC), E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_UI(LAYERTAG::UI), E_FAIL);
 
+	CImGuiManager::GetInstance()->SetUp_ImGui();
+
 	//m_pGraphicDev->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
 	//m_pGraphicDev->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
 
@@ -34,11 +37,14 @@ _int CEditor::Update_Scene(const _float& fTimeDelta)
 void CEditor::LateUpdate_Scene()
 {
 	__super::LateUpdate_Scene();
+
+	CImGuiManager::GetInstance()->LateUpdate_ImGui();
 }
 
 void CEditor::Render_Scene()
 {
 	// DEBUG ¿ë ·»´õ
+	CImGuiManager::GetInstance()->Render_ImGui(m_pGraphicDev);
 }
 
 HRESULT CEditor::Ready_Prototype()
@@ -85,9 +91,9 @@ HRESULT CEditor::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 	// TempCube
-	pGameObject = CCubeBlock::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+	//pGameObject = CCubeBlock::Create(m_pGraphicDev);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
 	return S_OK;
 }

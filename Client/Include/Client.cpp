@@ -2,6 +2,7 @@
 //
 
 #include "stdafx.h"
+#include "imgui_impl_win32.h"
 #include "Client.h"
 #include "MainApp.h"
 #include "Export_Function.h"
@@ -171,6 +172,8 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    return TRUE;
 }
 
+extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+
 //
 //  ÇÔ¼ö: WndProc(HWND, UINT, WPARAM, LPARAM)
 //
@@ -183,6 +186,9 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 //
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
+    if (ImGui_ImplWin32_WndProcHandler(hWnd, message, wParam, lParam))
+        return true;
+
     switch (message)
     {
     case WM_COMMAND:

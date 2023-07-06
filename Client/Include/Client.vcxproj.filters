@@ -76,6 +76,18 @@
     <Filter Include="02. GameObject\03. UI">
       <UniqueIdentifier>{1c8840b6-6cdc-4119-837e-ed3c510cef0c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Scene\02. Editor\00. EditorScene">
+      <UniqueIdentifier>{b79422a6-6726-42de-9267-f32274833488}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Scene\02. Editor\01. ImGui">
+      <UniqueIdentifier>{436bae73-4bbd-44d5-989e-c4df2b38c256}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Scene\02. Editor\01. ImGui\00. ImGuiManager">
+      <UniqueIdentifier>{e5f55ed4-d054-4679-9c96-f0b615aa3cf3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Scene\02. Editor\01. ImGui\01. ImGui">
+      <UniqueIdentifier>{8cedaef1-43e7-43f7-8137-0fdbb415cd01}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -120,14 +132,41 @@
     <ClInclude Include="..\Header\CubeBlock.h">
       <Filter>02. GameObject\01. Stage\05. Cube\00. CubeBlock</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\Editor.h">
-      <Filter>01. Scene\02. Editor</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\TempItem.h">
       <Filter>02. GameObject\01. Stage\02. Item</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\UIplayerhp.h">
       <Filter>02. GameObject\03. UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Editor.h">
+      <Filter>01. Scene\02. Editor\00. EditorScene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ImGui\imconfig.h">
+      <Filter>01. Scene\02. Editor\01. ImGui\01. ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ImGui\imgui.h">
+      <Filter>01. Scene\02. Editor\01. ImGui\01. ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ImGui\imgui_impl_dx9.h">
+      <Filter>01. Scene\02. Editor\01. ImGui\01. ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ImGui\imgui_impl_win32.h">
+      <Filter>01. Scene\02. Editor\01. ImGui\01. ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ImGui\imgui_internal.h">
+      <Filter>01. Scene\02. Editor\01. ImGui\01. ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ImGui\imstb_rectpack.h">
+      <Filter>01. Scene\02. Editor\01. ImGui\01. ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ImGui\imstb_textedit.h">
+      <Filter>01. Scene\02. Editor\01. ImGui\01. ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ImGui\imstb_truetype.h">
+      <Filter>01. Scene\02. Editor\01. ImGui\01. ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\ImGuiManager.h">
+      <Filter>01. Scene\02. Editor\01. ImGui\00. ImGuiManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -167,14 +206,38 @@
     <ClCompile Include="..\Code\CubeBlock.cpp">
       <Filter>02. GameObject\01. Stage\05. Cube\00. CubeBlock</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\Editor.cpp">
-      <Filter>01. Scene\02. Editor</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\TempItem.cpp">
       <Filter>02. GameObject\01. Stage\02. Item</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\UIplayerhp.cpp">
       <Filter>02. GameObject\03. UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Editor.cpp">
+      <Filter>01. Scene\02. Editor\00. EditorScene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImGui\imgui.cpp">
+      <Filter>01. Scene\02. Editor\01. ImGui\01. ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImGui\imgui_demo.cpp">
+      <Filter>01. Scene\02. Editor\01. ImGui\01. ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImGui\imgui_draw.cpp">
+      <Filter>01. Scene\02. Editor\01. ImGui\01. ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImGui\imgui_impl_dx9.cpp">
+      <Filter>01. Scene\02. Editor\01. ImGui\01. ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImGui\imgui_impl_win32.cpp">
+      <Filter>01. Scene\02. Editor\01. ImGui\01. ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImGui\imgui_tables.cpp">
+      <Filter>01. Scene\02. Editor\01. ImGui\01. ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImGui\imgui_widgets.cpp">
+      <Filter>01. Scene\02. Editor\01. ImGui\01. ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\ImGuiManager.cpp">
+      <Filter>01. Scene\02. Editor\01. ImGui\00. ImGuiManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
