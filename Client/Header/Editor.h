@@ -1,7 +1,9 @@
 #pragma once
 #include "Scene.h"
 #include "Terrain.h"
-#include "DynamicCamera.h"
+#include "SkyBox.h"
+#include "FlyingCamera.h"
+#include "OrthoCamera.h"
 #include "CubeBlock.h"
 
 class CEditor :

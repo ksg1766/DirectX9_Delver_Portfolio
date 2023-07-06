@@ -46,15 +46,6 @@
     <Filter Include="02. GameObject\01. Stage\03. Terrain">
       <UniqueIdentifier>{5b40bb16-6bf6-4df5-8660-8d3ca952fcf7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\02. Public">
-      <UniqueIdentifier>{2fcd0e5e-a0a7-48c6-a837-e4bf6372d6c4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\02. Public\00. DynamicCamera">
-      <UniqueIdentifier>{80783a13-8054-457e-985d-d4596f67ba30}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\02. Public\02. Loading">
-      <UniqueIdentifier>{d61b0e5a-288d-420d-be59-f8a8961db575}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObject\01. Stage\04. SkyBox">
       <UniqueIdentifier>{2c89ba8f-9d33-4cd1-b868-932d2dbd28fe}</UniqueIdentifier>
     </Filter>
@@ -118,6 +109,27 @@
     <Filter Include="02. GameObject\01. Stage\999.Boss\01.AttackCube">
       <UniqueIdentifier>{f2593457-0c06-4ef6-bb75-864a1e7f7a21}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\04. Public">
+      <UniqueIdentifier>{2fcd0e5e-a0a7-48c6-a837-e4bf6372d6c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\04. Public\00. DynamicCamera">
+      <UniqueIdentifier>{80783a13-8054-457e-985d-d4596f67ba30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\04. Public\02. Loading">
+      <UniqueIdentifier>{d61b0e5a-288d-420d-be59-f8a8961db575}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\02. Editor">
+      <UniqueIdentifier>{3091335d-8f23-43b4-91d2-ead91ccdf21e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\02. Editor\00. FlyingCamera">
+      <UniqueIdentifier>{0887a221-c47d-4625-8b7a-1998f76a7117}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\02. Editor\01. OrthoCamera">
+      <UniqueIdentifier>{4238634d-1794-4869-b346-f8041c122087}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\02. Editor\02. CameraManager">
+      <UniqueIdentifier>{a57827f0-bee6-4f0f-893f-b9133a2e166f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -151,10 +163,10 @@
       <Filter>02. GameObject\01. Stage\03. Terrain</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\DynamicCamera.h">
-      <Filter>02. GameObject\02. Public\00. DynamicCamera</Filter>
+      <Filter>02. GameObject\04. Public\00. DynamicCamera</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Loading.h">
-      <Filter>02. GameObject\02. Public\02. Loading</Filter>
+      <Filter>02. GameObject\04. Public\02. Loading</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\SkyBox.h">
       <Filter>02. GameObject\01. Stage\04. SkyBox</Filter>
@@ -231,6 +243,15 @@
     <ClInclude Include="..\Header\SkeletonKing.h">
       <Filter>02. GameObject\01. Stage\999.Boss</Filter>
     </ClInclude>
+    <ClInclude Include="FlyingCamera.h">
+      <Filter>02. GameObject\02. Editor\00. FlyingCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\OrthoCamera.h">
+      <Filter>02. GameObject\02. Editor\01. OrthoCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CameraManager.h">
+      <Filter>02. GameObject\02. Editor\02. CameraManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -258,10 +279,10 @@
       <Filter>02. GameObject\01. Stage\03. Terrain</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\DynamicCamera.cpp">
-      <Filter>02. GameObject\02. Public\00. DynamicCamera</Filter>
+      <Filter>02. GameObject\04. Public\00. DynamicCamera</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Loading.cpp">
-      <Filter>02. GameObject\02. Public\02. Loading</Filter>
+      <Filter>02. GameObject\04. Public\02. Loading</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\SkyBox.cpp">
       <Filter>02. GameObject\01. Stage\04. SkyBox</Filter>
@@ -334,6 +355,15 @@
     </ClCompile>
     <ClCompile Include="..\Code\SkeletonKing.cpp">
       <Filter>02. GameObject\01. Stage\999.Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\FlyingCamera.cpp">
+      <Filter>02. GameObject\02. Editor\00. FlyingCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\OrthoCamera.cpp">
+      <Filter>02. GameObject\02. Editor\01. OrthoCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CameraManager.cpp">
+      <Filter>02. GameObject\02. Editor\02. CameraManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

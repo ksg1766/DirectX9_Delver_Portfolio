@@ -87,40 +87,33 @@ HRESULT CPlayer::Add_Component(void)
 
 void CPlayer::Key_Input(const _float& fTimeDelta)
 {
-	//m_vDir = m_pTransform->m_vInfo[INFO_LOOK];
-
 	if (Engine::InputDev()->Key_Pressing(DIK_W))
-	{
-		//D3DXVec3Normalize(&m_vDir, &m_vDir);
 		m_pTransform->Translate(m_fSpeed * fTimeDelta * m_pTransform->m_vInfo[INFO_LOOK]);
-	}
 
 	if (Engine::InputDev()->Key_Pressing(DIK_S))
-	{
-		//D3DXVec3Normalize(&m_vDir, &m_vDir);
 		m_pTransform->Translate(m_fSpeed * fTimeDelta * -m_pTransform->m_vInfo[INFO_LOOK]);
-	}
 
 	if (Engine::InputDev()->Key_Pressing(DIK_A))
-		m_pTransform->Rotate(ROT_Y, D3DXToRadian(-180.f * fTimeDelta));
+		m_pTransform->Translate(m_fSpeed * fTimeDelta * -m_pTransform->m_vInfo[INFO_RIGHT]);
 
 	if (Engine::InputDev()->Key_Pressing(DIK_D))
-		m_pTransform->Rotate(ROT_Y, D3DXToRadian(180.f * fTimeDelta));
+		m_pTransform->Translate(m_fSpeed * fTimeDelta * m_pTransform->m_vInfo[INFO_RIGHT]);
 	
-	if (Engine::InputDev()->Key_Pressing(DIK_Q))
-		m_pTransform->Rotate(ROT_X, D3DXToRadian(-180.f * fTimeDelta));
+	_long	dwMouseMove = 0;
 
-	if (Engine::InputDev()->Key_Pressing(DIK_E))
-		m_pTransform->Rotate(ROT_X, D3DXToRadian(180.f * fTimeDelta));
+	if(dwMouseMove = Engine::InputDev()->Get_DIMouseMove(DIMS_X))
+		m_pTransform->Rotate(ROT_Y, D3DXToRadian(dwMouseMove) * fTimeDelta * 3.f);
 
-	//if (Engine::InputDev()->Key_Down(DIK_1))
-	//{
-	//	Engine::CGameObject* pGameObject = nullptr;
-	//	pGameObject = CTempItem::Create(m_pGraphicDev);
-	//	pGameObject->m_pTransform->Translate(m_pTransform->m_vInfo[INFO_POS] + _vec3(0.55f, 0.1f, 1.8f));
-	//	//pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-	//	Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
-	//}
+	if (dwMouseMove = Engine::InputDev()->Get_DIMouseMove(DIMS_Y))
+		m_pTransform->Rotate(ROT_X, D3DXToRadian(dwMouseMove)* fTimeDelta * 3.f);
+
+	if (Engine::InputDev()->Key_Down(DIK_1))
+	{
+		Engine::CGameObject* pGameObject = nullptr;
+		pGameObject = CTempItem::Create(m_pGraphicDev);
+		pGameObject->m_pTransform->Translate(m_pTransform->m_vInfo[INFO_POS] + _vec3(0.55f, 0.1f, 1.8f));
+		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+	}
 
 	// UI 단축키 추가
 	if (Engine::InputDev()->Key_Down(DIK_I))
