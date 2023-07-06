@@ -6,7 +6,7 @@ BEGIN(Engine)
 class ENGINE_DLL CMonsterAI :
     public CComponent
 {
-private:
+protected:
 	explicit CMonsterAI();
 	explicit CMonsterAI(LPDIRECT3DDEVICE9 pGraphicDev);
 	explicit CMonsterAI(const CMonsterAI& rhs);

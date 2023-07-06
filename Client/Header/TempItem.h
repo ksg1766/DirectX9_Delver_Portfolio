@@ -3,7 +3,7 @@
 #include "Item.h"
 
 BEGIN(Engine)
-
+class CRcTex;
 END
 
 class CTempItem :

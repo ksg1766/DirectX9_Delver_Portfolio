@@ -7,7 +7,8 @@
 #include "Player.h"
 #include "CubeBlock.h"
 #include "UIplayerhp.h"
-
+#include "SkeletonKing.h"
+#include "AttackCube.h"
 class CStage : public Engine::CScene
 {
 private:
