@@ -121,6 +121,54 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 	//	//pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 	//	Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 	//}
+
+	// UI 단축키 추가
+	if (Engine::InputDev()->Key_Down(DIK_I))
+	{
+		if (Engine::UIManager()->Set_InvenUse(m_pGraphicDev))
+		{
+			// 반환하는 값이 true, 즉 인벤을 열겠다는 의미이기에
+			// 마우스를 따라 회전하던 카메라 멈추고 / 화면 가운데에 고정되어있는 fix를 해제해주시면 됩니다!
+		}
+		else
+		{
+			//ShowCursor(false);
+			// 반대로 다시 카메라를 마우스에 따라 회전시키고 / 마우스 화면 가운데에 고정(fix = true)시키면 됩니다!
+		}
+	}
+	else if (Engine::InputDev()->Key_Down(DIK_C))
+	{
+		if (Engine::UIManager()->Set_StatUse())
+		{
+			// I단축키에 써있는 내용이랑 전부 같습니다 똑같이 채워주시면 됩니다!
+		}
+		else
+		{
+
+		}
+	}
+	else if (Engine::InputDev()->Key_Down(DIK_M))
+	{
+		if (Engine::UIManager()->Set_MapUse())
+		{
+
+		}
+		else
+		{
+
+		}
+	}
+	else if (Engine::InputDev()->Key_Down(DIK_ESCAPE))
+	{
+		if (Engine::UIManager()->Set_EscUse())
+		{
+
+		}
+		else
+		{
+
+		}
+	}
 }
 
 void CPlayer::ForceHeight(_vec3 _vPos)

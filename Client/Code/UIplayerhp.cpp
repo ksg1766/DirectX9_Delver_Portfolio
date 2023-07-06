@@ -35,7 +35,7 @@ HRESULT CUIplayerhp::Ready_Object()
 	return S_OK;
 }
 
-_int CUIplayerhp::Update_Object(const _float & fTimeDelta)
+_int CUIplayerhp::Update_Object(const _float& fTimeDelta)
 {
 	if (Engine::InputDev()->Key_Down(DIK_9))
 		m_iCurrentHp -= 1;
@@ -69,16 +69,16 @@ void CUIplayerhp::Render_Object()
 	m_pBufferCom->Render_Buffer();
 
 	// 외부 이미지
-    m_pTransform->m_vInfo[INFO_POS].x = 140.f;
-    m_pTransform->m_vInfo[INFO_POS].y = 35.f;
-    m_pTransform->m_vLocalScale.x = 110.f;
-    m_pTransform->m_vLocalScale.y = 25.f;
-    
-    WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);
-    m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorld);
-    
-    m_pTextureCom->Render_Texture(0);
-    m_pBufferCom->Render_Buffer();
+	m_pTransform->m_vInfo[INFO_POS].x = 140.f;
+	m_pTransform->m_vInfo[INFO_POS].y = 35.f;
+	m_pTransform->m_vLocalScale.x = 110.f;
+	m_pTransform->m_vLocalScale.y = 25.f;
+
+	WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorld);
+
+	m_pTextureCom->Render_Texture(0);
+	m_pBufferCom->Render_Buffer();
 
 
 	// 숫자 이미지
@@ -179,8 +179,8 @@ void CUIplayerhp::Update_NumverUI(void)
 	if (m_iCurrentHp > m_iMaxHp)
 		m_iCurrentHp = m_iMaxHp;
 
-	 _int iCurrentOneNum = m_iCurrentHp / 10;
-	 _int iCurrentTwoNum = m_iCurrentHp % 10;
+	_int iCurrentOneNum = m_iCurrentHp / 10;
+	_int iCurrentTwoNum = m_iCurrentHp % 10;
 
 	switch (iCurrentOneNum)
 	{
@@ -256,7 +256,7 @@ void CUIplayerhp::Update_NumverUI(void)
 
 CUIplayerhp* CUIplayerhp::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 {
-	CUIplayerhp*	pInstance = new CUIplayerhp(pGraphicDev);
+	CUIplayerhp* pInstance = new CUIplayerhp(pGraphicDev);
 
 	if (FAILED(pInstance->Ready_Object()))
 	{
@@ -264,7 +264,7 @@ CUIplayerhp* CUIplayerhp::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 		MSG_BOX("UI Create Failed");
 		return nullptr;
 	}
-	
+
 	return pInstance;
 }
 

@@ -110,15 +110,15 @@ HRESULT CDungeonSpider::Add_Component()
 	CComponent* pComponent = nullptr;
 
 	pComponent = m_pBuffer = dynamic_cast<CRcTex*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_RcTex"));
-	FAILED_CHECK_RETURN(pComponent, E_FAIL);
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BUFFER, pComponent);
 
 	pComponent = m_pTexture = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_Spider"));
-	FAILED_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE, pComponent);
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
 
 	pComponent = m_pTransform = dynamic_cast<CTransform*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Transform"));
-	FAILED_CHECK_RETURN(pComponent, E_FAIL);
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::TRANSFORM, pComponent);
 
 	pComponent = dynamic_cast<CBillBoard*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BillBoard"));
@@ -126,7 +126,7 @@ HRESULT CDungeonSpider::Add_Component()
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::BILLBOARD, pComponent);
 
 	pComponent = m_pAI = dynamic_cast<CMonsterAI*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Monster_AI"));
-	FAILED_CHECK_RETURN(pComponent, E_FAIL);
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::MONSTERAI, pComponent);
 
 	for (_uint i = 0; i < ID_END; ++i)

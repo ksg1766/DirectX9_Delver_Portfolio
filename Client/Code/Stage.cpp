@@ -33,12 +33,16 @@ Engine::_int CStage::Update_Scene(const _float& fTimeDelta)
 {
 	__super::Update_Scene(fTimeDelta);
 
+	UIManager()->Update_UI(fTimeDelta);
+
 	return 0;
 }
 
 void CStage::LateUpdate_Scene()
 {
 	__super::LateUpdate_Scene();
+
+	UIManager()->LateUpdate_UI();
 }
 
 void CStage::Render_Scene()

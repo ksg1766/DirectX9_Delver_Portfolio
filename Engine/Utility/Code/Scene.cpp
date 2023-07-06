@@ -32,8 +32,6 @@ _int CScene::Update_Scene(const _float & fTimeDelta)
 		if (iResult & 0x80000000)
 			return iResult;
 	}
-	
-	//UIManager()->Update_UI(fTimeDelta);
 
 	return iResult;
 }
@@ -42,8 +40,6 @@ void CScene::LateUpdate_Scene()
 {
 	for (auto& iter : m_mapLayer)
 		iter.second->LateUpdate_Layer();
-	
-	//UIManager()->LateUpdate_UI();
 }
 
 void CScene::Free()
