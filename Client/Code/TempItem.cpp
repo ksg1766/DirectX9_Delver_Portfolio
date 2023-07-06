@@ -1,9 +1,6 @@
 #include "stdafx.h"
 #include "..\Header\Player.h"
-<<<<<<< HEAD
 
-=======
->>>>>>> feature/JunYeop
 #include "..\Header\TempItem.h"
 #include "Export_Function.h"
 

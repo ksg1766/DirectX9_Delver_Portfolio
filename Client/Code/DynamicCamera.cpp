@@ -233,7 +233,7 @@ void CDynamicCamera::Mouse_Fix()
 
 void CDynamicCamera::First_Camera()
 {
-	CComponent* pComponent = SceneManager()->GetInstance()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->Get_Component(COMPONENTTAG::TRANSFORM, COMPONENTID::ID_DYNAMIC);
+	CComponent* pComponent = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->Get_Component(COMPONENTTAG::TRANSFORM, COMPONENTID::ID_DYNAMIC);
 
 	_matrix matPlayerWorld = dynamic_cast<CTransform*>(pComponent)->WorldMatrix();
 

@@ -46,7 +46,7 @@ _int CDungeonSpider::Update_Object(const _float& fTimeDelta)
 
 
 	CTransform* pPlayerTransform = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform;
-	NULL_CHECK(pPlayerTransform, -1);
+	NULL_CHECK_RETURN(pPlayerTransform, -1);
 
 	_vec3	vPlayerPos;
 	vPlayerPos = pPlayerTransform->m_vInfo[INFO_POS];

@@ -4,10 +4,7 @@
 
 BEGIN(Engine)
 
-<<<<<<< HEAD
-=======
 class CTexture;
->>>>>>> feature/JunYeop
 class CRcTex;
 
 END
