@@ -87,7 +87,7 @@
     </Filter>
     <Filter Include="01. Scene\02. Editor\01. ImGui\01. ImGui">
       <UniqueIdentifier>{8cedaef1-43e7-43f7-8137-0fdbb415cd01}</UniqueIdentifier>
-	  </Filter>
+    </Filter>
     <Filter Include="02. GameObject\03. UI\00. UIplayerhp">
       <UniqueIdentifier>{d4d193c4-14ad-46c1-a39b-35c1c2f3c87a}</UniqueIdentifier>
     </Filter>
@@ -219,11 +219,17 @@
     <ClInclude Include="..\Header\ImGuiManager.h">
       <Filter>01. Scene\02. Editor\01. ImGui\00. ImGuiManager</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Framework_2019Test\5th_SR_Team3Project-develop\Client\Header\SkeletonKing.h">
-      <Filter>02. GameObject\01. Stage\999.Boss</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\BossProjectile.h">
       <Filter>02. GameObject\01. Stage\999.Boss\01.AttackCube</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\DungeonSpider.h">
+      <Filter>99. Etc\헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\DungeonWarrior.h">
+      <Filter>99. Etc\헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\SkeletonKing.h">
+      <Filter>02. GameObject\01. Stage\999.Boss</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -317,11 +323,17 @@
     <ClCompile Include="..\Code\ImGuiManager.cpp">
       <Filter>01. Scene\02. Editor\01. ImGui\00. ImGuiManager</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Framework_2019Test\5th_SR_Team3Project-develop\Client\Code\SkeletonKing.cpp">
-      <Filter>02. GameObject\01. Stage\999.Boss</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\BossProjectile.cpp">
       <Filter>02. GameObject\01. Stage\999.Boss\01.AttackCube</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\DungeonSpider.cpp">
+      <Filter>99. Etc\소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\DungeonWarrior.cpp">
+      <Filter>99. Etc\소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\SkeletonKing.cpp">
+      <Filter>02. GameObject\01. Stage\999.Boss</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

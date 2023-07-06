@@ -3,7 +3,10 @@
 #include "Item.h"
 
 BEGIN(Engine)
+
 class CRcTex;
+class CTexture;
+
 END
 
 class CTempItem :
@@ -25,6 +28,7 @@ private:
 
 private:
 	CRcTex* m_pBuffer = nullptr;
+	CTexture* m_pTexture = nullptr;
 
 public:
 	static CTempItem* Create(LPDIRECT3DDEVICE9 pGraphicDev);
