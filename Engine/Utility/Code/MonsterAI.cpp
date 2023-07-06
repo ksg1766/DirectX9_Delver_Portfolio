@@ -67,12 +67,80 @@ _bool CMonsterAI::Out_Of_Town()
 	return FALSE;
 }
 
+const _matrix* CMonsterAI::Compute_LookAtTarget(const _vec3* pTargetPos)
+{
+	///Look 벡터
+	_vec3	vForward = m_pTransform->m_vInfo[INFO_LOOK];
+	D3DXVec3Normalize(&vForward, &vForward);
+
+	// Right 벡터
+	_vec3	vRight = m_pTransform->m_vInfo[INFO_RIGHT];
+
+	// Up벡터
+	//_vec3 vDir = *pTargetPos - m_pTransform->m_vInfo[INFO_POS];
+
+	_vec3	vUp = m_pTransform->m_vInfo[INFO_UP];
+	D3DXVec3Normalize(&vUp, &vUp);
+
+	_matrix matRot;
+	D3DXMatrixIdentity(&matRot);
+	// 항등행렬 초기화 
+
+	matRot._11 = vRight.x;
+	matRot._12 = vUp.x;
+	matRot._13 = vForward.x;
+
+	matRot._21 = vRight.y;
+	matRot._22 = vUp.y;
+	matRot._23 = vForward.y;
+
+	matRot._31 = vRight.z;
+	matRot._32 = vUp.z;
+	matRot._33 = vForward.z;
+
+	 //더 깔끔하게 할 수 있으면 바꿔주셔도 됩니다.
+
+
+	return &matRot;
+
+}
+
+void CMonsterAI::Chase_Target(const _vec3* pTargetPos, const _float& fTimeDelta, const _float& fSpeed)
+{
+	_vec3 vDir = *pTargetPos - m_pTransform->m_vInfo[INFO_POS];
+
+	_float fDistance = D3DXVec3Length(&vDir);
+
+	if(fDistance > 3.f)
+	m_pTransform->m_vInfo[INFO_POS] += *D3DXVec3Normalize(&vDir, &vDir) * fTimeDelta * fSpeed;
+
+	_matrix matRot = *Compute_LookAtTarget(pTargetPos);
+	_matrix matScale, matTrans;
+
+	D3DXMatrixScaling(&matScale, 
+		m_pTransform->m_vLocalScale.x, 
+		m_pTransform->m_vLocalScale.y,
+		m_pTransform->m_vLocalScale.z);
+
+	D3DXMatrixTranslation(&matTrans,
+		m_pTransform->m_vInfo[INFO_POS].x,
+		m_pTransform->m_vInfo[INFO_POS].y,
+		m_pTransform->m_vInfo[INFO_POS].z);
+
+	_matrix matWorld = m_pTransform->WorldMatrix();
+
+	matWorld = matScale * matRot * matTrans;
+
+	m_pTransform->Set_WorldMatrix(matWorld);
+}
+
 HRESULT CMonsterAI::Ready_MonsterAI()
-{	// Transform 초기화 이후 호출
+{	
+	// Transform 초기화 이후 호출
 	m_fSightRange = 3.f;
 	m_fAttackRange = 2.f;
 	
-	m_vRoamingCenter = dynamic_cast<CTransform*>(m_pHost->m_pTransform)->m_vInfo[INFO_POS];
+	//m_vRoamingCenter = dynamic_cast<CTransform*>(m_pHost->m_pTransform)->m_vInfo[INFO_POS];
 	m_fRoamingRadius = 5.f;
 
 	return S_OK;

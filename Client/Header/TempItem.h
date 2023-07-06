@@ -4,6 +4,10 @@
 
 BEGIN(Engine)
 
+<<<<<<< HEAD
+=======
+class CTexture;
+>>>>>>> feature/JunYeop
 class CRcTex;
 
 END
@@ -26,7 +30,8 @@ private:
 	HRESULT		Add_Component(void);
 
 private:
-	CRcTex* m_pBuffer = nullptr;
+	CRcTex*	  m_pBuffer = nullptr;
+	CTexture* m_pTexture = nullptr;
 
 public:
 	static CTempItem* Create(LPDIRECT3DDEVICE9 pGraphicDev);

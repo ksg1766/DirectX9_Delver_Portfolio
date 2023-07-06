@@ -113,15 +113,14 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 	if (Engine::InputDev()->Key_Pressing(DIK_E))
 		m_pTransform->Rotate(ROT_X, D3DXToRadian(180.f * fTimeDelta));
 
-	if (Engine::InputDev()->Key_Down(DIK_1))
-	{
-		Engine::CGameObject* pGameObject = nullptr;
-		pGameObject = CTempItem::Create(m_pGraphicDev);
-		pGameObject->m_pTransform->Translate(m_pTransform->m_vInfo[INFO_POS] + _vec3(1.f, 0.5f, 1.f));
-		//pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
-
-	}
+	//if (Engine::InputDev()->Key_Down(DIK_1))
+	//{
+	//	Engine::CGameObject* pGameObject = nullptr;
+	//	pGameObject = CTempItem::Create(m_pGraphicDev);
+	//	pGameObject->m_pTransform->Translate(m_pTransform->m_vInfo[INFO_POS] + _vec3(0.55f, 0.1f, 1.8f));
+	//	//pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+	//	Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+	//}
 }
 
 void CPlayer::ForceHeight(_vec3 _vPos)
@@ -157,7 +156,7 @@ void CPlayer::ForceHeight(_vec3 _vPos)
 		_vec3 uy = B - A;
 		_vec3 vy = C - A;
 
-		height = A.y + (uy.y * dx) + (vy.y * dz) + m_pTransform->m_vInfo[INFO_POS].y;
+		height = A.y + (uy.y * dx) + (vy.y * dz) + 1.f;
 		m_pTransform->m_vInfo[INFO_POS].y = height;
 	}// c-a b-a cba
 	else
@@ -165,7 +164,7 @@ void CPlayer::ForceHeight(_vec3 _vPos)
 		_vec3 uy = C - D;
 		_vec3 vy = B - D;
 
-		height = D.y + (uy.y * (1.f - dx)) + (vy.y * (1.f - dz)) + m_pTransform->m_vInfo[INFO_POS].y;
+		height = D.y + (uy.y * (1.f - dx)) + (vy.y * (1.f - dz)) + 1.f;
 		m_pTransform->m_vInfo[INFO_POS].y = height;
 	}
 }

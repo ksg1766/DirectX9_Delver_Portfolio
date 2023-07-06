@@ -34,7 +34,7 @@ HRESULT CDynamicCamera::Ready_Object(const _vec3* pEye, const _vec3* pAt, const 
 
 	FAILED_CHECK_RETURN(CTempCamera::Ready_Object(), E_FAIL);
 	m_eObjectTag = OBJECTTAG::CAMERA;
-	m_eCamera_Mode = CAMERA_MODE::CAMERA_THIRD;
+	m_eCamera_Mode = CAMERA_MODE::CAMERA_FIRST;
 
 
 	return S_OK;
@@ -169,7 +169,7 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 	}
 
 
-	if (Engine::InputDev()->Key_Pressing(DIK_1))
+	if (Engine::InputDev()->Key_Pressing(DIK_2))
 	{
 		m_eCamera_Mode = CAMERA_MODE::CAMERA_FIRST;
 		m_bCameraCheck = false;

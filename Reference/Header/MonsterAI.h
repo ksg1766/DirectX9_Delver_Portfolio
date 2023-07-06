@@ -6,7 +6,7 @@ BEGIN(Engine)
 class ENGINE_DLL CMonsterAI :
     public CComponent
 {
-private:
+protected:
 	explicit CMonsterAI();
 	explicit CMonsterAI(LPDIRECT3DDEVICE9 pGraphicDev);
 	explicit CMonsterAI(const CMonsterAI& rhs);
@@ -14,6 +14,15 @@ private:
 
 public:
 	void			Init_Property(_float _fSight, _float _fAttack, _vec3 _vRoamingCen, _float _RoamingRad, _float _fMaxTrace);
+	
+	// 트랜스폼 세팅 해야함.
+	//void			Set_AITransform(CTransform* _pTransform) { m_pTransform = _pTransform; }
+
+
+	// 플레이어 추적류
+	const _matrix* Compute_LookAtTarget(const _vec3* pTargetPos);
+	void	Chase_Target(const _vec3* pTargetPos, const _float& fTimeDelta, const _float& fSpeed);
+
 
 protected:
 	void			Auto_Roaming();
@@ -21,6 +30,8 @@ protected:
 	void			Back_Home();
 
 	_bool			Out_Of_Town();
+
+	
 
 public:
 	HRESULT			Ready_MonsterAI();
@@ -38,7 +49,8 @@ protected:
 public:
 	static	CMonsterAI*		Create(LPDIRECT3DDEVICE9 pGraphicDev);
 	virtual CComponent*		Clone(void);
-private:
+
+protected:
 	virtual void			Free();
 
 };

@@ -23,7 +23,11 @@
 #include "Light.h"
 #include "Camera.h"
 #include "BasicStat.h"
+
+//AI
 #include "MonsterAI.h"
+#include "WarriorAI.h"
+
 #include "Animator.h"
 #include "Particle.h"
 #include "BillBoard.h"

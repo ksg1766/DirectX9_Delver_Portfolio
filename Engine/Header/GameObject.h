@@ -16,6 +16,7 @@ public:
 public:
 	CComponent*			Get_Component(COMPONENTTAG pComponentTag, COMPONENTID eID);
 	OBJECTTAG			Get_ObjectTag() { return m_eObjectTag; }
+	void				Set_ObjectTag(OBJECTTAG _eTag) { m_eObjectTag = _eTag; }
 
 	_bool				IsDead() { return m_IsDead; }
 	void				Set_Dead(_bool _IsDead) { m_IsDead = _IsDead; }
