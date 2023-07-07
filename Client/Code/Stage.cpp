@@ -43,6 +43,7 @@ void CStage::LateUpdate_Scene()
 {
 	__super::LateUpdate_Scene();
 
+	CollisionManager()->LateUpdate_Collision();
 	UIManager()->LateUpdate_UI();
 }
 

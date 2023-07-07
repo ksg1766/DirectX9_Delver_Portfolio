@@ -17,6 +17,7 @@ COrthoCamera::COrthoCamera(const COrthoCamera& rhs)
 
 COrthoCamera::~COrthoCamera()
 {
+	Free();
 }
 
 HRESULT COrthoCamera::Ready_Object(void)
@@ -108,4 +109,5 @@ COrthoCamera* COrthoCamera::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 
 void COrthoCamera::Free()
 {
+	__super::Free();
 }

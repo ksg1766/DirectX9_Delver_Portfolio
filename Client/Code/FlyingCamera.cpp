@@ -15,6 +15,7 @@ CFlyingCamera::CFlyingCamera(const CFlyingCamera& rhs)
 
 CFlyingCamera::~CFlyingCamera()
 {
+	Free();
 }
 
 HRESULT CFlyingCamera::Ready_Object(void)
@@ -109,4 +110,5 @@ CFlyingCamera* CFlyingCamera::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 
 void CFlyingCamera::Free()
 {
+	__super::Free();
 }

@@ -75,6 +75,7 @@ _uint CLoading::Loading_ForStage()
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Warrior", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Entities/Dungeon/Warrior/Move/Move%d.png", 4)), E_FAIL);
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Spider", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Entities/Surprise/SurpriseSpider/Move/Move%d.png", 12)), E_FAIL);
 
+#pragma region UI
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_HpBarUI",           CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/HPbar/healthbar%d.png", 3)), E_FAIL);
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_EmptyslotUI",       CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/Inventory/emptyslot/emptyslot%d.png", 20)), E_FAIL);
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_itemUI_equipment",  CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/Inventory/item/equipment%d.png", 6)), E_FAIL);
@@ -89,9 +90,18 @@ _uint CLoading::Loading_ForStage()
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_aimpointUI",        CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/aimpoint.png", 1)), E_FAIL);
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_NumberUI",          CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/Number/%d.png", 11)), E_FAIL);
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_HalfNumUI",         CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/HalfNumber/%d.png", 5)), E_FAIL);
+#pragma endregion UI
 
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_BossBf", CBossBf::Create(m_pGraphicDev)), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Boss", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Entities/Boss/Idle/Boss_Idle%d.png", 8)), E_FAIL);
+#pragma region Boss
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_BossBf",					CBossBf::Create(m_pGraphicDev)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Boss",				CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Entities/Boss/Idle/Boss_Idle%d.png", 8)), E_FAIL);
+#pragma endregion Boss
+
+
+#pragma region Collider
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Collider",					CCollider::Create(m_pGraphicDev)), E_FAIL);
+#pragma endregion Collider
+
 		break;
 
 	case LOADINGID::LOADING_EDITOR:

@@ -7,6 +7,7 @@ CCollisionManager::CCollisionManager()
 {
 	Reset();
 	CheckGroup(OBJECTTAG::PLAYER, OBJECTTAG::MONSTER);
+	CheckGroup(OBJECTTAG::MONSTER, OBJECTTAG::MONSTER);
 }
 
 
@@ -14,7 +15,7 @@ CCollisionManager::~CCollisionManager()
 {
 }
 
-void CCollisionManager::LateUpdate()
+void CCollisionManager::LateUpdate_Collision()
 {
 	for (UINT iRow = 0; iRow < (UINT)OBJECTTAG::OBJECT_END; ++iRow)
 	{
@@ -56,6 +57,20 @@ void CCollisionManager::Reset()
 
 bool CCollisionManager::IsCollision(CCollider * _pLeft, CCollider * _pRight)
 {
+	_vec3	vLeftPos = _pLeft->GetCenterPos();
+	float*	vLeftScale = _pLeft->GetAxisLen();
+
+	_vec3	vRightPos = _pRight->GetCenterPos();
+	float*	vRightScale = _pRight->GetAxisLen();
+
+	if ((abs(vRightPos.x - vLeftPos.x) <= (vLeftScale[0] + vRightScale[0])
+		&& (abs(vRightPos.y - vLeftPos.y) <= (vLeftScale[1] + vRightScale[1])
+			&& (abs(vRightPos.z - vLeftPos.z) <= (vLeftScale[2] + vRightScale[2])))))
+	{
+		return TRUE;
+	}
+	return FALSE;
+
 	//struct ST_OBB // OBB구조체
 	//{
 	//	D3DXVECTOR3 vCenterPos; // 상자 중앙의 좌표
@@ -66,6 +81,7 @@ bool CCollisionManager::IsCollision(CCollider * _pLeft, CCollider * _pRight)
 	// ST_OBB 구조체 두개의 포인터를 각각 인자로 받아, 두 OBB의 충돌 여부를 체크하는 함수
 
 	// 충돌 시 TRUE리턴, 충돌하지 않으면 FALSE 리턴
+	/*
 	float c[3][3];
 	float absC[3][3];
 	float d[3];
@@ -202,6 +218,7 @@ bool CCollisionManager::IsCollision(CCollider * _pLeft, CCollider * _pRight)
 		return FALSE;
 
 	return TRUE;
+	*/
 }
 
 void CCollisionManager::CheckCollisionByType(OBJECTTAG _eObjectLeft, OBJECTTAG _eObjectRight)

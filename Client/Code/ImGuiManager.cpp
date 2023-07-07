@@ -11,7 +11,7 @@ CImGuiManager::CImGuiManager()
 
 CImGuiManager::~CImGuiManager()
 {
-    Free();
+
 }
 
 HRESULT CImGuiManager::SetUp_ImGui()

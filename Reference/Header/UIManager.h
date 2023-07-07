@@ -25,11 +25,11 @@ public:
 			Hide_PopupUI(UIPOPUPLAYER::POPUP_INVEN);
 		}
 		else {
+			m_bInven = true;
 		    Cursor = GetCursor(); 
 			Cursor = LoadCursor(NULL, IDC_ARROW);
 			Hide_PopupUI(UIPOPUPLAYER::POPUP_MOUSE);
 			Show_PopupUI(UIPOPUPLAYER::POPUP_INVEN);
-			m_bInven = true;
 		}
 
 		SetCursor(Cursor);

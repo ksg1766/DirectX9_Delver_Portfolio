@@ -15,19 +15,20 @@ CDungeonWarrior::CDungeonWarrior(const CDungeonWarrior& rhs)
 
 CDungeonWarrior::~CDungeonWarrior()
 {
-
+	Free();
 }
 
 HRESULT CDungeonWarrior::Ready_Object()
 {
-	
 	Set_ObjectTag(OBJECTTAG::MONSTER);
 	m_eMonster = MonsterState::Roaming;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
+	//m_pAI->Set_Transform(m_pTransform);
+
+	dynamic_cast<CCollider*>(Get_Component(COMPONENTTAG::COLLIDER, ID_DYNAMIC))->
+		InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
 
 	m_pTransform->Translate(_vec3(1.f, 1.f, 3.f));
-	m_pAI->Set_Transform(m_pTransform);
-
 
 	return S_OK;
 }
@@ -35,7 +36,6 @@ HRESULT CDungeonWarrior::Ready_Object()
 _int CDungeonWarrior::Update_Object(const _float& fTimeDelta)
 {
 	_int iExit = __super::Update_Object(fTimeDelta);
-
 
 	CTransform* pPlayerTransform = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform;
 	NULL_CHECK_RETURN(pPlayerTransform, -1);
@@ -55,9 +55,7 @@ _int CDungeonWarrior::Update_Object(const _float& fTimeDelta)
 	if (4.f < m_fFrame)
 		m_fFrame = 0.f;
 
-
 	ForceHeight(m_pTransform->m_vInfo[INFO_POS]);
-
 
 	if (m_eMonster == MonsterState::Roaming)
 	{
@@ -97,8 +95,6 @@ _int CDungeonWarrior::Update_Object(const _float& fTimeDelta)
 
 void CDungeonWarrior::LateUpdate_Object()
 {
-
-
 	__super::LateUpdate_Object();
 }
 
@@ -107,13 +103,14 @@ void CDungeonWarrior::Render_Object()
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
-
-
 	m_pTexture->Render_Texture((_uint)m_fFrame);
 	m_pBuffer->Render_Buffer();
 
+#if _DEBUG
+	dynamic_cast<CCollider*>(Get_Component(COMPONENTTAG::COLLIDER, ID_DYNAMIC))->Render_Collider();
+#endif
+
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
-	
 }
 
 void CDungeonWarrior::ForceHeight(_vec3 _vPos)
@@ -162,6 +159,22 @@ void CDungeonWarrior::ForceHeight(_vec3 _vPos)
 	}
 }
 
+void CDungeonWarrior::OnCollisionEnter(CCollider* _pOther)
+{
+	__super::OnCollisionEnter(_pOther);
+	// 충돌 밀어내기 후 이벤트 : 구현하시면 됩니다.
+}
+
+void CDungeonWarrior::OnCollisionStay(CCollider* _pOther)
+{
+	__super::OnCollisionEnter(_pOther);
+	// 충돌 밀어내기 후 이벤트 : 구현하시면 됩니다.
+}
+
+void CDungeonWarrior::OnCollisionExit(CCollider* _pOther)
+{
+}
+
 
 HRESULT CDungeonWarrior::Add_Component()
 {
@@ -174,6 +187,10 @@ HRESULT CDungeonWarrior::Add_Component()
 	pComponent = m_pTransform = dynamic_cast<CTransform*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Transform"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::TRANSFORM, pComponent);
+
+	pComponent = m_pCollider = dynamic_cast<CCollider*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Collider"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::COLLIDER, pComponent);
 
 	pComponent = m_pTexture = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_Warrior"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);

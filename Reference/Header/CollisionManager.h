@@ -15,7 +15,7 @@ private:
 	virtual ~CCollisionManager();
 
 public:
-	void LateUpdate();
+	void LateUpdate_Collision();
 
 public:
 	map<ULONGLONG, bool>& GetMapColInfo() { return m_mapColInfo; }

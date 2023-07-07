@@ -20,12 +20,16 @@ CPlayer::CPlayer(const CPlayer& rhs)
 
 CPlayer::~CPlayer()
 {
+	Free();
 }
 
 HRESULT CPlayer::Ready_Object(void)
 {
 	m_eObjectTag = OBJECTTAG::PLAYER;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
+
+	dynamic_cast<CCollider*>(Get_Component(COMPONENTTAG::COLLIDER, ID_DYNAMIC))->
+		InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
 
 	m_pTransform->Translate (_vec3(0.f, 1.f, 0.f));
 	//m_pTransform->Scale(_vec3( 1.f, 2.f, 1.f ));
@@ -58,6 +62,10 @@ void CPlayer::Render_Object(void)
 
 	m_pBuffer->Render_Buffer();
 
+#if _DEBUG
+	dynamic_cast<CCollider*>(Get_Component(COMPONENTTAG::COLLIDER, ID_DYNAMIC))->Render_Collider();
+#endif
+
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
 
@@ -78,6 +86,10 @@ HRESULT CPlayer::Add_Component(void)
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::TRANSFORM, pComponent);
 	
+	pComponent = m_pCollider = dynamic_cast<CCollider*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Collider"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::COLLIDER, pComponent);
+
 	for(int i = 0; i < ID_END; ++i)
 		for (auto& iter : m_mapComponent[i])
 			iter.second->Init_Property(this);
@@ -184,7 +196,7 @@ void CPlayer::ForceHeight(_vec3 _vPos)
 	_float dz = z - row;
 
 	_float height;
-	//c-d b-d cdb 
+
 	if (dz < 1.0f - dx)
 	{
 		/*
@@ -198,16 +210,16 @@ void CPlayer::ForceHeight(_vec3 _vPos)
 		_vec3 vy = C - A;
 
 		height = A.y + (uy.y * dx) + (vy.y * dz) + 1.f;
-		m_pTransform->m_vInfo[INFO_POS].y = height;
-	}// c-a b-a cba
+	}
 	else
 	{
 		_vec3 uy = C - D;
 		_vec3 vy = B - D;
 
 		height = D.y + (uy.y * (1.f - dx)) + (vy.y * (1.f - dz)) + 1.f;
-		m_pTransform->m_vInfo[INFO_POS].y = height;
 	}
+	_float fOffsetHeight = height - m_pTransform->m_vInfo[INFO_POS].y;
+	m_pTransform->Translate(_vec3(0.f, fOffsetHeight, 0.f));
 }
 
 void CPlayer::Free()

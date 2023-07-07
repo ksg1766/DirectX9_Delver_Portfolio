@@ -17,7 +17,7 @@ public:
 	virtual void	LateUpdate_Component()	override;
 	void			Render_Collider();
 
-	void			InitOBB(_vec3& _vCenter, _vec3* _vAxisDir, float* _fAxisLen);
+	HRESULT			InitOBB(_vec3& _vCenter, _vec3* _vAxisDir, float* _fAxisLen);
 
 	_vec3&			GetCenterPos() { return m_vCenterPos; }
 	_vec3*			GetAxisDir() { return m_vAxisDir; }
@@ -41,6 +41,10 @@ private:
 	static _uint	g_iNextID;
 
 	int				m_iCol;
+
+	// Only Used in Debug mode
+	LPDIRECT3DVERTEXBUFFER9 m_pVB;
+	LPDIRECT3DINDEXBUFFER9	m_pIB;
 
 public:
 	static CCollider*		Create(LPDIRECT3DDEVICE9 pGraphicDev);

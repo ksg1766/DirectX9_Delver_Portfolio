@@ -58,6 +58,51 @@ bool CInputDev::Key_Up(_ubyte byKeyID)
 	return false;
 }
 
+_bool CInputDev::Mouse_Pressing(MOUSEKEYSTATE eMouseID)
+{
+	if (m_tMouseState.rgbButtons[eMouseID] & 0x80)
+		return true;
+
+	return false;
+}
+
+_bool CInputDev::Mouse_Down(MOUSEKEYSTATE eMouseID)
+{
+	// 이전에 눌린 적이 없고, 지금 눌렸을 때
+
+	if (!m_ubyMouseStateBF[eMouseID] && (m_tMouseState.rgbButtons[eMouseID] & 0x80))
+	{
+		m_ubyMouseStateBF[eMouseID] = !m_ubyMouseStateBF[eMouseID];
+		return true;
+	}
+
+	for (int i = 0; i < 4; ++i)
+	{
+		if (m_ubyMouseStateBF[i] && !(m_tMouseState.rgbButtons[i] & 0x80))
+			m_ubyMouseStateBF[i] = !m_ubyMouseStateBF[i];
+	}
+
+	return false;
+}
+
+_bool CInputDev::Mouse_Up(MOUSEKEYSTATE eMouseID)
+{
+	// 이전에 눌린 적이 있고, 현재는 눌리지 않은 경우
+	if (m_ubyMouseStateBF[eMouseID] && !(m_tMouseState.rgbButtons[eMouseID] & 0x80))
+	{
+		m_ubyMouseStateBF[eMouseID] = !m_ubyMouseStateBF[eMouseID];
+		return true;
+	}
+
+	for (int i = 0; i < 4; ++i)
+	{
+		if (!m_ubyMouseStateBF[eMouseID] && (m_tMouseState.rgbButtons[eMouseID] & 0x80))
+			m_ubyMouseStateBF[i] = !m_ubyMouseStateBF[i];
+	}
+
+	return false;
+}
+
 HRESULT Engine::CInputDev::Ready_InputDev(HINSTANCE hInst, HWND hWnd)
 {
 
@@ -80,6 +125,7 @@ HRESULT Engine::CInputDev::Ready_InputDev(HINSTANCE hInst, HWND hWnd)
 	// 장치에 대한 access 버전을 받아오는 함수
 	m_pKeyBoard->Acquire();
 
+	ZeroMemory(m_byKeyStateBF, sizeof(m_byKeyStateBF));
 
 	// 마우스 객체 생성
 	FAILED_CHECK_RETURN(m_pInputSDK->CreateDevice(GUID_SysMouse, &m_pMouse, nullptr), E_FAIL);
@@ -93,6 +139,7 @@ HRESULT Engine::CInputDev::Ready_InputDev(HINSTANCE hInst, HWND hWnd)
 	// 장치에 대한 access 버전을 받아오는 함수
 	m_pMouse->Acquire();
 
+	ZeroMemory(m_ubyMouseStateBF, sizeof(m_ubyMouseStateBF));
 
 	return S_OK;
 }

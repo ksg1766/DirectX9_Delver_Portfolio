@@ -4,6 +4,7 @@
 
 BEGIN(Engine)
 
+class CCollider;
 class ENGINE_DLL CMonster : public CGameObject
 {
 protected:
@@ -15,7 +16,13 @@ public:
     HRESULT     Ready_Object();
     _int        Update_Object(const _float& fTimeDelta);
 
+public:
+    virtual void		OnCollisionEnter(CCollider* _pOther);
+    virtual void		OnCollisionStay(CCollider* _pOther);
+    virtual void		OnCollisionExit(CCollider* _pOther);
+
 protected:
+    CCollider*          m_pCollider;
     // MONSTER_ID m_eMonserID;
     // MonsterAI Component 추가해서 사용
 

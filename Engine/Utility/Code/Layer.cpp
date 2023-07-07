@@ -35,12 +35,18 @@ _int CLayer::Update_Layer(const _float & fTimeDelta)
 
 	for (auto& iter : m_mapObject)
 	{
-		for (auto& _iter : iter.second)
+		for(auto& _iter = iter.second.begin(); _iter != iter.second.end();)
 		{
-			iResult = _iter->Update_Object(fTimeDelta);
+			if (!(*_iter)->IsDead())
+			{
+				iResult = (*_iter)->Update_Object(fTimeDelta);
+				++_iter;
 
-			if (iResult & 0x80000000)
-				return iResult;
+				if (iResult & 0x80000000)
+					return iResult;
+			}
+			else
+				_iter = iter.second.erase(_iter);
 		}
 	}
 	

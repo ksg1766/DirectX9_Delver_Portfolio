@@ -14,6 +14,7 @@ CDungeonSpider::CDungeonSpider(const CDungeonSpider& rhs)
 
 CDungeonSpider::~CDungeonSpider()
 {
+	Free();
 }
 
 HRESULT CDungeonSpider::Ready_Object()
@@ -22,13 +23,16 @@ HRESULT CDungeonSpider::Ready_Object()
 	
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pTransform->Translate(_vec3(2.f, 1.f, 5.f));
-
 	m_bIsJumping = true;
 	m_fJumpInitializeVelocity = 15.f;
-	m_pAI->Set_Transform(m_pTransform);
+	//m_pAI->Set_Transform(m_pTransform);
 	m_eState = STATE::Roming;
 	m_fChase = 0.f;
+
+	dynamic_cast<CCollider*>(Get_Component(COMPONENTTAG::COLLIDER, ID_DYNAMIC))->
+		InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
+
+	m_pTransform->Translate(_vec3(2.f, 1.f, 5.f));
 
 	return S_OK;
 }
@@ -101,8 +105,29 @@ void CDungeonSpider::Render_Object()
 
 	m_pTexture->Render_Texture((_uint)m_fFrame);
 	m_pBuffer->Render_Buffer();
-		
+
+#if _DEBUG
+	dynamic_cast<CCollider*>(Get_Component(COMPONENTTAG::COLLIDER, ID_DYNAMIC))->Render_Collider();
+#endif
+
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+}
+
+void CDungeonSpider::OnCollisionEnter(CCollider* _pOther)
+{
+	__super::OnCollisionEnter(_pOther);
+	// 충돌 밀어내기 후 이벤트 : 구현하시면 됩니다.
+}
+
+void CDungeonSpider::OnCollisionStay(CCollider* _pOther)
+{
+	__super::OnCollisionStay(_pOther);
+	// 충돌 밀어내기 후 이벤트 : 구현하시면 됩니다.
+}
+
+void CDungeonSpider::OnCollisionExit(CCollider* _pOther)
+{
+
 }
 
 HRESULT CDungeonSpider::Add_Component()
@@ -120,6 +145,10 @@ HRESULT CDungeonSpider::Add_Component()
 	pComponent = m_pTransform = dynamic_cast<CTransform*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Transform"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::TRANSFORM, pComponent);
+
+	pComponent = m_pCollider = dynamic_cast<CCollider*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Collider"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::COLLIDER, pComponent);
 
 	pComponent = dynamic_cast<CBillBoard*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BillBoard"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);

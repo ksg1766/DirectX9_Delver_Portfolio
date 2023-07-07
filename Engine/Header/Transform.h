@@ -30,6 +30,8 @@ public:
 	const _matrix	WorldMatrix();
 	void	Set_WorldMatrix(_matrix& _matWorld);
 
+	_vec3	LocalScale() { return _vec3(m_vInfo[INFO_RIGHT].x, m_vInfo[INFO_UP].y, m_vInfo[INFO_LOOK].z); }
+
 public:
 	HRESULT			Ready_Transform();
 	virtual _int	Update_Component(const _float& fTimeDelta);

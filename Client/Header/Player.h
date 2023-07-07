@@ -32,9 +32,10 @@ private:
 
 private:
 	CPlayerBf*		m_pBuffer = nullptr;
+	CCollider*		m_pCollider = nullptr;
 
-	//_vec3			m_vDir;
 	_float			m_fSpeed = 10.f;
+
 
 	CTerrain*		m_pTerrain;
 

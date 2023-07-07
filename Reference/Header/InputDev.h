@@ -22,9 +22,13 @@ public:
 		return *(((_long*)&m_tMouseState) + eMouseState);	
 	}
 	
-	bool	Key_Pressing(_ubyte byKeyID);
-	bool	Key_Down(_ubyte byKeyID);
-	bool	Key_Up(_ubyte byKeyID);
+	_bool	Key_Pressing(_ubyte byKeyID);
+	_bool	Key_Down(_ubyte byKeyID);
+	_bool	Key_Up(_ubyte byKeyID);
+
+	_bool	Mouse_Pressing(MOUSEKEYSTATE eMouseID);
+	_bool	Mouse_Down(MOUSEKEYSTATE eMouseID);
+	_bool	Mouse_Up(MOUSEKEYSTATE eMouseID);
 
 public:
 	HRESULT Ready_InputDev(HINSTANCE hInst, HWND hWnd);
@@ -41,6 +45,7 @@ private:
 	_byte					m_byKeyState[256];		// 키보드에 있는 모든 키값을 저장하기 위한 변수
 	_byte					m_byKeyStateBF[256];	// 입력 정보 백업 버퍼
 	DIMOUSESTATE			m_tMouseState;	
+	BYTE					m_ubyMouseStateBF[4];
 
 public:
 	virtual void	Free(void);

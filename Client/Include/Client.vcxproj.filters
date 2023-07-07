@@ -103,12 +103,6 @@
     <Filter Include="02. GameObject\03. UI\07. UIaimpoint">
       <UniqueIdentifier>{0ff7b4e5-fe7b-4507-89a4-c65c67225eb3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\01. Stage\999.Boss">
-      <UniqueIdentifier>{f24be3b9-a5ed-492a-94e9-af87a48ef78f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\01. Stage\999.Boss\01.AttackCube">
-      <UniqueIdentifier>{f2593457-0c06-4ef6-bb75-864a1e7f7a21}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObject\04. Public">
       <UniqueIdentifier>{2fcd0e5e-a0a7-48c6-a837-e4bf6372d6c4}</UniqueIdentifier>
     </Filter>
@@ -129,6 +123,21 @@
     </Filter>
     <Filter Include="02. GameObject\02. Editor\02. CameraManager">
       <UniqueIdentifier>{a57827f0-bee6-4f0f-893f-b9133a2e166f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\05. Monster">
+      <UniqueIdentifier>{9ea8835b-1b56-43a4-96a5-d11aab6e9ea4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\999. Boss">
+      <UniqueIdentifier>{f24be3b9-a5ed-492a-94e9-af87a48ef78f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\999. Boss\01.AttackCube">
+      <UniqueIdentifier>{f2593457-0c06-4ef6-bb75-864a1e7f7a21}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\05. Monster\00. DungeonSpider">
+      <UniqueIdentifier>{1358bc5a-4ba3-4b88-8ade-16daea79b980}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\05. Monster\01. DungeonWarrior">
+      <UniqueIdentifier>{fa3d37f2-aed7-4e66-acab-7b8b81c21aca}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -232,16 +241,10 @@
       <Filter>01. Scene\02. Editor\01. ImGui\00. ImGuiManager</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\BossProjectile.h">
-      <Filter>02. GameObject\01. Stage\999.Boss\01.AttackCube</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\DungeonSpider.h">
-      <Filter>99. Etc\헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\DungeonWarrior.h">
-      <Filter>99. Etc\헤더 파일</Filter>
+      <Filter>02. GameObject\01. Stage\999. Boss\01.AttackCube</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\SkeletonKing.h">
-      <Filter>02. GameObject\01. Stage\999.Boss</Filter>
+      <Filter>02. GameObject\01. Stage\999. Boss</Filter>
     </ClInclude>
     <ClInclude Include="FlyingCamera.h">
       <Filter>02. GameObject\02. Editor\00. FlyingCamera</Filter>
@@ -251,6 +254,12 @@
     </ClInclude>
     <ClInclude Include="..\Header\CameraManager.h">
       <Filter>02. GameObject\02. Editor\02. CameraManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\DungeonWarrior.h">
+      <Filter>02. GameObject\01. Stage\05. Monster\01. DungeonWarrior</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\DungeonSpider.h">
+      <Filter>02. GameObject\01. Stage\05. Monster\00. DungeonSpider</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -345,16 +354,10 @@
       <Filter>01. Scene\02. Editor\01. ImGui\00. ImGuiManager</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\BossProjectile.cpp">
-      <Filter>02. GameObject\01. Stage\999.Boss\01.AttackCube</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\DungeonSpider.cpp">
-      <Filter>99. Etc\소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\DungeonWarrior.cpp">
-      <Filter>99. Etc\소스 파일</Filter>
+      <Filter>02. GameObject\01. Stage\999. Boss\01.AttackCube</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\SkeletonKing.cpp">
-      <Filter>02. GameObject\01. Stage\999.Boss</Filter>
+      <Filter>02. GameObject\01. Stage\999. Boss</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\FlyingCamera.cpp">
       <Filter>02. GameObject\02. Editor\00. FlyingCamera</Filter>
@@ -364,6 +367,12 @@
     </ClCompile>
     <ClCompile Include="..\Code\CameraManager.cpp">
       <Filter>02. GameObject\02. Editor\02. CameraManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\DungeonWarrior.cpp">
+      <Filter>02. GameObject\01. Stage\05. Monster\01. DungeonWarrior</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\DungeonSpider.cpp">
+      <Filter>02. GameObject\01. Stage\05. Monster\00. DungeonSpider</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
