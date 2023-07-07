@@ -31,6 +31,9 @@ HRESULT CUIemptyslot::Ready_Object()
 
 _int CUIemptyslot::Update_Object(const _float & fTimeDelta)
 {
+	if (m_IsDead)
+		return 0;
+
 	_int iExit = CTempUI::Update_Object(fTimeDelta);
 
 	return iExit;
@@ -38,11 +41,17 @@ _int CUIemptyslot::Update_Object(const _float & fTimeDelta)
 
 void CUIemptyslot::LateUpdate_Object(void)
 {
+	if (m_IsDead)
+		return;
+
 	CTempUI::LateUpdate_Object();
 }
 
 void CUIemptyslot::Render_Object()
 {
+	if (m_IsDead)
+		return;
+
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorld);
 
 	m_pTextureCom->Render_Texture(m_fCurrentImage);

@@ -250,7 +250,7 @@ void CUIplayerhp::Update_NumverUI(void)
 		break;
 	}
 
-	m_flength = (110.f / m_iMaxHp) * (m_iMaxHp - m_iCurrentHp);
+	m_flength   = (110.f / m_iMaxHp) * (m_iMaxHp - m_iCurrentHp);
 	m_fPosition = 140.f - (m_flength / 2) - (m_iMaxHp - m_iCurrentHp) * 2.5f;
 }
 

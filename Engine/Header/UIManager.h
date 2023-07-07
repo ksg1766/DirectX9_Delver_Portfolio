@@ -22,12 +22,14 @@ public:
 		if (m_bInven) {
 			m_bInven = false;
 			Show_PopupUI(UIPOPUPLAYER::POPUP_MOUSE);
+			Hide_PopupUI(UIPOPUPLAYER::POPUP_INVEN);
 		}
 		else {
+			m_bInven = true;
 		    Cursor = GetCursor(); 
 			Cursor = LoadCursor(NULL, IDC_ARROW);
 			Hide_PopupUI(UIPOPUPLAYER::POPUP_MOUSE);
-			m_bInven = true;
+			Show_PopupUI(UIPOPUPLAYER::POPUP_INVEN);
 		}
 
 		SetCursor(Cursor);
@@ -107,6 +109,7 @@ private:
 	//void ClosePopupUI();
 
 private:
+	//POINT m_MousePoint = { 0.f, 0.f };
 	_bool m_bInven = false;
 	_bool m_bStat = false;
 	_bool m_bMap = false;

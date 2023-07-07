@@ -33,6 +33,7 @@ Engine::_int CStage::Update_Scene(const _float& fTimeDelta)
 {
 	__super::Update_Scene(fTimeDelta);
 
+
 	UIManager()->Update_UI(fTimeDelta);
 
 	return 0;
@@ -165,9 +166,7 @@ HRESULT CStage::Ready_Layer_UI(LAYERTAG _eLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	Engine::UIManager()->AddBasicGameobject_UI(Engine::UILAYER::UI_DOWN, pGameObject);
 
-	_float fX;
-	for (_uint i = 0; i < 5; ++i)
-	{
+	for (_uint i = 0; i < 5; ++i) {
 		pGameObject = CUIemptyslot::Create(m_pGraphicDev);
 		NULL_CHECK_RETURN(pGameObject, E_FAIL);
 		pGameObject->m_pTransform->m_vInfo[INFO_POS].x = 520.f + (60.f * i);
@@ -176,13 +175,24 @@ HRESULT CStage::Ready_Layer_UI(LAYERTAG _eLayerTag)
 		Engine::UIManager()->AddBasicGameobject_UI(Engine::UILAYER::UI_DOWN, pGameObject);
 	}
 
+
 	HCURSOR Cursor = nullptr;
 	SetCursor(Cursor);
 	pGameObject = CUIaimpoint::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	Engine::UIManager()->AddPopupGameobject_UI(Engine::UIPOPUPLAYER::POPUP_MOUSE, Engine::UILAYER::UI_DOWN, pGameObject);
 
-
+	for (_uint ix = 0; ix < 6; ++ix) {
+		for (_uint iy = 0; iy < 3; ++iy) {
+			pGameObject = CUIemptyslot::Create(m_pGraphicDev);
+			NULL_CHECK_RETURN(pGameObject, E_FAIL);
+			pGameObject->m_pTransform->m_vInfo[INFO_POS].x = 490.f + (60.f * ix);
+			pGameObject->m_pTransform->m_vInfo[INFO_POS].y = WINCY - 130.f - (60.f * iy);
+			dynamic_cast<CTempUI*>(pGameObject)->WorldMatrix(pGameObject->m_pTransform->m_vInfo[INFO_POS].x, pGameObject->m_pTransform->m_vInfo[INFO_POS].y, pGameObject->m_pTransform->m_vLocalScale.x, pGameObject->m_pTransform->m_vLocalScale.y);
+			Engine::UIManager()->AddPopupGameobject_UI(Engine::UIPOPUPLAYER::POPUP_INVEN, Engine::UILAYER::UI_DOWN, pGameObject);
+			Engine::UIManager()->Hide_PopupUI(Engine::UIPOPUPLAYER::POPUP_INVEN);
+		}
+	}
 
 	//pGameObject = CUItooltip::Create(m_pGraphicDev);
 	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
