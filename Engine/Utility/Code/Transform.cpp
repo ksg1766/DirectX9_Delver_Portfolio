@@ -34,7 +34,11 @@ CTransform::~CTransform()
 void CTransform::Translate(_vec3& _vTranslation)
 {
 	m_vInfo[INFO_POS] += _vTranslation;
-	if (m_pChild) { m_pChild->Translate(_vTranslation); }
+	if (m_pChild)
+	{
+		//m_vInfo[INFO_POS] - m_pChild->m_vInfo[INFO_POS]	// 건드리지 말 것. 작업 중.
+		m_pChild->Translate(_vTranslation);
+	}
 }
 
 void CTransform::Translate(const _vec3& _vTranslation)
