@@ -21,10 +21,9 @@ public:
 	virtual _int Update_Object(const _float& fTimeDelta) override;
 	virtual void LateUpdate_Object(void) override;
 	virtual void Render_Object(void) override;
-public:
 
 private:
-	CRcTex* m_pRcBf;
+	CRcTex*		m_pRcBf;
 
 private:
 	HRESULT		Add_Component(void);

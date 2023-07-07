@@ -88,23 +88,11 @@
     <Filter Include="03. GameObject\01. TempCamera">
       <UniqueIdentifier>{2217ea22-0b13-43e5-833e-c52fec4d8351}</UniqueIdentifier>
     </Filter>
-    <Filter Include="00. Managers\08. MapTool">
-      <UniqueIdentifier>{e26fb72a-acc3-4bfe-af01-388217029136}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00. Managers\07. PoolManager">
-      <UniqueIdentifier>{3ca53c11-387c-45cc-a945-6b841ea0f775}</UniqueIdentifier>
-    </Filter>
     <Filter Include="04. Component\01. VIBuffer\03. RcBf">
       <UniqueIdentifier>{6d237d50-e41c-46ab-a585-122cf4b489d0}</UniqueIdentifier>
     </Filter>
     <Filter Include="04. Component\01. VIBuffer\02. TerrainBf">
       <UniqueIdentifier>{471259d0-f2cd-4590-928c-73307088378e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00. Managers\07. PoolManager\00. PoolManager">
-      <UniqueIdentifier>{67eea8c4-5ece-4bb3-a6a1-6504c7af98d5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00. Managers\07. PoolManager\01. SpawningPool">
-      <UniqueIdentifier>{912997c4-6543-42f8-9c05-342cbe7ed342}</UniqueIdentifier>
     </Filter>
     <Filter Include="04. Component\11. Particle">
       <UniqueIdentifier>{97c7a651-d0e6-4fa9-9eb0-7ef531eb5d72}</UniqueIdentifier>
@@ -151,11 +139,23 @@
     <Filter Include="04. Component\09. MonsterAI\DungeonAI\SpiderAI">
       <UniqueIdentifier>{54309e0d-134d-4c43-ad74-f1ecb5a3d746}</UniqueIdentifier>
     </Filter>
-     <Filter Include="04. Component\09. MonsterAI\999,BossAI">
-      <UniqueIdentifier>{c4deb4c5-75bd-4a73-b330-499f80cbddff}</UniqueIdentifier>
-    </Filter>
     <Filter Include="04. Component\01. VIBuffer\05. BossBf">
       <UniqueIdentifier>{beb92803-f568-4903-9742-0586fb71b7ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. Component\09. MonsterAI\999. BossAI">
+      <UniqueIdentifier>{c4deb4c5-75bd-4a73-b330-499f80cbddff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Managers\08. PoolManager">
+      <UniqueIdentifier>{3ca53c11-387c-45cc-a945-6b841ea0f775}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Managers\08. PoolManager\00. PoolManager">
+      <UniqueIdentifier>{67eea8c4-5ece-4bb3-a6a1-6504c7af98d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Managers\08. PoolManager\01. SpawningPool">
+      <UniqueIdentifier>{912997c4-6543-42f8-9c05-342cbe7ed342}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Managers\09. MapTool">
+      <UniqueIdentifier>{e26fb72a-acc3-4bfe-af01-388217029136}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -244,10 +244,10 @@
       <Filter>04. Component\10. Animator</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Header\PoolManager.h">
-      <Filter>00. Managers\07. PoolManager\00. PoolManager</Filter>
+      <Filter>00. Managers\08. PoolManager\00. PoolManager</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Header\SpawningPool.h">
-      <Filter>00. Managers\07. PoolManager\01. SpawningPool</Filter>
+      <Filter>00. Managers\08. PoolManager\01. SpawningPool</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Header\Particle.h">
       <Filter>04. Component\11. Particle</Filter>
@@ -277,7 +277,7 @@
       <Filter>04. Component\09. MonsterAI\DungeonAI\SpiderAI</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Header\BossAI.h">
-      <Filter>04. Component\09. MonsterAI\999,BossAI</Filter>
+      <Filter>04. Component\09. MonsterAI\999. BossAI</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Header\BossBf.h">
       <Filter>04. Component\01. VIBuffer\05. BossBf</Filter>
@@ -366,10 +366,10 @@
       <Filter>04. Component\10. Animator</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\PoolManager.cpp">
-      <Filter>00. Managers\07. PoolManager\00. PoolManager</Filter>
+      <Filter>00. Managers\08. PoolManager\00. PoolManager</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\SpawningPool.cpp">
-      <Filter>00. Managers\07. PoolManager\01. SpawningPool</Filter>
+      <Filter>00. Managers\08. PoolManager\01. SpawningPool</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Particle.cpp">
       <Filter>04. Component\11. Particle</Filter>
@@ -399,7 +399,7 @@
       <Filter>04. Component\09. MonsterAI\DungeonAI\SpiderAI</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\BossAI.cpp">
-      <Filter>04. Component\09. MonsterAI\999,BossAI</Filter>
+      <Filter>04. Component\09. MonsterAI\999. BossAI</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\BossBf.cpp">
       <Filter>04. Component\01. VIBuffer\05. BossBf</Filter>
