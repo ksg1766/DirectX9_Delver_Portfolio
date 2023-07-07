@@ -18,11 +18,12 @@ public:
 public:
 	HRESULT			Ready_Camera();
 	virtual _int	Update_Component(const _float& fTimeDelta);
+	virtual void	LateUpdate_Component();
 
 public:
 	// TODO : 외부에서 호출할 일이 없다면 protected으로 두고 Update내에서 호출해도 됨. 충분히 고려해 볼 것.
-	virtual void	SetViewSpcae();
-	virtual void	SetProjection();
+	void			Set_ViewSpcae();
+	virtual void	Set_Projection(const CAMERA_TYPE eMode = CAMERA_TYPE::PERSPECTIVE);
 
 private:
 	_matrix	m_matView;

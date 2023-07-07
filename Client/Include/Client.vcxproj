@@ -169,6 +169,7 @@
   <ItemGroup>
     <ClInclude Include="..\Header\BackGround.h" />
     <ClInclude Include="..\Header\BossProjectile.h" />
+    <ClInclude Include="..\Header\CameraManager.h" />
     <ClInclude Include="..\Header\CubeBlock.h" />
     <ClInclude Include="..\Header\DungeonSpider.h" />
     <ClInclude Include="..\Header\DungeonWarrior.h" />
@@ -178,6 +179,7 @@
     <ClInclude Include="..\Header\Loading.h" />
     <ClInclude Include="..\Header\Logo.h" />
     <ClInclude Include="..\Header\MainApp.h" />
+    <ClInclude Include="..\Header\OrthoCamera.h" />
     <ClInclude Include="..\Header\Player.h" />
     <ClInclude Include="..\Header\SkeletonKing.h" />
     <ClInclude Include="..\Header\SkyBox.h" />
@@ -201,6 +203,7 @@
     <ClInclude Include="..\Header\UIplayerstat.h" />
     <ClInclude Include="..\Header\UItooltip.h" />
     <ClInclude Include="Client.h" />
+    <ClInclude Include="FlyingCamera.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -208,15 +211,18 @@
   <ItemGroup>
     <ClCompile Include="..\Code\BackGround.cpp" />
     <ClCompile Include="..\Code\BossProjectile.cpp" />
+    <ClCompile Include="..\Code\CameraManager.cpp" />
     <ClCompile Include="..\Code\CubeBlock.cpp" />
     <ClCompile Include="..\Code\DungeonSpider.cpp" />
     <ClCompile Include="..\Code\DungeonWarrior.cpp" />
     <ClCompile Include="..\Code\DynamicCamera.cpp" />
     <ClCompile Include="..\Code\Editor.cpp" />
+    <ClCompile Include="..\Code\FlyingCamera.cpp" />
     <ClCompile Include="..\Code\ImGuiManager.cpp" />
     <ClCompile Include="..\Code\Loading.cpp" />
     <ClCompile Include="..\Code\Logo.cpp" />
     <ClCompile Include="..\Code\MainApp.cpp" />
+    <ClCompile Include="..\Code\OrthoCamera.cpp" />
     <ClCompile Include="..\Code\Player.cpp" />
     <ClCompile Include="..\Code\SkeletonKing.cpp" />
     <ClCompile Include="..\Code\SkyBox.cpp" />

@@ -7,7 +7,6 @@ BEGIN(Engine)
 class CPlayerBf;
 class CTransform;
 
-
 END
 
 class CTerrain;

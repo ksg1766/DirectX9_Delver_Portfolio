@@ -1,5 +1,6 @@
 #include "..\Header\Editor.h"
 #include "ImGuiManager.h"
+#include "CameraManager.h"
 
 CEditor::CEditor(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
@@ -31,6 +32,8 @@ _int CEditor::Update_Scene(const _float& fTimeDelta)
 {
 	__super::Update_Scene(fTimeDelta);
 
+	CCameraManager::GetInstance()->Update_Camera();
+
 	return 0;
 }
 
@@ -38,6 +41,7 @@ void CEditor::LateUpdate_Scene()
 {
 	__super::LateUpdate_Scene();
 
+	CCameraManager::GetInstance()->LateUpdate_Camera();
 	CImGuiManager::GetInstance()->LateUpdate_ImGui();
 }
 
@@ -59,18 +63,20 @@ HRESULT CEditor::Ready_Layer_Environment(LAYERTAG _eLayerTag)
 
 	Engine::CGameObject* pGameObject = nullptr;
 
-	// DynamicCamera
-	pGameObject = CDynamicCamera::Create(m_pGraphicDev,
-		&_vec3(0.f, 10.f, -10.f),
-		&_vec3(0.f, 0.f, 1.f),
-		&_vec3(0.f, 1.f, 0.f),
-		D3DXToRadian(60.f),
-		(_float)WINCX / WINCY,
-		0.1f,
-		1000.f);
+	// FlyingCamera
+	pGameObject = CFlyingCamera::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-	//Engine::EventManager()->CreateObject(pGameObject, _eLayerTag);
+
+	// OrthoCamera
+	pGameObject = COrthoCamera::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+
+	// SkyBox
+	pGameObject = CSkyBox::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
 	m_mapLayer.insert({ _eLayerTag, pLayer });
 

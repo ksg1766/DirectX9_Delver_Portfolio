@@ -60,7 +60,17 @@ void CTransform::Scale(const _vec3& _vScale)
 void CTransform::Rotate(_vec3& _vEulers)
 {
 	_matrix matRotate;
-	D3DXMatrixRotationQuaternion(&matRotate, D3DXQuaternionRotationYawPitchRoll(&_quat(), _vEulers.y, _vEulers.x, _vEulers.z));
+	_quat quat;
+	_vec3 vRotAxis;
+
+	if (0.f != _vEulers.y)
+		D3DXQuaternionRotationAxis(&quat, &_vec3(0.f, 1.f, 0.f), _vEulers.y);
+	else if (0.f != _vEulers.x)
+		D3DXQuaternionRotationAxis(&quat, &m_vInfo[INFO_RIGHT], _vEulers.x);
+	else if (0.f != _vEulers.z)
+		D3DXQuaternionRotationAxis(&quat, &m_vInfo[INFO_LOOK], _vEulers.z);
+	
+	D3DXMatrixRotationQuaternion(&matRotate, &quat);
 
 	for(int i = 0; i < INFO_POS; ++i)
 		D3DXVec3TransformNormal(&m_vInfo[i], &m_vInfo[i], &matRotate);
