@@ -15,7 +15,7 @@ CDungeonWarrior::CDungeonWarrior(const CDungeonWarrior& rhs)
 
 CDungeonWarrior::~CDungeonWarrior()
 {
-	Free();
+
 }
 
 HRESULT CDungeonWarrior::Ready_Object()

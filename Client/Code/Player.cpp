@@ -224,7 +224,7 @@ void CPlayer::ForceHeight(_vec3 _vPos)
 
 void CPlayer::Free()
 {
-	__super::Free();
+
 }
 
 CPlayer* CPlayer::Create(LPDIRECT3DDEVICE9 pGraphicDev)

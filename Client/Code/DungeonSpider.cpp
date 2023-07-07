@@ -14,7 +14,7 @@ CDungeonSpider::CDungeonSpider(const CDungeonSpider& rhs)
 
 CDungeonSpider::~CDungeonSpider()
 {
-	Free();
+
 }
 
 HRESULT CDungeonSpider::Ready_Object()
