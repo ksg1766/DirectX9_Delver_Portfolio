@@ -18,6 +18,10 @@
 #include "UIequipmentslot.h"
 #include "UIitem.h"
 
+#include "SkeletonKing.h"
+#include "BossProjectile.h"
+#include "BossExplosion.h"
+
 class CStage : public Engine::CScene
 {
 private:

@@ -28,6 +28,7 @@
 //AI
 #include "MonsterAI.h"
 #include "WarriorAI.h"
+#include "BossAI.h"
 
 #include "Animator.h"
 #include "Particle.h"

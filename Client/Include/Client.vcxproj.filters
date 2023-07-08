@@ -91,7 +91,7 @@
     <Filter Include="02. GameObject\01. Stage\999.Boss">
       <UniqueIdentifier>{f24be3b9-a5ed-492a-94e9-af87a48ef78f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\01. Stage\999.Boss\01.AttackCube">
+    <Filter Include="02. GameObject\01. Stage\999.Boss\01.AttackFire">
       <UniqueIdentifier>{f2593457-0c06-4ef6-bb75-864a1e7f7a21}</UniqueIdentifier>
     </Filter>
     <Filter Include="02. GameObject\04. Public">
@@ -189,6 +189,12 @@
     </Filter>
     <Filter Include="02. GameObject\03. UI\08. UIequipmentslot">
       <UniqueIdentifier>{fb348fe3-ab31-416f-9fed-54a813ef5dc6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\999.Boss\02. AttackExplosion">
+      <UniqueIdentifier>{12cb63e2-f50d-48f9-8257-820afb183501}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\999.Boss\03. Create_Clone">
+      <UniqueIdentifier>{e2a9a116-4cef-426f-829f-89193673a8c9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -294,6 +300,12 @@
     <ClInclude Include="..\Header\BossProjectile.h">
       <Filter>02. GameObject\01. Stage\999. Boss\01.AttackCube</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\DungeonSpider.h">
+      <Filter>99. Etc\헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\DungeonWarrior.h">
+      <Filter>99. Etc\헤더 파일</Filter>
+    </ClInclude>
     <ClInclude Include="..\Header\SkeletonKing.h">
       <Filter>02. GameObject\01. Stage\999. Boss</Filter>
     </ClInclude>
@@ -338,6 +350,12 @@
     </ClInclude>
     <ClInclude Include="..\Header\UIequipmentslot.h">
       <Filter>02. GameObject\03. UI\08. UIequipmentslot</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\BossExplosion.h">
+      <Filter>02. GameObject\01. Stage\999.Boss\02. AttackExplosion</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\SkeletonKing_Clone.h">
+      <Filter>02. GameObject\01. Stage\999.Boss\03. Create_Clone</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -434,6 +452,12 @@
     <ClCompile Include="..\Code\BossProjectile.cpp">
       <Filter>02. GameObject\01. Stage\999. Boss\01.AttackCube</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\DungeonSpider.cpp">
+      <Filter>99. Etc\소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\DungeonWarrior.cpp">
+      <Filter>99. Etc\소스 파일</Filter>
+    </ClCompile>
     <ClCompile Include="..\Code\SkeletonKing.cpp">
       <Filter>02. GameObject\01. Stage\999. Boss</Filter>
     </ClCompile>
@@ -478,6 +502,12 @@
     </ClCompile>
     <ClCompile Include="..\Code\UIequipmentslot.cpp">
       <Filter>02. GameObject\03. UI\08. UIequipmentslot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\BossExplosion.cpp">
+      <Filter>02. GameObject\01. Stage\999.Boss\02. AttackExplosion</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\SkeletonKing_Clone.cpp">
+      <Filter>02. GameObject\01. Stage\999.Boss\03. Create_Clone</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

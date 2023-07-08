@@ -8,13 +8,13 @@ class CBillBoard;
 END
 class CTerrain;
 
-class CBossProjectile :
+class CBossExplosion :
     public CGameObject
 {
 private:
-	explicit	CBossProjectile(LPDIRECT3DDEVICE9	pGraphicDev);
-	explicit	CBossProjectile(const CBossProjectile& rhs);
-	virtual		~CBossProjectile();
+	explicit	CBossExplosion(LPDIRECT3DDEVICE9	pGraphicDev);
+	explicit	CBossExplosion(const CBossExplosion& rhs);
+	virtual		~CBossExplosion();
 
 public:
 	virtual HRESULT Ready_Object(void) override;
@@ -23,23 +23,20 @@ public:
 	virtual void Render_Object(void) override;
 
 public:
-	float		HitTerrain(_vec3 _vPos);//테스트용충돌코드
-	void		Set_Terrain(CTerrain* _pCurrentTerrain) { m_pTerrain = _pCurrentTerrain; }
-	void		Set_Target(_vec3 _vPos);
+	virtual void	Set_StartPos(_vec3 _vec);
+	virtual void	Set_StartPosY(float _fY);
 private:
 	CRcTex* m_pBuffer = nullptr;
 	CTransform* m_pTransform = nullptr;
 	CTexture* m_pTexture = nullptr;
 	CBillBoard* m_pBillBoard = nullptr;
-	CTerrain* m_pTerrain = nullptr;
 	_float			m_fFrame;
-	_vec3 m_vTargetPos;
-	_vec3 m_vDir;
+	_uint		m_iCount;
 private:
 	HRESULT		Add_Component(void);
 
 public:
-	static CBossProjectile* Create(LPDIRECT3DDEVICE9 pGraphicDev);
+	static CBossExplosion* Create(LPDIRECT3DDEVICE9 pGraphicDev);
 private:
 	virtual void Free() override;
 };

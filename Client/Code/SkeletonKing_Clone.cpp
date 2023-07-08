@@ -1,37 +1,34 @@
 #include "stdafx.h"
-#include "..\Header\SkeletonKing.h"
+#include "..\Header\SkeletonKing_Clone.h"
 #include "Export_Function.h"
 #include "Terrain.h"
 #include "BossProjectile.h"
 #include "BossExplosion.h"
-#include "SkeletonKing_Clone.h"
 
-CSkeletonKing::CSkeletonKing(LPDIRECT3DDEVICE9 pGraphicDev)
-	: Engine::CGameObject(pGraphicDev)
+CSkeletonKing_Clone::CSkeletonKing_Clone(LPDIRECT3DDEVICE9 pGraphicDev)
+	: Engine::CGameObject(pGraphicDev), m_bSkill(false)
 {
 
 }
 
-CSkeletonKing::CSkeletonKing(const CSkeletonKing& rhs)
-	: Engine::CGameObject(rhs)
+CSkeletonKing_Clone::CSkeletonKing_Clone(const CSkeletonKing_Clone& rhs)
+	: Engine::CGameObject(rhs), m_bSkill(rhs.m_bSkill)
 {
 }
 
-CSkeletonKing::~CSkeletonKing()
+CSkeletonKing_Clone::~CSkeletonKing_Clone()
 {
 }
 
-HRESULT CSkeletonKing::Ready_Object(void)
+HRESULT CSkeletonKing_Clone::Ready_Object(void)
 {
 	m_eObjectTag = OBJECTTAG::BOSS;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 	m_pTransform->Scale(_vec3(1.f, 3.f, 1.f));
-	m_pTransform->Translate(_vec3(5.f, 0.f, 5.f));
-
 	return S_OK;
 }
 
-_int CSkeletonKing::Update_Object(const _float& fTimeDelta)
+_int CSkeletonKing_Clone::Update_Object(const _float& fTimeDelta)
 {
 	_int iExit = __super::Update_Object(fTimeDelta);
 	m_fFrame += 8.f * fTimeDelta;
@@ -39,18 +36,24 @@ _int CSkeletonKing::Update_Object(const _float& fTimeDelta)
 	if (8.f < m_fFrame)
 		m_fFrame = 0.f;
 	ForceHeight(m_pTransform->m_vInfo[INFO_POS]);
-	Key_Input(fTimeDelta);
+	if ((!m_bSkill) & (7.f < m_fFrame))
+		Clone_Pattern();
+	else if (m_bSkill)
+	{
+		Engine::EventManager()->DeleteObject(this);
+
+	}
 	Engine::Renderer()->Add_RenderGroup(RENDER_ALPHA, this);
 	return iExit;
 }
 
-void CSkeletonKing::LateUpdate_Object(void)
+void CSkeletonKing_Clone::LateUpdate_Object(void)
 {
 	m_pBillBoard->LateUpdate_Component();
 	__super::LateUpdate_Object();
 }
 
-void CSkeletonKing::Render_Object(void)
+void CSkeletonKing_Clone::Render_Object(void)
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
@@ -61,7 +64,7 @@ void CSkeletonKing::Render_Object(void)
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
 
-void CSkeletonKing::ForceHeight(_vec3 _vPos)
+void CSkeletonKing_Clone::ForceHeight(_vec3 _vPos)
 {
 	_float x = (VTXCNTX * VTXITV / 2.f) + _vPos.x;
 	_float z = (VTXCNTZ * VTXITV / 2.f) + _vPos.z;
@@ -101,7 +104,7 @@ void CSkeletonKing::ForceHeight(_vec3 _vPos)
 	}
 }
 
-HRESULT CSkeletonKing::Add_Component(void)
+HRESULT CSkeletonKing_Clone::Add_Component(void)
 {
 	CComponent* pComponent = nullptr;
 
@@ -133,51 +136,35 @@ HRESULT CSkeletonKing::Add_Component(void)
 }
 
 //테스트 용 코드입니다.
-void CSkeletonKing::Key_Input(const _float& fTimeDelta)
+void CSkeletonKing_Clone::Clone_Pattern()
 {
 	Engine::CGameObject* pGameObject = nullptr;
-
-	if (Engine::InputDev()->Key_Down(DIK_R))
+	srand(unsigned(time(NULL)));
+	int _iTemp = rand()%2;
+	switch (_iTemp)
 	{
-		//평타
-			pGameObject = CBossProjectile::Create(m_pGraphicDev);
-			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
-			dynamic_cast<CBossProjectile*>(pGameObject)->Set_Terrain(m_pTerrain);
-			dynamic_cast<CBossProjectile*>(pGameObject)->Set_Target(m_pTransform->m_vInfo[INFO_POS]);
-	}
-
-	if (Engine::InputDev()->Key_Down(DIK_T))
-	{
-		//보스 위치에서 터지기
-			pGameObject = CBossExplosion::Create(m_pGraphicDev);
-			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
-			dynamic_cast<CBossExplosion*>(pGameObject)->Set_StartPos(m_pTransform->m_vInfo[INFO_POS]);
-			dynamic_cast<CBossExplosion*>(pGameObject)->Set_StartPosY(-2.f);
-	}
-
-	if (Engine::InputDev()->Key_Down(DIK_Y))
-	{
-		//플레이어 위치에서 터지기
+	case 0:
+		pGameObject = CBossProjectile::Create(m_pGraphicDev);
+		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+		dynamic_cast<CBossProjectile*>(pGameObject)->Set_Terrain(m_pTerrain);
+		dynamic_cast<CBossProjectile*>(pGameObject)->Set_Target(m_pTransform->m_vInfo[INFO_POS]);
+		m_bSkill = true;
+		break;
+	case 1:
 		pGameObject = CBossExplosion::Create(m_pGraphicDev);
 		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
-		dynamic_cast<CBossExplosion*>(pGameObject)->Set_StartPos(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform->m_vInfo[INFO_POS]);
-	}
-
-	if (Engine::InputDev()->Key_Down(DIK_U))
-	{
-		pGameObject = CSkeletonKing_Clone::Create(m_pGraphicDev);
-		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
-		dynamic_cast<CSkeletonKing_Clone*>(pGameObject)->Set_Terrain(m_pTerrain);
-		dynamic_cast<CSkeletonKing_Clone*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = m_pTransform->m_vInfo[INFO_POS];
-		m_pBossAI->Teleport();
+		dynamic_cast<CBossExplosion*>(pGameObject)->Set_StartPos(m_pTransform->m_vInfo[INFO_POS]);
+		dynamic_cast<CBossExplosion*>(pGameObject)->Set_StartPosY(-2.f);
+		m_bSkill = true;
+		break;
 	}
 }
 //테스트 용 코드입니다.
 
 
-CSkeletonKing* CSkeletonKing::Create(LPDIRECT3DDEVICE9 pGraphicDev)
+CSkeletonKing_Clone* CSkeletonKing_Clone::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 {
-	CSkeletonKing* pInstance = new CSkeletonKing(pGraphicDev);
+	CSkeletonKing_Clone* pInstance = new CSkeletonKing_Clone(pGraphicDev);
 
 	if (FAILED(pInstance->Ready_Object()))
 	{
@@ -190,7 +177,7 @@ CSkeletonKing* CSkeletonKing::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 	return pInstance;
 }
 
-void CSkeletonKing::Free()
+void CSkeletonKing_Clone::Free()
 {
 	__super::Free();
 }
