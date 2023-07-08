@@ -12,6 +12,8 @@
 #include "UIplayerstat.h"
 #include "UIaimpoint.h"
 #include "SkeletonKing.h"
+#include "BossProjectile.h"
+#include "BossExplosion.h"
 
 class CStage : public Engine::CScene
 {

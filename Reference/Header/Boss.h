@@ -6,8 +6,8 @@ BEGIN(Engine)
 class ENGINE_DLL CBoss :
     public CMonster
 {
-    enum class BOSS_STATE 
-    {   WAKE_UP, IDLE, WALK, ATTACK, SKILL, GROGGY, BERSERK, DYING ,DEAD, STATE_END };
+  /*  enum class BOSS_STATE 
+    {   WAKE_UP, IDLE, WALK, ATTACK, SKILL, GROGGY, BERSERK, DYING ,DEAD, STATE_END };*/
 protected:
     explicit CBoss(LPDIRECT3DDEVICE9 pGraphicDev);
     explicit CBoss(const CBoss& rhs);
@@ -16,6 +16,9 @@ protected:
 public:
     HRESULT     Ready_Object();
     _int        Update_Object(const _float& fTimeDelta);
+
+private:
+    
 
 protected:
     // BOSS_ID m_eBossID;    // 필요하다면 추가
@@ -26,9 +29,8 @@ protected:
     LPDIRECT3DDEVICE9					m_pGraphicDev;
     _bool								m_IsDead;
 
-    BOSS_STATE*                         m_pBossState;
     OBJECTTAG							m_eObjectTag;
-    CTransform*                       m_pTransform;	// Transform Attached to this GameObject
+    CTransform*                       m_pTransform;	
 
 protected:
     virtual void	Free(void);

@@ -31,19 +31,24 @@ HRESULT CLayer::Ready_Layer()
 
 _int CLayer::Update_Layer(const _float & fTimeDelta)
 {
-	_int		iResult = 0;
+	_int        iResult = 0;
 
 	for (auto& iter : m_mapObject)
 	{
-		for (auto& _iter : iter.second)
+		for (auto& _iter = iter.second.begin(); _iter != iter.second.end();)
 		{
-			iResult = _iter->Update_Object(fTimeDelta);
-
-			if (iResult & 0x80000000)
-				return iResult;
+			if (!(*_iter)->IsDead())
+			{
+				iResult = (*_iter)->Update_Object(fTimeDelta);
+				++_iter;
+				if (iResult & 0x80000000)
+					return iResult;
+			}
+			else
+				_iter = iter.second.erase(_iter);
 		}
 	}
-	
+
 	return iResult;
 }
 

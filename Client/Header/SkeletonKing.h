@@ -1,13 +1,14 @@
 #pragma once
 
 #include "GameObject.h"
-
 BEGIN(Engine)
 
 class CRcTex;
-class CTransform;
-
+class CTexture;
+class CBillBoard;
+class CBossAI;
 END
+class CTerrain;
 
 class CSkeletonKing:public Engine::CGameObject
 {
@@ -22,13 +23,18 @@ public:
 	virtual void LateUpdate_Object(void) override;
 	virtual void Render_Object(void) override;
 public:
-
+	void		ForceHeight(_vec3 _vPos);
+	void		Set_Terrain(CTerrain* _pCurrentTerrain) { m_pTerrain = _pCurrentTerrain; }
 private:
-	CRcTex* m_pRcBf;
-
+	CRcTex* m_pBuffer = nullptr;
+	CTexture* m_pTexture = nullptr;
+	CBillBoard* m_pBillBoard = nullptr;
+	CBossAI* m_pBossAI = nullptr;
+	CTerrain* m_pTerrain = nullptr;
+	_float	m_fFrame = 0;
 private:
 	HRESULT		Add_Component(void);
-//	void		Key_Input(const _float& fTimeDelta);
+	void		Key_Input(const _float& fTimeDelta);
 
 public:
 	static CSkeletonKing* Create(LPDIRECT3DDEVICE9 pGraphicDev);

@@ -47,49 +47,13 @@ void CBossAI::Init_Property(_float _fSight, _float _fAttack, _vec3 _vRoamingCen,
 	m_fMaxTraceRadius = _fMaxTrace;
 }
 
-void CBossAI::Auto_Roaming()
-{
-
-}
-
-void CBossAI::Auto_Attack()
-{
-}
-
-void CBossAI::Back_Home()
-{
-
-}
-
-void CBossAI::Chase_Player(const _float& fTimeDelta)
-{
-	_vec3  pPlayerPos = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform->m_vInfo[INFO_POS];
-	_vec3	Dir = pPlayerPos - _vec3(-4.f, 0.f, -4.f);
-	float Dot = D3DXVec3Dot(&pPlayerPos, &Dir);
-
-	/*if (100 < Dot)
-	{
-		m_pTransform->m_vInfo[INFO_POS] = _vec3(-4.f, 0.f, -4.f);
-	}
-	else if (100 >= Dot)
-	{
-		m_pTransform->Translate(5.f * fTimeDelta * -m_pTransform->m_vInfo[INFO_LOOK]);
-	}*/
-}
-
-_bool CBossAI::Out_Of_Town()
-{
-	if(m_fMaxTraceRadius < D3DXVec3Length(&(m_vRoamingCenter - m_pHost->m_pTransform->m_vInfo[INFO_POS])))
-		return TRUE;
-	return FALSE;
-}
 
 HRESULT CBossAI::Ready_MonsterAI()
 {	// Transform 초기화 이후 호출
 	m_fSightRange = 3.f;
 	m_fAttackRange = 2.f;
 	
-	m_vRoamingCenter = dynamic_cast<CTransform*>(m_pHost->m_pTransform)->m_vInfo[INFO_POS];
+	//m_vRoamingCenter = dynamic_cast<CTransform*>(m_pHost->m_pTransform)->m_vInfo[INFO_POS];
 	m_fRoamingRadius = 5.f;
 
 	return S_OK;
@@ -97,7 +61,32 @@ HRESULT CBossAI::Ready_MonsterAI()
 
 _int CBossAI::Update_Component(const _float& fTimeDelta)
 {
+	
 	return _int();
+}
+
+void CBossAI::Teleport()
+{
+	srand(unsigned(time(NULL)));
+	_float fDirX, fDirZ = 0.f;
+	fDirX = rand()% 6;
+	fDirZ = rand() % 6;
+	int iA;
+	switch(rand() % 2)
+	{
+	case 0:
+		iA = -1;
+		break;
+	case 1:
+		iA = 1;
+		break;
+	}
+	m_pHost->m_pTransform->m_vInfo[INFO_POS].x += fDirX * iA;
+	m_pHost->m_pTransform->m_vInfo[INFO_POS].z += fDirZ * iA;
+}
+
+void CBossAI::Chase_Player(const _float& fTimeDelta)
+{
 }
 
 CBossAI* CBossAI::Create(LPDIRECT3DDEVICE9 pGraphicDev)
