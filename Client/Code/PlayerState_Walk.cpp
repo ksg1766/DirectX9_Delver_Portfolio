@@ -1,5 +1,6 @@
 #include "..\Header\PlayerState_Walk.h"
 #include "Export_Function.h"
+#include "DynamicCamera.h"
 
 CPlayerState_Walk::CPlayerState_Walk()
 {
@@ -68,13 +69,18 @@ STATE CPlayerState_Walk::Key_Input(const _float& fTimeDelta)
 		_eState = STATE::ROMIMG;
 	}
 	
-	_long	dwMouseMove = 0;
+	CGameObject* pGameObject = SceneManager()->Get_ObjectList(LAYERTAG::ENVIRONMENT, OBJECTTAG::CAMERA).front();
 
-	if (dwMouseMove = Engine::InputDev()->Get_DIMouseMove(DIMS_X))
+	_bool bCameraOn = static_cast<CDynamicCamera*>(pGameObject)->Get_MouseFix();
+
+	_long dwMouseMove = 0;
+
+	if (0 != (dwMouseMove = Engine::InputDev()->Get_DIMouseMove(DIMS_X)) && !bCameraOn)
 		m_pOwner->Get_Transform()->Rotate(ROT_Y, D3DXToRadian(dwMouseMove) * fTimeDelta * 3.f);
 
-	if (dwMouseMove = Engine::InputDev()->Get_DIMouseMove(DIMS_Y))
+	if (0 != (dwMouseMove = Engine::InputDev()->Get_DIMouseMove(DIMS_Y)) && !bCameraOn)
 		m_pOwner->Get_Transform()->Rotate(ROT_X, D3DXToRadian(dwMouseMove) * fTimeDelta * 3.f);
+
 
 	return _eState;
 }

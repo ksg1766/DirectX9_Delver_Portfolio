@@ -179,6 +179,7 @@
     <ClInclude Include="..\Header\DungeonWarrior.h" />
     <ClInclude Include="..\Header\DynamicCamera.h" />
     <ClInclude Include="..\Header\Editor.h" />
+    <ClInclude Include="..\Header\FlyingCamera.h" />
     <ClInclude Include="..\Header\ImGuiManager.h" />
     <ClInclude Include="..\Header\Loading.h" />
     <ClInclude Include="..\Header\Logo.h" />
@@ -214,7 +215,6 @@
     <ClInclude Include="..\Header\UIplayerstat.h" />
     <ClInclude Include="..\Header\UItooltip.h" />
     <ClInclude Include="Client.h" />
-    <ClInclude Include="FlyingCamera.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />

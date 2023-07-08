@@ -75,20 +75,20 @@ void CUIbasicslot::Render_Object()
 {
 	if (m_IsDead)
 		return;
-	WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, 30.f, 30.f);
+
+	m_pTransform->m_vLocalScale.x = 30.f;
+    m_pTransform->m_vLocalScale.y = 30.f;
+	WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorld);
 
 	m_pTextureCom->Render_Texture(m_fCurrentImage);
 	m_pBufferCom->Render_Buffer();
 
-	// 일의 자리
-	//m_pTransform->m_vInfo[INFO_POS].x = m_pTransform->m_vInfo[INFO_POS].x;
-	//m_pTransform->m_vInfo[INFO_POS].y = m_pTransform->m_vInfo[INFO_POS].y;
-	//m_pTransform->m_vLocalScale.x = ;
-	//m_pTransform->m_vLocalScale.y = ;
 
-	//m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorld);
-	WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x - 14.f, m_pTransform->m_vInfo[INFO_POS].y - 10.f, 6.f, 10.f);
+    // 숫자 자리
+	m_pTransform->m_vLocalScale.x = 6.f;
+	m_pTransform->m_vLocalScale.y = 10.f;
+	WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x - 17.f, m_pTransform->m_vInfo[INFO_POS].y - 12.f, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorld);
 
 	m_pNumberTextureCom->Render_Texture(m_fCurrentNumber);
