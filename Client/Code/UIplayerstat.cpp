@@ -19,12 +19,27 @@ HRESULT CUIplayerstat::Ready_Object()
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
+	m_matAttackPowerNumber = WorldMatrix(749.f, 561.f, 6.f, 10.f);
+	m_matArmorClassNumber;
+
+	m_matHealthNumber;
+	m_matMagicNumber;
+	m_matSpeedNumber;
+
+	m_matAttackNumber;
+	m_matDefenseNumber;
+	m_matAgilityNumber;
+
+	m_matLevelNumber;
+	m_matXPNumber;
+	m_matGoldNumber;
+
 	m_pTransform->m_vInfo[INFO_POS].x = WINCX / 2;
 	m_pTransform->m_vInfo[INFO_POS].y = 475.f;
 	m_pTransform->m_vLocalScale.x = 180.f;
 	m_pTransform->m_vLocalScale.y = 140.f;
-
 	WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);
+
 
 	return S_OK;
 }
@@ -55,6 +70,10 @@ void CUIplayerstat::Render_Object()
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorld);
 
 	m_pTextureCom->Render_Texture(0);
+	m_pBufferCom->Render_Buffer();
+
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matAttackPowerNumber);
+	m_pNumberTextureCom->Render_Texture(0);
 	m_pBufferCom->Render_Buffer();
 }
 

@@ -1,5 +1,6 @@
 #include "..\Header\PlayerState_Idle.h"
 #include "Export_Function.h"
+#include "DynamicCamera.h"
 
 CPlayerState_Idle::CPlayerState_Idle()
 {
@@ -50,10 +51,15 @@ STATE CPlayerState_Idle::Key_Input(const _float& fTimeDelta)
 
 	_long	dwMouseMove = 0;
 
-	if (dwMouseMove = Engine::InputDev()->Get_DIMouseMove(DIMS_X))
+	CGameObject* pGameObject = SceneManager()->Get_ObjectList(LAYERTAG::ENVIRONMENT, OBJECTTAG::CAMERA).front();
+
+	_bool bCameraOn = static_cast<CDynamicCamera*>(pGameObject)->Get_MouseFix();
+
+
+	if ( 0 != (dwMouseMove = Engine::InputDev()->Get_DIMouseMove(DIMS_X)) && !bCameraOn)
 		m_pOwner->Get_Transform()->Rotate(ROT_Y, D3DXToRadian(dwMouseMove) * fTimeDelta * 3.f);
 
-	if (dwMouseMove = Engine::InputDev()->Get_DIMouseMove(DIMS_Y))
+	if ( 0 != (dwMouseMove = Engine::InputDev()->Get_DIMouseMove(DIMS_Y)) && !bCameraOn)
 		m_pOwner->Get_Transform()->Rotate(ROT_X, D3DXToRadian(dwMouseMove) * fTimeDelta * 3.f);
 
 	if (Engine::InputDev()->GetInstance()->Get_DIMouseState(DIM_LB))
