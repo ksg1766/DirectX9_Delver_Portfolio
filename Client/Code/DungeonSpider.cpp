@@ -1,6 +1,8 @@
 #include "..\Header\DungeonSpider.h"
 #include "Export_Function.h"
 #include "Terrain.h"
+#include "Monster_Move.h"
+#include "Monster_Jump.h"
 
 CDungeonSpider::CDungeonSpider(LPDIRECT3DDEVICE9 pGrapicDev)
 	: Engine::CMonster(pGrapicDev), m_fFrame(0.f)
@@ -23,11 +25,16 @@ HRESULT CDungeonSpider::Ready_Object()
 	
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_bIsJumping = true;
-	m_fJumpInitializeVelocity = 15.f;
-	//m_pAI->Set_Transform(m_pTransform);
-	m_eState = STATE::Roming;
-	m_fChase = 0.f;
+	m_pTransform->Translate(_vec3(2.f, 1.f, 5.f));
+	m_pAI->Set_StateMachine(m_pStateMachine);
+	
+	CState* pState = CMonster_Move::Create(m_pGraphicDev, m_pStateMachine);
+	m_pStateMachine->Add_State(STATE::ROMIMG, pState);
+
+	pState = CMonster_Jump::Create(m_pGraphicDev, m_pStateMachine);
+	m_pStateMachine->Add_State(STATE::ATTACK, pState);
+
+	m_pStateMachine->Set_State(STATE::ROMIMG);
 
 	dynamic_cast<CCollider*>(Get_Component(COMPONENTTAG::COLLIDER, ID_DYNAMIC))->
 		InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
@@ -41,51 +48,20 @@ _int CDungeonSpider::Update_Object(const _float& fTimeDelta)
 {
 	_int iExit = __super::Update_Object(fTimeDelta);
 
-	_float m_fSpeed = 0.f;
-
 	m_fFrame += 5.f * fTimeDelta;
 
 	if (12.f < m_fFrame)
 		m_fFrame = 0.f;
 
-
 	CTransform* pPlayerTransform = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform;
 	NULL_CHECK_RETURN(pPlayerTransform, -1);
 
-	_vec3	vPlayerPos;
-	vPlayerPos = pPlayerTransform->m_vInfo[INFO_POS];
-
-
-
-	if (m_eState == STATE::Roming && m_fChase < 10.f)
-	{
-		m_fSpeed = 5.f;
-		m_fChase += fTimeDelta;
-		ForceHeight(m_pTransform->m_vInfo[INFO_POS]);
-
-		if (m_fChase >= 5.f)
-		{
-			m_eState = STATE::Jump;
-			m_fChase = 0.f;
-		}
-	}
+	m_pStateMachine->Update_StateMachine(fTimeDelta);
+	m_pStateMachine->Render_StateMachine();
+	//m_pAI->Update_Component(fTimeDelta, pPlayerTransform->m_vInfo[INFO_POS]);
 	
-	if (m_eState == STATE::Jump)
-	{
-		m_fSpeed = 13.f;
-		Jump(fTimeDelta);
-		
-
-		if (!m_bIsJumping)
-		{
-			m_eState = STATE::Roming;
-			m_bIsJumping = true;
-		}
-	}
-
-	
-
-	m_pAI->Chase_Target(&vPlayerPos, fTimeDelta, m_fSpeed);
+	if (m_pStateMachine->Get_State() != STATE::ATTACK)
+		ForceHeight(pPlayerTransform->m_vInfo[INFO_POS]);
 
 
 	Engine::Renderer()->Add_RenderGroup(RENDER_ALPHA, this);
@@ -154,9 +130,14 @@ HRESULT CDungeonSpider::Add_Component()
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::BILLBOARD, pComponent);
 
-	pComponent = m_pAI = dynamic_cast<CMonsterAI*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Monster_AI"));
+	pComponent = m_pAI = dynamic_cast<CSpiderAI*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Spider_AI"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::MONSTERAI, pComponent);
+
+	pComponent = m_pStateMachine = dynamic_cast<CStateMachine*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_State"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::STATEMACHINE, pComponent);
+	
 
 	for (_uint i = 0; i < ID_END; ++i)
 		for (auto& iter : m_mapComponent[i])
@@ -165,23 +146,7 @@ HRESULT CDungeonSpider::Add_Component()
 	return S_OK;
 }
 
-void CDungeonSpider::Jump(const _float& fTimeDelta)
-{
-	if (!m_bIsJumping)
-		return;
 
-	m_pTransform->m_vInfo[INFO_POS].y += m_fJumpInitializeVelocity * fTimeDelta;
-
-	m_fJumpInitializeVelocity -= 0.5f * fTimeDelta * fTimeDelta * 3000.f;
-
-	if (m_pTransform->m_vInfo[INFO_POS].y < 1.f)
-	{
-		m_bIsJumping = false;
-		m_pTransform->m_vInfo[INFO_POS].y = 1.f;
-		m_fJumpInitializeVelocity = 20.f;
-	}
-	
-}
 
 void CDungeonSpider::ForceHeight(_vec3 _vPos)
 {

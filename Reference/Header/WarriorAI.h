@@ -6,6 +6,7 @@ BEGIN(Engine)
 
 class ENGINE_DLL CWarriorAI : public CMonsterAI
 {
+
 private:
 	explicit CWarriorAI();
 	explicit CWarriorAI(LPDIRECT3DDEVICE9 pGrahicDev);
@@ -14,7 +15,7 @@ private:
 
 public:
 	HRESULT	 Ready_WarriorAI();
-	virtual _int Update_Component(const _float& fTimeDelta);
+	virtual _int Update_Component(const _float& fTimeDelta, const _vec3 _PlayerPos);
 
 public:
 	void Set_NewTargetPosition();
@@ -28,6 +29,7 @@ public:
 private:
 	_vec3			m_vTargetPos;
 
+	STATE			m_eState;
 
 private:
 	virtual void Free();

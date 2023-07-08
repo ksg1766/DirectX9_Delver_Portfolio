@@ -1,27 +1,52 @@
 #pragma once
-#include "Component.h"
+#include "Base.h"
+#include "Engine_Define.h"
 
 BEGIN(Engine)
 
-class ENGINE_DLL CState :
-    public CComponent
+class CStateMachine;
+
+class ENGINE_DLL CState : public CBase
 {
-private:
+protected:
 	explicit CState();
 	explicit CState(LPDIRECT3DDEVICE9 pGraphicDev);
-	explicit CState(const CState& rhs);
 	virtual ~CState();
 
 public:
-	HRESULT			Ready_State();
-	virtual void	LateUpdate_Component() override;
+	virtual HRESULT		Ready_State(CStateMachine* pOwner)		PURE;
 
-protected:
+	// 상태의 타입을 반환함.
+	virtual STATE		Update_State(const _float& fTimeDelta)	PURE;
+	virtual	void		LateUpdate_State()						PURE;
+	virtual void		Render_State()							PURE;
+
 
 public:
-	static	CState* Create(LPDIRECT3DDEVICE9 pGraphicDev);
-	virtual CComponent* Clone(void);
-private:
+	virtual	STATE		Key_Input(const _float& fTimeDelta)		PURE;
+	
+public:
+	virtual STATE		Get_State() { return m_eState; }
+
+protected:
+	// 어떤 상태머신이 자신을 지니고 있는지 알려줌
+	CStateMachine* m_pOwner = nullptr;
+	// 어떤 상태인지 정해줌
+	STATE		   m_eState = STATE::STATE_END;
+
+	// 스테이트 내부에서 공통적으로 사용할 변수
+	_float		   m_fChase;
+	_vec3		   m_vRandomPos;
+
+	
+	LPDIRECT3DDEVICE9		m_pGraphicDev;
+	
+
+public:
+	//static	CState* Create(LPDIRECT3DDEVICE9 pGraphicDev);
+	//virtual CComponent* Clone(void);
+
+protected:
 	virtual void			Free();
 };
 

@@ -1,17 +1,18 @@
 #include "..\..\Header\SpiderAI.h"
 #include "Transform.h"
+#include "StateMachine.h"
 
 CSpiderAI::CSpiderAI()
 {
 }
 
 CSpiderAI::CSpiderAI(LPDIRECT3DDEVICE9 pGraphicDev)
-	: CMonsterAI(pGraphicDev), m_fChase(0.f), m_bIsJumping(false)
+	: CMonsterAI(pGraphicDev)
 {
 }
 
 CSpiderAI::CSpiderAI(const CSpiderAI& rhs)
-	: CMonsterAI(rhs), m_fChase(rhs.m_fChase), m_bIsJumping(rhs.m_bIsJumping)
+	: CMonsterAI(rhs)
 {
 }
 
@@ -21,16 +22,47 @@ CSpiderAI::~CSpiderAI()
 
 HRESULT CSpiderAI::Ready_SpiderAI()
 {
-	m_eState = STATE::Roming;
+	m_eState = STATE::ROMIMG;
 	m_fJumpInitializeVelocity = 15.f;
-
+	m_fChase = 0.f;
+	m_bIsJumping = false;
 	return S_OK;
 }
 
-_int CSpiderAI::Update_Component(const _float& fTimeDelta)
+_int CSpiderAI::Update_Component(const _float& fTimeDelta, const _vec3 _PlayerPos)
 {
 	_int iExit = __super::Update_Component(fTimeDelta);
 
+	m_pStateMachine->Update_StateMachine(fTimeDelta);
+
+	//if (m_eState == STATE::ROMIMG && m_fChase < 5.f)
+	//{
+	//	m_fSpeed = 5.f;
+	//	m_fChase += fTimeDelta;
+	//	
+	//	if (m_fChase >= 3.f)
+	//	{
+	//		m_eState = STATE::ATTACK;
+	//		m_fChase = 0.f;
+	//		m_bIsJumping = true;
+	//	}
+
+	//}
+
+	//if (m_eState == STATE::ATTACK)
+	//{
+	//	m_fSpeed = 13.f;
+	//	Jump(fTimeDelta);
+
+	//	if (!m_bIsJumping)
+	//	{
+	//		m_eState = STATE::ROMIMG;
+	//	}
+	//}
+
+	//Chase_Target(&_PlayerPos, fTimeDelta, m_fSpeed);
+
+	
 
 	return iExit;
 }

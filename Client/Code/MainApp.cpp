@@ -13,6 +13,7 @@ CMainApp::CMainApp() : m_pDeviceClass(nullptr), m_pSceneManager(nullptr)
 
 CMainApp::~CMainApp()
 {
+	
 }
 
 HRESULT CMainApp::Ready_MainApp(void)

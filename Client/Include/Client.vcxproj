@@ -168,6 +168,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\BackGround.h" />
+    <ClInclude Include="..\Header\Bat.h" />
     <ClInclude Include="..\Header\BossProjectile.h" />
     <ClInclude Include="..\Header\CameraManager.h" />
     <ClInclude Include="..\Header\CubeBlock.h" />
@@ -179,10 +180,18 @@
     <ClInclude Include="..\Header\Loading.h" />
     <ClInclude Include="..\Header\Logo.h" />
     <ClInclude Include="..\Header\MainApp.h" />
+<<<<<<< HEAD
     <ClInclude Include="..\Header\OrthoCamera.h" />
+=======
+    <ClInclude Include="..\Header\Monster_Jump.h" />
+    <ClInclude Include="..\Header\Monster_Move.h" />
+>>>>>>> feature/JunYeop
     <ClInclude Include="..\Header\Player.h" />
+    <ClInclude Include="..\Header\PlayerState_Idle.h" />
+    <ClInclude Include="..\Header\PlayerState_Walk.h" />
     <ClInclude Include="..\Header\SkeletonKing.h" />
     <ClInclude Include="..\Header\SkyBox.h" />
+    <ClInclude Include="..\Header\SpiderWalk.h" />
     <ClInclude Include="..\Header\Stage.h" />
     <ClInclude Include="..\Header\TempItem.h" />
     <ClInclude Include="..\Header\Terrain.h" />
@@ -210,6 +219,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\BackGround.cpp" />
+    <ClCompile Include="..\Code\Bat.cpp" />
     <ClCompile Include="..\Code\BossProjectile.cpp" />
     <ClCompile Include="..\Code\CameraManager.cpp" />
     <ClCompile Include="..\Code\CubeBlock.cpp" />
@@ -222,10 +232,18 @@
     <ClCompile Include="..\Code\Loading.cpp" />
     <ClCompile Include="..\Code\Logo.cpp" />
     <ClCompile Include="..\Code\MainApp.cpp" />
+<<<<<<< HEAD
     <ClCompile Include="..\Code\OrthoCamera.cpp" />
+=======
+    <ClCompile Include="..\Code\Monster_Jump.cpp" />
+    <ClCompile Include="..\Code\Monster_Move.cpp" />
+>>>>>>> feature/JunYeop
     <ClCompile Include="..\Code\Player.cpp" />
+    <ClCompile Include="..\Code\PlayerState_Idle.cpp" />
+    <ClCompile Include="..\Code\PlayerState_Walk.cpp" />
     <ClCompile Include="..\Code\SkeletonKing.cpp" />
     <ClCompile Include="..\Code\SkyBox.cpp" />
+    <ClCompile Include="..\Code\SpiderWalk.cpp" />
     <ClCompile Include="..\Code\Stage.cpp" />
     <ClCompile Include="..\Code\TempItem.cpp" />
     <ClCompile Include="..\Code\Terrain.cpp" />

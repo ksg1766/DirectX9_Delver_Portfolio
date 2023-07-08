@@ -7,6 +7,9 @@ BEGIN(Engine)
 class CPlayerBf;
 class CTransform;
 
+class CStateMachine;
+
+
 END
 
 class CTerrain;
@@ -30,14 +33,26 @@ private:
 	void		Key_Input(const _float& fTimeDelta);
 	void		ForceHeight(_vec3 _vPos);
 
+public:
+	_vec3		Get_Offset() { return m_vOffset; }
+
+public:
+	_vec3		Set_Offset(_vec3 _vOffset) { m_vOffset = _vOffset; }
+
 private:
 	CPlayerBf*		m_pBuffer = nullptr;
+
 	CCollider*		m_pCollider = nullptr;
+
+	CStateMachine*	m_pStateMachine = nullptr;
+
 
 	_float			m_fSpeed = 10.f;
 
 
 	CTerrain*		m_pTerrain;
+
+	_vec3			m_vOffset;
 
 public:
 	static CPlayer*		Create(LPDIRECT3DDEVICE9 pGraphicDev);

@@ -28,10 +28,15 @@
 //AI
 #include "MonsterAI.h"
 #include "WarriorAI.h"
+#include "SpiderAI.h"
 
 #include "Animator.h"
 #include "Particle.h"
 #include "BillBoard.h"
+
+// State
+#include "StateMachine.h"
+#include "State.h"
 
 #include "GameObject.h"
 

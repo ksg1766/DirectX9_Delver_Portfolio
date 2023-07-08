@@ -6,12 +6,12 @@ CWarriorAI::CWarriorAI()
 }
 
 CWarriorAI::CWarriorAI(LPDIRECT3DDEVICE9 pGrahicDev)
-	: Engine::CMonsterAI(pGrahicDev)
+	: Engine::CMonsterAI(pGrahicDev), m_eState(STATE::ROMIMG)
 {
 }
 
 CWarriorAI::CWarriorAI(const CWarriorAI& rhs)
-	: Engine::CMonsterAI(rhs)
+	: Engine::CMonsterAI(rhs), m_eState(rhs.m_eState)
 {
 }
 
@@ -21,15 +21,47 @@ CWarriorAI::~CWarriorAI()
 
 HRESULT CWarriorAI::Ready_WarriorAI()
 {
+	m_eState = STATE::ROMIMG;
 
 	return S_OK;
 }
 
-_int CWarriorAI::Update_Component(const _float& fTimeDelta)
+_int CWarriorAI::Update_Component(const _float& fTimeDelta, const _vec3 _PlayerPos)
 {
 	_int iExit = __super::Update_Component(fTimeDelta);
 	
-	
+	_vec3 vDistance = _PlayerPos - m_pTransform->m_vInfo[INFO_POS];
+
+	_float fDistanceLength = D3DXVec3LengthSq(&vDistance);
+
+	_float fSightRangeSq = pow(10, 2);
+
+	if (m_eState == STATE::ROMIMG)
+	{
+		if (fDistanceLength <= fSightRangeSq)
+			m_eState = STATE::ATTACK;
+		else
+		{
+			if (Reached_TargetPosition())
+				Set_NewTargetPosition();
+			else
+				Move_To_TargetPosition(fTimeDelta);
+		}
+	}
+	else if (m_eState == STATE::ATTACK)
+	{
+		if (fDistanceLength > fSightRangeSq)
+		{
+			m_eState = STATE::ROMIMG;
+			Set_NewTargetPosition();
+		}
+		else
+			Chase_Target(&_PlayerPos, fTimeDelta, 5.f);
+	}
+
+
+
+	//Chase_Target(&_PlayerPos, fTimeDelta, 5.f);
 
 	return iExit;
 }
