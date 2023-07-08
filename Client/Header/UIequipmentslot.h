@@ -11,11 +11,11 @@ class CTransform;
 
 END
 
-class CUIplayerstat : public CTempUI
+class CUIequipmentslot : public CTempUI
 {
 private:
-	explicit CUIplayerstat(LPDIRECT3DDEVICE9 pGraphicDev);
-	virtual ~CUIplayerstat();
+	explicit CUIequipmentslot(LPDIRECT3DDEVICE9 pGraphicDev);
+	virtual ~CUIequipmentslot();
 
 public:
 	HRESULT		Ready_Object();
@@ -27,11 +27,8 @@ private:
 	HRESULT		Add_Component(void);
 	void	    Key_Input(void);
 
-private:
-	CTexture* m_pNumberTextureCom;
-
 public:
-	static CUIplayerstat*	Create(LPDIRECT3DDEVICE9 pGraphicDev);
+	static CUIequipmentslot*	Create(LPDIRECT3DDEVICE9 pGraphicDev);
 	
 private:
 	virtual void Free();

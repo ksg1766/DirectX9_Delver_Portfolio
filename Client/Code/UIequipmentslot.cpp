@@ -1,18 +1,18 @@
 #include "stdafx.h"
-#include "..\Header\UIemptyslot.h"
+#include "..\Header\UIequipmentslot.h"
 
-CUIemptyslot::CUIemptyslot(LPDIRECT3DDEVICE9 pGraphicDev)
+CUIequipmentslot::CUIequipmentslot(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CTempUI(pGraphicDev)
 {
 }
 
 
-CUIemptyslot::~CUIemptyslot()
+CUIequipmentslot::~CUIequipmentslot()
 {
 
 }
 
-HRESULT CUIemptyslot::Ready_Object()
+HRESULT CUIequipmentslot::Ready_Object()
 {
 	m_eObjectTag = OBJECTTAG::UI;
 	FAILED_CHECK_RETURN(CTempUI::Ready_Object(), E_FAIL); // ÃÊ±âÈ­
@@ -25,18 +25,40 @@ HRESULT CUIemptyslot::Ready_Object()
 	m_pTransform->m_vLocalScale.y = 30.f;
 
 	WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);
-	m_bEmpty = true;
+
 	return S_OK;
 }
 
-_int CUIemptyslot::Update_Object(const _float & fTimeDelta)
+_int CUIequipmentslot::Update_Object(const _float & fTimeDelta)
 {
 	if (m_IsDead)
 		return 0;
 
 	if (m_bSetup) {
 		m_bSetup = false;
-		m_fCurrentImage = 0;
+		m_bEmpty = true;
+
+		switch (m_UINumber)
+		{
+		case 0:
+			m_fCurrentImage = 2;
+			break;
+		case 1:
+			m_fCurrentImage = 11;
+			break;
+		case 2:
+			m_fCurrentImage = 5;
+			break;
+		case 3:
+			m_fCurrentImage = 17;
+			break;
+		case 4:
+			m_fCurrentImage = 8;
+			break;
+		case 5:
+			m_fCurrentImage = 14;
+			break;
+		}
 	}
 
 	_int iExit = CTempUI::Update_Object(fTimeDelta);
@@ -44,7 +66,7 @@ _int CUIemptyslot::Update_Object(const _float & fTimeDelta)
 	return iExit;
 }
 
-void CUIemptyslot::LateUpdate_Object(void)
+void CUIequipmentslot::LateUpdate_Object(void)
 {
 	if (m_IsDead)
 		return;
@@ -52,7 +74,7 @@ void CUIemptyslot::LateUpdate_Object(void)
 	CTempUI::LateUpdate_Object();
 }
 
-void CUIemptyslot::Render_Object()
+void CUIequipmentslot::Render_Object()
 {
 	if (m_IsDead)
 		return;
@@ -63,7 +85,7 @@ void CUIemptyslot::Render_Object()
 	m_pBufferCom->Render_Buffer();
 }
 
-HRESULT CUIemptyslot::Add_Component(void)
+HRESULT CUIequipmentslot::Add_Component(void)
 {
 	CComponent* pComponent = nullptr;
 
@@ -86,7 +108,7 @@ HRESULT CUIemptyslot::Add_Component(void)
 	return S_OK;
 }
 
-void CUIemptyslot::Key_Input(void)
+void CUIequipmentslot::Key_Input(void)
 {
 	POINT	pt{};
 	GetCursorPos(&pt);
@@ -94,18 +116,58 @@ void CUIemptyslot::Key_Input(void)
 
 	if (OnCollision(pt, m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y))
 	{
-		m_fCurrentImage = 1;
+		switch (m_UINumber)
+		{
+		case 0:
+			m_fCurrentImage = 3;
+			break;
+		case 1:
+			m_fCurrentImage = 12;
+			break;
+		case 2:
+			m_fCurrentImage = 6;
+			break;
+		case 3:
+			m_fCurrentImage = 18;
+			break;
+		case 4:
+			m_fCurrentImage = 9;
+			break;
+		case 5:
+			m_fCurrentImage = 15;
+			break;
+		}
 	}
 	else
 	{
-		m_fCurrentImage = 0;
+		switch (m_UINumber)
+		{
+		case 0:
+			m_fCurrentImage = 2;
+			break;
+		case 1:
+			m_fCurrentImage = 11;
+			break;
+		case 2:
+			m_fCurrentImage = 5;
+			break;
+		case 3:
+			m_fCurrentImage = 17;
+			break;
+		case 4:
+			m_fCurrentImage = 8;
+			break;
+		case 5:
+			m_fCurrentImage = 14;
+			break;
+		}
 	}
 
 }
 
-CUIemptyslot* CUIemptyslot::Create(LPDIRECT3DDEVICE9 pGraphicDev)
+CUIequipmentslot* CUIequipmentslot::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 {
-	CUIemptyslot*	pInstance = new CUIemptyslot(pGraphicDev);
+	CUIequipmentslot*	pInstance = new CUIequipmentslot(pGraphicDev);
 
 	if (FAILED(pInstance->Ready_Object()))
 	{
@@ -117,7 +179,7 @@ CUIemptyslot* CUIemptyslot::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 	return pInstance;
 }
 
-void CUIemptyslot::Free()
+void CUIequipmentslot::Free()
 {
 	CTempUI::Free();
 }

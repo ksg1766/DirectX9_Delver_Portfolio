@@ -6,12 +6,17 @@
 #include "SkyBox.h"
 #include "Player.h"
 #include "CubeBlock.h"
+#include "SkeletonKing.h"
+
 #include "UIplayerhp.h"
-#include "UIemptyslot.h"
 #include "UItooltip.h"
 #include "UIplayerstat.h"
 #include "UIaimpoint.h"
-#include "SkeletonKing.h"
+#include "UIbutton.h"
+#include "UIemptyslot.h"
+#include "UIbasicslot.h"
+#include "UIequipmentslot.h"
+#include "UIitem.h"
 
 class CStage : public Engine::CScene
 {

@@ -19,18 +19,17 @@ HRESULT CUIitem::Ready_Object()
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pTransform->m_vInfo[INFO_POS].x = 130.f;
-	m_pTransform->m_vInfo[INFO_POS].y = 35.f;
-	m_pTransform->m_vLocalScale.x = 100.f;
-	m_pTransform->m_vLocalScale.y = 20.f;
-
-	WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);
+	m_pTransform->m_vLocalScale.x = 32.f;
+	m_pTransform->m_vLocalScale.y = 32.f;
 
 	return S_OK;
 }
 
 _int CUIitem::Update_Object(const _float & fTimeDelta)
 {
+	if (m_IsDead)
+		return 0;
+
 	_int iExit = CTempUI::Update_Object(fTimeDelta);
 
 	return iExit;
@@ -38,11 +37,17 @@ _int CUIitem::Update_Object(const _float & fTimeDelta)
 
 void CUIitem::LateUpdate_Object(void)
 {
+	if (m_IsDead)
+		return;
+
 	CTempUI::LateUpdate_Object();
 }
 
 void CUIitem::Render_Object()
 {
+	if (m_IsDead)
+		return;
+
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorld);
 
 	m_pTextureCom->Render_Texture(0);
@@ -61,7 +66,7 @@ HRESULT CUIitem::Add_Component(void)
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::TRANSFORM, pComponent);
 
-	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_HpBar"));
+	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_itemUI"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
 

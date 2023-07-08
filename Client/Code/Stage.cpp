@@ -34,7 +34,6 @@ Engine::_int CStage::Update_Scene(const _float& fTimeDelta)
 {
 	__super::Update_Scene(fTimeDelta);
 
-
 	UIManager()->Update_UI(fTimeDelta);
 
 	return 0;
@@ -168,43 +167,99 @@ HRESULT CStage::Ready_Layer_UI(LAYERTAG _eLayerTag)
 
 	Engine::CGameObject*		pGameObject = nullptr;
 
+	// 플레이어 hp bar
 	pGameObject = CUIplayerhp::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	Engine::UIManager()->AddBasicGameobject_UI(Engine::UILAYER::UI_DOWN, pGameObject);
 
+	// 기본 인벤토리 5칸
 	for (_uint i = 0; i < 5; ++i) {
-		pGameObject = CUIemptyslot::Create(m_pGraphicDev);
+		pGameObject = CUIbasicslot::Create(m_pGraphicDev);
 		NULL_CHECK_RETURN(pGameObject, E_FAIL);
 		pGameObject->m_pTransform->m_vInfo[INFO_POS].x = 520.f + (60.f * i);
 		pGameObject->m_pTransform->m_vInfo[INFO_POS].y = WINCY - 30.f;
 		dynamic_cast<CTempUI*>(pGameObject)->WorldMatrix(pGameObject->m_pTransform->m_vInfo[INFO_POS].x, pGameObject->m_pTransform->m_vInfo[INFO_POS].y, pGameObject->m_pTransform->m_vLocalScale.x, pGameObject->m_pTransform->m_vLocalScale.y);
+		dynamic_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_SLOTBASIC, i);
+		dynamic_cast<CTempUI*>(pGameObject)->Set_Setup(true);
 		Engine::UIManager()->AddBasicGameobject_UI(Engine::UILAYER::UI_DOWN, pGameObject);
 	}
 
-
+	// 조준점
 	HCURSOR Cursor = nullptr;
 	SetCursor(Cursor);
 	pGameObject = CUIaimpoint::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	Engine::UIManager()->AddPopupGameobject_UI(Engine::UIPOPUPLAYER::POPUP_MOUSE, Engine::UILAYER::UI_DOWN, pGameObject);
 
-	for (_uint ix = 0; ix < 6; ++ix) {
-		for (_uint iy = 0; iy < 3; ++iy) {
-			pGameObject = CUIemptyslot::Create(m_pGraphicDev);
+	_uint Index = 0;
+	// 장비슬롯
+	for (_uint iy = 0; iy < 3; ++iy) {
+		for (_uint ix = 0; ix < 2; ++ix) {
+
+			Index = iy * 2 + ix;
+			pGameObject = CUIequipmentslot::Create(m_pGraphicDev);
 			NULL_CHECK_RETURN(pGameObject, E_FAIL);
-			pGameObject->m_pTransform->m_vInfo[INFO_POS].x = 490.f + (60.f * ix);
-			pGameObject->m_pTransform->m_vInfo[INFO_POS].y = WINCY - 130.f - (60.f * iy);
+			pGameObject->m_pTransform->m_vInfo[INFO_POS].x = 350.f + (60.f * ix);
+			pGameObject->m_pTransform->m_vInfo[INFO_POS].y = WINCY - 135.f - (60.f * iy);
 			dynamic_cast<CTempUI*>(pGameObject)->WorldMatrix(pGameObject->m_pTransform->m_vInfo[INFO_POS].x, pGameObject->m_pTransform->m_vInfo[INFO_POS].y, pGameObject->m_pTransform->m_vLocalScale.x, pGameObject->m_pTransform->m_vLocalScale.y);
-			Engine::UIManager()->AddPopupGameobject_UI(Engine::UIPOPUPLAYER::POPUP_INVEN, Engine::UILAYER::UI_DOWN, pGameObject);
-			Engine::UIManager()->Hide_PopupUI(Engine::UIPOPUPLAYER::POPUP_INVEN);
+			dynamic_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_SLOTEQUIPMENT, Index);
+			dynamic_cast<CTempUI*>(pGameObject)->Set_Setup(true);
+			Engine::UIManager()->AddPopupGameobject_UI(Engine::UIPOPUPLAYER::POPUP_EQUIPMENT, Engine::UILAYER::UI_DOWN, pGameObject);
+			
 		}
 	}
 
-	//pGameObject = CUItooltip::Create(m_pGraphicDev);
-	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//Engine::UIManager()->Add_UIGameobject(Engine::UILAYER::UI_DOWN, pGameObject);
+	// 메인 인벤토리
+	for (_uint iy = 0; iy < 3; ++iy) {
+		for (_uint ix = 0; ix < 6; ++ix) {
 
-	//pGameObject = CUIplayerstat::Create(m_pGraphicDev);
+			pGameObject = CUIemptyslot::Create(m_pGraphicDev);
+			NULL_CHECK_RETURN(pGameObject, E_FAIL);
+			pGameObject->m_pTransform->m_vInfo[INFO_POS].x = 490.f + (60.f * ix);
+			pGameObject->m_pTransform->m_vInfo[INFO_POS].y = WINCY - 135.f - (60.f * iy);
+			dynamic_cast<CTempUI*>(pGameObject)->WorldMatrix(pGameObject->m_pTransform->m_vInfo[INFO_POS].x, pGameObject->m_pTransform->m_vInfo[INFO_POS].y, pGameObject->m_pTransform->m_vLocalScale.x, pGameObject->m_pTransform->m_vLocalScale.y);
+			dynamic_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_SLOTEMPTY, iy * 6 + ix);
+			dynamic_cast<CTempUI*>(pGameObject)->Set_Setup(true);
+			Engine::UIManager()->AddPopupGameobject_UI(Engine::UIPOPUPLAYER::POPUP_INVEN, Engine::UILAYER::UI_DOWN, pGameObject);
+		}
+	}
+
+	// 인벤토리 및 스탯 버튼
+	for (_uint iy = 0; iy < 2; ++iy) {
+		pGameObject = CUIbutton::Create(m_pGraphicDev);
+		NULL_CHECK_RETURN(pGameObject, E_FAIL);
+		pGameObject->m_pTransform->m_vInfo[INFO_POS].x = 850.f;
+		pGameObject->m_pTransform->m_vInfo[INFO_POS].y = 595.f - (40 * iy);
+		dynamic_cast<CTempUI*>(pGameObject)->WorldMatrix(pGameObject->m_pTransform->m_vInfo[INFO_POS].x, pGameObject->m_pTransform->m_vInfo[INFO_POS].y, pGameObject->m_pTransform->m_vLocalScale.x, pGameObject->m_pTransform->m_vLocalScale.y);
+		dynamic_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_INVENBUTTON, iy);
+		if (iy == 0) {
+			dynamic_cast<CTempUI*>(pGameObject)->Set_UIImage(1);
+		}
+		else {
+			dynamic_cast<CTempUI*>(pGameObject)->Set_UIImage(3);
+		}
+
+		Engine::UIManager()->AddPopupGameobject_UI(Engine::UIPOPUPLAYER::POPUP_EQUIPMENT, Engine::UILAYER::UI_DOWN, pGameObject);
+	}
+
+	pGameObject = CUIplayerstat::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	Engine::UIManager()->AddPopupGameobject_UI(Engine::UIPOPUPLAYER::POPUP_STAT, Engine::UILAYER::UI_DOWN, pGameObject);
+
+	for (int i = 0; i < 23; ++i)
+	{
+		pGameObject = CUIitem::Create(m_pGraphicDev);
+		NULL_CHECK_RETURN(pGameObject, E_FAIL);
+		Engine::UIManager()->AddItemGameobject_UI(pGameObject);
+	}
+
+	Engine::UIManager()->Hide_PopupUI(Engine::UIPOPUPLAYER::POPUP_EQUIPMENT);
+	Engine::UIManager()->Hide_PopupUI(Engine::UIPOPUPLAYER::POPUP_INVEN);
+	Engine::UIManager()->Hide_PopupUI(Engine::UIPOPUPLAYER::POPUP_STAT);
+
+
+
+	//pGameObject = CUItooltip::Create(m_pGraphicDev);
 	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	//Engine::UIManager()->Add_UIGameobject(Engine::UILAYER::UI_DOWN, pGameObject);
 
