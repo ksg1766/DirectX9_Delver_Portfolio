@@ -48,6 +48,14 @@ STATE CPlayerState_Idle::Key_Input(const _float& fTimeDelta)
 	if (Engine::InputDev()->GetInstance()->Key_Down(DIK_D))
 		return STATE::ROMIMG;
 
+	_long	dwMouseMove = 0;
+
+	if (dwMouseMove = Engine::InputDev()->Get_DIMouseMove(DIMS_X))
+		m_pOwner->Get_Transform()->Rotate(ROT_Y, D3DXToRadian(dwMouseMove) * fTimeDelta * 3.f);
+
+	if (dwMouseMove = Engine::InputDev()->Get_DIMouseMove(DIMS_Y))
+		m_pOwner->Get_Transform()->Rotate(ROT_X, D3DXToRadian(dwMouseMove) * fTimeDelta * 3.f);
+
 	if (Engine::InputDev()->GetInstance()->Get_DIMouseState(DIM_LB))
 		return STATE::ATTACK;
 

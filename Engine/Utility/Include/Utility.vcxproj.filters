@@ -136,9 +136,6 @@
     <Filter Include="04. Component\09. MonsterAI\DungeonAI\WarriorAI">
       <UniqueIdentifier>{84b9d32a-f459-4858-8682-22100dac7ea4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="04. Component\09. MonsterAI\DungeonAI\SpiderAI">
-      <UniqueIdentifier>{54309e0d-134d-4c43-ad74-f1ecb5a3d746}</UniqueIdentifier>
-    </Filter>
     <Filter Include="04. Component\01. VIBuffer\05. BossBf">
       <UniqueIdentifier>{beb92803-f568-4903-9742-0586fb71b7ec}</UniqueIdentifier>
     </Filter>
@@ -156,9 +153,6 @@
     </Filter>
     <Filter Include="00. Managers\09. MapTool">
       <UniqueIdentifier>{e26fb72a-acc3-4bfe-af01-388217029136}</UniqueIdentifier>
-	</Filter>
-    <Filter Include="04. Component\09. MonsterAI\999,BossAI">
-      <UniqueIdentifier>{c4deb4c5-75bd-4a73-b330-499f80cbddff}</UniqueIdentifier>
     </Filter>
     <Filter Include="04. Component\01. VIBuffer\05. BossBf">
       <UniqueIdentifier>{beb92803-f568-4903-9742-0586fb71b7ec}</UniqueIdentifier>
@@ -288,9 +282,6 @@
     <ClInclude Include="..\..\Header\BossBf.h">
       <Filter>04. Component\01. VIBuffer\05. BossBf</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Header\SpiderAI.h">
-      <Filter>04. Component\09. MonsterAI\DungeonAI\SpiderAI</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Header\StateMachine.h">
       <Filter>04. Component\13. State\StateMachine</Filter>
     </ClInclude>
@@ -412,9 +403,6 @@
     </ClCompile>
     <ClCompile Include="..\Code\BossBf.cpp">
       <Filter>04. Component\01. VIBuffer\05. BossBf</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\SpiderAI.cpp">
-      <Filter>04. Component\09. MonsterAI\DungeonAI\SpiderAI</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\StateMachine.cpp">
       <Filter>04. Component\13. State\StateMachine</Filter>

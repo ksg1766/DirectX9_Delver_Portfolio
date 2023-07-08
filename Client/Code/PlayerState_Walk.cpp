@@ -68,6 +68,13 @@ STATE CPlayerState_Walk::Key_Input(const _float& fTimeDelta)
 		_eState = STATE::ROMIMG;
 	}
 	
+	_long	dwMouseMove = 0;
+
+	if (dwMouseMove = Engine::InputDev()->Get_DIMouseMove(DIMS_X))
+		m_pOwner->Get_Transform()->Rotate(ROT_Y, D3DXToRadian(dwMouseMove) * fTimeDelta * 3.f);
+
+	if (dwMouseMove = Engine::InputDev()->Get_DIMouseMove(DIMS_Y))
+		m_pOwner->Get_Transform()->Rotate(ROT_X, D3DXToRadian(dwMouseMove) * fTimeDelta * 3.f);
 
 	return _eState;
 }

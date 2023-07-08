@@ -24,8 +24,7 @@ HRESULT CDungeonWarrior::Ready_Object()
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 	//m_pAI->Set_Transform(m_pTransform);
 
-	dynamic_cast<CCollider*>(Get_Component(COMPONENTTAG::COLLIDER, ID_DYNAMIC))->
-		InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
+	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
 
 	m_pTransform->Translate(_vec3(1.f, 1.f, 3.f));
 

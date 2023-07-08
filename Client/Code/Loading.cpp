@@ -67,7 +67,6 @@ _uint CLoading::Loading_ForStage()
 
 		// Monster 
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Warrior_AI", CWarriorAI::Create(m_pGraphicDev)), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Spider_AI", CSpiderAI::Create(m_pGraphicDev)), E_FAIL);
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_State", CStateMachine::Create(m_pGraphicDev)), E_FAIL);
 
 		// Monster Tex

@@ -198,7 +198,6 @@ call CopyUtility.bat</Command>
     <ClInclude Include="..\..\Header\Particle.h" />
     <ClInclude Include="..\..\Header\PoolManager.h" />
     <ClInclude Include="..\..\Header\SpawningPool.h" />
-    <ClInclude Include="..\..\Header\SpiderAI.h" />
     <ClInclude Include="..\..\Header\State.h" />
     <ClInclude Include="..\..\Header\StateMachine.h" />
     <ClInclude Include="..\..\Header\TempCamera.h" />
@@ -248,7 +247,6 @@ call CopyUtility.bat</Command>
     <ClCompile Include="..\Code\Particle.cpp" />
     <ClCompile Include="..\Code\PoolManager.cpp" />
     <ClCompile Include="..\Code\SpawningPool.cpp" />
-    <ClCompile Include="..\Code\SpiderAI.cpp" />
     <ClCompile Include="..\Code\State.cpp" />
     <ClCompile Include="..\Code\StateMachine.cpp" />
     <ClCompile Include="..\Code\TempCamera.cpp" />

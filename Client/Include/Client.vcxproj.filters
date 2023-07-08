@@ -118,12 +118,6 @@
     <Filter Include="02. GameObject\01. Stage\999. Boss\01.AttackCube">
       <UniqueIdentifier>{f2593457-0c06-4ef6-bb75-864a1e7f7a21}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\01. Stage\05. Monster\00. DungeonSpider">
-      <UniqueIdentifier>{1358bc5a-4ba3-4b88-8ade-16daea79b980}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\01. Stage\05. Monster\01. DungeonWarrior">
-      <UniqueIdentifier>{fa3d37f2-aed7-4e66-acab-7b8b81c21aca}</UniqueIdentifier>
-	</Filter>
     <Filter Include="01. Scene\02. Editor">
       <UniqueIdentifier>{b7993b52-caa6-4ac3-a2ea-dab6a5593137}</UniqueIdentifier>
     </Filter>
@@ -139,15 +133,6 @@
     <Filter Include="01. Scene\02. Editor\01. ImGui\01. ImGui">
       <UniqueIdentifier>{8cedaef1-43e7-43f7-8137-0fdbb415cd01}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\01. Stage\06. Monster">
-      <UniqueIdentifier>{0cbe4b9b-5300-4a5d-9197-073fe2716998}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\01. Stage\06. Monster\Spider">
-      <UniqueIdentifier>{be0e1c81-5b67-4c18-ad20-7c0cac6a4404}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\01. Stage\06. Monster\Warrior">
-      <UniqueIdentifier>{5a625de7-bd85-476d-8f6d-78b59ee3f2df}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObject\01. Stage\01. Player\State">
       <UniqueIdentifier>{7820fb07-579b-4f3f-b58b-d7ac77201cbf}</UniqueIdentifier>
     </Filter>
@@ -157,19 +142,19 @@
     <Filter Include="02. GameObject\01. Stage\01. Player\State\IDLE">
       <UniqueIdentifier>{3b6beb3f-a330-40e0-aa6f-96940c1b3c19}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\01. Stage\06. Monster\Spider\State">
-      <UniqueIdentifier>{2d615cf5-3dbd-4a3a-b264-e38f3144eea4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\01. Stage\06. Monster\Spider\State\Walk">
-      <UniqueIdentifier>{3cc7da2f-23c5-4463-add0-6a5de30f6dbd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\01. Stage\06. Monster\State">
+    <Filter Include="02. GameObject\01. Stage\05. Monster\00. State">
       <UniqueIdentifier>{dc9f4751-3ec3-4b51-b93a-353e4502e78b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\01. Stage\06. Monster\State\Public">
+    <Filter Include="02. GameObject\01. Stage\05. Monster\00. State\Public">
       <UniqueIdentifier>{68980873-c711-496d-923a-3ff3c7a3abc0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\01. Stage\06. Monster\Bat">
+    <Filter Include="02. GameObject\01. Stage\05. Monster\01. Warrior">
+      <UniqueIdentifier>{5a625de7-bd85-476d-8f6d-78b59ee3f2df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\05. Monster\02. Spider">
+      <UniqueIdentifier>{be0e1c81-5b67-4c18-ad20-7c0cac6a4404}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\05. Monster\03. Bat">
       <UniqueIdentifier>{d885c0ed-d1e2-4d56-9f48-149c64ebf6da}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -288,12 +273,6 @@
     <ClInclude Include="..\Header\CameraManager.h">
       <Filter>02. GameObject\02. Editor\02. CameraManager</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\DungeonWarrior.h">
-      <Filter>02. GameObject\01. Stage\05. Monster\01. DungeonWarrior</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\DungeonSpider.h">
-      <Filter>02. GameObject\01. Stage\05. Monster\00. DungeonSpider</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\DungeonSpider.h">
       <Filter>02. GameObject\01. Stage\06. Monster\Spider</Filter>
     </ClInclude>
@@ -306,17 +285,20 @@
     <ClInclude Include="..\Header\PlayerState_Idle.h">
       <Filter>02. GameObject\01. Stage\01. Player\State\IDLE</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\SpiderWalk.h">
-      <Filter>02. GameObject\01. Stage\06. Monster\Spider\State\Walk</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\Monster_Move.h">
-      <Filter>02. GameObject\01. Stage\06. Monster\State\Public</Filter>
+      <Filter>02. GameObject\01. Stage\05. Monster\00. State\Public</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Monster_Jump.h">
-      <Filter>02. GameObject\01. Stage\06. Monster\State\Public</Filter>
+      <Filter>02. GameObject\01. Stage\05. Monster\00. State\Public</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Bat.h">
-      <Filter>02. GameObject\01. Stage\06. Monster\Bat</Filter>
+      <Filter>02. GameObject\01. Stage\05. Monster\03. Bat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\DungeonWarrior.h">
+      <Filter>02. GameObject\01. Stage\05. Monster\01. Warrior</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\DungeonSpider.h">
+      <Filter>02. GameObject\01. Stage\05. Monster\02. Spider</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -411,7 +393,7 @@
       <Filter>01. Scene\02. Editor\01. ImGui\00. ImGuiManager</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\BossProjectile.cpp">
-	<Filter>02. GameObject\01. Stage\999. Boss\01.AttackCube</Filter>
+      <Filter>02. GameObject\01. Stage\999. Boss\01.AttackCube</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\SkeletonKing.cpp">
       <Filter>02. GameObject\01. Stage\999. Boss</Filter>
@@ -425,12 +407,6 @@
     <ClCompile Include="..\Code\CameraManager.cpp">
       <Filter>02. GameObject\02. Editor\02. CameraManager</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\DungeonWarrior.cpp">
-      <Filter>02. GameObject\01. Stage\05. Monster\01. DungeonWarrior</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\DungeonSpider.cpp">
-      <Filter>02. GameObject\01. Stage\05. Monster\00. DungeonSpider</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\DungeonSpider.cpp">
       <Filter>02. GameObject\01. Stage\06. Monster\Spider</Filter>
     </ClCompile>
@@ -443,17 +419,20 @@
     <ClCompile Include="..\Code\PlayerState_Idle.cpp">
       <Filter>02. GameObject\01. Stage\01. Player\State\IDLE</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\SpiderWalk.cpp">
-      <Filter>02. GameObject\01. Stage\06. Monster\Spider\State\Walk</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\Monster_Move.cpp">
-      <Filter>02. GameObject\01. Stage\06. Monster\State\Public</Filter>
+      <Filter>02. GameObject\01. Stage\05. Monster\00. State\Public</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Monster_Jump.cpp">
-      <Filter>02. GameObject\01. Stage\06. Monster\State\Public</Filter>
+      <Filter>02. GameObject\01. Stage\05. Monster\00. State\Public</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Bat.cpp">
-      <Filter>02. GameObject\01. Stage\06. Monster\Bat</Filter>
+      <Filter>02. GameObject\01. Stage\05. Monster\03. Bat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\DungeonWarrior.cpp">
+      <Filter>02. GameObject\01. Stage\05. Monster\01. Warrior</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\DungeonSpider.cpp">
+      <Filter>02. GameObject\01. Stage\05. Monster\02. Spider</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -6,9 +6,7 @@ BEGIN(Engine)
 
 class CPlayerBf;
 class CTransform;
-
 class CStateMachine;
-
 
 END
 

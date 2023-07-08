@@ -25,9 +25,6 @@ HRESULT CDungeonSpider::Ready_Object()
 	
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pTransform->Translate(_vec3(2.f, 1.f, 5.f));
-	m_pAI->Set_StateMachine(m_pStateMachine);
-	
 	CState* pState = CMonster_Move::Create(m_pGraphicDev, m_pStateMachine);
 	m_pStateMachine->Add_State(STATE::ROMIMG, pState);
 
@@ -36,8 +33,7 @@ HRESULT CDungeonSpider::Ready_Object()
 
 	m_pStateMachine->Set_State(STATE::ROMIMG);
 
-	dynamic_cast<CCollider*>(Get_Component(COMPONENTTAG::COLLIDER, ID_DYNAMIC))->
-		InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
+	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
 
 	m_pTransform->Translate(_vec3(2.f, 1.f, 5.f));
 
@@ -129,10 +125,6 @@ HRESULT CDungeonSpider::Add_Component()
 	pComponent = dynamic_cast<CBillBoard*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BillBoard"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::BILLBOARD, pComponent);
-
-	pComponent = m_pAI = dynamic_cast<CSpiderAI*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Spider_AI"));
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::MONSTERAI, pComponent);
 
 	pComponent = m_pStateMachine = dynamic_cast<CStateMachine*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_State"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);

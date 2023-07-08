@@ -123,7 +123,7 @@ HRESULT CPlayer::Add_Component(void)
 
 void CPlayer::Key_Input(const _float& fTimeDelta)
 {
-	if (Engine::InputDev()->Key_Pressing(DIK_W))
+	/*if (Engine::InputDev()->Key_Pressing(DIK_W))
 		m_pTransform->Translate(m_fSpeed * fTimeDelta * m_pTransform->m_vInfo[INFO_LOOK]);
 
 	if (Engine::InputDev()->Key_Pressing(DIK_S))
@@ -133,22 +133,22 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 		m_pTransform->Translate(m_fSpeed * fTimeDelta * -m_pTransform->m_vInfo[INFO_RIGHT]);
 
 	if (Engine::InputDev()->Key_Pressing(DIK_D))
-		m_pTransform->Translate(m_fSpeed * fTimeDelta * m_pTransform->m_vInfo[INFO_RIGHT]);
+		m_pTransform->Translate(m_fSpeed * fTimeDelta * m_pTransform->m_vInfo[INFO_RIGHT]);*/
 	
-	_long	dwMouseMove = 0;
+	/*_long	dwMouseMove = 0;
 
 	if(dwMouseMove = Engine::InputDev()->Get_DIMouseMove(DIMS_X))
 		m_pTransform->Rotate(ROT_Y, D3DXToRadian(dwMouseMove) * fTimeDelta * 3.f);
 
 	if (dwMouseMove = Engine::InputDev()->Get_DIMouseMove(DIMS_Y))
-		m_pTransform->Rotate(ROT_X, D3DXToRadian(dwMouseMove)* fTimeDelta * 3.f);
+		m_pTransform->Rotate(ROT_X, D3DXToRadian(dwMouseMove)* fTimeDelta * 3.f);*/
 
 	//_long dwMouseMove = 0.f;
 
-	//CGameObject* pGameObject = 
-	//	SceneManager()->
-	//	GetInstance()->
-	//	Get_ObjectList(LAYERTAG::ENVIRONMENT, OBJECTTAG::CAMERA).front();
+	CGameObject* pGameObject = 
+		SceneManager()->
+		GetInstance()->
+		Get_ObjectList(LAYERTAG::ENVIRONMENT, OBJECTTAG::CAMERA).front();
 
 	//_bool b1stCamera = static_cast<CDynamicCamera*>(pGameObject)->Get_CameraMode();
 	//_bool bCameraFix = static_cast<CDynamicCamera*>(pGameObject)->Get_MouseFix();
