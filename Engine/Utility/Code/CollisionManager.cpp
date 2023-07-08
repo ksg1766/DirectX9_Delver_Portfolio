@@ -7,7 +7,9 @@ CCollisionManager::CCollisionManager()
 {
 	Reset();
 	CheckGroup(OBJECTTAG::PLAYER, OBJECTTAG::MONSTER);
+	CheckGroup(OBJECTTAG::PLAYER, OBJECTTAG::BOSS);
 	CheckGroup(OBJECTTAG::MONSTER, OBJECTTAG::MONSTER);
+	CheckGroup(OBJECTTAG::MONSTER, OBJECTTAG::BOSS);
 }
 
 CCollisionManager::~CCollisionManager()

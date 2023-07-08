@@ -17,6 +17,7 @@ CBossExplosion::CBossExplosion(const CBossExplosion& rhs)
 
 CBossExplosion::~CBossExplosion()
 {
+	Free();
 }
 
 HRESULT CBossExplosion::Ready_Object(void)

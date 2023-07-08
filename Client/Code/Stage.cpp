@@ -149,7 +149,7 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 	dynamic_cast<CSkeletonKing*>(pGameObject)->Set_Terrain(dynamic_cast<CTerrain*>(pLayer->Get_ObjectList(OBJECTTAG::TERRAIN).front()));
 
-	// TempCube
+	return S_OK;
 }
 
 HRESULT CStage::Ready_Layer_UI(LAYERTAG _eLayerTag)

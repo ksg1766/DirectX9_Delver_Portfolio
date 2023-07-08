@@ -18,6 +18,7 @@ CSkeletonKing_Clone::CSkeletonKing_Clone(const CSkeletonKing_Clone& rhs)
 
 CSkeletonKing_Clone::~CSkeletonKing_Clone()
 {
+	Free();
 }
 
 HRESULT CSkeletonKing_Clone::Ready_Object(void)

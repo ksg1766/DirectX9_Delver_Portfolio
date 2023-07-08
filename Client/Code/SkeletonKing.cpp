@@ -26,6 +26,9 @@ HRESULT CSkeletonKing::Ready_Object(void)
 	m_eObjectTag = OBJECTTAG::BOSS;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 	m_pTransform->Scale(_vec3(1.f, 3.f, 1.f));
+
+	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
+
 	m_pTransform->Translate(_vec3(5.f, 0.f, 5.f));
 
 	return S_OK;
@@ -57,6 +60,10 @@ void CSkeletonKing::Render_Object(void)
 
 	m_pTexture->Render_Texture((_uint)m_fFrame);
 	m_pBuffer->Render_Buffer();
+
+#if _DEBUG
+	m_pCollider->Render_Collider();
+#endif
 
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
@@ -101,6 +108,127 @@ void CSkeletonKing::ForceHeight(_vec3 _vPos)
 	}
 }
 
+void CSkeletonKing::OnCollisionEnter(CCollider* _pOther)
+{
+#pragma region 밀어내기
+	CTransform* pOtherTransform = _pOther->Get_Transform();
+
+	_vec3	vOtherPos = _pOther->GetCenterPos();
+	_float* fOtherAxis = _pOther->GetAxisLen();
+
+	_vec3	vThisPos = m_pCollider->GetCenterPos();
+	_float* fThisAxis = m_pCollider->GetAxisLen();
+
+	// OBJECTTAG에 따른 예외 처리 가능성
+	_float fWidth = fabs(vOtherPos.x - vThisPos.x);
+	_float fHeight = fabs(vOtherPos.y - vThisPos.y);
+	_float fDepth = fabs(vOtherPos.z - vThisPos.z);
+
+	_float fRadiusX = (fOtherAxis[0] + fThisAxis[0]) - fWidth;
+	_float fRadiusY = (fOtherAxis[1] + fThisAxis[1]) - fHeight;
+	_float fRadiusZ = (fOtherAxis[2] + fThisAxis[2]) - fDepth;
+
+	_float fMinAxis = min(min(fRadiusX, fRadiusY), fRadiusZ);	// 가장 작은 값이 가장 얕게 충돌한 축. 이 축을 밀어내야 함.
+
+	if (fRadiusX == fMinAxis)
+	{
+		if (vOtherPos.x < vThisPos.x)
+		{
+			pOtherTransform->Translate(_vec3(-fRadiusX, 0.f, 0.f));
+		}
+		else
+		{
+			pOtherTransform->Translate(_vec3(fRadiusX, 0.f, 0.f));
+		}
+	}
+	else if (fRadiusZ == fMinAxis)
+	{
+		if (vOtherPos.z < vThisPos.z)
+		{
+			pOtherTransform->Translate(_vec3(0.f, 0.f, -fRadiusZ));
+		}
+		else
+		{
+			pOtherTransform->Translate(_vec3(0.f, 0.f, fRadiusZ));
+		}
+	}
+	else //(fRadiusY == fMinAxis)
+	{
+		if (vOtherPos.y < vThisPos.y)
+		{
+			pOtherTransform->Translate(_vec3(0.f, -fRadiusY, 0.f));
+		}
+		else
+		{
+			pOtherTransform->Translate(_vec3(0.f, fRadiusY, 0.f));
+		}
+	}
+#pragma endregion 밀어내기
+}
+
+void CSkeletonKing::OnCollisionStay(CCollider* _pOther)
+{
+#pragma region 밀어내기
+	CTransform* pOtherTransform = _pOther->Get_Transform();
+
+	_vec3	vOtherPos = _pOther->GetCenterPos();
+	_float* fOtherAxis = _pOther->GetAxisLen();
+
+	_vec3	vThisPos = m_pCollider->GetCenterPos();
+	_float* fThisAxis = m_pCollider->GetAxisLen();
+
+	// OBJECTTAG에 따른 예외 처리 가능성
+	_float fWidth = fabs(vOtherPos.x - vThisPos.x);
+	_float fHeight = fabs(vOtherPos.y - vThisPos.y);
+	_float fDepth = fabs(vOtherPos.z - vThisPos.z);
+
+	_float fRadiusX = (fOtherAxis[0] + fThisAxis[0]) - fWidth;
+	_float fRadiusY = (fOtherAxis[1] + fThisAxis[1]) - fHeight;
+	_float fRadiusZ = (fOtherAxis[2] + fThisAxis[2]) - fDepth;
+
+	_float fMinAxis = min(min(fRadiusX, fRadiusY), fRadiusZ);	// 가장 작은 값이 가장 얕게 충돌한 축. 이 축을 밀어내야 함.
+
+	if (fRadiusX == fMinAxis)
+	{
+		if (vOtherPos.x < vThisPos.x)
+		{
+			pOtherTransform->Translate(_vec3(-fRadiusX, 0.f, 0.f));
+		}
+		else
+		{
+			pOtherTransform->Translate(_vec3(fRadiusX, 0.f, 0.f));
+		}
+	}
+	else if (fRadiusZ == fMinAxis)
+	{
+		if (vOtherPos.z < vThisPos.z)
+		{
+			pOtherTransform->Translate(_vec3(0.f, 0.f, -fRadiusZ));
+		}
+		else
+		{
+			pOtherTransform->Translate(_vec3(0.f, 0.f, fRadiusZ));
+		}
+	}
+	else //(fRadiusY == fMinAxis)
+	{
+		if (vOtherPos.y < vThisPos.y)
+		{
+			pOtherTransform->Translate(_vec3(0.f, -fRadiusY, 0.f));
+		}
+		else
+		{
+			pOtherTransform->Translate(_vec3(0.f, fRadiusY, 0.f));
+		}
+	}
+#pragma endregion 밀어내기
+}
+
+void CSkeletonKing::OnCollisionExit(CCollider* _pOther)
+{
+
+}
+
 HRESULT CSkeletonKing::Add_Component(void)
 {
 	CComponent* pComponent = nullptr;
@@ -112,6 +240,10 @@ HRESULT CSkeletonKing::Add_Component(void)
 	pComponent = m_pTransform = dynamic_cast<CTransform*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Transform"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::TRANSFORM, pComponent);
+
+	pComponent = m_pCollider = dynamic_cast<CCollider*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Collider"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::COLLIDER, pComponent);
 
 	pComponent = m_pTexture = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_Boss"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);

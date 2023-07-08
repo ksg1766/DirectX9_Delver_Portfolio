@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "..\Include\FlyingCamera.h"
+#include "..\Header\FlyingCamera.h"
 #include "Export_Function.h"
 #include "CameraManager.h"
 

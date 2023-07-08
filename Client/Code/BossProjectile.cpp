@@ -15,6 +15,7 @@ CBossProjectile::CBossProjectile(const CBossProjectile& rhs)
 
 CBossProjectile::~CBossProjectile()
 {
+	Free();
 }
 
 HRESULT CBossProjectile::Ready_Object(void)
@@ -29,7 +30,7 @@ _int CBossProjectile::Update_Object(const _float& fTimeDelta)
 	_int iExit = __super::Update_Object(fTimeDelta);
 		if (m_pTransform->m_vInfo[INFO_POS].y < HitTerrain(m_pTransform->m_vInfo[INFO_POS]))
 		{
-			//Engine::EventManager()->DeleteObject(this);
+			Engine::EventManager()->DeleteObject(this);
 		}
 		else
 		{

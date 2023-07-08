@@ -168,13 +168,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\BackGround.h" />
-<<<<<<< HEAD
     <ClInclude Include="..\Header\Bat.h" />
-=======
     <ClInclude Include="..\Header\BossExplosion.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
->>>>>>> feature/Msh
     <ClInclude Include="..\Header\BossProjectile.h" />
     <ClInclude Include="..\Header\CameraManager.h" />
     <ClInclude Include="..\Header\CubeBlock.h" />
@@ -224,13 +221,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\BackGround.cpp" />
-<<<<<<< HEAD
     <ClCompile Include="..\Code\Bat.cpp" />
-=======
     <ClCompile Include="..\Code\BossExplosion.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
->>>>>>> feature/Msh
     <ClCompile Include="..\Code\BossProjectile.cpp" />
     <ClCompile Include="..\Code\CameraManager.cpp" />
     <ClCompile Include="..\Code\CubeBlock.cpp" />

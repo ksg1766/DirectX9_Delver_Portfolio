@@ -26,6 +26,15 @@ public:
 public:
 	void		ForceHeight(_vec3 _vPos);
 	void		Set_Terrain(CTerrain* _pCurrentTerrain) { m_pTerrain = _pCurrentTerrain; }
+
+	virtual void	OnCollisionEnter(CCollider* _pOther);
+	virtual void	OnCollisionStay(CCollider* _pOther);
+	virtual void	OnCollisionExit(CCollider* _pOther);
+
+private:
+	HRESULT		Add_Component(void);
+	void		Key_Input(const _float& fTimeDelta);
+
 private:
 	CRcTex*		m_pBuffer = nullptr;
 	CTexture*	m_pTexture = nullptr;
@@ -33,10 +42,6 @@ private:
 	CBossAI*	m_pBossAI = nullptr;
 	CTerrain*	m_pTerrain = nullptr;
 	_float		m_fFrame = 0;
-
-private:
-	HRESULT		Add_Component(void);
-	void		Key_Input(const _float& fTimeDelta);
 
 public:
 	static CSkeletonKing* Create(LPDIRECT3DDEVICE9 pGraphicDev);
