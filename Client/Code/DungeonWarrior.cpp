@@ -22,11 +22,9 @@ HRESULT CDungeonWarrior::Ready_Object()
 {
 	
 	Set_ObjectTag(OBJECTTAG::MONSTER);
-	m_eMonster = MonsterState::Roaming;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	m_pTransform->Translate(_vec3(1.f, 1.f, 3.f));
-	m_pAI->Set_Transform(m_pTransform);
 
 
 	return S_OK;
@@ -40,55 +38,14 @@ _int CDungeonWarrior::Update_Object(const _float& fTimeDelta)
 	CTransform* pPlayerTransform = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform;
 	NULL_CHECK_RETURN(pPlayerTransform, -1);
 
-	_vec3	vPlayerPos;
-	vPlayerPos = pPlayerTransform->m_vInfo[INFO_POS];
-
-	_vec3	vDistance = vPlayerPos - m_pTransform->m_vInfo[INFO_POS];
-	// 플레이어와 몬스터 위치의 값의 차이
-	_float	fDistanceLength = D3DXVec3LengthSq(&vDistance);
-
-	_float	fSightRangeSq = pow(10, 2);
-
-
 	m_fFrame += 4.f * fTimeDelta;
 
 	if (4.f < m_fFrame)
 		m_fFrame = 0.f;
 
 
+	m_pAI->Update_Component(fTimeDelta, pPlayerTransform->m_vInfo[INFO_POS]);
 	ForceHeight(m_pTransform->m_vInfo[INFO_POS]);
-
-
-	if (m_eMonster == MonsterState::Roaming)
-	{
-		if (fDistanceLength <= fSightRangeSq)
-		{
-			m_eMonster = MonsterState::Run;
-			//m_pAI->Chase_Target(&vPlayerPos, fTimeDelta, 5.f);
-		}
-		else
-		{
-			if (m_pAI->Reached_TargetPosition())
-				m_pAI->Set_NewTargetPosition();
-
-			else
-				m_pAI->Move_To_TargetPosition(fTimeDelta);
-		}
-
-	}
-	else if (m_eMonster == MonsterState::Run)
-	{
-		if (fDistanceLength > fSightRangeSq)
-		{
-			m_eMonster = MonsterState::Roaming;
-			m_pAI->Set_NewTargetPosition();
-		}
-		else
-		{
-			m_pAI->Chase_Target(&vPlayerPos, fTimeDelta, 5.f);
-		}
-	}
-
 
 	Engine::Renderer()->Add_RenderGroup(RENDER_ALPHA, this);
 

@@ -14,14 +14,6 @@ class CTerrain;
 
 class CDungeonWarrior : public CMonster
 {
-	enum class MonsterState
-	{
-		Idle,
-		Run,
-		Roaming
-		
-	};
-
 
 private:
 	explicit CDungeonWarrior(LPDIRECT3DDEVICE9 pGraphicDev);
@@ -47,9 +39,6 @@ private:
 	CTerrain*		m_pTerrain = nullptr;
 
 	_float			m_fFrame;
-
-	MonsterState	m_eMonster;
-
 
 public:
 	static CDungeonWarrior* Create(LPDIRECT3DDEVICE9 pGraphicDev);

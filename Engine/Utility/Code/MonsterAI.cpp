@@ -9,6 +9,14 @@ CMonsterAI::CMonsterAI()
 	, m_vRoamingCenter(_vec3(0.f, 0.f, 0.f))
 	, m_fRoamingRadius(0.f)
 	, m_fMaxTraceRadius(0.f)
+	, m_pStateMachine(nullptr)
+	, m_fDistance(0.f)
+	, m_vDistance(_vec3(0.f,0.f,0.f))
+	, m_fSpeed(0.f)
+	, m_fChase(0.f)
+	, m_fJumpInitializeVelocity(0.f)
+	, m_bIsJumping(false)
+	, m_eState(STATE::STATE_END)
 {
 }
 
@@ -19,6 +27,14 @@ CMonsterAI::CMonsterAI(LPDIRECT3DDEVICE9 pGraphicDev)
 	, m_vRoamingCenter(_vec3(0.f, 0.f, 0.f))
 	, m_fRoamingRadius(0.f)
 	, m_fMaxTraceRadius(0.f)
+	, m_pStateMachine(nullptr)
+	, m_fDistance(0.f)
+	, m_vDistance(_vec3(0.f, 0.f, 0.f))
+	, m_fSpeed(0.f)
+	, m_fChase(0.f)
+	, m_fJumpInitializeVelocity(0.f)
+	, m_bIsJumping(false)
+	, m_eState(STATE::STATE_END)
 {
 }
 
@@ -29,6 +45,14 @@ CMonsterAI::CMonsterAI(const CMonsterAI& rhs)
 	, m_vRoamingCenter(rhs.m_vRoamingCenter)
 	, m_fRoamingRadius(rhs.m_fRoamingRadius)
 	, m_fMaxTraceRadius(rhs.m_fMaxTraceRadius)
+	, m_pStateMachine(rhs.m_pStateMachine)
+	, m_fDistance(rhs.m_fDistance)
+	, m_vDistance(rhs.m_vDistance)
+	, m_fSpeed(rhs.m_fSpeed)
+	, m_fChase(rhs.m_fChase)
+	, m_fJumpInitializeVelocity(rhs.m_fChase)
+	, m_bIsJumping(rhs.m_bIsJumping)
+	, m_eState(rhs.m_eState)
 {
 }
 

@@ -24,7 +24,7 @@ public:
 	HRESULT		Add_Component();
 	void		Render_Object() {}
 
-
+	
 
 private:
 	void		Key_Input(const _float& fTimeDelta);
@@ -38,6 +38,10 @@ private:
 
 public:
 	_bool		Get_CameraMode() { return m_bCameraCheck; }
+	_bool		Get_MouseFix()	 { return m_bFix; }
+
+public:
+	void		Set_Fix(_bool _Fix) { m_bFix = _Fix; }
 
 private:
 	_float		m_fSpeed = 10.f;

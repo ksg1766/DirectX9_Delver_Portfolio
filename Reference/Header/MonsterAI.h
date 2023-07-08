@@ -3,6 +3,8 @@
 
 BEGIN(Engine)
 
+class CStateMachine;
+
 class ENGINE_DLL CMonsterAI :
     public CComponent
 {
@@ -23,6 +25,11 @@ public:
 	const _matrix* Compute_LookAtTarget(const _vec3* pTargetPos);
 	void	Chase_Target(const _vec3* pTargetPos, const _float& fTimeDelta, const _float& fSpeed);
 
+public: // Getter
+	CStateMachine*	Get_StateMachine() { return m_pStateMachine; }
+
+public: // Setter
+	void		Set_StateMachine(CStateMachine* _pStateMachine) { m_pStateMachine = _pStateMachine; }
 
 protected:
 	void			Auto_Roaming();
@@ -38,13 +45,26 @@ public:
 	virtual _int	Update_Component(const _float& fTimeDelta);
 
 protected:
-	_float	m_fSightRange;
 	_float	m_fAttackRange;
 
 	_vec3	m_vRoamingCenter;
 	_float	m_fRoamingRadius;
 
 	_float	m_fMaxTraceRadius;
+
+	// 내가 쓸 변수들
+	_vec3	m_vDistance;
+	_float	m_fSightRange;
+	_float  m_fDistance;
+	_float	m_fSpeed;
+	_float	m_fChase;
+	_float  m_fJumpInitializeVelocity;
+
+
+	_bool  m_bIsJumping;
+	STATE  m_eState;
+
+	CStateMachine* m_pStateMachine;
 
 public:
 	static	CMonsterAI*		Create(LPDIRECT3DDEVICE9 pGraphicDev);

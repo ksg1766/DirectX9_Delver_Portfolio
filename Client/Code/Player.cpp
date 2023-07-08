@@ -6,6 +6,11 @@
 
 // 임시 아이템
 #include "TempItem.h"
+#include "DynamicCamera.h"
+
+// State
+#include "PlayerState_Walk.h"
+#include "PlayerState_Idle.h"
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CGameObject(pGraphicDev)
@@ -28,8 +33,17 @@ HRESULT CPlayer::Ready_Object(void)
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	m_pTransform->Translate (_vec3(0.f, 1.f, 0.f));
-	//m_pTransform->Scale(_vec3( 1.f, 2.f, 1.f ));
-	//m_fSpeed = 10.f;
+	m_vOffset = _vec3(0.55f, 0.1f, 1.8f);
+
+	// 걷기 상태 추가
+	CState* pState = CPlayerState_Walk::Create(m_pGraphicDev, m_pStateMachine);
+	m_pStateMachine->Add_State(STATE::ROMIMG, pState);
+
+	pState = CPlayerState_Idle::Create(m_pGraphicDev, m_pStateMachine);
+	m_pStateMachine->Add_State(STATE::IDLE, pState);
+
+
+	m_pStateMachine->Set_State(STATE::IDLE);
 
 	return S_OK;
 }
@@ -38,17 +52,21 @@ Engine::_int CPlayer::Update_Object(const _float& fTimeDelta)
 {
 	_int iExit = __super::Update_Object(fTimeDelta);
 
-	Engine::Renderer()->Add_RenderGroup(RENDER_NONALPHA, this);
-	Key_Input(fTimeDelta);
+
+	m_pStateMachine->Update_StateMachine(fTimeDelta);
+
 	ForceHeight(m_pTransform->m_vInfo[INFO_POS]);
+	Engine::Renderer()->Add_RenderGroup(RENDER_NONALPHA, this);
+
 
 	return iExit;
 }
 
 void CPlayer::LateUpdate_Object(void)
 {
-
 	__super::LateUpdate_Object();
+
+	m_pStateMachine->LateUpdate_StateMachine();
 }
 
 void CPlayer::Render_Object(void)
@@ -57,6 +75,7 @@ void CPlayer::Render_Object(void)
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
 	m_pBuffer->Render_Buffer();
+	m_pStateMachine->Render_StateMachine();
 
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
@@ -77,6 +96,11 @@ HRESULT CPlayer::Add_Component(void)
 	pComponent = m_pTransform = dynamic_cast<CTransform*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Transform"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::TRANSFORM, pComponent);
+
+	pComponent = m_pStateMachine = dynamic_cast<CStateMachine*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Player_State"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::STATEMACHINE, pComponent);
+	
 	
 	for(int i = 0; i < ID_END; ++i)
 		for (auto& iter : m_mapComponent[i])
@@ -90,85 +114,93 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 	//m_vDir = m_pTransform->m_vInfo[INFO_LOOK];
 
 	if (Engine::InputDev()->Key_Pressing(DIK_W))
-	{
-		//D3DXVec3Normalize(&m_vDir, &m_vDir);
 		m_pTransform->Translate(m_fSpeed * fTimeDelta * m_pTransform->m_vInfo[INFO_LOOK]);
-	}
 
 	if (Engine::InputDev()->Key_Pressing(DIK_S))
-	{
-		//D3DXVec3Normalize(&m_vDir, &m_vDir);
 		m_pTransform->Translate(m_fSpeed * fTimeDelta * -m_pTransform->m_vInfo[INFO_LOOK]);
-	}
-
-	if (Engine::InputDev()->Key_Pressing(DIK_A))
-		m_pTransform->Rotate(ROT_Y, D3DXToRadian(-180.f * fTimeDelta));
 
 	if (Engine::InputDev()->Key_Pressing(DIK_D))
-		m_pTransform->Rotate(ROT_Y, D3DXToRadian(180.f * fTimeDelta));
-	
-	if (Engine::InputDev()->Key_Pressing(DIK_Q))
-		m_pTransform->Rotate(ROT_X, D3DXToRadian(-180.f * fTimeDelta));
+		m_pTransform->Translate(m_fSpeed * fTimeDelta * m_pTransform->m_vInfo[INFO_RIGHT]);
 
-	if (Engine::InputDev()->Key_Pressing(DIK_E))
-		m_pTransform->Rotate(ROT_X, D3DXToRadian(180.f * fTimeDelta));
+	if (Engine::InputDev()->Key_Pressing(DIK_A))
+		m_pTransform->Translate(m_fSpeed * fTimeDelta * -m_pTransform->m_vInfo[INFO_RIGHT]);
 
-	//if (Engine::InputDev()->Key_Down(DIK_1))
-	//{
-	//	Engine::CGameObject* pGameObject = nullptr;
-	//	pGameObject = CTempItem::Create(m_pGraphicDev);
-	//	pGameObject->m_pTransform->Translate(m_pTransform->m_vInfo[INFO_POS] + _vec3(0.55f, 0.1f, 1.8f));
-	//	//pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-	//	Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
-	//}
+	_long dwMouseMove = 0.f;
+	CGameObject* pGameObject = 
+		SceneManager()->
+		GetInstance()->
+		Get_ObjectList(LAYERTAG::ENVIRONMENT, OBJECTTAG::CAMERA).front();
+
+	_bool b1stCamera = static_cast<CDynamicCamera*>(pGameObject)->Get_CameraMode();
+	_bool bCameraFix = static_cast<CDynamicCamera*>(pGameObject)->Get_MouseFix();
+
+	if (!bCameraFix)
+	{
+		if (0 != (dwMouseMove = Engine::InputDev()->Get_DIMouseMove(DIMS_X)) && !b1stCamera)
+		{
+			_matrix matRotX;
+			_vec3 vUp;
+
+			D3DXMatrixRotationAxis(&matRotX, &m_pTransform->m_vInfo[INFO_UP], D3DXToRadian(dwMouseMove / 10.f));
+			D3DXVec3TransformNormal(&m_pTransform->m_vInfo[INFO_LOOK], &m_pTransform->m_vInfo[INFO_LOOK], &matRotX);
+			D3DXVec3TransformNormal(&m_pTransform->m_vInfo[INFO_RIGHT], &m_pTransform->m_vInfo[INFO_RIGHT], &matRotX);
+			D3DXVec3TransformCoord(&m_vOffset, &m_vOffset, &matRotX);
+
+		}
+
+		if (0 != (dwMouseMove = Engine::InputDev()->Get_DIMouseMove(DIMS_Y)) && !b1stCamera)
+		{
+			_vec3 vRight;
+			D3DXVec3Cross(&vRight, &m_pTransform->m_vInfo[INFO_UP], &m_pTransform->m_vInfo[INFO_LOOK]);
+
+			_matrix matRotY;
+
+			D3DXMatrixRotationAxis(&matRotY, &m_pTransform->m_vInfo[INFO_RIGHT], D3DXToRadian(dwMouseMove / 10.f));
+			D3DXVec3TransformNormal(&m_pTransform->m_vInfo[INFO_LOOK], &m_pTransform->m_vInfo[INFO_LOOK], &matRotY);
+			D3DXVec3TransformCoord(&m_vOffset, &m_vOffset, &matRotY);
+		}
+	}
+
+
+	if (Engine::InputDev()->Key_Down(DIK_1))
+	{
+		Engine::CGameObject* pGameObject = nullptr;
+		pGameObject = CTempItem::Create(m_pGraphicDev);
+		pGameObject->m_pTransform->Translate(m_pTransform->m_vInfo[INFO_POS] + _vec3(0.55f, 0.1f, 1.8f));
+		//pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+	}
 
 	// UI 단축키 추가
 	if (Engine::InputDev()->Key_Down(DIK_I))
 	{
 		if (Engine::UIManager()->Set_InvenUse(m_pGraphicDev))
-		{
-			// 반환하는 값이 true, 즉 인벤을 열겠다는 의미이기에
-			// 마우스를 따라 회전하던 카메라 멈추고 / 화면 가운데에 고정되어있는 fix를 해제해주시면 됩니다!
-		}
+			static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(true);
 		else
-		{
-			//ShowCursor(false);
-			// 반대로 다시 카메라를 마우스에 따라 회전시키고 / 마우스 화면 가운데에 고정(fix = true)시키면 됩니다!
-		}
+			static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(false);
 	}
 	else if (Engine::InputDev()->Key_Down(DIK_C))
 	{
 		if (Engine::UIManager()->Set_StatUse())
-		{
-			// I단축키에 써있는 내용이랑 전부 같습니다 똑같이 채워주시면 됩니다!
-		}
+			static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(true);
 		else
-		{
-
-		}
+			static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(false);
 	}
 	else if (Engine::InputDev()->Key_Down(DIK_M))
 	{
 		if (Engine::UIManager()->Set_MapUse())
-		{
-
-		}
+			static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(true);
 		else
-		{
-
-		}
+			static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(false);
 	}
 	else if (Engine::InputDev()->Key_Down(DIK_ESCAPE))
 	{
 		if (Engine::UIManager()->Set_EscUse())
-		{
-
-		}
+			static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(true);
 		else
-		{
-
-		}
+			static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(false);
 	}
+
 }
 
 void CPlayer::ForceHeight(_vec3 _vPos)

@@ -41,9 +41,16 @@ _int CTempItem::Update_Object(const _float& fTimeDelta)
 
 void CTempItem::LateUpdate_Object(void)
 {
-
 	__super::LateUpdate_Object();
+
+	CGameObject* pGameObject = SceneManager()->GetInstance()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front();
+
+	_vec3 _vOffset = static_cast<CPlayer*>(pGameObject)->Get_Offset();
+
+	//m_pTransform->m_vInfo[INFO_POS].x += _vOffset.x;
+
 }
+
 
 void CTempItem::Render_Object(void)
 {

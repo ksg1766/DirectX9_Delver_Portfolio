@@ -48,6 +48,7 @@ _int CDynamicCamera::Update_Object(const _float& fTimeDelta)
 	{
 		if (m_eCamera_Mode == CAMERA_MODE::CAMERA_THIRD)
 			Mouse_Move();
+		
 		Mouse_Fix();
 	}
 
@@ -58,7 +59,7 @@ _int CDynamicCamera::Update_Object(const _float& fTimeDelta)
 		First_Camera();
 		break;
 	case CAMERA_MODE::CAMERA_THIRD:
-		Third_Camera();
+		//Third_Camera();
 		break;
 	}
 
