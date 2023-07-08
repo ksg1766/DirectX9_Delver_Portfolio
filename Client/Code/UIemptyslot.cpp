@@ -25,7 +25,7 @@ HRESULT CUIemptyslot::Ready_Object()
 	m_pTransform->m_vLocalScale.y = 30.f;
 
 	WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);
-
+	m_bEmpty = true;
 	return S_OK;
 }
 
@@ -33,6 +33,11 @@ _int CUIemptyslot::Update_Object(const _float & fTimeDelta)
 {
 	if (m_IsDead)
 		return 0;
+
+	if (m_bSetup) {
+		m_bSetup = false;
+		m_fCurrentImage = 0;
+	}
 
 	_int iExit = CTempUI::Update_Object(fTimeDelta);
 

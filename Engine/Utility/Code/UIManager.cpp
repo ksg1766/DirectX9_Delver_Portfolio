@@ -50,6 +50,42 @@ void CUIManager::AddPopupGameobject_UI(UIPOPUPLAYER ePopupLayer, UILAYER eType, 
 	m_mapPpopupUI[ePopupLayer][eType].push_back(pGameObject);
 }
 
+void CUIManager::AddItemGameobject_UI(CGameObject* pGameObject)
+{
+	//Safe_Release(pGameObject);
+	// 같은 아이템이 있는지 먼저 검사 후 있을 시 아이템 해제 후 숫자 카운트 +1
+	// 빈 공간이 있는지 검사후 할당 후 장착
+	for (auto iter : m_vecUIbasic[UI_DOWN])
+	{
+		if (dynamic_cast<CTempUI*>(iter)->Get_EmptyBool())
+		{
+			//dynamic_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_INVENBUTTON, iy);
+			pGameObject->m_pTransform->m_vInfo[INFO_POS].x = iter->m_pTransform->m_vInfo[INFO_POS].x;
+			pGameObject->m_pTransform->m_vInfo[INFO_POS].y = iter->m_pTransform->m_vInfo[INFO_POS].y;
+			dynamic_cast<CTempUI*>(pGameObject)->WorldMatrix(pGameObject->m_pTransform->m_vInfo[INFO_POS].x, pGameObject->m_pTransform->m_vInfo[INFO_POS].y, pGameObject->m_pTransform->m_vLocalScale.x, pGameObject->m_pTransform->m_vLocalScale.y);
+
+			dynamic_cast<CTempUI*>(iter)->Set_EmptyBool(false);
+			Engine::UIManager()->AddBasicGameobject_UI(Engine::UILAYER::UI_MIDDLE, pGameObject);
+			return;
+		}
+	}
+
+	for (auto iter : m_mapPpopupUI[POPUP_INVEN][UI_DOWN])
+	{
+		if (dynamic_cast<CTempUI*>(iter)->Get_EmptyBool())
+		{
+			//dynamic_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_INVENBUTTON, iy);
+			pGameObject->m_pTransform->m_vInfo[INFO_POS].x = iter->m_pTransform->m_vInfo[INFO_POS].x;
+			pGameObject->m_pTransform->m_vInfo[INFO_POS].y = iter->m_pTransform->m_vInfo[INFO_POS].y;
+			dynamic_cast<CTempUI*>(pGameObject)->WorldMatrix(pGameObject->m_pTransform->m_vInfo[INFO_POS].x, pGameObject->m_pTransform->m_vInfo[INFO_POS].y, pGameObject->m_pTransform->m_vLocalScale.x, pGameObject->m_pTransform->m_vLocalScale.y);
+
+			dynamic_cast<CTempUI*>(iter)->Set_EmptyBool(false);
+			Engine::UIManager()->AddPopupGameobject_UI(Engine::UIPOPUPLAYER::POPUP_INVEN, Engine::UILAYER::UI_MIDDLE, pGameObject);
+			return;
+		}
+	}
+}
+
 _int CUIManager::Update_UI(const _float& fTimeDelta)
 {
 	for (size_t i = 0; i < UILAYER::UI_END; ++i)

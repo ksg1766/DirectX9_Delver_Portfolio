@@ -27,6 +27,9 @@ private:
 	HRESULT		Add_Component(void);
 	void	    Key_Input(void);
 
+private:
+	CTexture* m_pNumberTextureCom;
+
 public:
 	static CUIplayerstat*	Create(LPDIRECT3DDEVICE9 pGraphicDev);
 	

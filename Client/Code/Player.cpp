@@ -118,7 +118,7 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 	// UI 단축키 추가
 	if (Engine::InputDev()->Key_Down(DIK_I))
 	{
-		if (Engine::UIManager()->Set_InvenUse(m_pGraphicDev))
+		if (Engine::UIManager()->Set_InvenUse())
 		{
 			// 반환하는 값이 true, 즉 인벤을 열겠다는 의미이기에
 			// 마우스를 따라 회전하던 카메라 멈추고 / 화면 가운데에 고정되어있는 fix를 해제해주시면 됩니다!

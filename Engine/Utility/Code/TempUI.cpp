@@ -21,9 +21,14 @@ HRESULT CTempUI::Ready_Object()
 
 	//m_bPopup = false;
 	m_bCollider = false;
+	m_bSetup = false;
 
 	m_fCurrentImage = 0;
 
+	m_UIObjID = UIOBJECTTTAG::UIID_END;
+	m_UINumber = 0;
+
+	m_bEmpty = false;
 	//D3DXMatrixIdentity(&m_matWorld);
 	//m_fX = 0.f;
 	//m_fY = 0.f;
