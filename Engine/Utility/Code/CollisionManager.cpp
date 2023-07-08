@@ -222,7 +222,7 @@ bool CCollisionManager::IsCollision(CCollider * _pLeft, CCollider * _pRight)
 
 void CCollisionManager::CheckCollisionByType(OBJECTTAG _eObjectLeft, OBJECTTAG _eObjectRight)
 {
-	CScene* pScene = CSceneManager::GetInstance()->Get_Scene();
+	CScene* pScene = SceneManager()->Get_Scene();
 
 	const vector<CGameObject*>& vecLeft = pScene->Get_ObjectList(LAYERTAG::GAMELOGIC, _eObjectLeft);
 	const vector<CGameObject*>& vecRight = pScene->Get_ObjectList(LAYERTAG::GAMELOGIC, _eObjectRight);
@@ -231,13 +231,13 @@ void CCollisionManager::CheckCollisionByType(OBJECTTAG _eObjectLeft, OBJECTTAG _
 	//for (auto& iterL = vecLeft.begin(); iterL != vecLeft.end(); ++iterL)
 	for(auto& iterL : vecLeft)
 	{
-		if (nullptr == iterL->Get_Component(COMPONENTTAG::COLLIDER, ID_DYNAMIC))
+		if (nullptr == iterL->Get_Collider())
 			continue;
 
 		//for (auto& iterR = vecRight.begin(); iterR != vecRight.end(); ++iterR)
 		for (auto& iterR : vecRight)
 		{
-			if (nullptr == iterR->Get_Component(COMPONENTTAG::COLLIDER, ID_DYNAMIC) || iterL == iterR)
+			if (nullptr == iterR->Get_Collider() || iterL == iterR)
 				continue;
 
 			CCollider* pLeftCol = iterL->Get_Collider();
