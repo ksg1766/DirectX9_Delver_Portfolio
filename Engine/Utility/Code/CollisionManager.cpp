@@ -10,7 +10,6 @@ CCollisionManager::CCollisionManager()
 	CheckGroup(OBJECTTAG::MONSTER, OBJECTTAG::MONSTER);
 }
 
-
 CCollisionManager::~CCollisionManager()
 {
 }
@@ -241,8 +240,10 @@ void CCollisionManager::CheckCollisionByType(OBJECTTAG _eObjectLeft, OBJECTTAG _
 			if (nullptr == iterR->Get_Component(COMPONENTTAG::COLLIDER, ID_DYNAMIC) || iterL == iterR)
 				continue;
 
-			CCollider* pLeftCol = dynamic_cast<CCollider*>(iterL->Get_Component(COMPONENTTAG::COLLIDER, ID_DYNAMIC));
-			CCollider* pRightCol = dynamic_cast<CCollider*>(iterR->Get_Component(COMPONENTTAG::COLLIDER, ID_DYNAMIC));
+			CCollider* pLeftCol = iterL->Get_Collider();
+			//dynamic_cast<CCollider*>(iterL->Get_Component(COMPONENTTAG::COLLIDER, ID_DYNAMIC));
+			CCollider* pRightCol = iterR->Get_Collider();
+			//dynamic_cast<CCollider*>(iterR->Get_Component(COMPONENTTAG::COLLIDER, ID_DYNAMIC));
 
 			COLLIDER_ID ID;
 			ID.Left_id = pLeftCol->GetID();

@@ -2,12 +2,12 @@
 #include "Monster.h"
 
 CMonster::CMonster(LPDIRECT3DDEVICE9 pGraphicDev)
-	: CGameObject(pGraphicDev), m_pCollider(nullptr)
+	: CGameObject(pGraphicDev)
 {
 }
 
 CMonster::CMonster(const CMonster& rhs)
-	: CGameObject(rhs), m_pCollider(nullptr)
+	: CGameObject(rhs)
 {
 }
 

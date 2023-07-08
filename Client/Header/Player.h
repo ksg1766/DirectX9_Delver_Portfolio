@@ -40,8 +40,6 @@ public:
 private:
 	CPlayerBf*		m_pBuffer = nullptr;
 
-	CCollider*		m_pCollider = nullptr;
-
 	CStateMachine*	m_pStateMachine = nullptr;
 
 

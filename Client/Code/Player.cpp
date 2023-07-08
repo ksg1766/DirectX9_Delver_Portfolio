@@ -33,8 +33,7 @@ HRESULT CPlayer::Ready_Object(void)
 	m_eObjectTag = OBJECTTAG::PLAYER;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	dynamic_cast<CCollider*>(Get_Component(COMPONENTTAG::COLLIDER, ID_DYNAMIC))->
-		InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
+	Get_Collider()->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
 
 	m_pTransform->Translate (_vec3(0.f, 1.f, 0.f));
 	m_vOffset = _vec3(0.55f, 0.1f, 1.8f);
@@ -82,7 +81,7 @@ void CPlayer::Render_Object(void)
 	m_pStateMachine->Render_StateMachine();
 
 #if _DEBUG
-	dynamic_cast<CCollider*>(Get_Component(COMPONENTTAG::COLLIDER, ID_DYNAMIC))->Render_Collider();
+	m_pCollider->Render_Collider();
 #endif
 
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
@@ -123,62 +122,7 @@ HRESULT CPlayer::Add_Component(void)
 
 void CPlayer::Key_Input(const _float& fTimeDelta)
 {
-	/*if (Engine::InputDev()->Key_Pressing(DIK_W))
-		m_pTransform->Translate(m_fSpeed * fTimeDelta * m_pTransform->m_vInfo[INFO_LOOK]);
-
-	if (Engine::InputDev()->Key_Pressing(DIK_S))
-		m_pTransform->Translate(m_fSpeed * fTimeDelta * -m_pTransform->m_vInfo[INFO_LOOK]);
-
-	if (Engine::InputDev()->Key_Pressing(DIK_A))
-		m_pTransform->Translate(m_fSpeed * fTimeDelta * -m_pTransform->m_vInfo[INFO_RIGHT]);
-
-	if (Engine::InputDev()->Key_Pressing(DIK_D))
-		m_pTransform->Translate(m_fSpeed * fTimeDelta * m_pTransform->m_vInfo[INFO_RIGHT]);*/
-	
-	/*_long	dwMouseMove = 0;
-
-	if(dwMouseMove = Engine::InputDev()->Get_DIMouseMove(DIMS_X))
-		m_pTransform->Rotate(ROT_Y, D3DXToRadian(dwMouseMove) * fTimeDelta * 3.f);
-
-	if (dwMouseMove = Engine::InputDev()->Get_DIMouseMove(DIMS_Y))
-		m_pTransform->Rotate(ROT_X, D3DXToRadian(dwMouseMove)* fTimeDelta * 3.f);*/
-
-	//_long dwMouseMove = 0.f;
-
-	CGameObject* pGameObject = 
-		SceneManager()->
-		GetInstance()->
-		Get_ObjectList(LAYERTAG::ENVIRONMENT, OBJECTTAG::CAMERA).front();
-
-	//_bool b1stCamera = static_cast<CDynamicCamera*>(pGameObject)->Get_CameraMode();
-	//_bool bCameraFix = static_cast<CDynamicCamera*>(pGameObject)->Get_MouseFix();
-
-	//if (!bCameraFix)
-	//{
-	//	if (0 != (dwMouseMove = Engine::InputDev()->Get_DIMouseMove(DIMS_X)) && !b1stCamera)
-	//	{
-	//		_matrix matRotX;
-	//		_vec3 vUp;
-
-	//		D3DXMatrixRotationAxis(&matRotX, &m_pTransform->m_vInfo[INFO_UP], D3DXToRadian(dwMouseMove / 10.f));
-	//		D3DXVec3TransformNormal(&m_pTransform->m_vInfo[INFO_LOOK], &m_pTransform->m_vInfo[INFO_LOOK], &matRotX);
-	//		D3DXVec3TransformNormal(&m_pTransform->m_vInfo[INFO_RIGHT], &m_pTransform->m_vInfo[INFO_RIGHT], &matRotX);
-	//		D3DXVec3TransformCoord(&m_vOffset, &m_vOffset, &matRotX);
-
-	//	}
-
-	//	if (0 != (dwMouseMove = Engine::InputDev()->Get_DIMouseMove(DIMS_Y)) && !b1stCamera)
-	//	{
-	//		_vec3 vRight;
-	//		D3DXVec3Cross(&vRight, &m_pTransform->m_vInfo[INFO_UP], &m_pTransform->m_vInfo[INFO_LOOK]);
-
-	//		_matrix matRotY;
-
-	//		D3DXMatrixRotationAxis(&matRotY, &m_pTransform->m_vInfo[INFO_RIGHT], D3DXToRadian(dwMouseMove / 10.f));
-	//		D3DXVec3TransformNormal(&m_pTransform->m_vInfo[INFO_LOOK], &m_pTransform->m_vInfo[INFO_LOOK], &matRotY);
-	//		D3DXVec3TransformCoord(&m_vOffset, &m_vOffset, &matRotY);
-	//	}
-	//}
+	CGameObject* pGameObject = SceneManager()->Get_ObjectList(LAYERTAG::ENVIRONMENT, OBJECTTAG::CAMERA).front();
 
 	if (Engine::InputDev()->Key_Down(DIK_1))
 	{

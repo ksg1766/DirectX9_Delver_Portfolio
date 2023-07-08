@@ -28,19 +28,22 @@ public:
 	virtual void		Render_Object(void)PURE;
 
 public:
+	CCollider*			Get_Collider() { return m_pCollider; }
+
 	virtual void		OnCollisionEnter(CCollider* _pOther) {};
 	virtual void		OnCollisionStay(CCollider* _pOther) {};
 	virtual void		OnCollisionExit(CCollider* _pOther) {};
 
 private:
 	CComponent*			Find_Component(COMPONENTTAG pComponentTag, COMPONENTID eID);
-	
 
 public:
-	CTransform*							m_pTransform;	// Transform Attached to this GameObject
+	CTransform*							m_pTransform = nullptr;	// Transform Attached to this GameObject
 
 protected:
 	map<COMPONENTTAG, CComponent*>		m_mapComponent[ID_END];
+	CCollider*							m_pCollider = nullptr;
+
 	LPDIRECT3DDEVICE9					m_pGraphicDev;
 	_bool								m_IsDead;
 

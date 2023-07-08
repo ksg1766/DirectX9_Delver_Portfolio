@@ -65,7 +65,7 @@ void CDungeonWarrior::Render_Object()
 	m_pBuffer->Render_Buffer();
 
 #if _DEBUG
-	dynamic_cast<CCollider*>(Get_Component(COMPONENTTAG::COLLIDER, ID_DYNAMIC))->Render_Collider();
+	m_pCollider->Render_Collider();
 #endif
 
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);

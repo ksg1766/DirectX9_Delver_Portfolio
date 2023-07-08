@@ -22,7 +22,6 @@ public:
     virtual void		OnCollisionExit(CCollider* _pOther);
 
 protected:
-    CCollider*          m_pCollider;
     // MONSTER_ID m_eMonserID;
     // MonsterAI Component 추가해서 사용
 
