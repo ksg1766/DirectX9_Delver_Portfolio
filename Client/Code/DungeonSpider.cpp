@@ -53,7 +53,7 @@ _int CDungeonSpider::Update_Object(const _float& fTimeDelta)
 	NULL_CHECK_RETURN(pPlayerTransform, -1);
 
 	m_pStateMachine->Update_StateMachine(fTimeDelta);
-	m_pStateMachine->Render_StateMachine();
+	m_pStateMachine->Render_StateMachine();//현재 도스창에 상태를 나타내기 위한 함수
 	//m_pAI->Update_Component(fTimeDelta, pPlayerTransform->m_vInfo[INFO_POS]);
 	
 	if (m_pStateMachine->Get_State() != STATE::ATTACK)

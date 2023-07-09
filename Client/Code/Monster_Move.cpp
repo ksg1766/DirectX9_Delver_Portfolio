@@ -35,7 +35,7 @@ STATE CMonster_Move::Update_State(const _float& fTimeDelta)
 	_vec3 vDistance = vPlayerPos - m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
 	_float fDistanceLength = D3DXVec3LengthSq(&vDistance);
 	_float fSight = pow(15, 2);
-
+	
 	m_fChase += fTimeDelta;
 
 	if (fDistanceLength >= fSight)

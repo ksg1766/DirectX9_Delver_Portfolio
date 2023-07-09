@@ -96,11 +96,9 @@ _uint CLoading::Loading_ForStage()
 #pragma endregion UI
 
 #pragma region Boss
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_BossBf",				CBossBf::Create(m_pGraphicDev)), E_FAIL);
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Boss",			CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Entities/Boss/Idle/Boss_Idle%d.png", 8)), E_FAIL);
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_BossExplosion", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Effect/Explosion/Explosion%d.png", 16)), E_FAIL);
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_BossAttack",	CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Effect/Fire/Fire%d.png", 8)), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Boss_AI",				CBossAI::Create(m_pGraphicDev)), E_FAIL);
 #pragma endregion Boss
 
 

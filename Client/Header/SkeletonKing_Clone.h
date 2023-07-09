@@ -32,7 +32,7 @@ private:
 	CBossAI* m_pBossAI = nullptr;
 	CTerrain* m_pTerrain = nullptr;
 	_float	m_fFrame = 0;
-
+	_float	m_fSkillCool = 0;
 	_bool	m_bSkill;
 private:
 	HRESULT		Add_Component(void);
