@@ -22,7 +22,10 @@ HRESULT CCubeBlock::Ready_Object(void)
 	m_eObjectTag = OBJECTTAG::BLOCK;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pTransform->Translate(_vec3(4.f, 1.f, 4.f));
+	m_pTransform->Scale(_vec3(2.f, 2.f, 2.f));
+	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
+
+	m_pTransform->Translate(_vec3(20.f, 2.f, 20.f));
 	
 	return S_OK;
 }
@@ -44,8 +47,24 @@ void CCubeBlock::Render_Object(void)
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
 	
-	m_pTexture->Render_Texture(3);
+	m_pTexture->Render_Texture(1);
 	m_pBuffer->Render_Buffer();
+
+#if _DEBUG
+	m_pCollider->Render_Collider();
+#endif
+}
+
+void CCubeBlock::OnCollisionEnter(CCollider* _pOther)
+{
+}
+
+void CCubeBlock::OnCollisionStay(CCollider* _pOther)
+{
+}
+
+void CCubeBlock::OnCollisionExit(CCollider* _pOther)
+{
 }
 
 HRESULT CCubeBlock::Add_Component(void)
@@ -60,9 +79,13 @@ HRESULT CCubeBlock::Add_Component(void)
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TRANSFORM, pComponent);
 
-	pComponent = m_pTexture = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_SkyBox"));
+	pComponent = m_pTexture = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_Cube"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
+
+	pComponent = m_pCollider = dynamic_cast<CCollider*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Collider"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::COLLIDER, pComponent);
 
 	/*pComponent = dynamic_cast<CBillBoard*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BillBoard"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);

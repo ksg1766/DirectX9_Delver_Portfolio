@@ -22,23 +22,26 @@ private:
 
 public:
 	virtual HRESULT Ready_Object(void) override;
-	virtual _int Update_Object(const _float& fTimeDelta) override;
-	virtual void LateUpdate_Object(void) override;
-	virtual void Render_Object(void) override;
+	virtual _int	Update_Object(const _float& fTimeDelta) override;
+	virtual void	LateUpdate_Object(void) override;
+	virtual void	Render_Object(void) override;
 
-	void		Set_Terrain(CTerrain* _pCurrentTerrain);
+	void			Set_Terrain(CTerrain* _pCurrentTerrain);
 
 private:
-	HRESULT		Add_Component(void);
-	void		Key_Input(const _float& fTimeDelta);
-	void		ForceHeight(_vec3 _vPos);
+	HRESULT			Add_Component(void);
+	void			Key_Input(const _float& fTimeDelta);
+	void			ForceHeight(_vec3 _vPos);
 
 public:
 	_vec3			Get_Offset() { return m_vOffset; }
 	CPlayerStat*	Get_Stat()	 { return m_pStat; }
 
-public:
-	_vec3		Set_Offset(_vec3 _vOffset) { m_vOffset = _vOffset; }
+	_vec3			Set_Offset(_vec3 _vOffset) { m_vOffset = _vOffset; }
+
+	virtual void	OnCollisionEnter(CCollider* _pOther);
+	virtual void	OnCollisionStay(CCollider* _pOther);
+	virtual void	OnCollisionExit(CCollider* _pOther);
 
 private:
 	CPlayerBf*		m_pBuffer = nullptr;

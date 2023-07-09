@@ -122,8 +122,6 @@ void CSkeletonKing::ForceHeight(_vec3 _vPos)
 void CSkeletonKing::OnCollisionEnter(CCollider* _pOther)
 {
 #pragma region 밀어내기
-	CTransform* pOtherTransform = _pOther->Get_Transform();
-
 	_vec3	vOtherPos = _pOther->GetCenterPos();
 	_float* fOtherAxis = _pOther->GetAxisLen();
 
@@ -144,35 +142,23 @@ void CSkeletonKing::OnCollisionEnter(CCollider* _pOther)
 	if (fRadiusX == fMinAxis)
 	{
 		if (vOtherPos.x < vThisPos.x)
-		{
-			pOtherTransform->Translate(_vec3(-fRadiusX, 0.f, 0.f));
-		}
+			m_pTransform->Translate(_vec3(fRadiusX, 0.f, 0.f));
 		else
-		{
-			pOtherTransform->Translate(_vec3(fRadiusX, 0.f, 0.f));
-		}
+			m_pTransform->Translate(_vec3(-fRadiusX, 0.f, 0.f));
 	}
 	else if (fRadiusZ == fMinAxis)
 	{
 		if (vOtherPos.z < vThisPos.z)
-		{
-			pOtherTransform->Translate(_vec3(0.f, 0.f, -fRadiusZ));
-		}
+			m_pTransform->Translate(_vec3(0.f, 0.f, fRadiusZ));
 		else
-		{
-			pOtherTransform->Translate(_vec3(0.f, 0.f, fRadiusZ));
-		}
+			m_pTransform->Translate(_vec3(0.f, 0.f, -fRadiusZ));
 	}
 	else //(fRadiusY == fMinAxis)
 	{
 		if (vOtherPos.y < vThisPos.y)
-		{
-			pOtherTransform->Translate(_vec3(0.f, -fRadiusY, 0.f));
-		}
+			m_pTransform->Translate(_vec3(0.f, fRadiusY, 0.f));
 		else
-		{
-			pOtherTransform->Translate(_vec3(0.f, fRadiusY, 0.f));
-		}
+			m_pTransform->Translate(_vec3(0.f, -fRadiusY, 0.f));
 	}
 #pragma endregion 밀어내기
 }
@@ -180,8 +166,6 @@ void CSkeletonKing::OnCollisionEnter(CCollider* _pOther)
 void CSkeletonKing::OnCollisionStay(CCollider* _pOther)
 {
 #pragma region 밀어내기
-	CTransform* pOtherTransform = _pOther->Get_Transform();
-
 	_vec3	vOtherPos = _pOther->GetCenterPos();
 	_float* fOtherAxis = _pOther->GetAxisLen();
 
@@ -202,35 +186,23 @@ void CSkeletonKing::OnCollisionStay(CCollider* _pOther)
 	if (fRadiusX == fMinAxis)
 	{
 		if (vOtherPos.x < vThisPos.x)
-		{
-			pOtherTransform->Translate(_vec3(-fRadiusX, 0.f, 0.f));
-		}
+			m_pTransform->Translate(_vec3(fRadiusX, 0.f, 0.f));
 		else
-		{
-			pOtherTransform->Translate(_vec3(fRadiusX, 0.f, 0.f));
-		}
+			m_pTransform->Translate(_vec3(-fRadiusX, 0.f, 0.f));
 	}
 	else if (fRadiusZ == fMinAxis)
 	{
 		if (vOtherPos.z < vThisPos.z)
-		{
-			pOtherTransform->Translate(_vec3(0.f, 0.f, -fRadiusZ));
-		}
+			m_pTransform->Translate(_vec3(0.f, 0.f, fRadiusZ));
 		else
-		{
-			pOtherTransform->Translate(_vec3(0.f, 0.f, fRadiusZ));
-		}
+			m_pTransform->Translate(_vec3(0.f, 0.f, -fRadiusZ));
 	}
 	else //(fRadiusY == fMinAxis)
 	{
 		if (vOtherPos.y < vThisPos.y)
-		{
-			pOtherTransform->Translate(_vec3(0.f, -fRadiusY, 0.f));
-		}
+			m_pTransform->Translate(_vec3(0.f, fRadiusY, 0.f));
 		else
-		{
-			pOtherTransform->Translate(_vec3(0.f, fRadiusY, 0.f));
-		}
+			m_pTransform->Translate(_vec3(0.f, -fRadiusY, 0.f));
 	}
 #pragma endregion 밀어내기
 }

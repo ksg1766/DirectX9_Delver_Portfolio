@@ -6,7 +6,6 @@ BEGIN(Engine)
 
 class CTerrainTex;
 class CTexture;
-class CTransform;
 
 END
 

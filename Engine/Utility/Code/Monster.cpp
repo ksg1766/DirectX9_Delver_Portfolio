@@ -30,8 +30,6 @@ _int CMonster::Update_Object(const _float& fTimeDelta)
 
 void CMonster::OnCollisionEnter(CCollider* _pOther)
 {
-	CTransform*		pOtherTransform = _pOther->Get_Transform();
-
 	_vec3	vOtherPos = _pOther->GetCenterPos();
 	_float* fOtherAxis = _pOther->GetAxisLen();
 
@@ -52,42 +50,28 @@ void CMonster::OnCollisionEnter(CCollider* _pOther)
 	if (fRadiusX == fMinAxis)
 	{
 		if (vOtherPos.x < vThisPos.x)
-		{
-			pOtherTransform->Translate(_vec3(-fRadiusX, 0.f, 0.f));
-		}
+			m_pTransform->Translate(_vec3(fRadiusX, 0.f, 0.f));
 		else
-		{
-			pOtherTransform->Translate(_vec3(fRadiusX, 0.f, 0.f));
-		}
+			m_pTransform->Translate(_vec3(-fRadiusX, 0.f, 0.f));
 	}
 	else if (fRadiusZ == fMinAxis)
 	{
 		if (vOtherPos.z < vThisPos.z)
-		{
-			pOtherTransform->Translate(_vec3(0.f, 0.f, -fRadiusZ));
-		}
+			m_pTransform->Translate(_vec3(0.f, 0.f, fRadiusZ));
 		else
-		{
-			pOtherTransform->Translate(_vec3(0.f, 0.f, fRadiusZ));
-		}
+			m_pTransform->Translate(_vec3(0.f, 0.f, -fRadiusZ));
 	}
 	else //(fRadiusY == fMinAxis)
 	{
 		if (vOtherPos.y < vThisPos.y)
-		{
-			pOtherTransform->Translate(_vec3(0.f, -fRadiusY, 0.f));
-		}
+			m_pTransform->Translate(_vec3(0.f, fRadiusY, 0.f));
 		else
-		{
-			pOtherTransform->Translate(_vec3(0.f, fRadiusY, 0.f));
-		}
+			m_pTransform->Translate(_vec3(0.f, -fRadiusY, 0.f));
 	}
 }
 
 void CMonster::OnCollisionStay(CCollider* _pOther)
 {
-	CTransform* pOtherTransform = _pOther->Get_Transform();
-
 	_vec3	vOtherPos = _pOther->GetCenterPos();
 	_float* fOtherAxis = _pOther->GetAxisLen();
 
@@ -108,41 +92,23 @@ void CMonster::OnCollisionStay(CCollider* _pOther)
 	if (fRadiusX == fMinAxis)
 	{
 		if (vOtherPos.x < vThisPos.x)
-		{
-			vOtherPos = pOtherTransform->m_vInfo[INFO_POS];
-			pOtherTransform->Translate(_vec3(-fRadiusX, 0.f, 0.f));
-		}
+			m_pTransform->Translate(_vec3(fRadiusX, 0.f, 0.f));
 		else
-		{
-			vOtherPos = pOtherTransform->m_vInfo[INFO_POS];
-			pOtherTransform->Translate(_vec3(fRadiusX, 0.f, 0.f));
-		}
+			m_pTransform->Translate(_vec3(-fRadiusX, 0.f, 0.f));
 	}
 	else if (fRadiusZ == fMinAxis)
 	{
 		if (vOtherPos.z < vThisPos.z)
-		{
-			vOtherPos = pOtherTransform->m_vInfo[INFO_POS];
-			pOtherTransform->Translate(_vec3(0.f, 0.f, -fRadiusZ));
-		}
+			m_pTransform->Translate(_vec3(0.f, 0.f, fRadiusZ));
 		else
-		{
-			vOtherPos = pOtherTransform->m_vInfo[INFO_POS];
-			pOtherTransform->Translate(_vec3(0.f, 0.f, fRadiusZ));
-		}
+			m_pTransform->Translate(_vec3(0.f, 0.f, -fRadiusZ));
 	}
 	else //(fRadiusY == fMinAxis)
 	{
 		if (vOtherPos.y < vThisPos.y)
-		{
-			vOtherPos = pOtherTransform->m_vInfo[INFO_POS];
-			pOtherTransform->Translate(_vec3(0.f, -fRadiusY, 0.f));
-		}
+			m_pTransform->Translate(_vec3(0.f, fRadiusY, 0.f));
 		else
-		{
-			vOtherPos = pOtherTransform->m_vInfo[INFO_POS];
-			pOtherTransform->Translate(_vec3(0.f, fRadiusY, 0.f));
-		}
+			m_pTransform->Translate(_vec3(0.f, -fRadiusY, 0.f));
 	}
 }
 

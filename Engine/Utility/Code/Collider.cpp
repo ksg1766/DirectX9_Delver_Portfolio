@@ -75,13 +75,15 @@ HRESULT CCollider::InitOBB(_vec3 & _vCenter, _vec3 * _vAxisDir, float * _fAxisLe
 {
 	m_vCenterPos = _vCenter;
 
-	m_vAxisDir[0] = _vAxisDir[0];
-	m_vAxisDir[1] = _vAxisDir[1];
-	m_vAxisDir[2] = _vAxisDir[2];
+	_vec3 vAxisDir[3];
 
-	m_fAxisLen[0] = _fAxisLen[0];
-	m_fAxisLen[1] = _fAxisLen[1];
-	m_fAxisLen[2] = _fAxisLen[2];
+	for (int i = 0; i < INFO_POS; ++i)
+	{
+		::CopyMemory(&vAxisDir[i], _vAxisDir[i], sizeof(_vec3));
+		D3DXVec3Normalize(&vAxisDir[i], &vAxisDir[i]);
+		m_vAxisDir[i] = vAxisDir[i];
+		m_fAxisLen[i] = _fAxisLen[i];
+	}
 
 #if _DEBUG
 
