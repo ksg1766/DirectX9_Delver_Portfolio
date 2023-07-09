@@ -11,11 +11,11 @@ class CTransform;
 
 END
 
-class CBackGround : public CTempUI
+class CLoadingPont : public CTempUI
 {
 private:
-	explicit CBackGround(LPDIRECT3DDEVICE9 pGraphicDev);
-	virtual ~CBackGround();
+	explicit CLoadingPont(LPDIRECT3DDEVICE9 pGraphicDev);
+	virtual ~CLoadingPont();
 
 public:
 	HRESULT Ready_Object() override;
@@ -30,9 +30,10 @@ private:
 private:
 	CRcTex*			m_pBufferCom = nullptr;
 	CTexture*		m_pTextureCom = nullptr;
+	_float			m_fFrame = 0.f;
 
 public:
-	static CBackGround*		Create(LPDIRECT3DDEVICE9 pGraphicDev);
+	static CLoadingPont*		Create(LPDIRECT3DDEVICE9 pGraphicDev);
 
 private:
 	virtual void Free() override;

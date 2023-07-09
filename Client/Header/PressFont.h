@@ -11,11 +11,11 @@ class CTransform;
 
 END
 
-class CBackGround : public CTempUI
+class CPressFont : public CTempUI
 {
 private:
-	explicit CBackGround(LPDIRECT3DDEVICE9 pGraphicDev);
-	virtual ~CBackGround();
+	explicit CPressFont(LPDIRECT3DDEVICE9 pGraphicDev);
+	virtual ~CPressFont();
 
 public:
 	HRESULT Ready_Object() override;
@@ -30,9 +30,11 @@ private:
 private:
 	CRcTex*			m_pBufferCom = nullptr;
 	CTexture*		m_pTextureCom = nullptr;
+	_bool           m_bRender = true;
+	_float			m_fTime = 0.f;
 
 public:
-	static CBackGround*		Create(LPDIRECT3DDEVICE9 pGraphicDev);
+	static CPressFont*		Create(LPDIRECT3DDEVICE9 pGraphicDev);
 
 private:
 	virtual void Free() override;

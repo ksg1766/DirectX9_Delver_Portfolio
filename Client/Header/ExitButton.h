@@ -11,11 +11,11 @@ class CTransform;
 
 END
 
-class CBackGround : public CTempUI
+class CExitButton : public CTempUI
 {
 private:
-	explicit CBackGround(LPDIRECT3DDEVICE9 pGraphicDev);
-	virtual ~CBackGround();
+	explicit CExitButton(LPDIRECT3DDEVICE9 pGraphicDev);
+	virtual ~CExitButton();
 
 public:
 	HRESULT Ready_Object() override;
@@ -32,7 +32,7 @@ private:
 	CTexture*		m_pTextureCom = nullptr;
 
 public:
-	static CBackGround*		Create(LPDIRECT3DDEVICE9 pGraphicDev);
+	static CExitButton*		Create(LPDIRECT3DDEVICE9 pGraphicDev);
 
 private:
 	virtual void Free() override;

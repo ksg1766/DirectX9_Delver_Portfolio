@@ -1,16 +1,16 @@
 #include "stdafx.h"
-#include "..\Header\BackGround.h"
+#include "..\Header\ExitButton.h"
 
-CBackGround::CBackGround(LPDIRECT3DDEVICE9 pGraphicDev)
+CExitButton::CExitButton(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CTempUI(pGraphicDev)
 {
 }
 
-CBackGround::~CBackGround()
+CExitButton::~CExitButton()
 {
 }
 
-HRESULT CBackGround::Ready_Object(void)
+HRESULT CExitButton::Ready_Object(void)
 {
 	m_eObjectTag = OBJECTTAG::BACKGROUND;
 	FAILED_CHECK_RETURN(CTempUI::Ready_Object(), E_FAIL); // ÃÊ±âÈ­
@@ -18,36 +18,38 @@ HRESULT CBackGround::Ready_Object(void)
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	m_pTransform->m_vInfo[INFO_POS].x = WINCX / 2;
-	m_pTransform->m_vInfo[INFO_POS].y = WINCY / 2;
-	m_pTransform->m_vLocalScale.x = 650;
-	m_pTransform->m_vLocalScale.y = 370;
+	m_pTransform->m_vInfo[INFO_POS].y = 200.f;
+	m_pTransform->m_vLocalScale.x = 200;
+	m_pTransform->m_vLocalScale.y = 40;
 
 	WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);
 	
+	m_fCurrentImage = 8;
+
 	return S_OK;
 }
 
-Engine::_int CBackGround::Update_Object(const _float& fTimeDelta)
+Engine::_int CExitButton::Update_Object(const _float& fTimeDelta)
 {
 	_int iExit = CTempUI::Update_Object(fTimeDelta);
 
 	return iExit;
 }
 
-void CBackGround::LateUpdate_Object(void)
+void CExitButton::LateUpdate_Object(void)
 {
 	CTempUI::LateUpdate_Object();
 }
 
-void CBackGround::Render_Object(void)
+void CExitButton::Render_Object(void)
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorld);
 
-	m_pTextureCom->Render_Texture(1);
+	m_pTextureCom->Render_Texture(m_fCurrentImage);
 	m_pBufferCom->Render_Buffer();
 }
 
-HRESULT CBackGround::Add_Component(void)
+HRESULT CExitButton::Add_Component(void)
 {
 	CComponent*			pComponent = nullptr;
 
@@ -71,18 +73,33 @@ HRESULT CBackGround::Add_Component(void)
 }
 
 
-void CBackGround::Key_Input(void)
+void CExitButton::Key_Input(void)
 {
+	POINT	pt{};
+	GetCursorPos(&pt);
+	ScreenToClient(g_hWnd, &pt);
+
+	if (OnCollision(pt, m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y))
+	{
+		m_fCurrentImage = 9;
+		if (Engine::InputDev()->Mouse_Down(DIM_LB)) {
+			DestroyWindow(g_hWnd);
+		}
+	}
+	else
+	{
+		m_fCurrentImage = 8;
+	}
 }
 
-void CBackGround::Free()
+void CExitButton::Free()
 {
 	CTempUI::Free();
 }
 
-CBackGround* CBackGround::Create(LPDIRECT3DDEVICE9 pGraphicDev)
+CExitButton* CExitButton::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 {
-	CBackGround*	pInstance = new CBackGround(pGraphicDev);
+	CExitButton*	pInstance = new CExitButton(pGraphicDev);
 
 	if (FAILED(pInstance->Ready_Object()))
 	{

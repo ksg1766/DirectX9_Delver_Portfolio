@@ -182,11 +182,22 @@
     <ClInclude Include="..\Header\DungeonSpider.h" />
     <ClInclude Include="..\Header\DungeonWarrior.h" />
     <ClInclude Include="..\Header\DynamicCamera.h" />
+    <ClInclude Include="..\Header\EditButton.h" />
+    <ClInclude Include="..\Header\EditLoading.h" />
     <ClInclude Include="..\Header\Editor.h" />
+<<<<<<< HEAD
     <ClInclude Include="..\Header\FirePattern.h" />
+=======
+    <ClInclude Include="..\Header\ExitButton.h" />
+>>>>>>> feature/hana
     <ClInclude Include="..\Header\FlyingCamera.h" />
+    <ClInclude Include="..\Header\GameLogo.h" />
     <ClInclude Include="..\Header\ImGuiManager.h" />
     <ClInclude Include="..\Header\Loading.h" />
+    <ClInclude Include="..\Header\LoadingBackGround.h" />
+    <ClInclude Include="..\Header\LoadingPont.h" />
+    <ClInclude Include="..\Header\ProgressBar.h" />
+    <ClInclude Include="..\Header\StageLoading.h" />
     <ClInclude Include="..\Header\Logo.h" />
     <ClInclude Include="..\Header\MainApp.h" />
     <ClInclude Include="..\Header\Monster_Fly.h" />
@@ -196,10 +207,13 @@
     <ClInclude Include="..\Header\Player.h" />
     <ClInclude Include="..\Header\PlayerState_Idle.h" />
     <ClInclude Include="..\Header\PlayerState_Walk.h" />
+    <ClInclude Include="..\Header\PressFont.h" />
+    <ClInclude Include="..\Header\SelectFont.h" />
     <ClInclude Include="..\Header\SkeletonKing.h" />
     <ClInclude Include="..\Header\SkeletonKing_Clone.h" />
     <ClInclude Include="..\Header\SkyBox.h" />
     <ClInclude Include="..\Header\Stage.h" />
+    <ClInclude Include="..\Header\StartButton.h" />
     <ClInclude Include="..\Header\TempItem.h" />
     <ClInclude Include="..\Header\Terrain.h" />
     <ClInclude Include="..\Header\UIaimpoint.h" />
@@ -241,11 +255,22 @@
     <ClCompile Include="..\Code\DungeonSpider.cpp" />
     <ClCompile Include="..\Code\DungeonWarrior.cpp" />
     <ClCompile Include="..\Code\DynamicCamera.cpp" />
+    <ClCompile Include="..\Code\EditButton.cpp" />
+    <ClCompile Include="..\Code\EditLoading.cpp" />
     <ClCompile Include="..\Code\Editor.cpp" />
+<<<<<<< HEAD
     <ClCompile Include="..\Code\FirePattern.cpp" />
+=======
+    <ClCompile Include="..\Code\ExitButton.cpp" />
+>>>>>>> feature/hana
     <ClCompile Include="..\Code\FlyingCamera.cpp" />
+    <ClCompile Include="..\Code\GameLogo.cpp" />
     <ClCompile Include="..\Code\ImGuiManager.cpp" />
     <ClCompile Include="..\Code\Loading.cpp" />
+    <ClCompile Include="..\Code\LoadingBackGround.cpp" />
+    <ClCompile Include="..\Code\LoadingPont.cpp" />
+    <ClCompile Include="..\Code\ProgressBar.cpp" />
+    <ClCompile Include="..\Code\StageLoading.cpp" />
     <ClCompile Include="..\Code\Logo.cpp" />
     <ClCompile Include="..\Code\MainApp.cpp" />
     <ClCompile Include="..\Code\Monster_Fly.cpp" />
@@ -255,10 +280,13 @@
     <ClCompile Include="..\Code\Player.cpp" />
     <ClCompile Include="..\Code\PlayerState_Idle.cpp" />
     <ClCompile Include="..\Code\PlayerState_Walk.cpp" />
+    <ClCompile Include="..\Code\PressFont.cpp" />
+    <ClCompile Include="..\Code\SelectFont.cpp" />
     <ClCompile Include="..\Code\SkeletonKing.cpp" />
     <ClCompile Include="..\Code\SkeletonKing_Clone.cpp" />
     <ClCompile Include="..\Code\SkyBox.cpp" />
     <ClCompile Include="..\Code\Stage.cpp" />
+    <ClCompile Include="..\Code\StartButton.cpp" />
     <ClCompile Include="..\Code\TempItem.cpp" />
     <ClCompile Include="..\Code\Terrain.cpp" />
     <ClCompile Include="..\Code\UIaimpoint.cpp" />

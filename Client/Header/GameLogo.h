@@ -11,11 +11,11 @@ class CTransform;
 
 END
 
-class CBackGround : public CTempUI
+class CGameLogo : public CTempUI
 {
 private:
-	explicit CBackGround(LPDIRECT3DDEVICE9 pGraphicDev);
-	virtual ~CBackGround();
+	explicit CGameLogo(LPDIRECT3DDEVICE9 pGraphicDev);
+	virtual ~CGameLogo();
 
 public:
 	HRESULT Ready_Object() override;
@@ -32,7 +32,7 @@ private:
 	CTexture*		m_pTextureCom = nullptr;
 
 public:
-	static CBackGround*		Create(LPDIRECT3DDEVICE9 pGraphicDev);
+	static CGameLogo*		Create(LPDIRECT3DDEVICE9 pGraphicDev);
 
 private:
 	virtual void Free() override;

@@ -1,16 +1,16 @@
 #include "stdafx.h"
-#include "..\Header\BackGround.h"
+#include "..\Header\SelectFont.h"
 
-CBackGround::CBackGround(LPDIRECT3DDEVICE9 pGraphicDev)
+CSelectFont::CSelectFont(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CTempUI(pGraphicDev)
 {
 }
 
-CBackGround::~CBackGround()
+CSelectFont::~CSelectFont()
 {
 }
 
-HRESULT CBackGround::Ready_Object(void)
+HRESULT CSelectFont::Ready_Object(void)
 {
 	m_eObjectTag = OBJECTTAG::BACKGROUND;
 	FAILED_CHECK_RETURN(CTempUI::Ready_Object(), E_FAIL); // ÃÊ±âÈ­
@@ -18,36 +18,36 @@ HRESULT CBackGround::Ready_Object(void)
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	m_pTransform->m_vInfo[INFO_POS].x = WINCX / 2;
-	m_pTransform->m_vInfo[INFO_POS].y = WINCY / 2;
-	m_pTransform->m_vLocalScale.x = 650;
-	m_pTransform->m_vLocalScale.y = 370;
+	m_pTransform->m_vInfo[INFO_POS].y = 480.f;
+	m_pTransform->m_vLocalScale.x = 180;
+	m_pTransform->m_vLocalScale.y = 20;
 
 	WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);
 	
 	return S_OK;
 }
 
-Engine::_int CBackGround::Update_Object(const _float& fTimeDelta)
+Engine::_int CSelectFont::Update_Object(const _float& fTimeDelta)
 {
 	_int iExit = CTempUI::Update_Object(fTimeDelta);
 
 	return iExit;
 }
 
-void CBackGround::LateUpdate_Object(void)
+void CSelectFont::LateUpdate_Object(void)
 {
 	CTempUI::LateUpdate_Object();
 }
 
-void CBackGround::Render_Object(void)
+void CSelectFont::Render_Object(void)
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorld);
 
-	m_pTextureCom->Render_Texture(1);
+	m_pTextureCom->Render_Texture(10);
 	m_pBufferCom->Render_Buffer();
 }
 
-HRESULT CBackGround::Add_Component(void)
+HRESULT CSelectFont::Add_Component(void)
 {
 	CComponent*			pComponent = nullptr;
 
@@ -71,18 +71,18 @@ HRESULT CBackGround::Add_Component(void)
 }
 
 
-void CBackGround::Key_Input(void)
+void CSelectFont::Key_Input(void)
 {
 }
 
-void CBackGround::Free()
+void CSelectFont::Free()
 {
 	CTempUI::Free();
 }
 
-CBackGround* CBackGround::Create(LPDIRECT3DDEVICE9 pGraphicDev)
+CSelectFont* CSelectFont::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 {
-	CBackGround*	pInstance = new CBackGround(pGraphicDev);
+	CSelectFont*	pInstance = new CSelectFont(pGraphicDev);
 
 	if (FAILED(pInstance->Ready_Object()))
 	{

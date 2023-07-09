@@ -1,16 +1,16 @@
 #include "stdafx.h"
-#include "..\Header\BackGround.h"
+#include "..\Header\PressFont.h"
 
-CBackGround::CBackGround(LPDIRECT3DDEVICE9 pGraphicDev)
+CPressFont::CPressFont(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CTempUI(pGraphicDev)
 {
 }
 
-CBackGround::~CBackGround()
+CPressFont::~CPressFont()
 {
 }
 
-HRESULT CBackGround::Ready_Object(void)
+HRESULT CPressFont::Ready_Object(void)
 {
 	m_eObjectTag = OBJECTTAG::BACKGROUND;
 	FAILED_CHECK_RETURN(CTempUI::Ready_Object(), E_FAIL); // ÃÊ±âÈ­
@@ -18,36 +18,52 @@ HRESULT CBackGround::Ready_Object(void)
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	m_pTransform->m_vInfo[INFO_POS].x = WINCX / 2;
-	m_pTransform->m_vInfo[INFO_POS].y = WINCY / 2;
-	m_pTransform->m_vLocalScale.x = 650;
-	m_pTransform->m_vLocalScale.y = 370;
+	m_pTransform->m_vInfo[INFO_POS].y = 100.f;
+	m_pTransform->m_vLocalScale.x = 280;
+	m_pTransform->m_vLocalScale.y = 25;
 
 	WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);
 	
 	return S_OK;
 }
 
-Engine::_int CBackGround::Update_Object(const _float& fTimeDelta)
+Engine::_int CPressFont::Update_Object(const _float& fTimeDelta)
 {
+	m_fTime += 70.f * fTimeDelta;
+
+	if (70.f < m_fTime)
+	{
+		if (m_bRender) {
+			m_bRender = false;
+		}
+		else {
+			m_bRender = true;
+		}
+		m_fTime = 0.f;
+	}
+
 	_int iExit = CTempUI::Update_Object(fTimeDelta);
 
 	return iExit;
 }
 
-void CBackGround::LateUpdate_Object(void)
+void CPressFont::LateUpdate_Object(void)
 {
 	CTempUI::LateUpdate_Object();
 }
 
-void CBackGround::Render_Object(void)
+void CPressFont::Render_Object(void)
 {
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorld);
+	if (m_bRender)
+	{
+		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorld);
 
-	m_pTextureCom->Render_Texture(1);
-	m_pBufferCom->Render_Buffer();
+		m_pTextureCom->Render_Texture(3);
+		m_pBufferCom->Render_Buffer();
+	}
 }
 
-HRESULT CBackGround::Add_Component(void)
+HRESULT CPressFont::Add_Component(void)
 {
 	CComponent*			pComponent = nullptr;
 
@@ -71,18 +87,18 @@ HRESULT CBackGround::Add_Component(void)
 }
 
 
-void CBackGround::Key_Input(void)
+void CPressFont::Key_Input(void)
 {
 }
 
-void CBackGround::Free()
+void CPressFont::Free()
 {
 	CTempUI::Free();
 }
 
-CBackGround* CBackGround::Create(LPDIRECT3DDEVICE9 pGraphicDev)
+CPressFont* CPressFont::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 {
-	CBackGround*	pInstance = new CBackGround(pGraphicDev);
+	CPressFont*	pInstance = new CPressFont(pGraphicDev);
 
 	if (FAILED(pInstance->Ready_Object()))
 	{

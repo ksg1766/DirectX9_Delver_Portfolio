@@ -11,11 +11,11 @@ class CTransform;
 
 END
 
-class CBackGround : public CTempUI
+class CProgressBar : public CTempUI
 {
 private:
-	explicit CBackGround(LPDIRECT3DDEVICE9 pGraphicDev);
-	virtual ~CBackGround();
+	explicit CProgressBar(LPDIRECT3DDEVICE9 pGraphicDev);
+	virtual ~CProgressBar();
 
 public:
 	HRESULT Ready_Object() override;
@@ -26,13 +26,21 @@ public:
 private:
 	HRESULT		Add_Component(void);
 	void	    Key_Input(void);
+	void        Update_BarUI();
 
 private:
 	CRcTex*			m_pBufferCom = nullptr;
 	CTexture*		m_pTextureCom = nullptr;
 
+	_int            m_iCurrentBar;
+	_int            m_iMaxBar;
+	_float          m_fPosition;
+	_float          m_flength;
+
+	_int            m_iFinish;
+
 public:
-	static CBackGround*		Create(LPDIRECT3DDEVICE9 pGraphicDev);
+	static CProgressBar*		Create(LPDIRECT3DDEVICE9 pGraphicDev);
 
 private:
 	virtual void Free() override;

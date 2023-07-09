@@ -11,11 +11,11 @@ class CTransform;
 
 END
 
-class CBackGround : public CTempUI
+class CSelectFont : public CTempUI
 {
 private:
-	explicit CBackGround(LPDIRECT3DDEVICE9 pGraphicDev);
-	virtual ~CBackGround();
+	explicit CSelectFont(LPDIRECT3DDEVICE9 pGraphicDev);
+	virtual ~CSelectFont();
 
 public:
 	HRESULT Ready_Object() override;
@@ -32,7 +32,7 @@ private:
 	CTexture*		m_pTextureCom = nullptr;
 
 public:
-	static CBackGround*		Create(LPDIRECT3DDEVICE9 pGraphicDev);
+	static CSelectFont*		Create(LPDIRECT3DDEVICE9 pGraphicDev);
 
 private:
 	virtual void Free() override;

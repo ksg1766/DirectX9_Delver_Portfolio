@@ -1,16 +1,16 @@
 #include "stdafx.h"
-#include "..\Header\BackGround.h"
+#include "..\Header\LoadingBackGround.h"
 
-CBackGround::CBackGround(LPDIRECT3DDEVICE9 pGraphicDev)
+CLoadingBackGround::CLoadingBackGround(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CTempUI(pGraphicDev)
 {
 }
 
-CBackGround::~CBackGround()
+CLoadingBackGround::~CLoadingBackGround()
 {
 }
 
-HRESULT CBackGround::Ready_Object(void)
+HRESULT CLoadingBackGround::Ready_Object(void)
 {
 	m_eObjectTag = OBJECTTAG::BACKGROUND;
 	FAILED_CHECK_RETURN(CTempUI::Ready_Object(), E_FAIL); // ÃÊ±âÈ­
@@ -27,27 +27,27 @@ HRESULT CBackGround::Ready_Object(void)
 	return S_OK;
 }
 
-Engine::_int CBackGround::Update_Object(const _float& fTimeDelta)
+Engine::_int CLoadingBackGround::Update_Object(const _float& fTimeDelta)
 {
 	_int iExit = CTempUI::Update_Object(fTimeDelta);
 
 	return iExit;
 }
 
-void CBackGround::LateUpdate_Object(void)
+void CLoadingBackGround::LateUpdate_Object(void)
 {
 	CTempUI::LateUpdate_Object();
 }
 
-void CBackGround::Render_Object(void)
+void CLoadingBackGround::Render_Object(void)
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorld);
 
-	m_pTextureCom->Render_Texture(1);
+	m_pTextureCom->Render_Texture(0);
 	m_pBufferCom->Render_Buffer();
 }
 
-HRESULT CBackGround::Add_Component(void)
+HRESULT CLoadingBackGround::Add_Component(void)
 {
 	CComponent*			pComponent = nullptr;
 
@@ -59,7 +59,7 @@ HRESULT CBackGround::Add_Component(void)
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::TRANSFORM, pComponent);
 
-	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_Logo"));
+	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_StageBackground"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
 
@@ -71,18 +71,18 @@ HRESULT CBackGround::Add_Component(void)
 }
 
 
-void CBackGround::Key_Input(void)
+void CLoadingBackGround::Key_Input(void)
 {
 }
 
-void CBackGround::Free()
+void CLoadingBackGround::Free()
 {
 	CTempUI::Free();
 }
 
-CBackGround* CBackGround::Create(LPDIRECT3DDEVICE9 pGraphicDev)
+CLoadingBackGround* CLoadingBackGround::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 {
-	CBackGround*	pInstance = new CBackGround(pGraphicDev);
+	CLoadingBackGround*	pInstance = new CLoadingBackGround(pGraphicDev);
 
 	if (FAILED(pInstance->Ready_Object()))
 	{

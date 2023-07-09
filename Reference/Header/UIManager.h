@@ -116,6 +116,8 @@ public:
 	void Show_PopupUI(UIPOPUPLAYER _PopupID);
 	void Hide_PopupUI(UIPOPUPLAYER _PopupID);
 
+	void Delete_BasicObject(UILAYER eType);
+
 public:
 	void AddBasicGameobject_UI(UILAYER eType, CGameObject* pGameObject);
 	void AddPopupGameobject_UI(UIPOPUPLAYER ePopupLayer, UILAYER eType, CGameObject* pGameObject);
@@ -126,6 +128,20 @@ public:
 		_uint        UINumber;
 
 		for (auto iter : m_mapPpopupUI[ePopupLayer][eType])
+		{
+			dynamic_cast<CTempUI*>(iter)->Get_UIObjID(UIObjID, UINumber);
+			if (UIObjID == eObjID && UINumber == eUINumber)
+			{
+				return iter;
+			}
+		}
+	}
+	CGameObject* Get_BasicObject(UILAYER eType, UIOBJECTTTAG eObjID, _uint eUINumber)
+	{
+		UIOBJECTTTAG UIObjID;
+		_uint        UINumber;
+
+		for (auto iter : m_vecUIbasic[eType])
 		{
 			dynamic_cast<CTempUI*>(iter)->Get_UIObjID(UIObjID, UINumber);
 			if (UIObjID == eObjID && UINumber == eUINumber)
@@ -156,6 +172,9 @@ public:
 private:
 	vector<CGameObject*> m_vecUIbasic[UILAYER::UI_END];
 	map<UIPOPUPLAYER, vector<CGameObject*>[UILAYER::UI_END]> m_mapPpopupUI;
+
+	vector<CGameObject*> m_vecCreate;
+	vector<CGameObject*> m_vecDead;
 
 private:
 	virtual void Free() override;

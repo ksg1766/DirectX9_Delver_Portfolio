@@ -1,16 +1,16 @@
 #include "stdafx.h"
-#include "..\Header\BackGround.h"
+#include "..\Header\GameLogo.h"
 
-CBackGround::CBackGround(LPDIRECT3DDEVICE9 pGraphicDev)
+CGameLogo::CGameLogo(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CTempUI(pGraphicDev)
 {
 }
 
-CBackGround::~CBackGround()
+CGameLogo::~CGameLogo()
 {
 }
 
-HRESULT CBackGround::Ready_Object(void)
+HRESULT CGameLogo::Ready_Object(void)
 {
 	m_eObjectTag = OBJECTTAG::BACKGROUND;
 	FAILED_CHECK_RETURN(CTempUI::Ready_Object(), E_FAIL); // ÃÊ±âÈ­
@@ -18,36 +18,36 @@ HRESULT CBackGround::Ready_Object(void)
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	m_pTransform->m_vInfo[INFO_POS].x = WINCX / 2;
-	m_pTransform->m_vInfo[INFO_POS].y = WINCY / 2;
-	m_pTransform->m_vLocalScale.x = 650;
-	m_pTransform->m_vLocalScale.y = 370;
+	m_pTransform->m_vInfo[INFO_POS].y = WINCY / 2 + 30.f;
+	m_pTransform->m_vLocalScale.x = 400;
+	m_pTransform->m_vLocalScale.y = 225;
 
 	WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);
 	
 	return S_OK;
 }
 
-Engine::_int CBackGround::Update_Object(const _float& fTimeDelta)
+Engine::_int CGameLogo::Update_Object(const _float& fTimeDelta)
 {
 	_int iExit = CTempUI::Update_Object(fTimeDelta);
 
 	return iExit;
 }
 
-void CBackGround::LateUpdate_Object(void)
+void CGameLogo::LateUpdate_Object(void)
 {
 	CTempUI::LateUpdate_Object();
 }
 
-void CBackGround::Render_Object(void)
+void CGameLogo::Render_Object(void)
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorld);
 
-	m_pTextureCom->Render_Texture(1);
+	m_pTextureCom->Render_Texture(2);
 	m_pBufferCom->Render_Buffer();
 }
 
-HRESULT CBackGround::Add_Component(void)
+HRESULT CGameLogo::Add_Component(void)
 {
 	CComponent*			pComponent = nullptr;
 
@@ -71,18 +71,18 @@ HRESULT CBackGround::Add_Component(void)
 }
 
 
-void CBackGround::Key_Input(void)
+void CGameLogo::Key_Input(void)
 {
 }
 
-void CBackGround::Free()
+void CGameLogo::Free()
 {
 	CTempUI::Free();
 }
 
-CBackGround* CBackGround::Create(LPDIRECT3DDEVICE9 pGraphicDev)
+CGameLogo* CGameLogo::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 {
-	CBackGround*	pInstance = new CBackGround(pGraphicDev);
+	CGameLogo*	pInstance = new CGameLogo(pGraphicDev);
 
 	if (FAILED(pInstance->Ready_Object()))
 	{
