@@ -30,6 +30,8 @@ public:
 	_bool	Mouse_Down(MOUSEKEYSTATE eMouseID);
 	_bool	Mouse_Up(MOUSEKEYSTATE eMouseID);
 
+	_bool   Get_AnyKeyDown();
+
 public:
 	HRESULT Ready_InputDev(HINSTANCE hInst, HWND hWnd);
 	void	Update_InputDev(void);

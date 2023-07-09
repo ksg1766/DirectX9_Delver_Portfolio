@@ -1,65 +1,50 @@
 #include "stdafx.h"
 #include "..\Header\BackGround.h"
 
-#include "Export_Function.h"
-
 CBackGround::CBackGround(LPDIRECT3DDEVICE9 pGraphicDev)
-	: Engine::CGameObject(pGraphicDev)
+	: CTempUI(pGraphicDev)
 {
-
 }
-CBackGround::CBackGround(const CBackGround& rhs)
-	: Engine::CGameObject(rhs)
-{
 
-}
 CBackGround::~CBackGround()
 {
 }
 
 HRESULT CBackGround::Ready_Object(void)
 {
-	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 	m_eObjectTag = OBJECTTAG::BACKGROUND;
+	FAILED_CHECK_RETURN(CTempUI::Ready_Object(), E_FAIL); // 초기화
 
-	//m_pGraphicDev->SetRenderState(D3DRS_ZENABLE, TRUE);			// Z버퍼에 깊이 값을 무조건 기록, 정렬을 수행할 지 말지 결정하는 옵션
-	//m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);	// Z버퍼에 픽셀의 깊이 값을 기록 할 지 말지 결정하는 옵션
+	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
+	m_pTransform->m_vInfo[INFO_POS].x = WINCX / 2;
+	m_pTransform->m_vInfo[INFO_POS].y = WINCY / 2;
+	m_pTransform->m_vLocalScale.x = 650;
+	m_pTransform->m_vLocalScale.y = 370;
+
+	WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);
+	
 	return S_OK;
 }
 
 Engine::_int CBackGround::Update_Object(const _float& fTimeDelta)
 {
+	_int iExit = CTempUI::Update_Object(fTimeDelta);
 
-	__super::Update_Object(fTimeDelta);
-
-	Engine::Renderer()->Add_RenderGroup(RENDER_PRIORITY, this);
-
-	return 0;
+	return iExit;
 }
 
 void CBackGround::LateUpdate_Object(void)
 {
-	__super::LateUpdate_Object();
+	CTempUI::LateUpdate_Object();
 }
 
 void CBackGround::Render_Object(void)
 {
-	//m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-	
-	//m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-	//m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorld);
 
-	//m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-
-	//m_pGraphicDev->SetRenderState(D3DRS_ALPHAREF, (DWORD)0x00000001);
-	//m_pGraphicDev->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
-
-	m_pTextureCom->Render_Texture(0);
+	m_pTextureCom->Render_Texture(1);
 	m_pBufferCom->Render_Buffer();
-		
-	//m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
-	//m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 }
 
 HRESULT CBackGround::Add_Component(void)
@@ -70,16 +55,29 @@ HRESULT CBackGround::Add_Component(void)
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BUFFER, pComponent);
 
+	pComponent = m_pTransform = dynamic_cast<CTransform*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Transform_Logo"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::TRANSFORM, pComponent);
+
 	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_Logo"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
 
+	for (int i = 0; i < ID_END; ++i)
+		for (auto& iter : m_mapComponent[i])
+			iter.second->Init_Property(this);
+
 	return S_OK;
+}
+
+
+void CBackGround::Key_Input(void)
+{
 }
 
 void CBackGround::Free()
 {
-	__super::Free();
+	CTempUI::Free();
 }
 
 CBackGround* CBackGround::Create(LPDIRECT3DDEVICE9 pGraphicDev)

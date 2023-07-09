@@ -2,8 +2,8 @@
 #include "..\Header\Logo.h"
 
 #include "Export_Function.h"
-#include "Stage.h"
-#include "Editor.h"
+//#include "Stage.h"
+//#include "Editor.h"
 
 CLogo::CLogo(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
@@ -20,9 +20,13 @@ HRESULT CLogo::Ready_Scene()
 
 	FAILED_CHECK_RETURN(Ready_Layer_Environment(LAYERTAG::ENVIRONMENT), E_FAIL);
 	
-	m_pLoading = CLoading::Create(m_pGraphicDev, CLoading::LOADINGID::LOADING_STAGE);
+	//m_pLoading = CLoading::Create(m_pGraphicDev, CLoading::LOADINGID::LOADING_STAGE);
 	//m_pLoading = CLoading::Create(m_pGraphicDev, CLoading::LOADINGID::LOADING_EDITOR);
-	NULL_CHECK_RETURN(m_pLoading, E_FAIL);
+	//NULL_CHECK_RETURN(m_pLoading, E_FAIL);
+
+	HCURSOR Cursor = GetCursor();
+	Cursor = LoadCursor(NULL, IDC_ARROW);
+	SetCursor(Cursor);
 
 	return S_OK;
 }
@@ -31,13 +35,42 @@ Engine::_int CLogo::Update_Scene(const _float& fTimeDelta)
 {
 	_int iExit =__super::Update_Scene(fTimeDelta);
 
-	if (true == m_pLoading->Get_Finish())
-	{
-		CScene*		pScene = CStage::Create(m_pGraphicDev);
-		//CScene* pScene = CEditor::Create(m_pGraphicDev);
-		NULL_CHECK_RETURN(pScene, -1);
+	UIManager()->Update_UI(fTimeDelta);
 
-		FAILED_CHECK_RETURN(Engine::SceneManager()->Set_Scene(pScene), E_FAIL);
+	//if (true == m_pLoading->Get_Finish() && Engine::InputDev()->Get_AnyKeyPressing())
+	//{
+	//	CScene*		pScene = CStage::Create(m_pGraphicDev);
+	//	//CScene* pScene = CEditor::Create(m_pGraphicDev);
+	//	NULL_CHECK_RETURN(pScene, -1);
+
+	//	FAILED_CHECK_RETURN(Engine::SceneManager()->Set_Scene(pScene), E_FAIL);
+	//}
+
+	if (!m_bClick && Engine::InputDev()->Get_AnyKeyDown())
+	{
+		m_bClick = true;
+
+		// 로고랑 프래스 폰트 삭제
+		Engine::UIManager()->Delete_BasicObject(Engine::UILAYER::UI_MIDDLE);
+
+		// 버튼 3개 + 글씨 생성
+		Engine::CGameObject* pGameObject = nullptr;
+
+		pGameObject = CStartButton::Create(m_pGraphicDev);
+		NULL_CHECK_RETURN(pGameObject, E_FAIL);
+		Engine::UIManager()->AddBasicGameobject_UI(Engine::UILAYER::UI_MIDDLE, pGameObject);
+
+		pGameObject = CEditButton::Create(m_pGraphicDev);
+		NULL_CHECK_RETURN(pGameObject, E_FAIL);
+		Engine::UIManager()->AddBasicGameobject_UI(Engine::UILAYER::UI_MIDDLE, pGameObject);
+
+		pGameObject = CExitButton::Create(m_pGraphicDev);
+		NULL_CHECK_RETURN(pGameObject, E_FAIL);
+		Engine::UIManager()->AddBasicGameobject_UI(Engine::UILAYER::UI_MIDDLE, pGameObject);
+
+		pGameObject = CSelectFont::Create(m_pGraphicDev);
+		NULL_CHECK_RETURN(pGameObject, E_FAIL);
+		Engine::UIManager()->AddBasicGameobject_UI(Engine::UILAYER::UI_MIDDLE, pGameObject);
 	}
 
 	return iExit;
@@ -46,6 +79,8 @@ Engine::_int CLogo::Update_Scene(const _float& fTimeDelta)
 void CLogo::LateUpdate_Scene()
 {
 	__super::LateUpdate_Scene();
+
+	UIManager()->LateUpdate_UI();
 }
 
 void CLogo::Render_Scene()
@@ -55,7 +90,7 @@ void CLogo::Render_Scene()
 
 void CLogo::Free()
 {
-	Safe_Release(m_pLoading);
+	//Safe_Release(m_pLoading);
 
 	__super::Free();
 }
@@ -79,24 +114,32 @@ HRESULT CLogo::Ready_Prototype()
 {
 	// 로고 씬에서 사용될 컴포넌트
 	FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_RcTex", CRcTex::Create(m_pGraphicDev)), E_FAIL);
-	FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Logo", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Logo/IU.jpg")), E_FAIL);
-
+	FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Transform_Logo", CTransform::Create(m_pGraphicDev)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Logo", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/Startscreen/Startscreen%d.png",11)), E_FAIL);
 	return S_OK;
 }
 
 HRESULT CLogo::Ready_Layer_Environment(LAYERTAG _eLayerTag)
 {
-	Engine::CLayer*		pLayer = Engine::CLayer::Create(_eLayerTag);
-	NULL_CHECK_RETURN(pLayer, E_FAIL);
-
-	m_mapLayer.insert({ _eLayerTag, pLayer });
+	//Engine::CLayer*		pLayer = Engine::CLayer::Create(_eLayerTag);
+	//NULL_CHECK_RETURN(pLayer, E_FAIL);
+	//m_mapLayer.insert({ _eLayerTag, pLayer });
 
 	Engine::CGameObject*		pGameObject = nullptr;
 
 	// BackGround
 	pGameObject = CBackGround::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+	Engine::UIManager()->AddBasicGameobject_UI(Engine::UILAYER::UI_DOWN, pGameObject);
+	//Engine::UIManager()->AddPopupGameobject_UI(Engine::UIPOPUPLAYER::POPUP_STAT, Engine::UILAYER::UI_DOWN, pGameObject);
+
+	pGameObject = CGameLogo::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	Engine::UIManager()->AddBasicGameobject_UI(Engine::UILAYER::UI_MIDDLE, pGameObject);
+	
+	pGameObject = CPressFont::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	Engine::UIManager()->AddBasicGameobject_UI(Engine::UILAYER::UI_MIDDLE, pGameObject);
 	//Engine::EventManager()->CreateObject(pGameObject, _eLayerTag);
 
 	return S_OK;

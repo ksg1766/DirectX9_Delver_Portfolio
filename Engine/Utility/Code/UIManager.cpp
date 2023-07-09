@@ -33,6 +33,14 @@ void CUIManager::Hide_PopupUI(UIPOPUPLAYER _PopupID)
 	}
 }
 
+void CUIManager::Delete_BasicObject(UILAYER eType)
+{
+	for (auto& obj : m_vecUIbasic[eType]){
+		m_vecDead.push_back(obj); 
+	}
+	m_vecUIbasic[eType].clear();
+}
+
 void CUIManager::AddBasicGameobject_UI(UILAYER eType, CGameObject* pGameObject)
 {
 	if (UILAYER::UI_END <= eType || nullptr == pGameObject)
@@ -88,6 +96,9 @@ void CUIManager::AddItemGameobject_UI(CGameObject* pGameObject)
 
 _int CUIManager::Update_UI(const _float& fTimeDelta)
 {
+	for_each(m_vecDead.begin(), m_vecDead.end(), CDeleteObj());
+	m_vecDead.clear();
+
 	for (size_t i = 0; i < UILAYER::UI_END; ++i)
 	{
 		for (auto iter : m_vecUIbasic[i])
@@ -181,6 +192,9 @@ void CUIManager::Render_UI(LPDIRECT3DDEVICE9 pGraphicDev)
 
 void CUIManager::Free()
 {
+	for_each(m_vecDead.begin(), m_vecDead.end(), CDeleteObj());
+	m_vecDead.clear();
+
 	for (size_t i = 0; i < UILAYER::UI_END; ++i)
 	{
 		for_each(m_vecUIbasic[i].begin(), m_vecUIbasic[i].end(), CDeleteObj());

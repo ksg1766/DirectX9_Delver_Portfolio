@@ -83,10 +83,10 @@ void CUIplayerhp::Render_Object()
 
 	// 숫자 이미지
 	// 일의 자리
-	m_pTransform->m_vInfo[INFO_POS].x = 110.f;
-	m_pTransform->m_vInfo[INFO_POS].y = 39.f;
-	m_pTransform->m_vLocalScale.x = 7.f;
-	m_pTransform->m_vLocalScale.y = 11.f;
+	m_pTransform->m_vInfo[INFO_POS].x = 120.f;
+	m_pTransform->m_vInfo[INFO_POS].y = 35.f;
+	m_pTransform->m_vLocalScale.x = 6.f;
+	m_pTransform->m_vLocalScale.y = 7.5f;
 
 	WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorld);
@@ -95,10 +95,10 @@ void CUIplayerhp::Render_Object()
 	m_pBufferCom->Render_Buffer();
 
 	// 십의 자리
-	m_pTransform->m_vInfo[INFO_POS].x = 125.f;
-	m_pTransform->m_vInfo[INFO_POS].y = 39.f;
-	m_pTransform->m_vLocalScale.x = 7.f;
-	m_pTransform->m_vLocalScale.y = 11.f;
+	m_pTransform->m_vInfo[INFO_POS].x = 135.f;
+	m_pTransform->m_vInfo[INFO_POS].y = 35.f;
+	m_pTransform->m_vLocalScale.x = 6.f;
+	m_pTransform->m_vLocalScale.y = 7.5f;
 
 	WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorld);
@@ -107,10 +107,10 @@ void CUIplayerhp::Render_Object()
 	m_pBufferCom->Render_Buffer();
 
 	//
-	m_pTransform->m_vInfo[INFO_POS].x = 138.f;
-	m_pTransform->m_vInfo[INFO_POS].y = 39.f;
-	m_pTransform->m_vLocalScale.x = 7.f;
-	m_pTransform->m_vLocalScale.y = 11.f;
+	m_pTransform->m_vInfo[INFO_POS].x = 148.f;
+	m_pTransform->m_vInfo[INFO_POS].y = 35.f;
+	m_pTransform->m_vLocalScale.x = 6.f;
+	m_pTransform->m_vLocalScale.y = 7.5f;
 
 	WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorld);
@@ -119,10 +119,10 @@ void CUIplayerhp::Render_Object()
 	m_pBufferCom->Render_Buffer();
 
 	// 일의 자리
-	m_pTransform->m_vInfo[INFO_POS].x = 153.f;
-	m_pTransform->m_vInfo[INFO_POS].y = 39.f;
-	m_pTransform->m_vLocalScale.x = 7.f;
-	m_pTransform->m_vLocalScale.y = 11.f;
+	m_pTransform->m_vInfo[INFO_POS].x = 163.f;
+	m_pTransform->m_vInfo[INFO_POS].y = 35.f;
+	m_pTransform->m_vLocalScale.x = 6.f;
+	m_pTransform->m_vLocalScale.y = 7.5f;
 
 	WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorld);
@@ -131,10 +131,10 @@ void CUIplayerhp::Render_Object()
 	m_pBufferCom->Render_Buffer();
 
 	// 십의 자리
-	m_pTransform->m_vInfo[INFO_POS].x = 168.f;
-	m_pTransform->m_vInfo[INFO_POS].y = 39.f;
-	m_pTransform->m_vLocalScale.x = 7.f;
-	m_pTransform->m_vLocalScale.y = 11.f;
+	m_pTransform->m_vInfo[INFO_POS].x = 178.f;
+	m_pTransform->m_vInfo[INFO_POS].y = 35.f;
+	m_pTransform->m_vLocalScale.x = 6.f;
+	m_pTransform->m_vLocalScale.y = 7.5f;
 
 	WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorld);

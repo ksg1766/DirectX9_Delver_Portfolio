@@ -86,9 +86,7 @@ void CUIbasicslot::Render_Object()
 
 
     // 숫자 자리
-	m_pTransform->m_vLocalScale.x = 6.f;
-	m_pTransform->m_vLocalScale.y = 10.f;
-	WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x - 17.f, m_pTransform->m_vInfo[INFO_POS].y - 12.f, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);
+	WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x - 17.f, m_pTransform->m_vInfo[INFO_POS].y - 15.f, 4.f, 5.5f);
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorld);
 
 	m_pNumberTextureCom->Render_Texture(m_fCurrentNumber);

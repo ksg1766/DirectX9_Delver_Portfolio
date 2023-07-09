@@ -196,6 +196,42 @@
     <Filter Include="02. GameObject\01. Stage\999.Boss\03. Create_Clone">
       <UniqueIdentifier>{e2a9a116-4cef-426f-829f-89193673a8c9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\00. Logo\01. GameLogo">
+      <UniqueIdentifier>{9b9f1903-c1ed-4819-8733-fa28dfadf380}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\00. Logo\02. PressFont">
+      <UniqueIdentifier>{0ad03381-c27f-4a88-ad42-64a4d6f8dea5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\00. Logo\03. StartButton">
+      <UniqueIdentifier>{83625aea-f418-40d4-91f8-d6796ef75e84}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\00. Logo\05. ExitButton">
+      <UniqueIdentifier>{b92cb7d3-c58a-424f-9166-04aa2c7b4507}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\00. Logo\04. SelectFont">
+      <UniqueIdentifier>{0e023df0-f121-4603-83a8-79a47f0ae611}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Scene\03. StageLoading">
+      <UniqueIdentifier>{6ee56591-e234-4fd7-b31e-fe0546100a4a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Scene\04. EditLoading">
+      <UniqueIdentifier>{611469f7-b6ab-4dff-866d-52b1b7827001}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\05. Loading">
+      <UniqueIdentifier>{7469777e-48bb-483c-9b92-309a885f84dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\05. Loading\02. LoadingPont">
+      <UniqueIdentifier>{dcbc9383-0054-4bb2-b71e-b49bf67c60c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\05. Loading\01. ProgressBar">
+      <UniqueIdentifier>{96c41905-152b-4bdc-9542-03196a5f6726}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\05. Loading\00. LoadingBackGround">
+      <UniqueIdentifier>{e0e35da6-0cd4-4912-81ea-411551a337ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\00. Logo\04. EditButton">
+      <UniqueIdentifier>{30a47425-5118-40c7-ad26-8c4d6887da5a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -347,7 +383,7 @@
     </ClInclude>
     <ClInclude Include="..\Header\BossProjectile.h">
       <Filter>02. GameObject\01. Stage\999.Boss\01.AttackFire</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="..\Header\DungeonSpider.h">
       <Filter>99. Etc\헤더 파일</Filter>
     </ClInclude>
@@ -356,6 +392,39 @@
     </ClInclude>
     <ClInclude Include="..\Header\FlyingCamera.h">
       <Filter>02. GameObject\02. Editor\00. FlyingCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\GameLogo.h">
+      <Filter>02. GameObject\00. Logo\01. GameLogo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\PressFont.h">
+      <Filter>02. GameObject\00. Logo\02. PressFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\StartButton.h">
+      <Filter>02. GameObject\00. Logo\03. StartButton</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\EditButton.h">
+      <Filter>02. GameObject\00. Logo\04. EditButton</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\ExitButton.h">
+      <Filter>02. GameObject\00. Logo\05. ExitButton</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\SelectFont.h">
+      <Filter>02. GameObject\00. Logo\04. SelectFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\StageLoading.h">
+      <Filter>01. Scene\03. StageLoading</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\EditLoading.h">
+      <Filter>01. Scene\04. EditLoading</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\LoadingBackGround.h">
+      <Filter>02. GameObject\05. Loading\00. LoadingBackGround</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\ProgressBar.h">
+      <Filter>02. GameObject\05. Loading\01. ProgressBar</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\LoadingPont.h">
+      <Filter>02. GameObject\05. Loading\02. LoadingPont</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -502,12 +571,45 @@
     </ClCompile>
     <ClCompile Include="..\Code\BossProjectile.cpp">
       <Filter>02. GameObject\01. Stage\999.Boss\01.AttackFire</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="..\Code\DungeonSpider.cpp">
       <Filter>99. Etc\소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\DungeonWarrior.cpp">
       <Filter>99. Etc\소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\GameLogo.cpp">
+      <Filter>02. GameObject\00. Logo\01. GameLogo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\PressFont.cpp">
+      <Filter>02. GameObject\00. Logo\02. PressFont</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\StartButton.cpp">
+      <Filter>02. GameObject\00. Logo\03. StartButton</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\EditButton.cpp">
+      <Filter>02. GameObject\00. Logo\04. EditButton</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\ExitButton.cpp">
+      <Filter>02. GameObject\00. Logo\05. ExitButton</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\SelectFont.cpp">
+      <Filter>02. GameObject\00. Logo\04. SelectFont</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\StageLoading.cpp">
+      <Filter>01. Scene\03. StageLoading</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\EditLoading.cpp">
+      <Filter>01. Scene\04. EditLoading</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\LoadingBackGround.cpp">
+      <Filter>02. GameObject\05. Loading\00. LoadingBackGround</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\ProgressBar.cpp">
+      <Filter>02. GameObject\05. Loading\01. ProgressBar</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\LoadingPont.cpp">
+      <Filter>02. GameObject\05. Loading\02. LoadingPont</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

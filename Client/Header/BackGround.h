@@ -1,29 +1,31 @@
 #pragma once
 
-#include "GameObject.h"
+#include "Export_Function.h"
+#include "TempUI.h"
 
 BEGIN(Engine)
 
 class CRcTex;
 class CTexture;
+class CTransform;
 
 END
 
-class CBackGround : public Engine::CGameObject
+class CBackGround : public CTempUI
 {
 private:
 	explicit CBackGround(LPDIRECT3DDEVICE9 pGraphicDev);
-	explicit CBackGround(const CBackGround& rhs);
 	virtual ~CBackGround();
 
 public:
-	virtual HRESULT Ready_Object(void) override;
-	virtual _int Update_Object(const _float& fTimeDelta) override;
-	virtual void LateUpdate_Object(void) override;
-	virtual void Render_Object(void) override;
+	HRESULT Ready_Object() override;
+	_int Update_Object(const _float& fTimeDelta) override;
+	void LateUpdate_Object(void) override;
+	void Render_Object(void) override;
 
 private:
 	HRESULT		Add_Component(void);
+	void	    Key_Input(void);
 
 private:
 	CRcTex*			m_pBufferCom = nullptr;

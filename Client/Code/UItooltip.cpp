@@ -19,10 +19,10 @@ HRESULT CUItooltip::Ready_Object()
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pTransform->m_vInfo[INFO_POS].x = 400.f;
+	m_pTransform->m_vInfo[INFO_POS].x = 400.f; // 150 77
 	m_pTransform->m_vInfo[INFO_POS].y = 300.f;
-	m_pTransform->m_vLocalScale.x = 80.f;
-	m_pTransform->m_vLocalScale.y = 40.f;
+	m_pTransform->m_vLocalScale.x = 55.f;
+	m_pTransform->m_vLocalScale.y = 28.f;
 
 	WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);
 
