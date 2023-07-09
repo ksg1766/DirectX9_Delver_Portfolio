@@ -14,7 +14,6 @@ CRigidBody::CRigidBody(const CRigidBody & rhs)
 {
 }
 
-
 CRigidBody::~CRigidBody()
 {
 }

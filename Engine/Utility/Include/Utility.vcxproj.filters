@@ -163,6 +163,9 @@
     <Filter Include="04. Component\10. Animator\Animation">
       <UniqueIdentifier>{28d0c955-9fcc-46e6-a073-3eab4d9debfa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. GameObject\07.  Plane">
+      <UniqueIdentifier>{95020471-972d-4def-90ea-3139fdb5dfde}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Header\Scene.h">

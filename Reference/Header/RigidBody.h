@@ -12,11 +12,14 @@ private:
 	explicit CRigidBody(const CRigidBody& rhs);
 	virtual ~CRigidBody();
 
+	_bool	IsKinematic();
+	
+
 	// CComponent을(를) 통해 상속됨
 	virtual CComponent * Clone(void) override;
 
 private:
-	virtual void			Free();
+	virtual void	Free();
 };
 
 END

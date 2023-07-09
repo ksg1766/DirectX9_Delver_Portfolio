@@ -8,8 +8,10 @@ CCollisionManager::CCollisionManager()
 	Reset();
 	CheckGroup(OBJECTTAG::PLAYER, OBJECTTAG::MONSTER);
 	CheckGroup(OBJECTTAG::PLAYER, OBJECTTAG::BOSS);
+	CheckGroup(OBJECTTAG::PLAYER, OBJECTTAG::BLOCK);
 	CheckGroup(OBJECTTAG::MONSTER, OBJECTTAG::MONSTER);
 	CheckGroup(OBJECTTAG::MONSTER, OBJECTTAG::BOSS);
+	CheckGroup(OBJECTTAG::MONSTER, OBJECTTAG::BLOCK);
 }
 
 CCollisionManager::~CCollisionManager()
@@ -53,7 +55,7 @@ void CCollisionManager::CheckGroup(OBJECTTAG _eLeft, OBJECTTAG _eRight)
 
 void CCollisionManager::Reset()
 {
-	memset(m_arrCheck, 0, sizeof(UINT) * (UINT)LAYERTAG::LAYER_END);
+	ZeroMemory(m_arrCheck, 0, sizeof(UINT) * (UINT)OBJECTTAG::OBJECT_END);
 }
 
 bool CCollisionManager::IsCollision(CCollider * _pLeft, CCollider * _pRight)

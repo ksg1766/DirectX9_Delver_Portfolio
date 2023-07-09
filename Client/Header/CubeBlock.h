@@ -6,6 +6,7 @@ BEGIN(Engine)
 class CCubeBf;
 class CTransform;
 class CTexture;
+class CCollider;
 
 END
 
@@ -24,13 +25,15 @@ public:
 	virtual void LateUpdate_Object(void) override;
 	virtual void Render_Object(void) override;
 
+	virtual void		OnCollisionEnter(CCollider* _pOther);
+	virtual void		OnCollisionStay(CCollider* _pOther);
+	virtual void		OnCollisionExit(CCollider* _pOther);
+
 private:
 	HRESULT		Add_Component(void);
-
 private:
 	CCubeBf*	m_pBuffer = nullptr;
 	CTexture*	m_pTexture = nullptr;
-	CTransform* m_pTransform = nullptr;
 
 public:
 	static CCubeBlock* Create(LPDIRECT3DDEVICE9 pGraphicDev);
