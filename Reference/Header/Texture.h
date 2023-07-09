@@ -21,6 +21,7 @@ public:
 	_int		Get_TextureSize() { return m_vecTexture.size(); }
 	// 해당 벡터 사이즈만큼 프레임 회전할 것임.
 
+	vector<IDirect3DBaseTexture9*>&	Get_TextureList() { return m_vecTexture; }
 
 private:
 	vector<IDirect3DBaseTexture9*>		m_vecTexture;

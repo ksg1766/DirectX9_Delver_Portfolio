@@ -55,6 +55,8 @@ _uint CLoading::Loading_ForStage()
 {
 	switch (m_eID)
 	{
+#pragma region Stage
+
 	case LOADINGID::LOADING_STAGE:
 		//FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_RcTex", CRcTex::Create(m_pGraphicDev)), E_FAIL);
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_PlayerBf", CPlayerBf::Create(m_pGraphicDev)), E_FAIL);
@@ -110,6 +112,9 @@ _uint CLoading::Loading_ForStage()
 #pragma endregion Collider
 
 		break;
+#pragma endregion Stage
+
+#pragma region Editor
 
 	case LOADINGID::LOADING_EDITOR:
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_TerrainTex", CTerrainTex::Create(m_pGraphicDev)), E_FAIL);
@@ -117,12 +122,12 @@ _uint CLoading::Loading_ForStage()
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Transform", CTransform::Create(m_pGraphicDev)), E_FAIL);
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Camera", CCamera::Create(m_pGraphicDev)), E_FAIL);
 
-		// Temp : 임시 컴포넌트
-		//FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Terrain", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Terrain/Grass_%d.tga", 2)), E_FAIL);
+		// Temp : 임시 컴포넌트 -> ???
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Terrain", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Tile/Dungeon/tile%d.png", 30)), E_FAIL);
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_SkyBox", CTexture::Create(m_pGraphicDev, TEX_CUBE, L"../Bin/Resource/Texture/SkyBox/burger%d.dds", 4)), E_FAIL);
 
 		break;
+#pragma endregion Editor
 	}
 	
 	m_bFinish = true;

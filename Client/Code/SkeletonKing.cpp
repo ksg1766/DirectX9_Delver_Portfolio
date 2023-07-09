@@ -24,7 +24,7 @@ HRESULT CSkeletonKing::Ready_Object(void)
 {
 	m_eObjectTag = OBJECTTAG::BOSS;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
-	m_pTransform->Scale(_vec3(1.f, 3.f, 1.f));
+	m_pTransform->Scale(_vec3(3.f, 3.f, 1.f));
 
 	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
 

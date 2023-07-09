@@ -33,6 +33,7 @@ _int CEditor::Update_Scene(const _float& fTimeDelta)
 	__super::Update_Scene(fTimeDelta);
 
 	CCameraManager::GetInstance()->Update_Camera();
+	CImGuiManager::GetInstance()->Update_ImGui(fTimeDelta);
 
 	return 0;
 }
@@ -96,10 +97,11 @@ HRESULT CEditor::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	pGameObject = CTerrain::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+
 	// TempCube
-	//pGameObject = CCubeBlock::Create(m_pGraphicDev);
-	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+	pGameObject = CCubeBlock::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
 	return S_OK;
 }

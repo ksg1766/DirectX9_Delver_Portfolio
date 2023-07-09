@@ -19,10 +19,13 @@ public:
 	void	Update_Camera();
 	void	LateUpdate_Camera();
 
-	_bool	Is_MapOn() { return m_bToggleMap; }
+	_bool			Is_MapOn() { return m_bToggleMap; }
 
-	void	Add_Camera(CAMERA_TYPE _eType, CGameObject* _pLight) { m_mapCameras.emplace(_eType, _pLight); }
-	void	Switch_Camera(CAMERA_TYPE _eType) { m_pCurrentCam = m_mapCameras[_eType]; }
+	void			Add_Camera(CAMERA_TYPE _eType, CGameObject* _pLight){ m_mapCameras.emplace(_eType, _pLight); }
+	void			Switch_Camera(CAMERA_TYPE _eType)					{ m_pCurrentCam = m_mapCameras[_eType]; }
+
+	CGameObject*	Get_CurrentCam()									{ return m_pCurrentCam; }
+	void			Set_CurrentCam(CGameObject* _pCurrentCam)			{ m_pCurrentCam = _pCurrentCam; }
 
 private:
 	map<CAMERA_TYPE, CGameObject*>	m_mapCameras;
