@@ -7,8 +7,11 @@ BEGIN(Engine)
 class CRcTex;
 class CTexture;
 class CStateMachine;
+class CBasicStat;
 
 END
+
+class CTerrain;
 
 class CBat : public CMonster
 {
@@ -24,11 +27,20 @@ public:
 	virtual void	Render_Object()								override;
 
 public:
+	void		ForceHeight(_vec3 _vPos);
+	void		Set_Terrain(CTerrain* _pCurrentTerrain) { m_pTerrain = _pCurrentTerrain; }
+
+public:
+	virtual void		OnCollisionEnter(CCollider* _pOther);
+	virtual void		OnCollisionStay(CCollider* _pOther);
+	virtual void		OnCollisionExit(CCollider* _pOther);
 
 private:
 	CRcTex*			m_pBuffer = nullptr;
 	CTexture*		m_pTexture = nullptr;
 	CStateMachine*	m_pStateMachine = nullptr;
+	CTerrain*		m_pTerrain = nullptr;
+	CBasicStat*		m_pStat = nullptr;
 
 	_float m_fFrame;
 	

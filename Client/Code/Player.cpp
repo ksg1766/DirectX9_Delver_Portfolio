@@ -41,12 +41,13 @@ HRESULT CPlayer::Ready_Object(void)
 	// 걷기 상태 추가
 	CState* pState = CPlayerState_Walk::Create(m_pGraphicDev, m_pStateMachine);
 	m_pStateMachine->Add_State(STATE::ROMIMG, pState);
-
 	pState = CPlayerState_Idle::Create(m_pGraphicDev, m_pStateMachine);
 	m_pStateMachine->Add_State(STATE::IDLE, pState);
-
-
 	m_pStateMachine->Set_State(STATE::IDLE);
+
+	
+
+	//m_pStateMachine->Set_Animator(m_pAnimator);
 
 	return S_OK;
 }
@@ -61,7 +62,7 @@ Engine::_int CPlayer::Update_Object(const _float& fTimeDelta)
 
 	ForceHeight(m_pTransform->m_vInfo[INFO_POS]);
 	Engine::Renderer()->Add_RenderGroup(RENDER_NONALPHA, this);
-
+	
 
 	return iExit;
 }
@@ -79,7 +80,7 @@ void CPlayer::Render_Object(void)
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
 	m_pBuffer->Render_Buffer();
-	m_pStateMachine->Render_StateMachine();
+	//m_pStateMachine->Render_StateMachine();
 
 #if _DEBUG
 	m_pCollider->Render_Collider();
@@ -109,10 +110,17 @@ HRESULT CPlayer::Add_Component(void)
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::STATEMACHINE, pComponent);
 
-
 	pComponent = m_pCollider = dynamic_cast<CCollider*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Collider"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::COLLIDER, pComponent);
+
+	pComponent = m_pStat = dynamic_cast<CPlayerStat*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Player_Stat"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BASICSTAT, pComponent);
+
+	pComponent = m_pAnimator = dynamic_cast<CAnimator*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Animator"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::ANIMATOR, pComponent);
 
 	for (int i = 0; i < ID_END; ++i)
 		for (auto& iter : m_mapComponent[i])

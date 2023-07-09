@@ -160,6 +160,9 @@
     <Filter Include="04. Component\13. State\StateMachine">
       <UniqueIdentifier>{70a816db-8a24-4083-9bc1-9fea28c05246}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04. Component\10. Animator\Animation">
+      <UniqueIdentifier>{28d0c955-9fcc-46e6-a073-3eab4d9debfa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Header\Scene.h">
@@ -285,6 +288,12 @@
     <ClInclude Include="..\..\Header\StateMachine.h">
       <Filter>04. Component\13. State\StateMachine</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Header\PlayerStat.h">
+      <Filter>04. Component\08. Stat\01. PlayerStat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Header\Animation.h">
+      <Filter>04. Component\10. Animator\Animation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\Scene.cpp">
@@ -406,6 +415,12 @@
     </ClCompile>
     <ClCompile Include="..\Code\StateMachine.cpp">
       <Filter>04. Component\13. State\StateMachine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\PlayerStat.cpp">
+      <Filter>04. Component\08. Stat\01. PlayerStat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Animation.cpp">
+      <Filter>04. Component\10. Animator\Animation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

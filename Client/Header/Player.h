@@ -7,6 +7,8 @@ BEGIN(Engine)
 class CPlayerBf;
 class CTransform;
 class CStateMachine;
+class CPlayerStat;
+class CAnimator;
 
 END
 
@@ -32,16 +34,17 @@ private:
 	void		ForceHeight(_vec3 _vPos);
 
 public:
-	_vec3		Get_Offset() { return m_vOffset; }
+	_vec3			Get_Offset() { return m_vOffset; }
+	CPlayerStat*	Get_Stat()	 { return m_pStat; }
 
 public:
 	_vec3		Set_Offset(_vec3 _vOffset) { m_vOffset = _vOffset; }
 
 private:
 	CPlayerBf*		m_pBuffer = nullptr;
-
 	CStateMachine*	m_pStateMachine = nullptr;
-
+	CPlayerStat*	m_pStat = nullptr;
+	CAnimator*		m_pAnimator = nullptr;
 
 	_float			m_fSpeed = 10.f;
 

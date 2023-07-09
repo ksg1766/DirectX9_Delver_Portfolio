@@ -89,6 +89,16 @@ namespace Engine
 		DWORD_PTR	lParam;
 		DWORD_PTR	wParam;
 	};
+
+	typedef struct tagBasicStat {
+		_float	fHealth = 4.f;
+		_float	fMagic = 4.f;
+		_float	fSpeed = 4.f;
+		_float	fAttack = 4.f;
+		_float	fDeffense = 4.f;
+		_float	fAgility = 4.f;
+		//STATE	eState		= STATE::IDLE;
+	}BASICSTAT;
 }
 
 

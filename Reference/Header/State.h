@@ -26,13 +26,15 @@ public:
 	virtual	STATE		Key_Input(const _float& fTimeDelta)		PURE;
 	
 public:
-	virtual STATE		Get_State() { return m_eState; }
+	virtual STATE		Get_State()		{ return m_eState; }
+	virtual STATE		Get_PrevState() { return m_ePrevState; }
 
 protected:
 	// 어떤 상태머신이 자신을 지니고 있는지 알려줌
 	CStateMachine* m_pOwner = nullptr;
 	// 어떤 상태인지 정해줌
 	STATE		   m_eState = STATE::STATE_END;
+	STATE		   m_ePrevState = STATE::STATE_END;
 
 	// 스테이트 내부에서 공통적으로 사용할 변수
 	_float		   m_fChase;

@@ -184,6 +184,7 @@
     <ClInclude Include="..\Header\Loading.h" />
     <ClInclude Include="..\Header\Logo.h" />
     <ClInclude Include="..\Header\MainApp.h" />
+    <ClInclude Include="..\Header\Monster_Fly.h" />
     <ClInclude Include="..\Header\OrthoCamera.h" />
     <ClInclude Include="..\Header\Monster_Jump.h" />
     <ClInclude Include="..\Header\Monster_Move.h" />
@@ -237,6 +238,7 @@
     <ClCompile Include="..\Code\Loading.cpp" />
     <ClCompile Include="..\Code\Logo.cpp" />
     <ClCompile Include="..\Code\MainApp.cpp" />
+    <ClCompile Include="..\Code\Monster_Fly.cpp" />
     <ClCompile Include="..\Code\OrthoCamera.cpp" />
     <ClCompile Include="..\Code\Monster_Jump.cpp" />
     <ClCompile Include="..\Code\Monster_Move.cpp" />

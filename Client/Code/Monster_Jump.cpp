@@ -38,25 +38,11 @@ void CMonster_Jump::LateUpdate_State()
 
 void CMonster_Jump::Render_State()
 {
-	cout << "Spider Jump" << endl;
+	//cout << "Spider Jump" << endl;
 }
 
 STATE CMonster_Jump::Jump(const _float& fTimeDelta)
 {
-	if (m_bJumCoolDown)
-	{
-		m_fJumpCoolTimer += fTimeDelta;
-		if (m_fJumpCoolTimer >= m_fJumpCoolDuration)
-		{
-			m_bJumCoolDown = false;
-			m_fJumpCoolTimer = 0.0f;
-		}
-		else
-		{
-			Move_RandomPos(fTimeDelta);
-			return STATE::ATTACK;
-		}
-	}
 
 	CTransform* pPlayerTransform = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform;
 
@@ -77,6 +63,11 @@ STATE CMonster_Jump::Jump(const _float& fTimeDelta)
 
 	m_fJumpVelocity -= 0.5f * fTimeDelta * fTimeDelta * 3000.f;
 
+	_vec3 vDistance = vPlayerPos - m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
+	_float fDistanceLength = D3DXVec3LengthSq(&vDistance);
+	_float fSight = pow(15, 2);
+
+
 	if (vMonsterPos.y < 1.f)
 	{
 		vMonsterPos.y = 1.f;
@@ -88,48 +79,6 @@ STATE CMonster_Jump::Jump(const _float& fTimeDelta)
 	}
 
 	return STATE::ATTACK;
-}
-
-void CMonster_Jump::Move_RandomPos(const _float& fTimeDelta)
-{
-
-	CTransform* pPlayerTransform = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform;
-
-	_vec3 vPlayerPos = pPlayerTransform->m_vInfo[INFO_POS];
-	_vec3 vRandomDir = Get_RandomDir(fTimeDelta);
-	m_vSavePos = vRandomDir;
-	_vec3 vTargetPos = vPlayerPos + vRandomDir * 50.f;
-
-	MoveTo_Pos(vTargetPos, fTimeDelta);
-}
-
-_vec3 CMonster_Jump::Get_RandomDir(const _float& fTimeDelta)
-{
-	_float X = m_vSavePos.x + (15 * cosf((_float)rand() / RAND_MAX * 2.f * D3DX_PI)) / 50.f;
-	_float Z = m_vSavePos.z + (15 * -sinf((_float)rand() / RAND_MAX * 2.f * D3DX_PI)) / 50.f;
-	//_float angle = (_float)rand() / RAND_MAX * 2.f * D3DX_PI;
-	//m_vRandomPos = _vec3(cosf(angle), 1.f, -sinf(angle));
-
-	_vec3 vDir = _vec3(X, 0.f, Z);
-
-	D3DXVec3Normalize(&vDir, &vDir);
-
-
-	return vDir;
-
-}
-
-void CMonster_Jump::MoveTo_Pos(const _vec3& vTargetPos, const _float& fTimeDelta)
-{
-	_vec3& vMonsterPos = m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
-
-	_vec3 vDir = vTargetPos - vMonsterPos;
-	D3DXVec3Normalize(&vDir, &vDir);
-
-	_float fMoveSpeed = 5.f;
-	_float fMoveDistance = fMoveSpeed * fTimeDelta;
-
-	vMonsterPos += vDir * fMoveDistance;
 }
 
 CMonster_Jump* CMonster_Jump::Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner)

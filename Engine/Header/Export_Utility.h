@@ -30,13 +30,17 @@
 #include "WarriorAI.h"
 #include "BossAI.h"
 
-#include "Animator.h"
 #include "Particle.h"
 #include "BillBoard.h"
 
 // State
 #include "StateMachine.h"
 #include "State.h"
+#include "PlayerStat.h"
+
+// Animation
+#include "Animation.h"
+#include "Animator.h"
 
 #include "GameObject.h"
 
