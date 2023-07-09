@@ -21,7 +21,9 @@ public:
 	virtual void	LateUpdate_Component();
 
 public:
-	// TODO : 외부에서 호출할 일이 없다면 protected으로 두고 Update내에서 호출해도 됨. 충분히 고려해 볼 것.
+	_matrix&		Get_ViewMatrix() { return m_matView; }
+	_matrix&		Get_ProjMatrix() { return m_matProj; }
+	// TODO : 외부에서 호출할 일이 없다면 protected으로 두고 Update내에서 호출해도 됨. 충분히 고려해 볼 것. -> ???
 	void			Set_ViewSpcae();
 	virtual void	Set_Projection(const CAMERA_TYPE eMode = CAMERA_TYPE::PERSPECTIVE);
 

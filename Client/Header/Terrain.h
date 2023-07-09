@@ -32,7 +32,6 @@ private:
 private:
 	CTerrainTex*	m_pBuffer = nullptr;
 	CTexture*		m_pTexture = nullptr;
-	CTransform*		m_pTransform = nullptr;
 
 	vector<_vec3>	m_vecTerrainVertex;
 

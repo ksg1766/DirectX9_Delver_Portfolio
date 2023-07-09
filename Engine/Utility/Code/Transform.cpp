@@ -128,7 +128,7 @@ const _matrix CTransform::WorldMatrix()
 	_matrix matWorld;
 	D3DXMatrixIdentity(&matWorld);
 
-	for (int i = 0; i < 4; ++i)
+	for (int i = 0; i < INFO_END; ++i)
 		::CopyMemory(&matWorld.m[i], m_vInfo[i], sizeof(_vec3));
 
 	return matWorld;

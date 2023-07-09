@@ -26,6 +26,7 @@ HRESULT CFlyingCamera::Ready_Object(void)
 	m_pTransform->Translate(_vec3(0.f, 10.f, 0.f));
 
 	CCameraManager::GetInstance()->Add_Camera(CAMERA_TYPE::PERSPECTIVE, this);
+	CCameraManager::GetInstance()->Set_CurrentCam(this);
 
 	return S_OK;
 }
@@ -88,9 +89,9 @@ void CFlyingCamera::Key_Input(const _float& fTimeDelta)
 	if (dwMouseMove = Engine::InputDev()->Get_DIMouseMove(DIMS_Y))
 		m_pTransform->Rotate(ROT_X, D3DXToRadian(dwMouseMove) * fTimeDelta * 2.f);
 
-	POINT		pt{ WINCX >> 1, WINCY >> 1 };
+	/*POINT		pt{ WINCX >> 1, WINCY >> 1 };
 	ClientToScreen(g_hWnd, &pt);
-	SetCursorPos(pt.x, pt.y);
+	SetCursorPos(pt.x, pt.y);*/
 }
 
 CFlyingCamera* CFlyingCamera::Create(LPDIRECT3DDEVICE9 pGraphicDev)

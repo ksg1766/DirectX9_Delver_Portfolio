@@ -16,6 +16,7 @@ public:
 	void			Render_Texture(const _uint& iIndex = 0);
 
 public:
+	vector<IDirect3DBaseTexture9*>&	Get_TextureList() { return m_vecTexture; }
 
 private:
 	vector<IDirect3DBaseTexture9*>		m_vecTexture;
