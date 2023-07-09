@@ -1,18 +1,23 @@
 #include "..\..\Header\StateMachine.h"
 #include "State.h"
+#include "Animator.h"
 
 CStateMachine::CStateMachine()
 {
 }
 
 CStateMachine::CStateMachine(LPDIRECT3DDEVICE9 pGraphicDev)
-	: Engine::CComponent(pGraphicDev)
+	: Engine::CComponent(pGraphicDev), m_FirstOn(true)
 {
 }
 
 CStateMachine::CStateMachine(const CStateMachine& rhs)
-	: Engine::CComponent(rhs)
+	: Engine::CComponent(rhs), m_FirstOn(rhs.m_FirstOn)
 {
+	m_StateMap = rhs.m_StateMap;
+	m_pCurState = rhs.m_pCurState;
+	m_pPrevState = rhs.m_pPrevState;
+	m_pAnimator = rhs.m_pAnimator;
 }
 
 CStateMachine::~CStateMachine()
@@ -30,18 +35,27 @@ void CStateMachine::Update_StateMachine(const _float& fTimeDelta)
 {
 	STATE	eState = m_pCurState->Update_State(fTimeDelta);
 
+	if(m_pAnimator != nullptr)
+	m_pAnimator->Update_Animator(fTimeDelta);
+
 	if (eState != m_eCurState)
 		Set_State(eState);
+	
 }
 
 void CStateMachine::LateUpdate_StateMachine()
 {
 	m_pCurState->LateUpdate_State();
+	if (m_pAnimator != nullptr)
+	m_pAnimator->LateUpdate_Component();
 }
 
 void CStateMachine::Render_StateMachine()
 {
 	m_pCurState->Render_State();
+
+	if (m_pAnimator != nullptr)
+	m_pAnimator->Render_Animator();
 	// Animation
 }
 
@@ -53,10 +67,20 @@ void CStateMachine::Set_State(STATE _eState)
 	if (iter == m_StateMap.end())
 		return;
 
+	m_ePrevState = m_eCurState;
+	m_pPrevState = m_pCurState;
 	m_pCurState = iter->second;
+
+	if (m_FirstOn)
+		m_pPrevState = iter->second;
+
 	m_eCurState = _eState;
 
 	// Animation
+	if (m_pAnimator != nullptr)
+		m_pAnimator->Set_Animation(_eState);
+
+	// 여기서 애니메이션의 키 값도 같이 설정해준다.
 }
 
 HRESULT CStateMachine::Add_State(STATE _eState, CState* pState)

@@ -32,6 +32,8 @@ HRESULT CTexture::Ready_Texture(TEXTUREID eType, const _tchar * pPath, const _ui
 {
 	m_vecTexture.reserve(iCnt);
 	
+	iSize = iCnt;
+
 	IDirect3DBaseTexture9*		pTexture = nullptr;
 
 	for (_uint i = 0; i < iCnt; ++i)
@@ -76,6 +78,7 @@ CTexture * CTexture::Create(LPDIRECT3DDEVICE9 pGraphicDev, TEXTUREID eType, _tch
 		return nullptr;
 	}
 	
+
 	return pInstance;
 }
 

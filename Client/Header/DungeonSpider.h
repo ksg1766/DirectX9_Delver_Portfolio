@@ -8,6 +8,8 @@ class CRcTex;
 class CTexture;
 class CSpiderAI;
 class CStateMachine;
+class CBasicStat;
+class CAnimator;
 
 END
 
@@ -40,10 +42,11 @@ private:
 
 private:
 	CRcTex*			m_pBuffer = nullptr;
-	CTexture*		m_pTexture = nullptr;
+	CTexture*		m_pTexture[static_cast<_uint>(STATE::STATE_END)] = {};
 	CTerrain*		m_pTerrain = nullptr;
-	CSpiderAI*		m_pAI = nullptr;
 	CStateMachine*	m_pStateMachine = nullptr;
+	CBasicStat*		m_pMonsterStat = nullptr;
+	CAnimator*		m_pAnimator = nullptr;
 
 	_float		m_fFrame;
 

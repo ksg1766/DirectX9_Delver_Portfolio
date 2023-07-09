@@ -1,5 +1,10 @@
 #include "..\Header\Bat.h"
 #include "Export_Function.h"
+#include "Terrain.h"
+
+#include "Monster_Fly.h"
+#include "Player.h"
+
 
 CBat::CBat(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CMonster(pGraphicDev), m_fFrame(0.f)
@@ -21,9 +26,16 @@ HRESULT CBat::Ready_Object()
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
+	// Stat
+	m_pStat->Get_Stat()->fHealth = 2.f;
+
+
 	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
 
 	m_pTransform->Translate(_vec3(2.f, 3.f, 10.f));
+	CState* pState = CMonster_Fly::Create(m_pGraphicDev, m_pStateMachine);
+	m_pStateMachine->Add_State(STATE::ROMIMG, pState);
+	m_pStateMachine->Set_State(STATE::ROMIMG);
 
 	return S_OK;
 }
@@ -35,8 +47,10 @@ _int CBat::Update_Object(const _float& fTimeDelta)
 	m_fFrame += 5.f * fTimeDelta;
 
 	if (2 < m_fFrame)
-		m_fFrame = 0.F;
+		m_fFrame = 0.f;
 
+	m_pStateMachine->Update_StateMachine(fTimeDelta);
+	m_pStateMachine->Render_StateMachine();
 
 	Engine::Renderer()->Add_RenderGroup(RENDER_ALPHA, this);
 
@@ -63,6 +77,75 @@ void CBat::Render_Object()
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
 
+void CBat::ForceHeight(_vec3 _vPos)
+{
+	_float x = (VTXCNTX * VTXITV / 2.f) + _vPos.x;
+	_float z = (VTXCNTZ * VTXITV / 2.f) + _vPos.z;
+
+	x /= (_float)VTXITV;
+	z /= (_float)VTXITV;
+
+	_int col = ::floorf(x);
+	_int row = ::floorf(z);
+
+	_vec3 A = m_pTerrain->LoadTerrainVertex()[row * VTXCNTX + col];
+	_vec3 B = m_pTerrain->LoadTerrainVertex()[row * VTXCNTX + col + 1];
+	_vec3 C = m_pTerrain->LoadTerrainVertex()[(row + 1) * VTXCNTX + col];
+	_vec3 D = m_pTerrain->LoadTerrainVertex()[(row + 1) * VTXCNTX + col + 1];
+
+	_float dx = x - col;
+	_float dz = z - row;
+
+	_float height;
+	//c-d b-d cdb 
+	if (dz < 1.0f - dx)
+	{
+		/*
+		Lerp(_float _a, _float _b, _float _c)
+		{
+			return a - (a * t) + (b * t);
+		}
+		*/
+
+		_vec3 uy = B - A;
+		_vec3 vy = C - A;
+
+		height = A.y + (uy.y * dx) + (vy.y * dz) + 1.f;
+		m_pTransform->m_vInfo[INFO_POS].y = height;
+	}// c-a b-a cba
+	else
+	{
+		_vec3 uy = C - D;
+		_vec3 vy = B - D;
+
+		height = D.y + (uy.y * (1.f - dx)) + (vy.y * (1.f - dz)) + 1.f;
+		m_pTransform->m_vInfo[INFO_POS].y = height;
+	}
+}
+
+void CBat::OnCollisionEnter(CCollider* _pOther)
+{
+	__super::OnCollisionEnter(_pOther);
+
+	if (_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::PLAYER)
+	{
+		CPlayerStat& PlayerState = *dynamic_cast<CPlayer*>(_pOther->GetHost())->Get_Stat();
+
+		cout << PlayerState.Get_Stat()->fHealth << endl;
+
+		PlayerState.Take_Damage(1.f);	
+	}
+
+}
+
+void CBat::OnCollisionStay(CCollider* _pOther)
+{
+}
+
+void CBat::OnCollisionExit(CCollider* _pOther)
+{
+}
+
 HRESULT CBat::Add_Component(void)
 {
 	CComponent* pComponent = nullptr;
@@ -85,11 +168,15 @@ HRESULT CBat::Add_Component(void)
 
 	pComponent = m_pStateMachine = dynamic_cast<CStateMachine*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_State"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::STATEMACHINE, pComponent);
+	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::STATEMACHINE, pComponent);
 
 	pComponent = m_pTexture = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_Bat"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
+
+	pComponent = m_pStat = dynamic_cast<CBasicStat*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BasicStat"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BASICSTAT, pComponent);
 
 	for (_uint i = 0; i < ID_END; ++i)
 		for (auto& iter : m_mapComponent[i])

@@ -14,8 +14,13 @@ public:
 public:
 	HRESULT			Ready_Texture(TEXTUREID eType, const _tchar* pPath, const _uint& iCnt);
 	void			Render_Texture(const _uint& iIndex = 0);
+	
+
 
 public:
+	_int		Get_TextureSize() { return m_vecTexture.size(); }
+	// 해당 벡터 사이즈만큼 프레임 회전할 것임.
+
 
 private:
 	vector<IDirect3DBaseTexture9*>		m_vecTexture;

@@ -23,9 +23,6 @@ public:
 
 private:
 	STATE Jump(const _float& fTimeDelta);
-	void  Move_RandomPos(const _float& fTimeDelta);
-	_vec3 Get_RandomDir(const _float& fTimeDelta);
-	void  MoveTo_Pos(const _vec3& vTargetPos, const _float& fTimeDelta);
 		
 private:
 	_vec3	m_vLastPos;

@@ -30,6 +30,18 @@ private:
 	void	Move_NewPos(const _float& fTimeDelta);
 	_bool	Reached_Pos();
 	
+	void  Move_RandomPos(const _float& fTimeDelta);
+	_vec3 Get_RandomDir(const _float& fTimeDelta);
+	void  MoveTo_Pos(const _vec3& vTargetPos, const _float& fTimeDelta);
+
+private:
+	_bool	m_bJumCoolDown;
+	_bool	m_bFirstCool;
+	_float	m_fJumpCoolDuration;
+	_float	m_fJumpCoolTimer;
+
+	_vec3	m_vSavePos;
+	STATE	m_ePrev;
 
 private:
 	virtual void Free();
