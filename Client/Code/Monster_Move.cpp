@@ -21,7 +21,6 @@ HRESULT CMonster_Move::Ready_State(CStateMachine* pOwner)
 	m_bFirstCool = true;
 	m_fJumpCoolDuration = 2.f;
 	m_fJumpCoolTimer = 0.f;
-	//m_eState = STATE::ROMIMG;
 
 	return S_OK;
 }

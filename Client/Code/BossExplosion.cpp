@@ -31,17 +31,13 @@ _int CBossExplosion::Update_Object(const _float& fTimeDelta)
 {
 
 	_int iExit = __super::Update_Object(fTimeDelta);
-	if (3 <= m_iCount)
-		return iExit;//Test
+
 	m_fFrame += 16.f * fTimeDelta;
 
-	if (16.f < m_fFrame)
+	if (15.f < m_fFrame)
 	{
-		m_pTransform->Translate(_vec3 (3.f, 0.f, 3.f));
-		++m_iCount;
-		m_fFrame = 0.f;
+		Engine::EventManager()->DeleteObject(this);
 	}
-
 	Engine::Renderer()->Add_RenderGroup(RENDER_ALPHA, this);
 
 	return iExit;
@@ -57,12 +53,12 @@ void CBossExplosion::Render_Object(void)
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-	//m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 
 	m_pTexture->Render_Texture((_uint)m_fFrame);
 	m_pBuffer->Render_Buffer();
 
-	//m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
 

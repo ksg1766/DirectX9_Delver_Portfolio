@@ -174,11 +174,16 @@
     </ClInclude>
     <ClInclude Include="..\Header\BossProjectile.h" />
     <ClInclude Include="..\Header\CameraManager.h" />
+    <ClInclude Include="..\Header\Boss_Attack.h" />
+    <ClInclude Include="..\Header\Boss_Idle.h" />
+    <ClInclude Include="..\Header\CBoss_Sleep.h" />
+    <ClInclude Include="..\Header\Boss_WakeUp.h" />
     <ClInclude Include="..\Header\CubeBlock.h" />
     <ClInclude Include="..\Header\DungeonSpider.h" />
     <ClInclude Include="..\Header\DungeonWarrior.h" />
     <ClInclude Include="..\Header\DynamicCamera.h" />
     <ClInclude Include="..\Header\Editor.h" />
+    <ClInclude Include="..\Header\FirePattern.h" />
     <ClInclude Include="..\Header\FlyingCamera.h" />
     <ClInclude Include="..\Header\ImGuiManager.h" />
     <ClInclude Include="..\Header\Loading.h" />
@@ -228,11 +233,16 @@
     </ClCompile>
     <ClCompile Include="..\Code\BossProjectile.cpp" />
     <ClCompile Include="..\Code\CameraManager.cpp" />
+    <ClCompile Include="..\Code\Boss_Attack.cpp" />
+    <ClCompile Include="..\Code\Boss_Idle.cpp" />
+    <ClCompile Include="..\Code\CBoss_Sleep.cpp" />
+    <ClCompile Include="..\Code\Boss_WakeUp.cpp" />
     <ClCompile Include="..\Code\CubeBlock.cpp" />
     <ClCompile Include="..\Code\DungeonSpider.cpp" />
     <ClCompile Include="..\Code\DungeonWarrior.cpp" />
     <ClCompile Include="..\Code\DynamicCamera.cpp" />
     <ClCompile Include="..\Code\Editor.cpp" />
+    <ClCompile Include="..\Code\FirePattern.cpp" />
     <ClCompile Include="..\Code\FlyingCamera.cpp" />
     <ClCompile Include="..\Code\ImGuiManager.cpp" />
     <ClCompile Include="..\Code\Loading.cpp" />

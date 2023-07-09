@@ -70,6 +70,7 @@ _int CDungeonSpider::Update_Object(const _float& fTimeDelta)
 
 	m_pStateMachine->Update_StateMachine(fTimeDelta);
 
+	m_pStateMachine->Render_StateMachine();//현재 도스창에 상태를 나타내기 위한 함수
 
 	if (m_pStateMachine->Get_State() != STATE::ATTACK)
 		ForceHeight(pPlayerTransform->m_vInfo[INFO_POS]);
@@ -91,8 +92,7 @@ void CDungeonSpider::Render_Object()
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
 	m_pStateMachine->Render_StateMachine();
-	/*m_pTexture[static_cast<int>(m_pStateMachine->Get_State())]
-		->Render_Texture((_uint)m_fFrame);*/
+
 	m_pBuffer->Render_Buffer();
 
 #if _DEBUG
@@ -147,8 +147,6 @@ HRESULT CDungeonSpider::Add_Component()
 	pComponent = m_pTexture[(_uint)STATE::ATTACK] = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_SpiderAttack"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
-
-	// enum class STATE { IDLE, ROMIMG, ATTACK, HIT, DEAD, STATE_END };
 
 	pComponent = m_pTransform = dynamic_cast<CTransform*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Transform"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);

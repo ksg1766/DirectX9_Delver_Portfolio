@@ -6,7 +6,7 @@ BEGIN(Engine)
 class CRcTex;
 class CTexture;
 class CBillBoard;
-class CBossAI;
+class CStateMachine;
 END
 class CTerrain;
 
@@ -26,7 +26,8 @@ public:
 public:
 	void		ForceHeight(_vec3 _vPos);
 	void		Set_Terrain(CTerrain* _pCurrentTerrain) { m_pTerrain = _pCurrentTerrain; }
-
+	CTerrain*	Get_Terrain() { return m_pTerrain; }
+	virtual _float		Get_Frame() { return m_fFrame; }
 	virtual void	OnCollisionEnter(CCollider* _pOther);
 	virtual void	OnCollisionStay(CCollider* _pOther);
 	virtual void	OnCollisionExit(CCollider* _pOther);
@@ -39,8 +40,9 @@ private:
 	CRcTex*		m_pBuffer = nullptr;
 	CTexture*	m_pTexture = nullptr;
 	CBillBoard*	m_pBillBoard = nullptr;
-	CBossAI*	m_pBossAI = nullptr;
 	CTerrain*	m_pTerrain = nullptr;
+	CStateMachine* m_pStateMachine = nullptr;
+
 	_float		m_fFrame = 0;
 
 public:
