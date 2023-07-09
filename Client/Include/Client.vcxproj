@@ -185,11 +185,8 @@
     <ClInclude Include="..\Header\EditButton.h" />
     <ClInclude Include="..\Header\EditLoading.h" />
     <ClInclude Include="..\Header\Editor.h" />
-<<<<<<< HEAD
     <ClInclude Include="..\Header\FirePattern.h" />
-=======
     <ClInclude Include="..\Header\ExitButton.h" />
->>>>>>> feature/hana
     <ClInclude Include="..\Header\FlyingCamera.h" />
     <ClInclude Include="..\Header\GameLogo.h" />
     <ClInclude Include="..\Header\ImGuiManager.h" />
@@ -258,11 +255,8 @@
     <ClCompile Include="..\Code\EditButton.cpp" />
     <ClCompile Include="..\Code\EditLoading.cpp" />
     <ClCompile Include="..\Code\Editor.cpp" />
-<<<<<<< HEAD
     <ClCompile Include="..\Code\FirePattern.cpp" />
-=======
     <ClCompile Include="..\Code\ExitButton.cpp" />
->>>>>>> feature/hana
     <ClCompile Include="..\Code\FlyingCamera.cpp" />
     <ClCompile Include="..\Code\GameLogo.cpp" />
     <ClCompile Include="..\Code\ImGuiManager.cpp" />
