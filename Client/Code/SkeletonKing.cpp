@@ -55,12 +55,27 @@ HRESULT CSkeletonKing::Ready_Object(void)
 
 	pState = CBoss_Attack::Create(m_pGraphicDev, m_pStateMachine);
 	m_pStateMachine->Add_State(STATE::BOSS_ATTACK, pState);
-
+	//
 	pState = CFirePattern::Create(m_pGraphicDev, m_pStateMachine);
 	m_pStateMachine->Add_State(STATE::BOSS_FIRE, pState);
 
 	pState = CExplosionPattern::Create(m_pGraphicDev, m_pStateMachine);
 	m_pStateMachine->Add_State(STATE::BOSS_EXPLOSION, pState);
+
+	CAnimation* pAnimation = CAnimation::Create(m_pGraphicDev,
+		m_pTexture[(_uint)STATE::BOSS_IDLE], STATE::BOSS_IDLE, 8.f, TRUE);
+	m_pAnimator->Add_Animation(STATE::BOSS_IDLE, pAnimation);
+	
+	pAnimation = CAnimation::Create(m_pGraphicDev,
+		m_pTexture[(_uint)STATE::BOSS_IDLE], STATE::BOSS_ATTACK, 5.f, TRUE);
+	m_pAnimator->Add_Animation(STATE::BOSS_ATTACK, pAnimation);
+	
+	pAnimation = CAnimation::Create(m_pGraphicDev,
+		m_pTexture[(_uint)STATE::BOSS_IDLE], STATE::BOSS_FIRE, 5.f, TRUE);
+	m_pAnimator->Add_Animation(STATE::BOSS_FIRE, pAnimation);
+
+	m_pStateMachine->Set_Animator(m_pAnimator);
+	m_pStateMachine->Set_State(STATE::BOSS_IDLE);
 
 	pState = CTeleportPattern::Create(m_pGraphicDev, m_pStateMachine);
 	m_pStateMachine->Add_State(STATE::BOSS_TELEPORT, pState);
@@ -147,6 +162,7 @@ _int CSkeletonKing::Update_Object(const _float& fTimeDelta)
 	if (SceneManager()->Get_GameStop()) { return 0; }
 
 	_int iExit = __super::Update_Object(fTimeDelta);
+
 	ForceHeight(m_pTransform->m_vInfo[INFO_POS]);
 	m_pStateMachine->Update_StateMachine(fTimeDelta);
 
@@ -166,11 +182,13 @@ void CSkeletonKing::Render_Object(void)
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+
 	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 
 	m_pStateMachine->Render_StateMachine();
 
 	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+
 	m_pBuffer->Render_Buffer();
 
 #if _DEBUG
@@ -335,6 +353,7 @@ HRESULT CSkeletonKing::Add_Component(void)
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::COLLIDER, pComponent);
 
 #pragma region 텍스쳐 컴포넌트
+
 	pComponent = m_pTexture[(_uint)STATE::BOSS_IDLE] = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_Boss"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);

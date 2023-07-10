@@ -8,6 +8,7 @@ class CRcTex;
 class CTexture;
 class CStateMachine;
 class CBasicStat;
+class CAnimator;
 
 END
 
@@ -37,10 +38,10 @@ public:
 
 private:
 	CRcTex*			m_pBuffer = nullptr;
-	CTexture*		m_pTexture = nullptr;
+	CTexture*		m_pTexture[(_uint)STATE::STATE_END] = {};
 	CStateMachine*	m_pStateMachine = nullptr;
 	CTerrain*		m_pTerrain = nullptr;
-	CBasicStat*		m_pStat = nullptr;
+	CAnimator*		m_pAnimator = nullptr;
 
 	_float m_fFrame;
 	

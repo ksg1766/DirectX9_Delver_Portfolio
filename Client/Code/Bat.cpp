@@ -18,16 +18,18 @@ CBat::CBat(const CBat& rhs)
 
 CBat::~CBat()
 {
+	Free();
 }
 
 HRESULT CBat::Ready_Object()
 {
 	Set_ObjectTag(OBJECTTAG::MONSTER);
+	m_eMonsterTag = MONSTERTAG::BAT;
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	// Stat
-	m_pStat->Get_Stat()->fHealth = 2.f;
+	m_pBasicStat->Get_Stat()->fHealth = 2.f;
 
 
 	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
@@ -35,6 +37,12 @@ HRESULT CBat::Ready_Object()
 	m_pTransform->Translate(_vec3(2.f, 3.f, 10.f));
 	CState* pState = CMonster_Fly::Create(m_pGraphicDev, m_pStateMachine);
 	m_pStateMachine->Add_State(STATE::ROMIMG, pState);
+
+	CAnimation* pAnimation = CAnimation::Create(m_pGraphicDev,
+		m_pTexture[(_uint)STATE::ROMIMG], STATE::ROMIMG, 5.f, TRUE);
+	m_pAnimator->Add_Animation(STATE::ROMIMG, pAnimation);
+
+	m_pStateMachine->Set_Animator(m_pAnimator);
 	m_pStateMachine->Set_State(STATE::ROMIMG);
 
 	return S_OK;
@@ -48,13 +56,10 @@ _int CBat::Update_Object(const _float& fTimeDelta)
 
 	_int iExit = __super::Update_Object(fTimeDelta);
 
-	m_fFrame += 5.f * fTimeDelta;
-
-	if (2 < m_fFrame)
-		m_fFrame = 0.f;
+	if (m_pBasicStat->Get_Stat()->fHealth <= 0.f)
+		EventManager()->DeleteObject(this);
 
 	m_pStateMachine->Update_StateMachine(fTimeDelta);
-	m_pStateMachine->Render_StateMachine();
 
 	return iExit;
 }
@@ -71,7 +76,8 @@ void CBat::Render_Object()
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
-	m_pTexture->Render_Texture((_uint)m_fFrame);
+	m_pStateMachine->Render_StateMachine();
+
 	m_pBuffer->Render_Buffer();
 
 #if _DEBUG
@@ -131,7 +137,8 @@ void CBat::OnCollisionEnter(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 
-	__super::OnCollisionEnter(_pOther);
+	if(!(_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::ITEM))
+		__super::OnCollisionEnter(_pOther);
 
 	if (_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::PLAYER)
 	{
@@ -178,13 +185,17 @@ HRESULT CBat::Add_Component(void)
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::STATEMACHINE, pComponent);
 
-	pComponent = m_pTexture = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_Bat"));
+	pComponent = m_pTexture[(_uint)STATE::ROMIMG] = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_Bat"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
 
-	pComponent = m_pStat = dynamic_cast<CBasicStat*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BasicStat"));
+	pComponent = m_pBasicStat = dynamic_cast<CBasicStat*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BasicStat"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BASICSTAT, pComponent);
+
+	pComponent = m_pAnimator = dynamic_cast<CAnimator*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Animator"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::ANIMATOR, pComponent);
 
 	for (_uint i = 0; i < ID_END; ++i)
 		for (auto& iter : m_mapComponent[i])

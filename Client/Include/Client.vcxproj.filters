@@ -4,21 +4,6 @@
     <Filter Include="00. MainApp">
       <UniqueIdentifier>{54072560-0ca5-4dc0-8256-18cb96e858e8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="99. Etc">
-      <UniqueIdentifier>{2ad4fe67-d505-4a9a-94a4-e1f6784bdc9e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="99. Etc\리소스 파일">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
-    <Filter Include="99. Etc\소스 파일">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="99. Etc\헤더 파일">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
     <Filter Include="01. Scene">
       <UniqueIdentifier>{daf89680-9697-4e5e-bd4e-7436051cfbbf}</UniqueIdentifier>
     </Filter>
@@ -297,6 +282,25 @@
     </Filter>
     <Filter Include="02. GameObject\04. Public\03. BlackInOut\01. BlackOutIn">
       <UniqueIdentifier>{8aecc903-0a89-40f2-b46c-6be5b793da0c}</UniqueIdentifier>
+	</Filter>
+    <Filter Include="02. GameObject\01. Stage\01. Player\State\Attack">
+      <UniqueIdentifier>{df9f116d-ae01-44ed-bf22-f15a5f1145ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="99. Etc">
+      <UniqueIdentifier>{2ad4fe67-d505-4a9a-94a4-e1f6784bdc9e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="99. Etc\리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="99. Etc\소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="99. Etc\헤더 파일">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+>>>>>>> origin/feature/JunYeop
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -567,6 +571,12 @@
     </ClInclude>
     <ClInclude Include="..\Header\UIQuitButton.h">
       <Filter>02. GameObject\03. UI\13. UIQuitButton</Filter>
+	</ClInclude>
+    <ClInclude Include="..\Header\Player_Attack.h">
+      <Filter>02. GameObject\01. Stage\01. Player\State\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Monster_Hit.h">
+      <Filter>02. GameObject\01. Stage\05. Monster\00. State\Public</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -828,6 +838,12 @@
     </ClCompile>
     <ClCompile Include="..\Code\UIEscBackground.cpp">
       <Filter>02. GameObject\03. UI\10. UIEscBackground</Filter>
+	</ClCompile>
+    <ClCompile Include="..\Code\Player_Attack.cpp">
+      <Filter>02. GameObject\01. Stage\01. Player\State\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Monster_Hit.cpp">
+      <Filter>02. GameObject\01. Stage\05. Monster\00. State\Public</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

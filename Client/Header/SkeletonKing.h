@@ -43,7 +43,8 @@ private:
 	CBillBoard*	m_pBillBoard = nullptr;
 	CTerrain*	m_pTerrain = nullptr;
 	CStateMachine* m_pStateMachine = nullptr;
-	CAnimator*	m_pAnimator = nullptr;
+
+	CAnimator*  m_pAnimator = nullptr;
 
 	_float		m_fFrame = 0;
 

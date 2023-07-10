@@ -1,5 +1,6 @@
 #include "..\Header\Monster_Move.h"
 #include "Export_Function.h"
+#include "DungeonSpider.h"
 
 CMonster_Move::CMonster_Move()
 {
@@ -41,6 +42,7 @@ STATE CMonster_Move::Update_State(const _float& fTimeDelta)
 	_float fDistanceLength = D3DXVec3LengthSq(&vDistance);
 	_float fSight = pow(15, 2);
 
+
 	if (fDistanceLength >= fSight)
 	{
 		if (Reached_Pos())
@@ -48,12 +50,15 @@ STATE CMonster_Move::Update_State(const _float& fTimeDelta)
 		else
 			Move_NewPos(fTimeDelta);
 
+		m_pOwner->Get_Host()->Set_State(STATE::ROMIMG);
+		
 		return STATE::ROMIMG;
 	}
 	
 	if (m_bFirstCool)
 	{
 		m_bFirstCool = false;
+		m_pOwner->Get_Host()->Set_State(STATE::ATTACK);
 		return STATE::ATTACK;
 	}
 
@@ -66,6 +71,7 @@ STATE CMonster_Move::Update_State(const _float& fTimeDelta)
 		{
 			m_bJumCoolDown = false;
 			m_fJumpCoolTimer = 0.f;
+			m_pOwner->Get_Host()->Set_State(STATE::ATTACK);
 			return STATE::ATTACK;
 		}
 		else

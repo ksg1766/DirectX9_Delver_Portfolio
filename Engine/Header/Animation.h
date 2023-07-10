@@ -24,6 +24,8 @@ public:
 
 	virtual _float	Get_Frame() { return m_fCurFrame; }
 
+public:
+
 protected:
 	// 애니메이션 관련 함수
 	CAnimator* m_pOwner = nullptr;

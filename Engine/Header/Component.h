@@ -20,8 +20,9 @@ public:
 	void		Set_ObjectTag(OBJECTTAG _eObject)	   { m_eObjectTag = _eObject; }
 
 public:
-	CTransform* Get_Transform()						  { return m_pTransform; }
-	OBJECTTAG	Get_ObjectTag()						  { return m_eObjectTag; }
+	CTransform*		Get_Transform()						  { return m_pTransform; }
+	OBJECTTAG		Get_ObjectTag()						  { return m_eObjectTag; }
+	CGameObject*	Get_Host()							  { return m_pHost; }
 
 public:
 	virtual	_int Update_Component(const _float& fTimeDelta) { return 0; }

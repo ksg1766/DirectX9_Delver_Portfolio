@@ -1,6 +1,7 @@
 #include "..\Header\DungeonWarrior.h"
 #include "Export_Function.h"
 #include "Terrain.h"
+#include "Monster_Move.h"
 
 CDungeonWarrior::CDungeonWarrior(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CMonster(pGraphicDev), m_fFrame(0.f)
@@ -28,6 +29,18 @@ HRESULT CDungeonWarrior::Ready_Object()
 
 	m_pTransform->Translate(_vec3(1.f, 1.f, 3.f));
 
+	CState* pState = CMonster_Move::Create(m_pGraphicDev, m_pState);
+	m_pState->Add_State(STATE::ROMIMG, pState);
+
+	CAnimation* pAnimation = CAnimation::Create(m_pGraphicDev,
+		m_pTexture[(_uint)STATE::ROMIMG], STATE::ROMIMG, 5.f, TRUE);
+	m_pAnimator->Add_Animation(STATE::ROMIMG, pAnimation);
+
+	m_pState->Set_Animator(m_pAnimator);
+	m_pState->Set_State(STATE::ROMIMG);
+
+	//CState* pState = CMonster_Move::Create(m_pGraphicDev)
+
 	return S_OK;
 }
 
@@ -42,12 +55,8 @@ _int CDungeonWarrior::Update_Object(const _float& fTimeDelta)
 	CTransform* pPlayerTransform = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform;
 	NULL_CHECK_RETURN(pPlayerTransform, -1);
 
-	m_fFrame += 4.f * fTimeDelta;
 
-	if (4.f < m_fFrame)
-		m_fFrame = 0.f;
-
-	m_pAI->Update_Component(fTimeDelta, pPlayerTransform->m_vInfo[INFO_POS]);
+	m_pState->Update_StateMachine(fTimeDelta);
 	ForceHeight(m_pTransform->m_vInfo[INFO_POS]);
 
 	return iExit;
@@ -58,6 +67,8 @@ void CDungeonWarrior::LateUpdate_Object()
 	if (SceneManager()->Get_GameStop()) { return; }
 
 	__super::LateUpdate_Object();
+
+	m_pState->LateUpdate_StateMachine();
 }
 
 void CDungeonWarrior::Render_Object()
@@ -66,6 +77,8 @@ void CDungeonWarrior::Render_Object()
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
 	m_pTexture->Render_Texture((_uint)m_fFrame);
+
+	m_pState->Render_StateMachine();
 
 	m_pBuffer->Render_Buffer();
 
@@ -160,7 +173,7 @@ HRESULT CDungeonWarrior::Add_Component()
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::COLLIDER, pComponent);
 
-	pComponent = m_pTexture = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_Warrior"));
+	pComponent = m_pTexture[(_uint)STATE::ROMIMG] = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_Warrior"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
 
@@ -168,9 +181,13 @@ HRESULT CDungeonWarrior::Add_Component()
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::BILLBOARD, pComponent);
 
-	pComponent = m_pAI = dynamic_cast<CWarriorAI*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Warrior_AI"));
+	pComponent = m_pAnimator = dynamic_cast<CAnimator*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Animator"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::MONSTERAI, pComponent);
+	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::ANIMATOR, pComponent);
+
+	pComponent = m_pState = dynamic_cast<CStateMachine*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_State"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BASICSTAT, pComponent);
 
 	for (_uint i = 0; i < ID_END; ++i)
 		for (auto& iter : m_mapComponent[i])

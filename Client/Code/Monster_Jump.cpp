@@ -1,5 +1,6 @@
 #include "..\Header\Monster_Jump.h"
 #include "Export_Function.h"
+#include "DungeonSpider.h"
 
 CMonster_Jump::CMonster_Jump()
 {
@@ -17,7 +18,7 @@ CMonster_Jump::~CMonster_Jump()
 HRESULT CMonster_Jump::Ready_State(CStateMachine* pOwner)
 {
 	m_pOwner = pOwner;
-	m_fJumpVelocity = 15.f;
+	m_fJumpVelocity = 13.f;
 	m_bJumCoolDown = false;
 	m_bIsJumping = false;
 	m_fJumpCoolDuration = 2.f;
@@ -45,6 +46,7 @@ STATE CMonster_Jump::Jump(const _float& fTimeDelta)
 {
 
 	CTransform* pPlayerTransform = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform;
+	
 
 	_vec3 vPlayerPos = pPlayerTransform->m_vInfo[INFO_POS];
 	_vec3& vMonsterPos = m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
@@ -71,12 +73,15 @@ STATE CMonster_Jump::Jump(const _float& fTimeDelta)
 	if (vMonsterPos.y < 1.f)
 	{
 		vMonsterPos.y = 1.f;
-		m_fJumpVelocity = 15.f;
+		m_fJumpVelocity = 13.f;
 
 		m_bJumCoolDown = true;
 		m_bIsJumping = false;
+		m_pOwner->Get_Host()->Set_State(STATE::ROMIMG);
+		
 		return STATE::ROMIMG;
 	}
+
 
 	return STATE::ATTACK;
 }

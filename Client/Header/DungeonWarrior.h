@@ -7,6 +7,8 @@ BEGIN(Engine)
 class CRcTex;
 class CWarriorAI;
 class CTexture;
+class CAnimator;
+class CStateMachine;
 
 END
 
@@ -40,8 +42,10 @@ private:
 private:
 	CRcTex*			m_pBuffer = nullptr;
 	CWarriorAI*		m_pAI = nullptr;
-	CTexture*		m_pTexture = nullptr;
+	CTexture*		m_pTexture[(_uint)STATE::STATE_END] = {};
 	CTerrain*		m_pTerrain = nullptr;
+	CAnimator*		m_pAnimator = nullptr;
+	CStateMachine*	m_pState = nullptr;
 
 	_float			m_fFrame;
 

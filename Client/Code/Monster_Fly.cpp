@@ -35,7 +35,7 @@ void CMonster_Fly::LateUpdate_State()
 
 void CMonster_Fly::Render_State()
 {
-	cout << "Fly" << endl;
+	//cout << "Fly" << endl;
 }
 
 void CMonster_Fly::Fly(const _float& fTimeDelta)

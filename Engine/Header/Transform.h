@@ -15,6 +15,15 @@ private:
 public:
 	void	Set_Parent(CTransform* _pParent) { m_pParent = _pParent; m_pParent->Set_Child(this); }
 
+	void	Copy_RUL(_vec3* _Info) 
+	{
+		for (_uint i = 0; i < INFO_LOOK; ++i)
+		{
+			memcpy(m_vInfo[i], _Info[i], sizeof(_vec3));
+		}
+	
+	}
+
 	void	Scale(_vec3& _vEulers);
 	void	Scale(const _vec3& _vEulers);
 

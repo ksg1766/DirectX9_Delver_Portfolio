@@ -11,6 +11,7 @@
 // State
 #include "PlayerState_Walk.h"
 #include "PlayerState_Idle.h"
+#include "Player_Attack.h"
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CGameObject(pGraphicDev)
@@ -31,6 +32,9 @@ CPlayer::~CPlayer()
 HRESULT CPlayer::Ready_Object(void)
 {
 	m_eObjectTag = OBJECTTAG::PLAYER;
+	m_bItemEquip = false;
+	m_bIsAttack = false;
+	m_bAttackTick = false;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	Get_Collider()->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
@@ -38,16 +42,17 @@ HRESULT CPlayer::Ready_Object(void)
 	m_pTransform->Translate(_vec3(0.f, 1.f, 0.f));
 	m_vOffset = _vec3(0.55f, 0.1f, 1.8f);
 
+
+
 	// 걷기 상태 추가
 	CState* pState = CPlayerState_Walk::Create(m_pGraphicDev, m_pStateMachine);
 	m_pStateMachine->Add_State(STATE::ROMIMG, pState);
 	pState = CPlayerState_Idle::Create(m_pGraphicDev, m_pStateMachine);
 	m_pStateMachine->Add_State(STATE::IDLE, pState);
+	pState = CPlayer_Attack::Create(m_pGraphicDev, m_pStateMachine);
+	m_pStateMachine->Add_State(STATE::ATTACK, pState);
+
 	m_pStateMachine->Set_State(STATE::IDLE);
-
-	
-
-	//m_pStateMachine->Set_Animator(m_pAnimator);
 
 	return S_OK;
 }
@@ -61,6 +66,7 @@ Engine::_int CPlayer::Update_Object(const _float& fTimeDelta)
 	if (SceneManager()->Get_GameStop()) { return 0; }
 
 	_int iExit = __super::Update_Object(fTimeDelta);
+
 
 	m_pStateMachine->Update_StateMachine(fTimeDelta);
 
@@ -83,8 +89,8 @@ void CPlayer::Render_Object(void)
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
+	m_pStateMachine->Render_StateMachine();
 	m_pBuffer->Render_Buffer();
-	//m_pStateMachine->Render_StateMachine();
 
 #if _DEBUG
 	m_pCollider->Render_Collider();
@@ -137,12 +143,55 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 {
 	CGameObject* pGameObject = SceneManager()->Get_ObjectList(LAYERTAG::ENVIRONMENT, OBJECTTAG::CAMERA).front();
 
+	_long dwMouseMove;
+
+	_vec3 vLook = m_pTransform->m_vInfo[INFO_LOOK];
+	_vec3 vRight = m_pTransform->m_vInfo[INFO_RIGHT];
+	_vec3 vUp = m_pTransform->m_vInfo[INFO_UP];
+
+	_bool bCameraOn = static_cast<CDynamicCamera*>(pGameObject)->Get_MouseFix();
+
+	if (0 != (dwMouseMove = Engine::InputDev()->Get_DIMouseMove(DIMS_X)) && !bCameraOn)
+	{
+		_matrix matRotX;
+
+		m_pTransform->Rotate(ROT_Y, D3DXToRadian(dwMouseMove) * fTimeDelta * 3.f);
+
+		D3DXMatrixRotationAxis(&matRotX, &m_pTransform->m_vInfo[INFO_UP], D3DXToRadian(dwMouseMove) * fTimeDelta * 3.f);
+		D3DXVec3TransformNormal(&vLook, &vLook, &matRotX);
+		D3DXVec3TransformNormal(&vRight, &vRight, &matRotX);
+		D3DXVec3TransformCoord(&m_vOffset, &m_vOffset, &matRotX);
+
+	}
+
+
+	if (0 != (dwMouseMove = Engine::InputDev()->Get_DIMouseMove(DIMS_Y)) && !bCameraOn)
+	{
+		m_pTransform->Rotate(ROT_X, D3DXToRadian(dwMouseMove) * fTimeDelta * 3.f);
+
+		_vec3 vRigh2t;
+		D3DXVec3Cross(&vRigh2t, &m_pTransform->m_vInfo[INFO_UP], &m_pTransform->m_vInfo[INFO_LOOK]);
+		
+		_matrix matRotY;
+		
+		D3DXMatrixRotationAxis(&matRotY, &vRight, D3DXToRadian(dwMouseMove) * fTimeDelta * 3.f);
+		D3DXVec3TransformNormal(&vUp, &vUp, &matRotY);
+		D3DXVec3TransformNormal(&vLook, &vLook, &matRotY);
+		D3DXVec3TransformCoord(&m_vOffset, &m_vOffset, &matRotY);
+	}
+
+
 	if (Engine::InputDev()->Key_Down(DIK_1))
 	{
+		m_bItemEquip = true;
 		Engine::CGameObject* pGameObject = nullptr;
 		pGameObject = CTempItem::Create(m_pGraphicDev);
 		pGameObject->m_pTransform->Translate(m_pTransform->m_vInfo[INFO_POS]
 			+ m_pTransform->m_vInfo[INFO_LOOK]); //_vec3(0.55f, 0.1f, 1.8f) INFO_LOOK에
+
+		Add_Item(pGameObject, ITEMTAG::WEAPON);
+		Set_CurItem(pGameObject);
+
 		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 	}
 
