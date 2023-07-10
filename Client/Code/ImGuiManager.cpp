@@ -25,6 +25,9 @@ void CImGuiManager::Key_Input(const _float& fTimeDelta)
     if (Engine::InputDev()->Mouse_Down(DIM_LB))
     {
         vOut = Picking();
+        if (_vec3(0.f, -10.f, 0.f) == vOut)
+            return;
+
         if (selected_texture)
         {
             Engine::CGameObject* pGameObject = nullptr;
