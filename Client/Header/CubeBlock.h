@@ -29,11 +29,22 @@ public:
 	virtual void		OnCollisionStay(CCollider* _pOther);
 	virtual void		OnCollisionExit(CCollider* _pOther);
 
+public:
+	vector<_vec3>&		LoadCubeVertex() { return m_vecCubeVertex; }
+	vector<INDEX32>&	LoadCubeIndex() { return m_vecCubeIndex; }
+
+	void		Set_TextureNumber(_uint _iTextureNumber) { m_iTextureNumber = _iTextureNumber; }
+
 private:
 	HRESULT		Add_Component(void);
+
 private:
 	CCubeBf*	m_pBuffer = nullptr;
 	CTexture*	m_pTexture = nullptr;
+	_ubyte		m_iTextureNumber;
+
+	vector<_vec3>	m_vecCubeVertex;
+	vector<INDEX32>	m_vecCubeIndex;
 
 public:
 	static CCubeBlock* Create(LPDIRECT3DDEVICE9 pGraphicDev);

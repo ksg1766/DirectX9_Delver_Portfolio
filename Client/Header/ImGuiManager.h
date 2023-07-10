@@ -36,8 +36,8 @@ private:
 	_bool	bUI_OnOff;
 
 	vector<IDirect3DBaseTexture9*>		m_pTerainTexture;
-	ImTextureID							selected_texture;
-
+	ImTextureID							selected_texture = nullptr;
+	_uint								selected_texture_index = 0;
 
 
 public:

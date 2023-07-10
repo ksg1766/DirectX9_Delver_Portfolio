@@ -4,6 +4,7 @@
 #include "CameraManager.h"
 #include "FlyingCamera.h"
 #include "Terrain.h"
+#include "CubeBlock.h"
 
 IMPLEMENT_SINGLETON(CImGuiManager)
 
@@ -22,22 +23,28 @@ void CImGuiManager::Key_Input(const _float& fTimeDelta)
 {
     _vec3 vOut;
     if (Engine::InputDev()->Mouse_Down(DIM_LB))
+    {
         vOut = Picking();
+        if (selected_texture)
+        {
+            Engine::CGameObject* pGameObject = nullptr;
+
+            pGameObject = CCubeBlock::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+            NULL_CHECK_RETURN(pGameObject);
+            dynamic_cast<CCubeBlock*>(pGameObject)->Set_TextureNumber(selected_texture_index);
+            pGameObject->m_pTransform->Translate(vOut);
+            EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+        }
+    }
+
 }
 
 _vec3 CImGuiManager::Picking()
 {
-    // 일단 임시로 front()로 하나만 가져와 보자.
-    CTerrain* pTerrain = dynamic_cast<CTerrain*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::TERRAIN).front());
-    NULL_CHECK_RETURN(pTerrain, _vec3(0.f, 0.f, 0.f));
+#pragma region Cube Picking 구현 중
+    const vector<CGameObject*>& vecBlock = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BLOCK);
 
-    //CTerrainTex* pTerrainBuffer = dynamic_cast<CTerrainTex*>(pTerrain->Get_Component(COMPONENTTAG::BUFFER, ID_STATIC));
-    //NULL_CHECK_RETURN(pTerrainBuffer, _vec3(0.f, 0.f, 0.f));
-
-    CTransform* pTerrainTransform = dynamic_cast<CTransform*>(pTerrain->m_pTransform);
-    NULL_CHECK_RETURN(pTerrainTransform, _vec3(0.f, 0.f, 0.f));
-
-    //
+    priority_queue<pair<_float, CCubeBlock*>, vector<pair<_float, CCubeBlock*>>, greater<pair<_float, CCubeBlock*>>> pq;
 
     POINT		ptMouse{};
     GetCursorPos(&ptMouse);
@@ -49,10 +56,6 @@ _vec3 CImGuiManager::Picking()
     ZeroMemory(&ViewPort, sizeof(D3DVIEWPORT9));
     CGraphicDev::GetInstance()->Get_GraphicDev()->GetViewport(&ViewPort);
 
-    //0,0      -> -1, 1
-    //400, 300 ->  0, 0
-    //800, 600 ->  1, -1
-
     // 뷰포트 -> 투영
     vMousePos.x = ptMouse.x / (ViewPort.Width * 0.5f) - 1.f;
     vMousePos.y = ptMouse.y / -(ViewPort.Height * 0.5f) + 1.f;
@@ -60,7 +63,6 @@ _vec3 CImGuiManager::Picking()
 
     // 투영 -> 뷰 스페이스
     _matrix		matProj;
-    //CGraphicDev::GetInstance()->Get_GraphicDev()->GetTransform(D3DTS_PROJECTION, &matProj);
     D3DXMatrixInverse(&matProj, 0, &dynamic_cast<CFlyingCamera*>(CCameraManager::GetInstance()
         ->Get_CurrentCam())->Get_Camera()->Get_ProjMatrix());
     D3DXVec3TransformCoord(&vMousePos, &vMousePos, &matProj);
@@ -72,70 +74,104 @@ _vec3 CImGuiManager::Picking()
 
     // 뷰 스페이스 -> 월드 스페이스
     _matrix		matView;
-   // CGraphicDev::GetInstance()->Get_GraphicDev()->GetTransform(D3DTS_VIEW, &matView);
-    //dynamic_cast<CCamera*>(CCameraManager::GetInstance()->Get_CurrentCam())->Get_ViewMatrix();
-
     D3DXMatrixInverse(&matView, 0, &dynamic_cast<CFlyingCamera*>(CCameraManager::GetInstance()
         ->Get_CurrentCam())->Get_Camera()->Get_ViewMatrix());
     D3DXVec3TransformCoord(&vRayPos, &vRayPos, &matView);
     D3DXVec3TransformNormal(&vRayDir, &vRayDir, &matView);
 
-    // 월드 스페이스 -> 로컬 스페이스
-    /*_matrix		matWorld;
-    pTerrainTransform->Get_WorldMatrix(&matWorld);
-    D3DXMatrixInverse(&matWorld, 0, &matWorld);
-    D3DXVec3TransformCoord(&vRayPos, &vRayPos, &matWorld);
-    D3DXVec3TransformNormal(&vRayDir, &vRayDir, &matWorld);*/
-
-    const vector<_vec3>& pTerrainVtxPos = pTerrain->LoadTerrainVertex();
-
-    _ulong		dwVtxIdx[3]{};
-
-    _float	fU = 0.f, fV = 0.f, fDist = 0.f;
-
-    for (_ulong i = 0; i < VTXCNTZ - 1; ++i)
+    for (auto& iter : vecBlock)
     {
-        for (_ulong j = 0; j < VTXCNTX - 1; ++j)
+        CCubeBlock* pCubeBlock = dynamic_cast<CCubeBlock*>(iter);
+
+        _vec3 vRayPosWorld = vRayPos;
+        _vec3 vRayDirWorld = vRayDir;
+
+        // 월드 스페이스 -> 로컬 스페이스
+        _matrix		matWorld;
+        matWorld = pCubeBlock->m_pTransform->WorldMatrix();
+        D3DXMatrixInverse(&matWorld, 0, &matWorld);
+        D3DXVec3TransformCoord(&vRayPosWorld, &vRayPosWorld, &matWorld);
+        D3DXVec3TransformNormal(&vRayDirWorld, &vRayDirWorld, &matWorld);
+
+        const vector<_vec3>& pCubeVtxPos = pCubeBlock->LoadCubeVertex();
+        const vector<INDEX32>& pCubeIdxPos = pCubeBlock->LoadCubeIndex();
+
+        _float	fU = 0.f, fV = 0.f, fDist = 0.f;
+
+        for (_ulong i = 0; i < pCubeIdxPos.size(); ++i)
         {
-            _ulong	dwIndex = i * VTXCNTX + j;
-
-            // 오른쪽 위
-            dwVtxIdx[0] = dwIndex + VTXCNTX;
-            dwVtxIdx[1] = dwIndex + VTXCNTX + 1;
-            dwVtxIdx[2] = dwIndex + 1;
-
-            if (D3DXIntersectTri(&pTerrainVtxPos[dwVtxIdx[1]],
-                &pTerrainVtxPos[dwVtxIdx[0]],
-                &pTerrainVtxPos[dwVtxIdx[2]],
-                &vRayPos, &vRayDir, &fU, &fV, &fDist))
+            if (D3DXIntersectTri(&pCubeVtxPos[pCubeIdxPos[i]._2],
+                &pCubeVtxPos[pCubeIdxPos[i]._0],
+                &pCubeVtxPos[pCubeIdxPos[i]._1],
+                &vRayPosWorld, &vRayDirWorld, &fU, &fV, &fDist))
             {
                 // V1 + U(V2 - V1) + V(V3 - V1)
 
-                return _vec3(pTerrainVtxPos[dwVtxIdx[1]].x + fU * (pTerrainVtxPos[dwVtxIdx[0]].x - pTerrainVtxPos[dwVtxIdx[1]].x),
-                    0.f,
-                    pTerrainVtxPos[dwVtxIdx[1]].z + fV * (pTerrainVtxPos[dwVtxIdx[2]].z - pTerrainVtxPos[dwVtxIdx[1]].z));
-            }
+                pq.push(make_pair(fDist, pCubeBlock));
+                //break;
 
-            // 왼쪽 아래
-            dwVtxIdx[0] = dwIndex + VTXCNTX;
-            dwVtxIdx[1] = dwIndex + 1;
-            dwVtxIdx[2] = dwIndex;
-
-            if (D3DXIntersectTri(&pTerrainVtxPos[dwVtxIdx[1]],
-                &pTerrainVtxPos[dwVtxIdx[0]],
-                &pTerrainVtxPos[dwVtxIdx[2]],
-                &vRayPos, &vRayDir, &fU, &fV, &fDist))
-            {
-                // V1 + U(V2 - V1) + V(V3 - V1)
-
-                return _vec3(pTerrainVtxPos[dwVtxIdx[1]].x + fU * (pTerrainVtxPos[dwVtxIdx[0]].x - pTerrainVtxPos[dwVtxIdx[1]].x),
-                    0.f,
-                    pTerrainVtxPos[dwVtxIdx[1]].z + fV * (pTerrainVtxPos[dwVtxIdx[2]].z - pTerrainVtxPos[dwVtxIdx[1]].z));
+               /* return pCubeVtxPos[pCubeIdxPos[i]._1] + fU * (pCubeVtxPos[pCubeIdxPos[i]._0] - pCubeVtxPos[pCubeIdxPos[i]._1])
+                    + fV * (pCubeVtxPos[pCubeIdxPos[i]._2] - pCubeVtxPos[pCubeIdxPos[i]._1]);*/
             }
         }
     }
 
-    return _vec3(0.f, 0.f, 0.f);
+    // 한 번 더 피킹을 검출하는 구간인데, 비효율적으로 됐지만 우선 놔둠...
+
+    if (pq.empty()) // 피킹된 큐브가 없다면
+        return _vec3(0.f, -10.f, 0.f);
+
+    CCubeBlock* pFinalCube = pq.top().second;
+
+    const vector<_vec3>&    pFinalCubeVtxPos = pFinalCube->LoadCubeVertex();
+    const vector<INDEX32>&  pFinalCubeIdxPos = pFinalCube->LoadCubeIndex();
+    vector <pair<_float, INDEX32>> vecFinalPlane;
+
+    // 월드 스페이스 -> 로컬 스페이스
+    _matrix		matWorld;
+    matWorld = pFinalCube->m_pTransform->WorldMatrix();
+    D3DXMatrixInverse(&matWorld, 0, &matWorld);
+    D3DXVec3TransformCoord(&vRayPos, &vRayPos, &matWorld);
+    D3DXVec3TransformNormal(&vRayDir, &vRayDir, &matWorld);
+
+    _float	fU = 0.f, fV = 0.f, fDist = 0.f;
+
+    for (_ulong i = 0; i < pFinalCubeIdxPos.size(); ++i)
+    {
+        if (D3DXIntersectTri(&pFinalCubeVtxPos[pFinalCubeIdxPos[i]._2],
+            &pFinalCubeVtxPos[pFinalCubeIdxPos[i]._0],
+            &pFinalCubeVtxPos[pFinalCubeIdxPos[i]._1],
+            &vRayPos, &vRayDir, &fU, &fV, &fDist))
+        {
+            vecFinalPlane.push_back(make_pair(fDist, pFinalCubeIdxPos[i]));
+        }
+    }
+
+    if (vecFinalPlane.empty())  // 한 번 더 피킹 검출
+        return _vec3(0.f, -10.f, 0.f);
+
+    INDEX32 finalIndex = (vecFinalPlane[0].first < vecFinalPlane[1].first) ? vecFinalPlane[0].second : vecFinalPlane[1].second;
+
+    const _vec3& v0 = pFinalCubeVtxPos[finalIndex._0];  // Base
+    const _vec3& v1 = pFinalCubeVtxPos[finalIndex._1];  // first
+    const _vec3& v2 = pFinalCubeVtxPos[finalIndex._2];  // second
+
+    _vec3 pOut;
+    D3DXVec3Cross(&pOut, &(v1 - v0), &(v2 - v0));
+    D3DXVec3Normalize(&pOut, &pOut);
+
+    const _float epsilon = 0.001f;
+    _vec3   vCenterPos = pFinalCube->Get_Collider()->GetCenterPos();
+    _vec3*  vAxisDir = pFinalCube->Get_Collider()->GetAxisDir();
+    _float* fAxisLen = pFinalCube->Get_Collider()->GetAxisLen();
+
+    for (_uint i = 0; i < 3; ++i)
+    {
+        if (epsilon < fabs(D3DXVec3Dot(&vAxisDir[i], &pOut)))
+            return vCenterPos + pOut * 2.f * fAxisLen[i];
+    }
+
+    return _vec3(0.f, -10.f, 0.f);
 }
 
 HRESULT CImGuiManager::SetUp_ImGui()
@@ -223,15 +259,15 @@ void CImGuiManager::LateUpdate_ImGui()
 
 
 
-    _bool test_window_0 = true;
+    _bool map_tool_window = true;
 
     const ImGuiViewport* main_viewport = ImGui::GetMainViewport();
     ImGui::SetNextWindowPos(ImVec2(main_viewport->WorkPos.x + 650, main_viewport->WorkPos.y + 20), ImGuiCond_FirstUseEver);
     ImGui::SetNextWindowSize(ImVec2(550, 680), ImGuiCond_FirstUseEver);
 
-    if (test_window_0)
+    if (map_tool_window)
     {
-        ImGui::Begin("test window 0", &test_window_0);
+        ImGui::Begin("test window 0", &map_tool_window);
         
         ImGui::Text("Camera Pos");
         ImGui::Text("Mouse Pos");
@@ -252,20 +288,21 @@ void CImGuiManager::LateUpdate_ImGui()
 
             ImGui::Image(selected_texture, ImVec2(96.0f, 96.0f), uv0, uv1, tint_col, ImVec4(0.0f, 1.0f, 0.0f, 1.0f));
 
-            int pressed_count = 0;
             for (int i = 0; i < 6; i++)
             {
                 for (int j = 0; j < 5; j++)
                 {
-                    _int iIndex = 4 * i + j;
-                    if (iIndex > m_pTerainTexture.size())
+                    _int iIndex = 5 * i + j;
+                    if (iIndex >= m_pTerainTexture.size())
                         break;
 
                     ImGui::PushID(iIndex);
 
                     if (ImGui::ImageButton("", m_pTerainTexture[iIndex], size))
+                    {
                         selected_texture = m_pTerainTexture[iIndex];
-
+                        selected_texture_index = iIndex;
+                    }
                     ImGui::PopID();
                     ImGui::SameLine();
                 }

@@ -22,6 +22,7 @@ HRESULT CEditor::Ready_Scene()
 
 	CImGuiManager::GetInstance()->SetUp_ImGui();
 
+	//Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BLOCK).reserve(50 * 50 * 50);
 	//m_pGraphicDev->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
 	//m_pGraphicDev->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
 
@@ -101,6 +102,7 @@ HRESULT CEditor::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	// TempCube
 	pGameObject = CCubeBlock::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	pGameObject->m_pTransform->Translate(_vec3(2.f, 2.f, 2.f));
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
 	return S_OK;

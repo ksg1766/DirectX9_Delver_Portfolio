@@ -4,12 +4,12 @@
 #include "Export_Function.h"
 
 CCubeBlock::CCubeBlock(LPDIRECT3DDEVICE9 pGraphicDev)
-    : CGameObject(pGraphicDev)
+    : CGameObject(pGraphicDev), m_iTextureNumber(7)
 {
 }
 
 CCubeBlock::CCubeBlock(const CCubeBlock& rhs)
-    : CGameObject(rhs)
+    : CGameObject(rhs), m_iTextureNumber(7)
 {
 }
 
@@ -22,10 +22,26 @@ HRESULT CCubeBlock::Ready_Object(void)
 	m_eObjectTag = OBJECTTAG::BLOCK;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
+	void* pVertices = nullptr;
+	m_pBuffer->m_pVB->Lock(0, m_pBuffer->m_dwVtxCnt * m_pBuffer->m_dwVtxSize, &pVertices, 0);
+	for (UINT i = 0; i < m_pBuffer->m_dwVtxCnt; ++i)
+	{
+		m_vecCubeVertex.push_back((((VTXCUBE*)pVertices) + i)->vPosition);
+	}
+	m_pBuffer->m_pVB->Unlock();
+
+	void* pIndices = nullptr;
+	m_pBuffer->m_pIB->Lock(0, m_pBuffer->m_dwTriCnt * m_pBuffer->m_dwIdxSize, &pIndices, 0);
+	for (UINT i = 0; i < m_pBuffer->m_dwTriCnt; ++i)
+	{
+		m_vecCubeIndex.push_back(*(((INDEX32*)pIndices) + i));
+	}
+	m_pBuffer->m_pIB->Unlock();
+
 	m_pTransform->Scale(_vec3(2.f, 2.f, 2.f));
 	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
 
-	m_pTransform->Translate(_vec3(20.f, 2.f, 20.f));
+	//m_pTransform->Translate(_vec3(0.f, 2.f, 0.f));
 	
 	return S_OK;
 }
@@ -47,8 +63,12 @@ void CCubeBlock::Render_Object(void)
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
 	
-	m_pTexture->Render_Texture(1);
+	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	//m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+	m_pTexture->Render_Texture(m_iTextureNumber);
 	m_pBuffer->Render_Buffer();
+	//m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 
 #if _DEBUG
 	m_pCollider->Render_Collider();
