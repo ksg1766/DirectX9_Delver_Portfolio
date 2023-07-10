@@ -17,10 +17,8 @@ public:
 
 	void	Copy_RUL(_vec3* _Info) 
 	{
-		for (_uint i = 0; i < INFO_LOOK; ++i)
-		{
-			memcpy(m_vInfo[i], _Info[i], sizeof(_vec3));
-		}
+		for (_uint i = 0; i < INFO_POS; ++i)
+			CopyMemory(m_vInfo[i], _Info[i], sizeof(_vec3));
 	
 	}
 

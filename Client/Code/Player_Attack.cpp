@@ -65,12 +65,10 @@ STATE CPlayer_Attack::Key_Input(const _float& fTimeDelta)
 		m_pOwner->Get_Transform()->Translate(10.f * fTimeDelta * -vRight);
 	}
 
-
 	if (Engine::InputDev()->GetInstance()->Key_Pressing(DIK_D))
 	{
 		m_pOwner->Get_Transform()->Translate(10.f * fTimeDelta * vRight);
 	}
-
 
 	if (!pPlayer.Get_Attack())
 	if (Engine::InputDev()->GetInstance()->Mouse_Pressing(DIM_LB))

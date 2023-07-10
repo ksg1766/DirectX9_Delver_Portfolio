@@ -20,21 +20,21 @@ private:
 
 public:
 	virtual HRESULT Ready_Object(void) override;
-	virtual _int Update_Object(const _float& fTimeDelta) override;
-	virtual void LateUpdate_Object(void) override;
-	virtual void Render_Object(void) override;
+	virtual _int	Update_Object(const _float& fTimeDelta) override;
+	virtual void	LateUpdate_Object(void) override;
+	virtual void	Render_Object(void) override;
 
 private:
-	HRESULT		Add_Component(void);
+	HRESULT			Add_Component(void);
 
 public:
-	virtual void		OnCollisionEnter(CCollider* _pOther);
-	virtual void		OnCollisionStay(CCollider* _pOther);
-	virtual void		OnCollisionExit(CCollider* _pOther);
+	virtual void	OnCollisionEnter(CCollider* _pOther);
+	virtual void	OnCollisionStay(CCollider* _pOther);
+	virtual void	OnCollisionExit(CCollider* _pOther);
 
 private:
-	_vec3		Get_RotationDir(const CPlayer& pPlayer, const _float& fTimeDelta);
-	void		Get_ReturnTrans(CPlayer& pPlayer, const _float& fTimeDelta);
+	_vec3			Get_RotationDir(const CPlayer& pPlayer, const _float& fTimeDelta);
+	void			Get_ReturnTrans(CPlayer& pPlayer, const _float& fTimeDelta);
 
 private:
 	CRcTex*		m_pBuffer = nullptr;
@@ -42,6 +42,9 @@ private:
 
 	// 공격 모션
 	MYATTACKINFO m_AttackInfo;
+	// ksg
+	_float		m_fSignTime;
+	
 
 public:
 	static CTempItem* Create(LPDIRECT3DDEVICE9 pGraphicDev);

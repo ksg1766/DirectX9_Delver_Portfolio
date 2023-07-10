@@ -9,6 +9,7 @@
 #include "UIManager.h"
 #include "LightManager.h"
 #include "PoolManager.h"
+#include "Octree.h"
 
 #include "TriCol.h"
 #include "PlayerBf.h"
