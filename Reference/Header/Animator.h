@@ -23,7 +23,7 @@ public:
 
 public:
 	void	Set_Animation(STATE	eState);
-
+	virtual	CAnimation* Get_Animation() { return m_pCurAnimation; }
 public:
 
 public:

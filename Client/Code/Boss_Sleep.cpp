@@ -1,4 +1,4 @@
-#include "CBoss_Sleep.h"
+#include "Boss_Sleep.h"
 #include "Export_Function.h"
 
 CBoss_Sleep::CBoss_Sleep()

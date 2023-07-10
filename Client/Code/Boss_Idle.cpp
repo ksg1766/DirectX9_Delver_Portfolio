@@ -1,5 +1,5 @@
 #include "Boss_Idle.h"
-
+#include "Export_Function.h"
 CBoss_Idle::CBoss_Idle()
 {
 }
@@ -28,13 +28,11 @@ STATE CBoss_Idle::Update_State(const _float& fTimeDelta)
         m_fSkillCool = 0.f;
         return STATE::BOSS_ATTACK;
     }
-
     return STATE::BOSS_IDLE;
 }
 
 void CBoss_Idle::LateUpdate_State()
 {
-
 }
 
 void CBoss_Idle::Render_State()

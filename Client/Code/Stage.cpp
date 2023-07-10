@@ -142,7 +142,7 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	pGameObject = CBat::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-	
+
 	//Boss
 	pGameObject = CSkeletonKing::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);

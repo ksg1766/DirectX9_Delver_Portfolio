@@ -22,6 +22,7 @@ HRESULT CBossProjectile::Ready_Object(void)
 {
 	m_eObjectTag = OBJECTTAG::PROJECTTILE;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
+	//m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
 	return S_OK;
 }
 
@@ -55,8 +56,9 @@ void CBossProjectile::Render_Object(void)
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-
+	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 	m_pTexture->Render_Texture((_uint)m_fFrame);
+	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 	m_pBuffer->Render_Buffer();
 
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
@@ -124,13 +126,17 @@ HRESULT CBossProjectile::Add_Component(void)
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::TRANSFORM, pComponent);
 
-	pComponent = m_pTexture = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_BossAttack"));
+	pComponent = m_pTexture = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_BossFire"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
 
 	pComponent = m_pBillBoard = dynamic_cast<CBillBoard*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BillBoard"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BILLBOARD, pComponent);
+
+	//pComponent = m_pCollider = dynamic_cast<CCollider*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Collider"));
+	//NULL_CHECK_RETURN(pComponent, E_FAIL);
+	//m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::COLLIDER, pComponent);
 
 	for (_uint i = 0; i < ID_END; ++i)
 		for (auto& iter : m_mapComponent[i])

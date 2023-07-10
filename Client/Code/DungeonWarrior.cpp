@@ -62,6 +62,7 @@ void CDungeonWarrior::Render_Object()
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
 	m_pTexture->Render_Texture((_uint)m_fFrame);
+
 	m_pBuffer->Render_Buffer();
 
 #if _DEBUG

@@ -1,12 +1,13 @@
 #pragma once
 #include "State.h"
-class CBoss_Attack :
+class CExplosionPattern :
     public CState
 {
-private: 
-    explicit CBoss_Attack();
-    explicit CBoss_Attack(LPDIRECT3DDEVICE9 pGraphicDev);
-    virtual ~CBoss_Attack();
+private:
+    explicit CExplosionPattern();
+    explicit CExplosionPattern(LPDIRECT3DDEVICE9 pGraphicDev);
+    virtual ~CExplosionPattern();
+
 
 public:
     virtual HRESULT	Ready_State(CStateMachine* pOwner);
@@ -19,21 +20,18 @@ public:
 
 private:
     //클래스 내에서만 쓸 함수
-    STATE   BossSkill(const _float& fTimeDelta);
+    
 private:
-    //변수
-    _int iTime = 0;
-    _vec3 m_vShotGunDir[3];
+    //클래스 내에서만 쓸 함수
+    _float m_fDelay;
+    _int    m_iSkillCount;
 
-    _bool   m_bExplosion;
     _vec3 m_vExplosionin1[4];
     _vec3 m_vExplosionin2[4];
-
 public:
-    static CBoss_Attack* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
+    static CExplosionPattern* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
 
 private:
     virtual void Free();
-
 };
 

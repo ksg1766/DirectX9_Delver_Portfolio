@@ -22,11 +22,11 @@ HRESULT CBoss_WakeUp::Ready_State(CStateMachine* pOwner)
 
 STATE CBoss_WakeUp::Update_State(const _float& fTimeDelta)
 {
-    _float fFrame = dynamic_cast<CSkeletonKing*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_Frame();
+    _float fFrame = m_pOwner->Get_Animator()->Get_Animation()->Get_Frame();
     if (15.f < fFrame)
         return STATE::BOSS_IDLE;
-
-    return STATE::BOSS_WAKEUP;
+    else 
+        return STATE::BOSS_WAKEUP;
 }
 
 void CBoss_WakeUp::LateUpdate_State()

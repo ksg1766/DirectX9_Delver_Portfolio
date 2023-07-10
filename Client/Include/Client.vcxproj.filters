@@ -208,15 +208,6 @@
     <Filter Include="02. GameObject\01. Stage\999.Boss\02. State\03. Attack">
       <UniqueIdentifier>{bd60ed6e-ea53-4a9f-bddc-a16c110bc250}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\01. Stage\999.Boss\02. State\04. Dying">
-      <UniqueIdentifier>{aa9888d6-2a50-4491-8971-a4ba4670c3d0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\01. Stage\999.Boss\02. State\05. Dead">
-      <UniqueIdentifier>{8e20badf-9b26-46f5-accd-99c6ad02fd06}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\01. Stage\999.Boss\02. State\03. Attack\01. FireShotgun">
-      <UniqueIdentifier>{e7557b2f-1d73-49fd-b25f-46a6c91590af}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObject\01. Stage\999.Boss\02. State\03. Attack\02. Explosion">
       <UniqueIdentifier>{14114754-610a-46de-a096-eee33cce56fd}</UniqueIdentifier>
     </Filter>
@@ -258,6 +249,33 @@
     </Filter>
     <Filter Include="02. GameObject\00. Logo\04. EditButton">
       <UniqueIdentifier>{30a47425-5118-40c7-ad26-8c4d6887da5a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\999.Boss\02. State\03. Attack\01. FirePattern">
+      <UniqueIdentifier>{e7557b2f-1d73-49fd-b25f-46a6c91590af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\999.Boss\02. State\03. Attack\05. Meteor">
+      <UniqueIdentifier>{76c4fe6c-6d11-42fc-80bc-a8d96d5f6311}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\999.Boss\02. State\04. Crawl">
+      <UniqueIdentifier>{0b787a29-2aee-4883-912d-de521aeadd8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\999.Boss\02. State\06. Dying">
+      <UniqueIdentifier>{8e20badf-9b26-46f5-accd-99c6ad02fd06}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\999.Boss\02. State\07. Dead">
+      <UniqueIdentifier>{6ed5a231-5c6d-4404-a0d2-d7efee6bc5b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\999.Boss\02. State\05. Sturn">
+      <UniqueIdentifier>{aa9888d6-2a50-4491-8971-a4ba4670c3d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\999.Boss\02. State\03. Attack\05. Meteor\01.Ready">
+      <UniqueIdentifier>{c2a452f3-098f-4526-b278-2981ad8f3f13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\999.Boss\02. State\03. Attack\05. Meteor\02. On">
+      <UniqueIdentifier>{a357296c-e4d8-48f2-9f08-32f0e025c632}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\999.Boss\01. AttackEff\04. Meteor_Cube">
+      <UniqueIdentifier>{9cc17226-7f03-4ebe-96ab-073be3de132d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -360,9 +378,6 @@
     <ClInclude Include="..\Header\ImGuiManager.h">
       <Filter>01. Scene\02. Editor\01. ImGui\00. ImGuiManager</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\SkeletonKing.h">
-      <Filter>02. GameObject\01. Stage\999. Boss</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\DungeonSpider.h">
       <Filter>99. Etc\헤더 파일</Filter>
     </ClInclude>
@@ -408,10 +423,6 @@
     <ClInclude Include="..\Header\SkeletonKing_Clone.h">
       <Filter>02. GameObject\01. Stage\999.Boss\01. AttackEff\03. Create_Clone</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\BossProjectile.h">
-      <Filter>02. GameObject\01. Stage\999.Boss\01. AttackFire</Filter>
-      <Filter>02. GameObject\01. Stage\999.Boss\01. AttackEff\01. AttackFire</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\DungeonSpider.h">
       <Filter>99. Etc\헤더 파일</Filter>
     </ClInclude>
@@ -430,10 +441,7 @@
     <ClInclude Include="..\Header\Monster_Fly.h">
       <Filter>02. GameObject\01. Stage\05. Monster\00. State\Public</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\SkeletonKing.h">
-      <Filter>02. GameObject\01. Stage\999.Boss</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\CBoss_Sleep.h">
+    <ClInclude Include="..\Header\Boss_Sleep.h">
       <Filter>02. GameObject\01. Stage\999.Boss\02. State\00. Sleep</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Boss_WakeUp.h">
@@ -480,6 +488,40 @@
     </ClInclude>
     <ClInclude Include="..\Header\LoadingPont.h">
       <Filter>02. GameObject\05. Loading\02. LoadingPont</Filter>
+      <Filter>02. GameObject\01. Stage\999.Boss\02. State\03. Attack\01. FirePattern</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\SkeletonKing.h">
+      <Filter>99. Etc\헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\ExplosionPattern.h">
+      <Filter>02. GameObject\01. Stage\999.Boss\02. State\03. Attack\02. Explosion</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\TeleportPattern.h">
+      <Filter>02. GameObject\01. Stage\999.Boss\02. State\03. Attack\03. Teleport</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CrawlPattern.h">
+      <Filter>02. GameObject\01. Stage\999.Boss\02. State\04. Crawl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\BossProjectile.h">
+      <Filter>02. GameObject\01. Stage\999.Boss\01. AttackEff\01.AttackFire</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\SkeletonKing.h">
+      <Filter>02. GameObject\01. Stage\999.Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Boss_Sturn.h">
+      <Filter>02. GameObject\01. Stage\999.Boss\02. State\05. Sturn</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Boss_Dying.h">
+      <Filter>02. GameObject\01. Stage\999.Boss\02. State\06. Dying</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Boss_Dead.h">
+      <Filter>02. GameObject\01. Stage\999.Boss\02. State\07. Dead</Filter>
+    </ClInclude>
+    <ClInclude Include="Boss_MeteorReady.h">
+      <Filter>02. GameObject\01. Stage\999.Boss\02. State\03. Attack\05. Meteor\01.Ready</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Boss_MeteorCube.h">
+      <Filter>02. GameObject\01. Stage\999.Boss\01. AttackEff\04. Meteor_Cube</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -573,9 +615,6 @@
     <ClCompile Include="..\Code\ImGuiManager.cpp">
       <Filter>01. Scene\02. Editor\01. ImGui\00. ImGuiManager</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\SkeletonKing.cpp">
-      <Filter>02. GameObject\01. Stage\999. Boss</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\DungeonSpider.cpp">
       <Filter>99. Etc\소스 파일</Filter>
     </ClCompile>
@@ -624,10 +663,6 @@
     <ClCompile Include="..\Code\SkeletonKing_Clone.cpp">
       <Filter>02. GameObject\01. Stage\999.Boss\01. AttackEff\03. Create_Clone</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\BossProjectile.cpp">
-      <Filter>02. GameObject\01. Stage\999.Boss\01. AttackFire</Filter>
-      <Filter>02. GameObject\01. Stage\999.Boss\01. AttackEff\01. AttackFire</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\DungeonSpider.cpp">
       <Filter>99. Etc\소스 파일</Filter>
     </ClCompile>
@@ -643,10 +678,7 @@
     <ClCompile Include="..\Code\Monster_Fly.cpp">
       <Filter>02. GameObject\01. Stage\05. Monster\00. State\Public</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\SkeletonKing.cpp">
-      <Filter>02. GameObject\01. Stage\999.Boss</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\CBoss_Sleep.cpp">
+    <ClCompile Include="..\Code\Boss_Sleep.cpp">
       <Filter>02. GameObject\01. Stage\999.Boss\02. State\00. Sleep</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Boss_WakeUp.cpp">
@@ -693,6 +725,40 @@
     </ClCompile>
     <ClCompile Include="..\Code\LoadingPont.cpp">
       <Filter>02. GameObject\05. Loading\02. LoadingPont</Filter>
+      <Filter>02. GameObject\01. Stage\999.Boss\02. State\03. Attack\01. FirePattern</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\SkeletonKing.cpp">
+      <Filter>99. Etc\소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\ExplosionPattern.cpp">
+      <Filter>02. GameObject\01. Stage\999.Boss\02. State\03. Attack\02. Explosion</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\TeleportPattern.cpp">
+      <Filter>02. GameObject\01. Stage\999.Boss\02. State\03. Attack\03. Teleport</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CrawlPattern.cpp">
+      <Filter>02. GameObject\01. Stage\999.Boss\02. State\04. Crawl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\BossProjectile.cpp">
+      <Filter>02. GameObject\01. Stage\999.Boss\01. AttackEff\01.AttackFire</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\SkeletonKing.cpp">
+      <Filter>02. GameObject\01. Stage\999.Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Boss_Sturn.cpp">
+      <Filter>02. GameObject\01. Stage\999.Boss\02. State\05. Sturn</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Boss_Dying.cpp">
+      <Filter>02. GameObject\01. Stage\999.Boss\02. State\06. Dying</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Boss_Dead.cpp">
+      <Filter>02. GameObject\01. Stage\999.Boss\02. State\07. Dead</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss_MeteorReady.cpp">
+      <Filter>02. GameObject\01. Stage\999.Boss\02. State\03. Attack\05. Meteor\01.Ready</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Boss_MeteorCube.cpp">
+      <Filter>02. GameObject\01. Stage\999.Boss\01. AttackEff\04. Meteor_Cube</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

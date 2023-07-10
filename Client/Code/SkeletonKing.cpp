@@ -2,9 +2,19 @@
 #include "..\Header\SkeletonKing.h"
 #include "Export_Function.h"
 #include "Terrain.h"
+#include "Boss_Sleep.h"
+#include "Boss_WakeUp.h"
 #include "Boss_Idle.h"
 #include "Boss_Attack.h"
 #include "FirePattern.h"
+#include "ExplosionPattern.h"
+#include "TeleportPattern.h"
+#include "CrawlPattern.h"
+#include "Boss_Sturn.h"
+#include "Boss_MeteorReady.h"
+#include "Boss_Dying.h"
+#include "Boss_Dead.h"
+
 CSkeletonKing::CSkeletonKing(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CGameObject(pGraphicDev)
 {
@@ -24,15 +34,24 @@ HRESULT CSkeletonKing::Ready_Object(void)
 {
 	m_eObjectTag = OBJECTTAG::BOSS;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
-	m_pTransform->Scale(_vec3(3.f, 3.f, 1.f));
+
+	m_pTransform->Scale(_vec3(1.f, 1.f, 1.f));
 
 	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
 
-	m_pTransform->Translate(_vec3(5.f, 0.f, 5.f));
+	m_pTransform->Translate(_vec3(30.f, 0.f, 30.f));
+
+#pragma region 상태
 
 	//상태추가
 	CState* pState = CBoss_Idle::Create(m_pGraphicDev, m_pStateMachine);
 	m_pStateMachine->Add_State(STATE::BOSS_IDLE, pState);
+
+	pState = CBoss_Sleep::Create(m_pGraphicDev, m_pStateMachine);
+	m_pStateMachine->Add_State(STATE::BOSS_SLEEP, pState);
+
+	pState = CBoss_WakeUp::Create(m_pGraphicDev, m_pStateMachine);
+	m_pStateMachine->Add_State(STATE::BOSS_WAKEUP, pState);
 
 	pState = CBoss_Attack::Create(m_pGraphicDev, m_pStateMachine);
 	m_pStateMachine->Add_State(STATE::BOSS_ATTACK, pState);
@@ -40,21 +59,93 @@ HRESULT CSkeletonKing::Ready_Object(void)
 	pState = CFirePattern::Create(m_pGraphicDev, m_pStateMachine);
 	m_pStateMachine->Add_State(STATE::BOSS_FIRE, pState);
 
-	m_pStateMachine->Set_State(STATE::BOSS_IDLE);
+	pState = CExplosionPattern::Create(m_pGraphicDev, m_pStateMachine);
+	m_pStateMachine->Add_State(STATE::BOSS_EXPLOSION, pState);
 
+	pState = CTeleportPattern::Create(m_pGraphicDev, m_pStateMachine);
+	m_pStateMachine->Add_State(STATE::BOSS_TELEPORT, pState);
+
+	pState = CCrawlPattern::Create(m_pGraphicDev, m_pStateMachine);
+	m_pStateMachine->Add_State(STATE::BOSS_CRAWL, pState);
+
+	pState = CBoss_Sturn::Create(m_pGraphicDev, m_pStateMachine);
+	m_pStateMachine->Add_State(STATE::BOSS_STURN, pState);
+
+	pState = CBoss_MeteorReady::Create(m_pGraphicDev, m_pStateMachine);
+	m_pStateMachine->Add_State(STATE::BOSS_METEORREADY, pState);
+
+	pState = CBoss_Dying::Create(m_pGraphicDev, m_pStateMachine);
+	m_pStateMachine->Add_State(STATE::BOSS_DYING, pState);
+
+	pState = CBoss_Dead::Create(m_pGraphicDev, m_pStateMachine);
+	m_pStateMachine->Add_State(STATE::BOSS_DEAD, pState);
+
+#pragma endregion 상태
+
+#pragma region 애니메이션
+
+	CAnimation* pAnimation = CAnimation::Create(m_pGraphicDev,
+		m_pTexture[(_uint)STATE::BOSS_IDLE], STATE::BOSS_IDLE, 8.f, TRUE);
+	m_pAnimator->Add_Animation(STATE::BOSS_IDLE, pAnimation);
+
+	pAnimation = CAnimation::Create(m_pGraphicDev,
+		m_pTexture[(_uint)STATE::BOSS_SLEEP], STATE::BOSS_SLEEP, 8.f, TRUE);
+	m_pAnimator->Add_Animation(STATE::BOSS_SLEEP, pAnimation);
+
+	pAnimation = CAnimation::Create(m_pGraphicDev,
+		m_pTexture[(_uint)STATE::BOSS_WAKEUP], STATE::BOSS_WAKEUP, 10.f, TRUE);
+	m_pAnimator->Add_Animation(STATE::BOSS_WAKEUP, pAnimation);
+
+	pAnimation = CAnimation::Create(m_pGraphicDev,
+		m_pTexture[(_uint)STATE::BOSS_IDLE], STATE::BOSS_ATTACK, 5.f, TRUE);
+	m_pAnimator->Add_Animation(STATE::BOSS_ATTACK, pAnimation);
+
+	pAnimation = CAnimation::Create(m_pGraphicDev,
+		m_pTexture[(_uint)STATE::BOSS_ATTACK], STATE::BOSS_FIRE, 5.f, TRUE);
+	m_pAnimator->Add_Animation(STATE::BOSS_FIRE, pAnimation);
+
+	pAnimation = CAnimation::Create(m_pGraphicDev,
+		m_pTexture[(_uint)STATE::BOSS_ATTACK], STATE::BOSS_EXPLOSION, 5.f, TRUE);
+	m_pAnimator->Add_Animation(STATE::BOSS_EXPLOSION, pAnimation);
+
+	pAnimation = CAnimation::Create(m_pGraphicDev,
+		m_pTexture[(_uint)STATE::BOSS_ATTACK], STATE::BOSS_TELEPORT, 5.f, TRUE);
+	m_pAnimator->Add_Animation(STATE::BOSS_TELEPORT, pAnimation);
+
+	pAnimation = CAnimation::Create(m_pGraphicDev,
+		m_pTexture[(_uint)STATE::BOSS_CRAWL], STATE::BOSS_CRAWL, 20.f, TRUE);
+	m_pAnimator->Add_Animation(STATE::BOSS_CRAWL, pAnimation);
+
+	pAnimation = CAnimation::Create(m_pGraphicDev,
+		m_pTexture[(_uint)STATE::BOSS_STURN], STATE::BOSS_STURN, 2.f, FALSE);
+	m_pAnimator->Add_Animation(STATE::BOSS_STURN, pAnimation);
+
+	pAnimation = CAnimation::Create(m_pGraphicDev,
+		m_pTexture[(_uint)STATE::BOSS_METEORREADY], STATE::BOSS_METEORREADY, 15.f, TRUE);
+	m_pAnimator->Add_Animation(STATE::BOSS_METEORREADY, pAnimation);
+
+	pAnimation = CAnimation::Create(m_pGraphicDev,
+		m_pTexture[(_uint)STATE::BOSS_DYING], STATE::BOSS_DYING, 6.f, FALSE);
+	m_pAnimator->Add_Animation(STATE::BOSS_DYING, pAnimation);
+
+	pAnimation = CAnimation::Create(m_pGraphicDev,
+		m_pTexture[(_uint)STATE::BOSS_DEAD], STATE::BOSS_DEAD, 0.f, FALSE);
+	m_pAnimator->Add_Animation(STATE::BOSS_DEAD, pAnimation);
+
+#pragma endregion 애니메이션
+
+	m_pStateMachine->Set_Animator(m_pAnimator);
+	//m_pStateMachine->Set_State(STATE::BOSS_IDLE);
+	m_pStateMachine->Set_State(STATE::BOSS_SLEEP);
 	return S_OK;
 }
 
 _int CSkeletonKing::Update_Object(const _float& fTimeDelta)
 {
 	_int iExit = __super::Update_Object(fTimeDelta);
-	m_fFrame += 8.f * fTimeDelta;
-
-	if (8.f < m_fFrame)
-		m_fFrame = 0.f;
 	ForceHeight(m_pTransform->m_vInfo[INFO_POS]);
 	m_pStateMachine->Update_StateMachine(fTimeDelta);
-
+	
 	Engine::Renderer()->Add_RenderGroup(RENDER_ALPHA, this);
 	return iExit;
 }
@@ -62,6 +153,7 @@ _int CSkeletonKing::Update_Object(const _float& fTimeDelta)
 void CSkeletonKing::LateUpdate_Object(void)
 {
 	m_pBillBoard->LateUpdate_Component();
+	Key_Input();
 	__super::LateUpdate_Object();
 }
 
@@ -69,18 +161,23 @@ void CSkeletonKing::Render_Object(void)
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-	m_pTexture->Render_Texture((_uint)m_fFrame);
+	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+
+	m_pStateMachine->Render_StateMachine();
+
+	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 	m_pBuffer->Render_Buffer();
 
 #if _DEBUG
 	m_pCollider->Render_Collider();
 #endif
-	//m_pGraphicDev->SetRenderState(D3DRS_ALPHAREF, 1.f);
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
 
 void CSkeletonKing::ForceHeight(_vec3 _vPos)
 {
+	if (STATE::BOSS_METEORREADY == m_pStateMachine->Get_State())
+		return;
 	_float x = (VTXCNTX * VTXITV / 2.f) + _vPos.x;
 	_float z = (VTXCNTZ * VTXITV / 2.f) + _vPos.z;
 
@@ -107,7 +204,7 @@ void CSkeletonKing::ForceHeight(_vec3 _vPos)
 		_vec3 vy = C - A;
 
 		height = A.y + (uy.y * dx) + (vy.y * dz) + 1.f;
-		m_pTransform->m_vInfo[INFO_POS].y = height+2.f;
+		m_pTransform->m_vInfo[INFO_POS].y = height;
 	}
 	else
 	{
@@ -115,7 +212,7 @@ void CSkeletonKing::ForceHeight(_vec3 _vPos)
 		_vec3 vy = B - D;
 
 		height = D.y + (uy.y * (1.f - dx)) + (vy.y * (1.f - dz)) + 1.f;
-		m_pTransform->m_vInfo[INFO_POS].y = height+2.f;
+		m_pTransform->m_vInfo[INFO_POS].y = height;
 	}
 }
 
@@ -228,9 +325,44 @@ HRESULT CSkeletonKing::Add_Component(void)
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::COLLIDER, pComponent);
 
-	pComponent = m_pTexture = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_Boss"));
+#pragma region 텍스쳐 컴포넌트
+	pComponent = m_pTexture[(_uint)STATE::BOSS_IDLE] = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_Boss"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
+	
+	pComponent = m_pTexture[(_uint)STATE::BOSS_ATTACK] = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_BossAttack"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
+
+	pComponent = m_pTexture[(_uint)STATE::BOSS_STURN] = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_BossHit"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
+
+	pComponent = m_pTexture[(_uint)STATE::BOSS_WAKEUP] = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_Boss_StandUp"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
+
+	pComponent = m_pTexture[(_uint)STATE::BOSS_DYING] = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_BossDying"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
+
+	pComponent = m_pTexture[(_uint)STATE::BOSS_CRAWL] = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_BossCrawl"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
+
+	pComponent = m_pTexture[(_uint)STATE::BOSS_SLEEP] = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_BossSleep"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
+
+	pComponent = m_pTexture[(_uint)STATE::BOSS_DEAD] = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_BossDead"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
+
+	pComponent = m_pTexture[(_uint)STATE::BOSS_METEORREADY] = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_BossChanneling"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
+
+#pragma endregion 텍스쳐 컴포넌트 
 
 	pComponent = m_pBillBoard = dynamic_cast<CBillBoard*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BillBoard"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
@@ -240,11 +372,44 @@ HRESULT CSkeletonKing::Add_Component(void)
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::STATEMACHINE, pComponent);
 
+	pComponent = m_pAnimator = dynamic_cast<CAnimator*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Animator"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::ANIMATOR, pComponent);
+
 	for (_uint i = 0; i < ID_END; ++i)
 		for (auto& iter : m_mapComponent[i])
 			iter.second->Init_Property(this);
 
 	return S_OK;
+}
+
+void CSkeletonKing::Key_Input()
+{
+	if (Engine::InputDev()->Key_Down(DIK_Z))
+	{
+		m_pStateMachine->Set_State(STATE::BOSS_SLEEP);
+	}
+	if (Engine::InputDev()->Key_Down(DIK_X))
+	{
+		m_pStateMachine->Set_State(STATE::BOSS_STURN);
+	}
+	if (Engine::InputDev()->Key_Down(DIK_V))
+	{
+		m_pStateMachine->Set_State(STATE::BOSS_METEORREADY);
+	}
+	if (Engine::InputDev()->Key_Down(DIK_B))
+	{
+		m_pStateMachine->Set_State(STATE::BOSS_ATTACK);
+	}
+	if (Engine::InputDev()->Key_Down(DIK_N))
+	{
+		m_pStateMachine->Set_State(STATE::BOSS_CRAWL);
+	}
+	if (Engine::InputDev()->Key_Down(DIK_L))
+	{
+		m_pStateMachine->Set_State(STATE::BOSS_DYING);
+	}
+
 }
 
 

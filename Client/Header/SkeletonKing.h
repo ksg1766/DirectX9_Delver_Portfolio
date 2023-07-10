@@ -7,6 +7,8 @@ class CRcTex;
 class CTexture;
 class CBillBoard;
 class CStateMachine;
+class CAnimator;
+
 END
 class CTerrain;
 
@@ -34,14 +36,14 @@ public:
 
 private:
 	HRESULT		Add_Component(void);
-	void		Key_Input(const _float& fTimeDelta);
-
+	void		Key_Input();
 private:
 	CRcTex*		m_pBuffer = nullptr;
-	CTexture*	m_pTexture = nullptr;
+	CTexture*	m_pTexture[(_uint)STATE::STATE_END] = {};
 	CBillBoard*	m_pBillBoard = nullptr;
 	CTerrain*	m_pTerrain = nullptr;
 	CStateMachine* m_pStateMachine = nullptr;
+	CAnimator*	m_pAnimator = nullptr;
 
 	_float		m_fFrame = 0;
 

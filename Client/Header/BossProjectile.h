@@ -23,7 +23,9 @@ public:
 	virtual void Render_Object(void) override;
 
 public:
-	float		HitTerrain(_vec3 _vPos);//테스트용충돌코드
+	float		HitTerrain(_vec3 _vPos);
+
+	//테스트용충돌코드
 	void		Set_Terrain(CTerrain* _pCurrentTerrain) { m_pTerrain = _pCurrentTerrain; }
 	void		Set_Target(_vec3 _vPos);
 private:
