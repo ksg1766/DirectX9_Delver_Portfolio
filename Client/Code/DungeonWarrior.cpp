@@ -33,6 +33,10 @@ HRESULT CDungeonWarrior::Ready_Object()
 
 _int CDungeonWarrior::Update_Object(const _float& fTimeDelta)
 {
+	Engine::Renderer()->Add_RenderGroup(RENDER_ALPHA, this);
+
+	if (SceneManager()->Get_GameStop()) { return 0; }
+
 	_int iExit = __super::Update_Object(fTimeDelta);
 
 	CTransform* pPlayerTransform = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform;
@@ -46,13 +50,13 @@ _int CDungeonWarrior::Update_Object(const _float& fTimeDelta)
 	m_pAI->Update_Component(fTimeDelta, pPlayerTransform->m_vInfo[INFO_POS]);
 	ForceHeight(m_pTransform->m_vInfo[INFO_POS]);
 
-	Engine::Renderer()->Add_RenderGroup(RENDER_ALPHA, this);
-
 	return iExit;
 }
 
 void CDungeonWarrior::LateUpdate_Object()
 {
+	if (SceneManager()->Get_GameStop()) { return; }
+
 	__super::LateUpdate_Object();
 }
 
@@ -120,18 +124,23 @@ void CDungeonWarrior::ForceHeight(_vec3 _vPos)
 
 void CDungeonWarrior::OnCollisionEnter(CCollider* _pOther)
 {
+	if (SceneManager()->Get_GameStop()) { return; }
+
 	__super::OnCollisionEnter(_pOther);
 	// 충돌 밀어내기 후 이벤트 : 구현하시면 됩니다.
 }
 
 void CDungeonWarrior::OnCollisionStay(CCollider* _pOther)
 {
+	if (SceneManager()->Get_GameStop()) { return; }
+
 	__super::OnCollisionEnter(_pOther);
 	// 충돌 밀어내기 후 이벤트 : 구현하시면 됩니다.
 }
 
 void CDungeonWarrior::OnCollisionExit(CCollider* _pOther)
 {
+	if (SceneManager()->Get_GameStop()) { return; }
 }
 
 

@@ -4,6 +4,8 @@
 #include "Export_Function.h"
 //#include "Stage.h"
 //#include "Editor.h"
+#include "BlackIn.h"
+#include "BlackOutIn.h"
 
 CLogo::CLogo(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
@@ -37,25 +39,22 @@ Engine::_int CLogo::Update_Scene(const _float& fTimeDelta)
 
 	UIManager()->Update_UI(fTimeDelta);
 
-	//if (true == m_pLoading->Get_Finish() && Engine::InputDev()->Get_AnyKeyPressing())
-	//{
-	//	CScene*		pScene = CStage::Create(m_pGraphicDev);
-	//	//CScene* pScene = CEditor::Create(m_pGraphicDev);
-	//	NULL_CHECK_RETURN(pScene, -1);
 
-	//	FAILED_CHECK_RETURN(Engine::SceneManager()->Set_Scene(pScene), E_FAIL);
-	//}
+	CGameObject* pBlackOut = Engine::UIManager()->Get_BasicObject(UI_UP, UIID_BASIC, 0);
 
 	if (!m_bClick && Engine::InputDev()->Get_AnyKeyDown())
 	{
 		m_bClick = true;
 
+		Engine::CGameObject* pGameObject = CBlackOutIn::Create(m_pGraphicDev);
+		NULL_CHECK_RETURN(pGameObject, E_FAIL);
+		dynamic_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_BASIC, 0);
+		Engine::UIManager()->AddBasicGameobject_UI(Engine::UILAYER::UI_UP, pGameObject);
+
 		// 로고랑 프래스 폰트 삭제
 		Engine::UIManager()->Delete_BasicObject(Engine::UILAYER::UI_MIDDLE);
 
 		// 버튼 3개 + 글씨 생성
-		Engine::CGameObject* pGameObject = nullptr;
-
 		pGameObject = CStartButton::Create(m_pGraphicDev);
 		NULL_CHECK_RETURN(pGameObject, E_FAIL);
 		Engine::UIManager()->AddBasicGameobject_UI(Engine::UILAYER::UI_MIDDLE, pGameObject);
@@ -116,6 +115,8 @@ HRESULT CLogo::Ready_Prototype()
 	FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_RcTex", CRcTex::Create(m_pGraphicDev)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Transform_Logo", CTransform::Create(m_pGraphicDev)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Logo", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/Startscreen/Startscreen%d.png",11)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_FadeIn", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/BlackIn/black%d.png", 10)), E_FAIL);
+    FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_FadeOut", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/BlackOutIn/black%d.png", 19)), E_FAIL);
 	return S_OK;
 }
 
@@ -140,6 +141,11 @@ HRESULT CLogo::Ready_Layer_Environment(LAYERTAG _eLayerTag)
 	pGameObject = CPressFont::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	Engine::UIManager()->AddBasicGameobject_UI(Engine::UILAYER::UI_MIDDLE, pGameObject);
+
+	pGameObject = CBlackIn::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	dynamic_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_BASIC, 0);
+	Engine::UIManager()->AddBasicGameobject_UI(Engine::UILAYER::UI_UP, pGameObject);
 	//Engine::EventManager()->CreateObject(pGameObject, _eLayerTag);
 
 	return S_OK;

@@ -1,18 +1,18 @@
 #include "stdafx.h"
-#include "..\Header\UIbigmap.h"
+#include "..\Header\UIEscBackground.h"
 
-CUIbigmap::CUIbigmap(LPDIRECT3DDEVICE9 pGraphicDev)
+CUIEscBackground::CUIEscBackground(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CTempUI(pGraphicDev)
 {
 }
 
 
-CUIbigmap::~CUIbigmap()
+CUIEscBackground::~CUIEscBackground()
 {
 
 }
 
-HRESULT CUIbigmap::Ready_Object()
+HRESULT CUIEscBackground::Ready_Object()
 {
 	m_eObjectTag = OBJECTTAG::UI;
 	FAILED_CHECK_RETURN(CTempUI::Ready_Object(), E_FAIL); // ÃÊ±âÈ­
@@ -21,15 +21,15 @@ HRESULT CUIbigmap::Ready_Object()
 
 	m_pTransform->m_vInfo[INFO_POS].x = WINCX / 2;
 	m_pTransform->m_vInfo[INFO_POS].y = WINCY / 2;
-	m_pTransform->m_vLocalScale.x = 540;
-	m_pTransform->m_vLocalScale.y = 320;
+	m_pTransform->m_vLocalScale.x = 135;
+	m_pTransform->m_vLocalScale.y = 150;
 
 	WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);
 
 	return S_OK;
 }
 
-_int CUIbigmap::Update_Object(const _float & fTimeDelta)
+_int CUIEscBackground::Update_Object(const _float & fTimeDelta)
 {
 	if (m_IsDead)
 		return 0;
@@ -39,7 +39,7 @@ _int CUIbigmap::Update_Object(const _float & fTimeDelta)
 	return iExit;
 }
 
-void CUIbigmap::LateUpdate_Object(void)
+void CUIEscBackground::LateUpdate_Object(void)
 {
 	if (m_IsDead)
 		return;
@@ -47,7 +47,7 @@ void CUIbigmap::LateUpdate_Object(void)
 	CTempUI::LateUpdate_Object();
 }
 
-void CUIbigmap::Render_Object()
+void CUIEscBackground::Render_Object()
 {
 	if (m_IsDead)
 		return;
@@ -58,7 +58,7 @@ void CUIbigmap::Render_Object()
 	m_pBufferCom->Render_Buffer();
 }
 
-HRESULT CUIbigmap::Add_Component(void)
+HRESULT CUIEscBackground::Add_Component(void)
 {
 	CComponent* pComponent = nullptr;
 
@@ -70,7 +70,7 @@ HRESULT CUIbigmap::Add_Component(void)
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::TRANSFORM, pComponent);
 
-	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_mapUI"));
+	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_EscBackgroundUI"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
 
@@ -81,13 +81,13 @@ HRESULT CUIbigmap::Add_Component(void)
 	return S_OK;
 }
 
-void CUIbigmap::Key_Input(void)
+void CUIEscBackground::Key_Input(void)
 {
 }
 
-CUIbigmap* CUIbigmap::Create(LPDIRECT3DDEVICE9 pGraphicDev)
+CUIEscBackground* CUIEscBackground::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 {
-	CUIbigmap*	pInstance = new CUIbigmap(pGraphicDev);
+	CUIEscBackground*	pInstance = new CUIEscBackground(pGraphicDev);
 
 	if (FAILED(pInstance->Ready_Object()))
 	{
@@ -99,7 +99,7 @@ CUIbigmap* CUIbigmap::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 	return pInstance;
 }
 
-void CUIbigmap::Free()
+void CUIEscBackground::Free()
 {
 	CTempUI::Free();
 }

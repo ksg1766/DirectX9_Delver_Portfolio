@@ -59,11 +59,13 @@ HRESULT CDungeonSpider::Ready_Object()
 
 _int CDungeonSpider::Update_Object(const _float& fTimeDelta)
 {
+	Engine::Renderer()->Add_RenderGroup(RENDER_ALPHA, this); // ! 렌더를 맨 위에 올려 렌더는 되도록 하고
+
+	if (SceneManager()->Get_GameStop()) { return 0; } // ! Esc 및 M키 누를 시 업데이트 멈추게 하는 용도 입니다.
+
 	_int iExit = __super::Update_Object(fTimeDelta);
 
 	_float fFrameFix = 0.f;
-
-
 
 	CTransform* pPlayerTransform = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform;
 	NULL_CHECK_RETURN(pPlayerTransform, -1);
@@ -75,14 +77,13 @@ _int CDungeonSpider::Update_Object(const _float& fTimeDelta)
 	if (m_pStateMachine->Get_State() != STATE::ATTACK)
 		ForceHeight(pPlayerTransform->m_vInfo[INFO_POS]);
 
-
-	Engine::Renderer()->Add_RenderGroup(RENDER_ALPHA, this);
-
 	return iExit;
 }
 
 void CDungeonSpider::LateUpdate_Object()
 {
+	if (SceneManager()->Get_GameStop()) { return; } // ! Esc 및 M키 누를 시 업데이트 멈추게 하는 용도 입니다.
+
 	__super::LateUpdate_Object();
 }
 
@@ -104,6 +105,8 @@ void CDungeonSpider::Render_Object()
 
 void CDungeonSpider::OnCollisionEnter(CCollider* _pOther)
 {
+	if (SceneManager()->Get_GameStop()) { return; }
+
 	__super::OnCollisionEnter(_pOther);
 	// 충돌 밀어내기 후 이벤트 : 구현하시면 됩니다.
 
@@ -120,13 +123,15 @@ void CDungeonSpider::OnCollisionEnter(CCollider* _pOther)
 
 void CDungeonSpider::OnCollisionStay(CCollider* _pOther)
 {
+	if (SceneManager()->Get_GameStop()) { return; }
+
 	__super::OnCollisionStay(_pOther);
 	// 충돌 밀어내기 후 이벤트 : 구현하시면 됩니다.
 }
 
 void CDungeonSpider::OnCollisionExit(CCollider* _pOther)
 {
-
+	if (SceneManager()->Get_GameStop()) { return; }
 }
 
 HRESULT CDungeonSpider::Add_Component()

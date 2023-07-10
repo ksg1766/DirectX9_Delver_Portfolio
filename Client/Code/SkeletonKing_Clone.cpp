@@ -31,6 +31,10 @@ HRESULT CSkeletonKing_Clone::Ready_Object(void)
 
 _int CSkeletonKing_Clone::Update_Object(const _float& fTimeDelta)
 {
+	Engine::Renderer()->Add_RenderGroup(RENDER_ALPHA, this);
+
+	if (SceneManager()->Get_GameStop()) { return 0; }
+
 	_int iExit = __super::Update_Object(fTimeDelta);
 	
 	m_fFrame += 8.f * fTimeDelta;
@@ -42,12 +46,14 @@ _int CSkeletonKing_Clone::Update_Object(const _float& fTimeDelta)
 		Clone_Pattern();
 
 	ForceHeight(m_pTransform->m_vInfo[INFO_POS]);
-	Engine::Renderer()->Add_RenderGroup(RENDER_ALPHA, this);
+
 	return iExit;
 }
 
 void CSkeletonKing_Clone::LateUpdate_Object(void)
 {
+	if (SceneManager()->Get_GameStop()) { return; }
+
 	m_pBillBoard->LateUpdate_Component();
 	__super::LateUpdate_Object();
 }

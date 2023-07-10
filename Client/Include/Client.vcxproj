@@ -169,6 +169,8 @@
   <ItemGroup>
     <ClInclude Include="..\Header\BackGround.h" />
     <ClInclude Include="..\Header\Bat.h" />
+    <ClInclude Include="..\Header\BlackIn.h" />
+    <ClInclude Include="..\Header\BlackOutIn.h" />
     <ClInclude Include="..\Header\BossExplosion.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
@@ -228,8 +230,12 @@
     <ClInclude Include="..\Header\UIbutton.h" />
     <ClInclude Include="..\Header\UIemptyslot.h" />
     <ClInclude Include="..\Header\UIequipmentslot.h" />
+    <ClInclude Include="..\Header\UIEscBackground.h" />
+    <ClInclude Include="..\Header\UIQuitButton.h" />
     <ClInclude Include="..\Header\UIitem.h" />
+    <ClInclude Include="..\Header\UIOptionsButton.h" />
     <ClInclude Include="..\Header\UIplayerhp.h" />
+    <ClInclude Include="..\Header\UIResumeButton.h" />
     <ClInclude Include="..\ImGui\imconfig.h" />
     <ClInclude Include="..\ImGui\imgui.h" />
     <ClInclude Include="..\ImGui\imgui_impl_dx9.h" />
@@ -249,6 +255,8 @@
   <ItemGroup>
     <ClCompile Include="..\Code\BackGround.cpp" />
     <ClCompile Include="..\Code\Bat.cpp" />
+    <ClCompile Include="..\Code\BlackIn.cpp" />
+    <ClCompile Include="..\Code\BlackOutIn.cpp" />
     <ClCompile Include="..\Code\BossExplosion.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
@@ -308,8 +316,12 @@
     <ClCompile Include="..\Code\UIbutton.cpp" />
     <ClCompile Include="..\Code\UIemptyslot.cpp" />
     <ClCompile Include="..\Code\UIequipmentslot.cpp" />
+    <ClCompile Include="..\Code\UIEscBackground.cpp" />
+    <ClCompile Include="..\Code\UIQuitButton.cpp" />
     <ClCompile Include="..\Code\UIitem.cpp" />
+    <ClCompile Include="..\Code\UIOptionsButton.cpp" />
     <ClCompile Include="..\Code\UIplayerhp.cpp" />
+    <ClCompile Include="..\Code\UIResumeButton.cpp" />
     <ClCompile Include="..\ImGui\imgui.cpp" />
     <ClCompile Include="..\ImGui\imgui_demo.cpp" />
     <ClCompile Include="..\ImGui\imgui_draw.cpp" />

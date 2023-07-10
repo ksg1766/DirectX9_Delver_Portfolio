@@ -42,6 +42,10 @@ HRESULT CBat::Ready_Object()
 
 _int CBat::Update_Object(const _float& fTimeDelta)
 {
+	Engine::Renderer()->Add_RenderGroup(RENDER_ALPHA, this);
+
+	if (SceneManager()->Get_GameStop()) { return 0; }
+
 	_int iExit = __super::Update_Object(fTimeDelta);
 
 	m_fFrame += 5.f * fTimeDelta;
@@ -52,13 +56,13 @@ _int CBat::Update_Object(const _float& fTimeDelta)
 	m_pStateMachine->Update_StateMachine(fTimeDelta);
 	m_pStateMachine->Render_StateMachine();
 
-	Engine::Renderer()->Add_RenderGroup(RENDER_ALPHA, this);
-
 	return iExit;
 }
 
 void CBat::LateUpdate_Object()
 {
+	if (SceneManager()->Get_GameStop()) { return; }
+
 	__super::LateUpdate_Object();
 }
 
@@ -125,6 +129,8 @@ void CBat::ForceHeight(_vec3 _vPos)
 
 void CBat::OnCollisionEnter(CCollider* _pOther)
 {
+	if (SceneManager()->Get_GameStop()) { return; }
+
 	__super::OnCollisionEnter(_pOther);
 
 	if (_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::PLAYER)
@@ -140,10 +146,12 @@ void CBat::OnCollisionEnter(CCollider* _pOther)
 
 void CBat::OnCollisionStay(CCollider* _pOther)
 {
+	if (SceneManager()->Get_GameStop()) { return; }
 }
 
 void CBat::OnCollisionExit(CCollider* _pOther)
 {
+	if (SceneManager()->Get_GameStop()) { return; }
 }
 
 HRESULT CBat::Add_Component(void)

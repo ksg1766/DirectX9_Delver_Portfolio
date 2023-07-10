@@ -2,7 +2,7 @@
 
 IMPLEMENT_SINGLETON(CSceneManager)
 
-CSceneManager::CSceneManager() : m_pScene(nullptr)
+CSceneManager::CSceneManager() : m_pScene(nullptr), m_bGameStop(false)
 {
 }
 

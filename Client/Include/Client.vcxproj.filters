@@ -276,6 +276,27 @@
     </Filter>
     <Filter Include="02. GameObject\01. Stage\999.Boss\01. AttackEff\04. Meteor_Cube">
       <UniqueIdentifier>{9cc17226-7f03-4ebe-96ab-073be3de132d}</UniqueIdentifier>
+	</Filter>
+    <Filter Include="02. GameObject\04. Public\03. BlackInOut">
+      <UniqueIdentifier>{f66ece78-1f1e-4188-8138-327cfbd3ac37}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\04. Public\03. BlackInOut\00. BlackIn">
+      <UniqueIdentifier>{316901d4-e2e0-4527-b241-aed61de7653f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\03. UI\10. UIEscBackground">
+      <UniqueIdentifier>{44508158-3d60-4c48-b9b4-a8f28870732f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\03. UI\11. UIResumeButton">
+      <UniqueIdentifier>{e1f76c0e-b57f-4ffb-80a2-54e9aa1efee4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\03. UI\12. UIOptionsButton">
+      <UniqueIdentifier>{15bbdbc5-1d9d-4c91-8977-7ffdfac27980}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\03. UI\13. UIQuitButton">
+      <UniqueIdentifier>{202f3843-ef81-4954-913a-1c7bcd94ac2a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\04. Public\03. BlackInOut\01. BlackOutIn">
+      <UniqueIdentifier>{8aecc903-0a89-40f2-b46c-6be5b793da0c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -455,7 +476,7 @@
     </ClInclude>
     <ClInclude Include="..\Header\FirePattern.h">
       <Filter>02. GameObject\01. Stage\999.Boss\02. State\03. Attack\01. FireShotgun</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="..\Header\GameLogo.h">
       <Filter>02. GameObject\00. Logo\01. GameLogo</Filter>
     </ClInclude>
@@ -522,6 +543,30 @@
     </ClInclude>
     <ClInclude Include="..\Header\Boss_MeteorCube.h">
       <Filter>02. GameObject\01. Stage\999.Boss\01. AttackEff\04. Meteor_Cube</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\BossProjectile.h">
+      <Filter>99. Etc\헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\SkeletonKing.h">
+      <Filter>99. Etc\헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\BlackIn.h">
+      <Filter>02. GameObject\04. Public\03. BlackInOut\00. BlackIn</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\BlackOutIn.h">
+      <Filter>02. GameObject\04. Public\03. BlackInOut\01. BlackOutIn</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\UIEscBackground.h">
+      <Filter>02. GameObject\03. UI\10. UIEscBackground</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\UIResumeButton.h">
+      <Filter>02. GameObject\03. UI\11. UIResumeButton</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\UIOptionsButton.h">
+      <Filter>02. GameObject\03. UI\12. UIOptionsButton</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\UIQuitButton.h">
+      <Filter>02. GameObject\03. UI\13. UIQuitButton</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -692,7 +737,7 @@
     </ClCompile>
     <ClCompile Include="..\Code\FirePattern.cpp">
       <Filter>02. GameObject\01. Stage\999.Boss\02. State\03. Attack\01. FireShotgun</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="..\Code\GameLogo.cpp">
       <Filter>02. GameObject\00. Logo\01. GameLogo</Filter>
     </ClCompile>
@@ -759,6 +804,30 @@
     </ClCompile>
     <ClCompile Include="..\Code\Boss_MeteorCube.cpp">
       <Filter>02. GameObject\01. Stage\999.Boss\01. AttackEff\04. Meteor_Cube</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\BossProjectile.cpp">
+      <Filter>99. Etc\소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\SkeletonKing.cpp">
+      <Filter>99. Etc\소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\BlackIn.cpp">
+      <Filter>02. GameObject\04. Public\03. BlackInOut\00. BlackIn</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\BlackOutIn.cpp">
+      <Filter>02. GameObject\04. Public\03. BlackInOut\01. BlackOutIn</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UIQuitButton.cpp">
+      <Filter>02. GameObject\03. UI\13. UIQuitButton</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UIOptionsButton.cpp">
+      <Filter>02. GameObject\03. UI\12. UIOptionsButton</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UIResumeButton.cpp">
+      <Filter>02. GameObject\03. UI\11. UIResumeButton</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UIEscBackground.cpp">
+      <Filter>02. GameObject\03. UI\10. UIEscBackground</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

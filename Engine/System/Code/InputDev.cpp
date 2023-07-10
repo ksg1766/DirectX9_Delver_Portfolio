@@ -105,8 +105,7 @@ _bool CInputDev::Mouse_Up(MOUSEKEYSTATE eMouseID)
 
 _bool CInputDev::Get_AnyKeyDown()
 {
-	if (Key_Down(DIK_ESCAPE)
-		|| Key_Down(DIK_1)
+	if ( Key_Down(DIK_1)
 		|| Key_Down(DIK_2)
 		|| Key_Down(DIK_3)
 		|| Key_Down(DIK_4)

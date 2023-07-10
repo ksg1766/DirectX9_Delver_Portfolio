@@ -142,16 +142,21 @@ HRESULT CSkeletonKing::Ready_Object(void)
 
 _int CSkeletonKing::Update_Object(const _float& fTimeDelta)
 {
+	Engine::Renderer()->Add_RenderGroup(RENDER_ALPHA, this);
+
+	if (SceneManager()->Get_GameStop()) { return 0; }
+
 	_int iExit = __super::Update_Object(fTimeDelta);
 	ForceHeight(m_pTransform->m_vInfo[INFO_POS]);
 	m_pStateMachine->Update_StateMachine(fTimeDelta);
-	
-	Engine::Renderer()->Add_RenderGroup(RENDER_ALPHA, this);
+
 	return iExit;
 }
 
 void CSkeletonKing::LateUpdate_Object(void)
 {
+	if (SceneManager()->Get_GameStop()) { return; }
+
 	m_pBillBoard->LateUpdate_Component();
 	Key_Input();
 	__super::LateUpdate_Object();
@@ -218,6 +223,8 @@ void CSkeletonKing::ForceHeight(_vec3 _vPos)
 
 void CSkeletonKing::OnCollisionEnter(CCollider* _pOther)
 {
+	if (SceneManager()->Get_GameStop()) { return; }
+
 #pragma region 밀어내기
 	_vec3	vOtherPos = _pOther->GetCenterPos();
 	_float* fOtherAxis = _pOther->GetAxisLen();
@@ -262,6 +269,8 @@ void CSkeletonKing::OnCollisionEnter(CCollider* _pOther)
 
 void CSkeletonKing::OnCollisionStay(CCollider* _pOther)
 {
+	if (SceneManager()->Get_GameStop()) { return; }
+
 #pragma region 밀어내기
 	_vec3	vOtherPos = _pOther->GetCenterPos();
 	_float* fOtherAxis = _pOther->GetAxisLen();
@@ -306,7 +315,7 @@ void CSkeletonKing::OnCollisionStay(CCollider* _pOther)
 
 void CSkeletonKing::OnCollisionExit(CCollider* _pOther)
 {
-
+	if (SceneManager()->Get_GameStop()) { return; }
 }
 
 HRESULT CSkeletonKing::Add_Component(void)

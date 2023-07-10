@@ -17,6 +17,11 @@
 #include "UIbasicslot.h"
 #include "UIequipmentslot.h"
 #include "UIitem.h"
+#include "UIbigmap.h"
+#include "UIEscBackground.h"
+#include "UIResumeButton.h"
+#include "UIOptionsButton.h"
+#include "UIQuitButton.h"
 
 #include "SkeletonKing.h"
 #include "BossProjectile.h"

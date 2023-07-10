@@ -15,6 +15,9 @@ private:
 	virtual ~CSceneManager();
 
 public:
+	_bool                   Get_GameStop()             { return m_bGameStop; }
+	void                    Set_GameStop(_bool _bStop) { m_bGameStop = _bStop; }
+
 	CLayer*					Get_Layer(LAYERTAG eLayerTag);
 	vector<CGameObject*>&	Get_ObjectList(LAYERTAG eLayerTag, OBJECTTAG eObjTag)
 							{ return m_pScene->Get_Layer(eLayerTag)->Get_ObjectList(eObjTag); }
@@ -29,6 +32,7 @@ public:
 
 private:
 	CScene*			m_pScene;
+	_bool           m_bGameStop;
 
 public:
 	virtual void		Free();
