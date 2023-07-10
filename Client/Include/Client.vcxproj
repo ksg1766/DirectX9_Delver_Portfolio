@@ -173,16 +173,25 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\Header\BossProjectile.h" />
+    <ClInclude Include="..\Header\Boss_Dead.h" />
+    <ClInclude Include="..\Header\Boss_Dying.h" />
+    <ClInclude Include="..\Header\Boss_MeteorCube.h" />
+    <ClInclude Include="..\Header\Boss_Sturn.h" />
+    <ClInclude Include="..\Header\CrawlPattern.h" />
+    <ClInclude Include="..\Header\TeleportPattern.h" />
     <ClInclude Include="..\Header\CameraManager.h" />
     <ClInclude Include="..\Header\Boss_Attack.h" />
     <ClInclude Include="..\Header\Boss_Idle.h" />
-    <ClInclude Include="..\Header\CBoss_Sleep.h" />
+    <ClInclude Include="..\Header\Boss_Sleep.h" />
     <ClInclude Include="..\Header\Boss_WakeUp.h" />
     <ClInclude Include="..\Header\CubeBlock.h" />
     <ClInclude Include="..\Header\DungeonSpider.h" />
     <ClInclude Include="..\Header\DungeonWarrior.h" />
     <ClInclude Include="..\Header\DynamicCamera.h" />
     <ClInclude Include="..\Header\Editor.h" />
+    <ClInclude Include="..\Header\ExplosionPattern.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="..\Header\FirePattern.h" />
     <ClInclude Include="..\Header\FlyingCamera.h" />
     <ClInclude Include="..\Header\ImGuiManager.h" />
@@ -220,6 +229,7 @@
     <ClInclude Include="..\ImGui\imstb_truetype.h" />
     <ClInclude Include="..\Header\UIplayerstat.h" />
     <ClInclude Include="..\Header\UItooltip.h" />
+    <ClInclude Include="Boss_MeteorReady.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
@@ -232,16 +242,25 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\Code\BossProjectile.cpp" />
+    <ClCompile Include="..\Code\Boss_Dead.cpp" />
+    <ClCompile Include="..\Code\Boss_Dying.cpp" />
+    <ClCompile Include="..\Code\Boss_MeteorCube.cpp" />
+    <ClCompile Include="..\Code\Boss_Sturn.cpp" />
+    <ClCompile Include="..\Code\CrawlPattern.cpp" />
+    <ClCompile Include="..\Code\TeleportPattern.cpp" />
     <ClCompile Include="..\Code\CameraManager.cpp" />
     <ClCompile Include="..\Code\Boss_Attack.cpp" />
     <ClCompile Include="..\Code\Boss_Idle.cpp" />
-    <ClCompile Include="..\Code\CBoss_Sleep.cpp" />
+    <ClCompile Include="..\Code\Boss_Sleep.cpp" />
     <ClCompile Include="..\Code\Boss_WakeUp.cpp" />
     <ClCompile Include="..\Code\CubeBlock.cpp" />
     <ClCompile Include="..\Code\DungeonSpider.cpp" />
     <ClCompile Include="..\Code\DungeonWarrior.cpp" />
     <ClCompile Include="..\Code\DynamicCamera.cpp" />
     <ClCompile Include="..\Code\Editor.cpp" />
+    <ClCompile Include="..\Code\ExplosionPattern.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\Code\FirePattern.cpp" />
     <ClCompile Include="..\Code\FlyingCamera.cpp" />
     <ClCompile Include="..\Code\ImGuiManager.cpp" />
@@ -278,6 +297,7 @@
     <ClCompile Include="..\ImGui\imgui_widgets.cpp" />
     <ClCompile Include="..\Code\UIplayerstat.cpp" />
     <ClCompile Include="..\Code\UItooltip.cpp" />
+    <ClCompile Include="Boss_MeteorReady.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

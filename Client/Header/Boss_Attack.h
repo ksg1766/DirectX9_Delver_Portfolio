@@ -20,9 +20,6 @@ public:
 private:
     //클래스 내에서만 쓸 함수
     STATE   BossSkill(const _float& fTimeDelta);
-    void    BossTeleport();
-    void    FireShogun(const _float& fTimeDelta);
-    void    Explosion_Flower(const _float& fTimeDelta);
 private:
     //변수
     _int iTime = 0;

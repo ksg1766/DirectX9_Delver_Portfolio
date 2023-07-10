@@ -25,7 +25,7 @@ HRESULT CSkeletonKing_Clone::Ready_Object(void)
 {
 	m_eObjectTag = OBJECTTAG::BOSS;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
-	m_pTransform->Scale(_vec3(1.f, 3.f, 1.f));
+	m_pTransform->Scale(_vec3(1.f, 1.f, 1.f));
 	return S_OK;
 }
 
@@ -40,8 +40,6 @@ _int CSkeletonKing_Clone::Update_Object(const _float& fTimeDelta)
 
 	if (!m_bSkill)
 		Clone_Pattern();
-	/*else if (m_bSkill)
-		Engine::EventManager()->DeleteObject(this);*/
 
 	ForceHeight(m_pTransform->m_vInfo[INFO_POS]);
 	Engine::Renderer()->Add_RenderGroup(RENDER_ALPHA, this);
@@ -58,9 +56,9 @@ void CSkeletonKing_Clone::Render_Object(void)
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-
+	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 	m_pTexture->Render_Texture((_uint)m_fFrame);
-
+	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 	m_pBuffer->Render_Buffer();
 
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
@@ -102,7 +100,7 @@ void CSkeletonKing_Clone::ForceHeight(_vec3 _vPos)
 		_vec3 vy = B - D;
 
 		height = D.y + (uy.y * (1.f - dx)) + (vy.y * (1.f - dz)) + 1.f;
-		m_pTransform->m_vInfo[INFO_POS].y = height+2.f;
+		m_pTransform->m_vInfo[INFO_POS].y = height;
 	}
 }
 

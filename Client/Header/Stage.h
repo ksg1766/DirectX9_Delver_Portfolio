@@ -22,6 +22,8 @@
 #include "BossProjectile.h"
 #include "BossExplosion.h"
 
+#include "Boss_MeteorCube.h"
+
 class CStage : public Engine::CScene
 {
 private:

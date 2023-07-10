@@ -32,6 +32,7 @@ public:
 	// 상태를 맵 컨테이너에 추가
 	HRESULT		Add_State(STATE _eState, CState* pState);
 
+	virtual CAnimator* Get_Animator() { return m_pAnimator; }
 public:
 	STATE		Get_State()		{ return m_eCurState; }
 	STATE		Get_PrevState() { return m_ePrevState; }
