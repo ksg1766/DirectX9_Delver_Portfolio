@@ -29,6 +29,9 @@ HRESULT CBossExplosion::Ready_Object(void)
 
 _int CBossExplosion::Update_Object(const _float& fTimeDelta)
 {
+	Engine::Renderer()->Add_RenderGroup(RENDER_ALPHA, this);
+
+	if (SceneManager()->Get_GameStop()) { return 0; }
 
 	_int iExit = __super::Update_Object(fTimeDelta);
 
@@ -38,13 +41,14 @@ _int CBossExplosion::Update_Object(const _float& fTimeDelta)
 	{
 		Engine::EventManager()->DeleteObject(this);
 	}
-	Engine::Renderer()->Add_RenderGroup(RENDER_ALPHA, this);
 
 	return iExit;
 }
 
 void CBossExplosion::LateUpdate_Object(void)
 {
+	if (SceneManager()->Get_GameStop()) { return; }
+
 	m_pBillBoard->LateUpdate_Component();
 	__super::LateUpdate_Object();
 }

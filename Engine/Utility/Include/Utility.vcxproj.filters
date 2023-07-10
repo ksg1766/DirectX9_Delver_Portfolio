@@ -166,6 +166,9 @@
     <Filter Include="03. GameObject\07.  Plane">
       <UniqueIdentifier>{95020471-972d-4def-90ea-3139fdb5dfde}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04. Component\14. Inventory">
+      <UniqueIdentifier>{081154d8-d2f3-4992-9d9d-25ae1f527e16}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Header\Scene.h">
@@ -297,6 +300,9 @@
     <ClInclude Include="..\..\Header\Animation.h">
       <Filter>04. Component\10. Animator\Animation</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Header\Inventory.h">
+      <Filter>04. Component\14. Inventory</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\Scene.cpp">
@@ -424,6 +430,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\Animation.cpp">
       <Filter>04. Component\10. Animator\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Inventory.cpp">
+      <Filter>04. Component\14. Inventory</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

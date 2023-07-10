@@ -193,6 +193,7 @@ call CopyUtility.bat</Command>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\Header\Camera.h" />
+    <ClInclude Include="..\..\Header\Inventory.h" />
     <ClInclude Include="..\..\Header\Item.h" />
     <ClInclude Include="..\..\Header\MonsterAI.h" />
     <ClInclude Include="..\..\Header\BasicStat.h" />
@@ -244,6 +245,7 @@ call CopyUtility.bat</Command>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\Code\Camera.cpp" />
+    <ClCompile Include="..\Code\Inventory.cpp" />
     <ClCompile Include="..\Code\Item.cpp" />
     <ClCompile Include="..\Code\MonsterAI.cpp" />
     <ClCompile Include="..\Code\BasicStat.cpp" />

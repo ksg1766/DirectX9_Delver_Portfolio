@@ -8,6 +8,7 @@
 #include "LoadingBackGround.h"
 #include "ProgressBar.h"
 #include "LoadingPont.h"
+#include "BlackIn.h"
 
 CStageLoading::CStageLoading(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
@@ -48,6 +49,11 @@ Engine::_int CStageLoading::Update_Scene(const _float& fTimeDelta)
 
 		CScene*		pScene = CStage::Create(m_pGraphicDev);
 		NULL_CHECK_RETURN(pScene, -1);
+
+		Engine::CGameObject*  pGameObject = CBlackIn::Create(m_pGraphicDev);
+		NULL_CHECK_RETURN(pGameObject, E_FAIL);
+		dynamic_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_BASIC, 0);
+		Engine::UIManager()->AddBasicGameobject_UI(Engine::UILAYER::UI_UP, pGameObject);
 
 		FAILED_CHECK_RETURN(Engine::SceneManager()->Set_Scene(pScene), E_FAIL);
 	}
@@ -96,6 +102,8 @@ HRESULT CStageLoading::Ready_Prototype()
 	//FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Transform_Logo", CTransform::Create(m_pGraphicDev)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_StageBackground", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/Loadingscreen/LoadingScreen%d.png",4)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_StageLoadingFont", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/Loadingscreen/Loadingletters/Loading%d.png", 11)), E_FAIL);
+	//FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_FadeIn", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/BlackIn/black%d.png", 10)), E_FAIL);
+	//FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_FadeOut", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/BlackOut/black%d.png", 10)), E_FAIL);
 	return S_OK;
 }
 

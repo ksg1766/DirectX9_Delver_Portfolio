@@ -24,7 +24,7 @@ HRESULT CProgressBar::Ready_Object(void)
 
 	WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);
 	
-	m_iCurrentBar = 10.f;
+	m_iCurrentBar = 0.f;
 	m_iMaxBar = 100.f;
 
 	return S_OK;

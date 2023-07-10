@@ -31,6 +31,7 @@ private:
 
 private:
 	_bool m_bClick = false;
+	_bool m_bFadeOut = false;
 	//CLoading*		m_pLoading;
 	//Engine::CGameObject* pGameObject = nullptr;
 

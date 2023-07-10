@@ -54,21 +54,25 @@ HRESULT CPlayer::Ready_Object(void)
 
 Engine::_int CPlayer::Update_Object(const _float& fTimeDelta)
 {
-	Key_Input(fTimeDelta);
-	_int iExit = __super::Update_Object(fTimeDelta);
+	Engine::Renderer()->Add_RenderGroup(RENDER_NONALPHA, this);
 
+	Key_Input(fTimeDelta);
+
+	if (SceneManager()->Get_GameStop()) { return 0; }
+
+	_int iExit = __super::Update_Object(fTimeDelta);
 
 	m_pStateMachine->Update_StateMachine(fTimeDelta);
 
 	ForceHeight(m_pTransform->m_vInfo[INFO_POS]);
-	Engine::Renderer()->Add_RenderGroup(RENDER_NONALPHA, this);
-	
 
 	return iExit;
 }
 
 void CPlayer::LateUpdate_Object(void)
 {
+	if (SceneManager()->Get_GameStop()) { return; }
+
 	__super::LateUpdate_Object();
 
 	m_pStateMachine->LateUpdate_StateMachine();
@@ -146,32 +150,55 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 	if (Engine::InputDev()->Key_Down(DIK_I))
 	{
 		if (Engine::UIManager()->Set_InvenUse())
+		{
 			static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(true);
+			SceneManager()->Set_GameStop(false);
+		}
 		else
 			static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(false);
 	}
 	else if (Engine::InputDev()->Key_Down(DIK_C))
 	{
 		if (Engine::UIManager()->Set_StatUse())
+		{
 			static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(true);
+			SceneManager()->Set_GameStop(false);
+		}
 		else
 			static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(false);
 	}
 	else if (Engine::InputDev()->Key_Down(DIK_M))
 	{
-		if (Engine::UIManager()->Set_MapUse())
+		if (Engine::UIManager()->Set_MapUse()) {
 			static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(true);
-		else
+			SceneManager()->Set_GameStop(true);
+		}
+		else {
 			static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(false);
+			SceneManager()->Set_GameStop(false);
+		}
 	}
 	else if (Engine::InputDev()->Key_Down(DIK_ESCAPE))
 	{
-		if (Engine::UIManager()->Set_EscUse())
+		if (Engine::UIManager()->Set_EscUse()) {
 			static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(true);
-		else
+			SceneManager()->Set_GameStop(true);
+		}	
+		else {
 			static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(false);
+			SceneManager()->Set_GameStop(false);
+		}
 	}
 
+	// 아이템 줍기 및 버리기
+	if (Engine::InputDev()->Key_Down(DIK_E))
+	{
+		// 아이템 줍기
+	}
+	else if (Engine::InputDev()->Key_Down(DIK_Q))
+	{
+		// 아이템 버리기
+	}
 }
 
 void CPlayer::ForceHeight(_vec3 _vPos)
@@ -222,6 +249,8 @@ void CPlayer::ForceHeight(_vec3 _vPos)
 
 void CPlayer::OnCollisionEnter(CCollider* _pOther)
 {
+	if (SceneManager()->Get_GameStop()) { return; }
+
 	_vec3	vOtherPos = _pOther->GetCenterPos();
 	_float* fOtherAxis = _pOther->GetAxisLen();
 
@@ -264,6 +293,8 @@ void CPlayer::OnCollisionEnter(CCollider* _pOther)
 
 void CPlayer::OnCollisionStay(CCollider* _pOther)
 {
+	if (SceneManager()->Get_GameStop()) { return; }
+
 	_vec3	vOtherPos = _pOther->GetCenterPos();
 	_float* fOtherAxis = _pOther->GetAxisLen();
 
@@ -306,6 +337,7 @@ void CPlayer::OnCollisionStay(CCollider* _pOther)
 
 void CPlayer::OnCollisionExit(CCollider* _pOther)
 {
+	if (SceneManager()->Get_GameStop()) { return; }
 }
 
 void CPlayer::Free()
