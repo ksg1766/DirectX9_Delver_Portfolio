@@ -6,6 +6,7 @@ BEGIN(Engine)
 
 class CRcTex;
 class CTexture;
+class CBasicStat;
 
 END
 
@@ -26,9 +27,21 @@ public:
 private:
 	HRESULT		Add_Component(void);
 
+public:
+	virtual void		OnCollisionEnter(CCollider* _pOther);
+	virtual void		OnCollisionStay(CCollider* _pOther);
+	virtual void		OnCollisionExit(CCollider* _pOther);
+
 private:
-	CRcTex* m_pBuffer = nullptr;
-	CTexture* m_pTexture = nullptr;
+	_vec3		Get_RotationDir(const CPlayer& pPlayer, const _float& fTimeDelta);
+	void		Get_ReturnTrans(CPlayer& pPlayer, const _float& fTimeDelta);
+
+private:
+	CRcTex*		m_pBuffer = nullptr;
+	CTexture*	m_pTexture = nullptr;
+
+	// 공격 모션
+	MYATTACKINFO m_AttackInfo;
 
 public:
 	static CTempItem* Create(LPDIRECT3DDEVICE9 pGraphicDev);

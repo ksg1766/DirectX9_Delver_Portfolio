@@ -53,7 +53,7 @@ void CFirePattern::LateUpdate_State()
 
 void CFirePattern::Render_State()
 {
-
+    cout << "Boss FirePattern" << endl;
 }
 
 

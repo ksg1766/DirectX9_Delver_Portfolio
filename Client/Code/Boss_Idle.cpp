@@ -39,6 +39,7 @@ void CBoss_Idle::LateUpdate_State()
 
 void CBoss_Idle::Render_State()
 {
+    cout << "Boss IDLE" << endl;
 }
 
 CBoss_Idle* CBoss_Idle::Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner)

@@ -45,7 +45,6 @@ private:
 	CTexture*		m_pTexture[static_cast<_uint>(STATE::STATE_END)] = {};
 	CTerrain*		m_pTerrain = nullptr;
 	CStateMachine*	m_pStateMachine = nullptr;
-	CBasicStat*		m_pMonsterStat = nullptr;
 	CAnimator*		m_pAnimator = nullptr;
 
 	_float		m_fFrame;

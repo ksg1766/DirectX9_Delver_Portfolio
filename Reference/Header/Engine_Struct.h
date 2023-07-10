@@ -99,6 +99,35 @@ namespace Engine
 		_float	fAgility = 4.f;
 		//STATE	eState		= STATE::IDLE;
 	}BASICSTAT;
+
+	typedef struct tagAttack
+	{
+		_bool	bReturn = false;
+		_bool	bAttacking = false;
+
+
+		_float fMaxDistance;	// 공격 사거리
+		_float fWeaponSpeed;	// 공격 속도 
+		_float fReturnSpeed;	// 공격이 끝나고 돌아오는 속도
+
+		_vec3	vFoward = _vec3(0.f,0.f,1.f);		// 전방벡터
+		_vec3	vRotation;		// 회전 값을 받을 벡터 (트랜스폼에 angle이 없으니까 역삼각함수로 얻을 수 있음)
+
+		_matrix	matRot;		// 로컬 좌표계에 회전값 저장할 행렬
+
+
+		//tagAttack(_float A, _float B, _float _fAlpha)
+		//	: fA(A), fB(B), fAlpha(_fAlpha)
+		//{
+		//	
+		//}
+
+		static _float	Interpolate(_float A, _float B, _float fAlpha)
+		{
+			return A * (1 - fAlpha) + B * fAlpha;
+		}
+
+	}MYATTACKINFO;
 }
 
 

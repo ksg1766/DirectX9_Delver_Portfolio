@@ -22,7 +22,8 @@ public:
 	virtual void	LateUpdate_Animation();
 	virtual void	Render_Animation();
 
-	
+public:
+	_float	Get_CurFrame() { return m_fCurFrame; }
 
 protected:
 	// 애니메이션 관련 함수

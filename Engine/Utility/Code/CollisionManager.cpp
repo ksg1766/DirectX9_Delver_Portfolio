@@ -10,6 +10,7 @@ CCollisionManager::CCollisionManager()
 	CheckGroup(OBJECTTAG::PLAYER, OBJECTTAG::BOSS);
 	CheckGroup(OBJECTTAG::MONSTER, OBJECTTAG::MONSTER);
 	CheckGroup(OBJECTTAG::MONSTER, OBJECTTAG::BOSS);
+	CheckGroup(OBJECTTAG::ITEM, OBJECTTAG::MONSTER);
 }
 
 CCollisionManager::~CCollisionManager()

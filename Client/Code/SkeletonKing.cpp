@@ -36,11 +36,26 @@ HRESULT CSkeletonKing::Ready_Object(void)
 
 	pState = CBoss_Attack::Create(m_pGraphicDev, m_pStateMachine);
 	m_pStateMachine->Add_State(STATE::BOSS_ATTACK, pState);
-
+	//
 	pState = CFirePattern::Create(m_pGraphicDev, m_pStateMachine);
 	m_pStateMachine->Add_State(STATE::BOSS_FIRE, pState);
 
+	CAnimation* pAnimation = CAnimation::Create(m_pGraphicDev,
+		m_pTexture[(_uint)STATE::BOSS_IDLE], STATE::BOSS_IDLE, 8.f, TRUE);
+	m_pAnimator->Add_Animation(STATE::BOSS_IDLE, pAnimation);
+	
+	pAnimation = CAnimation::Create(m_pGraphicDev,
+		m_pTexture[(_uint)STATE::BOSS_IDLE], STATE::BOSS_ATTACK, 5.f, TRUE);
+	m_pAnimator->Add_Animation(STATE::BOSS_ATTACK, pAnimation);
+	
+	pAnimation = CAnimation::Create(m_pGraphicDev,
+		m_pTexture[(_uint)STATE::BOSS_IDLE], STATE::BOSS_FIRE, 5.f, TRUE);
+	m_pAnimator->Add_Animation(STATE::BOSS_FIRE, pAnimation);
+
+	m_pStateMachine->Set_Animator(m_pAnimator);
 	m_pStateMachine->Set_State(STATE::BOSS_IDLE);
+	
+
 
 	return S_OK;
 }
@@ -48,10 +63,8 @@ HRESULT CSkeletonKing::Ready_Object(void)
 _int CSkeletonKing::Update_Object(const _float& fTimeDelta)
 {
 	_int iExit = __super::Update_Object(fTimeDelta);
-	m_fFrame += 8.f * fTimeDelta;
+	//m_fFrame += 8.f * fTimeDelta;
 
-	if (8.f < m_fFrame)
-		m_fFrame = 0.f;
 	ForceHeight(m_pTransform->m_vInfo[INFO_POS]);
 	m_pStateMachine->Update_StateMachine(fTimeDelta);
 
@@ -69,7 +82,9 @@ void CSkeletonKing::Render_Object(void)
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-	m_pTexture->Render_Texture((_uint)m_fFrame);
+	
+	m_pStateMachine->Render_StateMachine();
+
 	m_pBuffer->Render_Buffer();
 
 #if _DEBUG
@@ -256,7 +271,7 @@ HRESULT CSkeletonKing::Add_Component(void)
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::COLLIDER, pComponent);
 
-	pComponent = m_pTexture = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_Boss"));
+	pComponent = m_pTexture[(_uint)STATE::BOSS_IDLE] = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_Boss"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
 
@@ -267,6 +282,10 @@ HRESULT CSkeletonKing::Add_Component(void)
 	pComponent = m_pStateMachine = dynamic_cast<CStateMachine*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_State"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::STATEMACHINE, pComponent);
+
+	pComponent = m_pAnimator = dynamic_cast<CAnimator*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Animator"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::ANIMATOR, pComponent);
 
 	for (_uint i = 0; i < ID_END; ++i)
 		for (auto& iter : m_mapComponent[i])

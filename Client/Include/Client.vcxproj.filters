@@ -4,21 +4,6 @@
     <Filter Include="00. MainApp">
       <UniqueIdentifier>{54072560-0ca5-4dc0-8256-18cb96e858e8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="99. Etc">
-      <UniqueIdentifier>{2ad4fe67-d505-4a9a-94a4-e1f6784bdc9e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="99. Etc\리소스 파일">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
-    <Filter Include="99. Etc\소스 파일">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="99. Etc\헤더 파일">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
     <Filter Include="01. Scene">
       <UniqueIdentifier>{daf89680-9697-4e5e-bd4e-7436051cfbbf}</UniqueIdentifier>
     </Filter>
@@ -223,6 +208,24 @@
     <Filter Include="02. GameObject\01. Stage\999.Boss\02. State\03. Attack\03. Teleport">
       <UniqueIdentifier>{34aac172-d6cf-411e-9cbc-049540eac1c3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\01. Stage\01. Player\State\Attack">
+      <UniqueIdentifier>{df9f116d-ae01-44ed-bf22-f15a5f1145ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="99. Etc">
+      <UniqueIdentifier>{2ad4fe67-d505-4a9a-94a4-e1f6784bdc9e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="99. Etc\리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="99. Etc\소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="99. Etc\헤더 파일">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -324,9 +327,6 @@
     <ClInclude Include="..\Header\ImGuiManager.h">
       <Filter>01. Scene\02. Editor\01. ImGui\00. ImGuiManager</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\SkeletonKing.h">
-      <Filter>02. GameObject\01. Stage\999. Boss</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\DungeonSpider.h">
       <Filter>99. Etc\헤더 파일</Filter>
     </ClInclude>
@@ -372,10 +372,6 @@
     <ClInclude Include="..\Header\SkeletonKing_Clone.h">
       <Filter>02. GameObject\01. Stage\999.Boss\01. AttackEff\03. Create_Clone</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\BossProjectile.h">
-      <Filter>02. GameObject\01. Stage\999.Boss\01. AttackFire</Filter>
-      <Filter>02. GameObject\01. Stage\999.Boss\01. AttackEff\01. AttackFire</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\DungeonSpider.h">
       <Filter>99. Etc\헤더 파일</Filter>
     </ClInclude>
@@ -411,6 +407,18 @@
     </ClInclude>
     <ClInclude Include="..\Header\FirePattern.h">
       <Filter>02. GameObject\01. Stage\999.Boss\02. State\03. Attack\01. FireShotgun</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\BossProjectile.h">
+      <Filter>99. Etc\헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\SkeletonKing.h">
+      <Filter>99. Etc\헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Player_Attack.h">
+      <Filter>02. GameObject\01. Stage\01. Player\State\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Monster_Hit.h">
+      <Filter>02. GameObject\01. Stage\05. Monster\00. State\Public</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -504,9 +512,6 @@
     <ClCompile Include="..\Code\ImGuiManager.cpp">
       <Filter>01. Scene\02. Editor\01. ImGui\00. ImGuiManager</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\SkeletonKing.cpp">
-      <Filter>02. GameObject\01. Stage\999. Boss</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\DungeonSpider.cpp">
       <Filter>99. Etc\소스 파일</Filter>
     </ClCompile>
@@ -555,10 +560,6 @@
     <ClCompile Include="..\Code\SkeletonKing_Clone.cpp">
       <Filter>02. GameObject\01. Stage\999.Boss\01. AttackEff\03. Create_Clone</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\BossProjectile.cpp">
-      <Filter>02. GameObject\01. Stage\999.Boss\01. AttackFire</Filter>
-      <Filter>02. GameObject\01. Stage\999.Boss\01. AttackEff\01. AttackFire</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\DungeonSpider.cpp">
       <Filter>99. Etc\소스 파일</Filter>
     </ClCompile>
@@ -591,6 +592,18 @@
     </ClCompile>
     <ClCompile Include="..\Code\FirePattern.cpp">
       <Filter>02. GameObject\01. Stage\999.Boss\02. State\03. Attack\01. FireShotgun</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\BossProjectile.cpp">
+      <Filter>99. Etc\소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\SkeletonKing.cpp">
+      <Filter>99. Etc\소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Player_Attack.cpp">
+      <Filter>02. GameObject\01. Stage\01. Player\State\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Monster_Hit.cpp">
+      <Filter>02. GameObject\01. Stage\05. Monster\00. State\Public</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
