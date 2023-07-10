@@ -51,12 +51,8 @@ _int CTempItem::Update_Object(const _float& fTimeDelta)
 	{
 		if (!m_AttackInfo.bReturn)
 		{
-		
 			m_pTransform->Translate(Get_RotationDir(pPlayer, fTimeDelta) * m_AttackInfo.fReturnSpeed);
-
-
 		}
-
 		else
 		{
 			Get_ReturnTrans(pPlayer, fTimeDelta);
@@ -133,7 +129,6 @@ HRESULT CTempItem::Add_Component(void)
 
 	m_pTransform->Set_Parent(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform);
 	m_pTransform->Copy_RUL(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform->m_vInfo);
-
 
 	return S_OK;
 }

@@ -24,8 +24,6 @@ public:
 public:
 	void	Set_Animation(STATE	eState);
 	virtual	CAnimation* Get_Animation() { return m_pCurAnimation; }
-public:
-	CAnimation* Get_Animation() { return m_pCurAnimation; }
 
 public:
 	HRESULT	Add_Animation(STATE _eState, CAnimation* pAnimation);

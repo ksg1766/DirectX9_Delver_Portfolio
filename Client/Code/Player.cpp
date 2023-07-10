@@ -186,9 +186,7 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 		m_bItemEquip = true;
 		Engine::CGameObject* pGameObject = nullptr;
 		pGameObject = CTempItem::Create(m_pGraphicDev);
-		pGameObject->m_pTransform->Translate(m_pTransform->m_vInfo[INFO_POS]
-			+ m_pTransform->m_vInfo[INFO_LOOK]); //_vec3(0.55f, 0.1f, 1.8f) INFO_LOOK¿¡
-
+		
 		Add_Item(pGameObject, ITEMTAG::WEAPON);
 		Set_CurItem(pGameObject);
 

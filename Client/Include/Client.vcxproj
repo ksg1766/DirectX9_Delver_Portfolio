@@ -216,12 +216,9 @@
     <ClInclude Include="..\Header\Player.h" />
     <ClInclude Include="..\Header\PlayerState_Idle.h" />
     <ClInclude Include="..\Header\PlayerState_Walk.h" />
-<<<<<<< HEAD
     <ClInclude Include="..\Header\PressFont.h" />
     <ClInclude Include="..\Header\SelectFont.h" />
-=======
     <ClInclude Include="..\Header\Player_Attack.h" />
->>>>>>> origin/feature/JunYeop
     <ClInclude Include="..\Header\SkeletonKing.h" />
     <ClInclude Include="..\Header\SkeletonKing_Clone.h" />
     <ClInclude Include="..\Header\SkyBox.h" />
@@ -307,12 +304,9 @@
     <ClCompile Include="..\Code\Player.cpp" />
     <ClCompile Include="..\Code\PlayerState_Idle.cpp" />
     <ClCompile Include="..\Code\PlayerState_Walk.cpp" />
-<<<<<<< HEAD
     <ClCompile Include="..\Code\PressFont.cpp" />
     <ClCompile Include="..\Code\SelectFont.cpp" />
-=======
     <ClCompile Include="..\Code\Player_Attack.cpp" />
->>>>>>> origin/feature/JunYeop
     <ClCompile Include="..\Code\SkeletonKing.cpp" />
     <ClCompile Include="..\Code\SkeletonKing_Clone.cpp" />
     <ClCompile Include="..\Code\SkyBox.cpp" />

@@ -53,7 +53,7 @@ STATE CPlayerState_Idle::Key_Input(const _float& fTimeDelta)
 	if (Engine::InputDev()->GetInstance()->Key_Down(DIK_D))
 		return STATE::ROMIMG;
 	
-	if (Engine::InputDev()->GetInstance()->Mouse_Down(DIM_LB))
+	if (Engine::InputDev()->GetInstance()->Mouse_Pressing(DIM_LB))
 		return STATE::ATTACK;
 	
 	pPlayer.Set_State(STATE::IDLE);

@@ -62,21 +62,6 @@ HRESULT CSkeletonKing::Ready_Object(void)
 	pState = CExplosionPattern::Create(m_pGraphicDev, m_pStateMachine);
 	m_pStateMachine->Add_State(STATE::BOSS_EXPLOSION, pState);
 
-	CAnimation* pAnimation = CAnimation::Create(m_pGraphicDev,
-		m_pTexture[(_uint)STATE::BOSS_IDLE], STATE::BOSS_IDLE, 8.f, TRUE);
-	m_pAnimator->Add_Animation(STATE::BOSS_IDLE, pAnimation);
-	
-	pAnimation = CAnimation::Create(m_pGraphicDev,
-		m_pTexture[(_uint)STATE::BOSS_IDLE], STATE::BOSS_ATTACK, 5.f, TRUE);
-	m_pAnimator->Add_Animation(STATE::BOSS_ATTACK, pAnimation);
-	
-	pAnimation = CAnimation::Create(m_pGraphicDev,
-		m_pTexture[(_uint)STATE::BOSS_IDLE], STATE::BOSS_FIRE, 5.f, TRUE);
-	m_pAnimator->Add_Animation(STATE::BOSS_FIRE, pAnimation);
-
-	m_pStateMachine->Set_Animator(m_pAnimator);
-	m_pStateMachine->Set_State(STATE::BOSS_IDLE);
-
 	pState = CTeleportPattern::Create(m_pGraphicDev, m_pStateMachine);
 	m_pStateMachine->Add_State(STATE::BOSS_TELEPORT, pState);
 

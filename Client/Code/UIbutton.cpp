@@ -93,6 +93,7 @@ void CUIbutton::Key_Input(void)
 	{
 		if (Engine::InputDev()->Mouse_Down(DIM_LB))
 		{
+			int a = 0;
 			switch (m_UINumber)
 			{
 			case 0: // 인벤토리 버튼

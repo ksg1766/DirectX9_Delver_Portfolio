@@ -72,7 +72,7 @@ STATE CPlayerState_Walk::Key_Input(const _float& fTimeDelta)
 		_eState = STATE::ROMIMG;
 	}
 
-	if (Engine::InputDev()->GetInstance()->Mouse_Down(DIM_LB))
+	if (Engine::InputDev()->GetInstance()->Mouse_Pressing(DIM_LB))
 	{
 		_eState = STATE::ATTACK;
 	}

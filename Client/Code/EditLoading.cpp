@@ -98,8 +98,7 @@ HRESULT CEditLoading::Ready_Prototype()
 	//FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Transform_Logo", CTransform::Create(m_pGraphicDev)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_StageBackground", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/Loadingscreen/LoadingScreen%d.png", 4)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_StageLoadingFont", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/Loadingscreen/Loadingletters/Loading%d.png", 11)), E_FAIL);
-	FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_FadeIn", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/BlackIn/black%d.png", 10)), E_FAIL);
-	FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_FadeOut", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/BlackOut/black%d.png", 10)), E_FAIL);
+	
 	return S_OK;
 }
 
