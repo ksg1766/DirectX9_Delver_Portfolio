@@ -111,7 +111,6 @@ void CDungeonSpider::Render_Object()
 
 void CDungeonSpider::OnCollisionEnter(CCollider* _pOther)
 {
-	if (SceneManager()->Get_GameStop()) { return; }
 	// 충돌 밀어내기 후 이벤트 : 구현하시면 됩니다.
 	if (!(_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::ITEM))
 		__super::OnCollisionEnter(_pOther);
@@ -132,15 +131,12 @@ void CDungeonSpider::OnCollisionEnter(CCollider* _pOther)
 
 void CDungeonSpider::OnCollisionStay(CCollider* _pOther)
 {
-	if (SceneManager()->Get_GameStop()) { return; }
-
 	__super::OnCollisionStay(_pOther);
 	// 충돌 밀어내기 후 이벤트 : 구현하시면 됩니다.
 }
 
 void CDungeonSpider::OnCollisionExit(CCollider* _pOther)
 {
-	if (SceneManager()->Get_GameStop()) { return; }
 }
 
 HRESULT CDungeonSpider::Add_Component()

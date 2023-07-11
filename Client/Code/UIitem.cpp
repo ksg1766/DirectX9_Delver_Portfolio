@@ -19,8 +19,8 @@ HRESULT CUIitem::Ready_Object()
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pTransform->m_vLocalScale.x = 32.f;
-	m_pTransform->m_vLocalScale.y = 32.f;
+	m_pTransform->m_vLocalScale.x = 23.f;
+	m_pTransform->m_vLocalScale.y = 23.f;
 
 	return S_OK;
 }
@@ -41,6 +41,8 @@ void CUIitem::LateUpdate_Object(void)
 		return;
 
 	CTempUI::LateUpdate_Object();
+
+	Update_NumverUI();
 }
 
 void CUIitem::Render_Object()
@@ -50,8 +52,39 @@ void CUIitem::Render_Object()
 
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorld);
 
-	m_pTextureCom->Render_Texture(0);
+	m_pTextureCom->Render_Texture(m_fCurrentImage);
 	m_pBufferCom->Render_Buffer();
+
+	// 숫자 개수 출력
+	if (m_ItemID.iCount > 1)
+	{
+		_matrix      matWorld;
+
+		if (m_iCurrentOneNum != 0)
+		{
+			D3DXMatrixIdentity(&matWorld);
+			matWorld._11 = 4.2f;
+			matWorld._22 = 5.1f;
+			matWorld._41 = m_matWorld._41 + 8.f;
+			matWorld._42 = m_matWorld._42 + 15.f;
+
+			m_pGraphicDev->SetTransform(D3DTS_WORLD, &matWorld);
+
+			m_pNumberTextureCom->Render_Texture(m_iCurrentOneNum);
+			m_pBufferCom->Render_Buffer();
+		}
+
+		D3DXMatrixIdentity(&matWorld);
+		matWorld._11 = 4.2f;
+		matWorld._22 = 5.1f;
+		matWorld._41 = m_matWorld._41 + 17.f;
+		matWorld._42 = m_matWorld._42 + 15.f;
+
+		m_pGraphicDev->SetTransform(D3DTS_WORLD, &matWorld);
+
+		m_pNumberTextureCom->Render_Texture(m_iCurrentTwoNum);
+		m_pBufferCom->Render_Buffer();
+	}
 }
 
 HRESULT CUIitem::Add_Component(void)
@@ -70,6 +103,10 @@ HRESULT CUIitem::Add_Component(void)
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
 
+	pComponent = m_pNumberTextureCom = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_NumberUI"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE1, pComponent);
+
 	for (int i = 0; i < ID_END; ++i)
 		for (auto& iter : m_mapComponent[i])
 			iter.second->Init_Property(this);
@@ -79,6 +116,80 @@ HRESULT CUIitem::Add_Component(void)
 
 void CUIitem::Key_Input(void)
 {
+}
+
+void CUIitem::Update_NumverUI()
+{
+	_int iCurrentOneNum = m_ItemID.iCount / 10;
+	_int iCurrentTwoNum = m_ItemID.iCount % 10;
+
+	switch (iCurrentOneNum)
+	{
+	case 0:
+		m_iCurrentOneNum = 0;
+		break;
+	case 1:
+		m_iCurrentOneNum = 1;
+		break;
+	case 2:
+		m_iCurrentOneNum = 2;
+		break;
+	case 3:
+		m_iCurrentOneNum = 3;
+		break;
+	case 4:
+		m_iCurrentOneNum = 4;
+		break;
+	case 5:
+		m_iCurrentOneNum = 5;
+		break;
+	case 6:
+		m_iCurrentOneNum = 6;
+		break;
+	case 7:
+		m_iCurrentOneNum = 7;
+		break;
+	case 8:
+		m_iCurrentOneNum = 8;
+		break;
+	case 9:
+		m_iCurrentOneNum = 9;
+		break;
+	}
+
+	switch (iCurrentTwoNum)
+	{
+	case 0:
+		m_iCurrentTwoNum = 0;
+		break;
+	case 1:
+		m_iCurrentTwoNum = 1;
+		break;
+	case 2:
+		m_iCurrentTwoNum = 2;
+		break;
+	case 3:
+		m_iCurrentTwoNum = 3;
+		break;
+	case 4:
+		m_iCurrentTwoNum = 4;
+		break;
+	case 5:
+		m_iCurrentTwoNum = 5;
+		break;
+	case 6:
+		m_iCurrentTwoNum = 6;
+		break;
+	case 7:
+		m_iCurrentTwoNum = 7;
+		break;
+	case 8:
+		m_iCurrentTwoNum = 8;
+		break;
+	case 9:
+		m_iCurrentTwoNum = 9;
+		break;
+	}
 }
 
 CUIitem* CUIitem::Create(LPDIRECT3DDEVICE9 pGraphicDev)

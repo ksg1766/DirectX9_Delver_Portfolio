@@ -21,6 +21,8 @@ CCollisionManager::~CCollisionManager()
 
 void CCollisionManager::LateUpdate_Collision()
 {
+	if (SceneManager()->Get_GameStop()) { return; }
+
 	for (UINT iRow = 0; iRow < (UINT)OBJECTTAG::OBJECT_END; ++iRow)
 	{
 		for (UINT iCol = iRow; iCol < (UINT)OBJECTTAG::OBJECT_END; ++iCol)

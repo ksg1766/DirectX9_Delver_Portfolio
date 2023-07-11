@@ -44,6 +44,9 @@
 
 #include "GameObject.h"
 
+// Inventory
+#include "Inventory.h"
+
 
 BEGIN(Engine)
 

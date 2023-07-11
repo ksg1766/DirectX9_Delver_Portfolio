@@ -31,7 +31,7 @@ Engine::_int CBlackIn::Update_Object(const _float& fTimeDelta)
 {
 	//_int iExit = CTempUI::Update_Object(fTimeDelta);
 
-	m_fFrame -= 10.f * fTimeDelta * 0.0000029f;
+	m_fFrame -= 20.f * fTimeDelta * 0.0000029f;
 
 	if (0.f >= m_fFrame)
 	{

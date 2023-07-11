@@ -40,7 +40,7 @@ Engine::_int CLogo::Update_Scene(const _float& fTimeDelta)
 	UIManager()->Update_UI(fTimeDelta);
 
 
-	CGameObject* pBlackOut = Engine::UIManager()->Get_BasicObject(UI_UP, UIID_BASIC, 0);
+	 
 
 	if (!m_bClick && Engine::InputDev()->Get_AnyKeyDown())
 	{
@@ -48,28 +48,38 @@ Engine::_int CLogo::Update_Scene(const _float& fTimeDelta)
 
 		Engine::CGameObject* pGameObject = CBlackOutIn::Create(m_pGraphicDev);
 		NULL_CHECK_RETURN(pGameObject, E_FAIL);
-		dynamic_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_BASIC, 0);
+		dynamic_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_BASIC, 1);
 		Engine::UIManager()->AddBasicGameobject_UI(Engine::UILAYER::UI_UP, pGameObject);
 
 		// 로고랑 프래스 폰트 삭제
 		Engine::UIManager()->Delete_BasicObject(Engine::UILAYER::UI_MIDDLE);
+	}
 
-		// 버튼 3개 + 글씨 생성
-		pGameObject = CStartButton::Create(m_pGraphicDev);
-		NULL_CHECK_RETURN(pGameObject, E_FAIL);
-		Engine::UIManager()->AddBasicGameobject_UI(Engine::UILAYER::UI_MIDDLE, pGameObject);
+	if (m_bClick)
+	{
+		CGameObject* pBlackOut = Engine::UIManager()->Get_BasicObject(UI_UP, UIID_BASIC, 1);
 
-		pGameObject = CEditButton::Create(m_pGraphicDev);
-		NULL_CHECK_RETURN(pGameObject, E_FAIL);
-		Engine::UIManager()->AddBasicGameobject_UI(Engine::UILAYER::UI_MIDDLE, pGameObject);
+		if (pBlackOut != nullptr && pBlackOut->IsDead() && !m_bFadeEnd)
+		{
+			m_bFadeEnd = true;
 
-		pGameObject = CExitButton::Create(m_pGraphicDev);
-		NULL_CHECK_RETURN(pGameObject, E_FAIL);
-		Engine::UIManager()->AddBasicGameobject_UI(Engine::UILAYER::UI_MIDDLE, pGameObject);
+			// 버튼 3개 + 글씨 생성
+			Engine::CGameObject* pGameObject = CStartButton::Create(m_pGraphicDev);
+			NULL_CHECK_RETURN(pGameObject, E_FAIL);
+			Engine::UIManager()->AddBasicGameobject_UI(Engine::UILAYER::UI_MIDDLE, pGameObject);
 
-		pGameObject = CSelectFont::Create(m_pGraphicDev);
-		NULL_CHECK_RETURN(pGameObject, E_FAIL);
-		Engine::UIManager()->AddBasicGameobject_UI(Engine::UILAYER::UI_MIDDLE, pGameObject);
+			pGameObject = CEditButton::Create(m_pGraphicDev);
+			NULL_CHECK_RETURN(pGameObject, E_FAIL);
+			Engine::UIManager()->AddBasicGameobject_UI(Engine::UILAYER::UI_MIDDLE, pGameObject);
+
+			pGameObject = CExitButton::Create(m_pGraphicDev);
+			NULL_CHECK_RETURN(pGameObject, E_FAIL);
+			Engine::UIManager()->AddBasicGameobject_UI(Engine::UILAYER::UI_MIDDLE, pGameObject);
+
+			pGameObject = CSelectFont::Create(m_pGraphicDev);
+			NULL_CHECK_RETURN(pGameObject, E_FAIL);
+			Engine::UIManager()->AddBasicGameobject_UI(Engine::UILAYER::UI_MIDDLE, pGameObject);
+		}
 	}
 
 	return iExit;
@@ -115,8 +125,8 @@ HRESULT CLogo::Ready_Prototype()
 	FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_RcTex", CRcTex::Create(m_pGraphicDev)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Transform_Logo", CTransform::Create(m_pGraphicDev)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Logo", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/Startscreen/Startscreen%d.png",11)), E_FAIL);
-	FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_FadeIn", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/BlackIn/black%d.png", 10)), E_FAIL);
-    FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_FadeOut", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/BlackOutIn/black%d.png", 19)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_FadeIn", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/BlackIn/black%d.png", 20)), E_FAIL);
+    FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_FadeOut", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/BlackOutIn/black%d.png", 38)), E_FAIL);
 	return S_OK;
 }
 

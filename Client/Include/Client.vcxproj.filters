@@ -261,7 +261,7 @@
     </Filter>
     <Filter Include="02. GameObject\01. Stage\999.Boss\01. AttackEff\04. Meteor_Cube">
       <UniqueIdentifier>{9cc17226-7f03-4ebe-96ab-073be3de132d}</UniqueIdentifier>
-	</Filter>
+    </Filter>
     <Filter Include="02. GameObject\04. Public\03. BlackInOut">
       <UniqueIdentifier>{f66ece78-1f1e-4188-8138-327cfbd3ac37}</UniqueIdentifier>
     </Filter>
@@ -282,7 +282,7 @@
     </Filter>
     <Filter Include="02. GameObject\04. Public\03. BlackInOut\01. BlackOutIn">
       <UniqueIdentifier>{8aecc903-0a89-40f2-b46c-6be5b793da0c}</UniqueIdentifier>
-	</Filter>
+    </Filter>
     <Filter Include="02. GameObject\01. Stage\01. Player\State\Attack">
       <UniqueIdentifier>{df9f116d-ae01-44ed-bf22-f15a5f1145ee}</UniqueIdentifier>
     </Filter>
@@ -300,6 +300,9 @@
     <Filter Include="99. Etc\헤더 파일">
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="02. GameObject\04. Public\03. BlackInOut\02. BlackOut">
+      <UniqueIdentifier>{07047b40-0c13-465a-adfd-0fbbb45d196f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -477,9 +480,6 @@
     <ClInclude Include="..\Header\Boss_Attack.h">
       <Filter>02. GameObject\01. Stage\999.Boss\02. State\03. Attack</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\FirePattern.h">
-      <Filter>02. GameObject\01. Stage\999.Boss\02. State\03. Attack\01. FireShotgun</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\GameLogo.h">
       <Filter>02. GameObject\00. Logo\01. GameLogo</Filter>
     </ClInclude>
@@ -570,12 +570,15 @@
     </ClInclude>
     <ClInclude Include="..\Header\UIQuitButton.h">
       <Filter>02. GameObject\03. UI\13. UIQuitButton</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="..\Header\Player_Attack.h">
       <Filter>02. GameObject\01. Stage\01. Player\State\Attack</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Monster_Hit.h">
       <Filter>02. GameObject\01. Stage\05. Monster\00. State\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\FirePattern.h">
+      <Filter>99. Etc\헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -744,9 +747,6 @@
     <ClCompile Include="..\Code\Boss_Attack.cpp">
       <Filter>02. GameObject\01. Stage\999.Boss\02. State\03. Attack</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\FirePattern.cpp">
-      <Filter>02. GameObject\01. Stage\999.Boss\02. State\03. Attack\01. FireShotgun</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\GameLogo.cpp">
       <Filter>02. GameObject\00. Logo\01. GameLogo</Filter>
     </ClCompile>
@@ -837,12 +837,15 @@
     </ClCompile>
     <ClCompile Include="..\Code\UIEscBackground.cpp">
       <Filter>02. GameObject\03. UI\10. UIEscBackground</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="..\Code\Player_Attack.cpp">
       <Filter>02. GameObject\01. Stage\01. Player\State\Attack</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Monster_Hit.cpp">
       <Filter>02. GameObject\01. Stage\05. Monster\00. State\Public</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\FirePattern.cpp">
+      <Filter>99. Etc\소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

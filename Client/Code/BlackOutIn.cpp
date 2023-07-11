@@ -24,7 +24,7 @@ HRESULT CBlackOutIn::Ready_Object(void)
 
 	WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);
 	
-	m_fFrame = 9.f;
+	m_fFrame = 37.f;
 
 	return S_OK;
 }
@@ -33,15 +33,15 @@ Engine::_int CBlackOutIn::Update_Object(const _float& fTimeDelta)
 {
 	//_int iExit = CTempUI::Update_Object(fTimeDelta);
 
-	m_fFrame -= 19.f * fTimeDelta * 0.0000029f;
+	m_fFrame -= 37.f * fTimeDelta * 2.f;
 
-	if (0.f >= m_fFrame)
-	{
-		m_fFrame = 0.f;
-		//m_IsDead = true;
-		Engine::UIManager()->Delete_BasicObject(Engine::UILAYER::UI_UP);
+	if (19.f >= m_fFrame) {
+		m_IsDead = true;
 	}
 
+	if (0.f >= m_fFrame) {
+		m_fFrame = 0.f;
+	}
 
 	return 0;
 }

@@ -37,6 +37,11 @@ HRESULT CTempItem::Ready_Object(void)
 	m_AttackInfo.fReturnSpeed = 0.08f;
 	m_AttackInfo.fMaxDistance = 0.8f;
 
+	// 타입 및 아이디 지정
+	m_ItemID.eItemType = ITEMTYPE_WEAPONITEM;
+	m_ItemID.eItemID   = WEAPON_SWORD;
+	m_ItemID.iCount    = 1;
+
 	return S_OK;
 }
 

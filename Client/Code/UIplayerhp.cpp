@@ -37,6 +37,21 @@ HRESULT CUIplayerhp::Ready_Object()
 
 _int CUIplayerhp::Update_Object(const _float& fTimeDelta)
 {
+	m_fTime += 30.f * fTimeDelta;
+
+	if (30.f < m_fTime)
+	{
+		if (m_bRender) {
+			m_bRender = false;
+			iIndex = 4;
+		}
+		else {
+			m_bRender = true;
+			iIndex = 3;
+		}
+		m_fTime = 0.f;
+	}
+
 	if (Engine::InputDev()->Key_Down(DIK_9))
 		m_iCurrentHp -= 1;
 	else if (Engine::InputDev()->Key_Down(DIK_0))
@@ -56,6 +71,21 @@ void CUIplayerhp::LateUpdate_Object(void)
 
 void CUIplayerhp::Render_Object()
 {
+	// 위급 상태 붉은 표시 이미지
+	if (m_iCurrentHp <= m_iMaxHp / 3)
+	{
+		m_pTransform->m_vInfo[INFO_POS].x = WINCX / 2;
+		m_pTransform->m_vInfo[INFO_POS].y = WINCY / 2;
+		m_pTransform->m_vLocalScale.x = 650;
+		m_pTransform->m_vLocalScale.y = 370;
+
+		WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);
+		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorld);
+
+		m_pTextureCom->Render_Texture(iIndex);
+		m_pBufferCom->Render_Buffer();
+	}
+
 	// 내부 이미지
 	m_pTransform->m_vInfo[INFO_POS].x = m_fPosition; // 위치값도 뺀다.
 	m_pTransform->m_vInfo[INFO_POS].y = 35.f;
@@ -83,16 +113,19 @@ void CUIplayerhp::Render_Object()
 
 	// 숫자 이미지
 	// 일의 자리
-	m_pTransform->m_vInfo[INFO_POS].x = 120.f;
-	m_pTransform->m_vInfo[INFO_POS].y = 35.f;
-	m_pTransform->m_vLocalScale.x = 6.f;
-	m_pTransform->m_vLocalScale.y = 7.5f;
+	if (m_iCurrentOneNum != 0)
+	{
+		m_pTransform->m_vInfo[INFO_POS].x = 120.f;
+		m_pTransform->m_vInfo[INFO_POS].y = 35.f;
+		m_pTransform->m_vLocalScale.x = 6.f;
+		m_pTransform->m_vLocalScale.y = 7.5f;
 
-	WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorld);
+		WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);
+		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorld);
 
-	m_pNumberTextureCom->Render_Texture(m_iCurrentOneNum);
-	m_pBufferCom->Render_Buffer();
+		m_pNumberTextureCom->Render_Texture(m_iCurrentOneNum);
+		m_pBufferCom->Render_Buffer();
+	}
 
 	// 십의 자리
 	m_pTransform->m_vInfo[INFO_POS].x = 135.f;
