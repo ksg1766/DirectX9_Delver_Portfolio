@@ -17,16 +17,69 @@ CMonster_Fly::~CMonster_Fly()
 HRESULT CMonster_Fly::Ready_State(CStateMachine* pOwner)
 {
 	m_pOwner = pOwner;
+	m_bAttackCoolDown = false;
+	m_bFirstCool = true;
+	m_fAttackDuration = 3.f;
+	m_fChase = 0.f;
+
 
 	return S_OK;
 }
 
 STATE CMonster_Fly::Update_State(const _float& fTimeDelta)
 {
-	
-	Fly(fTimeDelta);
+	if (m_pOwner->Get_PrevState() == STATE::ATTACK || m_pOwner->Get_PrevState() == STATE::HIT)
+		m_bAttackCoolDown = true;
 
-	return STATE::ROMIMG;
+
+	CTransform* pPlayerTransform = SceneManager()->
+		Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform;
+
+	_vec3 vPlayerPos = pPlayerTransform->m_vInfo[INFO_POS];
+
+	_float fDistance = D3DXVec3LengthSq(&(vPlayerPos - m_pOwner->Get_Transform()->m_vInfo[INFO_POS]));
+	_float fSight = pow(10, 2);
+
+
+	if (fDistance >= fSight)
+	{
+		Fly(fTimeDelta);
+
+		m_pOwner->Set_State(STATE::ROMIMG);
+		return STATE::ROMIMG;
+	}
+
+	if (m_bFirstCool)
+	{
+		m_bFirstCool = false;
+		m_pOwner->Get_Host()->Set_State(STATE::ATTACK);
+		return STATE::ATTACK;
+	}
+
+	if (m_bAttackCoolDown)
+	{
+		m_fChase += fTimeDelta;
+
+		if (m_fChase >= m_fAttackDuration)
+		{
+			m_bAttackCoolDown = false;
+			m_fChase = 0.f;
+			m_pOwner->Get_Host()->Set_State(STATE::ATTACK);
+			m_pOwner->Get_Host()->Set_AttackTick(false);
+			return STATE::ATTACK;
+		}
+		else
+		{
+			Fly(fTimeDelta);
+			m_pOwner->Set_State(STATE::ROMIMG);
+
+			return STATE::ROMIMG;
+		}
+	
+	}
+
+
+	// return STATE::ROMIMG;
 }
 
 void CMonster_Fly::LateUpdate_State()
@@ -41,7 +94,6 @@ void CMonster_Fly::Render_State()
 void CMonster_Fly::Fly(const _float& fTimeDelta)
 {
 	//srand((unsigned)time(NULL));
-
 	const _float fMinDistance = 2.f;
 	const _float fMaxDistance = 8.f;
 	const _float fAmplitude = 8.f;
@@ -59,7 +111,7 @@ void CMonster_Fly::Fly(const _float& fTimeDelta)
 	CTransform* pPlayerTransform = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform;
 	_vec3 vPlayerPos = pPlayerTransform->m_vInfo[INFO_POS];
 
-	_vec3 vTargetPos = vPlayerPos + vDir * 40.f;
+	_vec3 vTargetPos = m_pOwner->Get_Transform()->m_vInfo[INFO_POS] + vDir * 30.f;
 
 	_vec3 vDir2 = vTargetPos - m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
 	D3DXVec3Normalize(&vDir2, &vDir2);

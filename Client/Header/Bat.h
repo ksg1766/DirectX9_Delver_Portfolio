@@ -39,7 +39,6 @@ public:
 private:
 	CRcTex*			m_pBuffer = nullptr;
 	CTexture*		m_pTexture[(_uint)STATE::STATE_END] = {};
-	CStateMachine*	m_pStateMachine = nullptr;
 	CTerrain*		m_pTerrain = nullptr;
 	CAnimator*		m_pAnimator = nullptr;
 

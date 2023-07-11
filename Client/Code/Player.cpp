@@ -34,7 +34,7 @@ HRESULT CPlayer::Ready_Object(void)
 	m_eObjectTag = OBJECTTAG::PLAYER;
 	m_bItemEquip = false;
 	m_bIsAttack = false;
-	m_bAttackTick = false;
+	m_bAttackTick = true;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	Get_Collider()->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
@@ -298,98 +298,107 @@ void CPlayer::OnCollisionEnter(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 
-	_vec3	vOtherPos = _pOther->GetCenterPos();
-	_float* fOtherAxis = _pOther->GetAxisLen();
-
-	_vec3	vThisPos = m_pCollider->GetCenterPos();
-	_float* fThisAxis = m_pCollider->GetAxisLen();
-
-	// OBJECTTAG에 따른 예외 처리 가능성
-	_float fWidth = fabs(vOtherPos.x - vThisPos.x);
-	_float fHeight = fabs(vOtherPos.y - vThisPos.y);
-	_float fDepth = fabs(vOtherPos.z - vThisPos.z);
-
-	_float fRadiusX = (fOtherAxis[0] + fThisAxis[0]) - fWidth;
-	_float fRadiusY = (fOtherAxis[1] + fThisAxis[1]) - fHeight;
-	_float fRadiusZ = (fOtherAxis[2] + fThisAxis[2]) - fDepth;
-
-	_float fMinAxis = min(min(fRadiusX, fRadiusY), fRadiusZ);	// 가장 작은 값이 가장 얕게 충돌한 축. 이 축을 밀어내야 함.
-
-	if (fRadiusX == fMinAxis)
+	if (_pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::MONSTER)
 	{
-		if (vOtherPos.x < vThisPos.x)
-			m_pTransform->Translate(_vec3(fRadiusX, 0.f, 0.f));
-		else
-			m_pTransform->Translate(_vec3(-fRadiusX, 0.f, 0.f));
+		_vec3	vOtherPos = _pOther->GetCenterPos();
+		_float* fOtherAxis = _pOther->GetAxisLen();
+
+		_vec3	vThisPos = m_pCollider->GetCenterPos();
+		_float* fThisAxis = m_pCollider->GetAxisLen();
+
+		// OBJECTTAG에 따른 예외 처리 가능성
+		_float fWidth = fabs(vOtherPos.x - vThisPos.x);
+		_float fHeight = fabs(vOtherPos.y - vThisPos.y);
+		_float fDepth = fabs(vOtherPos.z - vThisPos.z);
+
+		_float fRadiusX = (fOtherAxis[0] + fThisAxis[0]) - fWidth;
+		_float fRadiusY = (fOtherAxis[1] + fThisAxis[1]) - fHeight;
+		_float fRadiusZ = (fOtherAxis[2] + fThisAxis[2]) - fDepth;
+
+		_float fMinAxis = min(min(fRadiusX, fRadiusY), fRadiusZ);	// 가장 작은 값이 가장 얕게 충돌한 축. 이 축을 밀어내야 함.
+
+		if (fRadiusX == fMinAxis)
+		{
+			if (vOtherPos.x < vThisPos.x)
+				m_pTransform->Translate(_vec3(fRadiusX, 0.f, 0.f));
+			else
+				m_pTransform->Translate(_vec3(-fRadiusX, 0.f, 0.f));
+		}
+		else if (fRadiusZ == fMinAxis)
+		{
+			if (vOtherPos.z < vThisPos.z)
+				m_pTransform->Translate(_vec3(0.f, 0.f, fRadiusZ));
+			else
+				m_pTransform->Translate(_vec3(0.f, 0.f, -fRadiusZ));
+		}
+		else //(fRadiusY == fMinAxis)
+		{
+			if (vOtherPos.y < vThisPos.y)
+				m_pTransform->Translate(_vec3(0.f, fRadiusY, 0.f));
+			else
+				m_pTransform->Translate(_vec3(0.f, -fRadiusY, 0.f));
+		}
 	}
-	else if (fRadiusZ == fMinAxis)
-	{
-		if (vOtherPos.z < vThisPos.z)
-			m_pTransform->Translate(_vec3(0.f, 0.f, fRadiusZ));
-		else
-			m_pTransform->Translate(_vec3(0.f, 0.f, -fRadiusZ));
-	}
-	else //(fRadiusY == fMinAxis)
-	{
-		if (vOtherPos.y < vThisPos.y)
-			m_pTransform->Translate(_vec3(0.f, fRadiusY, 0.f));
-		else
-			m_pTransform->Translate(_vec3(0.f, -fRadiusY, 0.f));
-	}
+
 }
 
 void CPlayer::OnCollisionStay(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 
-	_vec3	vOtherPos = _pOther->GetCenterPos();
-	_float* fOtherAxis = _pOther->GetAxisLen();
-
-	_vec3	vThisPos = m_pCollider->GetCenterPos();
-	_float* fThisAxis = m_pCollider->GetAxisLen();
-
-	// OBJECTTAG에 따른 예외 처리 가능성
-	_float fWidth = fabs(vOtherPos.x - vThisPos.x);
-	_float fHeight = fabs(vOtherPos.y - vThisPos.y);
-	_float fDepth = fabs(vOtherPos.z - vThisPos.z);
-
-	_float fRadiusX = (fOtherAxis[0] + fThisAxis[0]) - fWidth;
-	_float fRadiusY = (fOtherAxis[1] + fThisAxis[1]) - fHeight;
-	_float fRadiusZ = (fOtherAxis[2] + fThisAxis[2]) - fDepth;
-
-	_float fMinAxis = min(min(fRadiusX, fRadiusY), fRadiusZ);	// 가장 작은 값이 가장 얕게 충돌한 축. 이 축을 밀어내야 함.
-
-	if (fRadiusX == fMinAxis)
+	if (_pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::MONSTER)
 	{
-		if (vOtherPos.x < vThisPos.x)
-			m_pTransform->Translate(_vec3(fRadiusX, 0.f, 0.f));
-		else
-			m_pTransform->Translate(_vec3(-fRadiusX, 0.f, 0.f));
+		_vec3	vOtherPos = _pOther->GetCenterPos();
+		_float* fOtherAxis = _pOther->GetAxisLen();
+
+		_vec3	vThisPos = m_pCollider->GetCenterPos();
+		_float* fThisAxis = m_pCollider->GetAxisLen();
+
+		// OBJECTTAG에 따른 예외 처리 가능성
+		_float fWidth = fabs(vOtherPos.x - vThisPos.x);
+		_float fHeight = fabs(vOtherPos.y - vThisPos.y);
+		_float fDepth = fabs(vOtherPos.z - vThisPos.z);
+
+		_float fRadiusX = (fOtherAxis[0] + fThisAxis[0]) - fWidth;
+		_float fRadiusY = (fOtherAxis[1] + fThisAxis[1]) - fHeight;
+		_float fRadiusZ = (fOtherAxis[2] + fThisAxis[2]) - fDepth;
+
+		_float fMinAxis = min(min(fRadiusX, fRadiusY), fRadiusZ);	// 가장 작은 값이 가장 얕게 충돌한 축. 이 축을 밀어내야 함.
+
+		if (fRadiusX == fMinAxis)
+		{
+			if (vOtherPos.x < vThisPos.x)
+				m_pTransform->Translate(_vec3(fRadiusX, 0.f, 0.f));
+			else
+				m_pTransform->Translate(_vec3(-fRadiusX, 0.f, 0.f));
+		}
+		else if (fRadiusZ == fMinAxis)
+		{
+			if (vOtherPos.z < vThisPos.z)
+				m_pTransform->Translate(_vec3(0.f, 0.f, fRadiusZ));
+			else
+				m_pTransform->Translate(_vec3(0.f, 0.f, -fRadiusZ));
+		}
+		else //(fRadiusY == fMinAxis)
+		{
+			if (vOtherPos.y < vThisPos.y)
+				m_pTransform->Translate(_vec3(0.f, fRadiusY, 0.f));
+			else
+				m_pTransform->Translate(_vec3(0.f, -fRadiusY, 0.f));
+		}
 	}
-	else if (fRadiusZ == fMinAxis)
-	{
-		if (vOtherPos.z < vThisPos.z)
-			m_pTransform->Translate(_vec3(0.f, 0.f, fRadiusZ));
-		else
-			m_pTransform->Translate(_vec3(0.f, 0.f, -fRadiusZ));
-	}
-	else //(fRadiusY == fMinAxis)
-	{
-		if (vOtherPos.y < vThisPos.y)
-			m_pTransform->Translate(_vec3(0.f, fRadiusY, 0.f));
-		else
-			m_pTransform->Translate(_vec3(0.f, -fRadiusY, 0.f));
-	}
+	
 }
 
 void CPlayer::OnCollisionExit(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
+
 }
 
 void CPlayer::Free()
 {
-
+	__super::Free();
 }
 
 CPlayer* CPlayer::Create(LPDIRECT3DDEVICE9 pGraphicDev)

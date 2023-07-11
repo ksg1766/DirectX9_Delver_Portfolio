@@ -74,6 +74,7 @@ STATE CPlayerState_Walk::Key_Input(const _float& fTimeDelta)
 
 	if (Engine::InputDev()->GetInstance()->Mouse_Pressing(DIM_LB))
 	{
+		m_pOwner->Get_Host()->Set_AttackTick(true);
 		_eState = STATE::ATTACK;
 	}
 

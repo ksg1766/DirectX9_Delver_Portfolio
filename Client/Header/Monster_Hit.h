@@ -22,10 +22,15 @@ public:
 public:
 	virtual STATE	Key_Input(const _float& fTimeDelta) { return STATE(); }
 
+private:
+	_bool	m_bCanHitState; 
+	_float  m_fHitCoolDown;
+
+	_int	m_iHitCount;
+
 public:
 	static CMonster_Hit* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
 
 private:
 	virtual void Free();
 };
-

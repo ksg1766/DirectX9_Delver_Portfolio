@@ -23,8 +23,13 @@ public:
 	virtual void	Render_Animation();
 
 	virtual _float	Get_Frame() { return m_fCurFrame; }
+	void	Set_Frame(_float _fFrame) { m_fCurFrame = _fFrame; }
 
 public:
+	void	Set_Loop(_bool _loop)		{ m_bIsLoop = _loop; }
+	void	Set_End(_bool _end)			{ m_bIsEnd = _end; }
+	_bool	Get_Loop()					{ return m_bIsLoop; }
+	_bool	Get_End()					{ return m_bIsEnd; }
 
 protected:
 	// 애니메이션 관련 함수

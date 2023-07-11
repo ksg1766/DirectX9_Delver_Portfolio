@@ -37,12 +37,11 @@ private:
 
 public:
 	const _vec3*			Get_Offset()			 { return &m_vOffset; }
-	CPlayerStat*	Get_Stat()				 { return m_pStat; }
-	CGameObject*	Get_Item(ITEMTAG _eItem) { return m_pItem[(_uint)_eItem]; }
-	CGameObject*	Get_CurItem()			 { return m_pCurItem; }
-	_bool			Get_ItemEquip()			 { return m_bItemEquip; }
-	_bool			Get_Attack()			 { return m_bIsAttack; }
-	_bool			Get_AttackTick()		 { return m_bAttackTick; }
+	CPlayerStat*	Get_Stat()						 { return m_pStat; }
+	CGameObject*	Get_Item(ITEMTAG _eItem)		 { return m_pItem[(_uint)_eItem]; }
+	CGameObject*	Get_CurItem()					 { return m_pCurItem; }
+	_bool			Get_ItemEquip()					 { return m_bItemEquip; }
+	_bool			Get_Attack()					 { return m_bIsAttack; }
 
 	virtual void	OnCollisionEnter(CCollider* _pOther);
 	virtual void	OnCollisionStay(CCollider* _pOther);
@@ -53,14 +52,12 @@ public:
 	void			Set_ItemEquip(_bool _ItemOn)				 { m_bItemEquip = _ItemOn; }
 	void			Set_CurItem(CGameObject* _pCurItem)			 { m_pCurItem = _pCurItem; }
 	void			Set_Attack(_bool _bAttack)					 { m_bIsAttack = _bAttack; }
-	void			Set_AttackTick(_bool _bTick)				 { m_bAttackTick = _bTick; }
 
 public:
 	void			Add_Item(CGameObject* pItem, ITEMTAG _eItem) { m_pItem[(_uint)_eItem] = pItem; }
 
 private:
 	CPlayerBf*		m_pBuffer = nullptr;
-	CStateMachine*	m_pStateMachine = nullptr;
 	CPlayerStat*	m_pStat = nullptr;
 	CAnimator*		m_pAnimator = nullptr;
 
@@ -70,7 +67,7 @@ private:
 	ITEMTAG			m_eItem = ITEMTAG::ITEM_END;
 	_bool			m_bItemEquip;
 	_bool			m_bIsAttack; // 공격형 아이템의 업데이트에 신호를 줄 불 변수
-	_bool			m_bAttackTick;
+
 
 	_float			m_fSpeed = 10.f;
 	

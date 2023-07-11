@@ -5,7 +5,6 @@
 BEGIN(Engine)
 
 class CRcTex;
-class CWarriorAI;
 class CTexture;
 class CAnimator;
 class CStateMachine;
@@ -36,18 +35,18 @@ public:
 	virtual void		OnCollisionStay(CCollider* _pOther);
 	virtual void		OnCollisionExit(CCollider* _pOther);
 
+public:
+	
+
 private:
 	HRESULT	Add_Component();
 
 private:
 	CRcTex*			m_pBuffer = nullptr;
-	CWarriorAI*		m_pAI = nullptr;
 	CTexture*		m_pTexture[(_uint)STATE::STATE_END] = {};
 	CTerrain*		m_pTerrain = nullptr;
 	CAnimator*		m_pAnimator = nullptr;
-	CStateMachine*	m_pState = nullptr;
 
-	_float			m_fFrame;
 
 public:
 	static CDungeonWarrior* Create(LPDIRECT3DDEVICE9 pGraphicDev);

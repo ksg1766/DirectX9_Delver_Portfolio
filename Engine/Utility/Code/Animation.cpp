@@ -56,10 +56,11 @@ HRESULT CAnimation::Ready_Animation(CTexture* pTexture,
 
 STATE CAnimation::Update_Animation(const _float& fTimeDelta)
 {
+	if (!m_bIsEnd)
 	m_fCurFrame += m_fFrameSpeed * fTimeDelta;
 	// 여기서 현재 프레임이 누적되고
 
-	if (m_fCurFrame >= m_pCurAnimation->Get_TextureSize()) // 벡터 사이즈보다 프레임 사이즈가 커야 조건문 안으로 들어옴.
+	if (m_fCurFrame >= m_pCurAnimation->Get_TextureSize() && !m_bIsEnd) // 벡터 사이즈보다 프레임 사이즈가 커야 조건문 안으로 들어옴.
 	{
 		if (m_bIsLoop)
 			m_fCurFrame = 0.f;
@@ -112,4 +113,6 @@ CAnimation* CAnimation::Create(LPDIRECT3DDEVICE9 pGraphicDev, CTexture* pTexture
 void CAnimation::Free()
 {
 	Safe_Release<LPDIRECT3DDEVICE9>(m_pGraphicDev);
+	Safe_Release<CTexture*>(m_pCurAnimation);
+	Safe_Release<CAnimator*>(m_pOwner);
 }

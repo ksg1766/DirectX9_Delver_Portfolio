@@ -30,7 +30,7 @@ public:
 
 
 private:
-	map<STATE, CAnimation*> m_mapAnimation;
+	multimap<STATE, CAnimation*> m_mapAnimation;
 	// 애니메이션을 맵에 STATE의 키값으로 저장한다.
 
 	_float	m_fFrame;

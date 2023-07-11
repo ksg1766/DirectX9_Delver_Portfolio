@@ -28,6 +28,14 @@ private:
 
 private:
 	_vec3	m_vSavePos;
+
+	_float	m_fAttackDuration;
+
+	_bool	m_bAttackCoolDown;
+	_bool	m_bFirstCool;
+	
+
+
 public:
 	static CMonster_Fly* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
 

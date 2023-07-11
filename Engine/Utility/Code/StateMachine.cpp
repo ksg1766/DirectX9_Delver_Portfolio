@@ -22,6 +22,7 @@ CStateMachine::CStateMachine(const CStateMachine& rhs)
 
 CStateMachine::~CStateMachine()
 {
+	
 }
 
 HRESULT CStateMachine::Ready_StateMachine()
@@ -46,6 +47,7 @@ void CStateMachine::Update_StateMachine(const _float& fTimeDelta)
 void CStateMachine::LateUpdate_StateMachine()
 {
 	m_pCurState->LateUpdate_State();
+
 	if (m_pAnimator != nullptr)
 	m_pAnimator->LateUpdate_Component();
 }
@@ -116,8 +118,14 @@ CComponent* CStateMachine::Clone()
 
 void CStateMachine::Free()
 {
+	__super::Free();
+
 	for_each(m_StateMap.begin(), m_StateMap.end(), CDeleteMap());
 	m_StateMap.clear();
 
-	__super::Free();
+	Safe_Release<CState*>(m_pCurState);
+	Safe_Release<CState*>(m_pPrevState);
+	Safe_Release<CAnimator*>(m_pAnimator);
+
+
 }

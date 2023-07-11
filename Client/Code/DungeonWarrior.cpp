@@ -1,15 +1,19 @@
 #include "..\Header\DungeonWarrior.h"
 #include "Export_Function.h"
 #include "Terrain.h"
+#include "Warrior_Attack.h"
 #include "Monster_Move.h"
+#include "Monster_Hit.h"
+#include "Monster_Dead.h"
+#include "Player.h"
 
 CDungeonWarrior::CDungeonWarrior(LPDIRECT3DDEVICE9 pGraphicDev)
-	: Engine::CMonster(pGraphicDev), m_fFrame(0.f)
+	: Engine::CMonster(pGraphicDev)
 {
 }
 
 CDungeonWarrior::CDungeonWarrior(const CDungeonWarrior& rhs)
-	: Engine::CMonster(rhs), m_fFrame(rhs.m_fFrame)
+	: Engine::CMonster(rhs)
 {
 
 }
@@ -29,17 +33,35 @@ HRESULT CDungeonWarrior::Ready_Object()
 
 	m_pTransform->Translate(_vec3(1.f, 1.f, 3.f));
 
-	CState* pState = CMonster_Move::Create(m_pGraphicDev, m_pState);
-	m_pState->Add_State(STATE::ROMIMG, pState);
+	CState* pState = CMonster_Move::Create(m_pGraphicDev, m_pStateMachine);
+	m_pStateMachine->Add_State(STATE::ROMIMG, pState);
+	pState = CWarror_Attack::Create(m_pGraphicDev, m_pStateMachine);
+	m_pStateMachine->Add_State(STATE::ATTACK, pState);
+	pState = CMonster_Hit::Create(m_pGraphicDev, m_pStateMachine);
+	m_pStateMachine->Add_State(STATE::HIT, pState);
+	pState = CMonster_Dead::Create(m_pGraphicDev, m_pStateMachine);
+	m_pStateMachine->Add_State(STATE::DEAD, pState);
+
 
 	CAnimation* pAnimation = CAnimation::Create(m_pGraphicDev,
 		m_pTexture[(_uint)STATE::ROMIMG], STATE::ROMIMG, 5.f, TRUE);
 	m_pAnimator->Add_Animation(STATE::ROMIMG, pAnimation);
+	pAnimation = CAnimation::Create(m_pGraphicDev,
+		m_pTexture[(_uint)STATE::ATTACK], STATE::ATTACK, 5.f, TRUE);
+	m_pAnimator->Add_Animation(STATE::ATTACK, pAnimation);
+	pAnimation = CAnimation::Create(m_pGraphicDev,
+		m_pTexture[(_uint)STATE::HIT], STATE::HIT, 5.f, TRUE);
+	m_pAnimator->Add_Animation(STATE::HIT, pAnimation);
+	pAnimation = CAnimation::Create(m_pGraphicDev,
+		m_pTexture[(_uint)STATE::DEAD], STATE::DEAD, 1.5f, TRUE);
+	m_pAnimator->Add_Animation(STATE::DEAD, pAnimation);
 
-	m_pState->Set_Animator(m_pAnimator);
-	m_pState->Set_State(STATE::ROMIMG);
+	m_pStateMachine->Set_Animator(m_pAnimator);
+	m_pStateMachine->Set_State(STATE::ROMIMG);
 
-	//CState* pState = CMonster_Move::Create(m_pGraphicDev)
+	m_pBasicStat->Get_Stat()->fAttack = 1.f;
+	m_pBasicStat->Get_Stat()->fHealth = 5.f;
+
 
 	return S_OK;
 }
@@ -52,11 +74,17 @@ _int CDungeonWarrior::Update_Object(const _float& fTimeDelta)
 
 	_int iExit = __super::Update_Object(fTimeDelta);
 
-	CTransform* pPlayerTransform = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform;
-	NULL_CHECK_RETURN(pPlayerTransform, -1);
+
+	if (m_pBasicStat->Get_Stat()->fHealth <= 0)
+	{
+		if (m_pAnimator->Get_Animation()->Get_Frame() >= 1)
+			m_pAnimator->Get_Animation()->Set_Loop(FALSE);
+
+		m_pStateMachine->Set_State(STATE::DEAD);
+	}
 
 
-	m_pState->Update_StateMachine(fTimeDelta);
+	m_pStateMachine->Update_StateMachine(fTimeDelta);
 	ForceHeight(m_pTransform->m_vInfo[INFO_POS]);
 
 	return iExit;
@@ -68,7 +96,7 @@ void CDungeonWarrior::LateUpdate_Object()
 
 	__super::LateUpdate_Object();
 
-	m_pState->LateUpdate_StateMachine();
+	m_pStateMachine->LateUpdate_StateMachine();
 }
 
 void CDungeonWarrior::Render_Object()
@@ -76,7 +104,7 @@ void CDungeonWarrior::Render_Object()
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
-	m_pState->Render_StateMachine();
+	m_pStateMachine->Render_StateMachine();
 
 	m_pBuffer->Render_Buffer();
 
@@ -137,14 +165,32 @@ void CDungeonWarrior::OnCollisionEnter(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 
-	__super::OnCollisionEnter(_pOther);
 	// 충돌 밀어내기 후 이벤트 : 구현하시면 됩니다.
+
+	if (!(_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::ITEM))
+		__super::OnCollisionEnter(_pOther);
+
+	if (_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::PLAYER
+		&& this->Get_StateMachine()->Get_State() == STATE::ATTACK)
+	{
+		CPlayerStat& PlayerState = *dynamic_cast<CPlayer*>(_pOther->GetHost())->Get_Stat();
+
+		if (!this->Get_AttackTick())
+		{
+			PlayerState.Take_Damage(this->Get_BasicStat()->Get_Stat()->fAttack);
+			this->Set_AttackTick(true);
+
+			cout << "워리어 공격" << endl;
+		}
+
+	}
 }
 
 void CDungeonWarrior::OnCollisionStay(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 
+	if(this->Get_StateMachine()->Get_State() != STATE::DEAD && _pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::ITEM)
 	__super::OnCollisionEnter(_pOther);
 	// 충돌 밀어내기 후 이벤트 : 구현하시면 됩니다.
 }
@@ -174,6 +220,15 @@ HRESULT CDungeonWarrior::Add_Component()
 	pComponent = m_pTexture[(_uint)STATE::ROMIMG] = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_Warrior"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
+	pComponent = m_pTexture[(_uint)STATE::ATTACK] = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_WarriorAttack"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
+	pComponent = m_pTexture[(_uint)STATE::HIT] = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_WarriorHit"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
+	pComponent = m_pTexture[(_uint)STATE::DEAD] = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_WarriorDead"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
 
 	pComponent = dynamic_cast<CBillBoard*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BillBoard"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
@@ -183,7 +238,11 @@ HRESULT CDungeonWarrior::Add_Component()
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::ANIMATOR, pComponent);
 
-	pComponent = m_pState = dynamic_cast<CStateMachine*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_State"));
+	pComponent = m_pStateMachine = dynamic_cast<CStateMachine*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_State"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::STATEMACHINE, pComponent);
+
+	pComponent = m_pBasicStat = dynamic_cast<CBasicStat*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BasicStat"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BASICSTAT, pComponent);
 
@@ -211,5 +270,8 @@ CDungeonWarrior* CDungeonWarrior::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 
 void CDungeonWarrior::Free()
 {
+	for (_uint i = 0; i < 5; ++i)
+		Safe_Release<CTexture*>(m_pTexture[i]);
+
 	__super::Free();
 }
