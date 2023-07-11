@@ -25,9 +25,8 @@ public:
 	{
 		for (_uint i = 0; i < INFO_END; ++i)
 		{
-			memcpy(m_vInfo[i], _Info[i], sizeof(_vec3));
+			CopyMemory(m_vInfo[i], _Info[i], sizeof(_vec3));
 		}
-
 	}
 
 	void	Scale(_vec3& _vEulers);
@@ -60,9 +59,6 @@ public:
 private:
 	void			Set_Child(CTransform* _pChild) { m_pChild = _pChild; }
 	CTransform*		m_pChild;
-
-	//_matrix		m_matWorld;
-
 
 public:
 	static CTransform*		Create(LPDIRECT3DDEVICE9 pGraphicDev);

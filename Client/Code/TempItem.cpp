@@ -7,12 +7,12 @@
 static _int iCount = 0;
 
 CTempItem::CTempItem(LPDIRECT3DDEVICE9 pGraphicDev)
-	: Engine::CItem(pGraphicDev), m_fHitCool(0.f)
+	: Engine::CItem(pGraphicDev)
 {
 }
 
 CTempItem::CTempItem(const CTempItem& rhs)
-	: Engine::CItem(rhs), m_fHitCool(rhs.m_fHitCool)
+	: Engine::CItem(rhs)
 {
 }
 
@@ -52,7 +52,7 @@ _int CTempItem::Update_Object(const _float& fTimeDelta)
 	CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pTransform->m_pParent->Get_Host());
 
 #pragma region ksg
-	if (pPlayer.Get_Attack())
+	if (pPlayer->Get_Attack())
 	{
 		if (2.3f < D3DXVec3Length(&(m_pTransform->m_pParent->m_vInfo[INFO_POS] - m_pTransform->m_vInfo[INFO_POS])))
 			m_fSignTime = -1.f;

@@ -42,8 +42,6 @@ private:
 	// 공격 모션
 	MYATTACKINFO m_AttackInfo;
 
-	_float		m_fSignTime;
-
 public:
 	static CTempItem* Create(LPDIRECT3DDEVICE9 pGraphicDev);
 
