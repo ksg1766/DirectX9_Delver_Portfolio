@@ -33,18 +33,16 @@ public:
 	virtual void	OnCollisionExit(CCollider* _pOther);
 
 private:
-	_vec3			Get_RotationDir(const CPlayer& pPlayer, const _float& fTimeDelta);
-	void			Get_ReturnTrans(CPlayer& pPlayer, const _float& fTimeDelta);
 
 private:
 	CRcTex*		m_pBuffer = nullptr;
 	CTexture*	m_pTexture = nullptr;
+	_float		m_fSignTime;
 
 	// 공격 모션
 	MYATTACKINFO m_AttackInfo;
-	// ksg
+
 	_float		m_fSignTime;
-	
 
 public:
 	static CTempItem* Create(LPDIRECT3DDEVICE9 pGraphicDev);

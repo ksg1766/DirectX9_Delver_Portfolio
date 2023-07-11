@@ -103,5 +103,7 @@ void CAnimator::Free()
 	for_each(m_mapAnimation.begin(), m_mapAnimation.end(), CDeleteMap());
 	m_mapAnimation.clear();
 	
+	Safe_Release<CAnimation*>(m_pCurAnimation);
+
 	CComponent::Free();
 }

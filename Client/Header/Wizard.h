@@ -13,13 +13,12 @@ END
 
 class CTerrain;
 
-class CDungeonWarrior : public CMonster
+class CWizard : public CMonster
 {
-
 private:
-	explicit CDungeonWarrior(LPDIRECT3DDEVICE9 pGraphicDev);
-	explicit CDungeonWarrior(const CDungeonWarrior& rhs);
-	virtual ~CDungeonWarrior();
+	explicit CWizard(LPDIRECT3DDEVICE9 pGraphicDev);
+	explicit CWizard(const CWizard& rhs);
+	virtual ~CWizard();
 
 public:
 	virtual HRESULT	Ready_Object() override;
@@ -37,21 +36,22 @@ public:
 
 public:
 	
-
 private:
 	HRESULT	Add_Component();
 
 private:
-	CRcTex*			m_pBuffer = nullptr;
-	CTexture*		m_pTexture[(_uint)STATE::STATE_END] = {};
-	CTerrain*		m_pTerrain = nullptr;
-	CAnimator*		m_pAnimator = nullptr;
+	CRcTex* m_pBuffer = nullptr;
+	CTexture* m_pTexture[(_uint)STATE::STATE_END] = {};
+	CTerrain* m_pTerrain = nullptr;
+	CAnimator* m_pAnimator = nullptr;
 
+	
 
 public:
-	static CDungeonWarrior* Create(LPDIRECT3DDEVICE9 pGraphicDev);
+	static CWizard* Create(LPDIRECT3DDEVICE9 pGraphicDev);
 
 private:
 	virtual void Free() override;
+
 };
 

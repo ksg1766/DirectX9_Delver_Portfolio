@@ -1,28 +1,26 @@
 #pragma once
 
-#include "Monster.h"
+#include "GameObject.h"
 
 BEGIN(Engine)
 
 class CRcTex;
 class CTexture;
 class CAnimator;
-class CStateMachine;
 
 END
 
 class CTerrain;
 
-class CDungeonWarrior : public CMonster
+class CMagic_Ball : public CGameObject
 {
-
 private:
-	explicit CDungeonWarrior(LPDIRECT3DDEVICE9 pGraphicDev);
-	explicit CDungeonWarrior(const CDungeonWarrior& rhs);
-	virtual ~CDungeonWarrior();
+	explicit CMagic_Ball(LPDIRECT3DDEVICE9 pGraphicDev);
+	explicit CMagic_Ball(const CMagic_Ball& rhs);
+	virtual ~CMagic_Ball();
 
 public:
-	virtual HRESULT	Ready_Object() override;
+	virtual HRESULT	Ready_Object(CTransform* pOwner);
 	virtual _int	Update_Object(const _float& fTimeDelta) override;
 	virtual void	LateUpdate_Object() override;
 	virtual void	Render_Object() override;
@@ -36,20 +34,25 @@ public:
 	virtual void		OnCollisionExit(CCollider* _pOther);
 
 public:
-	
 
 private:
 	HRESULT	Add_Component();
 
 private:
-	CRcTex*			m_pBuffer = nullptr;
-	CTexture*		m_pTexture[(_uint)STATE::STATE_END] = {};
-	CTerrain*		m_pTerrain = nullptr;
-	CAnimator*		m_pAnimator = nullptr;
+	CRcTex* m_pBuffer = nullptr;
+	CTexture* m_pTexture[(_uint)STATE::STATE_END] = {};
+	CTerrain* m_pTerrain = nullptr;
+	CAnimator* m_pAnimator = nullptr;
 
+	_float m_fFrame;
+	_float m_fSpeed;
+	_bool  m_bIsAttack;
+	_bool  m_bCheck;
+	_vec3  m_vPrevPos;
+	_vec3  m_vInit;
 
 public:
-	static CDungeonWarrior* Create(LPDIRECT3DDEVICE9 pGraphicDev);
+	static CMagic_Ball* Create(LPDIRECT3DDEVICE9 pGraphicDev, CTransform* pOwner);
 
 private:
 	virtual void Free() override;

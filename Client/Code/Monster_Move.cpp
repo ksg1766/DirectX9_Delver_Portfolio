@@ -28,7 +28,9 @@ HRESULT CMonster_Move::Ready_State(CStateMachine* pOwner)
 
 STATE CMonster_Move::Update_State(const _float& fTimeDelta)
 {
-	if (m_pOwner->Get_PrevState() == STATE::ATTACK)
+
+
+	if (m_pOwner->Get_PrevState() == STATE::ATTACK || m_pOwner->Get_PrevState() == STATE::HIT)
 		m_bJumCoolDown = true;
 
 	CComponent* pPlayerTransform =
@@ -50,7 +52,6 @@ STATE CMonster_Move::Update_State(const _float& fTimeDelta)
 		else
 			Move_NewPos(fTimeDelta);
 
-		m_pOwner->Get_Host()->Set_State(STATE::ROMIMG);
 		
 		return STATE::ROMIMG;
 	}
@@ -58,7 +59,6 @@ STATE CMonster_Move::Update_State(const _float& fTimeDelta)
 	if (m_bFirstCool)
 	{
 		m_bFirstCool = false;
-		m_pOwner->Get_Host()->Set_State(STATE::ATTACK);
 		return STATE::ATTACK;
 	}
 
@@ -71,7 +71,7 @@ STATE CMonster_Move::Update_State(const _float& fTimeDelta)
 		{
 			m_bJumCoolDown = false;
 			m_fJumpCoolTimer = 0.f;
-			m_pOwner->Get_Host()->Set_State(STATE::ATTACK);
+			m_pOwner->Get_Host()->Set_AttackTick(false);
 			return STATE::ATTACK;
 		}
 		else
@@ -80,6 +80,8 @@ STATE CMonster_Move::Update_State(const _float& fTimeDelta)
 		}
 	}
 	
+	m_pOwner->Set_State(STATE::ROMIMG);
+
 }
 
 void CMonster_Move::LateUpdate_State()
@@ -123,7 +125,7 @@ void CMonster_Move::Move_NewPos(const _float& fTimeDelta)
 
 	D3DXVec3Normalize(&vDir, &vDir);
 
-	_float fMoveSpeed = 5.f;
+	_float fMoveSpeed = 3.f;
 
 	_float fMoveDistanve = fMoveSpeed * fTimeDelta;
 
@@ -149,7 +151,7 @@ void CMonster_Move::Move_RandomPos(const _float& fTimeDelta)
 	_vec3 vPlayerPos = pPlayerTransform->m_vInfo[INFO_POS];
 	_vec3 vRandomDir = Get_RandomDir(fTimeDelta);
 	m_vSavePos = vRandomDir;
-	_vec3 vTargetPos = vPlayerPos + vRandomDir * 50.f;
+	_vec3 vTargetPos = vPlayerPos + vRandomDir * 80.f;
 
 	MoveTo_Pos(vTargetPos, fTimeDelta);
 }
@@ -177,7 +179,7 @@ void CMonster_Move::MoveTo_Pos(const _vec3& vTargetPos, const _float& fTimeDelta
 	_vec3 vDir = vTargetPos - vMonsterPos;
 	D3DXVec3Normalize(&vDir, &vDir);
 
-	_float fMoveSpeed = 5.f;
+	_float fMoveSpeed = 3.f;
 	_float fMoveDistance = fMoveSpeed * fTimeDelta;
 
 	vMonsterPos += vDir * fMoveDistance;

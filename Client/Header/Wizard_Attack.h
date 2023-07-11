@@ -1,17 +1,16 @@
 #pragma once
-
 #include "State.h"
 
 BEGIN(Engine)
 
 END
 
-class CMonster_Hit : public CState
+class CWizard_Attack : public CState
 {
 private:
-	explicit CMonster_Hit();
-	explicit CMonster_Hit(LPDIRECT3DDEVICE9 pGraphicDev);
-	virtual ~CMonster_Hit();
+	explicit CWizard_Attack();
+	explicit CWizard_Attack(LPDIRECT3DDEVICE9 pGraphicDev);
+	virtual ~CWizard_Attack();
 
 public:
 	virtual HRESULT	Ready_State(CStateMachine* pOwner);
@@ -23,14 +22,18 @@ public:
 	virtual STATE	Key_Input(const _float& fTimeDelta) { return STATE(); }
 
 private:
-	_bool	m_bCanHitState; 
-	_float  m_fHitCoolDown;
+	_vec3	m_vPrevPos;
+	_bool	m_bIsAttack;
+	_float	m_fSpeed;
 
-	_int	m_iHitCount;
+	_bool	m_bAttackTick;
+
+private:
 
 public:
-	static CMonster_Hit* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
+	static CWizard_Attack* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
 
 private:
 	virtual void Free();
 };
+

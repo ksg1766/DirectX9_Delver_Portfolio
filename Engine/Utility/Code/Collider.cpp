@@ -241,5 +241,6 @@ void CCollider::Free()
 	Safe_Release(m_pVB);
 	Safe_Release(m_pIB);
 
+	
 	CComponent::Free();
 }

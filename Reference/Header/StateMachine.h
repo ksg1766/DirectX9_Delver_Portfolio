@@ -39,7 +39,7 @@ public:
 
 protected:
 	// 상태 들을 담는 맵 컨테이너
-	map<STATE, CState*>		m_StateMap;
+	multimap<STATE, CState*>		m_StateMap;
 
 	// 어떤 상태인지 담는 정하는 변수
 	CState* m_pCurState = nullptr;

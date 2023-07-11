@@ -4,13 +4,15 @@
 #include "..\Header\TempItem.h"
 #include "Export_Function.h"
 
+static _int iCount = 0;
+
 CTempItem::CTempItem(LPDIRECT3DDEVICE9 pGraphicDev)
-	: Engine::CItem(pGraphicDev)
+	: Engine::CItem(pGraphicDev), m_fHitCool(0.f)
 {
 }
 
 CTempItem::CTempItem(const CTempItem& rhs)
-	: Engine::CItem(rhs)
+	: Engine::CItem(rhs), m_fHitCool(rhs.m_fHitCool)
 {
 }
 
@@ -29,7 +31,7 @@ HRESULT CTempItem::Ready_Object(void)
 		InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
 
 	m_pBasicStat->Get_Stat()->fAttack = 1.f;
-	m_pBasicStat->Get_Stat()->fHealth = 3.f;
+	m_pBasicStat->Get_Stat()->fHealth = 20.f;
 
 	CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pTransform->m_pParent->Get_Host());
 	m_pTransform->Translate(pPlayer->m_pTransform->m_vInfo[INFO_POS] + *dynamic_cast<CPlayer*>(pPlayer)->Get_Offset());
@@ -49,9 +51,9 @@ _int CTempItem::Update_Object(const _float& fTimeDelta)
 
 	CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pTransform->m_pParent->Get_Host());
 
-	if (pPlayer->Get_Attack())
-	{
 #pragma region ksg
+	if (pPlayer.Get_Attack())
+	{
 		if (2.3f < D3DXVec3Length(&(m_pTransform->m_pParent->m_vInfo[INFO_POS] - m_pTransform->m_vInfo[INFO_POS])))
 			m_fSignTime = -1.f;
 		else if (1.8848f > D3DXVec3Length(&(m_pTransform->m_pParent->m_vInfo[INFO_POS] - m_pTransform->m_vInfo[INFO_POS])))
@@ -141,13 +143,23 @@ void CTempItem::OnCollisionEnter(CCollider* _pOther)
 	if (_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::MONSTER)
 		// 무기 콜리전에 들어온 타입이 몬스터이면서, 플레이어의 스테이트가 공격이라면
 	{
-		if (!pPlayer.Get_AttackTick())
+
+		if (!pPlayer.Get_AttackTick() && 
+			_pOther->Get_Host()->Get_StateMachine()->Get_State() != STATE::DEAD)
 			// 공격 하지 않은 상태라면.
 		{
 			_pOther->Get_Host()->Get_BasicStat()->Take_Damage(1.f);
-			// 몬스터의 스텟에 데미지 1을 준다.
 			pPlayer.Set_AttackTick(true);
-			// 그리고 다시 틱을 true로 해서 때렸다는 것을 알려줌.
+
+			++iCount;
+
+			if (_pOther->Get_Host()->Get_StateMachine()->Get_PrevState() != STATE::HIT
+				&& iCount > 3)
+			{
+				iCount = 0;
+				_pOther->Get_Host()->Get_StateMachine()->Set_State(STATE::HIT);
+			}
+
 
 			cout << "데미지" << endl;
 		}

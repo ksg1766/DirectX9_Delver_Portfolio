@@ -3,15 +3,17 @@
 #include "Terrain.h"
 #include "Monster_Move.h"
 #include "Monster_Jump.h"
+#include "Monster_Hit.h"
+#include "Monster_Dead.h"
 #include "Player.h"
 
 CDungeonSpider::CDungeonSpider(LPDIRECT3DDEVICE9 pGrapicDev)
-	: Engine::CMonster(pGrapicDev), m_fFrame(0.f)
+	: Engine::CMonster(pGrapicDev), m_fFrame(0.f), m_bAttackTick(false)
 {
 }
 
 CDungeonSpider::CDungeonSpider(const CDungeonSpider& rhs)
-	: Engine::CMonster(rhs), m_fFrame(rhs.m_fFrame)
+	: Engine::CMonster(rhs), m_fFrame(rhs.m_fFrame), m_bAttackTick(false)
 {
 }
 
@@ -31,6 +33,10 @@ HRESULT CDungeonSpider::Ready_Object()
 	m_pStateMachine->Add_State(STATE::ROMIMG, pState);
 	pState = CMonster_Jump::Create(m_pGraphicDev, m_pStateMachine);
 	m_pStateMachine->Add_State(STATE::ATTACK, pState);
+	pState = CMonster_Hit::Create(m_pGraphicDev, m_pStateMachine);
+	m_pStateMachine->Add_State(STATE::HIT, pState);
+	pState = CMonster_Dead::Create(m_pGraphicDev, m_pStateMachine);
+	m_pStateMachine->Add_State(STATE::DEAD, pState);
 
 
 
@@ -42,11 +48,20 @@ HRESULT CDungeonSpider::Ready_Object()
 		m_pTexture[(_uint)STATE::ATTACK], STATE::ATTACK, 0.12f, TRUE);
 	m_pAnimator->Add_Animation(STATE::ATTACK, pAnimation);
 
+	pAnimation = CAnimation::Create(m_pGraphicDev,
+		m_pTexture[(_uint)STATE::HIT], STATE::HIT, 0.12f, TRUE);
+	m_pAnimator->Add_Animation(STATE::HIT, pAnimation);
+
+	pAnimation = CAnimation::Create(m_pGraphicDev,
+		m_pTexture[(_uint)STATE::DEAD], STATE::DEAD, 0.12f, TRUE);
+	m_pAnimator->Add_Animation(STATE::DEAD, pAnimation);
+
 	m_pStateMachine->Set_Animator(m_pAnimator);
 
 	m_pStateMachine->Set_State(STATE::ROMIMG);
 
-	m_pBasicStat->Get_Stat()->fHealth = 4.f;
+	m_pBasicStat->Get_Stat()->fHealth = 10.f;
+
 	m_pBasicStat->Get_Stat()->fAttack = 2.f;
 
 	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
@@ -64,20 +79,14 @@ _int CDungeonSpider::Update_Object(const _float& fTimeDelta)
 
 	_int iExit = __super::Update_Object(fTimeDelta);
 
-	_float fFrameFix = 0.f;
+	if (m_pBasicStat->Get_Stat()->fHealth <= 0)
+		m_pStateMachine->Set_State(STATE::DEAD);
 
-	CTransform* pPlayerTransform = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform;
-	NULL_CHECK_RETURN(pPlayerTransform, -1);
-
-	if (m_pBasicStat->Get_Stat()->fHealth <= 0.f)
-		EventManager()->DeleteObject(this);
 
 	m_pStateMachine->Update_StateMachine(fTimeDelta);
 
-	//m_pStateMachine->Render_StateMachine();//현재 도스창에 상태를 나타내기 위한 함수
-
 	if (m_pStateMachine->Get_State() != STATE::ATTACK)
-		ForceHeight(pPlayerTransform->m_vInfo[INFO_POS]);
+		ForceHeight(m_pTransform->m_vInfo[INFO_POS]);
 
 	return iExit;
 }
@@ -110,7 +119,8 @@ void CDungeonSpider::OnCollisionEnter(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 	// 충돌 밀어내기 후 이벤트 : 구현하시면 됩니다.
-	if (!(_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::ITEM))
+
+	if (this->Get_StateMachine()->Get_State() != STATE::DEAD && _pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::ITEM)
 		__super::OnCollisionEnter(_pOther);
 
 	if (_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::PLAYER
@@ -118,10 +128,12 @@ void CDungeonSpider::OnCollisionEnter(CCollider* _pOther)
 	{
 		CPlayerStat& PlayerState = *dynamic_cast<CPlayer*>(_pOther->GetHost())->Get_Stat();
 
-		if (!dynamic_cast<CPlayer*>(_pOther->Get_Host())->Get_AttackTick())
+		if (!this->Get_AttackTick())
 		{
-			PlayerState.Take_Damage(1.f);
-			dynamic_cast<CPlayer*>(_pOther->Get_Host())->Set_AttackTick(true);
+			PlayerState.Take_Damage(this->Get_BasicStat()->Get_Stat()->fAttack);
+			this->Set_AttackTick(true);
+
+			cout << "거미 공격" << endl;
 		}
 
 	}
@@ -156,10 +168,10 @@ HRESULT CDungeonSpider::Add_Component()
 	pComponent = m_pTexture[(_uint)STATE::ATTACK] = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_SpiderAttack"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
-	pComponent = m_pTexture[(_uint)STATE::HIT] = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_Hit"));
+	pComponent = m_pTexture[(_uint)STATE::HIT] = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_SpiderHit"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
-	pComponent = m_pTexture[(_uint)STATE::DEAD] = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_Dead"));
+	pComponent = m_pTexture[(_uint)STATE::DEAD] = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_SpiderDead"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
 
@@ -261,8 +273,5 @@ CDungeonSpider* CDungeonSpider::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 
 void CDungeonSpider::Free()
 {
-	for (auto& iter : m_pTexture)
-		Safe_Delete(iter);
-	Safe_Delete_Array(*m_pTexture);
 	__super::Free();
 }

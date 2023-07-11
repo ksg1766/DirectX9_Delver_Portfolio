@@ -3,6 +3,9 @@
 #include "Terrain.h"
 
 #include "Monster_Fly.h"
+#include "Monster_Hit.h"
+#include "Monster_Dead.h"
+#include "Bat_Attack.h"
 #include "Player.h"
 
 
@@ -34,13 +37,29 @@ HRESULT CBat::Ready_Object()
 
 	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
 
-	m_pTransform->Translate(_vec3(2.f, 3.f, 10.f));
+	m_pTransform->Translate(_vec3(20.f, 3.f, 10.f));
 	CState* pState = CMonster_Fly::Create(m_pGraphicDev, m_pStateMachine);
 	m_pStateMachine->Add_State(STATE::ROMIMG, pState);
+	pState = CBat_Attack::Create(m_pGraphicDev, m_pStateMachine);
+	m_pStateMachine->Add_State(STATE::ATTACK, pState);
+	pState = CMonster_Hit::Create(m_pGraphicDev, m_pStateMachine);
+	m_pStateMachine->Add_State(STATE::HIT, pState);
+	pState = CMonster_Dead::Create(m_pGraphicDev, m_pStateMachine);
+	m_pStateMachine->Add_State(STATE::DEAD, pState);
 
 	CAnimation* pAnimation = CAnimation::Create(m_pGraphicDev,
 		m_pTexture[(_uint)STATE::ROMIMG], STATE::ROMIMG, 5.f, TRUE);
 	m_pAnimator->Add_Animation(STATE::ROMIMG, pAnimation);
+
+	pAnimation = CAnimation::Create(m_pGraphicDev,
+		m_pTexture[(_uint)STATE::ATTACK], STATE::ATTACK, 5.f, TRUE);
+	m_pAnimator->Add_Animation(STATE::ATTACK, pAnimation);
+	pAnimation = CAnimation::Create(m_pGraphicDev,
+		m_pTexture[(_uint)STATE::HIT], STATE::HIT, 5.f, TRUE);
+	m_pAnimator->Add_Animation(STATE::HIT, pAnimation);
+	pAnimation = CAnimation::Create(m_pGraphicDev,
+		m_pTexture[(_uint)STATE::DEAD], STATE::DEAD, 5.f, TRUE);
+	m_pAnimator->Add_Animation(STATE::DEAD, pAnimation);
 
 	m_pStateMachine->Set_Animator(m_pAnimator);
 	m_pStateMachine->Set_State(STATE::ROMIMG);
@@ -56,8 +75,16 @@ _int CBat::Update_Object(const _float& fTimeDelta)
 
 	_int iExit = __super::Update_Object(fTimeDelta);
 
-	if (m_pBasicStat->Get_Stat()->fHealth <= 0.f)
-		EventManager()->DeleteObject(this);
+	if (m_pBasicStat->Get_Stat()->fHealth <= 0)
+	{
+		if (m_pAnimator->Get_Animation()->Get_Frame() >= 3)
+			m_pAnimator->Get_Animation()->Set_Loop(FALSE);
+
+		m_pStateMachine->Set_State(STATE::DEAD);
+
+		ForceHeight(this->m_pTransform->m_vInfo[INFO_POS]);
+	}
+
 
 	m_pStateMachine->Update_StateMachine(fTimeDelta);
 
@@ -137,16 +164,22 @@ void CBat::OnCollisionEnter(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 
-	if(!(_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::ITEM))
+	if(this->Get_StateMachine()->Get_State() != STATE::DEAD && _pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::ITEM)
 		__super::OnCollisionEnter(_pOther);
 
-	if (_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::PLAYER)
+	if (_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::PLAYER
+		&& this->Get_State() == STATE::ATTACK)
 	{
 		CPlayerStat& PlayerState = *dynamic_cast<CPlayer*>(_pOther->GetHost())->Get_Stat();
 
-		cout << PlayerState.Get_Stat()->fHealth << endl;
+		if (!this->Get_AttackTick())
+		{
+			PlayerState.Take_Damage(this->Get_BasicStat()->Get_Stat()->fAttack);
+			this->Set_AttackTick(true);
 
-		PlayerState.Take_Damage(1.f);	
+			cout << "¹ÚÁã °ø°Ý" << endl;
+		}
+
 	}
 
 }
@@ -188,6 +221,15 @@ HRESULT CBat::Add_Component(void)
 	pComponent = m_pTexture[(_uint)STATE::ROMIMG] = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_Bat"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
+	pComponent = m_pTexture[(_uint)STATE::ATTACK] = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_BatAttack"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
+	pComponent = m_pTexture[(_uint)STATE::HIT] = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_BatHit"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
+	pComponent = m_pTexture[(_uint)STATE::DEAD] = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_BatDead"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
 
 	pComponent = m_pBasicStat = dynamic_cast<CBasicStat*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BasicStat"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
@@ -225,4 +267,7 @@ void CBat::Free()
 		Safe_Delete(iter);
 	Safe_Delete_Array(*m_pTexture);
 	__super::Free();
+
+	for (_uint i = 0; i < 5; ++i)
+		Safe_Release<CTexture*>(m_pTexture[i]);
 }

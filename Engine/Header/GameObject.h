@@ -6,6 +6,7 @@ BEGIN(Engine)
 
 class CCollider;
 class CBasicStat;
+class CStateMachine;
 
 class ENGINE_DLL CGameObject : public CBase
 {
@@ -39,13 +40,15 @@ public:
 	virtual void		OnCollisionExit(CCollider* _pOther) {};
 
 public:
-	CBasicStat*			Get_BasicStat() { return m_pBasicStat; }
-	STATE				Get_State()		{ return m_eState; }
-	
+	CBasicStat*			Get_BasicStat()		{ return m_pBasicStat; }
+	STATE				Get_State()			{ return m_eState; }
+	_bool				Get_AttackTick()	{ return m_bAttackTick; }
+	CStateMachine*		Get_StateMachine()  { return m_pStateMachine; }
 
 public:
 	void				Set_State(STATE _eState) { m_eState = _eState; }
 	void				Set_MonsterState(MONSTERTAG _eState) { m_eMonsterTag = _eState; }
+	void				Set_AttackTick(_bool _Tick) { m_bAttackTick = _Tick; }
 
 private:
 	CComponent*			Find_Component(COMPONENTTAG pComponentTag, COMPONENTID eID);
@@ -54,9 +57,10 @@ public:
 	CTransform*							m_pTransform = nullptr;	// Transform Attached to this GameObject
 
 protected:
-	map<COMPONENTTAG, CComponent*>		m_mapComponent[ID_END];
+	multimap<COMPONENTTAG, CComponent*>	m_mapComponent[ID_END];
 	CCollider*							m_pCollider = nullptr;
 	CBasicStat*							m_pBasicStat = nullptr;
+	CStateMachine*						m_pStateMachine = nullptr;
 
 	LPDIRECT3DDEVICE9					m_pGraphicDev;
 	_bool								m_IsDead;
@@ -65,6 +69,8 @@ protected:
 	MONSTERTAG							m_eMonsterTag;
 	ITEMTAG								m_eItemTag;
 	STATE								m_eState;
+
+	_bool								m_bAttackTick;
 
 public:
 	virtual void		Free();

@@ -74,9 +74,10 @@ STATE CMonster_Jump::Jump(const _float& fTimeDelta)
 	{
 		vMonsterPos.y = 1.f;
 		m_fJumpVelocity = 13.f;
-
 		m_bJumCoolDown = true;
 		m_bIsJumping = false;
+		
+	
 		m_pOwner->Get_Host()->Set_State(STATE::ROMIMG);
 		
 		return STATE::ROMIMG;

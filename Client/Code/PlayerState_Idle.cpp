@@ -54,7 +54,12 @@ STATE CPlayerState_Idle::Key_Input(const _float& fTimeDelta)
 		return STATE::ROMIMG;
 	
 	if (Engine::InputDev()->GetInstance()->Mouse_Pressing(DIM_LB))
+	{
+		m_pOwner->Get_Host()->Set_AttackTick(true);
 		return STATE::ATTACK;
+	}
+
+
 	
 	pPlayer.Set_State(STATE::IDLE);
 	return STATE::IDLE;

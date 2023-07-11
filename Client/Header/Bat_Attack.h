@@ -4,14 +4,16 @@
 
 BEGIN(Engine)
 
+
 END
 
-class CMonster_Hit : public CState
+
+class CBat_Attack : public CState
 {
 private:
-	explicit CMonster_Hit();
-	explicit CMonster_Hit(LPDIRECT3DDEVICE9 pGraphicDev);
-	virtual ~CMonster_Hit();
+	explicit CBat_Attack();
+	explicit CBat_Attack(LPDIRECT3DDEVICE9 pGraphicDev);
+	virtual ~CBat_Attack();
 
 public:
 	virtual HRESULT	Ready_State(CStateMachine* pOwner);
@@ -23,13 +25,12 @@ public:
 	virtual STATE	Key_Input(const _float& fTimeDelta) { return STATE(); }
 
 private:
-	_bool	m_bCanHitState; 
-	_float  m_fHitCoolDown;
-
-	_int	m_iHitCount;
+	_vec3	m_vPrevPos;
+	_bool	m_bIsAttack;
+	_float	m_fSpeed;
 
 public:
-	static CMonster_Hit* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
+	static CBat_Attack* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
 
 private:
 	virtual void Free();
