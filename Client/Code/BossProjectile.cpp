@@ -28,6 +28,10 @@ HRESULT CBossProjectile::Ready_Object(void)
 
 _int CBossProjectile::Update_Object(const _float& fTimeDelta)
 {
+	Engine::Renderer()->Add_RenderGroup(RENDER_ALPHA, this);
+
+	if (SceneManager()->Get_GameStop()) { return 0; }
+
 	_int iExit = __super::Update_Object(fTimeDelta);
 		if (m_pTransform->m_vInfo[INFO_POS].y < HitTerrain(m_pTransform->m_vInfo[INFO_POS]))
 		{
@@ -40,14 +44,14 @@ _int CBossProjectile::Update_Object(const _float& fTimeDelta)
 
 			if (8.f < m_fFrame)
 				m_fFrame = 0.f;
-
-			Engine::Renderer()->Add_RenderGroup(RENDER_ALPHA, this);
 		}
 	return iExit;
 }
 
 void CBossProjectile::LateUpdate_Object(void)
 {
+	if (SceneManager()->Get_GameStop()) { return; }
+
 	m_pBillBoard->LateUpdate_Component();
 	__super::LateUpdate_Object();
 }

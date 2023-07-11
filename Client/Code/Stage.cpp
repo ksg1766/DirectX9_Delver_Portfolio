@@ -9,6 +9,8 @@
 #include "Wizard.h"
 #include "Magic_Ball.h"
 
+#include "Boss_BatSwarm.h"
+
 CStage::CStage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
 {
@@ -194,6 +196,7 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	pGameObject->m_pTransform->Translate(_vec3(8.f, 6.f, 8.f));
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+
 
 	return S_OK;
 }
