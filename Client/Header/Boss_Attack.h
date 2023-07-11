@@ -29,7 +29,6 @@ private:
     _vec3 m_vExplosionin1[4];
     _vec3 m_vExplosionin2[4];
 
-    _float  m_TeleportCool;
 public:
     static CBoss_Attack* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
 

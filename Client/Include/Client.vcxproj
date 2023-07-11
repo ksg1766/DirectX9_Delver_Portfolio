@@ -175,7 +175,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\Header\BossProjectile.h" />
-    <ClInclude Include="..\Header\Boss_BatSwarm.h" />
     <ClInclude Include="..\Header\Boss_Dead.h" />
     <ClInclude Include="..\Header\Boss_Dying.h" />
     <ClInclude Include="..\Header\Boss_MeteorCube.h" />
@@ -264,7 +263,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\Code\BossProjectile.cpp" />
-    <ClCompile Include="..\Code\Boss_BatSwarm.cpp" />
     <ClCompile Include="..\Code\Boss_Dead.cpp" />
     <ClCompile Include="..\Code\Boss_Dying.cpp" />
     <ClCompile Include="..\Code\Boss_MeteorCube.cpp" />

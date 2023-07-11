@@ -24,14 +24,12 @@ HRESULT CBoss_Attack::Ready_State(CStateMachine* pOwner)
     m_vShotGunDir[1] = _vec3(0.f, 0.f, 0.f);
     m_vShotGunDir[2] = _vec3(3.f, 0.f, 3.f);
 
-    m_TeleportCool = 0.f;
    m_bExplosion = false;
     return S_OK;
 }
 
 STATE CBoss_Attack::Update_State(const _float& fTimeDelta)
 {
-    m_TeleportCool += fTimeDelta;
    return BossSkill(fTimeDelta);
 }
 
@@ -58,11 +56,7 @@ STATE CBoss_Attack::BossSkill(const _float& fTimeDelta)
         return STATE::BOSS_EXPLOSION;
         break;
     case 2:
-        if (5.f < m_TeleportCool)
-        {
-            m_TeleportCool = 0.f;
-            return STATE::BOSS_TELEPORT;
-        }
+        return STATE::BOSS_TELEPORT;
         break;
     }
     //  return STATE::BOSS_CRAWL;

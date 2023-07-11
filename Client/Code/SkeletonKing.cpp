@@ -404,7 +404,7 @@ void CSkeletonKing::Key_Input()
 	}
 	if (Engine::InputDev()->Key_Down(DIK_X))
 	{
-		m_pStateMachine->Set_State(STATE::BOSS_TELEPORT);
+		m_pStateMachine->Set_State(STATE::BOSS_STURN);
 	}
 	if (Engine::InputDev()->Key_Down(DIK_V))
 	{

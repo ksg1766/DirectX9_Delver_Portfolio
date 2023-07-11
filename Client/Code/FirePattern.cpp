@@ -14,7 +14,6 @@ CFirePattern::CFirePattern(LPDIRECT3DDEVICE9 pGraphicDev)
 
 CFirePattern::~CFirePattern()
 {
-   
 }
 
 HRESULT CFirePattern::Ready_State(CStateMachine* pOwner)
@@ -33,7 +32,7 @@ STATE CFirePattern::Update_State(const _float& fTimeDelta)
         m_fDelay += fTimeDelta;
         if (0.3f < m_fDelay)
         {
-            pGameObject = CBossProjectile::Create(m_pGraphicDev);
+            pGameObject = CBossProjectile::Create(m_pGraphicDev);//여기서 오류
             Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
             dynamic_cast<CBossProjectile*>(pGameObject)->Set_Terrain(dynamic_cast<CSkeletonKing*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_Terrain());
             dynamic_cast<CBossProjectile*>(pGameObject)->Set_Target(m_pOwner->Get_Transform()->m_vInfo[INFO_POS]);

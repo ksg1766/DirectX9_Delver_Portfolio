@@ -21,14 +21,12 @@ public:
 
 private:
     //클래스 내에서만 쓸 함수
-    void    Make_BossClone();
-    void    Make_BatSwarm(const _float& fTimeDelta);
+
 private:
     //클래스 내에서만 쓸 함수
-    _vec3   m_fDestination;
-    _vec3   m_fBatMovePos;
     _float m_fDelay;
-    _bool    m_bSkillCount;
+    _int    m_iSkillCount;
+
 public:
     static CTeleportPattern* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
 

@@ -389,7 +389,7 @@ void CPlayer::OnCollisionExit(CCollider* _pOther)
 
 void CPlayer::Free()
 {
-	__super::Free();
+
 }
 
 CPlayer* CPlayer::Create(LPDIRECT3DDEVICE9 pGraphicDev)

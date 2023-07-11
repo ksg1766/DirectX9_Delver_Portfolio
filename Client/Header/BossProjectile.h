@@ -30,6 +30,7 @@ public:
 	void		Set_Target(_vec3 _vPos);
 private:
 	CRcTex* m_pBuffer = nullptr;
+	CTransform* m_pTransform = nullptr;
 	CTexture* m_pTexture = nullptr;
 	CBillBoard* m_pBillBoard = nullptr;
 	CTerrain* m_pTerrain = nullptr;
