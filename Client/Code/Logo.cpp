@@ -18,6 +18,7 @@ CLogo::~CLogo()
 
 HRESULT CLogo::Ready_Scene()
 {
+	m_eSceneTag = SCENETAG::LOGO;
 	FAILED_CHECK_RETURN(Ready_Prototype(), E_FAIL);
 
 	FAILED_CHECK_RETURN(Ready_Layer_Environment(LAYERTAG::ENVIRONMENT), E_FAIL);

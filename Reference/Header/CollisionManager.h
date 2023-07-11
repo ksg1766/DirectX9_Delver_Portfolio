@@ -30,6 +30,7 @@ private:
 
 	bool IsCollision(CCollider* _pLeft, CCollider* _pRight);
 	void CheckCollisionByType(OBJECTTAG _eObjectLeft, OBJECTTAG _eObjectRight);
+	void CheckCollisionStatic(OBJECTTAG _eObjectLeft);
 
 public:
 	virtual void Free() override;

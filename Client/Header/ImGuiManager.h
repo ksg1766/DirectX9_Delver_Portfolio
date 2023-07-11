@@ -31,6 +31,8 @@ public:
 
 public:
 	void	Toggle_OnOff() { bUI_OnOff = !bUI_OnOff; }
+	void	OnSaveData();
+	void	OnLoadData();
 
 private:
 	_bool	bUI_OnOff;

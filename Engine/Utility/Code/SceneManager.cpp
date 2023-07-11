@@ -48,10 +48,15 @@ void CSceneManager::LateUpdate_Scene()
 
 void CSceneManager::Render_Scene(LPDIRECT3DDEVICE9 pGraphicDev)
 {
+#ifdef _DEBUG
+	//if(SCENETAG::STAGE == m_pScene->Get_SceneTag())	Octree()->Render_Octree(pGraphicDev);
+#endif
+
 	Renderer()->Render_GameObject(pGraphicDev);
 
 	if (m_pScene)
-		m_pScene->Render_Scene();
+		m_pScene->Render_Scene();	
+
 }
 
 void CSceneManager::Free()

@@ -198,6 +198,7 @@ call CopyUtility.bat</Command>
     <ClInclude Include="..\..\Header\MonsterAI.h" />
     <ClInclude Include="..\..\Header\BasicStat.h" />
     <ClInclude Include="..\..\Header\Octree.h" />
+    <ClInclude Include="..\..\Header\OctreeNode.h" />
     <ClInclude Include="..\..\Header\Particle.h" />
     <ClInclude Include="..\..\Header\PlayerStat.h" />
     <ClInclude Include="..\..\Header\PoolManager.h" />
@@ -251,6 +252,7 @@ call CopyUtility.bat</Command>
     <ClCompile Include="..\Code\MonsterAI.cpp" />
     <ClCompile Include="..\Code\BasicStat.cpp" />
     <ClCompile Include="..\Code\Octree.cpp" />
+    <ClCompile Include="..\Code\OctreeNode.cpp" />
     <ClCompile Include="..\Code\Particle.cpp" />
     <ClCompile Include="..\Code\PlayerStat.cpp" />
     <ClCompile Include="..\Code\PoolManager.cpp" />

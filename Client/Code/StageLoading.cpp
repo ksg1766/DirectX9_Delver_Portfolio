@@ -21,6 +21,7 @@ CStageLoading::~CStageLoading()
 
 HRESULT CStageLoading::Ready_Scene()
 {
+	m_eSceneTag = SCENETAG::LOADING;
 	FAILED_CHECK_RETURN(Ready_Prototype(), E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_Environment(LAYERTAG::ENVIRONMENT), E_FAIL);
 	
@@ -56,6 +57,7 @@ Engine::_int CStageLoading::Update_Scene(const _float& fTimeDelta)
 		Engine::UIManager()->AddBasicGameobject_UI(Engine::UILAYER::UI_UP, pGameObject);
 
 		FAILED_CHECK_RETURN(Engine::SceneManager()->Set_Scene(pScene), E_FAIL);
+		Octree()->Ready_Octree();
 	}
 
 	return iExit;

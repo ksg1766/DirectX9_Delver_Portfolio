@@ -326,6 +326,95 @@ void CImGuiManager::Render_ImGui(LPDIRECT3DDEVICE9 pGraphicDev)
     ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
 }
 
+void CImGuiManager::OnSaveData()
+{
+//    HANDLE hFile = CreateFile(L"../Data/TempData.dat", GENERIC_WRITE, 0, 0,
+//        CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0);
+//
+//    if (INVALID_HANDLE_VALUE == hFile)
+//        return;
+//
+//    DWORD	dwByte = 0;
+//    DWORD	dwStrByte = 0;
+//
+//
+//    for (int i = 0; i < (UINT)OBJECTTAG::OBJECT_END; ++i)
+//    {
+//        /*if ((UINT)OBJID::OBJ_MOUSE == i)
+//            continue;
+//*/
+//        vector<CGameObject*>& vecObjList = CObjectMgr::Get_Instance()->GetObjList((OBJECTTAG)i);
+//        for (auto& iter : vecObjList)
+//        {
+//            /*if (OBJID::OBJ_MOUSE == iter->GetType())
+//                continue;*/
+//
+//            dwStrByte = sizeof(TCHAR) * (iter->GetData().strName.GetLength() + 1);
+//
+//            WriteFile(hFile, &dwStrByte, sizeof(DWORD), &dwByte, nullptr);
+//            WriteFile(hFile, iter->GetData().strName, dwStrByte, &dwByte, nullptr);
+//
+//            WriteFile(hFile, &(iter->GetTransform()->Position().x), sizeof(float), &dwByte, nullptr);
+//            WriteFile(hFile, &(iter->GetTransform()->Position().y), sizeof(float), &dwByte, nullptr);
+//        }
+//    }
+//
+//
+//    CloseHandle(hFile);
+}
+
+void CImGuiManager::OnLoadData()
+{
+    //CObjectMgr::Get_Instance()->Release();
+
+    //CString		strTemp = Dlg.GetPathName().GetString();
+    //const TCHAR* pGetPath = strTemp.GetString();
+
+    //HANDLE hFile = CreateFile(pGetPath, GENERIC_READ,
+    //    0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
+
+    //if (INVALID_HANDLE_VALUE == hFile)
+    //    return;
+
+    //DWORD	dwByte = 0;
+    //DWORD	dwStrByte = 0;
+    //float fX, fY;
+
+    //while (true)
+    //{
+    //    // key 값 저장
+    //    ReadFile(hFile, &dwStrByte, sizeof(DWORD), &dwByte, nullptr);
+
+    //    TCHAR* pName = new TCHAR[dwStrByte];
+
+    //    ReadFile(hFile, pName, dwStrByte, &dwByte, nullptr);
+
+
+    //    // value값 저장
+    //    ReadFile(hFile, &fX, sizeof(float), &dwByte, nullptr);
+    //    ReadFile(hFile, &fY, sizeof(float), &dwByte, nullptr);
+
+
+    //    if (0 == dwByte)
+    //    {
+    //        delete[]pName;
+    //        pName = nullptr;
+    //        break;
+    //    }
+
+    //    //if문추가
+    //    CObjectMgr::Get_Instance()->CreateObject(pName, _vec3(fX, fY, 0.f));
+
+    //    CMainFrame* pMainFrm = dynamic_cast<CMainFrame*>(AfxGetMainWnd());
+    //    dynamic_cast<CToolView*>(pMainFrm->m_MainSplitter.GetPane(0, 1))->Invalidate(FALSE);
+
+    //    delete[]pName;
+    //    pName = nullptr;
+    //}
+
+    //CloseHandle(hFile);
+}
+
 void CImGuiManager::Free()
 {
     ImGui_ImplDX9_Shutdown();

@@ -54,10 +54,11 @@ inline CCollisionManager*	CollisionManager();
 inline CEventManager*		EventManager();
 inline CRenderer*			Renderer();
 inline CUIManager*          UIManager();
+inline COctree*				Octree();
 
-inline HRESULT			Create_SceneManager(LPDIRECT3DDEVICE9 pGraphicDev, CSceneManager** ppInstance);
+inline HRESULT				Create_SceneManager(LPDIRECT3DDEVICE9 pGraphicDev, CSceneManager** ppInstance);
 
-inline void				Release_Utility();
+inline void					Release_Utility();
 
 #include "Export_Utility.inl"
 

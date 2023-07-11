@@ -11,6 +11,7 @@ protected:
 	virtual ~CScene();
 
 public:
+	SCENETAG				Get_SceneTag() { return m_eSceneTag; }
 	CLayer*					Get_Layer(LAYERTAG eLayerTag);
 	vector<CGameObject*>&	Get_ObjectList(LAYERTAG eLayerTag, OBJECTTAG eObjTag) 
 							{ return m_mapLayer[eLayerTag]->Get_ObjectList(eObjTag);}
@@ -24,6 +25,7 @@ public:
 protected:
 	LPDIRECT3DDEVICE9				m_pGraphicDev;
 	map<LAYERTAG, CLayer*>			m_mapLayer;
+	SCENETAG						m_eSceneTag;
 
 public:
 	virtual void	Free();

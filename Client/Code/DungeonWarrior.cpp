@@ -211,5 +211,8 @@ CDungeonWarrior* CDungeonWarrior::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 
 void CDungeonWarrior::Free()
 {
+	for (auto& iter : m_pTexture)
+		Safe_Delete(iter);
+	Safe_Delete_Array(*m_pTexture);
 	__super::Free();
 }

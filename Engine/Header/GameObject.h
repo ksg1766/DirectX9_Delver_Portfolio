@@ -29,7 +29,7 @@ public:
 	virtual HRESULT		Ready_Object(void);
 	virtual _int		Update_Object(const _float& fTimeDelta);
 	virtual void		LateUpdate_Object(void);
-	virtual void		Render_Object(void)PURE;
+	virtual void		Render_Object(void)	PURE;
 
 public:
 	CCollider*			Get_Collider() { return m_pCollider; }

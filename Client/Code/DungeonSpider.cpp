@@ -46,11 +46,8 @@ HRESULT CDungeonSpider::Ready_Object()
 
 	m_pStateMachine->Set_State(STATE::ROMIMG);
 
-
-
 	m_pBasicStat->Get_Stat()->fHealth = 4.f;
 	m_pBasicStat->Get_Stat()->fAttack = 2.f;
-
 
 	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
 
@@ -264,5 +261,8 @@ CDungeonSpider* CDungeonSpider::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 
 void CDungeonSpider::Free()
 {
+	for (auto& iter : m_pTexture)
+		Safe_Delete(iter);
+	Safe_Delete_Array(*m_pTexture);
 	__super::Free();
 }

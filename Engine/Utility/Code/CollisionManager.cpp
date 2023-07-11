@@ -1,5 +1,5 @@
 #include "Export_Utility.h"
-
+#include "OctreeNode.h"
 
 IMPLEMENT_SINGLETON(CCollisionManager)
 
@@ -8,11 +8,12 @@ CCollisionManager::CCollisionManager()
 	Reset();
 	CheckGroup(OBJECTTAG::PLAYER, OBJECTTAG::MONSTER);
 	CheckGroup(OBJECTTAG::PLAYER, OBJECTTAG::BOSS);
-	CheckGroup(OBJECTTAG::PLAYER, OBJECTTAG::BLOCK);
+	//CheckGroup(OBJECTTAG::PLAYER, OBJECTTAG::BLOCK);
 	CheckGroup(OBJECTTAG::MONSTER, OBJECTTAG::MONSTER);
 	CheckGroup(OBJECTTAG::MONSTER, OBJECTTAG::BOSS);
-	CheckGroup(OBJECTTAG::MONSTER, OBJECTTAG::BLOCK);
+	//CheckGroup(OBJECTTAG::MONSTER, OBJECTTAG::BLOCK);
 	CheckGroup(OBJECTTAG::MONSTER, OBJECTTAG::ITEM);
+	//CheckGroup(OBJECTTAG::BOSS, OBJECTTAG::BLOCK);
 }
 
 CCollisionManager::~CCollisionManager()
@@ -21,6 +22,10 @@ CCollisionManager::~CCollisionManager()
 
 void CCollisionManager::LateUpdate_Collision()
 {
+	CheckCollisionStatic(OBJECTTAG::PLAYER);
+	CheckCollisionStatic(OBJECTTAG::MONSTER);
+	CheckCollisionStatic(OBJECTTAG::BOSS);
+
 	for (UINT iRow = 0; iRow < (UINT)OBJECTTAG::OBJECT_END; ++iRow)
 	{
 		for (UINT iCol = iRow; iCol < (UINT)OBJECTTAG::OBJECT_END; ++iCol)
@@ -238,6 +243,94 @@ void CCollisionManager::CheckCollisionByType(OBJECTTAG _eObjectLeft, OBJECTTAG _
 	{
 		if (nullptr == iterL->Get_Collider())
 			continue;
+
+		//for (auto& iterR = vecRight.begin(); iterR != vecRight.end(); ++iterR)
+		for (auto& iterR : vecRight)
+		{
+			if (nullptr == iterR->Get_Collider() || iterL == iterR)
+				continue;
+
+			CCollider* pLeftCol = iterL->Get_Collider();
+			//dynamic_cast<CCollider*>(iterL->Get_Component(COMPONENTTAG::COLLIDER, ID_DYNAMIC));
+			CCollider* pRightCol = iterR->Get_Collider();
+			//dynamic_cast<CCollider*>(iterR->Get_Component(COMPONENTTAG::COLLIDER, ID_DYNAMIC));
+
+			COLLIDER_ID ID;
+			ID.Left_id = pLeftCol->GetID();
+			ID.Right_id = pRightCol->GetID();
+
+			iter = m_mapColInfo.find(ID.ID);
+
+			if (m_mapColInfo.end() == iter)
+			{
+				m_mapColInfo.insert(make_pair(ID.ID, false));
+				iter = m_mapColInfo.find(ID.ID);
+			}
+
+			if (IsCollision(pLeftCol, pRightCol))
+			{	// 현재 충돌 중
+				if (iter->second)
+				{	// 이전에도 충돌
+					if (iterL->IsDead() || iterR->IsDead())
+					{	// 둘 중 하나 삭제 예정이면 충돌 해제
+						pLeftCol->OnCollisionExit(pRightCol);
+						pRightCol->OnCollisionExit(pLeftCol);
+						iter->second = false;
+					}
+					else
+					{
+						pLeftCol->OnCollisionStay(pRightCol);
+						pRightCol->OnCollisionStay(pLeftCol);
+					}
+				}
+				else
+				{	// 이전에는 충돌 x	// 근데 둘 중 하나 삭제 예정이면 충돌하지 않은 것으로 취급
+					if (!iterL->IsDead() && !iterR->IsDead())
+					{
+						pLeftCol->OnCollisionEnter(pRightCol);
+						pRightCol->OnCollisionEnter(pLeftCol);
+						iter->second = true;
+					}
+					else
+					{
+						pLeftCol->OnCollisionExit(pRightCol);
+						pRightCol->OnCollisionExit(pLeftCol);
+						iter->second = false;
+					}
+				}
+			}
+			else
+			{		// 현재 충돌 x면
+				if (iter->second)
+				{	//이전에는 충돌하고 있었다.
+					pLeftCol->OnCollisionExit(pRightCol);
+					pRightCol->OnCollisionExit(pLeftCol);
+					iter->second = false;
+				}
+			}
+		}
+	}
+}
+
+void CCollisionManager::CheckCollisionStatic(OBJECTTAG _eObjectLeft)
+{
+	CScene* pScene = SceneManager()->Get_Scene();
+
+	const vector<CGameObject*>& vecLeft = pScene->Get_ObjectList(LAYERTAG::GAMELOGIC, _eObjectLeft);
+
+
+	map<ULONGLONG, bool>::iterator iter;
+
+	for (auto& iterL : vecLeft)
+	{
+		if (nullptr == iterL->Get_Collider())
+			continue;
+
+		COctreeNode* pParentNode = Octree()->GetParentNodeByPos(iterL->m_pTransform->m_vInfo[INFO_POS], Octree()->GetOctreeRoot());
+		if (!pParentNode) return;
+		if (iterL->Get_ObjectTag() == OBJECTTAG::PLAYER)
+			int a = 0;
+		const vector<CGameObject*>& vecRight = pParentNode->GetObjectList();
 
 		//for (auto& iterR = vecRight.begin(); iterR != vecRight.end(); ++iterR)
 		for (auto& iterR : vecRight)

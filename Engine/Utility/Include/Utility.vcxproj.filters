@@ -172,6 +172,12 @@
     <Filter Include="00. Managers\10. Octree">
       <UniqueIdentifier>{2370993b-41c7-4b5d-a6dd-e0fa4f223fba}</UniqueIdentifier>
     </Filter>
+    <Filter Include="00. Managers\10. Octree\01. OctreeNode">
+      <UniqueIdentifier>{367dbddf-ae9f-4ba8-bd85-df5de0f7a298}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Managers\10. Octree\00. Octree">
+      <UniqueIdentifier>{bae899b3-c614-4bf9-9c77-3b4db69e9a60}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Header\Scene.h">
@@ -307,7 +313,10 @@
       <Filter>04. Component\14. Inventory</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Header\Octree.h">
-      <Filter>00. Managers\10. Octree</Filter>
+      <Filter>00. Managers\10. Octree\00. Octree</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Header\OctreeNode.h">
+      <Filter>00. Managers\10. Octree\01. OctreeNode</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -441,7 +450,10 @@
       <Filter>04. Component\14. Inventory</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Octree.cpp">
-      <Filter>00. Managers\10. Octree</Filter>
+      <Filter>00. Managers\10. Octree\00. Octree</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\OctreeNode.cpp">
+      <Filter>00. Managers\10. Octree\01. OctreeNode</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
