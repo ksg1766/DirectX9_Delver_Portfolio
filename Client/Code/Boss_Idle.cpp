@@ -23,7 +23,7 @@ HRESULT CBoss_Idle::Ready_State(CStateMachine* pOwner)
 STATE CBoss_Idle::Update_State(const _float& fTimeDelta)
 {
     m_fSkillCool += fTimeDelta;
-    if (3 < m_fSkillCool)
+    if (3.f < m_fSkillCool)
     {
         m_fSkillCool = 0.f;
         return STATE::BOSS_ATTACK;
