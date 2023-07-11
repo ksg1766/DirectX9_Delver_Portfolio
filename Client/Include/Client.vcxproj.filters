@@ -316,6 +316,9 @@
     <Filter Include="02. GameObject\01. Stage\05. Monster\04. Wizard\Bullet">
       <UniqueIdentifier>{43ad7bca-a0b6-4159-b6e3-d04bc4088da8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\04. Public\03. BlackInOut\02. BlackOut">
+      <UniqueIdentifier>{07047b40-0c13-465a-adfd-0fbbb45d196f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">

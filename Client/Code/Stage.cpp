@@ -284,12 +284,12 @@ HRESULT CStage::Ready_Layer_UI(LAYERTAG _eLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	Engine::UIManager()->AddPopupGameobject_UI(Engine::UIPOPUPLAYER::POPUP_STAT, Engine::UILAYER::UI_DOWN, pGameObject);
 
-	for (int i = 0; i < 23; ++i)
-	{
-		pGameObject = CUIitem::Create(m_pGraphicDev);
-		NULL_CHECK_RETURN(pGameObject, E_FAIL);
-		Engine::UIManager()->AddItemGameobject_UI(pGameObject);
-	}
+	//for (int i = 0; i < 23; ++i)
+	//{
+	//	pGameObject = CUIitem::Create(m_pGraphicDev);
+	//	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//	Engine::UIManager()->AddItemGameobject_UI(pGameObject);
+	//}
 
 	// Å« Áöµµ
 	pGameObject = CUIbigmap::Create(m_pGraphicDev);

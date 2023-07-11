@@ -39,6 +39,10 @@ private:
 	_float      m_fPosition;
 	_float      m_flength;
 
+	_bool       m_bRender = true;
+	_float	    m_fTime = 0.f;
+	_uint       iIndex  = 3;
+		
 public:
 	static CUIplayerhp*	Create(LPDIRECT3DDEVICE9 pGraphicDev);
 	

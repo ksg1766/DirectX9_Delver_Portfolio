@@ -20,6 +20,8 @@ CCollisionManager::~CCollisionManager()
 
 void CCollisionManager::LateUpdate_Collision()
 {
+	if (SceneManager()->Get_GameStop()) { return; }
+
 	CheckCollisionStatic(OBJECTTAG::PLAYER);
 	CheckCollisionStatic(OBJECTTAG::MONSTER);
 	CheckCollisionStatic(OBJECTTAG::BOSS);

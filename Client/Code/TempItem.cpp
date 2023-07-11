@@ -42,6 +42,11 @@ HRESULT CTempItem::Ready_Object(void)
 
 	m_fSignTime = 1.f;
 
+	// 타입 및 아이디 지정
+	m_ItemID.eItemType = ITEMTYPE_WEAPONITEM;
+	m_ItemID.eItemID   = WEAPON_SWORD;
+	m_ItemID.iCount    = 1;
+
 	return S_OK;
 }
 

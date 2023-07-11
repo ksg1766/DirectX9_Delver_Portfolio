@@ -1,5 +1,7 @@
 #include "Export_Utility.h"
 
+#include "../../../Client/Header/UIitem.h"
+
 IMPLEMENT_SINGLETON(CUIManager)
 
 CUIManager::CUIManager()
@@ -60,19 +62,49 @@ void CUIManager::AddPopupGameobject_UI(UIPOPUPLAYER ePopupLayer, UILAYER eType, 
 
 void CUIManager::AddItemGameobject_UI(CGameObject* pGameObject)
 {
-	//Safe_Release(pGameObject);
-	// 같은 아이템이 있는지 먼저 검사 후 있을 시 아이템 해제 후 숫자 카운트 +1
+	// 들어온 아이템 오브젝트 아이템 타입 및 아이디, 개수를 가져옴.
+	ITEMTYPEID ItemType = dynamic_cast<CUIitem*>(pGameObject)->Get_ItemTag();
+
+	// 이미 보유하고 있는 아이템인지 검사한다.
+	// 기본 슬롯 5개 먼저 검사
+	for (auto iter : m_vecUIbasic[UI_MIDDLE]) {
+		ITEMTYPEID SlotItemType = dynamic_cast<CUIitem*>(iter)->Get_ItemTag();
+
+		if (SlotItemType.eItemType == ItemType.eItemType)
+		{
+			// 같은 아이템이 존재할 시 해당 개수만큼 카운트 증가 후 들어온 아이템 삭제
+			dynamic_cast<CUIitem*>(iter)->Add_ItemCount(ItemType.iCount);
+			Engine::EventManager()->DeleteObject(pGameObject);
+			//Safe_Release(pGameObject); // 들어온 UI 이미지 삭제
+			return;
+		}
+	}
+	// 내부 슬롯 18개 검사
+	for (auto iter : m_mapPpopupUI[POPUP_INVEN][UI_MIDDLE]) {
+		ITEMTYPEID SlotItemType = dynamic_cast<CUIitem*>(iter)->Get_ItemTag();
+
+		if (SlotItemType.eItemType == ItemType.eItemType)
+		{
+			// 같은 아이템이 존재할 시 해당 개수만큼 카운트 증가 후 들어온 아이템 삭제
+			dynamic_cast<CUIitem*>(iter)->Add_ItemCount(ItemType.iCount);
+			Engine::EventManager()->DeleteObject(pGameObject);
+			//Safe_Release(pGameObject);
+			return;
+		}
+	}
+
+	
 	// 빈 공간이 있는지 검사후 할당 후 장착
 	for (auto iter : m_vecUIbasic[UI_DOWN])
 	{
 		if (dynamic_cast<CTempUI*>(iter)->Get_EmptyBool())
 		{
-			//dynamic_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_INVENBUTTON, iy);
+			dynamic_cast<CTempUI*>(iter)->Set_EmptyBool(false);
+
 			pGameObject->m_pTransform->m_vInfo[INFO_POS].x = iter->m_pTransform->m_vInfo[INFO_POS].x;
 			pGameObject->m_pTransform->m_vInfo[INFO_POS].y = iter->m_pTransform->m_vInfo[INFO_POS].y;
 			dynamic_cast<CTempUI*>(pGameObject)->WorldMatrix(pGameObject->m_pTransform->m_vInfo[INFO_POS].x, pGameObject->m_pTransform->m_vInfo[INFO_POS].y, pGameObject->m_pTransform->m_vLocalScale.x, pGameObject->m_pTransform->m_vLocalScale.y);
 
-			dynamic_cast<CTempUI*>(iter)->Set_EmptyBool(false);
 			Engine::UIManager()->AddBasicGameobject_UI(Engine::UILAYER::UI_MIDDLE, pGameObject);
 			return;
 		}
@@ -82,12 +114,12 @@ void CUIManager::AddItemGameobject_UI(CGameObject* pGameObject)
 	{
 		if (dynamic_cast<CTempUI*>(iter)->Get_EmptyBool())
 		{
-			//dynamic_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_INVENBUTTON, iy);
+			dynamic_cast<CTempUI*>(iter)->Set_EmptyBool(false);
+
 			pGameObject->m_pTransform->m_vInfo[INFO_POS].x = iter->m_pTransform->m_vInfo[INFO_POS].x;
 			pGameObject->m_pTransform->m_vInfo[INFO_POS].y = iter->m_pTransform->m_vInfo[INFO_POS].y;
 			dynamic_cast<CTempUI*>(pGameObject)->WorldMatrix(pGameObject->m_pTransform->m_vInfo[INFO_POS].x, pGameObject->m_pTransform->m_vInfo[INFO_POS].y, pGameObject->m_pTransform->m_vLocalScale.x, pGameObject->m_pTransform->m_vLocalScale.y);
 
-			dynamic_cast<CTempUI*>(iter)->Set_EmptyBool(false);
 			Engine::UIManager()->AddPopupGameobject_UI(Engine::UIPOPUPLAYER::POPUP_INVEN, Engine::UILAYER::UI_MIDDLE, pGameObject);
 			return;
 		}

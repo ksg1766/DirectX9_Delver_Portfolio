@@ -128,6 +128,13 @@ namespace Engine
 		}
 
 	}MYATTACKINFO;
+
+	struct ITEMTYPEID
+	{
+		ITEMTYPE eItemType;
+		ITEMID   eItemID;
+		_uint    iCount;
+	};
 }
 
 

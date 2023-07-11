@@ -56,21 +56,21 @@ HRESULT CUIplayerstat::Ready_Object()
 	m_pTransform->m_vLocalScale.y = 140.f;
 	WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);
 
-	m_fAttackPowerNumber = 99;
-	m_fArmorClassNumber = 99;
+	m_fAttackPowerNumber = 1;
+	m_fArmorClassNumber = 2;
 
-	m_fHealthNumber = 99;
-	m_fMagicNumber = 99;
-	m_fSpeedNumber = 99;
+	m_fHealthNumber = 3;
+	m_fMagicNumber = 4;
+	m_fSpeedNumber = 5;
 
-	m_fAttackNumber = 99;
-	m_fDefenseNumber = 99;
-	m_fAgilityNumber = 99;
+	m_fAttackNumber = 6;
+	m_fDefenseNumber = 7;
+	m_fAgilityNumber = 8;
 
-	m_fLevelNumber = 99;
-	m_fCurrentXPNumber = 99;
-	m_fMaxXPNumber = 99;
-	m_fGoldNumber = 99;
+	m_fLevelNumber = 9;
+	m_fCurrentXPNumber = 10;
+	m_fMaxXPNumber = 11;
+	m_fGoldNumber = 12;
 
 	return S_OK;
 }
@@ -106,90 +106,120 @@ void CUIplayerstat::Render_Object()
 	m_pBufferCom->Render_Buffer();
 
 	// AttackPower UI
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matAttackPowerNumberOne);
-	m_pNumberTextureCom->Render_Texture(m_fAttackPowerNumberOne);
-	m_pBufferCom->Render_Buffer();
+	if (m_fAttackPowerNumberOne != 0)
+	{
+		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matAttackPowerNumberOne);
+		m_pNumberTextureCom->Render_Texture(m_fAttackPowerNumberOne);
+		m_pBufferCom->Render_Buffer();
+	}
 
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matAttackPowerNumberTwo);
 	m_pNumberTextureCom->Render_Texture(m_fAttackPowerNumberTwo);
 	m_pBufferCom->Render_Buffer();
 
 	// ArmorClass UI
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matArmorClassNumberOne);
-	m_pNumberTextureCom->Render_Texture(m_fArmorClassNumberOne);
-	m_pBufferCom->Render_Buffer();
+	if (m_fArmorClassNumberOne != 0)
+	{
+		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matArmorClassNumberOne);
+		m_pNumberTextureCom->Render_Texture(m_fArmorClassNumberOne);
+		m_pBufferCom->Render_Buffer();
+	}
 
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matArmorClassNumberTwo);
 	m_pNumberTextureCom->Render_Texture(m_fArmorClassNumberTwo);
 	m_pBufferCom->Render_Buffer();
 
 	// Health UI
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matHealthNumberOne);
-	m_pNumberTextureCom->Render_Texture(m_fHealthNumberOne);
-	m_pBufferCom->Render_Buffer();
+	if (m_fHealthNumberOne != 0)
+	{
+		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matHealthNumberOne);
+		m_pNumberTextureCom->Render_Texture(m_fHealthNumberOne);
+		m_pBufferCom->Render_Buffer();
+	}
 
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matHealthNumberTwo);
 	m_pNumberTextureCom->Render_Texture(m_fHealthNumberTwo);
 	m_pBufferCom->Render_Buffer();
 
 	// Magic UI
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matMagicNumberOne);
-	m_pNumberTextureCom->Render_Texture(m_fMagicNumberOne);
-	m_pBufferCom->Render_Buffer();
+	if (m_fMagicNumberOne != 0)
+	{
+		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matMagicNumberOne);
+		m_pNumberTextureCom->Render_Texture(m_fMagicNumberOne);
+		m_pBufferCom->Render_Buffer();
+	}
 
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matMagicNumberTwo);
 	m_pNumberTextureCom->Render_Texture(m_fMagicNumberTwo);
 	m_pBufferCom->Render_Buffer();
 
 	// Speed UI
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matSpeedNumberOne);
-	m_pNumberTextureCom->Render_Texture(m_fSpeedNumberOne);
-	m_pBufferCom->Render_Buffer();
+	if (m_fSpeedNumberOne != 0)
+	{
+		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matSpeedNumberOne);
+		m_pNumberTextureCom->Render_Texture(m_fSpeedNumberOne);
+		m_pBufferCom->Render_Buffer();
+	}
 
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matSpeedNumberTwo);
 	m_pNumberTextureCom->Render_Texture(m_fSpeedNumberTwo);
 	m_pBufferCom->Render_Buffer();
 
 	// Attack UI
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matAttackNumberOne);
-	m_pNumberTextureCom->Render_Texture(m_fAttackNumberOne);
-	m_pBufferCom->Render_Buffer();
+	if (m_fAttackNumberOne != 0)
+	{
+		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matAttackNumberOne);
+		m_pNumberTextureCom->Render_Texture(m_fAttackNumberOne);
+		m_pBufferCom->Render_Buffer();
+	}
 
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matAttackNumberTwo);
 	m_pNumberTextureCom->Render_Texture(m_fAttackNumberTwo);
 	m_pBufferCom->Render_Buffer();
 
 	// Defense UI
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matDefenseNumberOne);
-	m_pNumberTextureCom->Render_Texture(m_fDefenseNumberOne);
-	m_pBufferCom->Render_Buffer();
+	if (m_fAttackNumberOne != 0)
+	{
+		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matDefenseNumberOne);
+		m_pNumberTextureCom->Render_Texture(m_fDefenseNumberOne);
+		m_pBufferCom->Render_Buffer();
+	}
 
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matDefenseNumberTwo);
 	m_pNumberTextureCom->Render_Texture(m_fDefenseNumberTwo);
 	m_pBufferCom->Render_Buffer();
 
 	// Agility UI
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matAgilityNumberOne);
-	m_pNumberTextureCom->Render_Texture(m_fAgilityNumberOne);
-	m_pBufferCom->Render_Buffer();
+	if (m_fAgilityNumberOne != 0)
+	{
+		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matAgilityNumberOne);
+		m_pNumberTextureCom->Render_Texture(m_fAgilityNumberOne);
+		m_pBufferCom->Render_Buffer();
+	}
 
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matAgilityNumberTwo);
 	m_pNumberTextureCom->Render_Texture(m_fAgilityNumberTwo);
 	m_pBufferCom->Render_Buffer();
 
 	// Level UI
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matLevelNumberOne);
-	m_pNumberTextureCom->Render_Texture(m_fLevelNumberOne);
-	m_pBufferCom->Render_Buffer();
+	if (m_fLevelNumberOne != 0)
+	{
+		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matLevelNumberOne);
+		m_pNumberTextureCom->Render_Texture(m_fLevelNumberOne);
+		m_pBufferCom->Render_Buffer();
+	}
 
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matLevelNumberTwo);
 	m_pNumberTextureCom->Render_Texture(m_fLevelNumberTwo);
 	m_pBufferCom->Render_Buffer();
 
 	// Current XP UI
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matCurrentXPNumberOne);
-	m_pNumberTextureCom->Render_Texture(m_fCurrentXPNumberOne);
-	m_pBufferCom->Render_Buffer();
+	if (m_fCurrentXPNumberOne != 0)
+	{
+		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matCurrentXPNumberOne);
+		m_pNumberTextureCom->Render_Texture(m_fCurrentXPNumberOne);
+		m_pBufferCom->Render_Buffer();
+	}
 
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matCurrentXPNumberTwo);
 	m_pNumberTextureCom->Render_Texture(m_fCurrentXPNumberTwo);
@@ -201,18 +231,24 @@ void CUIplayerstat::Render_Object()
 	m_pBufferCom->Render_Buffer();
 
 	// Max XP UI
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matMaxXPNumberOne);
-	m_pNumberTextureCom->Render_Texture(m_fMaxXPNumberOne);
-	m_pBufferCom->Render_Buffer();
+	if (m_fMaxXPNumberOne != 0)
+	{
+		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matMaxXPNumberOne);
+		m_pNumberTextureCom->Render_Texture(m_fMaxXPNumberOne);
+		m_pBufferCom->Render_Buffer();
+	}
 
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matMaxXPNumberTwo);
 	m_pNumberTextureCom->Render_Texture(m_fMaxXPNumberTwo);
 	m_pBufferCom->Render_Buffer();
 
 	// Gold UI
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matGoldNumberOne);
-	m_pNumberTextureCom->Render_Texture(m_fGoldNumberOne);
-	m_pBufferCom->Render_Buffer();
+	if (m_fGoldNumberOne != 0)
+	{
+		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matGoldNumberOne);
+		m_pNumberTextureCom->Render_Texture(m_fGoldNumberOne);
+		m_pBufferCom->Render_Buffer();
+	}
 
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matGoldNumberTwo);
 	m_pNumberTextureCom->Render_Texture(m_fGoldNumberTwo);

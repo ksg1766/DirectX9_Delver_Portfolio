@@ -14,10 +14,10 @@ CStateMachine::CStateMachine(LPDIRECT3DDEVICE9 pGraphicDev)
 CStateMachine::CStateMachine(const CStateMachine& rhs)
 	: Engine::CComponent(rhs), m_FirstOn(rhs.m_FirstOn)
 {
-	m_StateMap = rhs.m_StateMap;
-	m_pCurState = rhs.m_pCurState;
+	m_StateMap   = rhs.m_StateMap;
+	m_pCurState  = rhs.m_pCurState;
 	m_pPrevState = rhs.m_pPrevState;
-	m_pAnimator = rhs.m_pAnimator;
+	m_pAnimator  = rhs.m_pAnimator;
 }
 
 CStateMachine::~CStateMachine()

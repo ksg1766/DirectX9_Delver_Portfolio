@@ -163,12 +163,10 @@ void CDungeonWarrior::ForceHeight(_vec3 _vPos)
 
 void CDungeonWarrior::OnCollisionEnter(CCollider* _pOther)
 {
-	if (SceneManager()->Get_GameStop()) { return; }
+	if (this->Get_StateMachine()->Get_State() != STATE::DEAD && _pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::ITEM)
+		__super::OnCollisionEnter(_pOther);
 
 	// 충돌 밀어내기 후 이벤트 : 구현하시면 됩니다.
-
-	if (!(_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::ITEM))
-		__super::OnCollisionEnter(_pOther);
 
 	if (_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::PLAYER
 		&& this->Get_StateMachine()->Get_State() == STATE::ATTACK)
@@ -188,16 +186,11 @@ void CDungeonWarrior::OnCollisionEnter(CCollider* _pOther)
 
 void CDungeonWarrior::OnCollisionStay(CCollider* _pOther)
 {
-	if (SceneManager()->Get_GameStop()) { return; }
-
-	if(this->Get_StateMachine()->Get_State() != STATE::DEAD && _pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::ITEM)
-	__super::OnCollisionEnter(_pOther);
 	// 충돌 밀어내기 후 이벤트 : 구현하시면 됩니다.
 }
 
 void CDungeonWarrior::OnCollisionExit(CCollider* _pOther)
 {
-	if (SceneManager()->Get_GameStop()) { return; }
 }
 
 

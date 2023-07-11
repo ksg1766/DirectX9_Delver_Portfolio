@@ -90,6 +90,7 @@ void CStartButton::Key_Input(void)
 
 			Engine::UIManager()->Delete_BasicObject(Engine::UILAYER::UI_DOWN);
 			Engine::UIManager()->Delete_BasicObject(Engine::UILAYER::UI_MIDDLE);
+			Engine::UIManager()->Delete_BasicObject(Engine::UILAYER::UI_UP);
 
 			CScene* pScene = CStageLoading::Create(m_pGraphicDev);
 			Engine::SceneManager()->Set_Scene(pScene);

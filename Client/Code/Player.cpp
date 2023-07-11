@@ -13,6 +13,8 @@
 #include "PlayerState_Idle.h"
 #include "Player_Attack.h"
 
+#include "UIitem.h"
+
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CGameObject(pGraphicDev)
 {
@@ -32,7 +34,8 @@ CPlayer::~CPlayer()
 HRESULT CPlayer::Ready_Object(void)
 {
 	m_eObjectTag = OBJECTTAG::PLAYER;
-	m_bItemEquip = false;
+	m_bItemEquipRight = false;
+	m_bItemEquipLeft = false;
 	m_bIsAttack = false;
 	m_bAttackTick = true;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
@@ -132,6 +135,10 @@ HRESULT CPlayer::Add_Component(void)
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::ANIMATOR, pComponent);
 
+	pComponent = m_pInventory = dynamic_cast<CInventory*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Inventory"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::INVENTORY, pComponent);
+
 	for (int i = 0; i < ID_END; ++i)
 		for (auto& iter : m_mapComponent[i])
 			iter.second->Init_Property(this);
@@ -183,12 +190,12 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 
 	if (Engine::InputDev()->Key_Down(DIK_1))
 	{
-		m_bItemEquip = true;
+		m_bItemEquipRight = true;
 		Engine::CGameObject* pGameObject = nullptr;
 		pGameObject = CTempItem::Create(m_pGraphicDev);
 		
-		Add_Item(pGameObject, ITEMTAG::WEAPON);
-		Set_CurItem(pGameObject);
+		//Add_Item(pGameObject, ITEMTAG::WEAPON);
+		Set_CurrentEquipRight(pGameObject);
 
 		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 	}
@@ -240,11 +247,107 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 	// 아이템 줍기 및 버리기
 	if (Engine::InputDev()->Key_Down(DIK_E))
 	{
-		// 아이템 줍기
+	    //  바라보고 있는 아이템 줍기 / E 키로 앞에 있는 아이템 획득을 테스트 용으로 임시 생성
+		Engine::CGameObject* pGameObjectItem = CTempItem::Create(m_pGraphicDev);
+
+		// 획득한 아이템 타입 및 개수를 받아옴.
+		ITEMTYPEID ItemType = dynamic_cast<CItem*>(pGameObjectItem)->Get_ItemTag();
+
+		// 장착하는 아이템 타입이고 아이템을 장착하고 있지 않다면 장착(생성)하면서 인벤토리에 획득
+		if (ItemType.eItemType == ITEMTYPE_WEAPONITEM && !m_bItemEquipRight) // 오른손 장착 아이템 타입
+		{
+			m_bItemEquipRight = true;
+			Set_CurrentEquipRight(pGameObjectItem);
+			Engine::EventManager()->CreateObject(pGameObjectItem, LAYERTAG::GAMELOGIC);
+		}
+
+		// 획득한 아이템을 인벤토리에 넣는다.
+		m_pInventory->Add_ItemObject(pGameObjectItem);
+
+
+		// ITEM UI 객체 생성 후 들어온 아이템 타입 및 아이디로 값 셋팅.
+		Engine::CGameObject* pGameObjectUI = CUIitem::Create(m_pGraphicDev);
+		dynamic_cast<CUIitem*>(pGameObjectUI)->Set_ItemTag(ItemType.eItemType, ItemType.eItemID, ItemType.iCount);
+		// 셋팅 후 UI 매니저에 아이템UI 추가.
+		Engine::UIManager()->AddItemGameobject_UI(pGameObjectUI);
+
 	}
 	else if (Engine::InputDev()->Key_Down(DIK_Q))
 	{
-		// 아이템 버리기
+		// 오른손에 들고 있는 아이템 버리기
+		
+		if (m_bItemEquipRight == true) // 오른손에 아이템을 장착하고 있는 상태일 시 
+		{
+			// 오른손에 장착하고 있는 아이템 타입을 가져옴.
+			ITEMTYPEID ItemType = dynamic_cast<CItem*>(m_pCurrentEquipItemRight)->Get_ItemTag();
+
+			// 오른 손에 들고있는 아이탬 객체 삭제 후 nullptr 할당.
+			m_bItemEquipRight = false;
+			Engine::EventManager()->DeleteObject(m_pCurrentEquipItemRight);
+			m_pCurrentEquipItemRight = nullptr;
+
+
+			// 인벤토리 내에서 해당 아이템을 찾아 카운트 감소 또는 1개 보유하고 있었을 시 삭제.
+			m_pInventory->delete_FindItem(ItemType.eItemID);
+
+			// 아이템 UI 내부에서도 해당 아이템을 찾아 카운트 감소 또는 1개 보유하고 있었을 시 삭제.
+
+
+		}
+	}
+
+	// 1 2 3 4 5 슬롯에 있는 아이템 사용(소멸 되는 것) 및 장착하기
+	if (Engine::InputDev()->Key_Down(DIK_F1))
+	{
+		CGameObject* SlotItem = m_pInventory->Get_KeySlotObject(KEYSLOT_ONE);
+		if(SlotItem != nullptr)
+		{
+			ITEMTYPEID ItemType = dynamic_cast<CItem*>(SlotItem)->Get_ItemTag();
+			if (ItemType.eItemType == ITEMTYPE_WEAPONITEM)
+			{
+
+			}
+			else if (ItemType.eItemType == ITEMTYPE_GENERALITEM)
+			{
+
+			}
+			else if (ItemType.eItemType == ITEMTYPE_EQUIPITEM)
+			{
+
+			}
+		}
+	}
+	else if (Engine::InputDev()->Key_Down(DIK_F2))
+	{
+		CGameObject* SlotItem = m_pInventory->Get_KeySlotObject(KEYSLOT_TWO);
+		if (SlotItem != nullptr)
+		{
+
+		}
+	}
+	else if (Engine::InputDev()->Key_Down(DIK_F3))
+	{
+		CGameObject* SlotItem = m_pInventory->Get_KeySlotObject(KEYSLOT_THREE);
+		if (SlotItem != nullptr)
+		{
+
+		}
+	}
+	else if (Engine::InputDev()->Key_Down(DIK_F4))
+	{
+		CGameObject* SlotItem = m_pInventory->Get_KeySlotObject(KEYSLOT_FOUR);
+		if (SlotItem != nullptr)
+		{
+
+		}
+	}
+	else if (Engine::InputDev()->Key_Down(DIK_F5))
+	{
+		CGameObject* SlotItem = m_pInventory->Get_KeySlotObject(KEYSLOT_FIVE);
+		if (SlotItem != nullptr)
+		{
+
+		}
 	}
 }
 
@@ -296,8 +399,6 @@ void CPlayer::ForceHeight(_vec3 _vPos)
 
 void CPlayer::OnCollisionEnter(CCollider* _pOther)
 {
-	if (SceneManager()->Get_GameStop()) { return; }
-
 	if (_pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::MONSTER)
 	{
 		_vec3	vOtherPos = _pOther->GetCenterPos();
@@ -344,8 +445,6 @@ void CPlayer::OnCollisionEnter(CCollider* _pOther)
 
 void CPlayer::OnCollisionStay(CCollider* _pOther)
 {
-	if (SceneManager()->Get_GameStop()) { return; }
-
 	if (_pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::MONSTER)
 	{
 		_vec3	vOtherPos = _pOther->GetCenterPos();
@@ -392,8 +491,6 @@ void CPlayer::OnCollisionStay(CCollider* _pOther)
 
 void CPlayer::OnCollisionExit(CCollider* _pOther)
 {
-	if (SceneManager()->Get_GameStop()) { return; }
-
 }
 
 void CPlayer::Free()

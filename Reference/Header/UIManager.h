@@ -211,7 +211,7 @@ private:
 	vector<CGameObject*> m_vecUIbasic[UILAYER::UI_END];
 	map<UIPOPUPLAYER, vector<CGameObject*>[UILAYER::UI_END]> m_mapPpopupUI;
 
-	vector<CGameObject*> m_vecCreate;
+	//vector<CGameObject*> m_vecCreate;
 	vector<CGameObject*> m_vecDead;
 
 private:

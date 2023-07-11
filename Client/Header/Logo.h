@@ -30,8 +30,9 @@ private:
 	HRESULT			Ready_Layer_UI(LAYERTAG _eLayerTag) { return S_OK; }
 
 private:
-	_bool m_bClick = false;
-	_bool m_bFadeOut = false;
+	_bool m_bClick   = false;
+	_bool m_bFadeEnd = false;
+
 	//CLoading*		m_pLoading;
 	//Engine::CGameObject* pGameObject = nullptr;
 

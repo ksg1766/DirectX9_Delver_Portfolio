@@ -16,7 +16,6 @@
 #include "UIemptyslot.h"
 #include "UIbasicslot.h"
 #include "UIequipmentslot.h"
-#include "UIitem.h"
 #include "UIbigmap.h"
 #include "UIEscBackground.h"
 #include "UIResumeButton.h"
