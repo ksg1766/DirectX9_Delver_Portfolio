@@ -15,7 +15,6 @@
 #include "Player_Attack.h"
 
 #include "UIitem.h"
-
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CGameObject(pGraphicDev)
 {
@@ -70,7 +69,6 @@ Engine::_int CPlayer::Update_Object(const _float& fTimeDelta)
 
 	_int iExit = __super::Update_Object(fTimeDelta);
 
-
 	m_pStateMachine->Update_StateMachine(fTimeDelta);
 
 	ForceHeight(m_pTransform->m_vInfo[INFO_POS]);
@@ -98,7 +96,6 @@ void CPlayer::Render_Object(void)
 #if _DEBUG
 	m_pCollider->Render_Collider();
 #endif
-
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
 
@@ -170,7 +167,6 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 		D3DXVec3TransformCoord(&m_vOffset, &m_vOffset, &matRotX);
 
 	}
-	
 
 	if (0 != (dwMouseMove = Engine::InputDev()->Get_DIMouseMove(DIMS_Y)) && !bCameraOn)
 	{
@@ -186,6 +182,16 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 		//D3DXVec3TransformNormal(&vLook, &vLook, &matRotY);
 		D3DXVec3TransformCoord(&m_vOffset, &m_vOffset, &matRotY);
 
+	if (Engine::InputDev()->Key_Down(DIK_1))
+	{
+		m_bItemEquipRight = true;
+		Engine::CGameObject* pGameObject = nullptr;
+		pGameObject = CTempItem::Create(m_pGraphicDev);
+		
+		//Add_Item(pGameObject, ITEMTAG::WEAPON);
+		Set_CurrentEquipRight(pGameObject);
+
+		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 	}
 
 	// UI 단축키 추가
@@ -254,7 +260,7 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 		m_pInventory->Add_ItemObject(pGameObjectItem);
 
 
-		// ITEM UI 객체 생성 후 들어온 아이템 타입 및 아이디로 값 셋팅.
+		//// ITEM UI 객체 생성 후 들어온 아이템 타입 및 아이디로 값 셋팅.
 		Engine::CGameObject* pGameObjectUI = CUIitem::Create(m_pGraphicDev);
 		dynamic_cast<CUIitem*>(pGameObjectUI)->Set_ItemTag(ItemType.eItemType, ItemType.eItemID, ItemType.iCount);
 		// 셋팅 후 UI 매니저에 아이템UI 추가.

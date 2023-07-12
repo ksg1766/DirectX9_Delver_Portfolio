@@ -24,6 +24,11 @@ public:
 	virtual void Render_Object(void) override;
 
 public:
+	virtual void	OnCollisionEnter(CCollider* _pOther);
+	virtual void	OnCollisionStay(CCollider* _pOther);
+	virtual void	OnCollisionExit(CCollider* _pOther);
+
+public:
 	void	Move_to_NewPos(_vec3 _vPos, const _float& fTimeDelta);
 	void	Move_to_Random(const _float& fTimeDelta);
 	void	Set_StartPos(_vec3 vStartPos);

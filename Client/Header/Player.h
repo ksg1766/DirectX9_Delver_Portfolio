@@ -1,7 +1,6 @@
 #pragma once
 
 #include "GameObject.h"
-
 BEGIN(Engine)
 
 class CPlayerBf;
@@ -12,6 +11,7 @@ class CAnimator;
 class CInventory;
 
 END
+
 
 class CTerrain;
 class CPlayer : public Engine::CGameObject
@@ -71,7 +71,7 @@ private:
 
 	// 게임아이템
 
-	//CGameObject*	m_pItem[(_uint)ITEMTAG::ITEM_END];      -> 인벤토리로 이동
+	//CGameObject*	m_pItem[(_uint)ITEMTAG::ITEM_END];      //-> 인벤토리로 이동
 	_bool			m_bItemEquipRight;                      // 플레이어의 들고있는 아이템 장착 여부 : 오른손
 	_bool			m_bItemEquipLeft;                       // 플레이어의 들고있는 아이템 장착 여부 : 왼손
 	CGameObject*	m_pCurrentEquipItemRight = nullptr;     // 현재 플레이어가 들고 있는 아이템     : 오른손

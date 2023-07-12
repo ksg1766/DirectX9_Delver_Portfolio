@@ -199,6 +199,27 @@
     <Filter Include="02. GameObject\00. Logo\04. EditButton">
       <UniqueIdentifier>{30a47425-5118-40c7-ad26-8c4d6887da5a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\01. Stage\999.Boss\02. State\03. Attack\01. FirePattern">
+      <UniqueIdentifier>{e7557b2f-1d73-49fd-b25f-46a6c91590af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\999.Boss\02. State\03. Attack\05. Meteor">
+      <UniqueIdentifier>{76c4fe6c-6d11-42fc-80bc-a8d96d5f6311}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\999.Boss\02. State\04. Crawl">
+      <UniqueIdentifier>{0b787a29-2aee-4883-912d-de521aeadd8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\999.Boss\02. State\06. Dying">
+      <UniqueIdentifier>{8e20badf-9b26-46f5-accd-99c6ad02fd06}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\999.Boss\02. State\07. Dead">
+      <UniqueIdentifier>{6ed5a231-5c6d-4404-a0d2-d7efee6bc5b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\999.Boss\02. State\05. Sturn">
+      <UniqueIdentifier>{aa9888d6-2a50-4491-8971-a4ba4670c3d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\999.Boss\01. AttackEff\04. Meteor_Cube">
+      <UniqueIdentifier>{9cc17226-7f03-4ebe-96ab-073be3de132d}</UniqueIdentifier>
+    </Filter>
     <Filter Include="02. GameObject\04. Public\03. BlackInOut">
       <UniqueIdentifier>{f66ece78-1f1e-4188-8138-327cfbd3ac37}</UniqueIdentifier>
     </Filter>
@@ -345,6 +366,45 @@
     </Filter>
     <Filter Include="02. GameObject\01. Stage\999. Boss\01. AttackEff\01. AttackFire">
       <UniqueIdentifier>{f2593457-0c06-4ef6-bb75-864a1e7f7a21}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\06. Environment_Object">
+      <UniqueIdentifier>{a379a509-25e7-4158-844f-c136a6fe3fd5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\06. Environment_Object\00. Grass">
+      <UniqueIdentifier>{45c42622-cea5-421f-be87-f1eabb44a415}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\06. Environment_Object\01. Stone">
+      <UniqueIdentifier>{1f169645-b190-4273-8d26-3023198cca8d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\06. Environment_Object\02. Fire">
+      <UniqueIdentifier>{ad1dccb8-fc22-421f-92ff-a20b57b3f7a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\06. Environment_Object\03. Box">
+      <UniqueIdentifier>{a699dc28-2b64-44eb-b93e-ecb76894b31a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\06. Environment_Object\02. Fire\01. CampFire">
+      <UniqueIdentifier>{9e4b6c05-c321-4b6d-a912-217072f0de19}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\06. Environment_Object\02. Fire\02. Torch">
+      <UniqueIdentifier>{38b85ae2-1acd-44cc-9013-3127b1482a7d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\06. Environment_Object\04. Pot">
+      <UniqueIdentifier>{2d214bb8-b2d6-48a5-9b91-f46f87d484c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\06. Environment_Object\02. Fire\01. CampFire\01.FireEff">
+      <UniqueIdentifier>{74b03eb8-2247-48b0-ab02-020ae7813cd5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\06. Environment_Object\00. Grass\02. Reed_mace">
+      <UniqueIdentifier>{afd891b2-d94c-45af-b5c2-960aa56721c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\06. Environment_Object\00. Grass\01. Grass">
+      <UniqueIdentifier>{080d2f95-7d53-4225-ba42-ec8fc45f071c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\06. Environment_Object\01. Stone\01. Cobble">
+      <UniqueIdentifier>{4f25a6dd-c25b-4613-a060-89d30881ba68}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\06. Environment_Object\01. Stone\02. Cristal">
+      <UniqueIdentifier>{6f349a34-7f0e-450e-a77c-e14e4c573249}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -663,6 +723,12 @@
     <ClInclude Include="..\Header\Bow.h">
       <Filter>02. GameObject\01. Stage\02. Item\Bow</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\Box_Cube.h">
+      <Filter>02. GameObject\01. Stage\06. Environment_Object\03. Box</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Boss_MeteorReady.h">
+      <Filter>02. GameObject\01. Stage\999.Boss\02. State\03. Attack\05. Meteor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -970,6 +1036,12 @@
     </ClCompile>
     <ClCompile Include="..\Code\Bow.cpp">
       <Filter>02. GameObject\01. Stage\02. Item\Bow</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Box_Cube.cpp">
+      <Filter>02. GameObject\01. Stage\06. Environment_Object\03. Box</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Boss_MeteorReady.cpp">
+      <Filter>02. GameObject\01. Stage\999.Boss\02. State\03. Attack\05. Meteor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

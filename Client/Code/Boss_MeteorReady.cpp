@@ -27,30 +27,29 @@ HRESULT CBoss_MeteorReady::Ready_State(CStateMachine* pOwner)
 STATE CBoss_MeteorReady::Update_State(const _float& fTimeDelta)
 {
 	m_fChannel_Count += fTimeDelta;
-
 	if (!m_bSkillStart)
 	{
 		Engine::CGameObject* pGameObject = nullptr;
 		pGameObject = m_pGameObject = CBoss_MeteorCube::Create(m_pGraphicDev);
 		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 		dynamic_cast<CBoss_MeteorCube*>(pGameObject)->Set_Center(m_pOwner->Get_Transform()->m_vInfo[INFO_POS]);
+		dynamic_cast<CBoss_MeteorCube*>(pGameObject)->Set_State(STATE::BOSS_METEORREADY);
 		dynamic_cast<CBoss_MeteorCube*>(pGameObject)->Channeling_Begin();
 		m_bSkillStart = true;
 	}
-
-	if (10.f < m_fChannel_Count)
+	else if (m_bSkillStart && (10.1f < m_fChannel_Count))
 	{
 		dynamic_cast<CBoss_MeteorCube*>(m_pGameObject)->Set_ChannelingEnd();
 		m_bSkillStart = false;
 		m_fChannel_Count = 0.f;
 		return STATE::BOSS_IDLE;
 	}
-	else
+	else if(m_bSkillStart)
 	{
-		m_pOwner->Get_Transform()->Translate(_vec3(0.f, 0.5f* fTimeDelta, 0.f));
-		dynamic_cast<CBoss_MeteorCube*>(m_pGameObject)->Update_Object(fTimeDelta);
-		return STATE::BOSS_METEORREADY;
+		m_pOwner->Get_Transform()->Translate(_vec3(0.f, 0.5f * fTimeDelta, 0.f));
 	}
+
+
 }
 
 void CBoss_MeteorReady::LateUpdate_State()

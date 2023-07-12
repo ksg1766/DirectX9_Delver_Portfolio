@@ -41,7 +41,6 @@ void CCollider::LateUpdate_Component()
 {
 	CTransform* pTransform = m_pHost->m_pTransform;
 	m_vCenterPos = pTransform->m_vInfo[INFO_POS];
-
 	//for (UINT i = 0; i < 3; ++i)
 	//	::CopyMemory(&m_vAxisDir[i], &pTransform->m_vInfo[i], sizeof(_vec3));
 }

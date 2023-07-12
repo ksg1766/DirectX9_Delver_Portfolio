@@ -1,6 +1,6 @@
 #include "Boss_BatSwarm.h"
 #include "Export_Function.h"
-
+#include "Player.h"
 
 CBoss_BatSwarm::CBoss_BatSwarm(LPDIRECT3DDEVICE9 pGraphicDev)
 	:Engine::CGameObject(pGraphicDev)
@@ -20,7 +20,12 @@ CBoss_BatSwarm::~CBoss_BatSwarm()
 HRESULT CBoss_BatSwarm::Ready_Object(void)
 {
 	m_eObjectTag = OBJECTTAG::MONSTERBULLET;
+
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
+	m_pCollider->InitOBB(
+		m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT],
+		m_pTransform->LocalScale() * 0.5);
+
 	m_fFrame = 0.f;
 	m_fRallyTime = 0.f;
 	m_fAngle = 0.f;
@@ -39,18 +44,17 @@ _int CBoss_BatSwarm::Update_Object(const _float& fTimeDelta)
 	m_fRallyTime += fTimeDelta;
 	if (2.f < m_fFrame)
 		m_fFrame = 0.f;
-	if(2.5f < m_fRallyTime)
+	if((2.5f < m_fRallyTime)|| (m_vDir == m_pTransform->m_vInfo[INFO_POS]))
 		Engine::EventManager()->DeleteObject(this);
-	if (2.f < m_fRallyTime)
+	if (1.6f < m_fRallyTime)
 	{
 		m_vDir = Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front()->m_pTransform->m_vInfo[INFO_POS] - m_pTransform->m_vInfo[INFO_POS];
+		m_vDir.y = 0.5f - m_pTransform->m_vInfo[INFO_POS].y;
 		D3DXVec3Normalize(&m_vDir,&m_vDir);
 		m_pTransform->Translate((m_vDir*25.F)* fTimeDelta);
 	}
-	else if(2.f > m_fRallyTime)
+	else if(1.6 > m_fRallyTime)
 		Move_to_Random(fTimeDelta);
-
-		
 
 	return iExit;
 }
@@ -72,8 +76,33 @@ void CBoss_BatSwarm::Render_Object(void)
 	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 	m_pTexture->Render_Texture(_uint(m_fFrame));
 	m_pBuffer->Render_Buffer();
-
+#if _DEBUG
+	m_pCollider->Render_Collider();
+#endif
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+}
+
+void CBoss_BatSwarm::OnCollisionEnter(CCollider* _pOther)
+{
+	if (SceneManager()->Get_GameStop()) { return; }
+
+}
+
+void CBoss_BatSwarm::OnCollisionStay(CCollider* _pOther)
+{
+	if (SceneManager()->Get_GameStop()) { return; }
+}
+
+void CBoss_BatSwarm::OnCollisionExit(CCollider* _pOther)
+{
+	if (SceneManager()->Get_GameStop()) { return; }
+
+	if (_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::PLAYER)
+	{
+		Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front()->Get_BasicStat()->Get_Stat()->fHealth += 0.01f;
+
+
+	}
 }
 
 void CBoss_BatSwarm::Move_to_NewPos(_vec3 _vPos,const _float& fTimeDelta)
@@ -109,6 +138,10 @@ HRESULT CBoss_BatSwarm::Add_Component(void)
 	pComponent = m_pBuffer = dynamic_cast<CRcTex*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_RcTex"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BUFFER, pComponent);
+
+	pComponent = m_pCollider = dynamic_cast<CCollider*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Collider"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::COLLIDER, pComponent);
 
 	pComponent = m_pTransform = dynamic_cast<CTransform*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Transform"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);

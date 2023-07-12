@@ -12,7 +12,7 @@ CCollisionManager::CCollisionManager()
 	CheckGroup(OBJECTTAG::MONSTER, OBJECTTAG::MONSTER);
 	CheckGroup(OBJECTTAG::MONSTER, OBJECTTAG::BOSS);
 	CheckGroup(OBJECTTAG::MONSTER, OBJECTTAG::ITEM);
-
+	CheckGroup(OBJECTTAG::ITEM, OBJECTTAG::ENVIRONMENT_OBJECT);
 }
 
 CCollisionManager::~CCollisionManager()

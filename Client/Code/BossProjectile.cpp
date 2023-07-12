@@ -2,7 +2,7 @@
 #include "..\Header\BossProjectile.h"
 #include "Export_Function.h"
 #include "Terrain.h"
-
+#include "Player.h"
 CBossProjectile::CBossProjectile(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CGameObject(pGraphicDev), m_fFrame(0.f)
 {
@@ -21,8 +21,13 @@ CBossProjectile::~CBossProjectile()
 HRESULT CBossProjectile::Ready_Object(void)
 {
 	m_eObjectTag = OBJECTTAG::MONSTERBULLET;
+
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
-	//m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
+	m_pCollider->InitOBB(
+		m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT],
+		m_pTransform->LocalScale() * 0.8);
+
+	m_pBasicStat->Get_Stat()->fAttack = 5.f;
 	return S_OK;
 }
 
@@ -65,7 +70,9 @@ void CBossProjectile::Render_Object(void)
 	m_pTexture->Render_Texture((_uint)m_fFrame);
 	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 	m_pBuffer->Render_Buffer();
-
+#if _DEBUG
+	m_pCollider->Render_Collider();
+#endif
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
 
@@ -119,6 +126,32 @@ void CBossProjectile::Set_Target(_vec3 _vPos)
 	m_vDir = m_vTargetPos - m_pTransform->m_vInfo[INFO_POS];
 }
 
+void CBossProjectile::OnCollisionEnter(CCollider* _pOther)
+{
+	if (SceneManager()->Get_GameStop()) { return; }
+
+	if (_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::PLAYER)
+	{
+		CPlayerStat& PlayerState = *(dynamic_cast<CPlayer*>(_pOther->GetHost())->Get_Stat());
+		PlayerState.Take_Damage(this->Get_BasicStat()->Get_Stat()->fAttack);
+		this->Set_AttackTick(true);
+
+		Engine::EventManager()->DeleteObject(this);
+	}
+
+}
+
+void CBossProjectile::OnCollisionStay(CCollider* _pOther)
+{
+
+
+}
+
+void CBossProjectile::OnCollisionExit(CCollider* _pOther)
+{
+
+}
+
 HRESULT CBossProjectile::Add_Component(void)
 {
 	CComponent* pComponent = nullptr;
@@ -139,9 +172,13 @@ HRESULT CBossProjectile::Add_Component(void)
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BILLBOARD, pComponent);
 
-	//pComponent = m_pCollider = dynamic_cast<CCollider*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Collider"));
-	//NULL_CHECK_RETURN(pComponent, E_FAIL);
-	//m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::COLLIDER, pComponent);
+	pComponent = m_pCollider = dynamic_cast<CCollider*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Collider"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::COLLIDER, pComponent);
+
+	pComponent = m_pBasicStat = dynamic_cast<CBasicStat*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BasicStat"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BASICSTAT, pComponent);
 
 	for (_uint i = 0; i < ID_END; ++i)
 		for (auto& iter : m_mapComponent[i])

@@ -162,5 +162,7 @@ COctreeNode* COctree::GetParentNodeByPos(_vec3 vPos, COctreeNode* const pNode)
 
 void COctree::Free()
 {
-    Safe_Release(m_pOctreeRoot);
+    //Safe_Release(m_pOctreeRoot);
+    if (m_pOctreeRoot)
+        m_pOctreeRoot->Free();
 }
