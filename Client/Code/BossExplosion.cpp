@@ -22,7 +22,7 @@ CBossExplosion::~CBossExplosion()
 
 HRESULT CBossExplosion::Ready_Object(void)
 {
-	m_eObjectTag = OBJECTTAG::PROJECTTILE;
+	m_eObjectTag = OBJECTTAG::MONSTERBULLET;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 	//m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
 	return S_OK;

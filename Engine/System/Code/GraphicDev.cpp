@@ -9,7 +9,7 @@ CGraphicDev::CGraphicDev()
 
 CGraphicDev::~CGraphicDev()
 {
-	Free();
+	//Free();
 }
 
 HRESULT CGraphicDev::Ready_GraphicDev(HWND hWnd,

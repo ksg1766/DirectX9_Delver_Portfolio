@@ -7,7 +7,7 @@ BEGIN(Engine)
 class CRcTex;
 class CTexture;
 class CAnimator;
-class CStateMachine;
+
 
 END
 

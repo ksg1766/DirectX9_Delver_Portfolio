@@ -18,7 +18,7 @@ CBoss_MeteorCube::~CBoss_MeteorCube()
 
 HRESULT CBoss_MeteorCube::Ready_Object()
 {
-	m_eObjectTag = OBJECTTAG::PROJECTTILE;
+	m_eObjectTag = OBJECTTAG::MONSTERBULLET;
 	FAILED_CHECK_RETURN(Add_Component(),E_FAIL);
 	m_bChanneling_End = false;
 	m_bMaxHeight = 12.f;

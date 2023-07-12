@@ -7,7 +7,7 @@
 #include "DungeonSpider.h"
 #include "Bat.h"
 #include "Wizard.h"
-#include "Magic_Ball.h"
+#include "Alien.h"
 
 #include "Boss_BatSwarm.h"
 
@@ -154,48 +154,53 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 	dynamic_cast<CWizard*>(pGameObject)->Set_Terrain(dynamic_cast<CTerrain*>(pLayer->Get_ObjectList(OBJECTTAG::TERRAIN).front()));
-
-	// Boss
-	pGameObject = CSkeletonKing::Create(m_pGraphicDev);
+	
+	pGameObject = CAlien::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-	dynamic_cast<CSkeletonKing*>(pGameObject)->Set_Terrain(dynamic_cast<CTerrain*>(pLayer->Get_ObjectList(OBJECTTAG::TERRAIN).front()));
+	dynamic_cast<CAlien*>(pGameObject)->Set_Terrain(dynamic_cast<CTerrain*>(pLayer->Get_ObjectList(OBJECTTAG::TERRAIN).front()));
+
+	//// Boss
+	//pGameObject = CSkeletonKing::Create(m_pGraphicDev);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+	//dynamic_cast<CSkeletonKing*>(pGameObject)->Set_Terrain(dynamic_cast<CTerrain*>(pLayer->Get_ObjectList(OBJECTTAG::TERRAIN).front()));
 
 	// TempCube0
 	pGameObject = CCubeBlock::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	pGameObject->m_pTransform->Translate(_vec3(4.f, 2.f, 4.f));
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-
-	// TempCube1
-	pGameObject = CCubeBlock::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pGameObject->m_pTransform->Translate(_vec3(8.f, 2.f, 4.f));
-	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-
-	// TempCube2
-	pGameObject = CCubeBlock::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pGameObject->m_pTransform->Translate(_vec3(12.f, 2.f, 4.f));
-	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-
-	// TempCube3
-	pGameObject = CCubeBlock::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pGameObject->m_pTransform->Translate(_vec3(8.f, 2.f, 8.f));
-	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-
-	// TempCube4
-	pGameObject = CCubeBlock::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pGameObject->m_pTransform->Translate(_vec3(8.f, 2.f, 12.f));
-	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-
-	// TempCube5
-	pGameObject = CCubeBlock::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pGameObject->m_pTransform->Translate(_vec3(8.f, 6.f, 8.f));
-	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+	//
+	//// TempCube1
+	//pGameObject = CCubeBlock::Create(m_pGraphicDev);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//pGameObject->m_pTransform->Translate(_vec3(8.f, 2.f, 4.f));
+	//pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+	//
+	//// TempCube2
+	//pGameObject = CCubeBlock::Create(m_pGraphicDev);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//pGameObject->m_pTransform->Translate(_vec3(12.f, 2.f, 4.f));
+	//pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+	//
+	//// TempCube3
+	//pGameObject = CCubeBlock::Create(m_pGraphicDev);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//pGameObject->m_pTransform->Translate(_vec3(8.f, 2.f, 8.f));
+	//pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+	//
+	//// TempCube4
+	//pGameObject = CCubeBlock::Create(m_pGraphicDev);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//pGameObject->m_pTransform->Translate(_vec3(8.f, 2.f, 12.f));
+	//pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+	//
+	//// TempCube5
+	//pGameObject = CCubeBlock::Create(m_pGraphicDev);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//pGameObject->m_pTransform->Translate(_vec3(8.f, 6.f, 8.f));
+	//pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
 
 	return S_OK;

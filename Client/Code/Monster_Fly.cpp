@@ -72,14 +72,13 @@ STATE CMonster_Fly::Update_State(const _float& fTimeDelta)
 		{
 			Fly(fTimeDelta);
 			m_pOwner->Set_State(STATE::ROMIMG);
-
 			return STATE::ROMIMG;
 		}
 	
 	}
 
 
-	// return STATE::ROMIMG;
+	return STATE::ROMIMG;
 }
 
 void CMonster_Fly::LateUpdate_State()
@@ -98,9 +97,13 @@ void CMonster_Fly::Fly(const _float& fTimeDelta)
 	const _float fMaxDistance = 8.f;
 	const _float fAmplitude = 8.f;
 
-	_float X = m_vSavePos.x + (fAmplitude * cosf((_float)rand() / RAND_MAX * 2.f * D3DX_PI)) / 50.f;
+	_float fRandX = 1 + rand() % 250;
+	//_float fRandY = 1 + rand() % 250;
+	_float fRandZ = 1 + rand() % 250;
+
+	_float X = m_vSavePos.x + (fAmplitude * cosf((_float)rand() / RAND_MAX * 2.f * D3DX_PI)) / fRandX;
 	_float Y = m_vSavePos.y + (fAmplitude * -sinf((_float)rand() / RAND_MAX * 2.f * D3DX_PI)) / 50.f;
-	_float Z = m_vSavePos.z + (fAmplitude * sinf((_float)rand() / RAND_MAX * 2.f * D3DX_PI)) / 100.f;
+	_float Z = m_vSavePos.z + (fAmplitude * sinf((_float)rand() / RAND_MAX * 2.f * D3DX_PI)) / 50.f;
 
 	_vec3 vDir = _vec3(X, Y, Z);
 
@@ -111,7 +114,15 @@ void CMonster_Fly::Fly(const _float& fTimeDelta)
 	CTransform* pPlayerTransform = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform;
 	_vec3 vPlayerPos = pPlayerTransform->m_vInfo[INFO_POS];
 
-	_vec3 vTargetPos = m_pOwner->Get_Transform()->m_vInfo[INFO_POS] + vDir * 30.f;
+	_vec3 vTargetPos;
+	_vec3 vPlayerTaget = vPlayerPos - m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
+
+	D3DXVec3Normalize(&vPlayerTaget, &vPlayerTaget);
+
+	if(m_pOwner->Get_Host()->Get_StateMachine()->Get_PrevState() != STATE::ATTACK)
+		vTargetPos = m_pOwner->Get_Transform()->m_vInfo[INFO_POS] + vDir * 30.f;
+	else
+		vTargetPos = m_pOwner->Get_Transform()->m_vInfo[INFO_POS] + vPlayerTaget * 30.f;
 
 	_vec3 vDir2 = vTargetPos - m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
 	D3DXVec3Normalize(&vDir2, &vDir2);

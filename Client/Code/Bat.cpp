@@ -32,7 +32,7 @@ HRESULT CBat::Ready_Object()
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	// Stat
-	m_pBasicStat->Get_Stat()->fHealth = 2.f;
+	m_pBasicStat->Get_Stat()->fHealth = 5.f;
 
 
 	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
@@ -50,7 +50,6 @@ HRESULT CBat::Ready_Object()
 	CAnimation* pAnimation = CAnimation::Create(m_pGraphicDev,
 		m_pTexture[(_uint)STATE::ROMIMG], STATE::ROMIMG, 5.f, TRUE);
 	m_pAnimator->Add_Animation(STATE::ROMIMG, pAnimation);
-
 	pAnimation = CAnimation::Create(m_pGraphicDev,
 		m_pTexture[(_uint)STATE::ATTACK], STATE::ATTACK, 5.f, TRUE);
 	m_pAnimator->Add_Animation(STATE::ATTACK, pAnimation);

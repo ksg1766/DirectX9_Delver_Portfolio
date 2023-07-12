@@ -29,6 +29,8 @@ private:
     enum eValue     { Depth_Limit = 5, Width = 128 };
     COctreeNode*    m_pOctreeRoot = nullptr;
 
+
+
 public:
     virtual void    Free();
 };

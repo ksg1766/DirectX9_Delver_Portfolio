@@ -113,6 +113,4 @@ CAnimation* CAnimation::Create(LPDIRECT3DDEVICE9 pGraphicDev, CTexture* pTexture
 void CAnimation::Free()
 {
 	Safe_Release<LPDIRECT3DDEVICE9>(m_pGraphicDev);
-	Safe_Release<CTexture*>(m_pCurAnimation);
-	Safe_Release<CAnimator*>(m_pOwner);
 }

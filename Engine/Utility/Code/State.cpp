@@ -21,5 +21,4 @@ CState::~CState()
 void CState::Free()
 {
 	Safe_Release<LPDIRECT3DDEVICE9>(m_pGraphicDev);
-	//Safe_Release<CStateMachine*>(m_pOwner);
 }

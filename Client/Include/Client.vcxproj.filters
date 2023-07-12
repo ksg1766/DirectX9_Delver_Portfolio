@@ -318,9 +318,15 @@
     </Filter>
     <Filter Include="02. GameObject\04. Public\03. BlackInOut\02. BlackOut">
       <UniqueIdentifier>{07047b40-0c13-465a-adfd-0fbbb45d196f}</UniqueIdentifier>
-      </Filter>
+    </Filter>
     <Filter Include="02. GameObject\01. Stage\999.Boss\01. AttackEff\05. BatSwarm">
       <UniqueIdentifier>{841fe700-4199-4cd2-9e5a-036618d2fa75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\05. Monster\05. Alien">
+      <UniqueIdentifier>{55b31d7d-5ce7-4e07-a7cd-7ea2b1c55e64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\05. Monster\06. Slime">
+      <UniqueIdentifier>{b5068faf-a7c8-4a71-860a-e33b2fd4b593}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -621,6 +627,12 @@
     <ClInclude Include="..\Header\Boss_BatSwarm.h">
       <Filter>02. GameObject\01. Stage\999.Boss\01. AttackEff\05. BatSwarm</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\Alien.h">
+      <Filter>02. GameObject\01. Stage\05. Monster\05. Alien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Slime.h">
+      <Filter>99. Etc\헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -895,7 +907,7 @@
     </ClCompile>
     <ClCompile Include="..\Code\Magic_Ball.cpp">
       <Filter>02. GameObject\01. Stage\05. Monster\04. Wizard\Bullet</Filter>
-      </ClCompile>
+    </ClCompile>
     <ClCompile Include="..\Code\SkeletonKing.cpp">
       <Filter>02. GameObject\01. Stage\999.Boss</Filter>
     </ClCompile>
@@ -910,6 +922,12 @@
     </ClCompile>
     <ClCompile Include="..\Code\Boss_BatSwarm.cpp">
       <Filter>02. GameObject\01. Stage\999.Boss\01. AttackEff\05. BatSwarm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Alien.cpp">
+      <Filter>02. GameObject\01. Stage\05. Monster\05. Alien</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Slime.cpp">
+      <Filter>99. Etc\소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -19,7 +19,7 @@ CBoss_BatSwarm::~CBoss_BatSwarm()
 
 HRESULT CBoss_BatSwarm::Ready_Object(void)
 {
-	m_eObjectTag = OBJECTTAG::PROJECTTILE;
+	m_eObjectTag = OBJECTTAG::MONSTERBULLET;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 	m_fFrame = 0.f;
 	m_fRallyTime = 0.f;

@@ -8,10 +8,11 @@ CCollisionManager::CCollisionManager()
 	Reset();
 	CheckGroup(OBJECTTAG::PLAYER, OBJECTTAG::MONSTER);
 	CheckGroup(OBJECTTAG::PLAYER, OBJECTTAG::BOSS);
-	CheckGroup(OBJECTTAG::PLAYER, OBJECTTAG::BULLET);
+	CheckGroup(OBJECTTAG::PLAYER, OBJECTTAG::MONSTERBULLET);
 	CheckGroup(OBJECTTAG::MONSTER, OBJECTTAG::MONSTER);
 	CheckGroup(OBJECTTAG::MONSTER, OBJECTTAG::BOSS);
 	CheckGroup(OBJECTTAG::MONSTER, OBJECTTAG::ITEM);
+
 }
 
 CCollisionManager::~CCollisionManager()
@@ -25,6 +26,7 @@ void CCollisionManager::LateUpdate_Collision()
 	CheckCollisionStatic(OBJECTTAG::PLAYER);
 	CheckCollisionStatic(OBJECTTAG::MONSTER);
 	CheckCollisionStatic(OBJECTTAG::BOSS);
+	CheckCollisionStatic(OBJECTTAG::MONSTERBULLET);
 
 	for (UINT iRow = 0; iRow < (UINT)OBJECTTAG::OBJECT_END; ++iRow)
 	{

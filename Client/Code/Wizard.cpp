@@ -4,6 +4,8 @@
 
 #include "Monster_Move.h"
 #include "Wizard_Attack.h"
+#include "Monster_Hit.h"
+#include "Monster_Dead.h"
 
 CWizard::CWizard(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CMonster(pGraphicDev)
@@ -31,10 +33,10 @@ HRESULT CWizard::Ready_Object()
 	m_pStateMachine->Add_State(STATE::ROMIMG, pState);
 	pState = CWizard_Attack::Create(m_pGraphicDev, m_pStateMachine);
 	m_pStateMachine->Add_State(STATE::ATTACK, pState);
-	//pState = CMonster_Hit::Create(m_pGraphicDev, m_pStateMachine);
-	//m_pStateMachine->Add_State(STATE::HIT, pState);
-	//pState = CMonster_Dead::Create(m_pGraphicDev, m_pStateMachine);
-	//m_pStateMachine->Add_State(STATE::DEAD, pState);
+	pState = CMonster_Hit::Create(m_pGraphicDev, m_pStateMachine);
+	m_pStateMachine->Add_State(STATE::HIT, pState);
+	pState = CMonster_Dead::Create(m_pGraphicDev, m_pStateMachine);
+	m_pStateMachine->Add_State(STATE::DEAD, pState);
 	
 
 	CAnimation* pAnimation = CAnimation::Create(m_pGraphicDev,
@@ -43,12 +45,12 @@ HRESULT CWizard::Ready_Object()
 	pAnimation = CAnimation::Create(m_pGraphicDev,
 		m_pTexture[(_uint)STATE::ATTACK], STATE::ATTACK, 5.f, TRUE);
 	m_pAnimator->Add_Animation(STATE::ATTACK, pAnimation);
-	//pAnimation = CAnimation::Create(m_pGraphicDev,
-	//	m_pTexture[(_uint)STATE::HIT], STATE::HIT, 5.f, TRUE);
-	//m_pAnimator->Add_Animation(STATE::HIT, pAnimation);
-	//pAnimation = CAnimation::Create(m_pGraphicDev,
-	//	m_pTexture[(_uint)STATE::DEAD], STATE::DEAD, 1.5f, TRUE);
-	//m_pAnimator->Add_Animation(STATE::DEAD, pAnimation);
+	pAnimation = CAnimation::Create(m_pGraphicDev,
+		m_pTexture[(_uint)STATE::HIT], STATE::HIT, 5.f, TRUE);
+	m_pAnimator->Add_Animation(STATE::HIT, pAnimation);
+	pAnimation = CAnimation::Create(m_pGraphicDev,
+		m_pTexture[(_uint)STATE::DEAD], STATE::DEAD, 1.5f, TRUE);
+	m_pAnimator->Add_Animation(STATE::DEAD, pAnimation);
 	
 	m_pStateMachine->Set_Animator(m_pAnimator);
 	m_pStateMachine->Set_State(STATE::ROMIMG);
@@ -66,6 +68,15 @@ _int CWizard::Update_Object(const _float& fTimeDelta)
 	if (SceneManager()->Get_GameStop()) { return 0; }
 
 	_int iExit = __super::Update_Object(fTimeDelta);
+
+	if (m_pBasicStat->Get_Stat()->fHealth <= 0)
+	{
+		if (m_pAnimator->Get_Animation()->Get_Frame() >= 1)
+			m_pAnimator->Get_Animation()->Set_Loop(FALSE);
+
+		m_pStateMachine->Set_State(STATE::DEAD);
+	}
+
 
 	m_pStateMachine->Update_StateMachine(fTimeDelta);
 	ForceHeight(m_pTransform->m_vInfo[INFO_POS]);
@@ -148,7 +159,7 @@ void CWizard::OnCollisionEnter(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 
-	if (!(_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::ITEM))
+	if (this->Get_StateMachine()->Get_State() != STATE::DEAD && _pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::ITEM)
 		__super::OnCollisionEnter(_pOther);
 }
 
@@ -156,8 +167,7 @@ void CWizard::OnCollisionStay(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 
-	if (!(_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::ITEM))
-		__super::OnCollisionEnter(_pOther);
+
 }
 
 void CWizard::OnCollisionExit(CCollider* _pOther)

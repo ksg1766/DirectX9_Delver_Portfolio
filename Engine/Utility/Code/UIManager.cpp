@@ -74,8 +74,7 @@ void CUIManager::AddItemGameobject_UI(CGameObject* pGameObject)
 		{
 			// 같은 아이템이 존재할 시 해당 개수만큼 카운트 증가 후 들어온 아이템 삭제
 			dynamic_cast<CUIitem*>(iter)->Add_ItemCount(ItemType.iCount);
-			Engine::EventManager()->DeleteObject(pGameObject);
-			//Safe_Release(pGameObject); // 들어온 UI 이미지 삭제
+			Safe_Release<CGameObject*>(pGameObject);
 			return;
 		}
 	}
@@ -87,8 +86,7 @@ void CUIManager::AddItemGameobject_UI(CGameObject* pGameObject)
 		{
 			// 같은 아이템이 존재할 시 해당 개수만큼 카운트 증가 후 들어온 아이템 삭제
 			dynamic_cast<CUIitem*>(iter)->Add_ItemCount(ItemType.iCount);
-			Engine::EventManager()->DeleteObject(pGameObject);
-			//Safe_Release(pGameObject);
+			Safe_Release<CGameObject*>(pGameObject);
 			return;
 		}
 	}

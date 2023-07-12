@@ -15,13 +15,15 @@ CMagic_Ball::CMagic_Ball(const CMagic_Ball& rhs)
 
 CMagic_Ball::~CMagic_Ball()
 {
+	Free();
 }
 
 HRESULT CMagic_Ball::Ready_Object(CTransform* pOwner)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	Set_ObjectTag(OBJECTTAG::BULLET);
+	m_eObjectTag = OBJECTTAG::MONSTERBULLET;
+	Set_State(STATE::ATTACK);
 
 	m_bCheck = false;
 	m_bIsAttack = false;
@@ -67,19 +69,24 @@ _int CMagic_Ball::Update_Object(const _float& fTimeDelta)
 	
 	m_pAnimator->Update_Animator(fTimeDelta);
 
-	if (m_bCheck)
+	if (!m_bCheck)
 	{
 		if (m_pAnimator->Get_Animation()->Get_Frame() >= 1)
 			m_pAnimator->Get_Animation()->Set_Loop(FALSE);
-
-		m_pStateMachine->Set_State(STATE::DEAD);
 	}
 	else
 	{
 		if (m_pAnimator->Get_Animation()->Get_Frame() >= 1)
+		{
 			m_pAnimator->Get_Animation()->Set_Loop(FALSE);
+			EventManager()->GetInstance()->DeleteObject(this);
+		}
+			
 	}
 
+
+
+	
 	if (!m_bIsAttack)
 	{
 		m_vInit = m_pTransform->m_vInfo[INFO_POS];
@@ -175,20 +182,30 @@ void CMagic_Ball::OnCollisionEnter(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 
-	if (!(_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::ITEM))
-		__super::OnCollisionEnter(_pOther);
+	//if (_pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::ITEM)	
+	//	__super::OnCollisionEnter(_pOther);
 
-	if (_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::PLAYER)
+	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BLOCK && this->Get_State() != STATE::DEAD)
+	{
+		Set_State(STATE::DEAD);
+		m_pAnimator->Set_Animation(STATE::DEAD);
+		m_bCheck = true;
+
+		cout << "寒倒面倒 " << endl;
+	}
+		
+
+	if (_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::PLAYER && this->Get_State() != STATE::DEAD)
 	{
 		CPlayerStat& PlayerState = *dynamic_cast<CPlayer*>(_pOther->GetHost())->Get_Stat();
 
-	
 		PlayerState.Take_Damage(this->Get_BasicStat()->Get_Stat()->fAttack);
 		this->Set_AttackTick(true);
-		
-		cout << "付过备 面倒" << endl;
 
-		EventManager()->GetInstance()->DeleteObject(this);
+		cout << "付过备 单固瘤" << endl;
+
+		Set_State(STATE::DEAD);
+		m_pAnimator->Set_Animation(STATE::DEAD);
 
 		m_bCheck = true;
 	}
@@ -198,8 +215,12 @@ void CMagic_Ball::OnCollisionStay(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 
+
 	if (!(_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::ITEM))
-		__super::OnCollisionEnter(_pOther);
+		__super::OnCollisionStay(_pOther);
+
+	cout << "付过备 单固瘤" << endl;
+
 }
 
 void CMagic_Ball::OnCollisionExit(CCollider* _pOther)
@@ -269,4 +290,5 @@ CMagic_Ball* CMagic_Ball::Create(LPDIRECT3DDEVICE9 pGraphicDev, CTransform* pOwn
 void CMagic_Ball::Free()
 {
 	__super::Free();
+
 }

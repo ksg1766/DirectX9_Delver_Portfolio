@@ -193,6 +193,9 @@ void COctreeNode::Free()
 	Safe_Release(m_pVB);
 	Safe_Release(m_pIB);
 	Safe_Delete(m_pBoundBox);
+
+
+
 	if (!m_vecChildren.empty())
 	{
 		for (auto& iter : m_vecChildren)
@@ -201,4 +204,4 @@ void COctreeNode::Free()
 			Safe_Delete(iter);
 		}
 	}
-}
+}	

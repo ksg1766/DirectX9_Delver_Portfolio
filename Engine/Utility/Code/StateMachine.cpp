@@ -123,9 +123,4 @@ void CStateMachine::Free()
 	for_each(m_StateMap.begin(), m_StateMap.end(), CDeleteMap());
 	m_StateMap.clear();
 
-	Safe_Release<CState*>(m_pCurState);
-	Safe_Release<CState*>(m_pPrevState);
-	Safe_Release<CAnimator*>(m_pAnimator);
-
-
 }

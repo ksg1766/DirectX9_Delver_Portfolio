@@ -17,11 +17,12 @@ CTempItem::CTempItem(const CTempItem& rhs)
 }
 
 CTempItem::~CTempItem()
-{
+{		
+	Free();
 }
 
 HRESULT CTempItem::Ready_Object(void)
-{
+{		
 	m_eObjectTag = OBJECTTAG::ITEM;
 	m_eItemTag = ITEMTAG::WEAPON;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
@@ -66,7 +67,7 @@ _int CTempItem::Update_Object(const _float& fTimeDelta)
 			m_fSignTime = 1.f;
 			pPlayer->Set_Attack(false);
 		}
-		m_pTransform->Translate(m_pTransform->m_vInfo[INFO_LOOK] * m_fSignTime * 15.f * fTimeDelta);
+		m_pTransform->Translate(m_pTransform->m_vInfo[INFO_LOOK] * m_fSignTime * 10.f * fTimeDelta);
 
 		// 1.8848은 그냥 D3DXVec3Length(&오프셋) 하셔서 바꿔주시면 돼요. 2.3f는 적당히 사거리 더해서 하심 됩니다.
 #pragma endregion ksg
@@ -159,7 +160,7 @@ void CTempItem::OnCollisionEnter(CCollider* _pOther)
 			++iCount;
 
 			if (_pOther->Get_Host()->Get_StateMachine()->Get_PrevState() != STATE::HIT
-				&& iCount > 3)
+				&& iCount > 4)
 			{
 				iCount = 0;
 				_pOther->Get_Host()->Get_StateMachine()->Set_State(STATE::HIT);

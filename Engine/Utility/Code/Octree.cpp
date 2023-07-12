@@ -28,18 +28,18 @@ HRESULT COctree::Ready_Octree()
 
 void COctree::Render_Octree(LPDIRECT3DDEVICE9 pGraphicDev)
 {
-        pGraphicDev->AddRef();
+    pGraphicDev->AddRef();
 #ifdef _DEBUG
-        pGraphicDev->SetFVF(VTXCOL::format);
-		pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-		pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME); 
-		pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+    pGraphicDev->SetFVF(VTXCOL::format);
+    pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+    pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+    pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
-        m_pOctreeRoot->Render_OctreeNode(pGraphicDev);
+    m_pOctreeRoot->Render_OctreeNode(pGraphicDev);
 
-		pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
-		pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
-		pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+   pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+   pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+   pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 #endif
 }
 COctreeNode* COctree::BuildOctree(_vec3 vCenter, _float fHalfWidth, _int depthLimit)
@@ -162,6 +162,5 @@ COctreeNode* COctree::GetParentNodeByPos(_vec3 vPos, COctreeNode* const pNode)
 
 void COctree::Free()
 {
-    if(m_pOctreeRoot)
-        m_pOctreeRoot->Free();
+    Safe_Release(m_pOctreeRoot);
 }

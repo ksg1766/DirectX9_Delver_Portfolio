@@ -77,6 +77,7 @@ void CCubeBlock::Render_Object(void)
 
 void CCubeBlock::OnCollisionEnter(CCollider* _pOther)
 {
+
 }
 
 void CCubeBlock::OnCollisionStay(CCollider* _pOther)

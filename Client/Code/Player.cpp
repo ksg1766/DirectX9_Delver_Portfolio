@@ -187,19 +187,6 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 		D3DXVec3TransformCoord(&m_vOffset, &m_vOffset, &matRotY);
 	}
 
-
-	if (Engine::InputDev()->Key_Down(DIK_1))
-	{
-		m_bItemEquipRight = true;
-		Engine::CGameObject* pGameObject = nullptr;
-		pGameObject = CTempItem::Create(m_pGraphicDev);
-		
-		//Add_Item(pGameObject, ITEMTAG::WEAPON);
-		Set_CurrentEquipRight(pGameObject);
-
-		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
-	}
-
 	// UI 단축키 추가
 	if (Engine::InputDev()->Key_Down(DIK_I))
 	{
@@ -261,7 +248,7 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 			Engine::EventManager()->CreateObject(pGameObjectItem, LAYERTAG::GAMELOGIC);
 		}
 
-		// 획득한 아이템을 인벤토리에 넣는다.
+		// 획득한 아이템을 인벤토리에 넣는다.	
 		m_pInventory->Add_ItemObject(pGameObjectItem);
 
 
@@ -399,7 +386,7 @@ void CPlayer::ForceHeight(_vec3 _vPos)
 
 void CPlayer::OnCollisionEnter(CCollider* _pOther)
 {
-	if (_pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::MONSTER)
+	if (_pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::MONSTER && _pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::MONSTERBULLET)
 	{
 		_vec3	vOtherPos = _pOther->GetCenterPos();
 		_float* fOtherAxis = _pOther->GetAxisLen();
@@ -445,7 +432,7 @@ void CPlayer::OnCollisionEnter(CCollider* _pOther)
 
 void CPlayer::OnCollisionStay(CCollider* _pOther)
 {
-	if (_pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::MONSTER)
+	if (_pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::MONSTER && _pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::MONSTERBULLET)
 	{
 		_vec3	vOtherPos = _pOther->GetCenterPos();
 		_float* fOtherAxis = _pOther->GetAxisLen();
