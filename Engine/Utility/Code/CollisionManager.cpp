@@ -23,21 +23,17 @@ void CCollisionManager::LateUpdate_Collision()
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 
+	// Static Object
 	CheckCollisionStatic(OBJECTTAG::PLAYER);
 	CheckCollisionStatic(OBJECTTAG::MONSTER);
 	CheckCollisionStatic(OBJECTTAG::BOSS);
 	CheckCollisionStatic(OBJECTTAG::MONSTERBULLET);
 
+	// Dtnamic Object
 	for (UINT iRow = 0; iRow < (UINT)OBJECTTAG::OBJECT_END; ++iRow)
-	{
 		for (UINT iCol = iRow; iCol < (UINT)OBJECTTAG::OBJECT_END; ++iCol)
-		{
 			if (m_arrCheck[iRow] & (1 << iCol))
-			{
 				CheckCollisionByType((OBJECTTAG)iRow, (OBJECTTAG)iCol);
-			}
-		}
-	}
 }
 
 void CCollisionManager::CheckGroup(OBJECTTAG _eLeft, OBJECTTAG _eRight)
@@ -330,8 +326,8 @@ void CCollisionManager::CheckCollisionStatic(OBJECTTAG _eObjectLeft)
 
 		COctreeNode* pParentNode = Octree()->GetParentNodeByPos(iterL->m_pTransform->m_vInfo[INFO_POS], Octree()->GetOctreeRoot());
 		if (!pParentNode) return;
-		if (iterL->Get_ObjectTag() == OBJECTTAG::PLAYER)
-			int a = 0;
+		/*if (iterL->Get_ObjectTag() == OBJECTTAG::PLAYER)
+			int a = 0;*/
 		const vector<CGameObject*>& vecRight = pParentNode->GetObjectList();
 
 		//for (auto& iterR = vecRight.begin(); iterR != vecRight.end(); ++iterR)

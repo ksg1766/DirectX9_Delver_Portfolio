@@ -22,6 +22,8 @@ public:
 	virtual void		LateUpdate_Scene();
 	virtual void		Render_Scene()PURE;
 
+	virtual	HRESULT		Load_Data() { return S_OK; }
+
 protected:
 	LPDIRECT3DDEVICE9				m_pGraphicDev;
 	map<LAYERTAG, CLayer*>			m_mapLayer;

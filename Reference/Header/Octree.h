@@ -26,7 +26,7 @@ private:
     void            FindCurrentPosNode(CTransform* pTransform, COctreeNode* const pNode);
 
 private:
-    enum eValue     { Depth_Limit = 5, Width = 128 };
+    enum eValue     { Depth_Limit = 6, Width = 256 };
     COctreeNode*    m_pOctreeRoot = nullptr;
 
 

@@ -4,12 +4,12 @@
 #include "Export_Function.h"
 
 CCubeBlock::CCubeBlock(LPDIRECT3DDEVICE9 pGraphicDev)
-    : CGameObject(pGraphicDev), m_iTextureNumber(7)
+    : CGameObject(pGraphicDev), m_byTextureNumber(7)
 {
 }
 
 CCubeBlock::CCubeBlock(const CCubeBlock& rhs)
-    : CGameObject(rhs), m_iTextureNumber(7)
+    : CGameObject(rhs), m_byTextureNumber(7)
 {
 }
 
@@ -38,7 +38,7 @@ HRESULT CCubeBlock::Ready_Object(void)
 	}
 	m_pBuffer->m_pIB->Unlock();
 
-	m_pTransform->Scale(_vec3(2.f, 2.f, 2.f));
+	//m_pTransform->Scale(_vec3(2.f, 2.f, 2.f));
 	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
 
 	//m_pTransform->Translate(_vec3(0.f, 2.f, 0.f));
@@ -65,7 +65,7 @@ void CCubeBlock::Render_Object(void)
 	
 	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	//m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-	m_pTexture->Render_Texture(m_iTextureNumber);
+	m_pTexture->Render_Texture(m_byTextureNumber);
 	m_pBuffer->Render_Buffer();
 	//m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);

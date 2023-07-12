@@ -45,6 +45,7 @@ private:
 	HRESULT			Ready_Layer_Environment(LAYERTAG _eLayerTag);
 	HRESULT			Ready_Layer_GameLogic(LAYERTAG _eLayerTag);
 	HRESULT			Ready_Layer_UI(LAYERTAG _eLayerTag);
+	virtual HRESULT	Load_Data() override;
 
 public:
 	static CStage*		Create(LPDIRECT3DDEVICE9 pGraphicDev);
