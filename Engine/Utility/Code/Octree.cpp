@@ -162,6 +162,6 @@ COctreeNode* COctree::GetParentNodeByPos(_vec3 vPos, COctreeNode* const pNode)
 
 void COctree::Free()
 {
-    if(m_pOctreeRoot)
+    if (m_pOctreeRoot)
         m_pOctreeRoot->Free();
 }

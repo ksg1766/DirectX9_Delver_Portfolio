@@ -1,6 +1,7 @@
 #include "Boss_Sturn.h"
 #include "Export_Function.h"
 #include "SkeletonKing.h"
+
 CBoss_Sturn::CBoss_Sturn()
 {
 }
@@ -18,6 +19,7 @@ HRESULT CBoss_Sturn::Ready_State(CStateMachine* pOwner)
 {
     m_pOwner = pOwner;
     m_fCount = 0.f;
+
     return S_OK;
 }
 
@@ -29,6 +31,7 @@ STATE CBoss_Sturn::Update_State(const _float& fTimeDelta)
         m_fCount = 0.f;
         return STATE::BOSS_IDLE;
     }
+    return STATE::BOSS_STURN;
 }
 
 void CBoss_Sturn::LateUpdate_State()
@@ -37,6 +40,7 @@ void CBoss_Sturn::LateUpdate_State()
 
 void CBoss_Sturn::Render_State()
 {
+    //cout << "보스 스턴중 " << endl;
 }
 
 CBoss_Sturn* CBoss_Sturn::Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner)

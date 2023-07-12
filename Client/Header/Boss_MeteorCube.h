@@ -22,13 +22,17 @@ public:
 
 public:
     virtual void    Set_Center(_vec3    _CenterPos);
-
    
     virtual void    Set_ChannelingEnd() { m_bChanneling_End = true; }
 
     virtual void    Channeling_Begin();
     virtual void     Channeling_Now(const _float& fTimeDelta);
     virtual void     Channeling_End(const _float& fTimeDelta);
+
+    virtual void		OnCollisionEnter(CCollider* _pOther);
+    virtual void		OnCollisionStay(CCollider* _pOther);
+    virtual void		OnCollisionExit(CCollider* _pOther);
+
 private:
     //ÇÔ¼ö
 private:
@@ -42,7 +46,6 @@ private:
     _float   m_bMaxHeight;
 
     _bool   m_bChanneling_End;
-    _bool   m_bSHot;
 
     _vec3 m_vCenter;
 public:

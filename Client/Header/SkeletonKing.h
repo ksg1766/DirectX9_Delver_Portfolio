@@ -30,6 +30,8 @@ public:
 	void		Set_Terrain(CTerrain* _pCurrentTerrain) { m_pTerrain = _pCurrentTerrain; }
 	CTerrain*	Get_Terrain() { return m_pTerrain; }
 	virtual _float		Get_Frame() { return m_fFrame; }
+	CStateMachine* Get_StatMachine() { return m_pStateMachine; }
+
 	virtual void	OnCollisionEnter(CCollider* _pOther);
 	virtual void	OnCollisionStay(CCollider* _pOther);
 	virtual void	OnCollisionExit(CCollider* _pOther);

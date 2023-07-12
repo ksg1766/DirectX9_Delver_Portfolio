@@ -22,12 +22,15 @@ public:
 	virtual void LateUpdate_Object(void) override;
 	virtual void Render_Object(void) override;
 
+	virtual void	OnCollisionEnter(CCollider* _pOther);
+	virtual void	OnCollisionStay(CCollider* _pOther);
+	virtual void	OnCollisionExit(CCollider* _pOther);
+
 public:
 	virtual void	Set_StartPos(_vec3 _vec);
 	virtual void	Set_StartPosY(float _fY);
 private:
 	CRcTex* m_pBuffer = nullptr;
-	CTransform* m_pTransform = nullptr;
 	CTexture* m_pTexture = nullptr;
 	CBillBoard* m_pBillBoard = nullptr;
 	_float			m_fFrame;

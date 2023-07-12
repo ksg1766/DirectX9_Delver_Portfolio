@@ -21,7 +21,7 @@ HRESULT CMagic_Ball::Ready_Object(CTransform* pOwner)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	Set_ObjectTag(OBJECTTAG::BULLET);
+	Set_ObjectTag(OBJECTTAG::MONSTER_BULLET);
 
 	m_bCheck = false;
 	m_bIsAttack = false;

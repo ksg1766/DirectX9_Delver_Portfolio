@@ -14,7 +14,6 @@
 #include "Player_Attack.h"
 
 #include "UIitem.h"
-
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CGameObject(pGraphicDev)
 {
@@ -45,8 +44,6 @@ HRESULT CPlayer::Ready_Object(void)
 	m_pTransform->Translate(_vec3(0.f, 1.f, 0.f));
 	m_vOffset = _vec3(0.55f, 0.1f, 1.8f);
 
-
-
 	// 걷기 상태 추가
 	CState* pState = CPlayerState_Walk::Create(m_pGraphicDev, m_pStateMachine);
 	m_pStateMachine->Add_State(STATE::ROMIMG, pState);
@@ -69,7 +66,6 @@ Engine::_int CPlayer::Update_Object(const _float& fTimeDelta)
 	if (SceneManager()->Get_GameStop()) { return 0; }
 
 	_int iExit = __super::Update_Object(fTimeDelta);
-
 
 	m_pStateMachine->Update_StateMachine(fTimeDelta);
 
@@ -98,7 +94,6 @@ void CPlayer::Render_Object(void)
 #if _DEBUG
 	m_pCollider->Render_Collider();
 #endif
-
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
 
@@ -171,7 +166,6 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 
 	}
 
-
 	if (0 != (dwMouseMove = Engine::InputDev()->Get_DIMouseMove(DIMS_Y)) && !bCameraOn)
 	{
 		m_pTransform->Rotate(ROT_X, D3DXToRadian(dwMouseMove) * fTimeDelta * 3.f);
@@ -186,7 +180,6 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 		D3DXVec3TransformNormal(&vLook, &vLook, &matRotY);
 		D3DXVec3TransformCoord(&m_vOffset, &m_vOffset, &matRotY);
 	}
-
 
 	if (Engine::InputDev()->Key_Down(DIK_1))
 	{
@@ -261,11 +254,11 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 			Engine::EventManager()->CreateObject(pGameObjectItem, LAYERTAG::GAMELOGIC);
 		}
 
-		// 획득한 아이템을 인벤토리에 넣는다.
+		//// 획득한 아이템을 인벤토리에 넣는다.
 		m_pInventory->Add_ItemObject(pGameObjectItem);
 
 
-		// ITEM UI 객체 생성 후 들어온 아이템 타입 및 아이디로 값 셋팅.
+		//// ITEM UI 객체 생성 후 들어온 아이템 타입 및 아이디로 값 셋팅.
 		Engine::CGameObject* pGameObjectUI = CUIitem::Create(m_pGraphicDev);
 		dynamic_cast<CUIitem*>(pGameObjectUI)->Set_ItemTag(ItemType.eItemType, ItemType.eItemID, ItemType.iCount);
 		// 셋팅 후 UI 매니저에 아이템UI 추가.

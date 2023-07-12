@@ -39,6 +39,8 @@ HRESULT CSkeletonKing::Ready_Object(void)
 
 	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
 
+	m_pBasicStat->Get_Stat()->fHealth = 100.f;
+
 	m_pTransform->Translate(_vec3(30.f, 0.f, 30.f));
 
 #pragma region ป๓ลย
@@ -150,7 +152,6 @@ _int CSkeletonKing::Update_Object(const _float& fTimeDelta)
 
 	ForceHeight(m_pTransform->m_vInfo[INFO_POS]);
 	m_pStateMachine->Update_StateMachine(fTimeDelta);
-
 	return iExit;
 }
 
@@ -389,6 +390,10 @@ HRESULT CSkeletonKing::Add_Component(void)
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::ANIMATOR, pComponent);
 
+	pComponent = m_pBasicStat = dynamic_cast<CBasicStat*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BasicStat"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BASICSTAT, pComponent);
+
 	for (_uint i = 0; i < ID_END; ++i)
 		for (auto& iter : m_mapComponent[i])
 			iter.second->Init_Property(this);
@@ -400,7 +405,7 @@ void CSkeletonKing::Key_Input()
 {
 	if (Engine::InputDev()->Key_Down(DIK_Z))
 	{
-		m_pStateMachine->Set_State(STATE::BOSS_SLEEP);
+		m_pStateMachine->Set_State(STATE::BOSS_EXPLOSION);
 	}
 	if (Engine::InputDev()->Key_Down(DIK_X))
 	{
@@ -420,7 +425,7 @@ void CSkeletonKing::Key_Input()
 	}
 	if (Engine::InputDev()->Key_Down(DIK_L))
 	{
-		m_pStateMachine->Set_State(STATE::BOSS_DYING);
+		m_pStateMachine->Set_State(STATE::BOSS_STURN);
 	}
 
 }

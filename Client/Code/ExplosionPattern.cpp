@@ -47,9 +47,11 @@ STATE CExplosionPattern::Update_State(const _float& fTimeDelta)
             dynamic_cast<CBossExplosion*>(pGameObject)->Set_StartPos(m_pOwner->Get_Transform()->m_vInfo[INFO_POS] + (m_vExplosionin1[i] * m_iSkillCount));
             //dynamic_cast<CBossExplosion*>(pGameObject)->Set_StartPosY(-2.f);
         } 
+
         ++m_iSkillCount;
         m_fDelay = 0.f;
     }
+
     if (3 < m_iSkillCount)
     {
         m_iSkillCount = 0.f;
