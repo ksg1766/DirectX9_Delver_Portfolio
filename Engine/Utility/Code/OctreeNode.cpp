@@ -200,5 +200,7 @@ void COctreeNode::Free()
 			iter->Free();
 			Safe_Delete(iter);
 		}
+		m_vecObjects.clear();
+		m_vecChildren.clear();
 	}
 }

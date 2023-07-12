@@ -131,6 +131,7 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	// Player
 	pGameObject = CPlayer::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	pGameObject->m_pTransform->Translate(_vec3(-40.f, 0.f,-40.f));
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 	dynamic_cast<CPlayer*>(pGameObject)->Set_Terrain(dynamic_cast<CTerrain*>(pLayer->Get_ObjectList(OBJECTTAG::TERRAIN).front()));
 
@@ -160,43 +161,6 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 	dynamic_cast<CSkeletonKing*>(pGameObject)->Set_Terrain(dynamic_cast<CTerrain*>(pLayer->Get_ObjectList(OBJECTTAG::TERRAIN).front()));
-
-	// TempCube0
-	pGameObject = CCubeBlock::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pGameObject->m_pTransform->Translate(_vec3(4.f, 2.f, 4.f));
-	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-
-	// TempCube1
-	pGameObject = CCubeBlock::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pGameObject->m_pTransform->Translate(_vec3(8.f, 2.f, 4.f));
-	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-
-	// TempCube2
-	pGameObject = CCubeBlock::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pGameObject->m_pTransform->Translate(_vec3(12.f, 2.f, 4.f));
-	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-
-	// TempCube3
-	pGameObject = CCubeBlock::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pGameObject->m_pTransform->Translate(_vec3(8.f, 2.f, 8.f));
-	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-
-	// TempCube4
-	pGameObject = CCubeBlock::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pGameObject->m_pTransform->Translate(_vec3(8.f, 2.f, 12.f));
-	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-
-	// TempCube5
-	pGameObject = CCubeBlock::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pGameObject->m_pTransform->Translate(_vec3(8.f, 6.f, 8.f));
-	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-
 
 	return S_OK;
 }
@@ -331,5 +295,65 @@ HRESULT CStage::Ready_Layer_UI(LAYERTAG _eLayerTag)
 
 	m_mapLayer.insert({ _eLayerTag, pLayer });
 
+	return S_OK;
+}
+
+HRESULT CStage::Load_Data()
+{
+	CLayer* pLayer = m_mapLayer[LAYERTAG::GAMELOGIC];
+	for (int i = 0; i < (UINT)OBJECTTAG::OBJECT_END; ++i)
+	{
+		// 일단 블록만
+		if (OBJECTTAG::BLOCK != (OBJECTTAG)i)
+			continue;
+
+		vector<CGameObject*>& refObjectList = pLayer->Get_ObjectList((OBJECTTAG)i);
+		for_each(refObjectList.begin(), refObjectList.end(), [&](CGameObject* pObj) { EventManager()->DeleteObject(pObj); });
+		//refObjectList.clear();
+	}
+	HANDLE hFile = CreateFile(L"../Bin/Data/TempData.dat", GENERIC_READ,
+		0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
+
+	if (INVALID_HANDLE_VALUE == hFile)
+		return E_FAIL;
+
+	OBJECTTAG eTag = OBJECTTAG::OBJECT_END;
+
+	DWORD	dwByte = 0;
+	_float  fX, fY, fZ;
+	_ubyte  byTextureNumber = 0;
+
+
+	while (true)
+	{
+		// key 값 저장
+		ReadFile(hFile, &eTag, sizeof(OBJECTTAG), &dwByte, nullptr);
+
+		// value값 저장
+		ReadFile(hFile, &fX, sizeof(_float), &dwByte, nullptr);
+		ReadFile(hFile, &fY, sizeof(_float), &dwByte, nullptr);
+		ReadFile(hFile, &fZ, sizeof(_float), &dwByte, nullptr);
+
+		if (0 == dwByte)
+			break;
+
+		// if문 추가
+		if (OBJECTTAG::BLOCK == eTag)
+		{
+			ReadFile(hFile, &byTextureNumber, sizeof(_ubyte), &dwByte, nullptr);
+
+			if (0 == dwByte)
+				break;
+
+			CGameObject* pGameObject = CCubeBlock::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+			NULL_CHECK_RETURN(pGameObject, E_FAIL);
+			dynamic_cast<CCubeBlock*>(pGameObject)->Set_TextureNumber(byTextureNumber);
+			pGameObject->m_pTransform->Translate(_vec3(fX, fY, fZ));
+			//EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+			pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+		}
+	}
+
+	CloseHandle(hFile);
 	return S_OK;
 }

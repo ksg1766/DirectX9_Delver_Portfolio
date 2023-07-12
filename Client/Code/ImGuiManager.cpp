@@ -24,9 +24,15 @@ void CImGuiManager::Key_Input(const _float& fTimeDelta)
     _vec3 vOut;
     if (Engine::InputDev()->Mouse_Down(DIM_LB))
     {
-        vOut = Picking();
-        if (_vec3(0.f, -10.f, 0.f) == vOut)
+        if (!ImGui::IsMousePosValid())
             return;
+
+        if (!ImGui::GetIO().WantCaptureMouse)
+        {
+            vOut = Picking();
+            if (_vec3(0.f, -10.f, 0.f) == vOut)
+                return;
+        }
 
         if (selected_texture)
         {
@@ -40,12 +46,19 @@ void CImGuiManager::Key_Input(const _float& fTimeDelta)
         }
     }
 
+
+    if (Engine::InputDev()->Key_Pressing(DIK_LCONTROL) && Engine::InputDev()->Key_Pressing(DIK_S))
+        OnSaveData();
+
+    if (Engine::InputDev()->Key_Pressing(DIK_LCONTROL) && Engine::InputDev()->Key_Pressing(DIK_L))
+        OnLoadData();
 }
 
 _vec3 CImGuiManager::Picking()
 {
-#pragma region Cube Picking 구현 중
+#pragma region Cube Picking
     const vector<CGameObject*>& vecBlock = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BLOCK);
+    CTerrain* pTerrain = dynamic_cast<CTerrain*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::TERRAIN).front());
 
     priority_queue<pair<_float, CCubeBlock*>, vector<pair<_float, CCubeBlock*>>, greater<pair<_float, CCubeBlock*>>> pq;
 
@@ -82,6 +95,8 @@ _vec3 CImGuiManager::Picking()
     D3DXVec3TransformCoord(&vRayPos, &vRayPos, &matView);
     D3DXVec3TransformNormal(&vRayDir, &vRayDir, &matView);
 
+    _bool IsPicked = false;
+
     for (auto& iter : vecBlock)
     {
         CCubeBlock* pCubeBlock = dynamic_cast<CCubeBlock*>(iter);
@@ -111,6 +126,8 @@ _vec3 CImGuiManager::Picking()
                 // V1 + U(V2 - V1) + V(V3 - V1)
 
                 pq.push(make_pair(fDist, pCubeBlock));
+
+                IsPicked = true;
                 //break;
 
                /* return pCubeVtxPos[pCubeIdxPos[i]._1] + fU * (pCubeVtxPos[pCubeIdxPos[i]._0] - pCubeVtxPos[pCubeIdxPos[i]._1])
@@ -119,9 +136,101 @@ _vec3 CImGuiManager::Picking()
         }
     }
 
-    // 한 번 더 피킹을 검출하는 구간인데, 비효율적으로 됐지만 우선 놔둠...
+#pragma region Terrain Picking
 
-    if (pq.empty()) // 피킹된 큐브가 없다면
+    if(!IsPicked)
+    {
+        _vec3 vRayPosWorld = vRayPos;
+        _vec3 vRayDirWorld = vRayDir;
+
+        // 월드 스페이스 -> 로컬 스페이스
+        _matrix		matWorld;
+        matWorld = pTerrain->m_pTransform->WorldMatrix();
+        D3DXMatrixInverse(&matWorld, 0, &matWorld);
+        D3DXVec3TransformCoord(&vRayPosWorld, &vRayPosWorld, &matWorld);
+        D3DXVec3TransformNormal(&vRayDirWorld, &vRayDirWorld, &matWorld);
+
+        const vector<_vec3>& pTerrainVtxPos = pTerrain->LoadTerrainVertex();
+        
+        _float	fU = 0.f, fV = 0.f, fDist = 0.f;
+        //
+        _ulong		dwVtxIdx[3]{};
+
+        for (_ulong i = 0; i < VTXCNTZ - 1; ++i)
+        {
+            for (_ulong j = 0; j < VTXCNTX - 1; ++j)
+            {
+                _ulong	dwIndex = i * VTXCNTX + j;
+
+                // 오른쪽 위
+                dwVtxIdx[0] = dwIndex + VTXCNTX;
+                dwVtxIdx[1] = dwIndex + VTXCNTX + 1;
+                dwVtxIdx[2] = dwIndex + 1;
+
+                if (D3DXIntersectTri(&pTerrainVtxPos[dwVtxIdx[1]],
+                    &pTerrainVtxPos[dwVtxIdx[0]],
+                    &pTerrainVtxPos[dwVtxIdx[2]],
+                    &vRayPos, &vRayDir, &fU, &fV, &fDist))
+                {
+                    // V0 + U(V1 - V0) + V(V2 - V0)
+                    _vec3 vFinalPos = _vec3(pTerrainVtxPos[dwVtxIdx[1]].x,
+                        1.f,    // 1.f 는 Cube Radius
+                        pTerrainVtxPos[dwVtxIdx[1]].z);
+
+                    //if ((int)pTerrainVtxPos[dwVtxIdx[1]].x % 2)
+                     //   vFinalPos.x += 1.f;
+
+                    //if ((int)pTerrainVtxPos[dwVtxIdx[1]].z % 2)
+                     //   vFinalPos.z += 1.f;
+
+                    return vFinalPos;
+                }
+
+                // 왼쪽 아래
+                dwVtxIdx[0] = dwIndex + VTXCNTX;
+                dwVtxIdx[1] = dwIndex + 1;
+                dwVtxIdx[2] = dwIndex;
+
+                if (D3DXIntersectTri(&pTerrainVtxPos[dwVtxIdx[1]],
+                    &pTerrainVtxPos[dwVtxIdx[0]],
+                    &pTerrainVtxPos[dwVtxIdx[2]],
+                    &vRayPos, &vRayDir, &fU, &fV, &fDist))
+                {
+                    // V0 + U(V1 - V0) + V(V2 - V0)
+                    //_vec3 vFinalPos = _vec3(pTerrainVtxPos[dwVtxIdx[1]].x + fU * (pTerrainVtxPos[dwVtxIdx[0]].x - pTerrainVtxPos[dwVtxIdx[1]].x),
+                    //    1.f,    // 1.f 는 Cube Radius
+                    //    pTerrainVtxPos[dwVtxIdx[1]].z + fV * (pTerrainVtxPos[dwVtxIdx[2]].z - pTerrainVtxPos[dwVtxIdx[1]].z));
+                    //
+                    //vFinalPos.x = ::floor(vFinalPos.x);
+                    //vFinalPos.z = ::floor(vFinalPos.z);
+
+                    //if ((int)::floor(vFinalPos.x) % 2)
+                    //    vFinalPos.x += 1.f;
+
+                    //if ((int)::floor(vFinalPos.z) % 2)
+                    //    vFinalPos.z += 1.f;
+
+                    _vec3 vFinalPos = _vec3(pTerrainVtxPos[dwVtxIdx[1]].x,
+                        1.f,    // 1.f 는 Cube Radius
+                        pTerrainVtxPos[dwVtxIdx[1]].z);
+
+                    //if ((int)pTerrainVtxPos[dwVtxIdx[1]].x % 2)
+                    //    vFinalPos.x += 1.f;
+
+                    //if ((int)pTerrainVtxPos[dwVtxIdx[1]].z % 2)
+                     //   vFinalPos.z += 1.f;
+
+                    return vFinalPos;
+                }
+            }
+        }
+    }
+
+#pragma endregion Terrain Picking
+
+    // 한 번 더 최종 큐브 피킹 평면 검출하는 구간인데, 비효율적으로 됐지만 우선 놔둠...
+
+    if (pq.empty() && !IsPicked) // 피킹된 큐브가 없다면
         return _vec3(0.f, -10.f, 0.f);
 
     CCubeBlock* pFinalCube = pq.top().second;
@@ -150,7 +259,7 @@ _vec3 CImGuiManager::Picking()
         }
     }
 
-    if (vecFinalPlane.empty())  // 한 번 더 피킹 검출
+    if (vecFinalPlane.empty() && !IsPicked)  // 한 번 더 피킹 검출
         return _vec3(0.f, -10.f, 0.f);
 
     INDEX32 finalIndex = (vecFinalPlane[0].first < vecFinalPlane[1].first) ? vecFinalPlane[0].second : vecFinalPlane[1].second;
@@ -326,93 +435,113 @@ void CImGuiManager::Render_ImGui(LPDIRECT3DDEVICE9 pGraphicDev)
     ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
 }
 
-void CImGuiManager::OnSaveData()
+HRESULT CImGuiManager::OnSaveData()
 {
-//    HANDLE hFile = CreateFile(L"../Data/TempData.dat", GENERIC_WRITE, 0, 0,
-//        CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0);
-//
-//    if (INVALID_HANDLE_VALUE == hFile)
-//        return;
-//
-//    DWORD	dwByte = 0;
-//    DWORD	dwStrByte = 0;
-//
-//
-//    for (int i = 0; i < (UINT)OBJECTTAG::OBJECT_END; ++i)
-//    {
-//        /*if ((UINT)OBJID::OBJ_MOUSE == i)
-//            continue;
-//*/
-//        vector<CGameObject*>& vecObjList = CObjectMgr::Get_Instance()->GetObjList((OBJECTTAG)i);
-//        for (auto& iter : vecObjList)
-//        {
-//            /*if (OBJID::OBJ_MOUSE == iter->GetType())
-//                continue;*/
-//
-//            dwStrByte = sizeof(TCHAR) * (iter->GetData().strName.GetLength() + 1);
-//
-//            WriteFile(hFile, &dwStrByte, sizeof(DWORD), &dwByte, nullptr);
-//            WriteFile(hFile, iter->GetData().strName, dwStrByte, &dwByte, nullptr);
-//
-//            WriteFile(hFile, &(iter->GetTransform()->Position().x), sizeof(float), &dwByte, nullptr);
-//            WriteFile(hFile, &(iter->GetTransform()->Position().y), sizeof(float), &dwByte, nullptr);
-//        }
-//    }
-//
-//
-//    CloseHandle(hFile);
+    CScene* pScene = SceneManager()->Get_Scene();
+
+    HANDLE hFile = CreateFile(L"../Bin/Data/TempData.dat", GENERIC_WRITE, 0, 0,
+        CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0);
+
+    if (INVALID_HANDLE_VALUE == hFile)
+        return E_FAIL;
+
+    OBJECTTAG eTag = OBJECTTAG::OBJECT_END;
+
+    DWORD	dwByte = 0;
+    _float  fX, fY, fZ;
+    _ubyte  byTextureNumber = 0;
+
+    for (int i = 0; i < (UINT)OBJECTTAG::OBJECT_END; ++i)
+    {
+        if (OBJECTTAG::TERRAIN == (OBJECTTAG)i)
+            continue;
+
+        if (OBJECTTAG::BLOCK == (OBJECTTAG)i)
+        {
+            vector<CGameObject*>& vecObjList = pScene->Get_ObjectList(LAYERTAG::GAMELOGIC, (OBJECTTAG)i);
+            for (auto& iter : vecObjList)
+            {
+                //dwStrByte = sizeof(CHAR) * (strlen(typeid(*iter).name()) + 1);
+                eTag = iter->Get_ObjectTag();
+                //CHAR* pName = nullptr;
+                //strcpy(pName, typeid(iter).name());
+
+                WriteFile(hFile, &eTag, sizeof(OBJECTTAG), &dwByte, nullptr);
+                WriteFile(hFile, &(iter->m_pTransform->m_vInfo[INFO_POS].x), sizeof(_float), &dwByte, nullptr);
+                WriteFile(hFile, &(iter->m_pTransform->m_vInfo[INFO_POS].y), sizeof(_float), &dwByte, nullptr);
+                WriteFile(hFile, &(iter->m_pTransform->m_vInfo[INFO_POS].z), sizeof(_float), &dwByte, nullptr);
+
+                if (OBJECTTAG::BLOCK == (OBJECTTAG)i)
+                {
+                    byTextureNumber = dynamic_cast<CCubeBlock*>(iter)->Get_TextureNumber();
+                    WriteFile(hFile, &byTextureNumber, sizeof(_ubyte), &dwByte, nullptr);
+                }
+            }
+        }
+    }
+
+    CloseHandle(hFile);
+    return S_OK;
 }
 
-void CImGuiManager::OnLoadData()
+HRESULT CImGuiManager::OnLoadData()
 {
-    //CObjectMgr::Get_Instance()->Release();
+    CScene* pScene = SceneManager()->Get_Scene();
+    CLayer* pLayer = pScene->Get_Layer(LAYERTAG::GAMELOGIC);
+    for (int i = 0; i < (UINT)OBJECTTAG::OBJECT_END; ++i)
+    {
+        if (OBJECTTAG::TERRAIN == (OBJECTTAG)i)
+            continue;
 
-    //CString		strTemp = Dlg.GetPathName().GetString();
-    //const TCHAR* pGetPath = strTemp.GetString();
+        vector<CGameObject*>& refObjectList = pLayer->Get_ObjectList((OBJECTTAG)i);
+        for_each(refObjectList.begin(), refObjectList.end(), [&](CGameObject* pObj) { EventManager()->DeleteObject(pObj); });
+        //refObjectList.clear();
+    }
+    HANDLE hFile = CreateFile(L"../Bin/Data/TempData.dat", GENERIC_READ,
+        0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
 
-    //HANDLE hFile = CreateFile(pGetPath, GENERIC_READ,
-    //    0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
+    if (INVALID_HANDLE_VALUE == hFile)
+        return E_FAIL;
 
-    //if (INVALID_HANDLE_VALUE == hFile)
-    //    return;
+    OBJECTTAG eTag = OBJECTTAG::OBJECT_END;
 
-    //DWORD	dwByte = 0;
-    //DWORD	dwStrByte = 0;
-    //float fX, fY;
-
-    //while (true)
-    //{
-    //    // key 값 저장
-    //    ReadFile(hFile, &dwStrByte, sizeof(DWORD), &dwByte, nullptr);
-
-    //    TCHAR* pName = new TCHAR[dwStrByte];
-
-    //    ReadFile(hFile, pName, dwStrByte, &dwByte, nullptr);
-
-
-    //    // value값 저장
-    //    ReadFile(hFile, &fX, sizeof(float), &dwByte, nullptr);
-    //    ReadFile(hFile, &fY, sizeof(float), &dwByte, nullptr);
+    DWORD	dwByte = 0;
+    _float  fX, fY, fZ;
+    _ubyte  byTextureNumber = 0;
 
 
-    //    if (0 == dwByte)
-    //    {
-    //        delete[]pName;
-    //        pName = nullptr;
-    //        break;
-    //    }
+    while (true)
+    {
+        // key 값 저장
+        ReadFile(hFile, &eTag, sizeof(OBJECTTAG), &dwByte, nullptr);
 
-    //    //if문추가
-    //    CObjectMgr::Get_Instance()->CreateObject(pName, _vec3(fX, fY, 0.f));
+        // value값 저장
+        ReadFile(hFile, &fX, sizeof(_float), &dwByte, nullptr);
+        ReadFile(hFile, &fY, sizeof(_float), &dwByte, nullptr);
+        ReadFile(hFile, &fZ, sizeof(_float), &dwByte, nullptr);
 
-    //    CMainFrame* pMainFrm = dynamic_cast<CMainFrame*>(AfxGetMainWnd());
-    //    dynamic_cast<CToolView*>(pMainFrm->m_MainSplitter.GetPane(0, 1))->Invalidate(FALSE);
+        if (0 == dwByte)
+            break;
 
-    //    delete[]pName;
-    //    pName = nullptr;
-    //}
+        // if문 추가
+        if (OBJECTTAG::BLOCK == eTag)
+        {
+            ReadFile(hFile, &byTextureNumber, sizeof(_ubyte), &dwByte, nullptr);
 
-    //CloseHandle(hFile);
+            if (0 == dwByte)
+                break;
+
+            CGameObject* pGameObject = CCubeBlock::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+            NULL_CHECK_RETURN(pGameObject, E_FAIL);
+            dynamic_cast<CCubeBlock*>(pGameObject)->Set_TextureNumber(byTextureNumber);
+            pGameObject->m_pTransform->Translate(_vec3(fX, fY, fZ));
+            EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+            //pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+        }
+    }
+
+    CloseHandle(hFile);
+    return S_OK;
 }
 
 void CImGuiManager::Free()

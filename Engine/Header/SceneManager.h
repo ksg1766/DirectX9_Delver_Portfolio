@@ -30,6 +30,8 @@ public:
 	void			LateUpdate_Scene();
 	void			Render_Scene(LPDIRECT3DDEVICE9 pGraphicDev);
 
+	HRESULT			Load_Data();
+
 private:
 	CScene*			m_pScene;
 	_bool           m_bGameStop;

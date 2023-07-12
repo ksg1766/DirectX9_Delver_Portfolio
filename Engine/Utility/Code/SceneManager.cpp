@@ -59,6 +59,13 @@ void CSceneManager::Render_Scene(LPDIRECT3DDEVICE9 pGraphicDev)
 
 }
 
+HRESULT CSceneManager::Load_Data()
+{
+	if (m_pScene)
+		m_pScene->Load_Data();
+	return E_NOTIMPL;
+}
+
 void CSceneManager::Free()
 {
 	Safe_Release(m_pScene);

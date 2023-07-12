@@ -20,6 +20,7 @@ CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
 {
 
 }
+
 CPlayer::CPlayer(const CPlayer& rhs)
 	: Engine::CGameObject(rhs)
 {
@@ -44,8 +45,6 @@ HRESULT CPlayer::Ready_Object(void)
 
 	m_pTransform->Translate(_vec3(0.f, 1.f, 0.f));
 	m_vOffset = _vec3(0.55f, 0.1f, 1.8f);
-
-
 
 	// 걷기 상태 추가
 	CState* pState = CPlayerState_Walk::Create(m_pGraphicDev, m_pStateMachine);

@@ -40,9 +40,6 @@ Engine::_int CLogo::Update_Scene(const _float& fTimeDelta)
 
 	UIManager()->Update_UI(fTimeDelta);
 
-
-	 
-
 	if (!m_bClick && Engine::InputDev()->Get_AnyKeyDown())
 	{
 		m_bClick = true;

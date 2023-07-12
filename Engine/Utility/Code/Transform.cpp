@@ -177,5 +177,7 @@ CComponent * CTransform::Clone(void)
 
 void CTransform::Free()
 {
+	if(m_pParent)
+		m_pParent->m_pChild = nullptr;
 	CComponent::Free();
 }

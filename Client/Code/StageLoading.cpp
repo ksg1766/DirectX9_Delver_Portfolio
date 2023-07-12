@@ -57,6 +57,7 @@ Engine::_int CStageLoading::Update_Scene(const _float& fTimeDelta)
 		Engine::UIManager()->AddBasicGameobject_UI(Engine::UILAYER::UI_UP, pGameObject);
 
 		FAILED_CHECK_RETURN(Engine::SceneManager()->Set_Scene(pScene), E_FAIL);
+		SceneManager()->Load_Data();
 		Octree()->Ready_Octree();
 	}
 
