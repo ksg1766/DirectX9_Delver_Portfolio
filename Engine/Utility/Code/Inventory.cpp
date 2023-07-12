@@ -101,9 +101,127 @@ void CInventory::Add_ItemObject(CGameObject* pGameObject)
 	m_vecInventory.push_back(pGameObject);
 }
 
-void CInventory::delete_FindItem(ITEMID _itemId)
+void CInventory::delete_FindItem(ITEMTYPEID _itemId)
 {
+	// 해당 아이템의 아이디를 찾아서 삭제.
+	// 순차적으로 키슬롯 검사
+	if (m_bKeySlotEmpty[KEYSLOT_ONE] == true) {
+		ITEMTYPEID SlotItemType = dynamic_cast<CItem*>(m_mapKeySlot[KEYSLOT_ONE])->Get_ItemTag();
 
+		if (SlotItemType.eItemType == _itemId.eItemType)
+		{
+			// 같은 아이템이 존재하고 들어온 개수보다 많을 시 카운트만 감소 / 같은 개수일 시 삭제
+			if (SlotItemType.iCount > _itemId.iCount)
+			{
+				dynamic_cast<CItem*>(m_mapKeySlot[KEYSLOT_ONE])->Remove_ItemCount(_itemId.iCount);
+				return;
+			}
+			else
+			{
+				Safe_Release<CGameObject*>(m_mapKeySlot[KEYSLOT_ONE]);
+				m_bKeySlotEmpty[KEYSLOT_ONE] = false;
+				return;
+			}
+		}
+	}
+	else if (m_bKeySlotEmpty[KEYSLOT_TWO] == true) {
+		ITEMTYPEID SlotItemType = dynamic_cast<CItem*>(m_mapKeySlot[KEYSLOT_TWO])->Get_ItemTag();
+
+		if (SlotItemType.eItemType == _itemId.eItemType)
+		{
+			// 같은 아이템이 존재하고 들어온 개수보다 많을 시 카운트만 감소 / 같은 개수일 시 삭제
+			if (SlotItemType.iCount > _itemId.iCount)
+			{
+				dynamic_cast<CItem*>(m_mapKeySlot[KEYSLOT_TWO])->Remove_ItemCount(_itemId.iCount);
+				return;
+			}
+			else
+			{
+				Safe_Release<CGameObject*>(m_mapKeySlot[KEYSLOT_TWO]);
+				m_bKeySlotEmpty[KEYSLOT_TWO] = false;
+				return;
+			}
+		}
+	}
+	else if (m_bKeySlotEmpty[KEYSLOT_THREE] == true) {
+		ITEMTYPEID SlotItemType = dynamic_cast<CItem*>(m_mapKeySlot[KEYSLOT_THREE])->Get_ItemTag();
+
+		if (SlotItemType.eItemType == _itemId.eItemType)
+		{
+			// 같은 아이템이 존재하고 들어온 개수보다 많을 시 카운트만 감소 / 같은 개수일 시 삭제
+			if (SlotItemType.iCount > _itemId.iCount)
+			{
+				dynamic_cast<CItem*>(m_mapKeySlot[KEYSLOT_THREE])->Remove_ItemCount(_itemId.iCount);
+				return;
+			}
+			else
+			{
+				Safe_Release<CGameObject*>(m_mapKeySlot[KEYSLOT_THREE]);
+				m_bKeySlotEmpty[KEYSLOT_THREE] = false;
+				return;
+			}
+		}
+	}
+	else if (m_bKeySlotEmpty[KEYSLOT_FOUR] == true) {
+		ITEMTYPEID SlotItemType = dynamic_cast<CItem*>(m_mapKeySlot[KEYSLOT_FOUR])->Get_ItemTag();
+
+		if (SlotItemType.eItemType == _itemId.eItemType)
+		{
+			// 같은 아이템이 존재하고 들어온 개수보다 많을 시 카운트만 감소 / 같은 개수일 시 삭제
+			if (SlotItemType.iCount > _itemId.iCount)
+			{
+				dynamic_cast<CItem*>(m_mapKeySlot[KEYSLOT_FOUR])->Remove_ItemCount(_itemId.iCount);
+				return;
+			}
+			else
+			{
+				Safe_Release<CGameObject*>(m_mapKeySlot[KEYSLOT_FOUR]);
+				m_bKeySlotEmpty[KEYSLOT_FOUR] = false;
+				return;
+			}
+		}
+	}
+	else if (m_bKeySlotEmpty[KEYSLOT_FIVE] == true) {
+		ITEMTYPEID SlotItemType = dynamic_cast<CItem*>(m_mapKeySlot[KEYSLOT_FIVE])->Get_ItemTag();
+
+		if (SlotItemType.eItemType == _itemId.eItemType)
+		{
+			// 같은 아이템이 존재하고 들어온 개수보다 많을 시 카운트만 감소 / 같은 개수일 시 삭제
+			if (SlotItemType.iCount > _itemId.iCount)
+			{
+				dynamic_cast<CItem*>(m_mapKeySlot[KEYSLOT_FIVE])->Remove_ItemCount(_itemId.iCount);
+				return;
+			}
+			else
+			{
+				Safe_Release<CGameObject*>(m_mapKeySlot[KEYSLOT_FIVE]);
+				m_bKeySlotEmpty[KEYSLOT_FIVE] = false;
+				return;
+			}
+		}
+	}
+
+	// 내부 인벤토리 검사
+	for (auto& iter : m_vecInventory) {
+		if (iter != nullptr) {
+			ITEMTYPEID SlotItemType = dynamic_cast<CItem*>(iter)->Get_ItemTag();
+
+			if (SlotItemType.eItemType == _itemId.eItemType)
+			{
+				// 같은 아이템이 존재하고 들어온 개수보다 많을 시 카운트만 감소 / 같은 개수일 시 삭제
+				if (SlotItemType.iCount > _itemId.iCount)
+				{
+					dynamic_cast<CItem*>(m_mapKeySlot[KEYSLOT_FIVE])->Remove_ItemCount(_itemId.iCount);
+					return;
+				}
+				else
+				{
+					Safe_Release<CGameObject*>(m_mapKeySlot[KEYSLOT_FIVE]);
+					return;
+				}
+			}
+		}
+	}
 }
 
 HRESULT CInventory::Ready_Inventory()

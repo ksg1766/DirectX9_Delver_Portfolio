@@ -34,8 +34,13 @@ HRESULT CTempItem::Ready_Object(void)
 	m_pBasicStat->Get_Stat()->fAttack = 1.f;
 	m_pBasicStat->Get_Stat()->fHealth = 20.f;
 
-	CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pTransform->m_pParent->Get_Host());
-	m_pTransform->Translate(pPlayer->m_pTransform->m_vInfo[INFO_POS] + *dynamic_cast<CPlayer*>(pPlayer)->Get_Offset());
+	CPlayer* pPlayer = dynamic_cast<CPlayer*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
+
+	if (pPlayer->Get_CurrentEquipRight() == nullptr)
+	{
+		CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pTransform->m_pParent->Get_Host());
+		m_pTransform->Translate(pPlayer->m_pTransform->m_vInfo[INFO_POS] + *dynamic_cast<CPlayer*>(pPlayer)->Get_Offset());
+	}
 
 	m_AttackInfo.fWeaponSpeed = 0.08f;
 	m_AttackInfo.fReturnSpeed = 0.08f;
@@ -135,8 +140,13 @@ HRESULT CTempItem::Add_Component(void)
 		for (auto& iter : m_mapComponent[i])
 			iter.second->Init_Property(this);
 
-	m_pTransform->Set_Parent(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform);
-	m_pTransform->Copy_RUL(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform->m_vInfo);
+	CPlayer* pPlayer = dynamic_cast<CPlayer*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
+
+	if (pPlayer->Get_CurrentEquipRight() == nullptr)
+	{
+		m_pTransform->Set_Parent(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform);
+		m_pTransform->Copy_RUL(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform->m_vInfo);
+	}
 
 	return S_OK;
 }

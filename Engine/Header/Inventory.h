@@ -15,7 +15,7 @@ private:
 
 public:
 	void         Add_ItemObject(CGameObject* pGameObject); // 인벤토리에 아이템 추가
-	void         delete_FindItem(ITEMID _itemId);          // 해당 아이디의 아이템 인벤토리에서 삭제
+	void         delete_FindItem(ITEMTYPEID _itemId);      // 해당 아이디의 아이템 인벤토리에서 삭제 또는 카운트 감소
 
 	CGameObject* Get_KeySlotObject(INVENKEYSLOT _key) { return m_mapKeySlot[_key]; }
 	ITEMTYPEID   Get_KeySlotObjID(INVENKEYSLOT _key)  { return dynamic_cast<CItem*>(m_mapKeySlot[_key])->Get_ItemTag(); }

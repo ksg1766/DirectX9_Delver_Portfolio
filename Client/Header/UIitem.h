@@ -22,6 +22,9 @@ public:
 	void        Add_ItemCount(_uint _iCount) {
 		m_ItemID.iCount += _iCount;
 	}
+	void        Remove_ItemCount(_uint _iCount) {
+		m_ItemID.iCount -= _iCount;
+	}
 	void        Set_ItemTag(ITEMTYPE _itemtype, ITEMID _itemID, _uint _iCount) {
 		m_ItemID.eItemType = _itemtype;
 		m_ItemID.eItemID = _itemID;
@@ -161,9 +164,16 @@ private:
 	ITEMTYPEID  m_ItemID;
 
 	CTexture*   m_pNumberTextureCom;
+	CTexture*   m_pTooltipCom;
 
 	_int        m_iCurrentOneNum;
 	_int        m_iCurrentTwoNum;
+
+	_float      m_fTooltipPosX;
+	_float      m_fTooltipPosY;
+	_bool       m_bTooltipRender = false;
+
+	_bool       m_bMove = false;
 
 public:
 	static CUIitem*	Create(LPDIRECT3DDEVICE9 pGraphicDev);

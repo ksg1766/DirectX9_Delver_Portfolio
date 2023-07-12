@@ -155,6 +155,7 @@ public:
 	void Hide_PopupUI(UIPOPUPLAYER _PopupID);
 
 	void Delete_BasicObject(UILAYER eType);
+	void Delete_FindItemUI(ITEMTYPEID _itemId);
 
 public:
 	void AddBasicGameobject_UI(UILAYER eType, CGameObject* pGameObject);

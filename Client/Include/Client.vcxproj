@@ -265,7 +265,11 @@
     <ClInclude Include="..\ImGui\imstb_textedit.h" />
     <ClInclude Include="..\ImGui\imstb_truetype.h" />
     <ClInclude Include="..\Header\UIplayerstat.h" />
+<<<<<<< HEAD
     <ClInclude Include="..\Header\UItooltip.h" />
+=======
+    <ClInclude Include="Boss_MeteorReady.h" />
+>>>>>>> feature/hana
     <ClInclude Include="Client.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
@@ -369,7 +373,11 @@
     <ClCompile Include="..\ImGui\imgui_tables.cpp" />
     <ClCompile Include="..\ImGui\imgui_widgets.cpp" />
     <ClCompile Include="..\Code\UIplayerstat.cpp" />
+<<<<<<< HEAD
     <ClCompile Include="..\Code\UItooltip.cpp" />
+=======
+    <ClCompile Include="Boss_MeteorReady.cpp" />
+>>>>>>> feature/hana
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

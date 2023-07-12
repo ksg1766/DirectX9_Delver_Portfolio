@@ -85,6 +85,22 @@ void CUIitem::Render_Object()
 		m_pNumberTextureCom->Render_Texture(m_iCurrentTwoNum);
 		m_pBufferCom->Render_Buffer();
 	}
+
+	if (m_bTooltipRender)
+	{
+		_matrix      matWorld;
+
+		D3DXMatrixIdentity(&matWorld);
+		matWorld._11 = 44.f;
+		matWorld._22 = 24.f;
+		matWorld._41 = m_fTooltipPosX + 41.f;
+		matWorld._42 = m_fTooltipPosY + 21.f;
+
+		m_pGraphicDev->SetTransform(D3DTS_WORLD, &matWorld);
+
+		m_pTooltipCom->Render_Texture(m_fCurrentImage);
+		m_pBufferCom->Render_Buffer();
+	}
 }
 
 HRESULT CUIitem::Add_Component(void)
@@ -107,6 +123,10 @@ HRESULT CUIitem::Add_Component(void)
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE1, pComponent);
 
+	pComponent = m_pTooltipCom = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_tooltipUI"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE1, pComponent);
+
 	for (int i = 0; i < ID_END; ++i)
 		for (auto& iter : m_mapComponent[i])
 			iter.second->Init_Property(this);
@@ -116,6 +136,38 @@ HRESULT CUIitem::Add_Component(void)
 
 void CUIitem::Key_Input(void)
 {
+	POINT	pt{};
+	GetCursorPos(&pt);
+	ScreenToClient(g_hWnd, &pt);
+
+	if (OnCollision(pt, m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y))
+	{
+		m_bCollider = true;
+		// 아이템 UI를 눌렀다가 가져다 놨을 때 해당 마우스 위치의 슬롯이 비어있는지 판별 후 여부에 따른 처리
+		if (Engine::InputDev()->Mouse_Pressing(DIM_LB))
+		{
+			m_bMove = true;
+			WorldMatrix(pt.x, pt.y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);
+		}
+
+		if(!m_bMove)
+		{
+			m_bTooltipRender = true;
+
+			m_fTooltipPosX = pt.x;
+			m_fTooltipPosY = pt.y;
+		}
+
+		//if (Engine::InputDev()->Mouse_Up(DIM_LB))
+		//{
+		//	m_bMove = false;
+		//}
+	}
+	else {
+		m_bMove = false;
+		m_bCollider = false;
+		m_bTooltipRender = false;
+	}
 }
 
 void CUIitem::Update_NumverUI()

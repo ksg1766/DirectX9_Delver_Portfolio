@@ -459,9 +459,6 @@
     <ClInclude Include="..\Header\UIitem.h">
       <Filter>02. GameObject\03. UI\01. UIitem</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\UItooltip.h">
-      <Filter>02. GameObject\03. UI\02. UItooltip</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\UIbutton.h">
       <Filter>02. GameObject\03. UI\03. UIbutton</Filter>
     </ClInclude>
@@ -778,9 +775,6 @@
     </ClCompile>
     <ClCompile Include="..\Code\UIitem.cpp">
       <Filter>02. GameObject\03. UI\01. UIitem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\UItooltip.cpp">
-      <Filter>02. GameObject\03. UI\02. UItooltip</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\UIbutton.cpp">
       <Filter>02. GameObject\03. UI\03. UIbutton</Filter>

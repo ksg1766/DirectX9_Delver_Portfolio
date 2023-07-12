@@ -33,6 +33,7 @@ private:
 	HRESULT			Add_Component(void);
 	void			Key_Input(const _float& fTimeDelta);
 	void			ForceHeight(_vec3 _vPos);
+	void            Use_SlotItem(INVENKEYSLOT _SlotNum);
 
 public:
 
