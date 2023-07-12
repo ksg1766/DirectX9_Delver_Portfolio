@@ -183,11 +183,8 @@
     <ClInclude Include="..\Header\Boss_MeteorCube.h" />
     <ClInclude Include="..\Header\Boss_MeteorReady.h" />
     <ClInclude Include="..\Header\Boss_Sturn.h" />
-<<<<<<< HEAD
     <ClInclude Include="..\Header\Bow.h" />
-=======
     <ClInclude Include="..\Header\Box_Cube.h" />
->>>>>>> feature/Msh
     <ClInclude Include="..\Header\CrawlPattern.h" />
     <ClInclude Include="..\Header\Magic_Ball.h" />
     <ClInclude Include="..\Header\Monster_Dead.h" />
@@ -265,11 +262,6 @@
     <ClInclude Include="..\ImGui\imstb_textedit.h" />
     <ClInclude Include="..\ImGui\imstb_truetype.h" />
     <ClInclude Include="..\Header\UIplayerstat.h" />
-<<<<<<< HEAD
-    <ClInclude Include="..\Header\UItooltip.h" />
-=======
-    <ClInclude Include="Boss_MeteorReady.h" />
->>>>>>> feature/hana
     <ClInclude Include="Client.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
@@ -292,11 +284,8 @@
     <ClCompile Include="..\Code\Boss_MeteorCube.cpp" />
     <ClCompile Include="..\Code\Boss_MeteorReady.cpp" />
     <ClCompile Include="..\Code\Boss_Sturn.cpp" />
-<<<<<<< HEAD
     <ClCompile Include="..\Code\Bow.cpp" />
-=======
     <ClCompile Include="..\Code\Box_Cube.cpp" />
->>>>>>> feature/Msh
     <ClCompile Include="..\Code\CrawlPattern.cpp" />
     <ClCompile Include="..\Code\Magic_Ball.cpp" />
     <ClCompile Include="..\Code\Monster_Dead.cpp" />
@@ -373,11 +362,6 @@
     <ClCompile Include="..\ImGui\imgui_tables.cpp" />
     <ClCompile Include="..\ImGui\imgui_widgets.cpp" />
     <ClCompile Include="..\Code\UIplayerstat.cpp" />
-<<<<<<< HEAD
-    <ClCompile Include="..\Code\UItooltip.cpp" />
-=======
-    <ClCompile Include="Boss_MeteorReady.cpp" />
->>>>>>> feature/hana
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
