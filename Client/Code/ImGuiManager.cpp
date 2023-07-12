@@ -56,6 +56,9 @@ void CImGuiManager::Key_Input(const _float& fTimeDelta)
 
 _vec3 CImGuiManager::Picking()
 {
+    if (0 == iPickingMode)
+        return _vec3(0.f, -10.f, 0.f);
+
 #pragma region Cube Picking
     const vector<CGameObject*>& vecBlock = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BLOCK);
     CTerrain* pTerrain = dynamic_cast<CTerrain*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::TERRAIN).front());
@@ -140,6 +143,9 @@ _vec3 CImGuiManager::Picking()
 
     if(!IsPicked)
     {
+        if (2 == iPickingMode)
+            return _vec3(0.f, -10.f, 0.f);
+
         _vec3 vRayPosWorld = vRayPos;
         _vec3 vRayDirWorld = vRayDir;
 
@@ -196,20 +202,6 @@ _vec3 CImGuiManager::Picking()
                     &pTerrainVtxPos[dwVtxIdx[2]],
                     &vRayPos, &vRayDir, &fU, &fV, &fDist))
                 {
-                    // V0 + U(V1 - V0) + V(V2 - V0)
-                    //_vec3 vFinalPos = _vec3(pTerrainVtxPos[dwVtxIdx[1]].x + fU * (pTerrainVtxPos[dwVtxIdx[0]].x - pTerrainVtxPos[dwVtxIdx[1]].x),
-                    //    1.f,    // 1.f ดย Cube Radius
-                    //    pTerrainVtxPos[dwVtxIdx[1]].z + fV * (pTerrainVtxPos[dwVtxIdx[2]].z - pTerrainVtxPos[dwVtxIdx[1]].z));
-                    //
-                    //vFinalPos.x = ::floor(vFinalPos.x);
-                    //vFinalPos.z = ::floor(vFinalPos.z);
-
-                    //if ((int)::floor(vFinalPos.x) % 2)
-                    //    vFinalPos.x += 1.f;
-
-                    //if ((int)::floor(vFinalPos.z) % 2)
-                    //    vFinalPos.z += 1.f;
-
                     _vec3 vFinalPos = _vec3(pTerrainVtxPos[dwVtxIdx[1]].x,
                         1.f,    // 1.f ดย Cube Radius
                         pTerrainVtxPos[dwVtxIdx[1]].z);
@@ -234,6 +226,12 @@ _vec3 CImGuiManager::Picking()
         return _vec3(0.f, -10.f, 0.f);
 
     CCubeBlock* pFinalCube = pq.top().second;
+
+    if (2 == iPickingMode)
+    {
+        EventManager()->DeleteObject(pFinalCube);
+        return _vec3(0.f, -10.f, 0.f);
+    }
 
     const vector<_vec3>&    pFinalCubeVtxPos = pFinalCube->LoadCubeVertex();
     const vector<INDEX32>&  pFinalCubeIdxPos = pFinalCube->LoadCubeIndex();
@@ -303,8 +301,9 @@ HRESULT CImGuiManager::SetUp_ImGui()
     // resources
     CTexture* pTerainTexture = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_Terrain"));
     m_pTerainTexture = pTerainTexture->Get_TextureList();
-
-	return S_OK;
+    iPickingMode = 0;
+	
+    return S_OK;
 }
 
 _int CImGuiManager::Update_ImGui(const _float& fTimeDelta)
@@ -369,8 +368,6 @@ void CImGuiManager::LateUpdate_ImGui()
     
 #pragma endregion demo
 
-
-
     _bool map_tool_window = true;
 
     const ImGuiViewport* main_viewport = ImGui::GetMainViewport();
@@ -399,6 +396,17 @@ void CImGuiManager::LateUpdate_ImGui()
             ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);           // No tint
 
             ImGui::Image(selected_texture, ImVec2(96.0f, 96.0f), uv0, uv1, tint_col, ImVec4(0.0f, 1.0f, 0.0f, 1.0f));
+            ImGui::SameLine();
+            if (ImGui::Button("Mode"))
+                ++iPickingMode %= 3;
+
+            ImGui::SameLine();
+            if (0 == iPickingMode)
+                ImGui::Text("None");
+            else if (1 == iPickingMode)
+                ImGui::Text("Draw");
+            else
+                ImGui::Text("Erase");
 
             for (int i = 0; i < 6; i++)
             {

@@ -99,6 +99,11 @@ HRESULT CEditor::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
+	pGameObject = CCubeBlock::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	pGameObject->m_pTransform->Translate(_vec3(1.f, 1.f, 1.f));
+	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+
 	return S_OK;
 }
 

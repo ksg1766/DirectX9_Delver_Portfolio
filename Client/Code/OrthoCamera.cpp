@@ -25,7 +25,7 @@ HRESULT COrthoCamera::Ready_Object(void)
 	m_eObjectTag = OBJECTTAG::CAMERA;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pTransform->Translate(_vec3(0.f, 100.f, 0.f));
+	m_pTransform->Translate(_vec3(0.f, 128.f, 0.f));
 	m_pTransform->Rotate(ROT_X, D3DXToRadian(90.f));
 
 	CCameraManager::GetInstance()->Add_Camera(CAMERA_TYPE::ORTHOGRAPHIC, this);
