@@ -226,7 +226,8 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 			static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(true);
 			SceneManager()->Set_GameStop(true);
 		}	
-		else {
+		else
+		{
 			static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(false);
 			SceneManager()->Set_GameStop(false);
 		}
