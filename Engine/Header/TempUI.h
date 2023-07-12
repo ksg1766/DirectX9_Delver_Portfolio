@@ -24,10 +24,12 @@ public:
 		_UIObjID = m_UIObjID;
 		_UINumber = m_UINumber;
 	}
-	void Set_UIImage(_uint _UINumber) { m_fCurrentImage = _UINumber; }
-	void Set_Setup(_bool _Setup)      { m_bSetup = _Setup; }
-	_bool Get_EmptyBool() { return m_bEmpty; }
-	void Set_EmptyBool(_bool _Empty) { m_bEmpty = _Empty; }
+	CGameObject* Get_Parent()             { return m_pParent; }
+	void Set_UIImage(_uint _UINumber)     { m_fCurrentImage = _UINumber; }
+	void Set_Setup(_bool _Setup)          { m_bSetup = _Setup; }
+	_bool Get_EmptyBool()                 { return m_bEmpty; }
+	void Set_EmptyBool(_bool _Empty)      { m_bEmpty = _Empty; }
+	void Set_Parent(CGameObject* _parent) { m_pParent = _parent; }
 
 	HRESULT		Ready_Object();
 	_int	    Update_Object(const _float& fTimeDelta);
@@ -53,6 +55,8 @@ protected:
 
 	UIOBJECTTTAG m_UIObjID;
 	_uint        m_UINumber;
+
+	CGameObject* m_pParent = nullptr;
     //_float  m_fX;
     //_float  m_fY;
     //_float  m_fSizeX;

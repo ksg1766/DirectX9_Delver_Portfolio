@@ -261,80 +261,59 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 	}
 	else if (Engine::InputDev()->Key_Down(DIK_Q))
 	{
-		// 오른손에 들고 있는 아이템 버리기
+		// 오른손에 들고 있는 아이템만 Q키로 버리기 가능
 		
 		if (m_bItemEquipRight == true) // 오른손에 아이템을 장착하고 있는 상태일 시 
 		{
 			// 오른손에 장착하고 있는 아이템 타입을 가져옴.
 			ITEMTYPEID ItemType = dynamic_cast<CItem*>(m_pCurrentEquipItemRight)->Get_ItemTag();
 
-			// 오른 손에 들고있는 아이탬 객체 삭제 후 nullptr 할당.
-			m_bItemEquipRight = false;
-			Engine::EventManager()->DeleteObject(m_pCurrentEquipItemRight);
-			m_pCurrentEquipItemRight = nullptr;
+			// 해당 아이템의 개수가 1개일시와 그 이상일 시를 나눔 : 1개면 아이템을 버리면서 오른 손에 장착하고 있던 정보 초기화, 1개 이상이면 해당 아이템 카운트 1감소(장착 유지)
+			if (ItemType.iCount == 1)
+			{
+				// 인벤토리 내에서 해당 아이템을 찾아 삭제.
+				m_pInventory->delete_FindItem(ItemType);
 
+				// 아이템 UI 내부에서도 해당 아이템 UI를 찾아 삭제.
+				Engine::UIManager()->Delete_FindItemUI(ItemType);
 
-			// 인벤토리 내에서 해당 아이템을 찾아 카운트 감소 또는 1개 보유하고 있었을 시 삭제.
-			m_pInventory->delete_FindItem(ItemType.eItemID);
+				// 1개만 가지고 있었기에 버림으로 인해 보유 X, 다음 아이템을 들기 위한 초기화
+				m_pCurrentEquipItemRight = nullptr;
+				m_bItemEquipRight = false;
+			}
+			else if (ItemType.iCount > 1)
+			{
+				ItemType.iCount = 1; // 여러개를 보유하고 있기에 손에 들고있는 1개씩 버린다.
 
-			// 아이템 UI 내부에서도 해당 아이템을 찾아 카운트 감소 또는 1개 보유하고 있었을 시 삭제.
+				// 인벤토리 내에서 해당 아이템을 찾아 삭제.
+				m_pInventory->delete_FindItem(ItemType);
 
-
+				//아이템 UI 내부에서도 해당 아이템을 찾아 삭제.
+				Engine::UIManager()->Delete_FindItemUI(ItemType);
+			}
 		}
 	}
 
-	// 1 2 3 4 5 슬롯에 있는 아이템 사용(소멸 되는 것) 및 장착하기
+	// 1 2 3 4 5 슬롯에 있는 아이템 사용(소멸 되는 것) 및 장착 + 해제하기
 	if (Engine::InputDev()->Key_Down(DIK_F1))
 	{
-		CGameObject* SlotItem = m_pInventory->Get_KeySlotObject(KEYSLOT_ONE);
-		if(SlotItem != nullptr)
-		{
-			ITEMTYPEID ItemType = dynamic_cast<CItem*>(SlotItem)->Get_ItemTag();
-			if (ItemType.eItemType == ITEMTYPE_WEAPONITEM)
-			{
-
-			}
-			else if (ItemType.eItemType == ITEMTYPE_GENERALITEM)
-			{
-
-			}
-			else if (ItemType.eItemType == ITEMTYPE_EQUIPITEM)
-			{
-
-			}
-		}
+		Use_SlotItem(KEYSLOT_ONE);
 	}
 	else if (Engine::InputDev()->Key_Down(DIK_F2))
 	{
-		CGameObject* SlotItem = m_pInventory->Get_KeySlotObject(KEYSLOT_TWO);
-		if (SlotItem != nullptr)
-		{
-
-		}
+		Use_SlotItem(KEYSLOT_TWO);
 	}
 	else if (Engine::InputDev()->Key_Down(DIK_F3))
 	{
-		CGameObject* SlotItem = m_pInventory->Get_KeySlotObject(KEYSLOT_THREE);
-		if (SlotItem != nullptr)
-		{
-
-		}
+		Use_SlotItem(KEYSLOT_THREE);
 	}
 	else if (Engine::InputDev()->Key_Down(DIK_F4))
 	{
-		CGameObject* SlotItem = m_pInventory->Get_KeySlotObject(KEYSLOT_FOUR);
-		if (SlotItem != nullptr)
-		{
-
-		}
+		Use_SlotItem(KEYSLOT_FOUR);
 	}
 	else if (Engine::InputDev()->Key_Down(DIK_F5))
 	{
-		CGameObject* SlotItem = m_pInventory->Get_KeySlotObject(KEYSLOT_FIVE);
-		if (SlotItem != nullptr)
-		{
-
-		}
+		Use_SlotItem(KEYSLOT_FIVE);
 	}
 }
 
@@ -382,6 +361,78 @@ void CPlayer::ForceHeight(_vec3 _vPos)
 	}
 	_float fOffsetHeight = height - m_pTransform->m_vInfo[INFO_POS].y;
 	m_pTransform->Translate(_vec3(0.f, fOffsetHeight, 0.f));
+}
+
+void CPlayer::Use_SlotItem(INVENKEYSLOT _SlotNum)
+{
+	CGameObject* SlotItemObj = m_pInventory->Get_KeySlotObject(_SlotNum);
+
+	if (SlotItemObj != nullptr) {
+		ITEMTYPEID ItemType = dynamic_cast<CItem*>(SlotItemObj)->Get_ItemTag();
+		if (ItemType.eItemType == ITEMTYPE_WEAPONITEM)        // 오른 손 장착 아이템 타입
+		{
+			if (!m_bItemEquipRight) // 오른 손에 장착하고 있는 상태가 아닐 시 
+			{
+				// 오른손에 장착 및 해당 위치 슬롯 UI 배경 밝은 색상으로 변겅
+
+
+			}
+			else // 오른 손에 장착하고 있는 상태일 시 
+			{
+				if (dynamic_cast<CItem*>(m_pCurrentEquipItemRight)->Get_ItemTag().eItemID == ItemType.eItemID)
+				{
+					// 장착하려는 타입과 같은 타입을 들고 있을 시 장착 해제 및 슬롯 UI 원래 색상으로 변경
+
+				}
+				else
+				{
+					// 장착하려는 타입과 다른 타입을 들고 있을 시 기존 아이템 장착 해제 및 해당 아이템으로 재 장착 + UI 슬롯 밝은 색상으로 변경
+
+
+				}
+			}
+		}
+		else if (ItemType.eItemType == ITEMTYPE_GENERALITEM) // 왼 손 장착 아이템 타입
+		{
+			// 왼손에 장착 및 아이템 위치 손 슬롯으로 위치 이동
+
+			if (!m_bItemEquipLeft) // 왼 손에 장착하고 있는 상태가 아닐 시 
+			{
+				// 왼손에 장착 및 해당 위치 슬롯으로 위치 이동
+
+
+			}
+			else // 왼 손에 장착하고 있는 상태일 시 
+			{
+				// 장착하려는 타입과 같은 타입을 들고 있을 시 장착 해제
+
+
+				// 장착하려는 타입과 다른 타입을 들고 있을 시 장착 해제 및 해당 아이템으로 재 장착
+
+
+			}
+		}
+		else if (ItemType.eItemType == ITEMTYPE_EQUIPITEM)   // 아이템 슬롯 장착 아이템 타입
+		{
+			// 해당 아이템 슬롯에 장착 및 위치 이동 + 장착 및 해제에 따른 효과 감소 및 증가
+		}
+		else if (ItemType.eItemType == ITEMTYPE_EATITEM)    // HP 회복 아이템 타입
+		{
+			// 해당 아이템의 회복 값에 따른 HP 회복 및 아이템 소멸
+
+			// 아이템 효과 적용
+
+			// 아이템 소멸
+		}
+		else if (ItemType.eItemType == ITEMTYPE_POTIONITEM) // 다양한 포션 아이템 타입
+		{
+			// 해당 아이템 능력 및 효과 적용 후 아이템 소멸
+
+			// 아이템 효과 적용
+
+			// 아이템 소멸
+		}
+	}
 }
 
 void CPlayer::OnCollisionEnter(CCollider* _pOther)

@@ -31,6 +31,9 @@ HRESULT CUItooltip::Ready_Object()
 
 _int CUItooltip::Update_Object(const _float & fTimeDelta)
 {
+	if (m_IsDead)
+		return 0;
+
 	_int iExit = CTempUI::Update_Object(fTimeDelta);
 
 	return iExit;
@@ -38,14 +41,20 @@ _int CUItooltip::Update_Object(const _float & fTimeDelta)
 
 void CUItooltip::LateUpdate_Object(void)
 {
+	if (m_IsDead)
+		return;
+
 	CTempUI::LateUpdate_Object();
 }
 
 void CUItooltip::Render_Object()
 {
+	if (m_IsDead)
+		return;
+
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorld);
 
-	m_pTextureCom->Render_Texture(0);
+	m_pTextureCom->Render_Texture(m_ImageNum);
 	m_pBufferCom->Render_Buffer();
 }
 

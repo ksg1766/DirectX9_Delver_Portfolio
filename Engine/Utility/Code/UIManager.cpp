@@ -43,6 +43,57 @@ void CUIManager::Delete_BasicObject(UILAYER eType)
 	m_vecUIbasic[eType].clear();
 }
 
+void CUIManager::Delete_FindItemUI(ITEMTYPEID _itemId)
+{
+	// 해당 아이디의 아이템을 찾아와서 감소 및 삭제
+	// 기본 슬롯 5개 먼저 검사
+	for (auto& iter : m_vecUIbasic[UI_MIDDLE]) {
+		if (iter != nullptr) {
+			ITEMTYPEID SlotItemType = dynamic_cast<CUIitem*>(iter)->Get_ItemTag();
+
+			if (SlotItemType.eItemType == _itemId.eItemType)
+			{
+				// 같은 아이템이 존재하고 들어온 개수보다 많을 시 카운트만 감소 / 같은 개수일 시 삭제
+				if (SlotItemType.iCount > _itemId.iCount)
+				{
+					dynamic_cast<CUIitem*>(iter)->Remove_ItemCount(_itemId.iCount);
+					return;
+				}
+				else
+				{
+					dynamic_cast<CTempUI*>(dynamic_cast<CUIitem*>(iter)->Get_Parent())->Set_EmptyBool(true);
+					Safe_Release<CGameObject*>(iter);
+					iter = nullptr;
+					return;
+				}
+			}
+		}
+	}
+	// 내부 슬롯 18개 검사
+	for (auto& iter : m_mapPpopupUI[POPUP_INVEN][UI_MIDDLE]) {
+		if (iter != nullptr) {
+			ITEMTYPEID SlotItemType = dynamic_cast<CUIitem*>(iter)->Get_ItemTag();
+
+			if (SlotItemType.eItemType == _itemId.eItemType)
+			{
+				// 같은 아이템이 존재하고 들어온 개수보다 많을 시 카운트만 감소 / 같은 개수일 시 삭제
+				if (SlotItemType.iCount > _itemId.iCount)
+				{
+					dynamic_cast<CItem*>(iter)->Remove_ItemCount(_itemId.iCount);
+					return;
+				}
+				else
+				{
+					dynamic_cast<CTempUI*>(dynamic_cast<CUIitem*>(iter)->Get_Parent())->Set_EmptyBool(true);
+					Safe_Release<CGameObject*>(iter);
+					iter = nullptr;
+					return;
+				}
+			}
+		}
+	}
+}
+
 void CUIManager::AddBasicGameobject_UI(UILAYER eType, CGameObject* pGameObject)
 {
 	if (UILAYER::UI_END <= eType || nullptr == pGameObject)
@@ -68,40 +119,46 @@ void CUIManager::AddItemGameobject_UI(CGameObject* pGameObject)
 	// 이미 보유하고 있는 아이템인지 검사한다.
 	// 기본 슬롯 5개 먼저 검사
 	for (auto iter : m_vecUIbasic[UI_MIDDLE]) {
-		ITEMTYPEID SlotItemType = dynamic_cast<CUIitem*>(iter)->Get_ItemTag();
-
-		if (SlotItemType.eItemType == ItemType.eItemType)
+		if (iter != nullptr)
 		{
-			// 같은 아이템이 존재할 시 해당 개수만큼 카운트 증가 후 들어온 아이템 삭제
-			dynamic_cast<CUIitem*>(iter)->Add_ItemCount(ItemType.iCount);
-			Safe_Release<CGameObject*>(pGameObject);
-			return;
+			ITEMTYPEID SlotItemType = dynamic_cast<CUIitem*>(iter)->Get_ItemTag();
+
+			if (SlotItemType.eItemType == ItemType.eItemType)
+			{
+				// 같은 아이템이 존재할 시 해당 개수만큼 카운트 증가 후 들어온 아이템 삭제
+				dynamic_cast<CUIitem*>(iter)->Add_ItemCount(ItemType.iCount);
+				Safe_Release<CGameObject*>(pGameObject);
+				return;
+			}
 		}
 	}
 	// 내부 슬롯 18개 검사
 	for (auto iter : m_mapPpopupUI[POPUP_INVEN][UI_MIDDLE]) {
-		ITEMTYPEID SlotItemType = dynamic_cast<CUIitem*>(iter)->Get_ItemTag();
-
-		if (SlotItemType.eItemType == ItemType.eItemType)
+		if (iter != nullptr)
 		{
-			// 같은 아이템이 존재할 시 해당 개수만큼 카운트 증가 후 들어온 아이템 삭제
-			dynamic_cast<CUIitem*>(iter)->Add_ItemCount(ItemType.iCount);
-			Safe_Release<CGameObject*>(pGameObject);
-			return;
+			ITEMTYPEID SlotItemType = dynamic_cast<CUIitem*>(iter)->Get_ItemTag();
+
+			if (SlotItemType.eItemType == ItemType.eItemType)
+			{
+				// 같은 아이템이 존재할 시 해당 개수만큼 카운트 증가 후 들어온 아이템 삭제
+				dynamic_cast<CUIitem*>(iter)->Add_ItemCount(ItemType.iCount);
+				Safe_Release<CGameObject*>(pGameObject);
+				return;
+			}
 		}
 	}
-
 	
 	// 빈 공간이 있는지 검사후 할당 후 장착
 	for (auto iter : m_vecUIbasic[UI_DOWN])
 	{
 		if (dynamic_cast<CTempUI*>(iter)->Get_EmptyBool())
 		{
-			dynamic_cast<CTempUI*>(iter)->Set_EmptyBool(false);
-
 			pGameObject->m_pTransform->m_vInfo[INFO_POS].x = iter->m_pTransform->m_vInfo[INFO_POS].x;
 			pGameObject->m_pTransform->m_vInfo[INFO_POS].y = iter->m_pTransform->m_vInfo[INFO_POS].y;
 			dynamic_cast<CTempUI*>(pGameObject)->WorldMatrix(pGameObject->m_pTransform->m_vInfo[INFO_POS].x, pGameObject->m_pTransform->m_vInfo[INFO_POS].y, pGameObject->m_pTransform->m_vLocalScale.x, pGameObject->m_pTransform->m_vLocalScale.y);
+
+			dynamic_cast<CTempUI*>(pGameObject)->Set_Parent(iter);
+			dynamic_cast<CTempUI*>(iter)->Set_EmptyBool(false);
 
 			Engine::UIManager()->AddBasicGameobject_UI(Engine::UILAYER::UI_MIDDLE, pGameObject);
 			return;
@@ -112,11 +169,12 @@ void CUIManager::AddItemGameobject_UI(CGameObject* pGameObject)
 	{
 		if (dynamic_cast<CTempUI*>(iter)->Get_EmptyBool())
 		{
-			dynamic_cast<CTempUI*>(iter)->Set_EmptyBool(false);
-
 			pGameObject->m_pTransform->m_vInfo[INFO_POS].x = iter->m_pTransform->m_vInfo[INFO_POS].x;
 			pGameObject->m_pTransform->m_vInfo[INFO_POS].y = iter->m_pTransform->m_vInfo[INFO_POS].y;
 			dynamic_cast<CTempUI*>(pGameObject)->WorldMatrix(pGameObject->m_pTransform->m_vInfo[INFO_POS].x, pGameObject->m_pTransform->m_vInfo[INFO_POS].y, pGameObject->m_pTransform->m_vLocalScale.x, pGameObject->m_pTransform->m_vLocalScale.y);
+
+			dynamic_cast<CTempUI*>(pGameObject)->Set_Parent(iter);
+			dynamic_cast<CTempUI*>(iter)->Set_EmptyBool(false);
 
 			Engine::UIManager()->AddPopupGameobject_UI(Engine::UIPOPUPLAYER::POPUP_INVEN, Engine::UILAYER::UI_MIDDLE, pGameObject);
 			return;
@@ -126,13 +184,16 @@ void CUIManager::AddItemGameobject_UI(CGameObject* pGameObject)
 
 _int CUIManager::Update_UI(const _float& fTimeDelta)
 {
-	for_each(m_vecDead.begin(), m_vecDead.end(), CDeleteObj());
+ 	for_each(m_vecDead.begin(), m_vecDead.end(), CDeleteObj());
 	m_vecDead.clear();
 
 	for (size_t i = 0; i < UILAYER::UI_END; ++i)
 	{
 		for (auto iter : m_vecUIbasic[i])
-			iter->Update_Object(fTimeDelta);
+		{
+			if(iter != nullptr)
+				iter->Update_Object(fTimeDelta);
+		}
 	}
 
 	for (auto& Mapiter : m_mapPpopupUI)
@@ -140,7 +201,8 @@ _int CUIManager::Update_UI(const _float& fTimeDelta)
 		for (size_t i = 0; i < UILAYER::UI_END; ++i)
 		{
 			for (auto iter : Mapiter.second[i])
-				iter->Update_Object(fTimeDelta);
+				if (iter != nullptr)
+					iter->Update_Object(fTimeDelta);
 		}
 	}
 
@@ -152,7 +214,8 @@ void CUIManager::LateUpdate_UI()
 	for (size_t i = 0; i < UILAYER::UI_END; ++i)
 	{
 		for (auto iter : m_vecUIbasic[i])
-			iter->LateUpdate_Object();
+			if (iter != nullptr)
+				iter->LateUpdate_Object();
 	}
 
 	for (auto& Mapiter : m_mapPpopupUI)
@@ -160,7 +223,8 @@ void CUIManager::LateUpdate_UI()
 		for (size_t i = 0; i < UILAYER::UI_END; ++i)
 		{
 			for (auto iter : Mapiter.second[i])
-				iter->LateUpdate_Object();
+				if (iter != nullptr)
+					iter->LateUpdate_Object();
 		}
 	}
 }
@@ -196,7 +260,8 @@ void CUIManager::Render_UI(LPDIRECT3DDEVICE9 pGraphicDev)
 	for (size_t i = 0; i < UILAYER::UI_END; ++i)
 	{
 		for (auto iter : m_vecUIbasic[i])
-			iter->Render_Object();
+			if (iter != nullptr)
+				iter->Render_Object();
 	}
 
 	for (auto& Mapiter : m_mapPpopupUI)
@@ -204,7 +269,8 @@ void CUIManager::Render_UI(LPDIRECT3DDEVICE9 pGraphicDev)
 		for (size_t i = 0; i < UILAYER::UI_END; ++i)
 		{
 			for (auto iter : Mapiter.second[i])
-				iter->Render_Object();
+				if (iter != nullptr)
+					iter->Render_Object();
 		}
 	}
 
@@ -227,8 +293,9 @@ void CUIManager::Free()
 
 	for (size_t i = 0; i < UILAYER::UI_END; ++i)
 	{
-		for_each(m_vecUIbasic[i].begin(), m_vecUIbasic[i].end(), CDeleteObj());
-		m_vecUIbasic[i].clear();
+		for (auto iter : m_vecUIbasic[i])
+			if (iter != nullptr)
+				Safe_Release(iter);
 	}
 
 	for (auto& Mapiter : m_mapPpopupUI) 

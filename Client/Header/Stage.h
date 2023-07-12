@@ -9,7 +9,6 @@
 #include "SkeletonKing.h"
 
 #include "UIplayerhp.h"
-#include "UItooltip.h"
 #include "UIplayerstat.h"
 #include "UIaimpoint.h"
 #include "UIbutton.h"

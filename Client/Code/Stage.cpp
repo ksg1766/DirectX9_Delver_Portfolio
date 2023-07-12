@@ -330,10 +330,6 @@ HRESULT CStage::Ready_Layer_UI(LAYERTAG _eLayerTag)
 	Engine::UIManager()->Hide_PopupUI(Engine::UIPOPUPLAYER::POPUP_MAP);
 	Engine::UIManager()->Hide_PopupUI(Engine::UIPOPUPLAYER::POPUP_ESC);
 
-	//pGameObject = CUItooltip::Create(m_pGraphicDev);
-	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//Engine::UIManager()->AddBasicGameobject_UI(Engine::UILAYER::UI_DOWN, pGameObject);
-
 	m_mapLayer.insert({ _eLayerTag, pLayer });
 
 	return S_OK;

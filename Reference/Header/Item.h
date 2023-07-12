@@ -15,6 +15,9 @@ public:
     void        Add_ItemCount(_uint _iCount) {
         m_ItemID.iCount += _iCount;
     }
+    void        Remove_ItemCount(_uint _iCount) {
+        m_ItemID.iCount -= _iCount;
+    }
 
 public:
     HRESULT     Ready_Object();
