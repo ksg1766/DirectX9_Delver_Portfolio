@@ -1,6 +1,7 @@
 #include "..\Header\Player_Attack.h"
 #include "Export_Function.h"
 #include "Player.h"
+#include "Item.h"
 
 CPlayer_Attack::CPlayer_Attack()
 {
@@ -71,13 +72,45 @@ STATE CPlayer_Attack::Key_Input(const _float& fTimeDelta)
 	}
 
 	if (!pPlayer.Get_Attack())
-	if (Engine::InputDev()->GetInstance()->Mouse_Pressing(DIM_LB))
 	{
-		pPlayer.Set_Attack(true);
-		pPlayer.Set_AttackTick(false);
-		pPlayer.Set_State(STATE::ATTACK);
-		return STATE::ATTACK;
+		if (pPlayer.Get_CurrentEquipRight() != nullptr)
+		{
+			ITEMTYPEID _eID = dynamic_cast<CItem*>(pPlayer.Get_CurrentEquipRight())->Get_ItemTag();
+
+			switch (_eID.eItemID)
+			{
+			case ITEMID::WEAPON_SWORD:
+				if (Engine::InputDev()->GetInstance()->Mouse_Pressing(DIM_LB))
+				{
+					pPlayer.Set_Attack(true);
+					pPlayer.Set_AttackTick(false);
+					pPlayer.Set_State(STATE::ATTACK);
+					return STATE::ATTACK;
+				}
+				break;
+			case ITEMID::WEAPON_BOW:
+				if (Engine::InputDev()->GetInstance()->Mouse_Pressing(DIM_LB))
+				{
+					pPlayer.Set_Attack(true);
+					pPlayer.Set_AttackTick(false);
+					pPlayer.Set_State(STATE::ATTACK);
+					return STATE::ATTACK;
+				}
+				else if (Engine::InputDev()->GetInstance()->Mouse_Up(DIM_LB))
+				{
+					
+
+					return STATE::ROMIMG;
+				}
+				break;
+			case ITEMID::WEAPON_WAND1:
+				break;
+			}
+		}
 	}
+		
+
+
 
 	return STATE::ROMIMG;
 }

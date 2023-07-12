@@ -38,6 +38,7 @@ private:
 	CRcTex*		m_pBuffer = nullptr;
 	CTexture*	m_pTexture = nullptr;
 	_float		m_fSignTime;
+	_float		m_fChase;
 
 	// 공격 모션
 	MYATTACKINFO m_AttackInfo;

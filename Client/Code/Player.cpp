@@ -6,6 +6,7 @@
 
 // 임시 아이템
 #include "TempItem.h"
+#include "Bow.h"
 #include "DynamicCamera.h"
 
 // State
@@ -165,12 +166,12 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 		m_pTransform->Rotate(ROT_Y, D3DXToRadian(dwMouseMove) * fTimeDelta * 3.f);
 
 		D3DXMatrixRotationAxis(&matRotX, &m_pTransform->m_vInfo[INFO_UP], D3DXToRadian(dwMouseMove) * fTimeDelta * 3.f);
-		D3DXVec3TransformNormal(&vLook, &vLook, &matRotX);
-		D3DXVec3TransformNormal(&vRight, &vRight, &matRotX);
+		//D3DXVec3TransformNormal(&vLook, &vLook, &matRotX);
+		//D3DXVec3TransformNormal(&vRight, &vRight, &matRotX);
 		D3DXVec3TransformCoord(&m_vOffset, &m_vOffset, &matRotX);
 
 	}
-
+	
 
 	if (0 != (dwMouseMove = Engine::InputDev()->Get_DIMouseMove(DIMS_Y)) && !bCameraOn)
 	{
@@ -181,10 +182,11 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 		
 		_matrix matRotY;
 		
-		D3DXMatrixRotationAxis(&matRotY, &vRight, D3DXToRadian(dwMouseMove) * fTimeDelta * 3.f);
-		D3DXVec3TransformNormal(&vUp, &vUp, &matRotY);
-		D3DXVec3TransformNormal(&vLook, &vLook, &matRotY);
+		D3DXMatrixRotationAxis(&matRotY, &vRigh2t, D3DXToRadian(dwMouseMove) * fTimeDelta * 3.f);
+		//D3DXVec3TransformNormal(&vUp, &vUp, &matRotY);
+		//D3DXVec3TransformNormal(&vLook, &vLook, &matRotY);
 		D3DXVec3TransformCoord(&m_vOffset, &m_vOffset, &matRotY);
+
 	}
 
 	// UI 단축키 추가

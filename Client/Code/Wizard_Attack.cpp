@@ -26,7 +26,7 @@ HRESULT CWizard_Attack::Ready_State(CStateMachine* pOwner)
 
 	m_bIsAttack = false;
 	m_bAttackTick = false;
-	m_fSpeed = 10.f;
+
 
 	return S_OK;
 }
@@ -47,9 +47,12 @@ STATE CWizard_Attack::Update_State(const _float& fTimeDelta)
 	if(!m_bIsAttack)
 		if (m_pOwner->Get_Animator()->Get_Animation()->Get_Frame() > 5.f)
 		{
+
+			_float fSpeed = dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Get_Speed();
+
 			m_pOwner->Get_Animator()->Get_Animation()->Set_Frame(0.f);
 			CGameObject* pGameObject = nullptr;
-			pGameObject = CMagic_Ball::Create(m_pGraphicDev, m_pOwner->Get_Transform());
+			pGameObject = CMagic_Ball::Create(m_pGraphicDev, m_pOwner->Get_Transform(), fSpeed);
 			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 
 			m_bIsAttack = true;

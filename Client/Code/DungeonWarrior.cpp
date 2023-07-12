@@ -26,8 +26,8 @@ CDungeonWarrior::~CDungeonWarrior()
 HRESULT CDungeonWarrior::Ready_Object()
 {
 	Set_ObjectTag(OBJECTTAG::MONSTER);
+	Set_MonsterState(MONSTERTAG::WARRIOR);
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
-	//m_pAI->Set_Transform(m_pTransform);
 
 	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
 
@@ -53,7 +53,7 @@ HRESULT CDungeonWarrior::Ready_Object()
 		m_pTexture[(_uint)STATE::HIT], STATE::HIT, 5.f, TRUE);
 	m_pAnimator->Add_Animation(STATE::HIT, pAnimation);
 	pAnimation = CAnimation::Create(m_pGraphicDev,
-		m_pTexture[(_uint)STATE::DEAD], STATE::DEAD, 1.5f, TRUE);
+		m_pTexture[(_uint)STATE::DEAD], STATE::DEAD, 3.f, TRUE);
 	m_pAnimator->Add_Animation(STATE::DEAD, pAnimation);
 
 	m_pStateMachine->Set_Animator(m_pAnimator);
@@ -97,6 +97,8 @@ void CDungeonWarrior::LateUpdate_Object()
 	__super::LateUpdate_Object();
 
 	m_pStateMachine->LateUpdate_StateMachine();
+
+	__super::Compute_ViewZ(&m_pTransform->m_vInfo[INFO_POS]);
 }
 
 void CDungeonWarrior::Render_Object()
@@ -104,13 +106,22 @@ void CDungeonWarrior::Render_Object()
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
-	m_pStateMachine->Render_StateMachine();
 
+	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+
+
+	m_pStateMachine->Render_StateMachine();
 	m_pBuffer->Render_Buffer();
 
 #if _DEBUG
 	m_pCollider->Render_Collider();
 #endif
+
+	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+
+
+
+
 
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }

@@ -56,6 +56,7 @@ void CSkeletonKing_Clone::LateUpdate_Object(void)
 
 	m_pBillBoard->LateUpdate_Component();
 	__super::LateUpdate_Object();
+	__super::Compute_ViewZ(&m_pTransform->m_vInfo[INFO_POS]);
 }
 
 void CSkeletonKing_Clone::Render_Object(void)

@@ -23,7 +23,7 @@ CAlien::~CAlien()
 HRESULT CAlien::Ready_Object()
 {
 	Set_ObjectTag(OBJECTTAG::MONSTER);
-	m_eMonsterTag = MONSTERTAG::ALIEN;
+	Set_MonsterState(MONSTERTAG::ALIEN);
 	
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
@@ -57,6 +57,7 @@ HRESULT CAlien::Ready_Object()
 	m_pStateMachine->Set_Animator(m_pAnimator);
 	m_pStateMachine->Set_State(STATE::ROMIMG);
 
+	Set_Speed(30.f);
 
 	m_pBasicStat->Get_Stat()->fHealth = 5.f;
 	
@@ -92,6 +93,7 @@ void CAlien::LateUpdate_Object()
 	if (SceneManager()->Get_GameStop()) { return; }
 
 	__super::LateUpdate_Object();
+	__super::Compute_ViewZ(&m_pTransform->m_vInfo[INFO_POS]);
 }
 
 void CAlien::Render_Object()
@@ -100,13 +102,17 @@ void CAlien::Render_Object()
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
 	m_pStateMachine->Render_StateMachine();
+	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 
+
+	m_pStateMachine->Render_StateMachine();
 	m_pBuffer->Render_Buffer();
 
 #if _DEBUG
 	m_pCollider->Render_Collider();
 #endif
 
+	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
 
@@ -158,8 +164,11 @@ void CAlien::ForceHeight(_vec3 _vPos)
 
 void CAlien::OnCollisionEnter(CCollider* _pOther)
 {
+	if (SceneManager()->Get_GameStop()) { return; }
+
+
 	if (this->Get_StateMachine()->Get_State() != STATE::DEAD && 
-		_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::ITEM)
+		_pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::ITEM)
 		__super::OnCollisionEnter(_pOther);
 
 
@@ -167,10 +176,12 @@ void CAlien::OnCollisionEnter(CCollider* _pOther)
 
 void CAlien::OnCollisionStay(CCollider* _pOther)
 {
+	if (SceneManager()->Get_GameStop()) { return; }
 }
 
 void CAlien::OnCollisionExit(CCollider* _pOther)
 {
+	if (SceneManager()->Get_GameStop()) { return; }
 }
 
 HRESULT CAlien::Add_Component(void)

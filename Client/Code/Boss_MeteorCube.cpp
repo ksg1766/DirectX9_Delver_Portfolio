@@ -47,6 +47,7 @@ _int CBoss_MeteorCube::Update_Object(const _float& fTimeDelta)
 void CBoss_MeteorCube::LateUpdate_Object(void)
 {
 	__super::LateUpdate_Object();
+	__super::Compute_ViewZ(&m_pTransform->m_vInfo[INFO_POS]);
 }
 
 void CBoss_MeteorCube::Render_Object(void)

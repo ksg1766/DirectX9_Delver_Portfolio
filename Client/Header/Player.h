@@ -59,6 +59,7 @@ public:
 	void			Set_Attack(_bool _bAttack)					  { m_bIsAttack = _bAttack; }
 	void			Set_AttackTick(_bool _bTick)				  { m_bAttackTick = _bTick; }
 
+
 public:
 	//void			Add_Item(CGameObject* pItem, ITEMTAG _eItem) { m_pItem[(_uint)_eItem] = pItem; }
 
@@ -84,6 +85,7 @@ private:
 	
 	CTerrain*		m_pTerrain;
 	_vec3			m_vOffset;
+
 
 public:
 	static CPlayer*		Create(LPDIRECT3DDEVICE9 pGraphicDev);

@@ -54,6 +54,7 @@ void CBossProjectile::LateUpdate_Object(void)
 
 	m_pBillBoard->LateUpdate_Component();
 	__super::LateUpdate_Object();
+	__super::Compute_ViewZ(&m_pTransform->m_vInfo[INFO_POS]);
 }
 
 void CBossProjectile::Render_Object(void)

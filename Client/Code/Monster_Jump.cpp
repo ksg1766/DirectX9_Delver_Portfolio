@@ -76,13 +76,14 @@ STATE CMonster_Jump::Jump(const _float& fTimeDelta)
 		m_fJumpVelocity = 13.f;
 		m_bJumCoolDown = true;
 		m_bIsJumping = false;
-		
+		//m_pOwner->Get_Animator()->Get_Animation()->Set_Frame(0.f);
 	
 		m_pOwner->Get_Host()->Set_State(STATE::ROMIMG);
 		
 		return STATE::ROMIMG;
 	}
 
+	//m_pOwner->Get_Animator()->Get_Animation()->Set_Frame(0.f);
 
 	return STATE::ATTACK;
 }

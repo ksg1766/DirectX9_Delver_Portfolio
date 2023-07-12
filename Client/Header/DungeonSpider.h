@@ -6,9 +6,6 @@ BEGIN(Engine)
 
 class CRcTex;
 class CTexture;
-class CSpiderAI;
-class CStateMachine;
-class CBasicStat;
 class CAnimator;
 
 END

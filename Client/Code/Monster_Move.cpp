@@ -141,7 +141,7 @@ _bool CMonster_Move::Reached_Pos()
 	_vec3 vCurrentPos = m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
 	_float fDistance = D3DXVec3Length(&(vCurrentPos - m_vRandomPos));
 
-	return fDistance <= 5.f;
+	return fDistance <= 8.f;
 }
 
 void CMonster_Move::Move_RandomPos(const _float& fTimeDelta)
@@ -150,8 +150,8 @@ void CMonster_Move::Move_RandomPos(const _float& fTimeDelta)
 
 	_vec3 vPlayerPos = pPlayerTransform->m_vInfo[INFO_POS];
 	_vec3 vRandomDir = Get_RandomDir(fTimeDelta);
-	m_vSavePos = vRandomDir;
-	_vec3 vTargetPos = vPlayerPos + vRandomDir * 80.f;
+	m_vSavePos = vRandomDir * 2;
+	_vec3 vTargetPos = vPlayerPos + vRandomDir * 500.f;
 
 	MoveTo_Pos(vTargetPos, fTimeDelta);
 }

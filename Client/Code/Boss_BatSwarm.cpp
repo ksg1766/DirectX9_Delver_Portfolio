@@ -60,6 +60,7 @@ void CBoss_BatSwarm::LateUpdate_Object(void)
 	if (SceneManager()->Get_GameStop()) { return; }
 
 	m_pBillBoard->LateUpdate_Component();
+	__super::Compute_ViewZ(&m_pTransform->m_vInfo[INFO_POS]);
 }
 
 void CBoss_BatSwarm::Render_Object(void)

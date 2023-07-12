@@ -21,7 +21,12 @@ public:
     virtual void		OnCollisionStay(CCollider* _pOther);
     virtual void		OnCollisionExit(CCollider* _pOther);
 
+public:
+    void    Set_Speed(_float _fSpeed) { m_fSpeed = _fSpeed; }
+    _float  Get_Speed() { return m_fSpeed; }
+
 protected:
+    _float  m_fSpeed;
     // MONSTER_ID m_eMonserID;
     // MonsterAI Component 추가해서 사용
 

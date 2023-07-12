@@ -67,13 +67,13 @@ _int CTempItem::Update_Object(const _float& fTimeDelta)
 			m_fSignTime = 1.f;
 			pPlayer->Set_Attack(false);
 		}
-		m_pTransform->Translate(m_pTransform->m_vInfo[INFO_LOOK] * m_fSignTime * 10.f * fTimeDelta);
+		m_pTransform->Translate(m_pTransform->m_vInfo[INFO_LOOK] * m_fSignTime * 7.f * fTimeDelta);
 
 		// 1.8848은 그냥 D3DXVec3Length(&오프셋) 하셔서 바꿔주시면 돼요. 2.3f는 적당히 사거리 더해서 하심 됩니다.
 #pragma endregion ksg
 	}
 
-	Engine::Renderer()->Add_RenderGroup(RENDER_NONALPHA, this);
+	Engine::Renderer()->Add_RenderGroup(RENDER_ALPHA, this);
 
 	return iExit;
 }
@@ -81,6 +81,7 @@ _int CTempItem::Update_Object(const _float& fTimeDelta)
 void CTempItem::LateUpdate_Object(void)
 {
 	__super::LateUpdate_Object();
+	__super::Compute_ViewZ(&m_pTransform->m_vInfo[INFO_POS]);
 }
 
 
@@ -90,8 +91,13 @@ void CTempItem::Render_Object(void)
 	//m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
+	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+
 	m_pTexture->Render_Texture();
 	m_pBuffer->Render_Buffer();
+
+	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+	
 
 #if _DEBUG
 	m_pCollider->Render_Collider();

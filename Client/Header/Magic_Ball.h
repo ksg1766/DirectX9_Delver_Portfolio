@@ -20,7 +20,7 @@ private:
 	virtual ~CMagic_Ball();
 
 public:
-	virtual HRESULT	Ready_Object(CTransform* pOwner);
+	virtual HRESULT	Ready_Object(CTransform* pOwner, _float _fSpeed);
 	virtual _int	Update_Object(const _float& fTimeDelta) override;
 	virtual void	LateUpdate_Object() override;
 	virtual void	Render_Object() override;
@@ -52,7 +52,7 @@ private:
 	_vec3  m_vInit;
 
 public:
-	static CMagic_Ball* Create(LPDIRECT3DDEVICE9 pGraphicDev, CTransform* pOwner);
+	static CMagic_Ball* Create(LPDIRECT3DDEVICE9 pGraphicDev, CTransform* pOwner, _float _fSpeed);
 
 private:
 	virtual void Free() override;

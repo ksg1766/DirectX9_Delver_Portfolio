@@ -45,15 +45,15 @@ HRESULT CDungeonSpider::Ready_Object()
 	m_pAnimator->Add_Animation(STATE::ROMIMG, pAnimation);
 
 	pAnimation = CAnimation::Create(m_pGraphicDev,
-		m_pTexture[(_uint)STATE::ATTACK], STATE::ATTACK, 0.12f, TRUE);
+		m_pTexture[(_uint)STATE::ATTACK], STATE::ATTACK, 3.f, TRUE);
 	m_pAnimator->Add_Animation(STATE::ATTACK, pAnimation);
 
 	pAnimation = CAnimation::Create(m_pGraphicDev,
-		m_pTexture[(_uint)STATE::HIT], STATE::HIT, 0.12f, TRUE);
+		m_pTexture[(_uint)STATE::HIT], STATE::HIT, 3.f, TRUE);
 	m_pAnimator->Add_Animation(STATE::HIT, pAnimation);
 
 	pAnimation = CAnimation::Create(m_pGraphicDev,
-		m_pTexture[(_uint)STATE::DEAD], STATE::DEAD, 0.12f, TRUE);
+		m_pTexture[(_uint)STATE::DEAD], STATE::DEAD, 3.f, TRUE);
 	m_pAnimator->Add_Animation(STATE::DEAD, pAnimation);
 
 	m_pStateMachine->Set_Animator(m_pAnimator);
@@ -96,6 +96,8 @@ void CDungeonSpider::LateUpdate_Object()
 	if (SceneManager()->Get_GameStop()) { return; } // ! Esc 및 M키 누를 시 업데이트 멈추게 하는 용도 입니다.
 
 	__super::LateUpdate_Object();
+
+	__super::Compute_ViewZ(&m_pTransform->m_vInfo[INFO_POS]);
 }
 
 void CDungeonSpider::Render_Object()
@@ -103,15 +105,18 @@ void CDungeonSpider::Render_Object()
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
+
+	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+
+
 	m_pStateMachine->Render_StateMachine();
-
-
 	m_pBuffer->Render_Buffer();
 
 #if _DEBUG
 	m_pCollider->Render_Collider();
 #endif
 
+	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
 
@@ -119,7 +124,8 @@ void CDungeonSpider::OnCollisionEnter(CCollider* _pOther)
 {
 	// 충돌 밀어내기 후 이벤트 : 구현하시면 됩니다.
 
-	if (this->Get_StateMachine()->Get_State() != STATE::DEAD && _pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::ITEM)
+	if (this->Get_StateMachine()->Get_State() != STATE::DEAD && 
+		_pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::ITEM)
 		__super::OnCollisionEnter(_pOther);
 
 	if (_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::PLAYER

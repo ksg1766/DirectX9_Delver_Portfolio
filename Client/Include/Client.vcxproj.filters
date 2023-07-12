@@ -328,15 +328,27 @@
     <Filter Include="02. GameObject\01. Stage\05. Monster\06. Slime">
       <UniqueIdentifier>{b5068faf-a7c8-4a71-860a-e33b2fd4b593}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\01. Stage\05. Monster\06. Slime\State">
+      <UniqueIdentifier>{4ae99565-1c0d-409b-bcd3-d2bffdf744b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\05. Monster\07. Skeleton">
+      <UniqueIdentifier>{f88ecb10-b769-4813-8c38-f0d9b10dd4a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\05. Monster\07. Skeleton\State">
+      <UniqueIdentifier>{961b0bad-4949-4d9b-8436-5c55d5f530af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\02. Item\Bow">
+      <UniqueIdentifier>{9d0eb722-7555-4dd5-9993-6fdea81bab1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\02. Item\Bow\Arrow">
+      <UniqueIdentifier>{8432909b-dd43-49bd-ab0e-024e20043a9e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
       <Filter>99. Etc\헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="targetver.h">
-      <Filter>99. Etc\헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Resource.h">
       <Filter>99. Etc\헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Client.h">
@@ -631,7 +643,22 @@
       <Filter>02. GameObject\01. Stage\05. Monster\05. Alien</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Slime.h">
+      <Filter>02. GameObject\01. Stage\05. Monster\06. Slime</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\SlimeMove.h">
+      <Filter>02. GameObject\01. Stage\05. Monster\06. Slime\State</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\SlimeAttack.h">
+      <Filter>02. GameObject\01. Stage\05. Monster\06. Slime\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
       <Filter>99. Etc\헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Skeleton.h">
+      <Filter>02. GameObject\01. Stage\05. Monster\07. Skeleton</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Bow.h">
+      <Filter>02. GameObject\01. Stage\02. Item\Bow</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -927,7 +954,19 @@
       <Filter>02. GameObject\01. Stage\05. Monster\05. Alien</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Slime.cpp">
-      <Filter>99. Etc\소스 파일</Filter>
+      <Filter>02. GameObject\01. Stage\05. Monster\06. Slime</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\SlimeMove.cpp">
+      <Filter>02. GameObject\01. Stage\05. Monster\06. Slime\State</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\SlimeAttack.cpp">
+      <Filter>02. GameObject\01. Stage\05. Monster\06. Slime\State</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Skeleton.cpp">
+      <Filter>02. GameObject\01. Stage\05. Monster\07. Skeleton</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Bow.cpp">
+      <Filter>02. GameObject\01. Stage\02. Item\Bow</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

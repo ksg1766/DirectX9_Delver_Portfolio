@@ -18,7 +18,7 @@ CMagic_Ball::~CMagic_Ball()
 	Free();
 }
 
-HRESULT CMagic_Ball::Ready_Object(CTransform* pOwner)
+HRESULT CMagic_Ball::Ready_Object(CTransform* pOwner, _float _fSpeed)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
@@ -38,7 +38,7 @@ HRESULT CMagic_Ball::Ready_Object(CTransform* pOwner)
 	m_pTransform->Copy_RUL_AddPos(pOwner->Get_Transform()->m_vInfo);
 	
 	m_fFrame = 0.f;
-	m_fSpeed = 20.f;
+	m_fSpeed = _fSpeed;
 
 	CAnimation* pAnimation = CAnimation::Create(m_pGraphicDev,
 		m_pTexture[(_uint)STATE::ATTACK], STATE::ATTACK, 5.f, TRUE);
@@ -110,7 +110,7 @@ void CMagic_Ball::LateUpdate_Object()
 	if (SceneManager()->Get_GameStop()) { return; }
 
 	__super::LateUpdate_Object();
-
+	__super::Compute_ViewZ(&m_pTransform->m_vInfo[INFO_POS]);
 
 }
 
@@ -120,8 +120,9 @@ void CMagic_Ball::Render_Object()
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
 	//m_pStateMachine->Render_StateMachine();
+	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 
-	//m_pTexture->Render_Texture((_uint)m_fFrame);
+
 	m_pAnimator->Render_Animator();
 	m_pBuffer->Render_Buffer();
 
@@ -129,6 +130,7 @@ void CMagic_Ball::Render_Object()
 	m_pCollider->Render_Collider();
 #endif
 
+	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
 
@@ -272,11 +274,11 @@ HRESULT CMagic_Ball::Add_Component()
 	return S_OK;
 }
 
-CMagic_Ball* CMagic_Ball::Create(LPDIRECT3DDEVICE9 pGraphicDev, CTransform* pOwner)
+CMagic_Ball* CMagic_Ball::Create(LPDIRECT3DDEVICE9 pGraphicDev, CTransform* pOwner, _float _fSpeed)
 {
 	CMagic_Ball* pInstance = new CMagic_Ball(pGraphicDev);
 
-	if (FAILED(pInstance->Ready_Object(pOwner)))
+	if (FAILED(pInstance->Ready_Object(pOwner, _fSpeed)))
 	{
 		Safe_Release<CMagic_Ball*>(pInstance);
 

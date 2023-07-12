@@ -27,7 +27,7 @@ CBat::~CBat()
 HRESULT CBat::Ready_Object()
 {
 	Set_ObjectTag(OBJECTTAG::MONSTER);
-	m_eMonsterTag = MONSTERTAG::BAT;
+	Set_MonsterState(MONSTERTAG::BAT);
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
@@ -95,6 +95,7 @@ void CBat::LateUpdate_Object()
 	if (SceneManager()->Get_GameStop()) { return; }
 
 	__super::LateUpdate_Object();
+	__super::Compute_ViewZ(&m_pTransform->m_vInfo[INFO_POS]);
 }
 
 void CBat::Render_Object()
@@ -102,13 +103,17 @@ void CBat::Render_Object()
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
-	m_pStateMachine->Render_StateMachine();
+	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 
+
+	m_pStateMachine->Render_StateMachine();
 	m_pBuffer->Render_Buffer();
 
 #if _DEBUG
 	m_pCollider->Render_Collider();
 #endif
+
+	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }

@@ -161,6 +161,7 @@ void CSkeletonKing::LateUpdate_Object(void)
 	m_pBillBoard->LateUpdate_Component();
 	Key_Input();
 	__super::LateUpdate_Object();
+	__super::Compute_ViewZ(&m_pTransform->m_vInfo[INFO_POS]);
 }
 
 void CSkeletonKing::Render_Object(void)

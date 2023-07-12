@@ -44,11 +44,15 @@ public:
 	STATE				Get_State()			{ return m_eState; }
 	_bool				Get_AttackTick()	{ return m_bAttackTick; }
 	CStateMachine*		Get_StateMachine()  { return m_pStateMachine; }
+	_float				Get_ViewZ()			{ return m_fViewZ; }
 
 public:
 	void				Set_State(STATE _eState) { m_eState = _eState; }
 	void				Set_MonsterState(MONSTERTAG _eState) { m_eMonsterTag = _eState; }
 	void				Set_AttackTick(_bool _Tick) { m_bAttackTick = _Tick; }
+
+public:
+	void				Compute_ViewZ(const _vec3* pPos);
 
 private:
 	CComponent*			Find_Component(COMPONENTTAG pComponentTag, COMPONENTID eID);
@@ -71,6 +75,7 @@ protected:
 	STATE								m_eState;
 
 	_bool								m_bAttackTick;
+	_float								m_fViewZ;
 
 public:
 	virtual void		Free();
