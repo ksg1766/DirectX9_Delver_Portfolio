@@ -3,14 +3,16 @@
 CItem::CItem(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CGameObject(pGraphicDev)
 {
-	m_ItemID.eItemType = ITEMTYPE::ITEMTYPE_END;
-	m_ItemID.eItemID   = ITEMID::ITEMID_END;
-	m_ItemID.iCount    = 1;
+	m_eObjectTag		= OBJECTTAG::ITEM;
+	m_ItemID.eItemType	= ITEMTYPE::ITEMTYPE_END;
+	m_ItemID.eItemID	= ITEMID::ITEMID_END;
+	m_ItemID.iCount		= 1;
 }
 
 CItem::CItem(const CItem& rhs)
 	: CGameObject(rhs)
 {
+	m_eObjectTag = rhs.m_eObjectTag;
 	m_ItemID.eItemType = rhs.m_ItemID.eItemType;
 	m_ItemID.eItemID   = rhs.m_ItemID.eItemID;
 	m_ItemID.iCount    = rhs.m_ItemID.iCount;
