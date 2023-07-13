@@ -161,6 +161,7 @@ public:
 	void AddBasicGameobject_UI(UILAYER eType, CGameObject* pGameObject);
 	void AddPopupGameobject_UI(UIPOPUPLAYER ePopupLayer, UILAYER eType, CGameObject* pGameObject);
 	void AddItemGameobject_UI(CGameObject* pGameObject);
+	void AddBasicItemGameobject_UI(CGameObject* pGameObject);
 	CGameObject* Get_Object(UIPOPUPLAYER ePopupLayer, UILAYER eType, UIOBJECTTTAG eObjID, _uint eUINumber)
 	{ 
 		UIOBJECTTTAG UIObjID;
@@ -214,6 +215,8 @@ private:
 
 	//vector<CGameObject*> m_vecCreate;
 	vector<CGameObject*> m_vecDead;
+
+	vector<CGameObject*> m_vecBasicItem;
 
 private:
 	virtual void Free() override;

@@ -175,6 +175,8 @@ private:
 
 	_bool       m_bMove = false;
 
+	_matrix     m_Position;
+
 public:
 	static CUIitem*	Create(LPDIRECT3DDEVICE9 pGraphicDev);
 	
