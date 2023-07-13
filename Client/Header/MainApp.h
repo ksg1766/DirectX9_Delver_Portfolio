@@ -31,6 +31,10 @@ private:
 
 	LPDIRECT3DDEVICE9		m_pGraphicDev;
 
+	TCHAR				m_szFPS[64];
+	DWORD				m_dwTime;
+	_int				m_iFps;
+
 public:
 	static CMainApp*		Create();
 

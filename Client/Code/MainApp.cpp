@@ -53,6 +53,17 @@ void CMainApp::LateUpdate_MainApp()
 
 void CMainApp::Render_MainApp()
 {
+	++m_iFps;
+
+	if (m_dwTime + 1000 < GetTickCount())
+	{
+		swprintf_s(m_szFPS, L"FPS : %d", m_iFps);
+		SetWindowText(g_hWnd, m_szFPS);
+
+		m_iFps = 0;
+		m_dwTime = GetTickCount();
+	}
+
 	m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, FALSE);
 
 	Engine::Render_Begin(D3DXCOLOR(0.f, 0.f, 1.f, 1.f));
