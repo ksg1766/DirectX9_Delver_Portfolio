@@ -39,7 +39,6 @@ HRESULT CDungeonSpider::Ready_Object()
 	m_pStateMachine->Add_State(STATE::DEAD, pState);
 
 
-
 	CAnimation* pAnimation = CAnimation::Create(m_pGraphicDev,
 		m_pTexture[(_uint)STATE::ROMIMG], STATE::ROMIMG, 5.f, TRUE);
 	m_pAnimator->Add_Animation(STATE::ROMIMG, pAnimation);
@@ -123,6 +122,7 @@ void CDungeonSpider::Render_Object()
 void CDungeonSpider::OnCollisionEnter(CCollider* _pOther)
 {
 	// 충돌 밀어내기 후 이벤트 : 구현하시면 됩니다.
+	if (SceneManager()->Get_GameStop()) { return; }
 
 	if (this->Get_StateMachine()->Get_State() != STATE::DEAD && 
 		_pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::ITEM)
@@ -146,12 +146,15 @@ void CDungeonSpider::OnCollisionEnter(CCollider* _pOther)
 
 void CDungeonSpider::OnCollisionStay(CCollider* _pOther)
 {
+	if (SceneManager()->Get_GameStop()) { return; }
+
 	__super::OnCollisionStay(_pOther);
 	// 충돌 밀어내기 후 이벤트 : 구현하시면 됩니다.
 }
 
 void CDungeonSpider::OnCollisionExit(CCollider* _pOther)
 {
+	if (SceneManager()->Get_GameStop()) { return; }
 }
 
 HRESULT CDungeonSpider::Add_Component()

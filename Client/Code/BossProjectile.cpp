@@ -4,12 +4,12 @@
 #include "Terrain.h"
 #include "Player.h"
 CBossProjectile::CBossProjectile(LPDIRECT3DDEVICE9 pGraphicDev)
-	: Engine::CGameObject(pGraphicDev), m_fFrame(0.f)
+	: Engine::CMonster(pGraphicDev), m_fFrame(0.f)
 {
 }
 
 CBossProjectile::CBossProjectile(const CBossProjectile& rhs)
-	:	Engine::CGameObject(rhs), m_fFrame(rhs.m_fFrame)
+	:	Engine::CMonster(rhs), m_fFrame(rhs.m_fFrame)
 {
 }
 
@@ -28,6 +28,7 @@ HRESULT CBossProjectile::Ready_Object(void)
 		m_pTransform->LocalScale() * 0.8);
 
 	m_pBasicStat->Get_Stat()->fAttack = 5.f;
+
 	return S_OK;
 }
 

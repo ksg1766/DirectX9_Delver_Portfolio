@@ -140,14 +140,20 @@ void CUIitem::Key_Input(void)
 	GetCursorPos(&pt);
 	ScreenToClient(g_hWnd, &pt);
 
+
 	if (OnCollision(pt, m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y))
 	{
-		m_bCollider = true;
 		// 아이템 UI를 눌렀다가 가져다 놨을 때 해당 마우스 위치의 슬롯이 비어있는지 판별 후 여부에 따른 처리
 		if (Engine::InputDev()->Mouse_Pressing(DIM_LB))
 		{
 			m_bMove = true;
-			WorldMatrix(pt.x, pt.y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);
+			
+			m_pTransform->m_vInfo[INFO_POS].x = pt.x;
+			m_pTransform->m_vInfo[INFO_POS].y = pt.y;
+
+			WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);
+
+			m_bCollider = true;
 		}
 
 		if(!m_bMove)

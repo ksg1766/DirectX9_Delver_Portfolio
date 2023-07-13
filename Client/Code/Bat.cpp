@@ -166,6 +166,8 @@ void CBat::ForceHeight(_vec3 _vPos)
 
 void CBat::OnCollisionEnter(CCollider* _pOther)
 {
+	if (SceneManager()->Get_GameStop()) { return; }
+
 	if(this->Get_StateMachine()->Get_State() != STATE::DEAD && _pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::ITEM)
 		__super::OnCollisionEnter(_pOther);
 
@@ -188,10 +190,12 @@ void CBat::OnCollisionEnter(CCollider* _pOther)
 
 void CBat::OnCollisionStay(CCollider* _pOther)
 {
+	if (SceneManager()->Get_GameStop()) { return; }
 }
 
 void CBat::OnCollisionExit(CCollider* _pOther)
 {
+	if (SceneManager()->Get_GameStop()) { return; }
 }
 
 HRESULT CBat::Add_Component(void)

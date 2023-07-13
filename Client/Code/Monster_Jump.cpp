@@ -78,7 +78,7 @@ STATE CMonster_Jump::Jump(const _float& fTimeDelta)
 		m_bIsJumping = false;
 		//m_pOwner->Get_Animator()->Get_Animation()->Set_Frame(0.f);
 	
-		m_pOwner->Get_Host()->Set_State(STATE::ROMIMG);
+		dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Set_State(STATE::ROMIMG);
 		
 		return STATE::ROMIMG;
 	}

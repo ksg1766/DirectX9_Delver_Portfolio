@@ -71,7 +71,7 @@ STATE CMonster_Move::Update_State(const _float& fTimeDelta)
 		{
 			m_bJumCoolDown = false;
 			m_fJumpCoolTimer = 0.f;
-			m_pOwner->Get_Host()->Set_AttackTick(false);
+			dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Set_AttackTick(false);
 			return STATE::ATTACK;
 		}
 		else

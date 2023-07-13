@@ -651,12 +651,6 @@
     <ClInclude Include="..\Header\SkeletonKing.h">
       <Filter>02. GameObject\01. Stage\999.Boss</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\BossProjectile.h">
-      <Filter>02. GameObject\01. Stage\999.Boss\01. AttackEff\01.AttackFire</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\FirePattern.h">
-      <Filter>02. GameObject\01. Stage\999.Boss\02. State\03. Attack\01. FirePattern</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\LoadingPont.h">
       <Filter>02. GameObject\05. Loading\02. LoadingPont</Filter>
     </ClInclude>
@@ -698,6 +692,15 @@
     </ClInclude>
     <ClInclude Include="..\Header\SkeletonKing.h">
       <Filter>02. GameObject\01. Stage\999. Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\BossProjectile.h">
+      <Filter>99. Etc\헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\FirePattern.h">
+      <Filter>99. Etc\헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Arrow.h">
+      <Filter>02. GameObject\01. Stage\02. Item\Bow\Arrow</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -962,12 +965,6 @@
     <ClCompile Include="..\Code\SkeletonKing.cpp">
       <Filter>02. GameObject\01. Stage\999.Boss</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\BossProjectile.cpp">
-      <Filter>02. GameObject\01. Stage\999.Boss\01. AttackEff\01.AttackFire</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\FirePattern.cpp">
-      <Filter>02. GameObject\01. Stage\999.Boss\02. State\03. Attack\01. FirePattern</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\LoadingPont.cpp">
       <Filter>02. GameObject\05. Loading\02. LoadingPont</Filter>
     </ClCompile>
@@ -1006,6 +1003,15 @@
     </ClCompile>
     <ClCompile Include="..\Code\SkeletonKing.cpp">
       <Filter>02. GameObject\01. Stage\999. Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\BossProjectile.cpp">
+      <Filter>99. Etc\소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\FirePattern.cpp">
+      <Filter>99. Etc\소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Arrow.cpp">
+      <Filter>02. GameObject\01. Stage\02. Item\Bow\Arrow</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

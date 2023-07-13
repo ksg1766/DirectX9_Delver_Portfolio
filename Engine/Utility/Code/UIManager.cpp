@@ -47,7 +47,7 @@ void CUIManager::Delete_FindItemUI(ITEMTYPEID _itemId)
 {
 	// 해당 아이디의 아이템을 찾아와서 감소 및 삭제
 	// 기본 슬롯 5개 먼저 검사
-	for (auto& iter : m_vecUIbasic[UI_MIDDLE]) {
+	for (auto& iter : m_vecBasicItem) {
 		if (iter != nullptr) {
 			ITEMTYPEID SlotItemType = dynamic_cast<CUIitem*>(iter)->Get_ItemTag();
 
@@ -103,6 +103,15 @@ void CUIManager::AddBasicGameobject_UI(UILAYER eType, CGameObject* pGameObject)
 	//pGameObject->AddRef();
 }
 
+void CUIManager::AddBasicItemGameobject_UI(CGameObject* pGameObject)
+{
+	if (nullptr == pGameObject)
+		return;
+
+	m_vecBasicItem.push_back(pGameObject);
+	//pGameObject->AddRef();
+}
+
 void CUIManager::AddPopupGameobject_UI(UIPOPUPLAYER ePopupLayer, UILAYER eType, CGameObject* pGameObject)
 {
 	if (UIPOPUPLAYER::POPUP_END <= ePopupLayer || UILAYER::UI_END <= eType || nullptr == pGameObject)
@@ -118,7 +127,7 @@ void CUIManager::AddItemGameobject_UI(CGameObject* pGameObject)
 
 	// 이미 보유하고 있는 아이템인지 검사한다.
 	// 기본 슬롯 5개 먼저 검사
-	for (auto iter : m_vecUIbasic[UI_MIDDLE]) {
+	for (auto iter : m_vecBasicItem) {
 		if (iter != nullptr)
 		{
 			ITEMTYPEID SlotItemType = dynamic_cast<CUIitem*>(iter)->Get_ItemTag();
@@ -160,7 +169,7 @@ void CUIManager::AddItemGameobject_UI(CGameObject* pGameObject)
 			dynamic_cast<CTempUI*>(pGameObject)->Set_Parent(iter);
 			dynamic_cast<CTempUI*>(iter)->Set_EmptyBool(false);
 
-			Engine::UIManager()->AddBasicGameobject_UI(Engine::UILAYER::UI_MIDDLE, pGameObject);
+			Engine::UIManager()->AddBasicItemGameobject_UI(pGameObject);
 			return;
 		}
 	}
@@ -206,6 +215,12 @@ _int CUIManager::Update_UI(const _float& fTimeDelta)
 		}
 	}
 
+	for (auto iter : m_vecBasicItem)
+	{
+		if (iter != nullptr)
+			iter->Update_Object(fTimeDelta);
+	}
+
 	return _int();
 }
 
@@ -226,6 +241,12 @@ void CUIManager::LateUpdate_UI()
 				if (iter != nullptr)
 					iter->LateUpdate_Object();
 		}
+	}
+
+	for (auto iter : m_vecBasicItem)
+	{
+		if (iter != nullptr)
+			iter->LateUpdate_Object();
 	}
 }
 
@@ -274,6 +295,12 @@ void CUIManager::Render_UI(LPDIRECT3DDEVICE9 pGraphicDev)
 		}
 	}
 
+	for (auto iter : m_vecBasicItem)
+	{
+		if (iter != nullptr)
+			iter->Render_Object();
+	}
+
 	pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE); // 알파렌더링 OFF
 
 	pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);      // Z버퍼 ON
@@ -306,4 +333,10 @@ void CUIManager::Free()
 			Mapiter.second[i].clear();
 		}
 	}
+
+	for (auto iter : m_vecBasicItem)
+		if (iter != nullptr)
+			Safe_Release(iter);
+
+	m_vecBasicItem.clear();
 }

@@ -162,10 +162,7 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 		m_pTransform->Rotate(ROT_Y, D3DXToRadian(dwMouseMove) * fTimeDelta * 3.f);
 
 		D3DXMatrixRotationAxis(&matRotX, &m_pTransform->m_vInfo[INFO_UP], D3DXToRadian(dwMouseMove) * fTimeDelta * 3.f);
-		//D3DXVec3TransformNormal(&vLook, &vLook, &matRotX);
-		//D3DXVec3TransformNormal(&vRight, &vRight, &matRotX);
 		D3DXVec3TransformCoord(&m_vOffset, &m_vOffset, &matRotX);
-
 	}
 
 	if (0 != (dwMouseMove = Engine::InputDev()->Get_DIMouseMove(DIMS_Y)) && !bCameraOn)
@@ -177,74 +174,73 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 
 		_matrix matRotY;
 
-		D3DXMatrixRotationAxis(&matRotY, &vRigh2t, D3DXToRadian(dwMouseMove) * fTimeDelta * 3.f);
-		//D3DXVec3TransformNormal(&vUp, &vUp, &matRotY);
-		//D3DXVec3TransformNormal(&vLook, &vLook, &matRotY);
+		D3DXMatrixRotationAxis(&matRotY, &m_pTransform->m_vInfo[INFO_RIGHT], D3DXToRadian(dwMouseMove) * fTimeDelta * 3.f);
 		D3DXVec3TransformCoord(&m_vOffset, &m_vOffset, &matRotY);
+	}
 
-		if (Engine::InputDev()->Key_Down(DIK_1))
-		{
-			m_bItemEquipRight = true;
-			Engine::CGameObject* pGameObject = nullptr;
-			pGameObject = CTempItem::Create(m_pGraphicDev);
+	if (Engine::InputDev()->Key_Down(DIK_1))
+	{
+		m_bItemEquipRight = true;
+		Engine::CGameObject* pGameObject = nullptr;
+		pGameObject = CTempItem::Create(m_pGraphicDev);
 
-			//Add_Item(pGameObject, ITEMTAG::WEAPON);
-			Set_CurrentEquipRight(pGameObject);
+		//Add_Item(pGameObject, ITEMTAG::WEAPON);
+		Set_CurrentEquipRight(pGameObject);
 
-			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
-		}
+		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+	}
 
-		// UI 단축키 추가
-		if (Engine::InputDev()->Key_Down(DIK_I))
+	// UI 단축키 추가
+
+	if (Engine::InputDev()->Key_Down(DIK_I))
+	{
+		if (Engine::UIManager()->Set_InvenUse())
 		{
-			if (Engine::UIManager()->Set_InvenUse())
-			{
-				static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(true);
-				SceneManager()->Set_GameStop(false);
-			}
-			else
-				static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(false);
+			static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(true);
+			SceneManager()->Set_GameStop(false);
 		}
-		else if (Engine::InputDev()->Key_Down(DIK_C))
+		else
+			static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(false);
+	}
+	else if (Engine::InputDev()->Key_Down(DIK_C))
+	{
+		if (Engine::UIManager()->Set_StatUse())
 		{
-			if (Engine::UIManager()->Set_StatUse())
-			{
-				static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(true);
-				SceneManager()->Set_GameStop(false);
-			}
-			else
-				static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(false);
+			static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(true);
+			SceneManager()->Set_GameStop(false);
 		}
-		else if (Engine::InputDev()->Key_Down(DIK_M))
-		{
-			if (Engine::UIManager()->Set_MapUse()) {
-				static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(true);
-				SceneManager()->Set_GameStop(true);
-			}
-			else {
-				static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(false);
-				SceneManager()->Set_GameStop(false);
-			}
+		else
+			static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(false);
+	}
+	else if (Engine::InputDev()->Key_Down(DIK_M))
+	{
+		if (Engine::UIManager()->Set_MapUse()) {
+			static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(true);
+			SceneManager()->Set_GameStop(true);
 		}
-		else if (Engine::InputDev()->Key_Down(DIK_ESCAPE))
-		{
-			if (Engine::UIManager()->Set_EscUse()) {
-				static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(true);
-				SceneManager()->Set_GameStop(true);
-			}
-			else
-			{
-				static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(false);
-				SceneManager()->Set_GameStop(false);
-			}
+		else {
+			static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(false);
+			SceneManager()->Set_GameStop(false);
 		}
 	}
+	else if (Engine::InputDev()->Key_Down(DIK_ESCAPE))
+	{
+		if (Engine::UIManager()->Set_EscUse()) {
+			static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(true);
+			SceneManager()->Set_GameStop(true);
+		}
+		else
+		{
+			static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(false);
+			SceneManager()->Set_GameStop(false);
+		}
+	}
+
 	// 아이템 줍기 및 버리기
 	if (Engine::InputDev()->Key_Down(DIK_E))
 	{
 		//  바라보고 있는 아이템 줍기 / E 키로 앞에 있는 아이템 획득을 테스트 용으로 임시 생성
-		Engine::CGameObject* pGameObjectItem = CTempItem::Create(m_pGraphicDev);
-
+		Engine::CGameObject* pGameObjectItem = CBow::Create(m_pGraphicDev);
 		// 획득한 아이템 타입 및 개수를 받아옴.
 		ITEMTYPEID ItemType = dynamic_cast<CItem*>(pGameObjectItem)->Get_ItemTag();
 
@@ -259,13 +255,11 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 		// 획득한 아이템을 인벤토리에 넣는다.	
 		m_pInventory->Add_ItemObject(pGameObjectItem);
 
-
 		//// ITEM UI 객체 생성 후 들어온 아이템 타입 및 아이디로 값 셋팅.
 		Engine::CGameObject* pGameObjectUI = CUIitem::Create(m_pGraphicDev);
 		dynamic_cast<CUIitem*>(pGameObjectUI)->Set_ItemTag(ItemType.eItemType, ItemType.eItemID, ItemType.iCount);
 		// 셋팅 후 UI 매니저에 아이템UI 추가.
 		Engine::UIManager()->AddItemGameobject_UI(pGameObjectUI);
-
 	}
 	else if (Engine::InputDev()->Key_Down(DIK_Q))
 	{

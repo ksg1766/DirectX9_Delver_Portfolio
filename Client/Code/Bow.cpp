@@ -24,7 +24,6 @@ CBow::~CBow()
 HRESULT CBow::Ready_Object(void)
 {
 	m_eObjectTag = OBJECTTAG::ITEM;
-	m_eItemTag = ITEMTAG::WEAPON;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pTransform->m_pParent->Get_Host());
@@ -37,6 +36,7 @@ HRESULT CBow::Ready_Object(void)
 	m_fChase2 = 0.f;
 	m_fAngle = 0.f;
 	m_iCount = 0;
+
 	// 타입 및 아이디 지정
 	m_ItemID.eItemType = ITEMTYPE_WEAPONITEM;
 	m_ItemID.eItemID = WEAPON_BOW;
@@ -47,61 +47,55 @@ HRESULT CBow::Ready_Object(void)
 
 _int CBow::Update_Object(const _float& fTimeDelta)
 {
+	Engine::Renderer()->Add_RenderGroup(RENDER_ALPHA, this);
+	
+	if (SceneManager()->Get_GameStop()) { return 0; }
+
 	_int iExit = __super::Update_Object(fTimeDelta);
 
 	CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pTransform->m_pParent->Get_Host());
+	_vec3 vUp = *D3DXVec3Cross(&vUp, &m_pTransform->m_pParent->m_vInfo[INFO_LOOK],
+		&m_pTransform->m_pParent->m_vInfo[INFO_RIGHT]);
+	_matrix matRot;
+	_vec3 vLook = *D3DXVec3Cross(&vLook, &m_pTransform->m_pParent->m_vInfo[INFO_UP],
+		&m_pTransform->m_pParent->m_vInfo[INFO_RIGHT]);
+
 
 	if (pPlayer->Get_Attack())
 	{
+		if (m_iCount < 28.f)
+		{
+			++m_iCount;
+			m_pTransform->RotateAround(m_pTransform->m_pParent->m_vInfo[INFO_POS],
+				vUp, -0.01f);	
+			m_pTransform->RotateAround(m_pTransform->m_vInfo[INFO_POS], m_pTransform->m_vInfo[INFO_UP],
+				0.08f);
+		}
 		pPlayer->Set_Attack(false);
 
-		m_fChase += 0.08 * fTimeDelta;
-
-		if (m_fChase >= 1.f)
-			m_fChase = 0.f;
-
-		if (m_iCount < 55)
-		{
-			//m_pTransform->Rotate(ROT_Y, 0.04f);
-			++m_iCount;
-
-			_vec3 vLerp;
-			D3DXVec3Lerp(&vLerp, &m_pTransform->m_vInfo[INFO_POS],
-				&(m_pTransform->m_pParent->m_vInfo[INFO_POS] + 2.f * m_pTransform->m_pParent->m_vInfo[INFO_LOOK]),
-				m_fChase);
-			m_pTransform->m_vInfo[INFO_POS] = vLerp;
-		}
 	}
 	else
 	{
-		m_fChase2 += 0.08 * fTimeDelta;
-
-		if (m_fChase2 >= 1.f)
-			m_fChase2 = 0.f;
-
-
-		if (m_iCount > 0)
+		if (m_iCount > 0.f)
 		{
-			//m_pTransform->Rotate(ROT_Y, -0.04f);
-			++m_iCount;
+			--m_iCount;
+			m_pTransform->RotateAround(m_pTransform->m_pParent->m_vInfo[INFO_POS],
+				vUp, 0.01f);
+			m_pTransform->RotateAround(m_pTransform->m_vInfo[INFO_POS], m_pTransform->m_vInfo[INFO_UP],
+				-0.08f);
 
-			_vec3 vLerp;
-			D3DXVec3Lerp(&vLerp, &m_pTransform->m_vInfo[INFO_POS],
-				&(m_pTransform->m_pParent->m_vInfo[INFO_POS] + *pPlayer->Get_Offset()),
-				m_fChase2);
-			m_pTransform->m_vInfo[INFO_POS] = vLerp;
+			
 		}
 	}
 
-
-
-	Engine::Renderer()->Add_RenderGroup(RENDER_ALPHA, this);
 
 	return iExit;
 }
 
 void CBow::LateUpdate_Object(void)
 {
+	if (SceneManager()->Get_GameStop()) { return; }
+
 	__super::LateUpdate_Object();
 	__super::Compute_ViewZ(&m_pTransform->m_vInfo[INFO_POS]);
 }
@@ -157,47 +151,22 @@ HRESULT CBow::Add_Component(void)
 
 void CBow::OnCollisionEnter(CCollider* _pOther)
 {
+	if (SceneManager()->Get_GameStop()) { return; }
+
 	if (!(_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::MONSTER) &&
 		!(_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::PLAYER))
 		__super::OnCollisionEnter(_pOther);
 	// 몬스터거나 플레이어면 밀어내지않는다.
-
-	CPlayer& pPlayer = *dynamic_cast<CPlayer*>(SceneManager()->GetInstance()
-		->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
-	// 플레이어의 정보를 레퍼런스로 얻어옴.
-
-	if (_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::MONSTER)
-		// 무기 콜리전에 들어온 타입이 몬스터이면서, 플레이어의 스테이트가 공격이라면
-	{
-
-		if (!pPlayer.Get_AttackTick() &&
-			_pOther->Get_Host()->Get_StateMachine()->Get_State() != STATE::DEAD)
-			// 공격 하지 않은 상태라면.
-		{
-			_pOther->Get_Host()->Get_BasicStat()->Take_Damage(1.f);
-			pPlayer.Set_AttackTick(true);
-
-			++iCount;
-
-			if (_pOther->Get_Host()->Get_StateMachine()->Get_PrevState() != STATE::HIT
-				&& iCount > 4)
-			{
-				iCount = 0;
-				_pOther->Get_Host()->Get_StateMachine()->Set_State(STATE::HIT);
-			}
-
-
-			cout << "데미지" << endl;
-		}
-	}
 }
 
 void CBow::OnCollisionStay(CCollider* _pOther)
 {
+	if (SceneManager()->Get_GameStop()) { return; }
 }
 
 void CBow::OnCollisionExit(CCollider* _pOther)
 {
+	if (SceneManager()->Get_GameStop()) { return; }
 }
 
 CBow* CBow::Create(LPDIRECT3DDEVICE9 pGraphicDev)

@@ -19,8 +19,7 @@ public:
 public:
 	CComponent*			Get_Component(COMPONENTTAG pComponentTag, COMPONENTID eID);
 	OBJECTTAG			Get_ObjectTag()	 { return m_eObjectTag; }
-	ITEMTAG				Get_ItemTag()	 { return m_eItemTag; }
-	MONSTERTAG			Get_MonsterTag() { return m_eMonsterTag; }
+
 	void				Set_ObjectTag(OBJECTTAG _eTag) { m_eObjectTag = _eTag; }
 
 	_bool				IsDead() { return m_IsDead; }
@@ -40,16 +39,7 @@ public:
 	virtual void		OnCollisionExit(CCollider* _pOther) {};
 
 public:
-	CBasicStat*			Get_BasicStat()		{ return m_pBasicStat; }
-	STATE				Get_State()			{ return m_eState; }
-	_bool				Get_AttackTick()	{ return m_bAttackTick; }
-	CStateMachine*		Get_StateMachine()  { return m_pStateMachine; }
 	_float				Get_ViewZ()			{ return m_fViewZ; }
-
-public:
-	void				Set_State(STATE _eState) { m_eState = _eState; }
-	void				Set_MonsterState(MONSTERTAG _eState) { m_eMonsterTag = _eState; }
-	void				Set_AttackTick(_bool _Tick) { m_bAttackTick = _Tick; }
 
 public:
 	void				Compute_ViewZ(const _vec3* pPos);
@@ -63,18 +53,12 @@ public:
 protected:
 	multimap<COMPONENTTAG, CComponent*>	m_mapComponent[ID_END];
 	CCollider*							m_pCollider = nullptr;
-	CBasicStat*							m_pBasicStat = nullptr;
-	CStateMachine*						m_pStateMachine = nullptr;
 
 	LPDIRECT3DDEVICE9					m_pGraphicDev;
 	_bool								m_IsDead;
 
 	OBJECTTAG							m_eObjectTag;
-	MONSTERTAG							m_eMonsterTag;
-	ITEMTAG								m_eItemTag;
-	STATE								m_eState;
 
-	_bool								m_bAttackTick;
 	_float								m_fViewZ;
 
 public:

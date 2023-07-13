@@ -26,10 +26,9 @@
 #include "Camera.h"
 #include "BasicStat.h"
 
-//AI
-#include "MonsterAI.h"
-#include "WarriorAI.h"
+// AI
 #include "BossAI.h"
+#include "Monster.h"
 
 #include "Particle.h"
 #include "BillBoard.h"

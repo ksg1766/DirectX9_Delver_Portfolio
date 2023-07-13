@@ -29,6 +29,7 @@ private:
 	//_vec3	vStartPos;		// 플레이어가 바라보는 시작 지점.
 	//_vec3	vTargetPos;		// 때릴 위치(Range)
 	//_vec3	vCurrentPos;	// 현재 위치
+	_float m_fSpeed;
 
 public:
 	static CPlayer_Attack* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);

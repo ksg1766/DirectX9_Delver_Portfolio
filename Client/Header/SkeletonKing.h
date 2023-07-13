@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GameObject.h"
+#include "Monster.h"
 BEGIN(Engine)
 
 class CRcTex;
@@ -12,7 +12,7 @@ class CAnimator;
 END
 class CTerrain;
 
-class CSkeletonKing:public Engine::CGameObject
+class CSkeletonKing:public Engine::CMonster
 {
 private:
 	explicit	CSkeletonKing(LPDIRECT3DDEVICE9	pGraphicDev);

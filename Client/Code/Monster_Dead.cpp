@@ -26,7 +26,7 @@ HRESULT CMonster_Dead::Ready_State(CStateMachine* pOwner)
 STATE CMonster_Dead::Update_State(const _float& fTimeDelta)
 {
 
-	if (m_pOwner->Get_Host()->Get_MonsterTag() == MONSTERTAG::BAT)
+	if (dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Get_MonsterTag() == MONSTERTAG::BAT)
 	{
 		m_pOwner->Get_Transform()->m_vInfo[INFO_POS].y += m_fFlyDown * fTimeDelta;
 

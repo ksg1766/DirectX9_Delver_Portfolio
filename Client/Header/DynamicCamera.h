@@ -44,7 +44,7 @@ public:
 	void		Set_Fix(_bool _Fix) { m_bFix = _Fix; }
 
 private:
-	_float		m_fSpeed = 10.f;
+	_float		m_fSpeed = 40.f;
 	_bool		m_bFix = false;
 	_bool		m_bCheck = false;
 
