@@ -162,6 +162,7 @@ public:
 	void AddPopupGameobject_UI(UIPOPUPLAYER ePopupLayer, UILAYER eType, CGameObject* pGameObject);
 	void AddItemGameobject_UI(CGameObject* pGameObject);
 	void AddBasicItemGameobject_UI(CGameObject* pGameObject);
+
 	CGameObject* Get_Object(UIPOPUPLAYER ePopupLayer, UILAYER eType, UIOBJECTTTAG eObjID, _uint eUINumber)
 	{ 
 		UIOBJECTTTAG UIObjID;
@@ -191,6 +192,9 @@ public:
 		}
 	}
 
+	void         Set_ColliderSlot(UIOBJECTTTAG _SlotTag, _uint _UINumber, _bool _Setbool);
+	CGameObject* Find_ColliderSlot();
+
 public:
 	_int Update_UI(const _float& fTimeDelta);
 	void LateUpdate_UI();
@@ -208,6 +212,10 @@ public:
 	_bool m_bStat  = false;
 	_bool m_bMap   = false;
 	_bool m_bEsc   = false;
+
+	_bool m_bSlotBasicCollider[5];     // UIOBJECTTTAG::UIID_SLOTBASIC
+	_bool m_bSlotEquipmentCollider[6]; // UIOBJECTTTAG::UIID_SLOTEQUIPMENT
+	_bool UIID_SLOTEMPTYCollider[18];  // UIOBJECTTTAG::UIID_SLOTEMPTY
 
 private:
 	vector<CGameObject*> m_vecUIbasic[UILAYER::UI_END];
