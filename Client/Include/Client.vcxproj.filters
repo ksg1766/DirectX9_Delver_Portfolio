@@ -382,6 +382,27 @@
     <Filter Include="02. GameObject\01. Stage\06. Environment_Object\01. Stone\02. Cristal">
       <UniqueIdentifier>{6f349a34-7f0e-450e-a77c-e14e4c573249}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\01. Stage\999. Boss\02. State\03. Attack\06. Spawn_Skelton">
+      <UniqueIdentifier>{433d405e-44f6-4c29-ac9e-9857fc2dff8d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\999. Boss\01. AttackEff\06. Create_Skeleton">
+      <UniqueIdentifier>{ca3cfa38-f48d-41a4-8a12-f3d9d52a1d67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\999. Boss\01. AttackEff\06. Create_Skeleton\01.State">
+      <UniqueIdentifier>{61bc301f-3310-4a54-9ce2-ae60a3265cf9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\999. Boss\01. AttackEff\06. Create_Skeleton\01.State\01.Move">
+      <UniqueIdentifier>{6d0acdb5-0f41-4dca-9006-240bbca48574}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\999. Boss\01. AttackEff\06. Create_Skeleton\01.State\02. Attack">
+      <UniqueIdentifier>{19117c83-2f8b-4005-a1d4-2abd76eef396}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\999. Boss\01. AttackEff\06. Create_Skeleton\01.State\04. Dead">
+      <UniqueIdentifier>{d8c14813-d96c-4551-93c6-8aa5c4c9f82e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\999. Boss\01. AttackEff\06. Create_Skeleton\01.State\03. Explosion">
+      <UniqueIdentifier>{99000c86-684b-4ea2-b9d4-f732d7a2683c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -651,12 +672,6 @@
     <ClInclude Include="..\Header\SkeletonKing.h">
       <Filter>02. GameObject\01. Stage\999.Boss</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\BossProjectile.h">
-      <Filter>02. GameObject\01. Stage\999.Boss\01. AttackEff\01.AttackFire</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\FirePattern.h">
-      <Filter>02. GameObject\01. Stage\999.Boss\02. State\03. Attack\01. FirePattern</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\LoadingPont.h">
       <Filter>02. GameObject\05. Loading\02. LoadingPont</Filter>
     </ClInclude>
@@ -690,14 +705,32 @@
     <ClInclude Include="..\Header\Boss_MeteorReady.h">
       <Filter>02. GameObject\01. Stage\999. Boss\02. State\03. Attack\05. Meteor\01.Ready</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\SkeletonKing.h">
+      <Filter>02. GameObject\01. Stage\999. Boss</Filter>
+    </ClInclude>
     <ClInclude Include="..\Header\BossProjectile.h">
-      <Filter>02. GameObject\01. Stage\999. Boss\01. AttackEff\01. AttackFire</Filter>
+      <Filter>99. Etc\헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\FirePattern.h">
+      <Filter>99. Etc\헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\SpawnPattern.h">
+      <Filter>02. GameObject\01. Stage\999. Boss\02. State\03. Attack\06. Spawn_Skelton</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\FirePattern.h">
       <Filter>02. GameObject\01. Stage\999. Boss\02. State\03. Attack\01. FirePattern</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\SkeletonKing.h">
-      <Filter>02. GameObject\01. Stage\999. Boss</Filter>
+    <ClInclude Include="..\Header\BossProjectile.h">
+      <Filter>02. GameObject\01. Stage\999. Boss\01. AttackEff\01. AttackFire</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Boss_Skeleton.h">
+      <Filter>02. GameObject\01. Stage\999. Boss\01. AttackEff\06. Create_Skeleton</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Move_BossSkeleton.h">
+      <Filter>02. GameObject\01. Stage\999. Boss\01. AttackEff\06. Create_Skeleton\01.State\01.Move</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Attack_BossSkeleton.h">
+      <Filter>02. GameObject\01. Stage\999. Boss\01. AttackEff\06. Create_Skeleton\01.State\02. Attack</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -962,12 +995,6 @@
     <ClCompile Include="..\Code\SkeletonKing.cpp">
       <Filter>02. GameObject\01. Stage\999.Boss</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\BossProjectile.cpp">
-      <Filter>02. GameObject\01. Stage\999.Boss\01. AttackEff\01.AttackFire</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\FirePattern.cpp">
-      <Filter>02. GameObject\01. Stage\999.Boss\02. State\03. Attack\01. FirePattern</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\LoadingPont.cpp">
       <Filter>02. GameObject\05. Loading\02. LoadingPont</Filter>
     </ClCompile>
@@ -998,14 +1025,32 @@
     <ClCompile Include="..\Code\Boss_MeteorReady.cpp">
       <Filter>02. GameObject\01. Stage\999. Boss\02. State\03. Attack\05. Meteor\01.Ready</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\SkeletonKing.cpp">
+      <Filter>02. GameObject\01. Stage\999. Boss</Filter>
+    </ClCompile>
     <ClCompile Include="..\Code\BossProjectile.cpp">
-      <Filter>02. GameObject\01. Stage\999. Boss\01. AttackEff\01. AttackFire</Filter>
+      <Filter>99. Etc\소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\FirePattern.cpp">
+      <Filter>99. Etc\소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\SpawnPattern.cpp">
+      <Filter>02. GameObject\01. Stage\999. Boss\02. State\03. Attack\06. Spawn_Skelton</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\FirePattern.cpp">
       <Filter>02. GameObject\01. Stage\999. Boss\02. State\03. Attack\01. FirePattern</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\SkeletonKing.cpp">
-      <Filter>02. GameObject\01. Stage\999. Boss</Filter>
+    <ClCompile Include="..\Code\BossProjectile.cpp">
+      <Filter>02. GameObject\01. Stage\999. Boss\01. AttackEff\01. AttackFire</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Boss_Skeleton.cpp">
+      <Filter>02. GameObject\01. Stage\999. Boss\01. AttackEff\06. Create_Skeleton</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Move_BossSkeleton.cpp">
+      <Filter>02. GameObject\01. Stage\999. Boss\01. AttackEff\06. Create_Skeleton\01.State\01.Move</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Attack_BossSkeleton.cpp">
+      <Filter>02. GameObject\01. Stage\999. Boss\01. AttackEff\06. Create_Skeleton\01.State\02. Attack</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -42,7 +42,6 @@ void CBoss_Attack::LateUpdate_State()
 
 void CBoss_Attack::Render_State()
 {
-    cout << "Boss Attack" << endl;
 }
 
 STATE CBoss_Attack::BossSkill(const _float& fTimeDelta)

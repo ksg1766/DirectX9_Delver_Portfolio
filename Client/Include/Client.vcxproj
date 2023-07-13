@@ -168,6 +168,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\Alien.h" />
+    <ClInclude Include="..\Header\Attack_BossSkeleton.h" />
     <ClInclude Include="..\Header\BackGround.h" />
     <ClInclude Include="..\Header\Bat.h" />
     <ClInclude Include="..\Header\Bat_Attack.h" />
@@ -182,16 +183,19 @@
     <ClInclude Include="..\Header\Boss_Dying.h" />
     <ClInclude Include="..\Header\Boss_MeteorCube.h" />
     <ClInclude Include="..\Header\Boss_MeteorReady.h" />
+    <ClInclude Include="..\Header\Boss_Skeleton.h" />
     <ClInclude Include="..\Header\Boss_Sturn.h" />
     <ClInclude Include="..\Header\Bow.h" />
     <ClInclude Include="..\Header\Box_Cube.h" />
     <ClInclude Include="..\Header\CrawlPattern.h" />
     <ClInclude Include="..\Header\Magic_Ball.h" />
     <ClInclude Include="..\Header\Monster_Dead.h" />
+    <ClInclude Include="..\Header\Move_BossSkeleton.h" />
     <ClInclude Include="..\Header\Skeleton.h" />
     <ClInclude Include="..\Header\Slime.h" />
     <ClInclude Include="..\Header\SlimeAttack.h" />
     <ClInclude Include="..\Header\SlimeMove.h" />
+    <ClInclude Include="..\Header\SpawnPattern.h" />
     <ClInclude Include="..\Header\TeleportPattern.h" />
     <ClInclude Include="..\Header\CameraManager.h" />
     <ClInclude Include="..\Header\Boss_Attack.h" />
@@ -269,6 +273,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\Alien.cpp" />
+    <ClCompile Include="..\Code\Attack_BossSkeleton.cpp" />
     <ClCompile Include="..\Code\BackGround.cpp" />
     <ClCompile Include="..\Code\Bat.cpp" />
     <ClCompile Include="..\Code\Bat_Attack.cpp" />
@@ -283,16 +288,19 @@
     <ClCompile Include="..\Code\Boss_Dying.cpp" />
     <ClCompile Include="..\Code\Boss_MeteorCube.cpp" />
     <ClCompile Include="..\Code\Boss_MeteorReady.cpp" />
+    <ClCompile Include="..\Code\Boss_Skeleton.cpp" />
     <ClCompile Include="..\Code\Boss_Sturn.cpp" />
     <ClCompile Include="..\Code\Bow.cpp" />
     <ClCompile Include="..\Code\Box_Cube.cpp" />
     <ClCompile Include="..\Code\CrawlPattern.cpp" />
     <ClCompile Include="..\Code\Magic_Ball.cpp" />
     <ClCompile Include="..\Code\Monster_Dead.cpp" />
+    <ClCompile Include="..\Code\Move_BossSkeleton.cpp" />
     <ClCompile Include="..\Code\Skeleton.cpp" />
     <ClCompile Include="..\Code\Slime.cpp" />
     <ClCompile Include="..\Code\SlimeAttack.cpp" />
     <ClCompile Include="..\Code\SlimeMove.cpp" />
+    <ClCompile Include="..\Code\SpawnPattern.cpp" />
     <ClCompile Include="..\Code\TeleportPattern.cpp" />
     <ClCompile Include="..\Code\CameraManager.cpp" />
     <ClCompile Include="..\Code\Boss_Attack.cpp" />

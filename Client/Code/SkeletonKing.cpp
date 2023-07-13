@@ -10,6 +10,7 @@
 #include "ExplosionPattern.h"
 #include "TeleportPattern.h"
 #include "CrawlPattern.h"
+#include "SpawnPattern.h"
 #include "Boss_Sturn.h"
 #include "Boss_MeteorReady.h"
 #include "Boss_Dying.h"
@@ -69,6 +70,9 @@ HRESULT CSkeletonKing::Ready_Object(void)
 
 	pState = CCrawlPattern::Create(m_pGraphicDev, m_pStateMachine);
 	m_pStateMachine->Add_State(STATE::BOSS_CRAWL, pState);
+	
+	pState = CSpawnPattern::Create(m_pGraphicDev, m_pStateMachine);
+	m_pStateMachine->Add_State(STATE::BOSS_SPAWNMONSTER, pState);
 
 	pState = CBoss_Sturn::Create(m_pGraphicDev, m_pStateMachine);
 	m_pStateMachine->Add_State(STATE::BOSS_STURN, pState);
@@ -103,15 +107,15 @@ HRESULT CSkeletonKing::Ready_Object(void)
 	m_pAnimator->Add_Animation(STATE::BOSS_ATTACK, pAnimation);
 
 	pAnimation = CAnimation::Create(m_pGraphicDev,
-		m_pTexture[(_uint)STATE::BOSS_ATTACK], STATE::BOSS_FIRE, 5.f, TRUE);
+		m_pTexture[(_uint)STATE::BOSS_ATTACK], STATE::BOSS_FIRE, 5.f, FALSE);
 	m_pAnimator->Add_Animation(STATE::BOSS_FIRE, pAnimation);
 
 	pAnimation = CAnimation::Create(m_pGraphicDev,
-		m_pTexture[(_uint)STATE::BOSS_ATTACK], STATE::BOSS_EXPLOSION, 5.f, TRUE);
+		m_pTexture[(_uint)STATE::BOSS_ATTACK], STATE::BOSS_EXPLOSION, 5.f, FALSE);
 	m_pAnimator->Add_Animation(STATE::BOSS_EXPLOSION, pAnimation);
 
 	pAnimation = CAnimation::Create(m_pGraphicDev,
-		m_pTexture[(_uint)STATE::BOSS_ATTACK], STATE::BOSS_TELEPORT, 5.f, TRUE);
+		m_pTexture[(_uint)STATE::BOSS_ATTACK], STATE::BOSS_TELEPORT, 5.f, FALSE);
 	m_pAnimator->Add_Animation(STATE::BOSS_TELEPORT, pAnimation);
 
 	pAnimation = CAnimation::Create(m_pGraphicDev,
@@ -125,6 +129,10 @@ HRESULT CSkeletonKing::Ready_Object(void)
 	pAnimation = CAnimation::Create(m_pGraphicDev,
 		m_pTexture[(_uint)STATE::BOSS_METEORREADY], STATE::BOSS_METEORREADY, 15.f, TRUE);
 	m_pAnimator->Add_Animation(STATE::BOSS_METEORREADY, pAnimation);
+
+	pAnimation = CAnimation::Create(m_pGraphicDev,
+		m_pTexture[(_uint)STATE::BOSS_ATTACK], STATE::BOSS_SPAWNMONSTER, 15.f, FALSE);
+	m_pAnimator->Add_Animation(STATE::BOSS_SPAWNMONSTER, pAnimation);
 
 	pAnimation = CAnimation::Create(m_pGraphicDev,
 		m_pTexture[(_uint)STATE::BOSS_DYING], STATE::BOSS_DYING, 6.f, FALSE);
@@ -418,7 +426,7 @@ void CSkeletonKing::Key_Input()
 	}
 	if (Engine::InputDev()->Key_Down(DIK_B))
 	{
-		m_pStateMachine->Set_State(STATE::BOSS_ATTACK);
+		m_pStateMachine->Set_State(STATE::BOSS_SPAWNMONSTER);
 	}
 	if (Engine::InputDev()->Key_Down(DIK_N))
 	{
