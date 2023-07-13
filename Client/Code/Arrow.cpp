@@ -2,6 +2,8 @@
 #include "Export_Function.h"
 #include "Player.h"
 
+static _int iCount = 0;
+
 CArrow::CArrow(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CItem(pGraphicDev)
 {
@@ -122,6 +124,39 @@ HRESULT CArrow::Add_Component(void)
 void CArrow::OnCollisionEnter(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
+
+	if (!(_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::MONSTER) &&
+		!(_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::PLAYER))
+		__super::OnCollisionEnter(_pOther);
+	// 몬스터거나 플레이어면 밀어내지않는다.
+
+	CPlayer& pPlayer = *dynamic_cast<CPlayer*>(SceneManager()->GetInstance()
+		->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
+	// 플레이어의 정보를 레퍼런스로 얻어옴.
+
+	if (_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::MONSTER)
+		// 무기 콜리전에 들어온 타입이 몬스터이면서, 플레이어의 스테이트가 공격이라면
+	{
+		if (dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_StateMachine()->Get_State() != STATE::DEAD)
+			// 공격 하지 않은 상태라면.
+		{
+			dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_BasicStat()->Take_Damage(1.f);
+
+			++iCount;
+
+			if (dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_StateMachine()->Get_PrevState() != STATE::HIT
+				&& iCount > 4)
+			{
+				iCount = 0;
+				dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_StateMachine()->Set_State(STATE::HIT);
+
+			}
+
+			cout << "데미지" << endl;
+
+			Engine::EventManager()->GetInstance()->DeleteObject(this);
+		}
+	}
 }
 
 void CArrow::OnCollisionStay(CCollider* _pOther)

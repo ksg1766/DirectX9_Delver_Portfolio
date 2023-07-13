@@ -12,6 +12,7 @@ CCollisionManager::CCollisionManager()
 	CheckGroup(OBJECTTAG::MONSTER, OBJECTTAG::MONSTER);
 	CheckGroup(OBJECTTAG::MONSTER, OBJECTTAG::BOSS);
 	CheckGroup(OBJECTTAG::MONSTER, OBJECTTAG::ITEM);
+	CheckGroup(OBJECTTAG::MONSTER, OBJECTTAG::PLAYERBULLET);
 	CheckGroup(OBJECTTAG::ITEM, OBJECTTAG::ENVIRONMENT_OBJECT);
 }
 
@@ -28,6 +29,8 @@ void CCollisionManager::LateUpdate_Collision()
 	CheckCollisionStatic(OBJECTTAG::MONSTER);
 	CheckCollisionStatic(OBJECTTAG::BOSS);
 	CheckCollisionStatic(OBJECTTAG::MONSTERBULLET);
+	CheckCollisionStatic(OBJECTTAG::PLAYERBULLET);
+
 
 	// Dtnamic Object
 	for (UINT iRow = 0; iRow < (UINT)OBJECTTAG::OBJECT_END; ++iRow)
