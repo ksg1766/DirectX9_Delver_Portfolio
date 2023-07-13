@@ -82,7 +82,7 @@ void CTeleportPattern::Make_BatSwarm(const _float& fTimeDelta)
 {
 
    Engine::CGameObject* pGameObject = nullptr;
-   for (int i = 1; i < 5; ++i)
+   for (int i = 3; i < 7; ++i)
    {
      pGameObject =  CBoss_BatSwarm::Create(m_pGraphicDev);
      Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);

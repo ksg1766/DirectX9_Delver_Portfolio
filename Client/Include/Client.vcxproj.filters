@@ -268,9 +268,6 @@
     <Filter Include="02. GameObject\01. Stage\05. Monster\07. Skeleton">
       <UniqueIdentifier>{f88ecb10-b769-4813-8c38-f0d9b10dd4a9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\01. Stage\05. Monster\07. Skeleton\State">
-      <UniqueIdentifier>{961b0bad-4949-4d9b-8436-5c55d5f530af}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObject\01. Stage\02. Item\Bow">
       <UniqueIdentifier>{9d0eb722-7555-4dd5-9993-6fdea81bab1e}</UniqueIdentifier>
     </Filter>
@@ -381,6 +378,30 @@
     </Filter>
     <Filter Include="02. GameObject\01. Stage\06. Environment_Object\01. Stone\02. Cristal">
       <UniqueIdentifier>{6f349a34-7f0e-450e-a77c-e14e4c573249}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\999. Boss\02. State\03. Attack\06. Spawn_Skeleton">
+      <UniqueIdentifier>{87be3ff3-8f74-44a4-8acc-0a6e05616e1d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\999. Boss\01. AttackEff\06. Boss_Skeleton">
+      <UniqueIdentifier>{3c9d93a9-139a-4262-9f83-d41982c0edd5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\05. Monster\07. Skeleton\State">
+      <UniqueIdentifier>{961b0bad-4949-4d9b-8436-5c55d5f530af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\999. Boss\01. AttackEff\06. Boss_Skeleton\01. State">
+      <UniqueIdentifier>{72711f5b-a1c4-4a59-b0f2-2829be10f647}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\999. Boss\01. AttackEff\06. Boss_Skeleton\01. State\01.Move">
+      <UniqueIdentifier>{fdce6f2a-b1db-4d2e-83e9-59eb7903a8a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\999. Boss\01. AttackEff\06. Boss_Skeleton\01. State\02. Jump">
+      <UniqueIdentifier>{6e9e8336-da9f-4886-9702-acf857053bea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\999. Boss\01. AttackEff\06. Boss_Skeleton\01. State\03. Explosion">
+      <UniqueIdentifier>{6990ba9b-edc8-42db-a9f6-7596a603899c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\999. Boss\01. AttackEff\06. Boss_Skeleton\04. Dead">
+      <UniqueIdentifier>{6424ae2a-617d-4086-bf43-1d0cb8619680}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -684,12 +705,6 @@
     <ClInclude Include="..\Header\Boss_MeteorReady.h">
       <Filter>02. GameObject\01. Stage\999. Boss\02. State\03. Attack\05. Meteor\01.Ready</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\BossProjectile.h">
-      <Filter>02. GameObject\01. Stage\999. Boss\01. AttackEff\01. AttackFire</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\FirePattern.h">
-      <Filter>02. GameObject\01. Stage\999. Boss\02. State\03. Attack\01. FirePattern</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\SkeletonKing.h">
       <Filter>02. GameObject\01. Stage\999. Boss</Filter>
     </ClInclude>
@@ -701,6 +716,24 @@
     </ClInclude>
     <ClInclude Include="..\Header\Arrow.h">
       <Filter>02. GameObject\01. Stage\02. Item\Bow\Arrow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\BossProjectile.h">
+      <Filter>02. GameObject\01. Stage\999. Boss\01. AttackEff\01. AttackFire</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\FirePattern.h">
+      <Filter>02. GameObject\01. Stage\999. Boss\02. State\03. Attack\01. FirePattern</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Boss_SkeletonSpawnPattern.h">
+      <Filter>02. GameObject\01. Stage\999. Boss\02. State\03. Attack\06. Spawn_Skeleton</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Boss_Skeleton.h">
+      <Filter>02. GameObject\01. Stage\999. Boss\01. AttackEff\06. Boss_Skeleton</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Move_BossSkeleton.h">
+      <Filter>02. GameObject\01. Stage\999. Boss\01. AttackEff\06. Boss_Skeleton\01. State\01.Move</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Jump_BossSkeleton.h">
+      <Filter>02. GameObject\01. Stage\999. Boss\01. AttackEff\06. Boss_Skeleton\01. State\02. Jump</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -995,12 +1028,6 @@
     <ClCompile Include="..\Code\Boss_MeteorReady.cpp">
       <Filter>02. GameObject\01. Stage\999. Boss\02. State\03. Attack\05. Meteor\01.Ready</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\BossProjectile.cpp">
-      <Filter>02. GameObject\01. Stage\999. Boss\01. AttackEff\01. AttackFire</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\FirePattern.cpp">
-      <Filter>02. GameObject\01. Stage\999. Boss\02. State\03. Attack\01. FirePattern</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\SkeletonKing.cpp">
       <Filter>02. GameObject\01. Stage\999. Boss</Filter>
     </ClCompile>
@@ -1012,6 +1039,24 @@
     </ClCompile>
     <ClCompile Include="..\Code\Arrow.cpp">
       <Filter>02. GameObject\01. Stage\02. Item\Bow\Arrow</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\BossProjectile.cpp">
+      <Filter>02. GameObject\01. Stage\999. Boss\01. AttackEff\01. AttackFire</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\FirePattern.cpp">
+      <Filter>02. GameObject\01. Stage\999. Boss\02. State\03. Attack\01. FirePattern</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Header\Boss_SkeletonSpawnPattern.cpp">
+      <Filter>02. GameObject\01. Stage\999. Boss\02. State\03. Attack\06. Spawn_Skeleton</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Boss_Skeleton.cpp">
+      <Filter>02. GameObject\01. Stage\999. Boss\01. AttackEff\06. Boss_Skeleton</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Move_BossSkeleton.cpp">
+      <Filter>02. GameObject\01. Stage\999. Boss\01. AttackEff\06. Boss_Skeleton\01. State\01.Move</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Jump_BossSkeleton.cpp">
+      <Filter>02. GameObject\01. Stage\999. Boss\01. AttackEff\06. Boss_Skeleton\01. State\02. Jump</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
