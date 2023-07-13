@@ -51,47 +51,83 @@ _int CBow::Update_Object(const _float& fTimeDelta)
 
 	CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pTransform->m_pParent->Get_Host());
 
+
+	_vec3 vUp = *D3DXVec3Cross(&vUp, &m_pTransform->m_pParent->m_vInfo[INFO_LOOK],
+		&m_pTransform->m_pParent->m_vInfo[INFO_RIGHT]);
+
+	_matrix matRot;
+	_vec3 vLook = *D3DXVec3Cross(&vLook, &m_pTransform->m_pParent->m_vInfo[INFO_UP],
+		&m_pTransform->m_pParent->m_vInfo[INFO_RIGHT]);
+
 	if (pPlayer->Get_Attack())
 	{
 		pPlayer->Set_Attack(false);
 
-		m_fChase += 0.08 * fTimeDelta;
-
-		if (m_fChase >= 1.f)
-			m_fChase = 0.f;
-
-		if (m_iCount < 55)
+		if (m_iCount < 28.f)
 		{
-			//m_pTransform->Rotate(ROT_Y, 0.04f);
 			++m_iCount;
 
-			_vec3 vLerp;
-			D3DXVec3Lerp(&vLerp, &m_pTransform->m_vInfo[INFO_POS],
-				&(m_pTransform->m_pParent->m_vInfo[INFO_POS] + 2.f * m_pTransform->m_pParent->m_vInfo[INFO_LOOK]),
-				m_fChase);
-			m_pTransform->m_vInfo[INFO_POS] = vLerp;
+			m_pTransform->RotateAround(m_pTransform->m_pParent->m_vInfo[INFO_POS],
+				vUp, -0.01f);	
+			m_pTransform->RotateAround(m_pTransform->m_vInfo[INFO_POS], m_pTransform->m_vInfo[INFO_UP],
+				0.08f);
 		}
+
 	}
 	else
 	{
-		m_fChase2 += 0.08 * fTimeDelta;
-
-		if (m_fChase2 >= 1.f)
-			m_fChase2 = 0.f;
-
-
-		if (m_iCount > 0)
+		if (m_iCount > 0.f)
 		{
-			//m_pTransform->Rotate(ROT_Y, -0.04f);
-			++m_iCount;
+			--m_iCount;
 
-			_vec3 vLerp;
-			D3DXVec3Lerp(&vLerp, &m_pTransform->m_vInfo[INFO_POS],
-				&(m_pTransform->m_pParent->m_vInfo[INFO_POS] + *pPlayer->Get_Offset()),
-				m_fChase2);
-			m_pTransform->m_vInfo[INFO_POS] = vLerp;
+			m_pTransform->RotateAround(m_pTransform->m_pParent->m_vInfo[INFO_POS],
+				vUp, 0.01f);
+			m_pTransform->RotateAround(m_pTransform->m_vInfo[INFO_POS], m_pTransform->m_vInfo[INFO_UP],
+				-0.08f);
+			D3DXMatrixRotationAxis(&matRot, &vUp, -0.08f);
 		}
 	}
+	//if (pPlayer->Get_Attack())
+	//{
+	//	pPlayer->Set_Attack(false);
+
+	//	m_fChase += 0.08 * fTimeDelta;
+
+	//	if (m_fChase >= 1.f)
+	//		m_fChase = 0.f;
+
+	//	if (m_iCount < 55)
+	//	{
+	//		//m_pTransform->Rotate(ROT_Y, 0.04f);
+	//		++m_iCount;
+
+	//		_vec3 vLerp;
+	//		D3DXVec3Lerp(&vLerp, &m_pTransform->m_vInfo[INFO_POS],
+	//			&(m_pTransform->m_pParent->m_vInfo[INFO_POS] + 2.f * m_pTransform->m_pParent->m_vInfo[INFO_LOOK]),
+	//			m_fChase);
+	//		m_pTransform->m_vInfo[INFO_POS] = vLerp;
+	//	}
+	//}
+	//else
+	//{
+	//	m_fChase2 += 0.08 * fTimeDelta;
+
+	//	if (m_fChase2 >= 1.f)
+	//		m_fChase2 = 0.f;
+
+
+	//	if (m_iCount > 0)
+	//	{
+	//		//m_pTransform->Rotate(ROT_Y, -0.04f);
+	//		--m_iCount;
+
+	//		_vec3 vLerp;
+	//		D3DXVec3Lerp(&vLerp, &m_pTransform->m_vInfo[INFO_POS],
+	//			&(m_pTransform->m_pParent->m_vInfo[INFO_POS] + *pPlayer->Get_Offset()),
+	//			m_fChase2);
+	//		m_pTransform->m_vInfo[INFO_POS] = vLerp;
+	//	}
+	//}
 
 
 

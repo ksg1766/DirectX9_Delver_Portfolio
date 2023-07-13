@@ -166,10 +166,7 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 		m_pTransform->Rotate(ROT_Y, D3DXToRadian(dwMouseMove) * fTimeDelta * 3.f);
 
 		D3DXMatrixRotationAxis(&matRotX, &m_pTransform->m_vInfo[INFO_UP], D3DXToRadian(dwMouseMove) * fTimeDelta * 3.f);
-		//D3DXVec3TransformNormal(&vLook, &vLook, &matRotX);
-		//D3DXVec3TransformNormal(&vRight, &vRight, &matRotX);
 		D3DXVec3TransformCoord(&m_vOffset, &m_vOffset, &matRotX);
-
 	}
 	
 
@@ -182,9 +179,7 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 		
 		_matrix matRotY;
 		
-		D3DXMatrixRotationAxis(&matRotY, &vRigh2t, D3DXToRadian(dwMouseMove) * fTimeDelta * 3.f);
-		//D3DXVec3TransformNormal(&vUp, &vUp, &matRotY);
-		//D3DXVec3TransformNormal(&vLook, &vLook, &matRotY);
+		D3DXMatrixRotationAxis(&matRotY, &m_pTransform->m_vInfo[INFO_RIGHT], D3DXToRadian(dwMouseMove) * fTimeDelta * 3.f);
 		D3DXVec3TransformCoord(&m_vOffset, &m_vOffset, &matRotY);
 
 	}
@@ -237,7 +232,7 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 	if (Engine::InputDev()->Key_Down(DIK_E))
 	{
 	    //  바라보고 있는 아이템 줍기 / E 키로 앞에 있는 아이템 획득을 테스트 용으로 임시 생성
-		Engine::CGameObject* pGameObjectItem = CTempItem::Create(m_pGraphicDev);
+		Engine::CGameObject* pGameObjectItem = CBow::Create(m_pGraphicDev);
 
 		// 획득한 아이템 타입 및 개수를 받아옴.
 		ITEMTYPEID ItemType = dynamic_cast<CItem*>(pGameObjectItem)->Get_ItemTag();
