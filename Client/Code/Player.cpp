@@ -176,7 +176,6 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 
 		D3DXMatrixRotationAxis(&matRotY, &m_pTransform->m_vInfo[INFO_RIGHT], D3DXToRadian(dwMouseMove) * fTimeDelta * 3.f);
 		D3DXVec3TransformCoord(&m_vOffset, &m_vOffset, &matRotY);
-
 	}
 
 	if (Engine::InputDev()->Key_Down(DIK_1))
@@ -191,7 +190,7 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 	}
 
-		// UI 단축키 추가
+	// UI 단축키 추가
 	if (Engine::InputDev()->Key_Down(DIK_I))
 	{
 		if (Engine::UIManager()->Set_InvenUse())
@@ -255,13 +254,11 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 		// 획득한 아이템을 인벤토리에 넣는다.	
 		m_pInventory->Add_ItemObject(pGameObjectItem);
 
-
 		//// ITEM UI 객체 생성 후 들어온 아이템 타입 및 아이디로 값 셋팅.
 		Engine::CGameObject* pGameObjectUI = CUIitem::Create(m_pGraphicDev);
 		dynamic_cast<CUIitem*>(pGameObjectUI)->Set_ItemTag(ItemType.eItemType, ItemType.eItemID, ItemType.iCount);
 		// 셋팅 후 UI 매니저에 아이템UI 추가.
 		Engine::UIManager()->AddItemGameobject_UI(pGameObjectUI);
-
 	}
 	else if (Engine::InputDev()->Key_Down(DIK_Q))
 	{
