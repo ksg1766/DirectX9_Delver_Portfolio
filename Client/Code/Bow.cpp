@@ -24,7 +24,6 @@ CBow::~CBow()
 HRESULT CBow::Ready_Object(void)
 {
 	m_eObjectTag = OBJECTTAG::ITEM;
-	m_eItemTag = ITEMTAG::WEAPON;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pTransform->m_pParent->Get_Host());

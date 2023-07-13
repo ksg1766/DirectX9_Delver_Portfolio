@@ -19,7 +19,6 @@ public:
 public:
 	CComponent*			Get_Component(COMPONENTTAG pComponentTag, COMPONENTID eID);
 	OBJECTTAG			Get_ObjectTag()	 { return m_eObjectTag; }
-	ITEMTAG				Get_ItemTag()	 { return m_eItemTag; }
 	MONSTERTAG			Get_MonsterTag() { return m_eMonsterTag; }
 	void				Set_ObjectTag(OBJECTTAG _eTag) { m_eObjectTag = _eTag; }
 
@@ -71,7 +70,6 @@ protected:
 
 	OBJECTTAG							m_eObjectTag;
 	MONSTERTAG							m_eMonsterTag;
-	ITEMTAG								m_eItemTag;
 	STATE								m_eState;
 
 	_bool								m_bAttackTick;

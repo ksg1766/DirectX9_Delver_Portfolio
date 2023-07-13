@@ -24,7 +24,6 @@ CTempItem::~CTempItem()
 HRESULT CTempItem::Ready_Object(void)
 {		
 	m_eObjectTag = OBJECTTAG::ITEM;
-	m_eItemTag = ITEMTAG::WEAPON;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 	
 	m_pTransform->Scale(_vec3(0.3f, 0.3f, 0.3f));

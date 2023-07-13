@@ -56,7 +56,7 @@ void CUIitem::Render_Object()
 	m_pBufferCom->Render_Buffer();
 
 	// 숫자 개수 출력
-	if (m_ItemID.iCount > 1)
+	if (m_ItemID.iCount > 1 && !m_bMove)
 	{
 		_matrix      matWorld;
 
@@ -140,20 +140,83 @@ void CUIitem::Key_Input(void)
 	GetCursorPos(&pt);
 	ScreenToClient(g_hWnd, &pt);
 
-
 	if (OnCollision(pt, m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y))
 	{
+		m_bCollider = true;
+
 		// 아이템 UI를 눌렀다가 가져다 놨을 때 해당 마우스 위치의 슬롯이 비어있는지 판별 후 여부에 따른 처리
 		if (Engine::InputDev()->Mouse_Pressing(DIM_LB))
 		{
+			m_bTooltipRender = false;
 			m_bMove = true;
 			
 			m_pTransform->m_vInfo[INFO_POS].x = pt.x;
 			m_pTransform->m_vInfo[INFO_POS].y = pt.y;
-
 			WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);
+		}
+		else
+		{
+			if (m_bMove)
+			{
+				m_bMove = false;
+				CGameObject* ColliderSlotObj = Engine::UIManager()->Find_ColliderSlot();
 
-			m_bCollider = true;
+				if (ColliderSlotObj == nullptr)
+				{
+					// 버리기
+					dynamic_cast<CTempUI*>(Get_Parent())->Set_EmptyBool(true);
+
+
+				}
+				else if (ColliderSlotObj != nullptr && dynamic_cast<CTempUI*>(ColliderSlotObj)->Get_EmptyBool())
+				{
+					_bool bSucess = false;
+
+					UIOBJECTTTAG UIObjID; 
+					_uint _UINumber;
+					dynamic_cast<CTempUI*>(ColliderSlotObj)->Get_UIObjID(UIObjID, _UINumber);
+
+					switch (UIObjID)
+					{
+					case Engine::UIID_SLOTBASIC:
+						bSucess = true;
+						break;
+					case Engine::UIID_SLOTEMPTY:
+						bSucess = true;
+						break;
+					case Engine::UIID_SLOTEQUIPMENT:
+						if (m_UINumber == _UINumber)
+						{
+							bSucess = true;
+						}
+						else
+						{
+							bSucess = true;
+						}
+						break;
+					}
+
+					if (bSucess)
+					{
+						dynamic_cast<CTempUI*>(Get_Parent())->Set_EmptyBool(true);
+
+						m_pTransform->m_vInfo[INFO_POS].x = ColliderSlotObj->m_pTransform->m_vInfo[INFO_POS].x;
+						m_pTransform->m_vInfo[INFO_POS].y = ColliderSlotObj->m_pTransform->m_vInfo[INFO_POS].y;
+						WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);
+
+						Set_Parent(ColliderSlotObj);
+						dynamic_cast<CTempUI*>(Get_Parent())->Set_EmptyBool(false);
+					}
+					else
+					{
+
+					}
+				}
+				else
+				{
+
+				}
+			}
 		}
 
 		if(!m_bMove)
@@ -163,15 +226,10 @@ void CUIitem::Key_Input(void)
 			m_fTooltipPosX = pt.x;
 			m_fTooltipPosY = pt.y;
 		}
-
-		//if (Engine::InputDev()->Mouse_Up(DIM_LB))
-		//{
-		//	m_bMove = false;
-		//}
 	}
-	else {
-		m_bMove = false;
-		m_bCollider = false;
+	else
+	{
+		m_bCollider      = false;
 		m_bTooltipRender = false;
 	}
 }

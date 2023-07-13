@@ -193,52 +193,54 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 
 			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 		}
+	}
 
-		// UI 단축키 추가
-		if (Engine::InputDev()->Key_Down(DIK_I))
+	// UI 단축키 추가
+	if (Engine::InputDev()->Key_Down(DIK_I))
+	{
+		if (Engine::UIManager()->Set_InvenUse())
 		{
-			if (Engine::UIManager()->Set_InvenUse())
-			{
-				static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(true);
-				SceneManager()->Set_GameStop(false);
-			}
-			else
-				static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(false);
+			static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(true);
+			SceneManager()->Set_GameStop(false);
 		}
-		else if (Engine::InputDev()->Key_Down(DIK_C))
+		else
+			static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(false);
+	}
+	else if (Engine::InputDev()->Key_Down(DIK_C))
+	{
+		if (Engine::UIManager()->Set_StatUse())
 		{
-			if (Engine::UIManager()->Set_StatUse())
-			{
-				static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(true);
-				SceneManager()->Set_GameStop(false);
-			}
-			else
-				static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(false);
+			static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(true);
+			SceneManager()->Set_GameStop(false);
 		}
-		else if (Engine::InputDev()->Key_Down(DIK_M))
-		{
-			if (Engine::UIManager()->Set_MapUse()) {
-				static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(true);
-				SceneManager()->Set_GameStop(true);
-			}
-			else {
-				static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(false);
-				SceneManager()->Set_GameStop(false);
-			}
+		else
+			static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(false);
+	}
+	else if (Engine::InputDev()->Key_Down(DIK_M))
+	{
+		if (Engine::UIManager()->Set_MapUse()) {
+			static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(true);
+			SceneManager()->Set_GameStop(true);
 		}
-		else if (Engine::InputDev()->Key_Down(DIK_ESCAPE))
-		{
-			if (Engine::UIManager()->Set_EscUse()) {
-				static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(true);
-				SceneManager()->Set_GameStop(true);
-			}
-			else
-			{
-				static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(false);
-				SceneManager()->Set_GameStop(false);
-			}
+		else {
+			static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(false);
+			SceneManager()->Set_GameStop(false);
 		}
 	}
+	else if (Engine::InputDev()->Key_Down(DIK_ESCAPE))
+	{
+		if (Engine::UIManager()->Set_EscUse()) {
+			static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(true);
+			SceneManager()->Set_GameStop(true);
+		}
+		else
+		{
+			static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(false);
+			SceneManager()->Set_GameStop(false);
+		}
+	}
+
+
 	// 아이템 줍기 및 버리기
 	if (Engine::InputDev()->Key_Down(DIK_E))
 	{
