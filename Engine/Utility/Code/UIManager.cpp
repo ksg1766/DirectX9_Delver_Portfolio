@@ -6,6 +6,17 @@ IMPLEMENT_SINGLETON(CUIManager)
 
 CUIManager::CUIManager()
 {
+	for (_uint i = 0; i < 5; ++i) {
+		m_bSlotBasicCollider[i] = false;
+	}
+
+	for (_uint i = 0; i < 6; ++i) {
+		m_bSlotEquipmentCollider[i] = false;
+	}
+
+	for (_uint i = 0; i < 18; ++i) {
+		UIID_SLOTEMPTYCollider[i] = false;
+	}
 }
 
 CUIManager::~CUIManager()
@@ -189,6 +200,72 @@ void CUIManager::AddItemGameobject_UI(CGameObject* pGameObject)
 			return;
 		}
 	}
+}
+
+void CUIManager::Set_ColliderSlot(UIOBJECTTTAG _SlotTag, _uint _UINumber, _bool _Setbool)
+{
+	switch (_SlotTag)
+	{
+	case Engine::UIID_SLOTBASIC:
+		m_bSlotBasicCollider[_UINumber] = _Setbool;
+		break;
+	case Engine::UIID_SLOTEMPTY:
+		UIID_SLOTEMPTYCollider[_UINumber] = _Setbool;
+		break;
+	case Engine::UIID_SLOTEQUIPMENT:
+		m_bSlotEquipmentCollider[_UINumber] = _Setbool;
+		break;
+	}
+}
+
+CGameObject* CUIManager::Find_ColliderSlot()
+{
+	UIOBJECTTTAG _UIObjID;
+	_uint        _UINumber;
+
+	for (_uint i = 0; i < 5; ++i) {
+		if (m_bSlotBasicCollider[i] == true)
+		{
+			for (auto iter : m_vecUIbasic[UI_DOWN])
+			{
+				dynamic_cast<CTempUI*>(iter)->Get_UIObjID(_UIObjID, _UINumber);
+				if (i == _UINumber)
+				{
+					return iter;
+				}
+			}
+		}
+	}
+
+	for (_uint i = 0; i < 6; ++i) {
+		if (m_bSlotEquipmentCollider[i] == true)
+		{
+			for (auto iter : m_mapPpopupUI[POPUP_EQUIPMENT][UI_DOWN])
+			{
+				dynamic_cast<CTempUI*>(iter)->Get_UIObjID(_UIObjID, _UINumber);
+				if (i == _UINumber)
+				{
+					return iter;
+				}
+			}
+		}
+	}
+
+	for (_uint i = 0; i < 18; ++i) {
+		if (UIID_SLOTEMPTYCollider[i] == true)
+		{
+			for (auto iter : m_mapPpopupUI[POPUP_INVEN][UI_DOWN])
+			{
+				dynamic_cast<CTempUI*>(iter)->Get_UIObjID(_UIObjID, _UINumber);
+				if (i == _UINumber)
+				{
+					return iter;
+				}
+			}
+		}
+	}
+
+	return nullptr;
 }
 
 _int CUIManager::Update_UI(const _float& fTimeDelta)

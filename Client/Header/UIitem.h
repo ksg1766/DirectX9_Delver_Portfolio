@@ -59,11 +59,17 @@ public:
 		case WEAPON_WAND5:
 			m_fCurrentImage = 40;
 			break;
+		case GENERAL_SHIELD:
+			m_fCurrentImage = 31;
+			m_UINumber = 1;
+			break;
 		case GENERAL_LAMP:
 			m_fCurrentImage = 17;
+			m_UINumber = 1;
 			break;
 		case GENERAL_BEER:
 			m_fCurrentImage = 18;
+			m_UINumber = 1;
 			break;
 		case GENERAL_KEY:
 			m_fCurrentImage = 19;
@@ -76,39 +82,51 @@ public:
 			break;
 		case EQUIP_OLDHELMET:
 			m_fCurrentImage = 6;
+			m_UINumber = 0;
 			break;
 		case EQUIP_OLDARMOR:
 			m_fCurrentImage = 7;
+			m_UINumber = 2;
 			break;
 		case EQUIP_OLDTROUSERS:
 			m_fCurrentImage = 8;
+			m_UINumber = 4;
 			break;
 		case EQUIP_IRONHELMET:
 			m_fCurrentImage = 9;
+			m_UINumber = 0;
 			break;
 		case EQUIP_IRONARMOR:
 			m_fCurrentImage = 10;
+			m_UINumber = 2;
 			break;
 		case EQUIP_IRONTROUSERS:
 			m_fCurrentImage = 11;
+			m_UINumber = 4;
 			break;
 		case EQUIP_SMALLSILVERRING:
 			m_fCurrentImage = 0;
+			m_UINumber = 3;
 			break;
 		case EQUIP_BIGSILVERRING:
 			m_fCurrentImage = 4;
+			m_UINumber = 3;
 			break;
 		case EQUIP_SILVERNECKLACE:
 			m_fCurrentImage = 1;
+			m_UINumber = 5;
 			break;
 		case EQUIP_SMALLGOLDRING:
 			m_fCurrentImage = 2;
+			m_UINumber = 3;
 			break;
 		case EQUIP_BIGGOLDRING:
 			m_fCurrentImage = 5;
+			m_UINumber = 3;
 			break;
 		case EQUIP_GOLDNECKLACE:
 			m_fCurrentImage = 3;
+			m_UINumber = 5;
 			break;
 		case EAT_SLICEDBREAD:
 			m_fCurrentImage = 12;

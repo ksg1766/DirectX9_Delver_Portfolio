@@ -196,11 +196,6 @@ HRESULT CStage::Ready_Layer_UI(LAYERTAG _eLayerTag)
 
 	Engine::CGameObject*		pGameObject = nullptr;
 
-	// 플레이어 hp bar
-	pGameObject = CUIplayerhp::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	Engine::UIManager()->AddBasicGameobject_UI(Engine::UILAYER::UI_DOWN, pGameObject);
-
 	// 기본 인벤토리 5칸
 	for (_uint i = 0; i < 5; ++i) {
 		pGameObject = CUIbasicslot::Create(m_pGraphicDev);
@@ -212,13 +207,6 @@ HRESULT CStage::Ready_Layer_UI(LAYERTAG _eLayerTag)
 		dynamic_cast<CTempUI*>(pGameObject)->Set_Setup(true);
 		Engine::UIManager()->AddBasicGameobject_UI(Engine::UILAYER::UI_DOWN, pGameObject);
 	}
-
-	// 조준점
-	HCURSOR Cursor = nullptr;
-	SetCursor(Cursor);
-	pGameObject = CUIaimpoint::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	Engine::UIManager()->AddPopupGameobject_UI(Engine::UIPOPUPLAYER::POPUP_MOUSE, Engine::UILAYER::UI_DOWN, pGameObject);
 
 	_uint Index = 0;
 	// 장비슬롯
@@ -234,7 +222,7 @@ HRESULT CStage::Ready_Layer_UI(LAYERTAG _eLayerTag)
 			dynamic_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_SLOTEQUIPMENT, Index);
 			dynamic_cast<CTempUI*>(pGameObject)->Set_Setup(true);
 			Engine::UIManager()->AddPopupGameobject_UI(Engine::UIPOPUPLAYER::POPUP_EQUIPMENT, Engine::UILAYER::UI_DOWN, pGameObject);
-			
+
 		}
 	}
 
@@ -275,12 +263,17 @@ HRESULT CStage::Ready_Layer_UI(LAYERTAG _eLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	Engine::UIManager()->AddPopupGameobject_UI(Engine::UIPOPUPLAYER::POPUP_STAT, Engine::UILAYER::UI_DOWN, pGameObject);
 
-	//for (int i = 0; i < 23; ++i)
-	//{
-	//	pGameObject = CUIitem::Create(m_pGraphicDev);
-	//	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//	Engine::UIManager()->AddItemGameobject_UI(pGameObject);
-	//}
+	// 조준점
+	HCURSOR Cursor = nullptr;
+	SetCursor(Cursor);
+	pGameObject = CUIaimpoint::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	Engine::UIManager()->AddPopupGameobject_UI(Engine::UIPOPUPLAYER::POPUP_MOUSE, Engine::UILAYER::UI_DOWN, pGameObject);
+
+	// 플레이어 hp bar
+	pGameObject = CUIplayerhp::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	Engine::UIManager()->AddBasicGameobject_UI(Engine::UILAYER::UI_DOWN, pGameObject);
 
 	// 큰 지도
 	pGameObject = CUIbigmap::Create(m_pGraphicDev);

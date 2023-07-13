@@ -116,6 +116,7 @@ void CUIequipmentslot::Key_Input(void)
 
 	if (OnCollision(pt, m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y))
 	{
+		Engine::UIManager()->Set_ColliderSlot(m_UIObjID, m_UINumber, true);
 		switch (m_UINumber)
 		{
 		case 0:
@@ -140,6 +141,7 @@ void CUIequipmentslot::Key_Input(void)
 	}
 	else
 	{
+		Engine::UIManager()->Set_ColliderSlot(m_UIObjID, m_UINumber, false);
 		switch (m_UINumber)
 		{
 		case 0:
