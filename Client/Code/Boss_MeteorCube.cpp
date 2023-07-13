@@ -110,6 +110,7 @@ void CBoss_MeteorCube::OnCollisionEnter(CCollider* _pOther)
 		CPlayerStat& PlayerState = *(dynamic_cast<CPlayer*>(_pOther->GetHost())->Get_Stat());
 		PlayerState.Take_Damage(this->Get_BasicStat()->Get_Stat()->fAttack);
 		this->Set_AttackTick(true);
+		cout << "플레이어 쳐맞는중" << endl;
 		//Engine::EventManager()->DeleteObject(this);
 	}
 }
