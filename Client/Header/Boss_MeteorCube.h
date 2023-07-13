@@ -1,5 +1,5 @@
 #pragma once
-#include "GameObject.h"
+#include "Monster.h"
 
 BEGIN(Engine)
 class CCubeBf;
@@ -7,7 +7,7 @@ class CTexture;
 class CState;
 END
 class CBoss_MeteorCube :
-    public CGameObject
+    public CMonster
 {
 private:
     explicit CBoss_MeteorCube(LPDIRECT3DDEVICE9 pGraphicDev );

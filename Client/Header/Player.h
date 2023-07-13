@@ -59,12 +59,13 @@ public:
 	void			Set_CurrentEquipLeft(CGameObject* _pCurItem)  { m_pCurrentEquipItemLeft = _pCurItem; }
 	void			Set_Attack(_bool _bAttack)					  { m_bIsAttack = _bAttack; }
 	void			Set_AttackTick(_bool _bTick)				  { m_bAttackTick = _bTick; }
-
+	void			Set_State(STATE _eState)					  { m_eState = _eState; }
 
 public:
 	//void			Add_Item(CGameObject* pItem, ITEMTAG _eItem) { m_pItem[(_uint)_eItem] = pItem; }
 
 private:
+	CStateMachine*	m_pStateMachine = nullptr;
 	CPlayerBf*		m_pBuffer = nullptr;
 	CPlayerStat*	m_pStat = nullptr;
 	CAnimator*		m_pAnimator = nullptr;
@@ -78,6 +79,10 @@ private:
 	CGameObject*	m_pCurrentEquipItemRight = nullptr;     // 현재 플레이어가 들고 있는 아이템     : 오른손
 	CGameObject*    m_pCurrentEquipItemLeft = nullptr;      // 현재 플레이어가 들고 있는 아이템     : 왼손
 	//ITEMTAG		m_eItem = ITEMTAG::ITEM_END;
+
+
+	// Player 
+	STATE			m_eState = STATE::STATE_END;
 
 	_bool			m_bIsAttack;  // 공격형 아이템의 업데이트에 신호를 줄 불 변수
 	_bool			m_bAttackTick;

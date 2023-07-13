@@ -4,12 +4,13 @@
 #include "Player.h"
 
 CMagic_Ball::CMagic_Ball(LPDIRECT3DDEVICE9 pGraphicDev)
-	: Engine::CGameObject(pGraphicDev)
+	: Engine::CMonster(pGraphicDev)
 {
+
 }
 
 CMagic_Ball::CMagic_Ball(const CMagic_Ball& rhs)
-	: Engine::CGameObject(rhs)
+	: Engine::CMonster(rhs)
 {
 }
 
@@ -84,9 +85,6 @@ _int CMagic_Ball::Update_Object(const _float& fTimeDelta)
 			
 	}
 
-
-
-	
 	if (!m_bIsAttack)
 	{
 		m_vInit = m_pTransform->m_vInfo[INFO_POS];

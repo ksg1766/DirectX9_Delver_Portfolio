@@ -25,7 +25,7 @@ public:
 
 protected:
     ITEMTYPEID  m_ItemID;
-
+    CBasicStat* m_pBasicStat = nullptr;
 
     // ITEM_TAG m_eItemTag;
     // ITEM_ID m_eItemID;    // 필요하다면 추가

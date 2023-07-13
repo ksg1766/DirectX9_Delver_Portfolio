@@ -1,5 +1,5 @@
 #pragma once
-#include "GameObject.h"
+#include "Monster.h"
 BEGIN(Engine)
 
 class CRcTex;
@@ -9,7 +9,7 @@ END
 class CTerrain;
 
 class CBossExplosion :
-    public CGameObject
+    public CMonster
 {
 private:
 	explicit	CBossExplosion(LPDIRECT3DDEVICE9	pGraphicDev);

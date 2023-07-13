@@ -61,7 +61,7 @@ STATE CWizard_Attack::Update_State(const _float& fTimeDelta)
 
 	m_bIsAttack = false;
 
-	m_pOwner->Get_Host()->Set_State(STATE::ATTACK);
+	dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Set_State(STATE::ATTACK);
 }
 
 void CWizard_Attack::LateUpdate_State()

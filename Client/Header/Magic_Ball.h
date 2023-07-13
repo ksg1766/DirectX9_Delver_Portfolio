@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GameObject.h"
+#include "Monster.h"
 
 BEGIN(Engine)
 
@@ -12,7 +12,7 @@ END
 
 class CTerrain;
 
-class CMagic_Ball : public CGameObject
+class CMagic_Ball : public CMonster
 {
 private:
 	explicit CMagic_Ball(LPDIRECT3DDEVICE9 pGraphicDev);

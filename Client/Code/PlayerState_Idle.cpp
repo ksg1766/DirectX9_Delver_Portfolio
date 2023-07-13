@@ -55,7 +55,7 @@ STATE CPlayerState_Idle::Key_Input(const _float& fTimeDelta)
 	
 	if (Engine::InputDev()->GetInstance()->Mouse_Pressing(DIM_LB))
 	{
-		m_pOwner->Get_Host()->Set_AttackTick(true);
+		dynamic_cast<CPlayer*>(m_pOwner->Get_Host())->Set_AttackTick(true);
 		return STATE::ATTACK;
 	}
 

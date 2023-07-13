@@ -23,8 +23,6 @@ CTempItem::~CTempItem()
 
 HRESULT CTempItem::Ready_Object(void)
 {		
-	m_eObjectTag = OBJECTTAG::ITEM;
-	m_eItemTag = ITEMTAG::WEAPON;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 	
 	m_pTransform->Scale(_vec3(0.3f, 0.3f, 0.3f));
@@ -58,12 +56,16 @@ HRESULT CTempItem::Ready_Object(void)
 
 _int CTempItem::Update_Object(const _float& fTimeDelta)
 {
+	Engine::Renderer()->Add_RenderGroup(RENDER_ALPHA, this);
+
+	if (SceneManager()->Get_GameStop()) { return 0; }
+
 	_int iExit = __super::Update_Object(fTimeDelta);
 
 	CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pTransform->m_pParent->Get_Host());
 
 #pragma region ksg
-	if (pPlayer->Get_Attack())
+	if (pPlayer->Get_Attack() && pPlayer != nullptr)
 	{
 		if (2.3f < D3DXVec3Length(&(m_pTransform->m_pParent->m_vInfo[INFO_POS] - m_pTransform->m_vInfo[INFO_POS])))
 			m_fSignTime = -1.f;
@@ -75,16 +77,17 @@ _int CTempItem::Update_Object(const _float& fTimeDelta)
 		m_pTransform->Translate(m_pTransform->m_vInfo[INFO_LOOK] * m_fSignTime * 7.f * fTimeDelta);
 
 		// 1.8848은 그냥 D3DXVec3Length(&오프셋) 하셔서 바꿔주시면 돼요. 2.3f는 적당히 사거리 더해서 하심 됩니다.
-#pragma endregion ksg
 	}
-
-	Engine::Renderer()->Add_RenderGroup(RENDER_ALPHA, this);
+#pragma endregion ksg
 
 	return iExit;
 }
 
 void CTempItem::LateUpdate_Object(void)
 {
+	if (SceneManager()->Get_GameStop()) { return ; }
+
+
 	__super::LateUpdate_Object();
 	__super::Compute_ViewZ(&m_pTransform->m_vInfo[INFO_POS]);
 }
@@ -153,6 +156,9 @@ HRESULT CTempItem::Add_Component(void)
 
 void CTempItem::OnCollisionEnter(CCollider* _pOther)
 {
+	if (SceneManager()->Get_GameStop()) { return; }
+
+
 	if (!(_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::MONSTER) && 
 		!(_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::PLAYER))
 		__super::OnCollisionEnter(_pOther);
@@ -167,19 +173,19 @@ void CTempItem::OnCollisionEnter(CCollider* _pOther)
 	{
 
 		if (!pPlayer.Get_AttackTick() && 
-			_pOther->Get_Host()->Get_StateMachine()->Get_State() != STATE::DEAD)
+			dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_StateMachine()->Get_State() != STATE::DEAD)
 			// 공격 하지 않은 상태라면.
 		{
-			_pOther->Get_Host()->Get_BasicStat()->Take_Damage(1.f);
+			dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_BasicStat()->Take_Damage(1.f);
 			pPlayer.Set_AttackTick(true);
 
 			++iCount;
 
-			if (_pOther->Get_Host()->Get_StateMachine()->Get_PrevState() != STATE::HIT
+			if (dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_StateMachine()->Get_PrevState() != STATE::HIT
 				&& iCount > 4)
 			{
 				iCount = 0;
-				_pOther->Get_Host()->Get_StateMachine()->Set_State(STATE::HIT);
+				dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_StateMachine()->Set_State(STATE::HIT);
 			}
 
 
@@ -190,10 +196,12 @@ void CTempItem::OnCollisionEnter(CCollider* _pOther)
 
 void CTempItem::OnCollisionStay(CCollider* _pOther)
 {
+	if (SceneManager()->Get_GameStop()) { return; }
 }
 
 void CTempItem::OnCollisionExit(CCollider* _pOther)
 {
+	if (SceneManager()->Get_GameStop()) { return; }
 }
 
 CTempItem* CTempItem::Create(LPDIRECT3DDEVICE9 pGraphicDev)

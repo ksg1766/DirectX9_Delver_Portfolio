@@ -1,5 +1,5 @@
 #pragma once
-#include "GameObject.h"
+#include "Monster.h"
 
 BEGIN(Engine)
 
@@ -10,7 +10,7 @@ class CBillBoard;
 END
 
 class CBoss_BatSwarm :
-    public CGameObject
+    public CMonster
 {
 private:
 	explicit	CBoss_BatSwarm(LPDIRECT3DDEVICE9	pGraphicDev);
