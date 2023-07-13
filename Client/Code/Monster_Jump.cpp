@@ -65,14 +65,14 @@ STATE CMonster_Jump::Jump(const _float& fTimeDelta)
 
 	m_fJumpVelocity -= 0.5f * fTimeDelta * fTimeDelta * 3000.f;
 
-	_vec3 vDistance = vPlayerPos - m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
-	_float fDistanceLength = D3DXVec3LengthSq(&vDistance);
-	_float fSight = pow(15, 2);
+	//_vec3 vDistance = vPlayerPos - m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
+	//_float fDistanceLength = D3DXVec3LengthSq(&vDistance);
+	//_float fSight = pow(15, 2);
 
 
-	if (vMonsterPos.y < 1.f)
+	if (dynamic_cast<CMonster*>(m_pOwner)->Get_BlockOn())
 	{
-		vMonsterPos.y = 1.f;
+		//vMonsterPos.y = 1.f;
 		m_fJumpVelocity = 13.f;
 		m_bJumCoolDown = true;
 		m_bIsJumping = false;

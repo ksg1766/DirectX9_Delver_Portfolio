@@ -26,6 +26,7 @@ public: // Stter
     void				Set_State(STATE _eState)             { m_eState = _eState; }
     void				Set_AttackTick(_bool _Tick)          { m_bAttackTick = _Tick; }
     void		        Set_MonsterState(MONSTERTAG _eState) { m_eMonsterTag = _eState; }
+    void                Set_BlockOn(_bool _block)            { m_bBlockOn = _block; }
 public: //Getter
     _float              Get_Speed()                          { return m_fSpeed; }
     CStateMachine*      Get_StateMachine()                   { return m_pStateMachine; }
@@ -33,6 +34,7 @@ public: //Getter
     MONSTERTAG	        Get_MonsterTag()                     { return m_eMonsterTag; }
     STATE				Get_State()                          { return m_eState; }
     _bool				Get_AttackTick()                     { return m_bAttackTick; }
+    _bool               Get_BlockOn()                        { return m_bBlockOn; }
 
 protected:
     CStateMachine*                      m_pStateMachine = nullptr;
@@ -40,7 +42,7 @@ protected:
     MONSTERTAG							m_eMonsterTag;
     STATE								m_eState;
     _bool								m_bAttackTick;
-
+    _bool		                        m_bBlockOn;
     _float                              m_fSpeed;
     // MONSTER_ID m_eMonserID;
     // MonsterAI Component 추가해서 사용

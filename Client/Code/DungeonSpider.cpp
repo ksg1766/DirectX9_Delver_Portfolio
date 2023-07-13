@@ -26,6 +26,7 @@ HRESULT CDungeonSpider::Ready_Object()
 {
 	Set_ObjectTag(OBJECTTAG::MONSTER);
 	Set_MonsterState(MONSTERTAG::SPIDER);
+	m_bBlockOn = false;
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
@@ -140,8 +141,13 @@ void CDungeonSpider::OnCollisionEnter(CCollider* _pOther)
 
 			cout << "거미 공격" << endl;
 		}
-
 	}
+
+	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BLOCK)
+	{
+		m_bBlockOn = true;
+	}
+
 }
 
 void CDungeonSpider::OnCollisionStay(CCollider* _pOther)
@@ -155,6 +161,13 @@ void CDungeonSpider::OnCollisionStay(CCollider* _pOther)
 void CDungeonSpider::OnCollisionExit(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
+
+	__super::OnCollisionExit(_pOther);
+
+	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BLOCK)
+	{
+		m_bBlockOn = false;
+	}
 }
 
 HRESULT CDungeonSpider::Add_Component()
