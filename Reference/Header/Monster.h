@@ -21,12 +21,27 @@ public:
     virtual void		OnCollisionStay(CCollider* _pOther);
     virtual void		OnCollisionExit(CCollider* _pOther);
 
-public:
-    void    Set_Speed(_float _fSpeed) { m_fSpeed = _fSpeed; }
-    _float  Get_Speed() { return m_fSpeed; }
+public: // Stter
+    void                Set_Speed(_float _fSpeed)            { m_fSpeed = _fSpeed; }
+    void				Set_State(STATE _eState)             { m_eState = _eState; }
+    void				Set_AttackTick(_bool _Tick)          { m_bAttackTick = _Tick; }
+    void		        Set_MonsterState(MONSTERTAG _eState) { m_eMonsterTag = _eState; }
+public: //Getter
+    _float              Get_Speed()                          { return m_fSpeed; }
+    CStateMachine*      Get_StateMachine()                   { return m_pStateMachine; }
+    CBasicStat*         Get_BasicStat()                      { return m_pBasicStat; }
+    MONSTERTAG	        Get_MonsterTag()                     { return m_eMonsterTag; }
+    STATE				Get_State()                          { return m_eState; }
+    _bool				Get_AttackTick()                     { return m_bAttackTick; }
 
 protected:
-    _float  m_fSpeed;
+    CStateMachine*                      m_pStateMachine = nullptr;
+    CBasicStat*                         m_pBasicStat = nullptr;
+    MONSTERTAG							m_eMonsterTag;
+    STATE								m_eState;
+    _bool								m_bAttackTick;
+
+    _float                              m_fSpeed;
     // MONSTER_ID m_eMonserID;
     // MonsterAI Component 추가해서 사용
 

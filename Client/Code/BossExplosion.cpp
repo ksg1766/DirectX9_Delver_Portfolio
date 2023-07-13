@@ -4,12 +4,12 @@
 #include "Terrain.h"
 #include "Player.h"
 CBossExplosion::CBossExplosion(LPDIRECT3DDEVICE9 pGraphicDev)
-	: Engine::CGameObject(pGraphicDev)
+	: Engine::CMonster(pGraphicDev)
 {
 }
 
 CBossExplosion::CBossExplosion(const CBossExplosion& rhs)
-	:	Engine::CGameObject(rhs)
+	:	Engine::CMonster(rhs)
 {
 }
 

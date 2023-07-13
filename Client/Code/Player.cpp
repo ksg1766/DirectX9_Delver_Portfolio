@@ -191,6 +191,7 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 	}
 
 	// UI 단축키 추가
+
 	if (Engine::InputDev()->Key_Down(DIK_I))
 	{
 		if (Engine::UIManager()->Set_InvenUse())
@@ -239,7 +240,7 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 	if (Engine::InputDev()->Key_Down(DIK_E))
 	{
 		//  바라보고 있는 아이템 줍기 / E 키로 앞에 있는 아이템 획득을 테스트 용으로 임시 생성
-		Engine::CGameObject* pGameObjectItem = CTempItem::Create(m_pGraphicDev);
+		Engine::CGameObject* pGameObjectItem = CBow::Create(m_pGraphicDev);
 		// 획득한 아이템 타입 및 개수를 받아옴.
 		ITEMTYPEID ItemType = dynamic_cast<CItem*>(pGameObjectItem)->Get_ItemTag();
 

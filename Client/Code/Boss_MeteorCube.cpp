@@ -3,12 +3,12 @@
 #include "SkeletonKing.h"
 #include "Player.h"
 CBoss_MeteorCube::CBoss_MeteorCube(LPDIRECT3DDEVICE9 pGraphicDev)
-	:CGameObject(pGraphicDev)
+	:CMonster(pGraphicDev)
 {
 }
 
 CBoss_MeteorCube::CBoss_MeteorCube(const CBoss_MeteorCube& rhs)
-	:CGameObject(rhs)
+	: CMonster(rhs)
 {
 }
 

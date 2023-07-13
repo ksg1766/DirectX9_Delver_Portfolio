@@ -3,12 +3,12 @@
 #include "Player.h"
 
 CBoss_BatSwarm::CBoss_BatSwarm(LPDIRECT3DDEVICE9 pGraphicDev)
-	:Engine::CGameObject(pGraphicDev)
+	:Engine::CMonster(pGraphicDev)
 {
 }
 
 CBoss_BatSwarm::CBoss_BatSwarm(const CBoss_BatSwarm& rhs)
-	: Engine::CGameObject(rhs)
+	: Engine::CMonster(rhs)
 {
 }
 
@@ -99,9 +99,9 @@ void CBoss_BatSwarm::OnCollisionExit(CCollider* _pOther)
 
 	if (_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::PLAYER)
 	{
-		Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front()->Get_BasicStat()->Get_Stat()->fHealth += 0.01f;
-
-
+		dynamic_cast<CMonster*>(Engine::SceneManager()->
+			Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).
+			front())->Get_BasicStat()->Get_Stat()->fHealth += 0.01f;
 	}
 }
 

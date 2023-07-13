@@ -52,7 +52,7 @@ STATE CMonster_Fly::Update_State(const _float& fTimeDelta)
 	if (m_bFirstCool)
 	{
 		m_bFirstCool = false;
-		m_pOwner->Get_Host()->Set_State(STATE::ATTACK);
+		dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Set_State(STATE::ATTACK);
 		return STATE::ATTACK;
 	}
 
@@ -64,8 +64,8 @@ STATE CMonster_Fly::Update_State(const _float& fTimeDelta)
 		{
 			m_bAttackCoolDown = false;
 			m_fChase = 0.f;
-			m_pOwner->Get_Host()->Set_State(STATE::ATTACK);
-			m_pOwner->Get_Host()->Set_AttackTick(false);
+			dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Set_State(STATE::ATTACK);
+			dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Set_AttackTick(false);
 			return STATE::ATTACK;
 		}
 		else
@@ -119,7 +119,7 @@ void CMonster_Fly::Fly(const _float& fTimeDelta)
 
 	D3DXVec3Normalize(&vPlayerTaget, &vPlayerTaget);
 
-	if(m_pOwner->Get_Host()->Get_StateMachine()->Get_PrevState() != STATE::ATTACK)
+	if(dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Get_StateMachine()->Get_PrevState() != STATE::ATTACK)
 		vTargetPos = m_pOwner->Get_Transform()->m_vInfo[INFO_POS] + vDir * 30.f;
 	else
 		vTargetPos = m_pOwner->Get_Transform()->m_vInfo[INFO_POS] + vPlayerTaget * 30.f;

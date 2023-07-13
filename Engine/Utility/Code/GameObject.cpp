@@ -1,13 +1,13 @@
 #include "..\..\Header\GameObject.h"
 
 CGameObject::CGameObject(LPDIRECT3DDEVICE9 pGraphicDev)
-	: m_pGraphicDev(pGraphicDev), m_IsDead(false), m_eObjectTag(OBJECTTAG::OBJECT_END), m_bAttackTick(false)
+	: m_pGraphicDev(pGraphicDev), m_IsDead(false), m_eObjectTag(OBJECTTAG::OBJECT_END)
 {
 	m_pGraphicDev->AddRef();
 }
 
 CGameObject::CGameObject(const CGameObject & rhs)
-	: m_pGraphicDev(rhs.m_pGraphicDev), m_IsDead(false), m_eObjectTag(OBJECTTAG::OBJECT_END), m_bAttackTick(false)
+	: m_pGraphicDev(rhs.m_pGraphicDev), m_IsDead(false), m_eObjectTag(OBJECTTAG::OBJECT_END)
 {
 	m_pGraphicDev->AddRef();
 }
