@@ -2,6 +2,8 @@
 
 #include "GameObject.h"
 
+class CTerrain;
+
 BEGIN(Engine)
 
 class CCollider;
@@ -21,12 +23,6 @@ public:
     virtual void		OnCollisionStay(CCollider* _pOther);
     virtual void		OnCollisionExit(CCollider* _pOther);
 
-public: // Stter
-    void                Set_Speed(_float _fSpeed)            { m_fSpeed = _fSpeed; }
-    void				Set_State(STATE _eState)             { m_eState = _eState; }
-    void				Set_AttackTick(_bool _Tick)          { m_bAttackTick = _Tick; }
-    void		        Set_MonsterState(MONSTERTAG _eState) { m_eMonsterTag = _eState; }
-    void                Set_BlockOn(_bool _block)            { m_bBlockOn = _block; }
 public: //Getter
     _float              Get_Speed()                          { return m_fSpeed; }
     CStateMachine*      Get_StateMachine()                   { return m_pStateMachine; }
@@ -36,6 +32,15 @@ public: //Getter
     _bool				Get_AttackTick()                     { return m_bAttackTick; }
     _bool               Get_BlockOn()                        { return m_bBlockOn; }
 
+public: // Stter
+    void                Set_Speed(_float _fSpeed)            { m_fSpeed = _fSpeed; }
+    void				Set_State(STATE _eState)             { m_eState = _eState; }
+    void				Set_AttackTick(_bool _Tick)          { m_bAttackTick = _Tick; }
+    void		        Set_MonsterState(MONSTERTAG _eState) { m_eMonsterTag = _eState; }
+
+    void                Set_BlockOn(_bool _block)            { m_bBlockOn = _block; }
+    void                Set_Terrain(CTerrain* _pTerrain)     { m_pTerrain = _pTerrain; }
+
 protected:
     CStateMachine*                      m_pStateMachine = nullptr;
     CBasicStat*                         m_pBasicStat = nullptr;
@@ -44,6 +49,7 @@ protected:
     _bool								m_bAttackTick;
     _bool		                        m_bBlockOn;
     _float                              m_fSpeed;
+    CTerrain*                           m_pTerrain;
     // MONSTER_ID m_eMonserID;
     // MonsterAI Component 추가해서 사용
 

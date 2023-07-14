@@ -70,7 +70,7 @@ void CCollider::Render_Collider()
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 }
 
-HRESULT CCollider::InitOBB(_vec3 & _vCenter, _vec3 * _vAxisDir, float * _fAxisLen)
+HRESULT CCollider::InitOBB(_vec3 & _vCenter, _vec3 * _vAxisDir, _float * _fAxisLen)
 {
 	m_vCenterPos = _vCenter;
 

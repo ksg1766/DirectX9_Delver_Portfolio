@@ -178,7 +178,6 @@ HRESULT CDungeonSpider::Add_Component()
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BUFFER, pComponent);
 
-
 	// Monster Animation Texture 
 	pComponent = m_pTexture[(_uint)STATE::ROMIMG] = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_Spider"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);

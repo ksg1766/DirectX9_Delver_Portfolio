@@ -118,11 +118,6 @@ void CDungeonWarrior::Render_Object()
 #endif
 
 	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
-
-
-
-
-
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
 

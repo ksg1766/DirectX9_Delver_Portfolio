@@ -316,6 +316,13 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 	{
 		Use_SlotItem(KEYSLOT_FIVE);
 	}
+
+	if (Engine::InputDev()->Key_Down(DIK_DELETE))
+	{
+		vector<CGameObject*>& vecMonsterList = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::MONSTER);
+		if(!vecMonsterList.empty())
+			EventManager()->DeleteObject(vecMonsterList.back());
+	}
 }
 
 void CPlayer::ForceHeight(_vec3 _vPos)

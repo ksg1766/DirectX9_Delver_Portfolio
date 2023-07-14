@@ -3,7 +3,8 @@
 
 BEGIN(Engine)
 
-class ENGINE_DLL CCubeBf :	public CVIBuffer
+class ENGINE_DLL CCubeBf
+	: public CVIBuffer
 {
 public:
 	explicit CCubeBf();

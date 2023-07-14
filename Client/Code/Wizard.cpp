@@ -28,7 +28,7 @@ HRESULT CWizard::Ready_Object()
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
-	m_pTransform->Translate(_vec3(1.f, 1.f, 20.f));
+	//m_pTransform->Translate(_vec3(1.f, 1.f, 20.f));
 
 	CState* pState = CMonster_Move::Create(m_pGraphicDev, m_pStateMachine);
 	m_pStateMachine->Add_State(STATE::ROMIMG, pState);
@@ -137,7 +137,7 @@ void CWizard::ForceHeight(_vec3 _vPos)
 	_float dz = z - row;
 
 	_float height;
-	//c-d b-d cdb 
+
 	if (dz < 1.0f - dx)
 	{
 		/*
@@ -151,16 +151,16 @@ void CWizard::ForceHeight(_vec3 _vPos)
 		_vec3 vy = C - A;
 
 		height = A.y + (uy.y * dx) + (vy.y * dz) + 1.f;
-		m_pTransform->m_vInfo[INFO_POS].y = height;
-	}// c-a b-a cba
+	}
 	else
 	{
 		_vec3 uy = C - D;
 		_vec3 vy = B - D;
 
 		height = D.y + (uy.y * (1.f - dx)) + (vy.y * (1.f - dz)) + 1.f;
-		m_pTransform->m_vInfo[INFO_POS].y = height;
 	}
+	_float fOffsetHeight = height - m_pTransform->m_vInfo[INFO_POS].y;
+	m_pTransform->Translate(_vec3(0.f, fOffsetHeight, 0.f));
 }
 
 void CWizard::OnCollisionEnter(CCollider* _pOther)

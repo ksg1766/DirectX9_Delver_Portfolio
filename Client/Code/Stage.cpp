@@ -10,6 +10,7 @@
 #include "Alien.h"
 #include "Slime.h"
 #include "Skeleton.h"
+#include "SpawningPool.h"
 
 #include "Box_Cube.h"
 CStage::CStage(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -109,6 +110,15 @@ HRESULT CStage::Ready_Layer_Environment(LAYERTAG _eLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
+	// Test SpawningPool
+	/*pGameObject = CSpawningPool::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	pGameObject->m_pTransform->Translate(_vec3(-50.f, 0.f, -50.f));
+	dynamic_cast<CSpawningPool*>(pGameObject)->Set_SpawnTime(5.f);
+	dynamic_cast<CSpawningPool*>(pGameObject)->Set_MonsterTag(MONSTERTAG::WIZARD);
+	dynamic_cast<CSpawningPool*>(pGameObject)->Set_PoolCapacity(7);
+	dynamic_cast<CSpawningPool*>(pGameObject)->Set_SpawnRadius(30.f);
+	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);*/
 
 	m_mapLayer.insert({ _eLayerTag, pLayer });
 
@@ -137,7 +147,7 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	dynamic_cast<CPlayer*>(pGameObject)->Set_Terrain(dynamic_cast<CTerrain*>(pLayer->Get_ObjectList(OBJECTTAG::TERRAIN).front()));
 	
 	// Monstser
-	pGameObject = CDungeonWarrior::Create(m_pGraphicDev);
+	/*pGameObject = CDungeonWarrior::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	pGameObject->m_pTransform->Translate(_vec3(40.f, 0.f, -40.f));
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
@@ -153,38 +163,38 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	pGameObject->m_pTransform->Translate(_vec3(0.f, 0.f, -40.f));
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-	dynamic_cast<CBat*>(pGameObject)->Set_Terrain(dynamic_cast<CTerrain*>(pLayer->Get_ObjectList(OBJECTTAG::TERRAIN).front()));
+	dynamic_cast<CBat*>(pGameObject)->Set_Terrain(dynamic_cast<CTerrain*>(pLayer->Get_ObjectList(OBJECTTAG::TERRAIN).front()));*/
 
-	pGameObject = CWizard::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pGameObject->m_pTransform->Translate(_vec3(-40.f, 0.f, 0.f));
-	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-	dynamic_cast<CWizard*>(pGameObject)->Set_Terrain(dynamic_cast<CTerrain*>(pLayer->Get_ObjectList(OBJECTTAG::TERRAIN).front()));
+	//pGameObject = CWizard::Create(m_pGraphicDev);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//pGameObject->m_pTransform->Translate(_vec3(-40.f, 0.f, 0.f));
+	//pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+	//dynamic_cast<CWizard*>(pGameObject)->Set_Terrain(dynamic_cast<CTerrain*>(pLayer->Get_ObjectList(OBJECTTAG::TERRAIN).front()));
 	//
-	pGameObject = CAlien::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pGameObject->m_pTransform->Translate(_vec3(40.f, 0.f, 40.f));
-	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-	dynamic_cast<CAlien*>(pGameObject)->Set_Terrain(dynamic_cast<CTerrain*>(pLayer->Get_ObjectList(OBJECTTAG::TERRAIN).front()));
+	//pGameObject = CAlien::Create(m_pGraphicDev);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//pGameObject->m_pTransform->Translate(_vec3(40.f, 0.f, 40.f));
+	//pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+	//dynamic_cast<CAlien*>(pGameObject)->Set_Terrain(dynamic_cast<CTerrain*>(pLayer->Get_ObjectList(OBJECTTAG::TERRAIN).front()));
+	////
+	//pGameObject = CSlime::Create(m_pGraphicDev);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//pGameObject->m_pTransform->Translate(_vec3(20.f, 0.f, 20.f));
+	//pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+	//dynamic_cast<CSlime*>(pGameObject)->Set_Terrain(dynamic_cast<CTerrain*>(pLayer->Get_ObjectList(OBJECTTAG::TERRAIN).front()));
 	//
-	pGameObject = CSlime::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pGameObject->m_pTransform->Translate(_vec3(20.f, 0.f, 20.f));
-	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-	dynamic_cast<CSlime*>(pGameObject)->Set_Terrain(dynamic_cast<CTerrain*>(pLayer->Get_ObjectList(OBJECTTAG::TERRAIN).front()));
-	
-	pGameObject = CSkeleton::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pGameObject->m_pTransform->Translate(_vec3(10.f, 0.f, -40.f));
-	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-	dynamic_cast<CSkeleton*>(pGameObject)->Set_Terrain(dynamic_cast<CTerrain*>(pLayer->Get_ObjectList(OBJECTTAG::TERRAIN).front()));
+	//pGameObject = CSkeleton::Create(m_pGraphicDev);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//pGameObject->m_pTransform->Translate(_vec3(10.f, 0.f, -40.f));
+	//pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+	//dynamic_cast<CSkeleton*>(pGameObject)->Set_Terrain(dynamic_cast<CTerrain*>(pLayer->Get_ObjectList(OBJECTTAG::TERRAIN).front()));
 
-	//// Boss
-	pGameObject = CSkeletonKing::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pGameObject->m_pTransform->Translate(_vec3(50.f, 0.f, 50.f));
-	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-	dynamic_cast<CSkeletonKing*>(pGameObject)->Set_Terrain(dynamic_cast<CTerrain*>(pLayer->Get_ObjectList(OBJECTTAG::TERRAIN).front()));
+	////// Boss
+	//pGameObject = CSkeletonKing::Create(m_pGraphicDev);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//pGameObject->m_pTransform->Translate(_vec3(50.f, 0.f, 50.f));
+	//pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+	//dynamic_cast<CSkeletonKing*>(pGameObject)->Set_Terrain(dynamic_cast<CTerrain*>(pLayer->Get_ObjectList(OBJECTTAG::TERRAIN).front()));
 
 	return S_OK;
 }
@@ -332,20 +342,19 @@ HRESULT CStage::Load_Data()
 
 	OBJECTTAG eTag = OBJECTTAG::OBJECT_END;
 
-	DWORD	dwByte = 0;
-	_float  fX, fY, fZ;
-	_ubyte  byTextureNumber = 0;
+	DWORD		dwByte = 0;
+	_float		fX, fY, fZ;
+	_ubyte		byTextureNumber = 0;
 
+	MONSTERTAG	eSpawnerTag = MONSTERTAG::MONSTER_END;  //
+	_int		iPoolCapacity = 5;
+	_float		fSpawnRadius = 10.0f;
+	_float		fSpawnTime = 10.0f;
 
 	while (true)
 	{
 		// key 값 저장
 		ReadFile(hFile, &eTag, sizeof(OBJECTTAG), &dwByte, nullptr);
-
-		// value값 저장
-		ReadFile(hFile, &fX, sizeof(_float), &dwByte, nullptr);
-		ReadFile(hFile, &fY, sizeof(_float), &dwByte, nullptr);
-		ReadFile(hFile, &fZ, sizeof(_float), &dwByte, nullptr);
 
 		if (0 == dwByte)
 			break;
@@ -353,6 +362,11 @@ HRESULT CStage::Load_Data()
 		// if문 추가
 		if (OBJECTTAG::BLOCK == eTag)
 		{
+			// value값 저장
+			ReadFile(hFile, &fX, sizeof(_float), &dwByte, nullptr);
+			ReadFile(hFile, &fY, sizeof(_float), &dwByte, nullptr);
+			ReadFile(hFile, &fZ, sizeof(_float), &dwByte, nullptr);
+
 			ReadFile(hFile, &byTextureNumber, sizeof(_ubyte), &dwByte, nullptr);
 
 			if (0 == dwByte)
@@ -364,6 +378,30 @@ HRESULT CStage::Load_Data()
 			pGameObject->m_pTransform->Translate(_vec3(fX, fY, fZ));
 			//EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 			pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+		}
+		else if (OBJECTTAG::SPAWNINGPOOL == eTag)
+		{
+			// value값 저장
+			ReadFile(hFile, &fX, sizeof(_float), &dwByte, nullptr);
+			ReadFile(hFile, &fZ, sizeof(_float), &dwByte, nullptr);
+
+
+			ReadFile(hFile, &eSpawnerTag, sizeof(MONSTERTAG), &dwByte, nullptr);
+			ReadFile(hFile, &iPoolCapacity, sizeof(_int), &dwByte, nullptr);
+			ReadFile(hFile, &fSpawnRadius, sizeof(_float), &dwByte, nullptr);
+			ReadFile(hFile, &fSpawnTime, sizeof(_float), &dwByte, nullptr);
+
+			if (0 == dwByte)
+				break;
+
+			CGameObject* pGameObject = CSpawningPool::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+			NULL_CHECK_RETURN(pGameObject, E_FAIL);
+			dynamic_cast<CSpawningPool*>(pGameObject)->Set_MonsterTag(eSpawnerTag);
+			dynamic_cast<CSpawningPool*>(pGameObject)->Set_PoolCapacity(iPoolCapacity);
+			dynamic_cast<CSpawningPool*>(pGameObject)->Set_SpawnRadius(fSpawnRadius);
+			dynamic_cast<CSpawningPool*>(pGameObject)->Set_SpawnTime(fSpawnTime);
+			pGameObject->m_pTransform->Translate(_vec3(fX, 0.f, fZ));
+			EventManager()->CreateObject(pGameObject, LAYERTAG::ENVIRONMENT);
 		}
 	}
 

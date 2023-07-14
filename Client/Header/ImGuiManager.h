@@ -10,6 +10,7 @@ BEGIN(Engine)
 
 END
 
+class CSpawningPool;
 class CImGuiManager :
     public CBase
 {
@@ -21,7 +22,8 @@ private:
 
 public:
 	void	Key_Input(const _float& fTimeDelta);
-	_vec3	Picking();
+	_vec3	PickingBlock();
+	_vec3	PickingSpawner();
 
 public:
 	HRESULT	SetUp_ImGui();
@@ -37,11 +39,23 @@ public:
 private:
 	_bool	bUI_OnOff;
 
+	enum TOOLMODE { MAP, SPAWNER, TOOL_END };
+	_uint								m_eToolMode = TOOL_END;
+
+	// Map Tool
 	vector<IDirect3DBaseTexture9*>		m_pTerainTexture;
 	ImTextureID							selected_texture = nullptr;
 	_uint								selected_texture_index = 0;
 
-	_uint								iPickingMode;
+	_uint								m_iPickingMode;
+
+	// Spawner Tool
+	_float								m_fSpawnTime;
+	_int								m_iSpawnCapacity;
+	_float								m_fSpawnRadius;
+	MONSTERTAG							m_eSpawnerTag;
+
+	vector<CSpawningPool*>				m_vecShpere;
 
 public:
 	virtual void		Free();
