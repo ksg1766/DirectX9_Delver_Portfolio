@@ -12,7 +12,6 @@
 #include "Skeleton.h"
 #include "SpawningPool.h"
 
-#include "Box_Cube.h"
 CStage::CStage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
 {
@@ -195,6 +194,13 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	//pGameObject->m_pTransform->Translate(_vec3(50.f, 0.f, 50.f));
 	//pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 	//dynamic_cast<CSkeletonKing*>(pGameObject)->Set_Terrain(dynamic_cast<CTerrain*>(pLayer->Get_ObjectList(OBJECTTAG::TERRAIN).front()));
+
+	//Npc Test
+	pGameObject = CNpc_OldMan::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	pGameObject->m_pTransform->Translate(_vec3(-50.f, 0.f, -50.f));
+	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+	dynamic_cast<CNpc_OldMan*>(pGameObject)->Set_Terrain(dynamic_cast<CTerrain*>(pLayer->Get_ObjectList(OBJECTTAG::TERRAIN).front()));
 
 	return S_OK;
 }

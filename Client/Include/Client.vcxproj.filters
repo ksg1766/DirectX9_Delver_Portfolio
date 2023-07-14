@@ -268,9 +268,6 @@
     <Filter Include="02. GameObject\01. Stage\05. Monster\07. Skeleton">
       <UniqueIdentifier>{f88ecb10-b769-4813-8c38-f0d9b10dd4a9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\01. Stage\05. Monster\07. Skeleton\State">
-      <UniqueIdentifier>{961b0bad-4949-4d9b-8436-5c55d5f530af}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObject\01. Stage\02. Item\Bow">
       <UniqueIdentifier>{9d0eb722-7555-4dd5-9993-6fdea81bab1e}</UniqueIdentifier>
     </Filter>
@@ -384,6 +381,81 @@
     </Filter>
     <Filter Include="02. GameObject\01. Stage\05. Monster\99. SpawningPool">
       <UniqueIdentifier>{36768cc2-412e-416a-9e29-77a50a2b39f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\999. Boss\02. State\03. Attack\06. Spawn_Skeleton">
+      <UniqueIdentifier>{87be3ff3-8f74-44a4-8acc-0a6e05616e1d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\999. Boss\01. AttackEff\06. Boss_Skeleton">
+      <UniqueIdentifier>{3c9d93a9-139a-4262-9f83-d41982c0edd5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\05. Monster\07. Skeleton\State">
+      <UniqueIdentifier>{961b0bad-4949-4d9b-8436-5c55d5f530af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\999. Boss\01. AttackEff\06. Boss_Skeleton\01. State">
+      <UniqueIdentifier>{72711f5b-a1c4-4a59-b0f2-2829be10f647}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\999. Boss\01. AttackEff\06. Boss_Skeleton\01. State\01.Move">
+      <UniqueIdentifier>{fdce6f2a-b1db-4d2e-83e9-59eb7903a8a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\999. Boss\01. AttackEff\06. Boss_Skeleton\01. State\02. Jump">
+      <UniqueIdentifier>{6e9e8336-da9f-4886-9702-acf857053bea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\999. Boss\01. AttackEff\06. Boss_Skeleton\01. State\03. Explosion">
+      <UniqueIdentifier>{6990ba9b-edc8-42db-a9f6-7596a603899c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\999. Boss\01. AttackEff\06. Boss_Skeleton\01. State\04. Dead">
+      <UniqueIdentifier>{6424ae2a-617d-4086-bf43-1d0cb8619680}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\999. Boss\02. State\05. Sturn\01. Stunr_Effect">
+      <UniqueIdentifier>{8780464c-a249-4aef-8385-23d54e9395b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\999. Boss\01. AttackEff\06. Boss_Skeleton\01. State\00. Wake_Up">
+      <UniqueIdentifier>{98dcee3d-a089-4a64-91ea-b07f72f380b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\07. NPC">
+      <UniqueIdentifier>{38ad9fec-8c40-4166-af02-ad79b784f589}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\07. NPC\01. Trader">
+      <UniqueIdentifier>{3cb66f95-11df-4140-a531-8844deba9c9a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\07. NPC\02. Alchemist">
+      <UniqueIdentifier>{e4a1999b-a462-45d2-aae5-0485c8bd86b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\07. NPC\04. OldMan">
+      <UniqueIdentifier>{e1eac793-e421-4595-9d5c-c63756d03cda}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\07. NPC\05. Dog">
+      <UniqueIdentifier>{b4e7ae0d-d864-4a30-a9d8-ffa7f8f6d314}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\07. NPC\06. Wizard">
+      <UniqueIdentifier>{1f9c6304-f968-45f9-9281-a956632ae937}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\07. NPC\01. Trader\01. State">
+      <UniqueIdentifier>{f39e6c73-b8d8-44a8-9cbd-2164e73f7d2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\07. NPC\02. Alchemist\01. State">
+      <UniqueIdentifier>{e3b519ae-89cd-4f35-97b4-d8c07ecaeba3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\07. NPC\03. Bard">
+      <UniqueIdentifier>{8422db67-21f6-49ac-b7f7-722d757d1b6d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\07. NPC\03. Bard\01. State">
+      <UniqueIdentifier>{4fdb3884-96ef-44f0-b7fe-72ca92f4ed34}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\07. NPC\04. OldMan\01. State">
+      <UniqueIdentifier>{85b14cc8-a96a-454c-977a-316fe5ea04da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\07. NPC\05. Dog\01. State">
+      <UniqueIdentifier>{c7434bff-cacf-4ef9-ae2e-87f2b95578d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\07. NPC\05. Dog\01. State\01. Idle">
+      <UniqueIdentifier>{b362b075-41e0-4993-a178-e24682a0fac3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\07. NPC\05. Dog\01. State\02. Stand">
+      <UniqueIdentifier>{453592be-0194-468e-9c15-c727e3b36c44}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\07. NPC\06. Wizard\01. State">
+      <UniqueIdentifier>{b8593d0b-037e-4287-9f56-3f067158e169}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -687,12 +759,6 @@
     <ClInclude Include="..\Header\Boss_MeteorReady.h">
       <Filter>02. GameObject\01. Stage\999. Boss\02. State\03. Attack\05. Meteor\01.Ready</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\BossProjectile.h">
-      <Filter>02. GameObject\01. Stage\999. Boss\01. AttackEff\01. AttackFire</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\FirePattern.h">
-      <Filter>02. GameObject\01. Stage\999. Boss\02. State\03. Attack\01. FirePattern</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\SkeletonKing.h">
       <Filter>02. GameObject\01. Stage\999. Boss</Filter>
     </ClInclude>
@@ -707,6 +773,78 @@
     </ClInclude>
     <ClInclude Include="..\Header\SpawningPool.h">
       <Filter>02. GameObject\01. Stage\05. Monster\99. SpawningPool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\BossProjectile.h">
+      <Filter>02. GameObject\01. Stage\999. Boss\01. AttackEff\01. AttackFire</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\FirePattern.h">
+      <Filter>02. GameObject\01. Stage\999. Boss\02. State\03. Attack\01. FirePattern</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Boss_SkeletonSpawnPattern.h">
+      <Filter>02. GameObject\01. Stage\999. Boss\02. State\03. Attack\06. Spawn_Skeleton</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Boss_Skeleton.h">
+      <Filter>02. GameObject\01. Stage\999. Boss\01. AttackEff\06. Boss_Skeleton</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Move_BossSkeleton.h">
+      <Filter>02. GameObject\01. Stage\999. Boss\01. AttackEff\06. Boss_Skeleton\01. State\01.Move</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Jump_BossSkeleton.h">
+      <Filter>02. GameObject\01. Stage\999. Boss\01. AttackEff\06. Boss_Skeleton\01. State\02. Jump</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Explosion_BossSkeleton.h">
+      <Filter>02. GameObject\01. Stage\999. Boss\01. AttackEff\06. Boss_Skeleton\01. State\03. Explosion</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Dead_BossSkeleton.h">
+      <Filter>02. GameObject\01. Stage\999. Boss\01. AttackEff\06. Boss_Skeleton\01. State\04. Dead</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Boss_SturnEffect.h">
+      <Filter>02. GameObject\01. Stage\999. Boss\02. State\05. Sturn\01. Stunr_Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\WakeUp_BossSkeleton.h">
+      <Filter>02. GameObject\01. Stage\999. Boss\01. AttackEff\06. Boss_Skeleton\01. State\00. Wake_Up</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Npc_Trader.h">
+      <Filter>02. GameObject\01. Stage\07. NPC\01. Trader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Npc_Alchemist.h">
+      <Filter>02. GameObject\01. Stage\07. NPC\02. Alchemist</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Trader_Idle.h">
+      <Filter>02. GameObject\01. Stage\07. NPC\01. Trader\01. State</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Alchemist_Idle.h">
+      <Filter>02. GameObject\01. Stage\07. NPC\02. Alchemist\01. State</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Npc_Bard.h">
+      <Filter>02. GameObject\01. Stage\07. NPC\03. Bard</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Bard_idle.h">
+      <Filter>02. GameObject\01. Stage\07. NPC\03. Bard\01. State</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Npc_OldMan.h">
+      <Filter>02. GameObject\01. Stage\07. NPC\04. OldMan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\OldMan_Idle.h">
+      <Filter>02. GameObject\01. Stage\07. NPC\04. OldMan\01. State</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Dog_Idle.h">
+      <Filter>02. GameObject\01. Stage\07. NPC\05. Dog\01. State\01. Idle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Dog_Stand.h">
+      <Filter>02. GameObject\01. Stage\07. NPC\05. Dog\01. State\02. Stand</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Npc_Dog.h">
+      <Filter>02. GameObject\01. Stage\07. NPC\05. Dog</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Npc_Wizard.h">
+      <Filter>02. GameObject\01. Stage\07. NPC\06. Wizard</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\NPC_Wizard_Idle.h">
+      <Filter>02. GameObject\01. Stage\07. NPC\06. Wizard\01. State</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CUIspeech.h">
+      <Filter>02. GameObject\03. UI\02. UItooltip</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1001,12 +1139,6 @@
     <ClCompile Include="..\Code\Boss_MeteorReady.cpp">
       <Filter>02. GameObject\01. Stage\999. Boss\02. State\03. Attack\05. Meteor\01.Ready</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\BossProjectile.cpp">
-      <Filter>02. GameObject\01. Stage\999. Boss\01. AttackEff\01. AttackFire</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\FirePattern.cpp">
-      <Filter>02. GameObject\01. Stage\999. Boss\02. State\03. Attack\01. FirePattern</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\SkeletonKing.cpp">
       <Filter>02. GameObject\01. Stage\999. Boss</Filter>
     </ClCompile>
@@ -1021,6 +1153,78 @@
     </ClCompile>
     <ClCompile Include="..\Code\SpawningPool.cpp">
       <Filter>02. GameObject\01. Stage\05. Monster\99. SpawningPool</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\BossProjectile.cpp">
+      <Filter>02. GameObject\01. Stage\999. Boss\01. AttackEff\01. AttackFire</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\FirePattern.cpp">
+      <Filter>02. GameObject\01. Stage\999. Boss\02. State\03. Attack\01. FirePattern</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Header\Boss_SkeletonSpawnPattern.cpp">
+      <Filter>02. GameObject\01. Stage\999. Boss\02. State\03. Attack\06. Spawn_Skeleton</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Boss_Skeleton.cpp">
+      <Filter>02. GameObject\01. Stage\999. Boss\01. AttackEff\06. Boss_Skeleton</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Move_BossSkeleton.cpp">
+      <Filter>02. GameObject\01. Stage\999. Boss\01. AttackEff\06. Boss_Skeleton\01. State\01.Move</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Jump_BossSkeleton.cpp">
+      <Filter>02. GameObject\01. Stage\999. Boss\01. AttackEff\06. Boss_Skeleton\01. State\02. Jump</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Explosion_BossSkeleton.cpp">
+      <Filter>02. GameObject\01. Stage\999. Boss\01. AttackEff\06. Boss_Skeleton\01. State\03. Explosion</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Dead_BossSkeleton.cpp">
+      <Filter>02. GameObject\01. Stage\999. Boss\01. AttackEff\06. Boss_Skeleton\01. State\04. Dead</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Boss_SturnEffect.cpp">
+      <Filter>02. GameObject\01. Stage\999. Boss\02. State\05. Sturn\01. Stunr_Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\WakeUp_BossSkeleton.cpp">
+      <Filter>02. GameObject\01. Stage\999. Boss\01. AttackEff\06. Boss_Skeleton\01. State\00. Wake_Up</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Npc_Trader.cpp">
+      <Filter>02. GameObject\01. Stage\07. NPC\01. Trader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Npc_Alchemist.cpp">
+      <Filter>02. GameObject\01. Stage\07. NPC\02. Alchemist</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Trader_Idle.cpp">
+      <Filter>02. GameObject\01. Stage\07. NPC\01. Trader\01. State</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Alchemist_Idle.cpp">
+      <Filter>02. GameObject\01. Stage\07. NPC\02. Alchemist\01. State</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Npc_Bard.cpp">
+      <Filter>02. GameObject\01. Stage\07. NPC\03. Bard</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Bard_Idle.cpp">
+      <Filter>02. GameObject\01. Stage\07. NPC\03. Bard\01. State</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\OldMan_Idle.cpp">
+      <Filter>02. GameObject\01. Stage\07. NPC\04. OldMan\01. State</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Npc_OldMan.cpp">
+      <Filter>02. GameObject\01. Stage\07. NPC\04. OldMan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Dog_Idle.cpp">
+      <Filter>02. GameObject\01. Stage\07. NPC\05. Dog\01. State\01. Idle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Dog_Stand.cpp">
+      <Filter>02. GameObject\01. Stage\07. NPC\05. Dog\01. State\02. Stand</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Npc_Dog.cpp">
+      <Filter>02. GameObject\01. Stage\07. NPC\05. Dog</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Npc_Wizard.cpp">
+      <Filter>02. GameObject\01. Stage\07. NPC\06. Wizard</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\NPC_Wizard_Idle.cpp">
+      <Filter>02. GameObject\01. Stage\07. NPC\06. Wizard\01. State</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CUIspeech.cpp">
+      <Filter>02. GameObject\03. UI\02. UItooltip</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

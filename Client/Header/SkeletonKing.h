@@ -27,6 +27,7 @@ public:
 
 public:
 	void		ForceHeight(_vec3 _vPos);
+	void		ReSet_Sturn() { m_iHitCount = 0; }
 	void		Set_Terrain(CTerrain* _pCurrentTerrain) { m_pTerrain = _pCurrentTerrain; }
 	CTerrain*	Get_Terrain() { return m_pTerrain; }
 	virtual _float		Get_Frame() { return m_fFrame; }
@@ -49,7 +50,8 @@ private:
 	CAnimator*  m_pAnimator = nullptr;
 
 	_float		m_fFrame = 0;
-
+	_float		m_fHitCool;
+	_uint		m_iHitCount;
 public:
 	static CSkeletonKing* Create(LPDIRECT3DDEVICE9 pGraphicDev);
 

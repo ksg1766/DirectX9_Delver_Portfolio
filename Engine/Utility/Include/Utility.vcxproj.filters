@@ -178,6 +178,9 @@
     <Filter Include="04. Component\01. VIBuffer\04. CubeBf\00. CubeColBf">
       <UniqueIdentifier>{30cfb3e9-9adf-4b38-a7ea-b2a43f671f0a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. GameObject\08.  NPC">
+      <UniqueIdentifier>{9defc036-df09-4c41-9791-f0a360f91275}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Header\Scene.h">
@@ -318,6 +321,9 @@
     <ClInclude Include="..\..\Header\CubeColBf.h">
       <Filter>04. Component\01. VIBuffer\04. CubeBf\00. CubeColBf</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Header\Npc.h">
+      <Filter>03. GameObject\08.  NPC</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\Scene.cpp">
@@ -454,6 +460,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\CubeColBf.cpp">
       <Filter>04. Component\01. VIBuffer\04. CubeBf\00. CubeColBf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Npc.cpp">
+      <Filter>03. GameObject\08.  NPC</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

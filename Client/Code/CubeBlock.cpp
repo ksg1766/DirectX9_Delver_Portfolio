@@ -75,6 +75,7 @@ void CCubeBlock::Render_Object(void)
 #if _DEBUG
 	//m_pCollider->Render_Collider();
 #endif _DEBUG
+
 }
 
 void CCubeBlock::OnCollisionEnter(CCollider* _pOther)

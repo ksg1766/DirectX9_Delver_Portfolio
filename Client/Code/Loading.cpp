@@ -108,6 +108,7 @@ _uint CLoading::Loading_ForStage()
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_SkeletonAttack", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Entities/Undead/BasicSkeleton/Attack/Attack%d.png", 5)), E_FAIL);
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_SkeletonHit", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Entities/Undead/BasicSkeleton/Hit/Hit%d.png", 6)), E_FAIL);
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_SkeletonDead", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Entities/Undead/BasicSkeleton/Dead/Dead%d.png", 1)), E_FAIL);
+		//FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_SkeletonReverse", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Entities/Undead/BasicSkeleton/ReverseHit/Reverse%d.png", 6)), E_FAIL);
 
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_MonsterBullet", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Effect/Monster_Bullet/Monster_Bullet%d.png", 2)), E_FAIL);
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_MonsterBulletDelete", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Effect/Monster_Bullet/Monster_BulletDelete%d.png", 2)), E_FAIL);
@@ -135,6 +136,8 @@ _uint CLoading::Loading_ForStage()
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_NumberUI",          CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/Number/%d.png", 16)), E_FAIL);
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_EscButtonUI",       CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/EscUI/Button%d.png", 6)), E_FAIL);
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_EscBackgroundUI",   CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/EscUI/EscBase.png", 1)), E_FAIL);
+		//Test SpeechBubble
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_SpeechBubbleUI",	CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/Inventory/tooltip/tooltip.png")), E_FAIL);
 #pragma endregion UI
 
 #pragma region Boss
@@ -150,11 +153,22 @@ _uint CLoading::Loading_ForStage()
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_BossFire",			CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Effect/Fire/Fire%d.png", 8)), E_FAIL);
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_BossDead",			CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Entities/Boss/Wreck/Boss_Wreck.png")), E_FAIL);
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_BossChanneling",	CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Entities/Boss/Channeling/Boss_Channeling%d.png",5)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Sturn",				CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Effect/Star/Star%d.png", 9)), E_FAIL);
 #pragma endregion Boss
 
 #pragma region Collider
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Collider", CCollider::Create(m_pGraphicDev)), E_FAIL);
 #pragma endregion Collider
+
+#pragma region NPC
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_NpcTrader", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/NPC/ManNPC/Man%d.png", 17)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_NpcAlchemist", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/NPC/WayfarerNPC/NPC%d.png", 4)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_NpcBard", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/NPC/MinstrelNPC/Minstrel%d.png", 22)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_NpcOldMan", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/NPC/GrandFaNPC/NPC%d.png", 4)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_NpcDogIdle", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/NPC/DogNPC/DogIdle/DogIdle%d.png", 17)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_NpcDogStand", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/NPC/DogNPC/DogStand/DogStand%d.png", 16)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_NpcWizard", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/NPC/WizardNPC/Wizard%d.png", 21)), E_FAIL);
+#pragma endregion NPC
 
 		break;
 #pragma endregion Stage

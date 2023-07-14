@@ -6,7 +6,6 @@
 #include "SkyBox.h"
 #include "Player.h"
 #include "CubeBlock.h"
-#include "SkeletonKing.h"
 
 #include "UIplayerhp.h"
 #include "UIplayerstat.h"
@@ -22,10 +21,7 @@
 #include "UIQuitButton.h"
 
 #include "SkeletonKing.h"
-#include "BossProjectile.h"
-#include "BossExplosion.h"
-
-#include "Boss_MeteorCube.h"
+#include "Npc_OldMan.h"
 
 class CStage : public Engine::CScene
 {

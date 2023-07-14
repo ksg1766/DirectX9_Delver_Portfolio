@@ -43,7 +43,8 @@ STATE CFirePattern::Update_State(const _float& fTimeDelta)
         if (2 < m_iSkillCount)
         {
             m_iSkillCount = 0;
-            return STATE::BOSS_IDLE;
+            //return STATE::BOSS_IDLE;
+            return STATE::BOSS_EXPLOSION;
         }
 }
 
@@ -54,7 +55,6 @@ void CFirePattern::LateUpdate_State()
 
 void CFirePattern::Render_State()
 {
-    cout << "Boss FirePattern" << endl;
 }
 
 

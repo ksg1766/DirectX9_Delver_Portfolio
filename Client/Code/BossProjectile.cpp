@@ -23,9 +23,6 @@ HRESULT CBossProjectile::Ready_Object(void)
 	m_eObjectTag = OBJECTTAG::MONSTERBULLET;
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
-	m_pCollider->InitOBB(
-		m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT],
-		m_pTransform->LocalScale() * 0.8);
 
 	m_pBasicStat->Get_Stat()->fAttack = 5.f;
 
@@ -69,11 +66,11 @@ void CBossProjectile::Render_Object(void)
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 	m_pTexture->Render_Texture((_uint)m_fFrame);
-	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 	m_pBuffer->Render_Buffer();
 #if _DEBUG
 	m_pCollider->Render_Collider();
 #endif
+	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
 

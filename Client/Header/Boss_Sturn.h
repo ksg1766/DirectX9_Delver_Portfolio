@@ -25,6 +25,7 @@ private:
 private:
     //º¯¼ö
     _float m_fCount;
+    _bool   m_bStar;
 public:
     static CBoss_Sturn* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
 
