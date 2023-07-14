@@ -218,12 +218,12 @@ void CTempItem::OnCollisionEnter(CCollider* _pOther)
 			dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_BasicStat()->Take_Damage(1.f);
 			pPlayer.Set_AttackTick(true);
 
-			++iCount;
+			++g_iCount;
 
 			if (dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_StateMachine()->Get_PrevState() != STATE::HIT
-				&& iCount > 4)
+				&& g_iCount > 4)
 			{
-				iCount = 0;
+				g_iCount = 0;
 				dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_StateMachine()->Set_State(STATE::HIT);
 			}
 

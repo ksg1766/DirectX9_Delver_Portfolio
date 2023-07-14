@@ -161,7 +161,8 @@ void CUIManager::AddItemGameobject_UI(CGameObject* pGameObject)
 
 	// 이미 보유하고 있는 아이템인지 검사한다.
 	// 기본 슬롯 5개 먼저 검사
-	for (auto iter : m_vecBasicItem) {
+	for (auto iter : m_mapPpopupUI[POPUP_ITEM][UI_DOWN])
+	{
 		if (iter != nullptr)
 		{
 			ITEMTYPEID SlotItemType = dynamic_cast<CUIitem*>(iter)->Get_ItemTag();
