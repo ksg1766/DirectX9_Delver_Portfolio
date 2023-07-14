@@ -18,6 +18,15 @@ private:
 	virtual ~CUIbasicslot();
 
 public:
+	void        Set_FindSlot(_bool bFind)
+	{
+		m_bEquip = bFind;
+		if (m_bEquip) {
+			m_fCurrentImage = 20;
+		}
+	}
+
+public:
 	HRESULT		Ready_Object();
 	_int		Update_Object(const _float& fTimeDelta);
 	void		LateUpdate_Object(void);
@@ -30,6 +39,7 @@ private:
 private:
 	CTexture* m_pNumberTextureCom;
 	_uint     m_fCurrentNumber;
+	_bool     m_bEquip = false;
 
 public:
 	static CUIbasicslot*	Create(LPDIRECT3DDEVICE9 pGraphicDev);

@@ -1,5 +1,7 @@
 #include "stdafx.h"
 #include "..\Header\UIitem.h"
+#include "UIequipmentslot.h"
+#include "Player.h"
 
 CUIitem::CUIitem(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CTempUI(pGraphicDev)
@@ -142,8 +144,6 @@ void CUIitem::Key_Input(void)
 
 	if (OnCollision(pt, m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y))
 	{
-		m_bCollider = true;
-
 		// 아이템 UI를 눌렀다가 가져다 놨을 때 해당 마우스 위치의 슬롯이 비어있는지 판별 후 여부에 따른 처리
 		if (Engine::InputDev()->Mouse_Pressing(DIM_LB))
 		{
@@ -153,28 +153,65 @@ void CUIitem::Key_Input(void)
 			m_pTransform->m_vInfo[INFO_POS].x = pt.x;
 			m_pTransform->m_vInfo[INFO_POS].y = pt.y;
 			WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);
+
+			if (m_ItemID.eItemType == ITEMTYPE_GENERALITEM || m_ItemID.eItemType == ITEMTYPE_EQUIPITEM)
+			{
+				// 슬롯 중에서 해당 UInumber 슬롯을 찾고 해당 슬롯 이미지 변경
+				CGameObject* SlotObj = Engine::UIManager()->Get_PopupObject(Engine::UIPOPUPLAYER::POPUP_EQUIPMENT, Engine::UILAYER::UI_DOWN, UIID_SLOTEQUIPMENT, m_UINumber);
+				dynamic_cast<CUIequipmentslot*>(dynamic_cast<CTempUI*>(SlotObj))->Set_FindSlot(true);
+			}
 		}
 		else
 		{
 			if (m_bMove)
 			{
 				m_bMove = false;
+
+				UIOBJECTTTAG UIObjID;
+				_uint        UINumber;
+
 				CGameObject* ColliderSlotObj = Engine::UIManager()->Find_ColliderSlot();
 
 				if (ColliderSlotObj == nullptr)
 				{
-					// 버리기
-					dynamic_cast<CTempUI*>(Get_Parent())->Set_EmptyBool(true);
+					//// 해당 아이템 버리기
+					//// 인벤토리에서 해당 아이템 아예 삭제 + 해당 개수 만큼 앞에다가 버림
+					//CPlayer* pPlayer = dynamic_cast<CPlayer*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
+					//CInventory* Inventory = dynamic_cast<CInventory*>(pPlayer->Get_Component(COMPONENTTAG::INVENTORY, ID_DYNAMIC));
 
+					//if(m_ItemID.iCount == 1)
+					//{
+					//	switch (m_ItemID.eItemType)
+					//	{
+					//	case ITEMTYPE_WEAPONITEM:
+					//		pPlayer->Set_CurrentEquipRight(nullptr);
+					//		pPlayer->Set_ItemEquipRight(false);
+					//		break;
+					//	case ITEMTYPE_GENERALITEM:
+					//		pPlayer->Set_CurrentEquipLeft(nullptr);
+					//		pPlayer->Set_ItemEquipLeft(false);
+					//		break;
+					//	}
 
+					//	dynamic_cast<CTempUI*>(Get_Parent())->Set_EmptyBool(true);
+					//	Engine::UIManager()->Delete_FindItemUI(m_ItemID);
+					//	Inventory->delete_FindItem(m_ItemID);
+					//}
+				 //   else
+				 //   {
+					//	m_ItemID.iCount -= 1;
+                        m_pTransform->m_vInfo[INFO_POS].x = Get_Parent()->m_pTransform->m_vInfo[INFO_POS].x;
+						m_pTransform->m_vInfo[INFO_POS].y = Get_Parent()->m_pTransform->m_vInfo[INFO_POS].y;
+						WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);
+				 //       
+					//	Inventory->delete_FindItem(m_ItemID);
+					//}
 				}
-				else if (ColliderSlotObj != nullptr && dynamic_cast<CTempUI*>(ColliderSlotObj)->Get_EmptyBool())
+				else if (ColliderSlotObj != nullptr)
 				{
 					_bool bSucess = false;
 
-					UIOBJECTTTAG UIObjID; 
-					_uint _UINumber;
-					dynamic_cast<CTempUI*>(ColliderSlotObj)->Get_UIObjID(UIObjID, _UINumber);
+					dynamic_cast<CTempUI*>(ColliderSlotObj)->Get_UIObjID(UIObjID, UINumber);
 
 					switch (UIObjID)
 					{
@@ -185,13 +222,11 @@ void CUIitem::Key_Input(void)
 						bSucess = true;
 						break;
 					case Engine::UIID_SLOTEQUIPMENT:
-						if (m_UINumber == _UINumber)
-						{
+						if (m_UINumber == UINumber) {
 							bSucess = true;
 						}
-						else
-						{
-							bSucess = true;
+						else {
+							bSucess = false;
 						}
 						break;
 					}
@@ -205,16 +240,29 @@ void CUIitem::Key_Input(void)
 						WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);
 
 						Set_Parent(ColliderSlotObj);
+						dynamic_cast<CTempUI*>(Get_Parent())->Set_Child(this);
 						dynamic_cast<CTempUI*>(Get_Parent())->Set_EmptyBool(false);
+
+
+						// 장착 성공 시 해당 정보 인벤토리에 업데이트
+						CPlayer* pPlayer = dynamic_cast<CPlayer*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
+						if (pPlayer) { // 위치 이동 및 이전 위치에는 정보 초기화 (해제 X)
+							CInventory* Inventory = dynamic_cast<CInventory*>(pPlayer->Get_Component(COMPONENTTAG::INVENTORY, ID_DYNAMIC));
+							Inventory->Switch_InvenItem(m_ItemID, UIObjID, UINumber); // : 이동한 아이템 아이디, 이동할 슬롯 타입 및 번호
+						}
 					}
 					else
 					{
-
+						m_pTransform->m_vInfo[INFO_POS].x = Get_Parent()->m_pTransform->m_vInfo[INFO_POS].x;
+						m_pTransform->m_vInfo[INFO_POS].y = Get_Parent()->m_pTransform->m_vInfo[INFO_POS].y;
+						WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);
 					}
 				}
-				else
-				{
 
+				if (m_ItemID.eItemType == ITEMTYPE_GENERALITEM || m_ItemID.eItemType == ITEMTYPE_EQUIPITEM)
+				{
+					CGameObject* SlotObj = Engine::UIManager()->Get_PopupObject(Engine::UIPOPUPLAYER::POPUP_EQUIPMENT, Engine::UILAYER::UI_DOWN, UIID_SLOTEQUIPMENT, m_UINumber);
+					dynamic_cast<CUIequipmentslot*>(dynamic_cast<CTempUI*>(SlotObj))->Set_FindSlot(false);
 				}
 			}
 		}
@@ -229,7 +277,6 @@ void CUIitem::Key_Input(void)
 	}
 	else
 	{
-		m_bCollider      = false;
 		m_bTooltipRender = false;
 	}
 }

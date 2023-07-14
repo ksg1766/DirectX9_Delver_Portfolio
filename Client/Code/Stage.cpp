@@ -12,6 +12,7 @@
 #include "Skeleton.h"
 
 #include "Box_Cube.h"
+#include <EffectSquare.h>
 CStage::CStage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
 {
@@ -52,6 +53,17 @@ void CStage::LateUpdate_Scene()
 
 	CollisionManager()->LateUpdate_Collision();
 	UIManager()->LateUpdate_UI();
+
+	if (Engine::InputDev()->Key_Down(DIK_7))
+	{
+		ParticleBoundingBox EffectBox;
+		EffectBox.vMin = { -100.f, -100.f, -100.f };
+		EffectBox.vMax = { 100.f, 100.f, 100.f };
+
+		// 시작점 , 개수
+		Engine::CGameObject* pGameObject = CEffectSquare::Create(m_pGraphicDev, _vec3(0.f, 5.f, 0.f), 1000, &EffectBox, L"../Bin/SRSource/Effect/Square_effect/Square_effect3.png");
+		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+	}
 }
 
 void CStage::Render_Scene()
@@ -185,6 +197,9 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	pGameObject->m_pTransform->Translate(_vec3(50.f, 0.f, 50.f));
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 	dynamic_cast<CSkeletonKing*>(pGameObject)->Set_Terrain(dynamic_cast<CTerrain*>(pLayer->Get_ObjectList(OBJECTTAG::TERRAIN).front()));
+
+
+
 
 	return S_OK;
 }

@@ -128,12 +128,14 @@ void CUIbasicslot::Key_Input(void)
 
 	if (OnCollision(pt, m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y))
 	{
-		m_fCurrentImage = 1;
+		if(!m_bEquip)
+			m_fCurrentImage = 1;
 		Engine::UIManager()->Set_ColliderSlot(m_UIObjID, m_UINumber, true);
 	}
 	else
 	{
-		m_fCurrentImage = 0;
+		if (!m_bEquip)
+			m_fCurrentImage = 0;
 		Engine::UIManager()->Set_ColliderSlot(m_UIObjID, m_UINumber, false);
 	}
 }

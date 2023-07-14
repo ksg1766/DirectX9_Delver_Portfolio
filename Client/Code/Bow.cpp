@@ -26,16 +26,23 @@ HRESULT CBow::Ready_Object(void)
 	m_eObjectTag = OBJECTTAG::ITEM;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pTransform->m_pParent->Get_Host());
-	m_pTransform->Copy_RUL(pPlayer->m_pTransform->m_vInfo);
 	m_pTransform->Scale(_vec3(0.3f, 0.3f, 0.3f));
 
-	m_pTransform->Translate(pPlayer->m_pTransform->m_vInfo[INFO_POS] + *dynamic_cast<CPlayer*>(pPlayer)->Get_Offset());
-	m_fSignTime = 1.f;
-	m_fChase = 0.f;
-	m_fChase2 = 0.f;
-	m_fAngle = 0.f;
-	m_iCount = 0;
+	CPlayer* pPlayer = dynamic_cast<CPlayer*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
+
+	if (pPlayer->Get_CurrentEquipRight() == nullptr)
+	{
+		//m_pTransform->Copy_RUL(pPlayer->m_pTransform->m_vInfo);
+		
+
+		m_pTransform->Translate(pPlayer->m_pTransform->m_vInfo[INFO_POS] + *dynamic_cast<CPlayer*>(pPlayer)->Get_Offset());
+		m_fSignTime = 1.f;
+		m_fChase = 0.f;
+		m_fChase2 = 0.f;
+		m_fAngle = 0.f;
+		m_iCount = 0;
+	}
+	//CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pTransform->m_pParent->Get_Host());
 
 	// 타입 및 아이디 지정
 	m_ItemID.eItemType = ITEMTYPE_WEAPONITEM;
@@ -143,8 +150,13 @@ HRESULT CBow::Add_Component(void)
 		for (auto& iter : m_mapComponent[i])
 			iter.second->Init_Property(this);
 
-	m_pTransform->Set_Parent(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform);
-	m_pTransform->Copy_RUL(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform->m_vInfo);
+	CPlayer* pPlayer = dynamic_cast<CPlayer*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
+
+	if (pPlayer->Get_CurrentEquipRight() == nullptr)
+	{
+		m_pTransform->Set_Parent(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform);
+		m_pTransform->Copy_RUL(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform->m_vInfo);
+	}
 
 	return S_OK;
 }
