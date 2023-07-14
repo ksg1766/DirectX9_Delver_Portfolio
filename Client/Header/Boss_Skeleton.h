@@ -39,8 +39,9 @@ private:
     CTexture* m_pTexture[static_cast<_uint>(STATE::STATE_END)] = {};
     CTerrain* m_pTerrain = nullptr;
     CAnimator* m_pAnimator = nullptr;
+    CBillBoard* m_pBillBoard = nullptr;
 
-
+    _bool        m_bOnObb;
     _bool        m_bAttackTick;
     _float        m_fFrame;
 

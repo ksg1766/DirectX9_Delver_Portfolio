@@ -26,6 +26,7 @@ private:
     _float m_fDelay;
     _int    m_iSkillCount;
 
+    _bool   m_bPattern;
     _vec3 m_vExplosionin1[4];
     _vec3 m_vExplosionin2[4];
 public:

@@ -1,8 +1,11 @@
 #include "Boss_Skeleton.h"
 #include "Export_Function.h"
 #include "Terrain.h"
-
-#include "Player.h"
+#include "Move_BossSkeleton.h"
+#include "Jump_BossSkeleton.h"
+#include "Explosion_BossSkeleton.h"
+#include "Dead_BossSkeleton.h"
+#include "WakeUp_BossSkeleton.h"
 
 CBoss_Skeleton::CBoss_Skeleton(LPDIRECT3DDEVICE9 pGrapicDev)
     : Engine::CMonster(pGrapicDev)
@@ -21,17 +24,51 @@ CBoss_Skeleton::~CBoss_Skeleton()
 
 HRESULT CBoss_Skeleton::Ready_Object()
 {
-    Set_ObjectTag(OBJECTTAG::MONSTERBULLET);
+    Set_ObjectTag(OBJECTTAG::MONSTER);
     FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
     m_pBasicStat->Get_Stat()->fHealth = 3.f;
-
     m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
+  /*  CState* pState = CWakeUp_BossSkeleton::Create(m_pGraphicDev, m_pStateMachine);
+    m_pStateMachine->Add_State(STATE::IDLE, pState);*/
 
-    //CState* pState = CBoss_Idle::Create(m_pGraphicDev, m_pStateMachine);
-    //m_pStateMachine->Add_State(STATE::BOSS_IDLE, pState);
+    CState*  pState = CDead_BossSkeleton::Create(m_pGraphicDev, m_pStateMachine);
+    m_pStateMachine->Add_State(STATE::DEAD, pState);
 
+    pState = CMove_BossSkeleton::Create(m_pGraphicDev, m_pStateMachine);
+    m_pStateMachine->Add_State(STATE::ROMIMG, pState);
 
+    pState = CJump_BossSkeleton::Create(m_pGraphicDev, m_pStateMachine);
+    m_pStateMachine->Add_State(STATE::ATTACK, pState);
 
+    pState = CExplosion_BossSkeleton::Create(m_pGraphicDev, m_pStateMachine);
+    m_pStateMachine->Add_State(STATE::HIT, pState);
+
+#pragma region 애니메이션
+    CAnimation* pAnimation = CAnimation::Create(m_pGraphicDev,
+        m_pTexture[(_uint)STATE::DEAD], STATE::DEAD, 8.f, FALSE);
+    m_pAnimator->Add_Animation(STATE::DEAD, pAnimation);
+
+  /*  pAnimation = CAnimation::Create(m_pGraphicDev,
+        m_pTexture[(_uint)STATE::IDLE], STATE::IDLE, 8.f, FALSE);
+    m_pAnimator->Add_Animation(STATE::IDLE, pAnimation);*/
+
+    pAnimation = CAnimation::Create(m_pGraphicDev,
+        m_pTexture[(_uint)STATE::ROMIMG], STATE::ROMIMG, 8.f, TRUE);
+    m_pAnimator->Add_Animation(STATE::ROMIMG, pAnimation);
+
+    pAnimation = CAnimation::Create(m_pGraphicDev,
+        m_pTexture[(_uint)STATE::ATTACK], STATE::ATTACK, 8.f, FALSE);
+    m_pAnimator->Add_Animation(STATE::ATTACK, pAnimation);
+
+    pAnimation = CAnimation::Create(m_pGraphicDev,
+        m_pTexture[(_uint)STATE::HIT], STATE::HIT, 8.f, FALSE);
+    m_pAnimator->Add_Animation(STATE::HIT, pAnimation);
+#pragma endregion 애니메이션
+
+    m_pStateMachine->Set_Animator(m_pAnimator);
+    m_pStateMachine->Set_State(STATE::ROMIMG);
+
+    m_pTransform->Translate(_vec3(0.f, -3.f, 0.2f));
     return S_OK;
 }
 
@@ -43,15 +80,17 @@ _int CBoss_Skeleton::Update_Object(const _float& fTimeDelta)
 
     _int iExit = __super::Update_Object(fTimeDelta);
 
-
+    ForceHeight(m_pTransform->m_vInfo[INFO_POS]);
+    m_pStateMachine->Update_StateMachine(fTimeDelta);
     return iExit;
 }
 
 void CBoss_Skeleton::LateUpdate_Object()
 {
     if (SceneManager()->Get_GameStop()) { return; }
+    m_pBillBoard->LateUpdate_Component();
     __super::LateUpdate_Object();
-
+    __super::Compute_ViewZ(&m_pTransform->m_vInfo[INFO_POS]);
 }
 
 void CBoss_Skeleton::Render_Object()
@@ -75,10 +114,92 @@ void CBoss_Skeleton::Render_Object()
 
 void CBoss_Skeleton::OnCollisionEnter(CCollider* _pOther)
 {
+    if (SceneManager()->Get_GameStop()) { return; }
+
+    _vec3	vOtherPos = _pOther->GetCenterPos();
+    _float* fOtherAxis = _pOther->GetAxisLen();
+
+    _vec3	vThisPos = m_pCollider->GetCenterPos();
+    _float* fThisAxis = m_pCollider->GetAxisLen();
+
+    // OBJECTTAG에 따른 예외 처리 가능성
+    _float fWidth = fabs(vOtherPos.x - vThisPos.x);
+    _float fHeight = fabs(vOtherPos.y - vThisPos.y);
+    _float fDepth = fabs(vOtherPos.z - vThisPos.z);
+
+    _float fRadiusX = (fOtherAxis[0] + fThisAxis[0]) - fWidth;
+    _float fRadiusY = (fOtherAxis[1] + fThisAxis[1]) - fHeight;
+    _float fRadiusZ = (fOtherAxis[2] + fThisAxis[2]) - fDepth;
+
+    _float fMinAxis = min(min(fRadiusX, fRadiusY), fRadiusZ);	// 가장 작은 값이 가장 얕게 충돌한 축. 이 축을 밀어내야 함.
+
+    if (fRadiusX == fMinAxis)
+    {
+        if (vOtherPos.x < vThisPos.x)
+            m_pTransform->Translate(_vec3(fRadiusX, 0.f, 0.f));
+        else
+            m_pTransform->Translate(_vec3(-fRadiusX, 0.f, 0.f));
+    }
+    else if (fRadiusZ == fMinAxis)
+    {
+        if (vOtherPos.z < vThisPos.z)
+            m_pTransform->Translate(_vec3(0.f, 0.f, fRadiusZ));
+        else
+            m_pTransform->Translate(_vec3(0.f, 0.f, -fRadiusZ));
+    }
+    else //(fRadiusY == fMinAxis)
+    {
+        if (vOtherPos.y < vThisPos.y)
+            m_pTransform->Translate(_vec3(0.f, fRadiusY, 0.f));
+        else
+            m_pTransform->Translate(_vec3(0.f, -fRadiusY, 0.f));
+    }
 }
 
 void CBoss_Skeleton::OnCollisionStay(CCollider* _pOther)
 {
+    if (SceneManager()->Get_GameStop()) { return; }
+
+#pragma region 밀어내기
+    _vec3	vOtherPos = _pOther->GetCenterPos();
+    _float* fOtherAxis = _pOther->GetAxisLen();
+
+    _vec3	vThisPos = m_pCollider->GetCenterPos();
+    _float* fThisAxis = m_pCollider->GetAxisLen();
+
+    // OBJECTTAG에 따른 예외 처리 가능성
+    _float fWidth = fabs(vOtherPos.x - vThisPos.x);
+    _float fHeight = fabs(vOtherPos.y - vThisPos.y);
+    _float fDepth = fabs(vOtherPos.z - vThisPos.z);
+
+    _float fRadiusX = (fOtherAxis[0] + fThisAxis[0]) - fWidth;
+    _float fRadiusY = (fOtherAxis[1] + fThisAxis[1]) - fHeight;
+    _float fRadiusZ = (fOtherAxis[2] + fThisAxis[2]) - fDepth;
+
+    _float fMinAxis = min(min(fRadiusX, fRadiusY), fRadiusZ);	// 가장 작은 값이 가장 얕게 충돌한 축. 이 축을 밀어내야 함.
+
+    if (fRadiusX == fMinAxis)
+    {
+        if (vOtherPos.x < vThisPos.x)
+            m_pTransform->Translate(_vec3(fRadiusX, 0.f, 0.f));
+        else
+            m_pTransform->Translate(_vec3(-fRadiusX, 0.f, 0.f));
+    }
+    else if (fRadiusZ == fMinAxis)
+    {
+        if (vOtherPos.z < vThisPos.z)
+            m_pTransform->Translate(_vec3(0.f, 0.f, fRadiusZ));
+        else
+            m_pTransform->Translate(_vec3(0.f, 0.f, -fRadiusZ));
+    }
+    else //(fRadiusY == fMinAxis)
+    {
+        if (vOtherPos.y < vThisPos.y)
+            m_pTransform->Translate(_vec3(0.f, fRadiusY, 0.f));
+        else
+            m_pTransform->Translate(_vec3(0.f, -fRadiusY, 0.f));
+    }
+#pragma endregion 밀어내기
 }
 
 void CBoss_Skeleton::OnCollisionExit(CCollider* _pOther)
@@ -101,7 +222,7 @@ HRESULT CBoss_Skeleton::Add_Component()
     NULL_CHECK_RETURN(pComponent, E_FAIL);
     m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::COLLIDER, pComponent);
 
-    pComponent = dynamic_cast<CBillBoard*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BillBoard"));
+    pComponent = m_pBillBoard = dynamic_cast<CBillBoard*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BillBoard"));
     NULL_CHECK_RETURN(pComponent, E_FAIL);
     m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BILLBOARD, pComponent);
 
@@ -116,6 +237,28 @@ HRESULT CBoss_Skeleton::Add_Component()
     pComponent = m_pBasicStat = dynamic_cast<CBasicStat*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BasicStat"));
     NULL_CHECK_RETURN(pComponent, E_FAIL);
     m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BASICSTAT, pComponent);
+
+#pragma region 텍스쳐 컴포넌트
+    pComponent = m_pTexture[(_uint)STATE::ROMIMG] = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_Skeleton"));
+    NULL_CHECK_RETURN(pComponent, E_FAIL);
+    m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
+
+    pComponent = m_pTexture[(_uint)STATE::ATTACK] = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_SkeletonAttack"));
+    NULL_CHECK_RETURN(pComponent, E_FAIL);
+    m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
+
+    pComponent = m_pTexture[(_uint)STATE::HIT] = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_SkeletonHit"));
+    NULL_CHECK_RETURN(pComponent, E_FAIL);
+    m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
+
+    pComponent = m_pTexture[(_uint)STATE::DEAD] = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_SkeletonDead"));
+    NULL_CHECK_RETURN(pComponent, E_FAIL);
+    m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
+
+    /*pComponent = m_pTexture[(_uint)STATE::IDLE] = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_SkeletonReverse"));
+    NULL_CHECK_RETURN(pComponent, E_FAIL);
+    m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);*/
+#pragma endregion 텍스쳐 컴포넌트
 
     for (_uint i = 0; i < ID_END; ++i)
         for (auto& iter : m_mapComponent[i])

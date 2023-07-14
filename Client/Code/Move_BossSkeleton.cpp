@@ -28,14 +28,15 @@ STATE CMove_BossSkeleton::Update_State(const _float& fTimeDelta)
     m_fCool += fTimeDelta;
     m_vTargetPos = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform->m_vInfo[INFO_POS];
     m_vDir = m_vTargetPos - m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
+    D3DXVec3Normalize(&m_vDir, &m_vDir);
+    m_pOwner->Get_Transform()->Translate((m_vDir * m_fSpeed) * fTimeDelta);
 
-    dynamic_cast<CBoss_Skeleton*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->m_pTransform->Translate((m_vDir * m_fSpeed) * fTimeDelta);
-
-    if (5.f < m_fCool)
+    if (3.f < m_fCool)
     {
         m_fCool = 0.f;
         return STATE::ATTACK;
     }
+    return STATE::ROMIMG;
 }
 
 void CMove_BossSkeleton::LateUpdate_State()

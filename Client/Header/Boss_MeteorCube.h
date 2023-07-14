@@ -22,7 +22,7 @@ public:
 
 public:
     virtual void    Set_Center(_vec3    _CenterPos);
-   
+    virtual void    Set_PlayerPos();
     virtual void    Set_ChannelingEnd() { m_bChanneling_End = true; }
 
     virtual void    Channeling_Begin();
@@ -42,9 +42,13 @@ private:
 
     STATE   m_eState;
 
+    _vec3 m_vDir;
+
+    _float   m_fEndTime;
     _float   m_fScale;
     _float   m_bMaxHeight;
 
+    _bool   m_bChanneling_Start;
     _bool   m_bChanneling_End;
 
     _vec3 m_vCenter;

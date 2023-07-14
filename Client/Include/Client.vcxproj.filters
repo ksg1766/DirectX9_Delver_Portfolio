@@ -400,8 +400,14 @@
     <Filter Include="02. GameObject\01. Stage\999. Boss\01. AttackEff\06. Boss_Skeleton\01. State\03. Explosion">
       <UniqueIdentifier>{6990ba9b-edc8-42db-a9f6-7596a603899c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\01. Stage\999. Boss\01. AttackEff\06. Boss_Skeleton\04. Dead">
+    <Filter Include="02. GameObject\01. Stage\999. Boss\01. AttackEff\06. Boss_Skeleton\01. State\04. Dead">
       <UniqueIdentifier>{6424ae2a-617d-4086-bf43-1d0cb8619680}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\999. Boss\02. State\05. Sturn\01. Stunr_Effect">
+      <UniqueIdentifier>{8780464c-a249-4aef-8385-23d54e9395b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\999. Boss\01. AttackEff\06. Boss_Skeleton\01. State\00. Wake_Up">
+      <UniqueIdentifier>{98dcee3d-a089-4a64-91ea-b07f72f380b8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -735,6 +741,18 @@
     <ClInclude Include="..\Header\Jump_BossSkeleton.h">
       <Filter>02. GameObject\01. Stage\999. Boss\01. AttackEff\06. Boss_Skeleton\01. State\02. Jump</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\Explosion_BossSkeleton.h">
+      <Filter>02. GameObject\01. Stage\999. Boss\01. AttackEff\06. Boss_Skeleton\01. State\03. Explosion</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Dead_BossSkeleton.h">
+      <Filter>02. GameObject\01. Stage\999. Boss\01. AttackEff\06. Boss_Skeleton\01. State\04. Dead</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Boss_SturnEffect.h">
+      <Filter>02. GameObject\01. Stage\999. Boss\02. State\05. Sturn\01. Stunr_Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\WakeUp_BossSkeleton.h">
+      <Filter>02. GameObject\01. Stage\999. Boss\01. AttackEff\06. Boss_Skeleton\01. State\00. Wake_Up</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -1057,6 +1075,18 @@
     </ClCompile>
     <ClCompile Include="..\Code\Jump_BossSkeleton.cpp">
       <Filter>02. GameObject\01. Stage\999. Boss\01. AttackEff\06. Boss_Skeleton\01. State\02. Jump</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Explosion_BossSkeleton.cpp">
+      <Filter>02. GameObject\01. Stage\999. Boss\01. AttackEff\06. Boss_Skeleton\01. State\03. Explosion</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Dead_BossSkeleton.cpp">
+      <Filter>02. GameObject\01. Stage\999. Boss\01. AttackEff\06. Boss_Skeleton\01. State\04. Dead</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Boss_SturnEffect.cpp">
+      <Filter>02. GameObject\01. Stage\999. Boss\02. State\05. Sturn\01. Stunr_Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\WakeUp_BossSkeleton.cpp">
+      <Filter>02. GameObject\01. Stage\999. Boss\01. AttackEff\06. Boss_Skeleton\01. State\00. Wake_Up</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

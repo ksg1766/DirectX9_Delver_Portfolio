@@ -185,10 +185,13 @@
     <ClInclude Include="..\Header\Boss_MeteorReady.h" />
     <ClInclude Include="..\Header\Boss_Skeleton.h" />
     <ClInclude Include="..\Header\Boss_SkeletonSpawnPattern.h" />
+    <ClInclude Include="..\Header\Boss_SturnEffect.h" />
     <ClInclude Include="..\Header\Boss_Sturn.h" />
     <ClInclude Include="..\Header\Bow.h" />
     <ClInclude Include="..\Header\Box_Cube.h" />
     <ClInclude Include="..\Header\CrawlPattern.h" />
+    <ClInclude Include="..\Header\Dead_BossSkeleton.h" />
+    <ClInclude Include="..\Header\Explosion_BossSkeleton.h" />
     <ClInclude Include="..\Header\Jump_BossSkeleton.h" />
     <ClInclude Include="..\Header\Magic_Ball.h" />
     <ClInclude Include="..\Header\Monster_Dead.h" />
@@ -255,6 +258,7 @@
     <ClInclude Include="..\Header\UIOptionsButton.h" />
     <ClInclude Include="..\Header\UIplayerhp.h" />
     <ClInclude Include="..\Header\UIResumeButton.h" />
+    <ClInclude Include="..\Header\WakeUp_BossSkeleton.h" />
     <ClInclude Include="..\Header\Warrior_Attack.h" />
     <ClInclude Include="..\Header\Wizard.h" />
     <ClInclude Include="..\Header\Wizard_Attack.h" />
@@ -291,9 +295,12 @@
     <ClCompile Include="..\Code\Boss_MeteorReady.cpp" />
     <ClCompile Include="..\Code\Boss_Skeleton.cpp" />
     <ClCompile Include="..\Code\Boss_Sturn.cpp" />
+    <ClCompile Include="..\Code\Boss_SturnEffect.cpp" />
     <ClCompile Include="..\Code\Bow.cpp" />
     <ClCompile Include="..\Code\Box_Cube.cpp" />
     <ClCompile Include="..\Code\CrawlPattern.cpp" />
+    <ClCompile Include="..\Code\Dead_BossSkeleton.cpp" />
+    <ClCompile Include="..\Code\Explosion_BossSkeleton.cpp" />
     <ClCompile Include="..\Code\Jump_BossSkeleton.cpp" />
     <ClCompile Include="..\Code\Magic_Ball.cpp" />
     <ClCompile Include="..\Code\Monster_Dead.cpp" />
@@ -360,6 +367,7 @@
     <ClCompile Include="..\Code\UIOptionsButton.cpp" />
     <ClCompile Include="..\Code\UIplayerhp.cpp" />
     <ClCompile Include="..\Code\UIResumeButton.cpp" />
+    <ClCompile Include="..\Code\WakeUp_BossSkeleton.cpp" />
     <ClCompile Include="..\Code\Warrior_Attack.cpp" />
     <ClCompile Include="..\Code\Wizard.cpp" />
     <ClCompile Include="..\Code\Wizard_Attack.cpp" />

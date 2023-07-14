@@ -21,6 +21,7 @@ HRESULT CExplosionPattern::Ready_State(CStateMachine* pOwner)
 	m_pOwner = pOwner;
     m_fDelay = 0.f;
     m_iSkillCount = 0;
+    m_bPattern = false;
 
     m_vExplosionin1[0] = _vec3(-2.f, 0.f, 2.f);
     m_vExplosionin1[1] = _vec3(2.f, 0.f, 2.f);
@@ -38,24 +39,50 @@ STATE CExplosionPattern::Update_State(const _float& fTimeDelta)
 {
     Engine::CGameObject* pGameObject = nullptr;
     m_fDelay += fTimeDelta;
-    if (0.5f < m_fDelay)
-    { 
-        for (int i = 0; i < 4; ++i)
-        {
-            pGameObject = CBossExplosion::Create(m_pGraphicDev);
-            Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
-            dynamic_cast<CBossExplosion*>(pGameObject)->Set_StartPos(m_pOwner->Get_Transform()->m_vInfo[INFO_POS] + (m_vExplosionin1[i] * m_iSkillCount));
-            //dynamic_cast<CBossExplosion*>(pGameObject)->Set_StartPosY(-2.f);
-        } 
 
-        ++m_iSkillCount;
-        m_fDelay = 0.f;
-    }
-
-    if (3 < m_iSkillCount)
+    if (!m_bPattern)
     {
-        m_iSkillCount = 0.f;
-        return STATE::BOSS_IDLE;
+        if (0.5f < m_fDelay)
+        {
+            for (int i = 0; i < 4; ++i)
+            {
+                pGameObject = CBossExplosion::Create(m_pGraphicDev);
+                dynamic_cast<CBossExplosion*>(pGameObject)->Set_StartPos(m_pOwner->Get_Transform()->m_vInfo[INFO_POS] + (m_vExplosionin1[i] * m_iSkillCount));
+                Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+                //dynamic_cast<CBossExplosion*>(pGameObject)->Set_StartPosY(-2.f);
+            }
+            ++m_iSkillCount;
+            m_fDelay = 0.f;
+        }
+        if (3 < m_iSkillCount)
+        {
+            m_fDelay = 0.f;
+            m_iSkillCount = 0.f;
+            m_bPattern = true;
+        }
+    }
+    else if (m_bPattern)
+    {
+        if (0.5f < m_fDelay)
+        {
+            for (int i = 0; i < 4; ++i)
+            {
+                pGameObject = CBossExplosion::Create(m_pGraphicDev);
+                dynamic_cast<CBossExplosion*>(pGameObject)->Set_StartPos(m_pOwner->Get_Transform()->m_vInfo[INFO_POS] + (m_vExplosionin2[i] * m_iSkillCount));
+                Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+                //dynamic_cast<CBossExplosion*>(pGameObject)->Set_StartPosY(-2.f);
+            }
+            ++m_iSkillCount;
+            m_fDelay = 0.f;
+        }
+        if (3 < m_iSkillCount)
+        {
+            m_fDelay = 0.f;
+            m_iSkillCount = 0.f;
+            m_bPattern = false;
+            //return STATE::BOSS_IDLE;
+            return STATE::BOSS_SPWANMONSTER;
+        }
     }
 }
 
@@ -77,7 +104,7 @@ CExplosionPattern* CExplosionPattern::Create(LPDIRECT3DDEVICE9 pGraphicDev, CSta
     {
         Safe_Release<CExplosionPattern*>(pState);
 
-        MSG_BOX("Fire State Failed");
+        MSG_BOX("Explosion Pattern State Failed");
     }
     return pState;
 }

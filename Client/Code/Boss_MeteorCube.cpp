@@ -21,14 +21,17 @@ HRESULT CBoss_MeteorCube::Ready_Object()
 {
 	m_eObjectTag = OBJECTTAG::MONSTERBULLET;
 	FAILED_CHECK_RETURN(Add_Component(),E_FAIL);
+	m_bChanneling_Start = false;
 	m_bChanneling_End = false;
 	m_bMaxHeight = 12.f;
 	m_fScale = 0;
+	m_fEndTime = 0.f;
 	m_pCollider->InitOBB(
 		m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT],
 		m_pTransform->LocalScale() * 0.5);
 	m_pBasicStat->Get_Stat()->fAttack = 15.0;
 	m_pTransform->Scale(_vec3(0.6f, 0.6f, 0.6f));
+	Channeling_Begin();
 	return S_OK;
 }
 
@@ -38,12 +41,30 @@ _int CBoss_MeteorCube::Update_Object(const _float& fTimeDelta)
 	if (SceneManager()->Get_GameStop()) { return 0; }
 	_uint iExit = __super::Update_Object(fTimeDelta);
 	
-	if(STATE::BOSS_STURN == dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_StatMachine()->Get_State())
+	if (STATE::BOSS_STURN == dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_StatMachine()->Get_State())
+	{
+		m_bChanneling_Start = false;
+		m_bChanneling_End = false;
+		m_fEndTime = 0.f;
+		m_pBasicStat->Get_Stat()->fAttack = 15.0;
+		m_pTransform->Scale(_vec3(0.6f, 0.6f, 0.6f));
 		Engine::EventManager()->DeleteObject(this);
+	}
 	m_fScale += fTimeDelta/4.f;
-	Channeling_End(fTimeDelta);
-	Channeling_Now(fTimeDelta);
-	m_pTransform->Translate(_vec3(-fTimeDelta / 4.f, 0.f, 0.f));
+	m_fEndTime += fTimeDelta;
+	if ((m_bChanneling_Start) && (10.f <= m_fEndTime))
+	{
+		Channeling_End(fTimeDelta);
+		return iExit;
+	}
+	if (m_bChanneling_Start)
+	{
+		Channeling_Now(fTimeDelta);
+		m_pTransform->Translate(_vec3(-fTimeDelta / 4.f, 0.f, 0.f));
+	}
+	else
+		m_bChanneling_Start = true;
+
 	if (4.f > m_fScale)
 	{
 		m_pTransform->Scale(_vec3(m_fScale, m_fScale, m_fScale));
@@ -76,13 +97,12 @@ void CBoss_MeteorCube::Channeling_Begin()
 {
 	m_vCenter = Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front()->m_pTransform->m_vInfo[INFO_POS];
 	m_pTransform->m_vInfo[INFO_POS] = Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front()->m_pTransform->m_vInfo[INFO_POS];
-	m_pTransform->Translate(_vec3 (4.f, 0.f, 0.f));
+	m_pTransform->Translate(_vec3(4.f, 0.f, 0.f));
 }
 
 void CBoss_MeteorCube::Channeling_Now(const _float& fTimeDelta)
 {
-	if (m_bChanneling_End)
-		return;
+
 		m_pTransform->Translate(_vec3(0.f, 1.f * fTimeDelta, 0.f));
 		m_pTransform->Rotate(_vec3(0.f, 0.f, 3.f));
 		m_pTransform->RotateAround(m_vCenter, _vec3(0.f, 3.f, 0.f), 3.f * fTimeDelta/2.f);
@@ -91,14 +111,23 @@ void CBoss_MeteorCube::Channeling_Now(const _float& fTimeDelta)
 
 void CBoss_MeteorCube::Channeling_End(const _float& fTimeDelta)
 {
-	if (!m_bChanneling_End)
-		return;
-		_vec3 vTargetPos = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform->m_vInfo[INFO_POS];
-		_vec3 vDir = vTargetPos - m_pTransform->m_vInfo[INFO_POS];
-		m_pTransform->Translate(vDir * fTimeDelta);
-		if (2.f > m_pTransform->m_vInfo[INFO_POS].y)
-			Engine::EventManager()->DeleteObject(this);
+	Set_PlayerPos();
+	m_pTransform->Translate(m_vDir * fTimeDelta);
+	if (2.f > m_pTransform->m_vInfo[INFO_POS].y)
+	{
+		m_bChanneling_Start = false;
+		m_bChanneling_End = false;
+		m_fEndTime = 0.f;
+		m_pBasicStat->Get_Stat()->fAttack = 15.0;
+		m_pTransform->Scale(_vec3(0.6f, 0.6f, 0.6f));
+		Engine::EventManager()->DeleteObject(this);
+	}
+}
 
+void CBoss_MeteorCube::Set_PlayerPos()
+{
+	_vec3 vTargetPos = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform->m_vInfo[INFO_POS];
+	m_vDir = vTargetPos - m_pTransform->m_vInfo[INFO_POS];
 }
 
 void CBoss_MeteorCube::OnCollisionEnter(CCollider* _pOther)
@@ -110,8 +139,6 @@ void CBoss_MeteorCube::OnCollisionEnter(CCollider* _pOther)
 		CPlayerStat& PlayerState = *(dynamic_cast<CPlayer*>(_pOther->GetHost())->Get_Stat());
 		PlayerState.Take_Damage(this->Get_BasicStat()->Get_Stat()->fAttack);
 		this->Set_AttackTick(true);
-		cout << "플레이어 쳐맞는중" << endl;
-		//Engine::EventManager()->DeleteObject(this);
 	}
 }
 

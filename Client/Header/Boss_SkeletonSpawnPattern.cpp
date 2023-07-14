@@ -2,7 +2,7 @@
 #include "Export_Function.h"
 #include "SkeletonKing.h"
 #include "Player.h"
-#include "Skeleton.h"
+#include "Boss_Skeleton.h"
 
 CBoss_SkeletonSpawnPattern::CBoss_SkeletonSpawnPattern()
 {
@@ -33,16 +33,16 @@ STATE CBoss_SkeletonSpawnPattern::Update_State(const _float& fTimeDelta)
 {
     Engine::CGameObject* pGameObject = nullptr;
     m_fSkillCool += fTimeDelta;
-    if ((1.f < m_fSkillCool) && (!m_bSkill))
+    if ((1.5f < m_fSkillCool) && (!m_bSkill))
     {
         Spawn_Skeleton();
         m_bSkill = true;
     }
-    if (3.f < m_fSkillCool)
+    if (2.5f < m_fSkillCool)
     {
         m_bSkill = false;
         m_fSkillCool = 0.f;
-        return STATE::BOSS_IDLE;
+        return STATE::BOSS_TELEPORT;
     }
 }
 
@@ -56,16 +56,16 @@ void CBoss_SkeletonSpawnPattern::Render_State()
 
 void CBoss_SkeletonSpawnPattern::Spawn_Skeleton()
 {
-   /* Engine::CGameObject* pGameObject = nullptr;
-    for (int i = 0; i < 4; ++i)
-    {
-        pGameObject = CSkeleton::Create(m_pGraphicDev);
+    Engine::CGameObject* pGameObject = nullptr;
+ 
+        pGameObject = CBoss_Skeleton::Create(m_pGraphicDev);
         Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
-        dynamic_cast<CSkeleton*>(pGameObject)->Set_Terrain(dynamic_cast<CSkeletonKing*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_Terrain());
-        dynamic_cast<CSkeleton*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] =
-            (Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front()->m_pTransform->m_vInfo[INFO_POS]) + m_vSpawnPos[i];
+        dynamic_cast<CBoss_Skeleton*>(pGameObject)->Set_Terrain(dynamic_cast<CSkeletonKing*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_Terrain());
+        dynamic_cast<CBoss_Skeleton*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] =
+            (Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front()->m_pTransform->m_vInfo[INFO_POS]);
+        dynamic_cast<CBoss_Skeleton*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS].y = -2.f;
+        dynamic_cast<CBoss_Skeleton*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS].y += 2.f;
         Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
-    }*/
 }
 
 CBoss_SkeletonSpawnPattern* CBoss_SkeletonSpawnPattern::Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner)

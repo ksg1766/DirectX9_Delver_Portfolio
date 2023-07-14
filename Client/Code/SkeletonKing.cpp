@@ -9,6 +9,7 @@
 #include "FirePattern.h"
 #include "ExplosionPattern.h"
 #include "TeleportPattern.h"
+#include "Boss_SkeletonSpawnPattern.h"
 #include "CrawlPattern.h"
 #include "Boss_Sturn.h"
 #include "Boss_MeteorReady.h"
@@ -36,13 +37,11 @@ HRESULT CSkeletonKing::Ready_Object(void)
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	m_pTransform->Scale(_vec3(1.f, 1.f, 1.f));
-
 	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
-
 	m_pBasicStat->Get_Stat()->fHealth = 100.f;
-
-	m_pTransform->Translate(_vec3(30.f, 0.f, 30.f));
-
+	m_pTransform->Translate(_vec3(5.f, 0.f, 5.f));
+	m_iHitCount = 0;
+	m_fHitCool = 0.f;
 #pragma region 상태
 
 	//상태추가
@@ -57,7 +56,7 @@ HRESULT CSkeletonKing::Ready_Object(void)
 
 	pState = CBoss_Attack::Create(m_pGraphicDev, m_pStateMachine);
 	m_pStateMachine->Add_State(STATE::BOSS_ATTACK, pState);
-	//
+	
 	pState = CFirePattern::Create(m_pGraphicDev, m_pStateMachine);
 	m_pStateMachine->Add_State(STATE::BOSS_FIRE, pState);
 
@@ -75,6 +74,9 @@ HRESULT CSkeletonKing::Ready_Object(void)
 
 	pState = CBoss_MeteorReady::Create(m_pGraphicDev, m_pStateMachine);
 	m_pStateMachine->Add_State(STATE::BOSS_METEORREADY, pState);
+
+	pState = CBoss_SkeletonSpawnPattern::Create(m_pGraphicDev, m_pStateMachine);
+	m_pStateMachine->Add_State(STATE::BOSS_SPWANMONSTER, pState);
 
 	pState = CBoss_Dying::Create(m_pGraphicDev, m_pStateMachine);
 	m_pStateMachine->Add_State(STATE::BOSS_DYING, pState);
@@ -127,6 +129,10 @@ HRESULT CSkeletonKing::Ready_Object(void)
 	m_pAnimator->Add_Animation(STATE::BOSS_METEORREADY, pAnimation);
 
 	pAnimation = CAnimation::Create(m_pGraphicDev,
+		m_pTexture[(_uint)STATE::BOSS_ATTACK], STATE::BOSS_SPWANMONSTER, 15.f, TRUE);
+	m_pAnimator->Add_Animation(STATE::BOSS_SPWANMONSTER, pAnimation);
+
+	pAnimation = CAnimation::Create(m_pGraphicDev,
 		m_pTexture[(_uint)STATE::BOSS_DYING], STATE::BOSS_DYING, 6.f, FALSE);
 	m_pAnimator->Add_Animation(STATE::BOSS_DYING, pAnimation);
 
@@ -151,6 +157,8 @@ _int CSkeletonKing::Update_Object(const _float& fTimeDelta)
 	_int iExit = __super::Update_Object(fTimeDelta);
 
 	ForceHeight(m_pTransform->m_vInfo[INFO_POS]);
+	if(5 <= m_iHitCount)
+		m_pStateMachine->Set_State(STATE::BOSS_STURN);
 	m_pStateMachine->Update_StateMachine(fTimeDelta);
 	return iExit;
 }
@@ -172,15 +180,16 @@ void CSkeletonKing::Render_Object(void)
 
 	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 
-	m_pStateMachine->Render_StateMachine();
-
-	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
-
-	m_pBuffer->Render_Buffer();
+	if (STATE::BOSS_TELEPORT != m_pStateMachine->Get_State())
+	{
+		m_pStateMachine->Render_StateMachine();
+		m_pBuffer->Render_Buffer();
+	}
 
 #if _DEBUG
 	m_pCollider->Render_Collider();
 #endif
+	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
 
@@ -230,92 +239,62 @@ void CSkeletonKing::OnCollisionEnter(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 
-#pragma region 밀어내기
-	_vec3	vOtherPos = _pOther->GetCenterPos();
-	_float* fOtherAxis = _pOther->GetAxisLen();
+//#pragma region 밀어내기
+//	_vec3	vOtherPos = _pOther->GetCenterPos();
+//	_float* fOtherAxis = _pOther->GetAxisLen();
+//
+//	_vec3	vThisPos = m_pCollider->GetCenterPos();
+//	_float* fThisAxis = m_pCollider->GetAxisLen();
+//
+//	// OBJECTTAG에 따른 예외 처리 가능성
+//	_float fWidth = fabs(vOtherPos.x - vThisPos.x);
+//	_float fHeight = fabs(vOtherPos.y - vThisPos.y);
+//	_float fDepth = fabs(vOtherPos.z - vThisPos.z);
+//
+//	_float fRadiusX = (fOtherAxis[0] + fThisAxis[0]) - fWidth;
+//	_float fRadiusY = (fOtherAxis[1] + fThisAxis[1]) - fHeight;
+//	_float fRadiusZ = (fOtherAxis[2] + fThisAxis[2]) - fDepth;
+//
+//	_float fMinAxis = min(min(fRadiusX, fRadiusY), fRadiusZ);	// 가장 작은 값이 가장 얕게 충돌한 축. 이 축을 밀어내야 함.
+//
+//	if (fRadiusX == fMinAxis)
+//	{
+//		if (vOtherPos.x < vThisPos.x)
+//			m_pTransform->Translate(_vec3(fRadiusX, 0.f, 0.f));
+//		else
+//			m_pTransform->Translate(_vec3(-fRadiusX, 0.f, 0.f));
+//	}
+//	else if (fRadiusZ == fMinAxis)
+//	{
+//		if (vOtherPos.z < vThisPos.z)
+//			m_pTransform->Translate(_vec3(0.f, 0.f, fRadiusZ));
+//		else
+//			m_pTransform->Translate(_vec3(0.f, 0.f, -fRadiusZ));
+//	}
+//	else //(fRadiusY == fMinAxis)
+//	{
+//		if (vOtherPos.y < vThisPos.y)
+//			m_pTransform->Translate(_vec3(0.f, fRadiusY, 0.f));
+//		else
+//			m_pTransform->Translate(_vec3(0.f, -fRadiusY, 0.f));
+//	}
+//#pragma endregion 밀어내기
 
-	_vec3	vThisPos = m_pCollider->GetCenterPos();
-	_float* fThisAxis = m_pCollider->GetAxisLen();
+#pragma region 테스트용 화살충돌
 
-	// OBJECTTAG에 따른 예외 처리 가능성
-	_float fWidth = fabs(vOtherPos.x - vThisPos.x);
-	_float fHeight = fabs(vOtherPos.y - vThisPos.y);
-	_float fDepth = fabs(vOtherPos.z - vThisPos.z);
-
-	_float fRadiusX = (fOtherAxis[0] + fThisAxis[0]) - fWidth;
-	_float fRadiusY = (fOtherAxis[1] + fThisAxis[1]) - fHeight;
-	_float fRadiusZ = (fOtherAxis[2] + fThisAxis[2]) - fDepth;
-
-	_float fMinAxis = min(min(fRadiusX, fRadiusY), fRadiusZ);	// 가장 작은 값이 가장 얕게 충돌한 축. 이 축을 밀어내야 함.
-
-	if (fRadiusX == fMinAxis)
+	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::ITEM)
 	{
-		if (vOtherPos.x < vThisPos.x)
-			m_pTransform->Translate(_vec3(fRadiusX, 0.f, 0.f));
-		else
-			m_pTransform->Translate(_vec3(-fRadiusX, 0.f, 0.f));
+		//__super::OnCollisionEnter(_pOther);
+		++m_iHitCount;
 	}
-	else if (fRadiusZ == fMinAxis)
-	{
-		if (vOtherPos.z < vThisPos.z)
-			m_pTransform->Translate(_vec3(0.f, 0.f, fRadiusZ));
-		else
-			m_pTransform->Translate(_vec3(0.f, 0.f, -fRadiusZ));
-	}
-	else //(fRadiusY == fMinAxis)
-	{
-		if (vOtherPos.y < vThisPos.y)
-			m_pTransform->Translate(_vec3(0.f, fRadiusY, 0.f));
-		else
-			m_pTransform->Translate(_vec3(0.f, -fRadiusY, 0.f));
-	}
-#pragma endregion 밀어내기
+#pragma endregion 테스트용 화살충돌
+
 }
 
 void CSkeletonKing::OnCollisionStay(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 
-#pragma region 밀어내기
-	_vec3	vOtherPos = _pOther->GetCenterPos();
-	_float* fOtherAxis = _pOther->GetAxisLen();
-
-	_vec3	vThisPos = m_pCollider->GetCenterPos();
-	_float* fThisAxis = m_pCollider->GetAxisLen();
-
-	// OBJECTTAG에 따른 예외 처리 가능성
-	_float fWidth = fabs(vOtherPos.x - vThisPos.x);
-	_float fHeight = fabs(vOtherPos.y - vThisPos.y);
-	_float fDepth = fabs(vOtherPos.z - vThisPos.z);
-
-	_float fRadiusX = (fOtherAxis[0] + fThisAxis[0]) - fWidth;
-	_float fRadiusY = (fOtherAxis[1] + fThisAxis[1]) - fHeight;
-	_float fRadiusZ = (fOtherAxis[2] + fThisAxis[2]) - fDepth;
-
-	_float fMinAxis = min(min(fRadiusX, fRadiusY), fRadiusZ);	// 가장 작은 값이 가장 얕게 충돌한 축. 이 축을 밀어내야 함.
-
-	if (fRadiusX == fMinAxis)
-	{
-		if (vOtherPos.x < vThisPos.x)
-			m_pTransform->Translate(_vec3(fRadiusX, 0.f, 0.f));
-		else
-			m_pTransform->Translate(_vec3(-fRadiusX, 0.f, 0.f));
-	}
-	else if (fRadiusZ == fMinAxis)
-	{
-		if (vOtherPos.z < vThisPos.z)
-			m_pTransform->Translate(_vec3(0.f, 0.f, fRadiusZ));
-		else
-			m_pTransform->Translate(_vec3(0.f, 0.f, -fRadiusZ));
-	}
-	else //(fRadiusY == fMinAxis)
-	{
-		if (vOtherPos.y < vThisPos.y)
-			m_pTransform->Translate(_vec3(0.f, fRadiusY, 0.f));
-		else
-			m_pTransform->Translate(_vec3(0.f, -fRadiusY, 0.f));
-	}
-#pragma endregion 밀어내기
 }
 
 void CSkeletonKing::OnCollisionExit(CCollider* _pOther)
@@ -418,7 +397,7 @@ void CSkeletonKing::Key_Input()
 	}
 	if (Engine::InputDev()->Key_Down(DIK_B))
 	{
-		m_pStateMachine->Set_State(STATE::BOSS_ATTACK);
+		m_pStateMachine->Set_State(STATE::BOSS_SPWANMONSTER);
 	}
 	if (Engine::InputDev()->Key_Down(DIK_N))
 	{

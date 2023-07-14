@@ -26,7 +26,8 @@ STATE CBoss_Idle::Update_State(const _float& fTimeDelta)
     if (3.f < m_fSkillCool)
     {
         m_fSkillCool = 0.f;
-        return STATE::BOSS_ATTACK;
+        //return STATE::BOSS_ATTACK;
+        return STATE::BOSS_FIRE;
     }
     return STATE::BOSS_IDLE;
 }
