@@ -26,9 +26,6 @@ HRESULT CBoss_MeteorCube::Ready_Object()
 	m_bMaxHeight = 12.f;
 	m_fScale = 0;
 	m_fEndTime = 0.f;
-	m_pCollider->InitOBB(
-		m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT],
-		m_pTransform->LocalScale() * 0.5);
 	m_pBasicStat->Get_Stat()->fAttack = 15.0;
 	m_pTransform->Scale(_vec3(0.6f, 0.6f, 0.6f));
 	Channeling_Begin();

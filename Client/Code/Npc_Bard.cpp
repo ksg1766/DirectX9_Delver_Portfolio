@@ -22,9 +22,6 @@ HRESULT CNpc_Bard::Ready_Object()
 	m_eNPCTag = NPCTAG::TRADER;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
-	m_pBasicStat->Get_Stat()->fHealth = 100.f;
-
 	CState* pState = CNpc_Bard_Idle::Create(m_pGraphicDev, m_pStateMachine);
 	m_pStateMachine->Add_State(STATE::IDLE, pState);
 

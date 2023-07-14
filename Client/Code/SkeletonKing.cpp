@@ -37,7 +37,6 @@ HRESULT CSkeletonKing::Ready_Object(void)
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	m_pTransform->Scale(_vec3(1.f, 1.f, 1.f));
-	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
 	m_pBasicStat->Get_Stat()->fHealth = 100.f;
 	m_pTransform->Translate(_vec3(5.f, 0.f, 5.f));
 	m_iHitCount = 0;

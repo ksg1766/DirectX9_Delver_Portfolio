@@ -23,9 +23,6 @@ HRESULT CBossProjectile::Ready_Object(void)
 	m_eObjectTag = OBJECTTAG::MONSTERBULLET;
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
-	m_pCollider->InitOBB(
-		m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT],
-		m_pTransform->LocalScale() * 0.8);
 
 	m_pBasicStat->Get_Stat()->fAttack = 5.f;
 

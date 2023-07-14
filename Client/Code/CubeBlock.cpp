@@ -70,9 +70,9 @@ void CCubeBlock::Render_Object(void)
 	//m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 
-#if _DEBUG
-	m_pCollider->Render_Collider();
-#endif
+//#if _DEBUG
+//	m_pCollider->Render_Collider();
+//#endif
 }
 
 void CCubeBlock::OnCollisionEnter(CCollider* _pOther)

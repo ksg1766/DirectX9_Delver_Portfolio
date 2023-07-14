@@ -21,7 +21,7 @@
 #include "UIQuitButton.h"
 
 #include "SkeletonKing.h"
-#include "Npc_Trader.h"
+#include "Npc_OldMan.h"
 
 class CStage : public Engine::CScene
 {

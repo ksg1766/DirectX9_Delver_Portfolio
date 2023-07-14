@@ -27,9 +27,6 @@ HRESULT CBoss_Skeleton::Ready_Object()
     Set_ObjectTag(OBJECTTAG::MONSTER);
     FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
     m_pBasicStat->Get_Stat()->fHealth = 3.f;
-    m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
-  /*  CState* pState = CWakeUp_BossSkeleton::Create(m_pGraphicDev, m_pStateMachine);
-    m_pStateMachine->Add_State(STATE::IDLE, pState);*/
 
     CState*  pState = CDead_BossSkeleton::Create(m_pGraphicDev, m_pStateMachine);
     m_pStateMachine->Add_State(STATE::DEAD, pState);
