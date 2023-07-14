@@ -1,5 +1,6 @@
 #include "..\Header\Monster_Fly.h"
 #include "Export_Function.h"
+#include "Player.h"
 
 CMonster_Fly::CMonster_Fly()
 {
@@ -115,14 +116,20 @@ void CMonster_Fly::Fly(const _float& fTimeDelta)
 	_vec3 vPlayerPos = pPlayerTransform->m_vInfo[INFO_POS];
 
 	_vec3 vTargetPos;
-	_vec3 vPlayerTaget = vPlayerPos - m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
+	//_vec3 vPlayerTaget = vPlayerPos - m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
+	_vec3	vTarget = _vec3(0.f, 0.f, 0.f) - m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
 
-	D3DXVec3Normalize(&vPlayerTaget, &vPlayerTaget);
+	D3DXVec3Normalize(&vTarget, &vTarget);
+
+	CPlayer& pPlayer =
+		*dynamic_cast<CPlayer*>
+		(SceneManager()->GetInstance()->Get_ObjectList
+		(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
 
 	if(dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Get_StateMachine()->Get_PrevState() != STATE::ATTACK)
-		vTargetPos = m_pOwner->Get_Transform()->m_vInfo[INFO_POS] + vDir * 30.f;
+		vTargetPos = pPlayer.m_pTransform->m_vInfo[INFO_POS] + vDir * 300.f;
 	else
-		vTargetPos = m_pOwner->Get_Transform()->m_vInfo[INFO_POS] + vPlayerTaget * 30.f;
+		vTargetPos = m_pOwner->Get_Transform()->m_vInfo[INFO_POS] + vTarget * 30.f;
 
 	_vec3 vDir2 = vTargetPos - m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
 	D3DXVec3Normalize(&vDir2, &vDir2);

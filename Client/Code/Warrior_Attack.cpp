@@ -63,6 +63,14 @@ STATE CWarror_Attack::Update_State(const _float& fTimeDelta)
 		return STATE::ROMIMG;
 	}
 
+	m_fChase += fTimeDelta;
+
+	if (m_fChase >= 2)
+	{
+		m_fChase = 0.f;
+		m_pOwner->Set_State(STATE::ROMIMG);
+		return STATE::ROMIMG;
+	}
 
 	m_pOwner->Set_State(STATE::ATTACK);
 

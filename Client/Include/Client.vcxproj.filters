@@ -382,6 +382,15 @@
     <Filter Include="02. GameObject\01. Stage\06. Environment_Object\01. Stone\02. Cristal">
       <UniqueIdentifier>{6f349a34-7f0e-450e-a77c-e14e4c573249}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\01. Stage\05. Monster\00. State\Public\Move">
+      <UniqueIdentifier>{fe309998-c385-4ca8-8ffb-070df66fe65c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\02. Item\Wands">
+      <UniqueIdentifier>{fde1bedd-59b4-439d-9d7a-ed25a65b4744}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\02. Item\Wands\FireBall">
+      <UniqueIdentifier>{57c21c47-1026-4302-83d6-6de16b12107b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -702,6 +711,15 @@
     <ClInclude Include="..\Header\Arrow.h">
       <Filter>02. GameObject\01. Stage\02. Item\Bow\Arrow</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\Test_Move.h">
+      <Filter>02. GameObject\01. Stage\05. Monster\00. State\Public\Move</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\FireWands.h">
+      <Filter>02. GameObject\01. Stage\02. Item\Wands</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\FireBall.h">
+      <Filter>02. GameObject\01. Stage\02. Item\Wands\FireBall</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -1012,6 +1030,15 @@
     </ClCompile>
     <ClCompile Include="..\Code\Arrow.cpp">
       <Filter>02. GameObject\01. Stage\02. Item\Bow\Arrow</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Test_Move.cpp">
+      <Filter>02. GameObject\01. Stage\05. Monster\00. State\Public\Move</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\FireWands.cpp">
+      <Filter>02. GameObject\01. Stage\02. Item\Wands</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\FireBall.cpp">
+      <Filter>02. GameObject\01. Stage\02. Item\Wands\FireBall</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

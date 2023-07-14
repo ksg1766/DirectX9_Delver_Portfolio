@@ -25,6 +25,7 @@ HRESULT CArrow::Ready_Object(CTransform* Weapon, CTransform* pOwner, _float _fSp
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 	
 	m_eObjectTag = OBJECTTAG::PLAYERBULLET;
+	m_eState = STATE::ATTACK;
 	m_fSpeed = _fSpeed;
 
 	//m_pTransform->Set_Parent(pOwner);
@@ -35,8 +36,17 @@ HRESULT CArrow::Ready_Object(CTransform* Weapon, CTransform* pOwner, _float _fSp
 	
 	if (Weapon != nullptr && pOwner != nullptr)
 	{
+		//m_pPlayerTransform = pOwner;
 		m_pTransform->m_vInfo[INFO_POS] = Weapon->m_vInfo[INFO_POS];
 		m_pTransform->Copy_RUL(pOwner->Get_Transform()->m_vInfo);
+
+		m_vDir = pOwner->Get_Transform()->m_vInfo[INFO_LOOK];
+		D3DXVec3Normalize(&m_vDir, &m_vDir);
+
+		_matrix matRot;
+		D3DXMatrixRotationAxis(&matRot, &m_pTransform->m_vInfo[INFO_UP], -80.f);
+		D3DXVec3TransformCoord(&m_pTransform->m_vInfo[INFO_LOOK], &m_pTransform->m_vInfo[INFO_LOOK], &matRot);
+		D3DXVec3TransformCoord(&m_pTransform->m_vInfo[INFO_RIGHT], &m_pTransform->m_vInfo[INFO_RIGHT], &matRot);
 	}
 
 	m_pTransform->Scale(_vec3(0.3f, 0.3f, 0.3f));
@@ -56,10 +66,9 @@ _int CArrow::Update_Object(const _float& fTimeDelta)
 	CPlayer& pPlayer = *dynamic_cast<CPlayer*>(SceneManager()->GetInstance()->
 		Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
 
-	_vec3 vDir = m_pTransform->m_vInfo[INFO_LOOK];
-	D3DXVec3Normalize(&vDir, &vDir);
+	//pPlayer.m_pTransform->m_vInfo[INFO_LOOK];
 
-	m_pTransform->m_vInfo[INFO_POS] = m_pTransform->m_vInfo[INFO_POS] + vDir * m_fSpeed * fTimeDelta;
+	m_pTransform->m_vInfo[INFO_POS] = m_pTransform->m_vInfo[INFO_POS] + m_vDir * m_fSpeed * fTimeDelta;
 
 	return iExit;
 }
@@ -134,6 +143,7 @@ void CArrow::OnCollisionEnter(CCollider* _pOther)
 		->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
 	// 플레이어의 정보를 레퍼런스로 얻어옴.
 
+
 	if (_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::MONSTER)
 		// 무기 콜리전에 들어온 타입이 몬스터이면서, 플레이어의 스테이트가 공격이라면
 	{
@@ -156,6 +166,14 @@ void CArrow::OnCollisionEnter(CCollider* _pOther)
 
 			Engine::EventManager()->GetInstance()->DeleteObject(this);
 		}
+	}
+
+	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BLOCK && m_eState != STATE::DEAD)
+	{
+		cout << "벽돌충돌 " << endl;
+		
+		Set_State(STATE::DEAD);
+		Engine::EventManager()->GetInstance()->DeleteObject(this);
 	}
 }
 

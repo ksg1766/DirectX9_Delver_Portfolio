@@ -187,6 +187,8 @@
     <ClInclude Include="..\Header\Bow.h" />
     <ClInclude Include="..\Header\Box_Cube.h" />
     <ClInclude Include="..\Header\CrawlPattern.h" />
+    <ClInclude Include="..\Header\FireBall.h" />
+    <ClInclude Include="..\Header\FireWands.h" />
     <ClInclude Include="..\Header\Magic_Ball.h" />
     <ClInclude Include="..\Header\Monster_Dead.h" />
     <ClInclude Include="..\Header\Skeleton.h" />
@@ -239,6 +241,7 @@
     <ClInclude Include="..\Header\StartButton.h" />
     <ClInclude Include="..\Header\TempItem.h" />
     <ClInclude Include="..\Header\Terrain.h" />
+    <ClInclude Include="..\Header\Test_Move.h" />
     <ClInclude Include="..\Header\UIaimpoint.h" />
     <ClInclude Include="..\Header\UIbasicslot.h" />
     <ClInclude Include="..\Header\UIbigmap.h" />
@@ -289,6 +292,8 @@
     <ClCompile Include="..\Code\Bow.cpp" />
     <ClCompile Include="..\Code\Box_Cube.cpp" />
     <ClCompile Include="..\Code\CrawlPattern.cpp" />
+    <ClCompile Include="..\Code\FireBall.cpp" />
+    <ClCompile Include="..\Code\FireWands.cpp" />
     <ClCompile Include="..\Code\Magic_Ball.cpp" />
     <ClCompile Include="..\Code\Monster_Dead.cpp" />
     <ClCompile Include="..\Code\Skeleton.cpp" />
@@ -341,6 +346,7 @@
     <ClCompile Include="..\Code\StartButton.cpp" />
     <ClCompile Include="..\Code\TempItem.cpp" />
     <ClCompile Include="..\Code\Terrain.cpp" />
+    <ClCompile Include="..\Code\Test_Move.cpp" />
     <ClCompile Include="..\Code\UIaimpoint.cpp" />
     <ClCompile Include="..\Code\UIbasicslot.cpp" />
     <ClCompile Include="..\Code\UIbigmap.cpp" />

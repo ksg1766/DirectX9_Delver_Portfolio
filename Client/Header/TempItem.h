@@ -19,7 +19,7 @@ private:
 	virtual ~CTempItem();
 
 public:
-	virtual HRESULT Ready_Object(void) override;
+	virtual HRESULT Ready_Object(_bool _Item);
 	virtual _int	Update_Object(const _float& fTimeDelta) override;
 	virtual void	LateUpdate_Object(void) override;
 	virtual void	Render_Object(void) override;
@@ -44,7 +44,7 @@ private:
 	MYATTACKINFO m_AttackInfo;
 
 public:
-	static CTempItem* Create(LPDIRECT3DDEVICE9 pGraphicDev);
+	static CTempItem* Create(LPDIRECT3DDEVICE9 pGraphicDev, _bool _Item);
 
 private:
 	virtual void Free() override;

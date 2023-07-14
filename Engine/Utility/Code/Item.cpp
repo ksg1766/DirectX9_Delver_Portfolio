@@ -7,6 +7,7 @@ CItem::CItem(LPDIRECT3DDEVICE9 pGraphicDev)
 	m_ItemID.eItemType	= ITEMTYPE::ITEMTYPE_END;
 	m_ItemID.eItemID	= ITEMID::ITEMID_END;
 	m_ItemID.iCount		= 1;
+	m_bWorldItem		= true;
 }
 
 CItem::CItem(const CItem& rhs)
@@ -16,6 +17,7 @@ CItem::CItem(const CItem& rhs)
 	m_ItemID.eItemType = rhs.m_ItemID.eItemType;
 	m_ItemID.eItemID   = rhs.m_ItemID.eItemID;
 	m_ItemID.iCount    = rhs.m_ItemID.iCount;
+	m_bWorldItem = rhs.m_bWorldItem;
 }
 
 CItem::~CItem()

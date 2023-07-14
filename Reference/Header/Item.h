@@ -19,12 +19,16 @@ public:
         m_ItemID.iCount -= _iCount;
     }
 
+    _bool       Get_WorldItem()                 { return m_bWorldItem; }
+    void        Set_WorldItem(_bool _WorldItem) { m_bWorldItem = _WorldItem; }
+
 public:
     HRESULT     Ready_Object();
     _int        Update_Object(const _float& fTimeDelta);
 
 protected:
     ITEMTYPEID  m_ItemID;
+    _bool       m_bWorldItem;
     CBasicStat* m_pBasicStat = nullptr;
 
     // ITEM_TAG m_eItemTag;

@@ -75,15 +75,6 @@ _int CMagic_Ball::Update_Object(const _float& fTimeDelta)
 		if (m_pAnimator->Get_Animation()->Get_Frame() >= 1)
 			m_pAnimator->Get_Animation()->Set_Loop(FALSE);
 	}
-	else
-	{
-		if (m_pAnimator->Get_Animation()->Get_Frame() >= 1)
-		{
-			m_pAnimator->Get_Animation()->Set_Loop(FALSE);
-			EventManager()->GetInstance()->DeleteObject(this);
-		}
-			
-	}
 
 	if (!m_bIsAttack)
 	{
@@ -220,6 +211,12 @@ void CMagic_Ball::OnCollisionStay(CCollider* _pOther)
 		__super::OnCollisionStay(_pOther);
 
 	cout << "마법구 데미지" << endl;
+
+	if (m_pAnimator->Get_Animation()->Get_Frame() >= 1)
+	{
+		m_pAnimator->Get_Animation()->Set_Loop(FALSE);
+		EventManager()->GetInstance()->DeleteObject(this);
+	}
 
 }
 

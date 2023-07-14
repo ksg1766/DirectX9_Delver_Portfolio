@@ -5,6 +5,7 @@
 #include "Monster_Move.h"
 #include "Monster_Hit.h"
 #include "Monster_Dead.h"
+#include "Test_Move.h"
 #include "Player.h"
 
 CDungeonWarrior::CDungeonWarrior(LPDIRECT3DDEVICE9 pGraphicDev)

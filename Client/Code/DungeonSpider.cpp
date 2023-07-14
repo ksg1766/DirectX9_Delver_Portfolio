@@ -27,6 +27,7 @@ HRESULT CDungeonSpider::Ready_Object()
 	Set_ObjectTag(OBJECTTAG::MONSTER);
 	Set_MonsterState(MONSTERTAG::SPIDER);
 	m_bBlockOn = false;
+	m_bWallTouch = false;
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
@@ -130,7 +131,7 @@ void CDungeonSpider::OnCollisionEnter(CCollider* _pOther)
 		__super::OnCollisionEnter(_pOther);
 
 	if (_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::PLAYER
-		&& this->Get_State() == STATE::ATTACK)
+		&& this->Get_StateMachine()->Get_State() == STATE::ATTACK)
 	{
 		CPlayerStat& PlayerState = *dynamic_cast<CPlayer*>(_pOther->GetHost())->Get_Stat();
 
@@ -145,9 +146,8 @@ void CDungeonSpider::OnCollisionEnter(CCollider* _pOther)
 
 	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BLOCK)
 	{
-		m_bBlockOn = true;
+		Set_WallTouch(true);
 	}
-
 }
 
 void CDungeonSpider::OnCollisionStay(CCollider* _pOther)
@@ -155,6 +155,12 @@ void CDungeonSpider::OnCollisionStay(CCollider* _pOther)
 	if (SceneManager()->Get_GameStop()) { return; }
 
 	__super::OnCollisionStay(_pOther);
+
+	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BLOCK)
+	{
+		Set_WallTouch(true);
+	}
+	
 	// 충돌 밀어내기 후 이벤트 : 구현하시면 됩니다.
 }
 
@@ -163,11 +169,7 @@ void CDungeonSpider::OnCollisionExit(CCollider* _pOther)
 	if (SceneManager()->Get_GameStop()) { return; }
 
 	__super::OnCollisionExit(_pOther);
-
-	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BLOCK)
-	{
-		m_bBlockOn = false;
-	}
+	//Set_WallTouch(false);
 }
 
 HRESULT CDungeonSpider::Add_Component()

@@ -170,7 +170,7 @@ void CBat::OnCollisionEnter(CCollider* _pOther)
 
 	if(this->Get_StateMachine()->Get_State() != STATE::DEAD && _pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::ITEM)
 		__super::OnCollisionEnter(_pOther);
-
+			
 	if (_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::PLAYER
 		&& this->Get_State() == STATE::ATTACK)
 	{

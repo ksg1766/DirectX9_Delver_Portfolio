@@ -26,6 +26,7 @@ public:
 	static CMonster_Move* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
 
 private:
+	void	Set_NewPos(const _float& fTimeDelta);
 	void	Set_NewPos();
 	void	Move_NewPos(const _float& fTimeDelta);
 	_bool	Reached_Pos();
@@ -41,7 +42,11 @@ private:
 	_float	m_fJumpCoolTimer;
 
 	_vec3	m_vSavePos;
+	_vec3	m_vReverseDir;
 	STATE	m_ePrev;
+
+	_float	m_fAmplitude;
+	_float	m_fTime;
 
 private:
 	virtual void Free();

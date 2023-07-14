@@ -26,9 +26,11 @@ HRESULT CPlayerState_Walk::Ready_State(CStateMachine* pOwner)
 
 STATE CPlayerState_Walk::Update_State(const _float& fTimeDelta)
 {
-	STATE eState = Key_Input(fTimeDelta);
 
+	STATE eState = STATE::IDLE;
 
+	if (!dynamic_cast<CPlayer*>(m_pOwner->Get_Host())->Get_UseUI())
+		eState = Key_Input(fTimeDelta);
 
 	return eState;
 }

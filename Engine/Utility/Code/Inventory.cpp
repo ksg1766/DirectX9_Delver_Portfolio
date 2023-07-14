@@ -40,7 +40,7 @@ void CInventory::Add_ItemObject(CGameObject* pGameObject)
 		if (iter.second != nullptr) {
 			ITEMTYPEID SlotItemType = dynamic_cast<CItem*>(iter.second)->Get_ItemTag();
 
-			if (SlotItemType.eItemType == ItemType.eItemType)
+			if (SlotItemType.eItemID == ItemType.eItemID)
 			{
 				// 같은 아이템이 존재할 시 해당 개수만큼 카운트 증가 후 들어온 아이템 삭제
 				dynamic_cast<CItem*>(iter.second)->Add_ItemCount(ItemType.iCount);
@@ -49,12 +49,13 @@ void CInventory::Add_ItemObject(CGameObject* pGameObject)
 			}
 		}
 	}
+
 	// 내부 인벤토리 검사
 	for (auto& iter : m_vecInventory) {
 		if (iter != nullptr) {
 			ITEMTYPEID SlotItemType = dynamic_cast<CItem*>(iter)->Get_ItemTag();
 
-			if (SlotItemType.eItemType == ItemType.eItemType)
+			if (SlotItemType.eItemID == ItemType.eItemID)
 			{
 				// 같은 아이템이 존재할 시 해당 개수만큼 카운트 증가 후 들어온 아이템 삭제
 				dynamic_cast<CItem*>(iter)->Add_ItemCount(ItemType.iCount);

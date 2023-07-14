@@ -143,7 +143,7 @@ void CUIManager::AddItemGameobject_UI(CGameObject* pGameObject)
 		{
 			ITEMTYPEID SlotItemType = dynamic_cast<CUIitem*>(iter)->Get_ItemTag();
 
-			if (SlotItemType.eItemType == ItemType.eItemType)
+			if (SlotItemType.eItemID == ItemType.eItemID)
 			{
 				// 같은 아이템이 존재할 시 해당 개수만큼 카운트 증가 후 들어온 아이템 삭제
 				dynamic_cast<CUIitem*>(iter)->Add_ItemCount(ItemType.iCount);
@@ -158,7 +158,7 @@ void CUIManager::AddItemGameobject_UI(CGameObject* pGameObject)
 		{
 			ITEMTYPEID SlotItemType = dynamic_cast<CUIitem*>(iter)->Get_ItemTag();
 
-			if (SlotItemType.eItemType == ItemType.eItemType)
+			if (SlotItemType.eItemID == ItemType.eItemID)
 			{
 				// 같은 아이템이 존재할 시 해당 개수만큼 카운트 증가 후 들어온 아이템 삭제
 				dynamic_cast<CUIitem*>(iter)->Add_ItemCount(ItemType.iCount);
