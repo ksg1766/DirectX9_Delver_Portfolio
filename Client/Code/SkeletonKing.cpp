@@ -383,29 +383,21 @@ HRESULT CSkeletonKing::Add_Component(void)
 
 void CSkeletonKing::Key_Input()
 {
-	if (Engine::InputDev()->Key_Down(DIK_Z))
-	{
-		m_pStateMachine->Set_State(STATE::BOSS_EXPLOSION);
-	}
-	if (Engine::InputDev()->Key_Down(DIK_X))
-	{
-		m_pStateMachine->Set_State(STATE::BOSS_TELEPORT);
-	}
-	if (Engine::InputDev()->Key_Down(DIK_V))
+	if (Engine::InputDev()->Key_Down(DIK_J))
 	{
 		m_pStateMachine->Set_State(STATE::BOSS_METEORREADY);
 	}
-	if (Engine::InputDev()->Key_Down(DIK_B))
+	if (Engine::InputDev()->Key_Down(DIK_K))
 	{
-		m_pStateMachine->Set_State(STATE::BOSS_SPWANMONSTER);
-	}
-	if (Engine::InputDev()->Key_Down(DIK_N))
-	{
-		m_pStateMachine->Set_State(STATE::BOSS_CRAWL);
+		m_pStateMachine->Set_State(STATE::BOSS_STURN);
 	}
 	if (Engine::InputDev()->Key_Down(DIK_L))
 	{
-		m_pStateMachine->Set_State(STATE::BOSS_STURN);
+		m_pStateMachine->Set_State(STATE::BOSS_CRAWL);
+	}
+	if (Engine::InputDev()->Key_Down(DIK_P))
+	{
+		m_pStateMachine->Set_State(STATE::BOSS_IDLE);
 	}
 
 }

@@ -167,9 +167,11 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Header\Alchemist_Idle.h" />
     <ClInclude Include="..\Header\Alien.h" />
     <ClInclude Include="..\Header\Arrow.h" />
     <ClInclude Include="..\Header\BackGround.h" />
+    <ClInclude Include="..\Header\Bard_idle.h" />
     <ClInclude Include="..\Header\Bat.h" />
     <ClInclude Include="..\Header\Bat_Attack.h" />
     <ClInclude Include="..\Header\BlackIn.h" />
@@ -191,11 +193,22 @@
     <ClInclude Include="..\Header\Box_Cube.h" />
     <ClInclude Include="..\Header\CrawlPattern.h" />
     <ClInclude Include="..\Header\Dead_BossSkeleton.h" />
+    <ClInclude Include="..\Header\Dog_Idle.h" />
+    <ClInclude Include="..\Header\Dog_Stand.h" />
     <ClInclude Include="..\Header\Explosion_BossSkeleton.h" />
     <ClInclude Include="..\Header\Jump_BossSkeleton.h" />
     <ClInclude Include="..\Header\Magic_Ball.h" />
     <ClInclude Include="..\Header\Monster_Dead.h" />
     <ClInclude Include="..\Header\Move_BossSkeleton.h" />
+    <ClInclude Include="..\Header\Npc_Alchemist.h" />
+    <ClInclude Include="..\Header\Npc_Bard.h" />
+    <ClInclude Include="..\Header\Npc_Dog.h" />
+    <ClInclude Include="..\Header\Npc_OldMan.h" />
+    <ClInclude Include="..\Header\Npc_Trader.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\Header\Npc_Wizard.h" />
+    <ClInclude Include="..\Header\OldMan_Idle.h" />
     <ClInclude Include="..\Header\Skeleton.h" />
     <ClInclude Include="..\Header\Slime.h" />
     <ClInclude Include="..\Header\SlimeAttack.h" />
@@ -246,6 +259,7 @@
     <ClInclude Include="..\Header\StartButton.h" />
     <ClInclude Include="..\Header\TempItem.h" />
     <ClInclude Include="..\Header\Terrain.h" />
+    <ClInclude Include="..\Header\Trader_Idle.h" />
     <ClInclude Include="..\Header\UIaimpoint.h" />
     <ClInclude Include="..\Header\UIbasicslot.h" />
     <ClInclude Include="..\Header\UIbigmap.h" />
@@ -262,6 +276,7 @@
     <ClInclude Include="..\Header\Warrior_Attack.h" />
     <ClInclude Include="..\Header\Wizard.h" />
     <ClInclude Include="..\Header\Wizard_Attack.h" />
+    <ClInclude Include="..\Header\NPC_Wizard_Idle.h" />
     <ClInclude Include="..\ImGui\imconfig.h" />
     <ClInclude Include="..\ImGui\imgui.h" />
     <ClInclude Include="..\ImGui\imgui_impl_dx9.h" />
@@ -277,9 +292,11 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Code\Alchemist_Idle.cpp" />
     <ClCompile Include="..\Code\Alien.cpp" />
     <ClCompile Include="..\Code\Arrow.cpp" />
     <ClCompile Include="..\Code\BackGround.cpp" />
+    <ClCompile Include="..\Code\Bard_Idle.cpp" />
     <ClCompile Include="..\Code\Bat.cpp" />
     <ClCompile Include="..\Code\Bat_Attack.cpp" />
     <ClCompile Include="..\Code\BlackIn.cpp" />
@@ -300,11 +317,22 @@
     <ClCompile Include="..\Code\Box_Cube.cpp" />
     <ClCompile Include="..\Code\CrawlPattern.cpp" />
     <ClCompile Include="..\Code\Dead_BossSkeleton.cpp" />
+    <ClCompile Include="..\Code\Dog_Idle.cpp" />
+    <ClCompile Include="..\Code\Dog_Stand.cpp" />
     <ClCompile Include="..\Code\Explosion_BossSkeleton.cpp" />
     <ClCompile Include="..\Code\Jump_BossSkeleton.cpp" />
     <ClCompile Include="..\Code\Magic_Ball.cpp" />
     <ClCompile Include="..\Code\Monster_Dead.cpp" />
     <ClCompile Include="..\Code\Move_BossSkeleton.cpp" />
+    <ClCompile Include="..\Code\Npc_Alchemist.cpp" />
+    <ClCompile Include="..\Code\Npc_Bard.cpp" />
+    <ClCompile Include="..\Code\Npc_Dog.cpp" />
+    <ClCompile Include="..\Code\Npc_OldMan.cpp" />
+    <ClCompile Include="..\Code\Npc_Trader.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\Code\Npc_Wizard.cpp" />
+    <ClCompile Include="..\Code\OldMan_Idle.cpp" />
     <ClCompile Include="..\Code\Skeleton.cpp" />
     <ClCompile Include="..\Code\Slime.cpp" />
     <ClCompile Include="..\Code\SlimeAttack.cpp" />
@@ -355,6 +383,7 @@
     <ClCompile Include="..\Code\StartButton.cpp" />
     <ClCompile Include="..\Code\TempItem.cpp" />
     <ClCompile Include="..\Code\Terrain.cpp" />
+    <ClCompile Include="..\Code\Trader_Idle.cpp" />
     <ClCompile Include="..\Code\UIaimpoint.cpp" />
     <ClCompile Include="..\Code\UIbasicslot.cpp" />
     <ClCompile Include="..\Code\UIbigmap.cpp" />
@@ -371,6 +400,7 @@
     <ClCompile Include="..\Code\Warrior_Attack.cpp" />
     <ClCompile Include="..\Code\Wizard.cpp" />
     <ClCompile Include="..\Code\Wizard_Attack.cpp" />
+    <ClCompile Include="..\Code\NPC_Wizard_Idle.cpp" />
     <ClCompile Include="..\Header\Boss_SkeletonSpawnPattern.cpp" />
     <ClCompile Include="..\ImGui\imgui.cpp" />
     <ClCompile Include="..\ImGui\imgui_demo.cpp" />

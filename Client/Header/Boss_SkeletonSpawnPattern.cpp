@@ -38,7 +38,7 @@ STATE CBoss_SkeletonSpawnPattern::Update_State(const _float& fTimeDelta)
         Spawn_Skeleton();
         m_bSkill = true;
     }
-    if (2.5f < m_fSkillCool)
+    if (3.f < m_fSkillCool)
     {
         m_bSkill = false;
         m_fSkillCool = 0.f;
