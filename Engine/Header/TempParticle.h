@@ -29,7 +29,7 @@ protected:
 		Initial_Particle(&attribute);
 		m_ParticleList.push_back(attribute);
 	}
-	virtual void Remove_DeadParticle();
+
 
 protected:
 	HRESULT			Ready_Object(const _tchar* pPath);
@@ -66,6 +66,7 @@ private:
 	}
 	virtual	void PreRender_Object();
 	virtual	void PostRender_Object();
+	virtual void Remove_DeadParticle();
 
 protected:
 	LPDIRECT3DVERTEXBUFFER9			m_pVB;

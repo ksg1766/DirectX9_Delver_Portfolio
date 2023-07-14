@@ -3,6 +3,7 @@
 
 #include "..\Header\TempItem.h"
 #include "Export_Function.h"
+#include "EffectSquare.h"
 
 static _int iCount = 0;
 
@@ -173,6 +174,14 @@ void CTempItem::OnCollisionEnter(CCollider* _pOther)
 	if (_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::MONSTER)
 		// 무기 콜리전에 들어온 타입이 몬스터이면서, 플레이어의 스테이트가 공격이라면
 	{
+		// 이펙트 
+		ParticleBoundingBox EffectBox;
+		EffectBox.vMin = { -100.f, -100.f, -100.f };
+		EffectBox.vMax = { 100.f, 100.f, 100.f };
+
+		// 시작점 , 개수
+		CGameObject* pGameObject = CEffectSquare::Create(m_pGraphicDev, _vec3(0.f, 5.f, 0.f), 1000, &EffectBox, L"../Bin/SRSource/Effect/Square_effect/Square_effect3.png");
+		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 
 		if (!pPlayer.Get_AttackTick() && 
 			dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_StateMachine()->Get_State() != STATE::DEAD)
@@ -189,6 +198,7 @@ void CTempItem::OnCollisionEnter(CCollider* _pOther)
 				iCount = 0;
 				dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_StateMachine()->Set_State(STATE::HIT);
 			}
+
 
 
 			cout << "데미지" << endl;

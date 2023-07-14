@@ -113,6 +113,8 @@ void CEffectSquare::LateUpdate_Object(void)
 
 void CEffectSquare::Render_Object()
 {
+	//m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matPosWorld);
+	
 	CTempParticle::Render_Object();
 }
 
