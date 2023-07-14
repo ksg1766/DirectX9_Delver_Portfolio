@@ -1,8 +1,8 @@
 #include "stdafx.h"
-#include "..\Header\Player.h"
 
 #include "..\Header\TempItem.h"
 #include "Export_Function.h"
+#include "Player.h"
 
 static _int iCount = 0;
 
@@ -21,10 +21,10 @@ CTempItem::~CTempItem()
 	Free();
 }
 
-HRESULT CTempItem::Ready_Object(void)
+HRESULT CTempItem::Ready_Object(_bool _Item)
 {		
 	m_eObjectTag = OBJECTTAG::ITEM;
-
+	m_bWorldItem = _Item;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 	
 	m_pTransform->Scale(_vec3(0.3f, 0.3f, 0.3f));
@@ -34,13 +34,7 @@ HRESULT CTempItem::Ready_Object(void)
 	m_pBasicStat->Get_Stat()->fAttack = 1.f;
 	m_pBasicStat->Get_Stat()->fHealth = 20.f;
 
-	CPlayer* pPlayer = dynamic_cast<CPlayer*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
 
-	if (pPlayer->Get_CurrentEquipRight() == nullptr)
-	{
-		CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pTransform->m_pParent->Get_Host());
-		m_pTransform->Translate(pPlayer->m_pTransform->m_vInfo[INFO_POS] + *dynamic_cast<CPlayer*>(pPlayer)->Get_Offset());
-	}
 
 	m_AttackInfo.fWeaponSpeed = 0.08f;
 	m_AttackInfo.fReturnSpeed = 0.08f;
@@ -50,8 +44,24 @@ HRESULT CTempItem::Ready_Object(void)
 
 	// 타입 및 아이디 지정
 	m_ItemID.eItemType = ITEMTYPE_WEAPONITEM;
-	m_ItemID.eItemID   = WEAPON_SWORD;
-	m_ItemID.iCount    = 1;
+	m_ItemID.eItemID = WEAPON_SWORD;
+	m_ItemID.iCount = 1;
+
+	if (!Get_WorldItem())
+	{
+		CGameObject* pPlayer = SceneManager()->GetInstance()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front();
+
+		if (pPlayer == nullptr)
+			return S_OK;
+
+
+		if (dynamic_cast<CPlayer*>(pPlayer)->Get_CurrentEquipRight() == nullptr)
+		{
+			CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pTransform->m_pParent->Get_Host());
+			m_pTransform->Translate(pPlayer->m_pTransform->m_vInfo[INFO_POS] + *dynamic_cast<CPlayer*>(pPlayer)->Get_Offset());
+
+		}
+	}
 
 	return S_OK;
 }
@@ -64,23 +74,38 @@ _int CTempItem::Update_Object(const _float& fTimeDelta)
 
 	_int iExit = __super::Update_Object(fTimeDelta);
 
-	CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pTransform->m_pParent->Get_Host());
+	CPlayer* pPlayer = dynamic_cast<CPlayer*>(SceneManager()->GetInstance()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
+	CItem* ItemType = dynamic_cast<CItem*>(pPlayer->Get_CurrentEquipRight());
+	ITEMTYPEID ItemID = {};
+
+	if (ItemType != nullptr)
+		ItemID = ItemType->Get_ItemTag();
+
+	if (ItemID.eItemID != ITEMID::WEAPON_SWORD)
+		return iExit;
+
+
+	if (!Get_WorldItem())
+	{
+		CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pTransform->m_pParent->Get_Host());
 
 #pragma region ksg
-	if (pPlayer->Get_Attack() && pPlayer != nullptr)
-	{
-		if (2.3f < D3DXVec3Length(&(m_pTransform->m_pParent->m_vInfo[INFO_POS] - m_pTransform->m_vInfo[INFO_POS])))
-			m_fSignTime = -1.f;
-		else if (1.8848f > D3DXVec3Length(&(m_pTransform->m_pParent->m_vInfo[INFO_POS] - m_pTransform->m_vInfo[INFO_POS])))
+		if (pPlayer->Get_Attack() && pPlayer != nullptr)
 		{
-			m_fSignTime = 1.f;
-			pPlayer->Set_Attack(false);
-		}
-		m_pTransform->Translate(m_pTransform->m_vInfo[INFO_LOOK] * m_fSignTime * 7.f * fTimeDelta);
+			if (1.85f < D3DXVec3Length(&(m_pTransform->m_pParent->m_vInfo[INFO_POS] - m_pTransform->m_vInfo[INFO_POS])))
+				m_fSignTime = -1.f;
+			else if (1.5f > D3DXVec3Length(&(m_pTransform->m_pParent->m_vInfo[INFO_POS] - m_pTransform->m_vInfo[INFO_POS])))
+			{
+				m_fSignTime = 1.f;
+				pPlayer->Set_Attack(false);
+			}
+			m_pTransform->Translate(m_pTransform->m_vInfo[INFO_LOOK] * m_fSignTime * 7.f * fTimeDelta);
 
-		// 1.8848은 그냥 D3DXVec3Length(&오프셋) 하셔서 바꿔주시면 돼요. 2.3f는 적당히 사거리 더해서 하심 됩니다.
-	}
+			// 1.8848은 그냥 D3DXVec3Length(&오프셋) 하셔서 바꿔주시면 돼요. 2.3f는 적당히 사거리 더해서 하심 됩니다.
+		}
 #pragma endregion ksg
+
+	}
 
 	return iExit;
 }
@@ -145,12 +170,15 @@ HRESULT CTempItem::Add_Component(void)
 		for (auto& iter : m_mapComponent[i])
 			iter.second->Init_Property(this);
 
-	CPlayer* pPlayer = dynamic_cast<CPlayer*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
-
-	if (pPlayer->Get_CurrentEquipRight() == nullptr)
+	if (!Get_WorldItem())
 	{
-		m_pTransform->Set_Parent(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform);
-		m_pTransform->Copy_RUL(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform->m_vInfo);
+		CPlayer* pPlayer = dynamic_cast<CPlayer*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
+
+		if (pPlayer->Get_CurrentEquipRight() == nullptr)
+		{
+			m_pTransform->Set_Parent(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform);
+			m_pTransform->Copy_RUL(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform->m_vInfo);
+		}
 	}
 
 	return S_OK;
@@ -199,18 +227,28 @@ void CTempItem::OnCollisionEnter(CCollider* _pOther)
 void CTempItem::OnCollisionStay(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
+
+
+	if (!(_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::MONSTER) &&
+		!(_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::PLAYER))
+		__super::OnCollisionStay(_pOther);
 }
 
 void CTempItem::OnCollisionExit(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
+
+
+	if (!(_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::MONSTER) &&
+		!(_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::PLAYER))
+		__super::OnCollisionExit(_pOther);
 }
 
-CTempItem* CTempItem::Create(LPDIRECT3DDEVICE9 pGraphicDev)
+CTempItem* CTempItem::Create(LPDIRECT3DDEVICE9 pGraphicDev, _bool _Item)
 {
 	CTempItem* pInstance = new CTempItem(pGraphicDev);
 
-	if (FAILED(pInstance->Ready_Object()))
+	if (FAILED(pInstance->Ready_Object(_Item)))
 	{
 		Safe_Release(pInstance);
 

@@ -6,12 +6,12 @@ BEGIN(Engine)
 
 END
 
-class CMonster_Move : public CState
+class CTest_Move : public CState
 {
 private:
-	explicit CMonster_Move();
-	explicit CMonster_Move(LPDIRECT3DDEVICE9 pGraphicDev);
-	virtual ~CMonster_Move();
+	explicit CTest_Move();
+	explicit CTest_Move(LPDIRECT3DDEVICE9 pGraphicDev);
+	virtual ~CTest_Move();
 
 public:
 	virtual HRESULT	Ready_State(CStateMachine* pOwner);
@@ -23,17 +23,7 @@ public:
 	virtual STATE	Key_Input(const _float& fTimeDelta) { return STATE(); }
 
 public:
-	static CMonster_Move* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
-
-private:
-	void	Set_NewPos(const _float& fTimeDelta);
-	void	Set_NewPos();
-	void	Move_NewPos(const _float& fTimeDelta);
-	_bool	Reached_Pos();
-	
-	void  Move_RandomPos(const _float& fTimeDelta);
-	_vec3 Get_RandomDir(const _float& fTimeDelta);
-	void  MoveTo_Pos(const _vec3& vTargetPos, const _float& fTimeDelta);
+	static CTest_Move* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
 
 private:
 	_bool	m_bJumCoolDown;

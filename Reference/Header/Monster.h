@@ -31,14 +31,16 @@ public: //Getter
     STATE				Get_State()                          { return m_eState; }
     _bool				Get_AttackTick()                     { return m_bAttackTick; }
     _bool               Get_BlockOn()                        { return m_bBlockOn; }
+    _bool               Get_WallTouch()                      { return m_bWallTouch; }
 
-public: // Stter
+public: // Setter
     void                Set_Speed(_float _fSpeed)            { m_fSpeed = _fSpeed; }
     void				Set_State(STATE _eState)             { m_eState = _eState; }
     void				Set_AttackTick(_bool _Tick)          { m_bAttackTick = _Tick; }
     void		        Set_MonsterState(MONSTERTAG _eState) { m_eMonsterTag = _eState; }
 
     void                Set_BlockOn(_bool _block)            { m_bBlockOn = _block; }
+	void                Set_WallTouch(_bool _Touch)			 { m_bWallTouch = _Touch; }
     void                Set_Terrain(CTerrain* _pTerrain)     { m_pTerrain = _pTerrain; }
 
 protected:
@@ -48,6 +50,7 @@ protected:
     STATE								m_eState;
     _bool								m_bAttackTick;
     _bool		                        m_bBlockOn;
+    _bool                               m_bWallTouch;
     _float                              m_fSpeed;
     CTerrain*                           m_pTerrain;
     // MONSTER_ID m_eMonserID;

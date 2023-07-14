@@ -18,7 +18,7 @@ CMonster_Jump::~CMonster_Jump()
 HRESULT CMonster_Jump::Ready_State(CStateMachine* pOwner)
 {
 	m_pOwner = pOwner;
-	m_fJumpVelocity = 13.f;
+	m_fJumpVelocity = 15.f;
 	m_bJumCoolDown = false;
 	m_bIsJumping = false;
 	m_fJumpCoolDuration = 2.f;
@@ -70,13 +70,13 @@ STATE CMonster_Jump::Jump(const _float& fTimeDelta)
 	//_float fSight = pow(15, 2);
 
 
-	if (dynamic_cast<CMonster*>(m_pOwner)->Get_BlockOn())
+	if (vMonsterPos.y < 1.f)
 	{
-		//vMonsterPos.y = 1.f;
-		m_fJumpVelocity = 13.f;
+		vMonsterPos.y = 1.f;
+		m_fJumpVelocity = 15.f;
 		m_bJumCoolDown = true;
 		m_bIsJumping = false;
-		//m_pOwner->Get_Animator()->Get_Animation()->Set_Frame(0.f);
+		m_pOwner->Get_Animator()->Get_Animation()->Set_Frame(0.f);
 	
 		dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Set_State(STATE::ROMIMG);
 		

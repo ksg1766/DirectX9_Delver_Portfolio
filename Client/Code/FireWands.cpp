@@ -1,76 +1,59 @@
-#include "stdafx.h"
-#include "..\Header\Player.h"
-
-#include "..\Header\Bow.h"
+#include "..\Header\FireWands.h"
 #include "Export_Function.h"
+#include "Player.h"
 
-static _int iCount = 0;
 
-CBow::CBow(LPDIRECT3DDEVICE9 pGraphicDev)
+CFireWands::CFireWands(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CItem(pGraphicDev)
 {
 }
 
-CBow::CBow(const CBow& rhs)
+CFireWands::CFireWands(const CFireWands& rhs)
 	: Engine::CItem(rhs)
 {
 }
 
-CBow::~CBow()
+CFireWands::~CFireWands()
 {
 	Free();
 }
 
-HRESULT CBow::Ready_Object(_bool _Item)
+HRESULT CFireWands::Ready_Object(_bool _Item)
 {
 	m_eObjectTag = OBJECTTAG::ITEM;
 	m_bWorldItem = _Item;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-
 	m_pTransform->Scale(_vec3(0.3f, 0.3f, 0.3f));
-
-
-	m_pCollider->
-		InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
-
+	
 
 	if (!Get_WorldItem())
 	{
 		CGameObject* pPlayer = SceneManager()->GetInstance()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front();
-		//CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pTransform->m_pParent->Get_Host());
+		//CPlayer* pPlayer = dynamic_cast<CPlayer*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
 
 		if (dynamic_cast<CPlayer*>(pPlayer)->Get_CurrentEquipRight() == nullptr)
-		{
-			m_pTransform->Copy_RUL(m_pTransform->m_pParent->m_vInfo);
-			m_pTransform->Scale(_vec3(0.3f, 0.3f, 0.3f));
+			m_pTransform->Translate(pPlayer->m_pTransform->m_vInfo[INFO_POS] + *dynamic_cast<CPlayer*>(pPlayer)->Get_Offset());
 
-
-			m_pTransform->Translate(m_pTransform->m_pParent->m_vInfo[INFO_POS] + *dynamic_cast<CPlayer*>(pPlayer)->Get_Offset());
-		}
+		m_fSignTime = 1.f;
 	}
 
-	m_fSignTime = 1.f;
-	m_fChase = 0.f;
-	m_fChase2 = 0.f;
-	m_fAngle = 0.f;
 
-	// 타입 및 아이디 지정
-	m_ItemID.eItemType = ITEMTYPE::ITEMTYPE_WEAPONITEM;
-	m_ItemID.eItemID = WEAPON_BOW;
+	m_ItemID.eItemType = ITEMTYPE_WEAPONITEM;
+	m_ItemID.eItemID = WEAPON_WAND1;
 	m_ItemID.iCount = 1;
 
 	return S_OK;
 }
 
-_int CBow::Update_Object(const _float& fTimeDelta)
+_int CFireWands::Update_Object(const _float& fTimeDelta)
 {
 	Engine::Renderer()->Add_RenderGroup(RENDER_ALPHA, this);
-	
+
 	if (SceneManager()->Get_GameStop()) { return 0; }
 
 	_int iExit = __super::Update_Object(fTimeDelta);
-
+	
 	CPlayer* pPlayer = dynamic_cast<CPlayer*>(SceneManager()->GetInstance()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
 	CItem* ItemType = dynamic_cast<CItem*>(pPlayer->Get_CurrentEquipRight());
 	ITEMTYPEID ItemID = {};
@@ -78,45 +61,23 @@ _int CBow::Update_Object(const _float& fTimeDelta)
 	if (ItemType != nullptr)
 		ItemID = ItemType->Get_ItemTag();
 
-	if (ItemID.eItemID != ITEMID::WEAPON_BOW)
+	if (ItemID.eItemID != ITEMID::WEAPON_WAND1)
 		return iExit;
-
 
 	if (!Get_WorldItem())
 	{
-		pPlayer = dynamic_cast<CPlayer*>(m_pTransform->m_pParent->Get_Host());
-		_vec3 vUp = *D3DXVec3Cross(&vUp, &m_pTransform->m_pParent->m_vInfo[INFO_LOOK],
-			&m_pTransform->m_pParent->m_vInfo[INFO_RIGHT]);
-		_matrix matRot;
-		_vec3 vLook = *D3DXVec3Cross(&vLook, &m_pTransform->m_pParent->m_vInfo[INFO_UP],
-			&m_pTransform->m_pParent->m_vInfo[INFO_RIGHT]);
-
-		if (pPlayer->Get_Attack())
+		if (pPlayer->Get_Attack() && pPlayer != nullptr)
 		{
-			if (m_iCount < 24.f)
+			if (1.65f < D3DXVec3Length(&(m_pTransform->m_pParent->m_vInfo[INFO_POS] - m_pTransform->m_vInfo[INFO_POS])))
 			{
-				++m_iCount;
-				m_pTransform->RotateAround(m_pTransform->m_pParent->m_vInfo[INFO_POS],
-					vUp, -0.01f);
-				m_pTransform->RotateAround(m_pTransform->m_vInfo[INFO_POS], m_pTransform->m_vInfo[INFO_UP],
-					0.06f);
+				m_fSignTime = -1.f;
+				pPlayer->Set_Attack(false);
 			}
-			pPlayer->Set_Attack(false);
-
-		}
-		else
-		{
-			if (m_iCount > 0.f)
+			else if (1.45f > D3DXVec3Length(&(m_pTransform->m_pParent->m_vInfo[INFO_POS] - m_pTransform->m_vInfo[INFO_POS])))
 			{
-				--m_iCount;
-				m_pTransform->RotateAround(m_pTransform->m_pParent->m_vInfo[INFO_POS],
-					vUp, 0.01f);
-				m_pTransform->RotateAround(m_pTransform->m_vInfo[INFO_POS], m_pTransform->m_vInfo[INFO_UP],
-					-0.06f);
-
-
-				//pPlayer->Set_Attack(false);
+				m_fSignTime = 1.f;
 			}
+			m_pTransform->Translate(m_pTransform->m_vInfo[INFO_LOOK] * m_fSignTime * 5.f * fTimeDelta);
 		}
 	}
 
@@ -124,19 +85,18 @@ _int CBow::Update_Object(const _float& fTimeDelta)
 	return iExit;
 }
 
-void CBow::LateUpdate_Object(void)
+void CFireWands::LateUpdate_Object(void)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
+
 
 	__super::LateUpdate_Object();
 	__super::Compute_ViewZ(&m_pTransform->m_vInfo[INFO_POS]);
 }
 
-
-void CBow::Render_Object(void)
+void CFireWands::Render_Object(void)
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
-	//m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
 	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
@@ -146,16 +106,10 @@ void CBow::Render_Object(void)
 
 	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 
-
-#if _DEBUG
-	m_pCollider->Render_Collider();
-#endif
-
-	//m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
 
-HRESULT CBow::Add_Component(void)
+HRESULT CFireWands::Add_Component(void)
 {
 	CComponent* pComponent = nullptr;
 
@@ -167,9 +121,13 @@ HRESULT CBow::Add_Component(void)
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::TRANSFORM, pComponent);
 
-	pComponent = m_pTexture = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_Bow"));
+	pComponent = m_pTexture = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_FireWands"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
+
+	pComponent = m_pBasicStat = dynamic_cast<CBasicStat*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BasicStat"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BASICSTAT, pComponent);
 
 	pComponent = m_pCollider = dynamic_cast<CCollider*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Collider"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
@@ -182,18 +140,21 @@ HRESULT CBow::Add_Component(void)
 	if (!Get_WorldItem())
 	{
 		CPlayer* pPlayer = dynamic_cast<CPlayer*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
-
+		
 		if (pPlayer->Get_CurrentEquipRight() == nullptr)
 		{
 			m_pTransform->Set_Parent(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform);
 			m_pTransform->Copy_RUL(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform->m_vInfo);
 		}
+
+
 	}
 
 	return S_OK;
 }
 
-void CBow::OnCollisionEnter(CCollider* _pOther)
+
+void CFireWands::OnCollisionEnter(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 
@@ -203,32 +164,32 @@ void CBow::OnCollisionEnter(CCollider* _pOther)
 	// 몬스터거나 플레이어면 밀어내지않는다.
 }
 
-void CBow::OnCollisionStay(CCollider* _pOther)
+void CFireWands::OnCollisionStay(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 }
 
-void CBow::OnCollisionExit(CCollider* _pOther)
+void CFireWands::OnCollisionExit(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 }
 
-CBow* CBow::Create(LPDIRECT3DDEVICE9 pGraphicDev, _bool _Item)
+CFireWands* CFireWands::Create(LPDIRECT3DDEVICE9 pGraphicDev, _bool _Item)
 {
-	CBow* pInstance = new CBow(pGraphicDev);
+	CFireWands* pInstance = new CFireWands(pGraphicDev);
 
 	if (FAILED(pInstance->Ready_Object(_Item)))
 	{
-		Safe_Release(pInstance);
+		Safe_Release<CFireWands*>(pInstance);
 
-		MSG_BOX("TempItem Create Failed");
+		MSG_BOX("Create FireWands Failed");
 		return nullptr;
 	}
 
 	return pInstance;
 }
 
-void CBow::Free()
+void CFireWands::Free()
 {
 	__super::Free();
 }

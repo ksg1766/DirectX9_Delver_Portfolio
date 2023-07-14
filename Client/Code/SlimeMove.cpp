@@ -47,10 +47,13 @@ STATE CSlimeMove::Update_State(const _float& fTimeDelta)
 
 	if (fDistanceLength >= fSight)
 	{
-		if (Reached_Pos())
+		if (dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Get_WallTouch())
+		{
 			Set_NewPos();
+			dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Set_WallTouch(false);
+		}
 		else
-			Move_NewPos(fTimeDelta);
+			Move_RandomPos(fTimeDelta);
 
 
 		return STATE::ROMIMG;
@@ -112,9 +115,9 @@ void CSlimeMove::Set_NewPos()
 {
 	srand((unsigned)time(NULL));
 
-	m_vRandomPos.x = 15 * cosf((_float)rand() / 30 * (D3DX_PI * 2));
+	m_vRandomPos.x = 15 * cosf((_float)rand() / 50 * (D3DX_PI * 2));
 	m_vRandomPos.y = 1.f;
-	m_vRandomPos.z = 15 * -sinf((_float)rand() / 30 * (D3DX_PI * 2));
+	m_vRandomPos.z = 15 * -sinf((_float)rand() / 50 * (D3DX_PI * 2));
 
 }
 
@@ -125,7 +128,7 @@ void CSlimeMove::Move_NewPos(const _float& fTimeDelta)
 
 	D3DXVec3Normalize(&vDir, &vDir);
 
-	_float fMoveSpeed = 3.f;
+	_float fMoveSpeed = 5.f;
 
 	_float fMoveDistanve = fMoveSpeed * fTimeDelta;
 
@@ -150,21 +153,22 @@ void CSlimeMove::Move_RandomPos(const _float& fTimeDelta)
 
 	_vec3 vPlayerPos = pPlayerTransform->m_vInfo[INFO_POS];
 	_vec3 vRandomDir = Get_RandomDir(fTimeDelta);
-	m_vSavePos = vRandomDir;
-	_vec3 vTargetPos = vPlayerPos + vRandomDir * 80.f;
+	m_vSavePos = vRandomDir * 1.5;
+	_vec3 vTargetPos = vPlayerPos + vRandomDir * 100.f;
 
 	MoveTo_Pos(vTargetPos, fTimeDelta);
 }
 
 _vec3 CSlimeMove::Get_RandomDir(const _float& fTimeDelta)
 {
-	_float X = m_vSavePos.x + (15 * cosf((_float)rand() / RAND_MAX * 2.f * D3DX_PI)) / 50.f;
-	_float Z = m_vSavePos.z + (15 * -sinf((_float)rand() / RAND_MAX * 2.f * D3DX_PI)) / 50.f;
-	//_float angle = (_float)rand() / RAND_MAX * 2.f * D3DX_PI;
-	//m_vRandomPos = _vec3(cosf(angle), 1.f, -sinf(angle));
+
+	_float radius = 45.f; // X와 Z 값의 최대 범위
+	_float angle = (_float)rand() / RAND_MAX * 2.f * D3DX_PI; // 0에서 2파이(360도) 사이의 랜덤한 각도
+
+	_float X = m_vSavePos.x + (radius * cosf(angle)) / 100.f; // X 값 계산
+	_float Z = m_vSavePos.z + (radius * sinf(angle)) / 50.f; // Z 값 계산
 
 	_vec3 vDir = _vec3(X, 0.f, Z);
-
 	D3DXVec3Normalize(&vDir, &vDir);
 
 
@@ -179,7 +183,7 @@ void CSlimeMove::MoveTo_Pos(const _vec3& vTargetPos, const _float& fTimeDelta)
 	_vec3 vDir = vTargetPos - vMonsterPos;
 	D3DXVec3Normalize(&vDir, &vDir);
 
-	_float fMoveSpeed = 3.f;
+	_float fMoveSpeed = 5.f;
 	_float fMoveDistance = fMoveSpeed * fTimeDelta;
 
 	vMonsterPos += vDir * fMoveDistance;

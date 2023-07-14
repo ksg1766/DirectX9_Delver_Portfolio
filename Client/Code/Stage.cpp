@@ -12,6 +12,11 @@
 #include "Skeleton.h"
 #include "SpawningPool.h"
 
+#include "Item.h"
+#include "TempItem.h"
+#include "Bow.h"
+#include "FireWands.h"
+
 CStage::CStage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
 {
@@ -145,55 +150,12 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 	dynamic_cast<CPlayer*>(pGameObject)->Set_Terrain(dynamic_cast<CTerrain*>(pLayer->Get_ObjectList(OBJECTTAG::TERRAIN).front()));
 	
-	// Monstser
-	/*pGameObject = CDungeonWarrior::Create(m_pGraphicDev);
+	//// Boss
+	pGameObject = CSkeletonKing::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pGameObject->m_pTransform->Translate(_vec3(40.f, 0.f, -40.f));
+	pGameObject->m_pTransform->Translate(_vec3(50.f, 0.f, 50.f));
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-	dynamic_cast<CDungeonWarrior*>(pGameObject)->Set_Terrain(dynamic_cast<CTerrain*>(pLayer->Get_ObjectList(OBJECTTAG::TERRAIN).front()));
-	
-	pGameObject = CDungeonSpider::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pGameObject->m_pTransform->Translate(_vec3(-40.f, 0.f, 40.f));
-	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-	dynamic_cast<CDungeonSpider*>(pGameObject)->Set_Terrain(dynamic_cast<CTerrain*>(pLayer->Get_ObjectList(OBJECTTAG::TERRAIN).front()));
-	
-	pGameObject = CBat::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pGameObject->m_pTransform->Translate(_vec3(0.f, 0.f, -40.f));
-	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-	dynamic_cast<CBat*>(pGameObject)->Set_Terrain(dynamic_cast<CTerrain*>(pLayer->Get_ObjectList(OBJECTTAG::TERRAIN).front()));*/
-
-	//pGameObject = CWizard::Create(m_pGraphicDev);
-	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//pGameObject->m_pTransform->Translate(_vec3(-40.f, 0.f, 0.f));
-	//pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-	//dynamic_cast<CWizard*>(pGameObject)->Set_Terrain(dynamic_cast<CTerrain*>(pLayer->Get_ObjectList(OBJECTTAG::TERRAIN).front()));
-	//
-	//pGameObject = CAlien::Create(m_pGraphicDev);
-	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//pGameObject->m_pTransform->Translate(_vec3(40.f, 0.f, 40.f));
-	//pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-	//dynamic_cast<CAlien*>(pGameObject)->Set_Terrain(dynamic_cast<CTerrain*>(pLayer->Get_ObjectList(OBJECTTAG::TERRAIN).front()));
-	////
-	//pGameObject = CSlime::Create(m_pGraphicDev);
-	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//pGameObject->m_pTransform->Translate(_vec3(20.f, 0.f, 20.f));
-	//pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-	//dynamic_cast<CSlime*>(pGameObject)->Set_Terrain(dynamic_cast<CTerrain*>(pLayer->Get_ObjectList(OBJECTTAG::TERRAIN).front()));
-	//
-	//pGameObject = CSkeleton::Create(m_pGraphicDev);
-	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//pGameObject->m_pTransform->Translate(_vec3(10.f, 0.f, -40.f));
-	//pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-	//dynamic_cast<CSkeleton*>(pGameObject)->Set_Terrain(dynamic_cast<CTerrain*>(pLayer->Get_ObjectList(OBJECTTAG::TERRAIN).front()));
-
-	////// Boss
-	//pGameObject = CSkeletonKing::Create(m_pGraphicDev);
-	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//pGameObject->m_pTransform->Translate(_vec3(50.f, 0.f, 50.f));
-	//pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-	//dynamic_cast<CSkeletonKing*>(pGameObject)->Set_Terrain(dynamic_cast<CTerrain*>(pLayer->Get_ObjectList(OBJECTTAG::TERRAIN).front()));
+	dynamic_cast<CSkeletonKing*>(pGameObject)->Set_Terrain(dynamic_cast<CTerrain*>(pLayer->Get_ObjectList(OBJECTTAG::TERRAIN).front()));
 
 	//Npc Test
 	pGameObject = CNpc_OldMan::Create(m_pGraphicDev);
@@ -201,6 +163,24 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	pGameObject->m_pTransform->Translate(_vec3(-50.f, 0.f, -50.f));
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 	dynamic_cast<CNpc_OldMan*>(pGameObject)->Set_Terrain(dynamic_cast<CTerrain*>(pLayer->Get_ObjectList(OBJECTTAG::TERRAIN).front()));
+
+	CItem* pItem = CTempItem::Create(m_pGraphicDev, true);
+	NULL_CHECK_RETURN(pItem, E_FAIL);
+	pItem->m_pTransform->Translate(_vec3(-40, 0.5f, 0.f));
+	dynamic_cast<CTempItem*>(pItem)->Set_WorldItem(true);
+	pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
+
+	pItem = CBow::Create(m_pGraphicDev, true);
+	NULL_CHECK_RETURN(pItem, E_FAIL);
+	pItem->m_pTransform->Translate(_vec3(-60, 0.5f, 0.f));
+	dynamic_cast<CBow*>(pItem)->Set_WorldItem(true);
+	pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
+
+	pItem = CFireWands::Create(m_pGraphicDev, true);
+	NULL_CHECK_RETURN(pItem, E_FAIL);
+	pItem->m_pTransform->Translate(_vec3(-80, 0.5f, 0.f));
+	dynamic_cast<CFireWands*>(pItem)->Set_WorldItem(true);
+	pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
 
 	return S_OK;
 }
@@ -315,6 +295,7 @@ HRESULT CStage::Ready_Layer_UI(LAYERTAG _eLayerTag)
 	pGameObject = CUIQuitButton::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	Engine::UIManager()->AddPopupGameobject_UI(Engine::UIPOPUPLAYER::POPUP_ESC, Engine::UILAYER::UI_DOWN, pGameObject);
+
 
 	Engine::UIManager()->Hide_PopupUI(Engine::UIPOPUPLAYER::POPUP_EQUIPMENT);
 	Engine::UIManager()->Hide_PopupUI(Engine::UIPOPUPLAYER::POPUP_INVEN);

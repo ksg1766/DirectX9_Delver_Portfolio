@@ -192,12 +192,17 @@
     <ClInclude Include="..\Header\Bow.h" />
     <ClInclude Include="..\Header\Box_Cube.h" />
     <ClInclude Include="..\Header\CrawlPattern.h" />
+<<<<<<< HEAD
     <ClInclude Include="..\Header\CUIspeech.h" />
     <ClInclude Include="..\Header\Dead_BossSkeleton.h" />
     <ClInclude Include="..\Header\Dog_Idle.h" />
     <ClInclude Include="..\Header\Dog_Stand.h" />
     <ClInclude Include="..\Header\Explosion_BossSkeleton.h" />
     <ClInclude Include="..\Header\Jump_BossSkeleton.h" />
+=======
+    <ClInclude Include="..\Header\FireBall.h" />
+    <ClInclude Include="..\Header\FireWands.h" />
+>>>>>>> origin/feature/JunYeop
     <ClInclude Include="..\Header\Magic_Ball.h" />
     <ClInclude Include="..\Header\Monster_Dead.h" />
     <ClInclude Include="..\Header\Move_BossSkeleton.h" />
@@ -261,7 +266,11 @@
     <ClInclude Include="..\Header\StartButton.h" />
     <ClInclude Include="..\Header\TempItem.h" />
     <ClInclude Include="..\Header\Terrain.h" />
+<<<<<<< HEAD
     <ClInclude Include="..\Header\Trader_Idle.h" />
+=======
+    <ClInclude Include="..\Header\Test_Move.h" />
+>>>>>>> origin/feature/JunYeop
     <ClInclude Include="..\Header\UIaimpoint.h" />
     <ClInclude Include="..\Header\UIbasicslot.h" />
     <ClInclude Include="..\Header\UIbigmap.h" />
@@ -318,12 +327,17 @@
     <ClCompile Include="..\Code\Bow.cpp" />
     <ClCompile Include="..\Code\Box_Cube.cpp" />
     <ClCompile Include="..\Code\CrawlPattern.cpp" />
+<<<<<<< HEAD
     <ClCompile Include="..\Code\CUIspeech.cpp" />
     <ClCompile Include="..\Code\Dead_BossSkeleton.cpp" />
     <ClCompile Include="..\Code\Dog_Idle.cpp" />
     <ClCompile Include="..\Code\Dog_Stand.cpp" />
     <ClCompile Include="..\Code\Explosion_BossSkeleton.cpp" />
     <ClCompile Include="..\Code\Jump_BossSkeleton.cpp" />
+=======
+    <ClCompile Include="..\Code\FireBall.cpp" />
+    <ClCompile Include="..\Code\FireWands.cpp" />
+>>>>>>> origin/feature/JunYeop
     <ClCompile Include="..\Code\Magic_Ball.cpp" />
     <ClCompile Include="..\Code\Monster_Dead.cpp" />
     <ClCompile Include="..\Code\Move_BossSkeleton.cpp" />
@@ -387,7 +401,11 @@
     <ClCompile Include="..\Code\StartButton.cpp" />
     <ClCompile Include="..\Code\TempItem.cpp" />
     <ClCompile Include="..\Code\Terrain.cpp" />
+<<<<<<< HEAD
     <ClCompile Include="..\Code\Trader_Idle.cpp" />
+=======
+    <ClCompile Include="..\Code\Test_Move.cpp" />
+>>>>>>> origin/feature/JunYeop
     <ClCompile Include="..\Code\UIaimpoint.cpp" />
     <ClCompile Include="..\Code\UIbasicslot.cpp" />
     <ClCompile Include="..\Code\UIbigmap.cpp" />

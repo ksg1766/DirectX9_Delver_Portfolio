@@ -256,6 +256,4 @@ void CWizard::Free()
 {
 	__super::Free();
 
-	for (_uint i = 0; i < 5; ++i)
-		Safe_Release<CTexture*>(m_pTexture[i]);
 }

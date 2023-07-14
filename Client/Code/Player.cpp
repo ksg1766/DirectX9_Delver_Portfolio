@@ -7,6 +7,7 @@
 // 임시 아이템
 #include "TempItem.h"
 #include "Bow.h"
+#include "FireWands.h"
 #include "DynamicCamera.h"
 
 // State
@@ -44,7 +45,7 @@ HRESULT CPlayer::Ready_Object(void)
 	Get_Collider()->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
 
 	m_pTransform->Translate(_vec3(0.f, 1.f, 0.f));
-	m_vOffset = _vec3(0.55f, 0.1f, 1.8f);
+	m_vOffset = _vec3(0.55f, 0.1f, 1.5f);
 
 	// 걷기 상태 추가
 	CState* pState = CPlayerState_Walk::Create(m_pGraphicDev, m_pStateMachine);
@@ -178,17 +179,8 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 		D3DXVec3TransformCoord(&m_vOffset, &m_vOffset, &matRotY);
 	}
 
-	if (Engine::InputDev()->Key_Down(DIK_1))
-	{
-		m_bItemEquipRight = true;
-		Engine::CGameObject* pGameObject = nullptr;
-		pGameObject = CTempItem::Create(m_pGraphicDev);
+	// I, C , M , ESC 할 때 마우스 공격 안 되게.
 
-		//Add_Item(pGameObject, ITEMTAG::WEAPON);
-		Set_CurrentEquipRight(pGameObject);
-
-		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
-	}
 
 	// UI 단축키 추가
 	if (Engine::InputDev()->Key_Down(DIK_I))
@@ -197,9 +189,14 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 		{
 			static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(true);
 			SceneManager()->Set_GameStop(false);
+			Set_UseUI(true);
+			// 사용자 마우스 못 받게.
 		}
 		else
+		{
 			static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(false);
+			Set_UseUI(false);
+		}
 	}
 	else if (Engine::InputDev()->Key_Down(DIK_C))
 	{
@@ -207,19 +204,26 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 		{
 			static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(true);
 			SceneManager()->Set_GameStop(false);
+			Set_UseUI(true);
 		}
 		else
+		{
 			static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(false);
+			Set_UseUI(false);
+		}
+		
 	}
 	else if (Engine::InputDev()->Key_Down(DIK_M))
 	{
 		if (Engine::UIManager()->Set_MapUse()) {
 			static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(true);
 			SceneManager()->Set_GameStop(true);
+			Set_UseUI(true);
 		}
 		else {
 			static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(false);
 			SceneManager()->Set_GameStop(false);
+			Set_UseUI(false);
 		}
 	}
 	else if (Engine::InputDev()->Key_Down(DIK_ESCAPE))
@@ -227,11 +231,13 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 		if (Engine::UIManager()->Set_EscUse()) {
 			static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(true);
 			SceneManager()->Set_GameStop(true);
+			Set_UseUI(true);
 		}
 		else
 		{
 			static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(false);
 			SceneManager()->Set_GameStop(false);
+			Set_UseUI(false);
 		}
 	}
 
@@ -239,7 +245,7 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 	if (Engine::InputDev()->Key_Down(DIK_E))
 	{
 		//  바라보고 있는 아이템 줍기 / E 키로 앞에 있는 아이템 획득을 테스트 용으로 임시 생성
-		Engine::CGameObject* pGameObjectItem = CBow::Create(m_pGraphicDev);
+		Engine::CGameObject* pGameObjectItem = CBow::Create(m_pGraphicDev, false);
 		// 획득한 아이템 타입 및 개수를 받아옴.
 		ITEMTYPEID ItemType = dynamic_cast<CItem*>(pGameObjectItem)->Get_ItemTag();
 
@@ -445,7 +451,9 @@ void CPlayer::Use_SlotItem(INVENKEYSLOT _SlotNum)
 
 void CPlayer::OnCollisionEnter(CCollider* _pOther)
 {
-	if (_pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::MONSTER && _pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::MONSTERBULLET)
+	if (_pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::MONSTER 
+		&& _pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::MONSTERBULLET
+		&& _pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::ITEM)
 	{
 		_vec3	vOtherPos = _pOther->GetCenterPos();
 		_float* fOtherAxis = _pOther->GetAxisLen();
@@ -487,11 +495,56 @@ void CPlayer::OnCollisionEnter(CCollider* _pOther)
 		}
 	}
 
+
+	if (_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::ITEM)
+	{
+		if (dynamic_cast<CItem*>(_pOther->GetHost())->Get_WorldItem())
+		{
+			ITEMTYPEID ItemType = dynamic_cast<CItem*>(_pOther->GetHost())->Get_ItemTag();
+
+			CGameObject* pItem = nullptr;
+
+			switch (ItemType.eItemID)
+			{
+			case ITEMID::WEAPON_SWORD:
+				pItem = CTempItem::Create(m_pGraphicDev, false);
+				break;
+			case ITEMID::WEAPON_BOW:
+				pItem = CBow::Create(m_pGraphicDev, false);
+				break;
+			case ITEMID::WEAPON_WAND1:
+				pItem = CFireWands::Create(m_pGraphicDev, false);
+				break;
+			}
+
+			if (ItemType.eItemType == ITEMTYPE_WEAPONITEM && !m_bItemEquipRight)
+			{
+				m_bItemEquipRight = true;
+				
+				Set_CurrentEquipRight(pItem);
+				Engine::EventManager()->CreateObject(pItem, LAYERTAG::GAMELOGIC);
+			}
+			else
+				Engine::EventManager()->CreateObject(pItem, LAYERTAG::GAMELOGIC);
+
+			m_pInventory->Add_ItemObject(pItem);
+
+			Engine::CGameObject* pGameObjectUI = CUIitem::Create(m_pGraphicDev);
+			dynamic_cast<CUIitem*>(pGameObjectUI)->Set_ItemTag(ItemType.eItemType, ItemType.eItemID, ItemType.iCount);
+
+			Engine::UIManager()->AddItemGameobject_UI(pGameObjectUI);
+
+
+			EventManager()->GetInstance()->DeleteObject(dynamic_cast<CItem*>(_pOther->GetHost()));
+		}
+	}
 }
 
 void CPlayer::OnCollisionStay(CCollider* _pOther)
 {
-	if (_pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::MONSTER && _pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::MONSTERBULLET)
+	if (_pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::MONSTER 
+		&& _pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::MONSTERBULLET
+		&& _pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::ITEM)
 	{
 		_vec3	vOtherPos = _pOther->GetCenterPos();
 		_float* fOtherAxis = _pOther->GetAxisLen();

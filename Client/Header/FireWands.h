@@ -6,17 +6,17 @@ BEGIN(Engine)
 
 class CRcTex;
 class CTexture;
-class CBasicStat;
 
 END
 
-class CTempItem :
-    public Engine::CItem
+//CFireWands
+
+class CFireWands : public Engine::CItem
 {
 private:
-	explicit CTempItem(LPDIRECT3DDEVICE9 pGraphicDev);
-	explicit CTempItem(const CTempItem& rhs);
-	virtual ~CTempItem();
+	explicit CFireWands(LPDIRECT3DDEVICE9 pGraphicDev);
+	explicit CFireWands(const CFireWands& rhs);
+	virtual ~CFireWands();
 
 public:
 	virtual HRESULT Ready_Object(_bool _Item);
@@ -26,25 +26,18 @@ public:
 
 private:
 	HRESULT			Add_Component(void);
-
 public:
 	virtual void	OnCollisionEnter(CCollider* _pOther);
 	virtual void	OnCollisionStay(CCollider* _pOther);
 	virtual void	OnCollisionExit(CCollider* _pOther);
-
-private:
-
 private:
 	CRcTex*		m_pBuffer = nullptr;
 	CTexture*	m_pTexture = nullptr;
-	_float		m_fSignTime;
-	_float		m_fChase;
 
-	// 공격 모션
-	MYATTACKINFO m_AttackInfo;
+	_float		m_fSignTime;
 
 public:
-	static CTempItem* Create(LPDIRECT3DDEVICE9 pGraphicDev, _bool _Item);
+	static CFireWands* Create(LPDIRECT3DDEVICE9 pGraphicDev, _bool _Item);
 
 private:
 	virtual void Free() override;

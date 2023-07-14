@@ -106,7 +106,12 @@ void CMonster::OnCollisionStay(CCollider* _pOther)
 	else //(fRadiusY == fMinAxis)
 	{
 		if (vOtherPos.y < vThisPos.y)
+		{
+			if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BLOCK)
+				Set_BlockOn(false);
+
 			m_pTransform->Translate(_vec3(0.f, fRadiusY, 0.f));
+		}
 		else
 			m_pTransform->Translate(_vec3(0.f, -fRadiusY, 0.f));
 	}
@@ -114,6 +119,7 @@ void CMonster::OnCollisionStay(CCollider* _pOther)
 
 void CMonster::OnCollisionExit(CCollider* _pOther)
 {
+
 }
 
 void CMonster::Free(void)

@@ -46,6 +46,7 @@ public:
 	_bool			Get_ItemEquipLeft()      { return m_bItemEquipLeft; }
 	_bool			Get_Attack()			 { return m_bIsAttack; }
 	_bool			Get_AttackTick()		 { return m_bAttackTick; }
+	_bool			Get_UseUI()				 { return m_bUseUI; }
 
 	virtual void	OnCollisionEnter(CCollider* _pOther);
 	virtual void	OnCollisionStay(CCollider* _pOther);
@@ -60,6 +61,7 @@ public:
 	void			Set_Attack(_bool _bAttack)					  { m_bIsAttack = _bAttack; }
 	void			Set_AttackTick(_bool _bTick)				  { m_bAttackTick = _bTick; }
 	void			Set_State(STATE _eState)					  { m_eState = _eState; }
+	void			Set_UseUI(_bool _use)						  { m_bUseUI = _use; }
 
 public:
 	//void			Add_Item(CGameObject* pItem, ITEMTAG _eItem) { m_pItem[(_uint)_eItem] = pItem; }
@@ -84,6 +86,7 @@ private:
 	// Player 
 	STATE			m_eState = STATE::STATE_END;
 
+	_bool			m_bUseUI;
 	_bool			m_bIsAttack;  // 공격형 아이템의 업데이트에 신호를 줄 불 변수
 	_bool			m_bAttackTick;
 

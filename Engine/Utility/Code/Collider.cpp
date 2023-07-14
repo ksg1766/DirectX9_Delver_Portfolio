@@ -4,19 +4,19 @@
 
 UINT CCollider::g_iNextID = 0;
 
-CCollider::CCollider()
+CCollider::CCollider() : m_iID(g_iNextID++)
 {
 	::ZeroMemory(&m_vAxisDir, sizeof(_vec3));
 	::ZeroMemory(&m_fAxisLen, sizeof(_float));
 }
 
-CCollider::CCollider(LPDIRECT3DDEVICE9 pGraphicDev) :CComponent(pGraphicDev), m_iCol(0)
+CCollider::CCollider(LPDIRECT3DDEVICE9 pGraphicDev) :CComponent(pGraphicDev), m_iID(g_iNextID++)
 {
 	::ZeroMemory(&m_vAxisDir, sizeof(_vec3));
 	::ZeroMemory(&m_fAxisLen, sizeof(_float));
 }
 
-CCollider::CCollider(const CCollider & rhs) : CComponent(rhs), m_iCol(0)
+CCollider::CCollider(const CCollider & rhs) : CComponent(rhs), m_iID(g_iNextID++)
 {
 	::ZeroMemory(&m_vAxisDir, sizeof(_vec3));
 	::ZeroMemory(&m_fAxisLen, sizeof(_float));

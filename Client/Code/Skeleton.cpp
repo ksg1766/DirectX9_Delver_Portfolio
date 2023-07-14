@@ -2,7 +2,7 @@
 #include "Export_Function.h"
 #include "Terrain.h"
 #include "Monster_Move.h"
-#include "Monster_Jump.h"
+#include "Warrior_Attack.h"
 #include "Monster_Hit.h"
 #include "Monster_Dead.h"
 #include "Player.h"
@@ -26,12 +26,13 @@ HRESULT CSkeleton::Ready_Object()
 {
 	Set_ObjectTag(OBJECTTAG::MONSTER);
 	Set_MonsterState(MONSTERTAG::SKELETON);
+	m_bBlockOn = false;
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	CState* pState = CMonster_Move::Create(m_pGraphicDev, m_pStateMachine);
 	m_pStateMachine->Add_State(STATE::ROMIMG, pState);
-	pState = CMonster_Jump::Create(m_pGraphicDev, m_pStateMachine);
+	pState = CWarror_Attack::Create(m_pGraphicDev, m_pStateMachine);
 	m_pStateMachine->Add_State(STATE::ATTACK, pState);
 	pState = CMonster_Hit::Create(m_pGraphicDev, m_pStateMachine);
 	m_pStateMachine->Add_State(STATE::HIT, pState);
@@ -45,7 +46,7 @@ HRESULT CSkeleton::Ready_Object()
 	m_pAnimator->Add_Animation(STATE::ROMIMG, pAnimation);
 
 	pAnimation = CAnimation::Create(m_pGraphicDev,
-		m_pTexture[(_uint)STATE::ATTACK], STATE::ATTACK, 3.f, TRUE);
+		m_pTexture[(_uint)STATE::ATTACK], STATE::ATTACK, 3.8f, TRUE);
 	m_pAnimator->Add_Animation(STATE::ATTACK, pAnimation);
 
 	pAnimation = CAnimation::Create(m_pGraphicDev,
@@ -85,7 +86,10 @@ _int CSkeleton::Update_Object(const _float& fTimeDelta)
 
 	m_pStateMachine->Update_StateMachine(fTimeDelta);
 
-	if (m_pStateMachine->Get_State() != STATE::ATTACK)
+	//if (m_pStateMachine->Get_State() != STATE::ATTACK)
+	//	ForceHeight(m_pTransform->m_vInfo[INFO_POS]);
+
+	if (!Get_BlockOn())
 		ForceHeight(m_pTransform->m_vInfo[INFO_POS]);
 
 	return iExit;
@@ -130,7 +134,7 @@ void CSkeleton::OnCollisionEnter(CCollider* _pOther)
 		__super::OnCollisionEnter(_pOther);
 
 	if (_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::PLAYER
-		&& this->Get_State() == STATE::ATTACK)
+		&& this->Get_StateMachine()->Get_State() == STATE::ATTACK)
 	{
 		CPlayerStat& PlayerState = *dynamic_cast<CPlayer*>(_pOther->GetHost())->Get_Stat();
 
@@ -151,11 +155,15 @@ void CSkeleton::OnCollisionStay(CCollider* _pOther)
 
 	__super::OnCollisionStay(_pOther);
 	// 충돌 밀어내기 후 이벤트 : 구현하시면 됩니다.
+
 }
 
 void CSkeleton::OnCollisionExit(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
+
+	__super::OnCollisionExit(_pOther);
+	Set_BlockOn(false);
 }
 
 HRESULT CSkeleton::Add_Component()
