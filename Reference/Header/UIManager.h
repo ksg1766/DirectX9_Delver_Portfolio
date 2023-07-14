@@ -26,8 +26,9 @@ public:
 			m_bInven = false;
 			Show_PopupUI(UIPOPUPLAYER::POPUP_MOUSE);
 			Hide_PopupUI(UIPOPUPLAYER::POPUP_INVEN);
+			Hide_InvenItem();
 			Hide_PopupUI(UIPOPUPLAYER::POPUP_EQUIPMENT);
-			CGameObject* Obj = Get_Object(Engine::UIPOPUPLAYER::POPUP_EQUIPMENT, Engine::UILAYER::UI_DOWN, UIOBJECTTTAG::UIID_INVENBUTTON, 0);
+			CGameObject* Obj = Get_PopupObject(Engine::UIPOPUPLAYER::POPUP_EQUIPMENT, Engine::UILAYER::UI_DOWN, UIOBJECTTTAG::UIID_INVENBUTTON, 0);
 			dynamic_cast<CTempUI*>(Obj)->Set_UIImage(1);
 		}
 		else { // 인벤 열 때
@@ -44,10 +45,11 @@ public:
 			Hide_PopupUI(UIPOPUPLAYER::POPUP_ESC);
 
 			Show_PopupUI(UIPOPUPLAYER::POPUP_INVEN);
+			Show_InvenItem();
 			Show_PopupUI(UIPOPUPLAYER::POPUP_EQUIPMENT);
-			CGameObject* Obj = Get_Object(Engine::UIPOPUPLAYER::POPUP_EQUIPMENT, Engine::UILAYER::UI_DOWN, UIOBJECTTTAG::UIID_INVENBUTTON, 0);
+			CGameObject* Obj = Get_PopupObject(Engine::UIPOPUPLAYER::POPUP_EQUIPMENT, Engine::UILAYER::UI_DOWN, UIOBJECTTTAG::UIID_INVENBUTTON, 0);
 			dynamic_cast<CTempUI*>(Obj)->Set_UIImage(0);
-			CGameObject* Obj2 = Get_Object(Engine::UIPOPUPLAYER::POPUP_EQUIPMENT, Engine::UILAYER::UI_DOWN, UIOBJECTTTAG::UIID_INVENBUTTON, 1);
+			CGameObject* Obj2 = Get_PopupObject(Engine::UIPOPUPLAYER::POPUP_EQUIPMENT, Engine::UILAYER::UI_DOWN, UIOBJECTTTAG::UIID_INVENBUTTON, 1);
 			dynamic_cast<CTempUI*>(Obj2)->Set_UIImage(3);
 		}
 
@@ -63,7 +65,7 @@ public:
 			Show_PopupUI(UIPOPUPLAYER::POPUP_MOUSE);
 			Hide_PopupUI(UIPOPUPLAYER::POPUP_STAT);
 			Hide_PopupUI(UIPOPUPLAYER::POPUP_EQUIPMENT);
-			CGameObject* Obj = Get_Object(Engine::UIPOPUPLAYER::POPUP_EQUIPMENT, Engine::UILAYER::UI_DOWN, UIOBJECTTTAG::UIID_INVENBUTTON, 1);
+			CGameObject* Obj = Get_PopupObject(Engine::UIPOPUPLAYER::POPUP_EQUIPMENT, Engine::UILAYER::UI_DOWN, UIOBJECTTTAG::UIID_INVENBUTTON, 1);
 			dynamic_cast<CTempUI*>(Obj)->Set_UIImage(3);
 		}
 		else { // 스탯창 열 때
@@ -81,9 +83,9 @@ public:
 
 			Show_PopupUI(UIPOPUPLAYER::POPUP_STAT);
 			Show_PopupUI(UIPOPUPLAYER::POPUP_EQUIPMENT);
-			CGameObject* Obj = Get_Object(Engine::UIPOPUPLAYER::POPUP_EQUIPMENT, Engine::UILAYER::UI_DOWN, UIOBJECTTTAG::UIID_INVENBUTTON, 0);
+			CGameObject* Obj = Get_PopupObject(Engine::UIPOPUPLAYER::POPUP_EQUIPMENT, Engine::UILAYER::UI_DOWN, UIOBJECTTTAG::UIID_INVENBUTTON, 0);
 			dynamic_cast<CTempUI*>(Obj)->Set_UIImage(1);
-			CGameObject* Obj2 = Get_Object(Engine::UIPOPUPLAYER::POPUP_EQUIPMENT, Engine::UILAYER::UI_DOWN, UIOBJECTTTAG::UIID_INVENBUTTON, 1);
+			CGameObject* Obj2 = Get_PopupObject(Engine::UIPOPUPLAYER::POPUP_EQUIPMENT, Engine::UILAYER::UI_DOWN, UIOBJECTTTAG::UIID_INVENBUTTON, 1);
 			dynamic_cast<CTempUI*>(Obj2)->Set_UIImage(2);
 		}
 
@@ -151,19 +153,21 @@ public:
 		return m_bEsc;
 	}
 
-	void Show_PopupUI(UIPOPUPLAYER _PopupID);
-	void Hide_PopupUI(UIPOPUPLAYER _PopupID);
+	void  Show_PopupUI(UIPOPUPLAYER _PopupID);
+	void  Hide_PopupUI(UIPOPUPLAYER _PopupID);
 
-	void Delete_BasicObject(UILAYER eType);
-	void Delete_FindItemUI(ITEMTYPEID _itemId);
+	void  Delete_BasicObject(UILAYER eType);
+	void  Delete_FindItemUI(ITEMTYPEID _itemId);
+
+	void  Show_InvenItem();
+	void  Hide_InvenItem();
 
 public:
-	void AddBasicGameobject_UI(UILAYER eType, CGameObject* pGameObject);
-	void AddPopupGameobject_UI(UIPOPUPLAYER ePopupLayer, UILAYER eType, CGameObject* pGameObject);
-	void AddItemGameobject_UI(CGameObject* pGameObject);
-	void AddBasicItemGameobject_UI(CGameObject* pGameObject);
+	void  AddBasicGameobject_UI(UILAYER eType, CGameObject* pGameObject);
+	void  AddPopupGameobject_UI(UIPOPUPLAYER ePopupLayer, UILAYER eType, CGameObject* pGameObject);
+	void  AddItemGameobject_UI(CGameObject* pGameObject);
 
-	CGameObject* Get_Object(UIPOPUPLAYER ePopupLayer, UILAYER eType, UIOBJECTTTAG eObjID, _uint eUINumber)
+	CGameObject* Get_PopupObject(UIPOPUPLAYER ePopupLayer, UILAYER eType, UIOBJECTTTAG eObjID, _uint eUINumber)
 	{ 
 		UIOBJECTTTAG UIObjID;
 		_uint        UINumber;
@@ -177,6 +181,7 @@ public:
 			}
 		}
 	}
+	CGameObject* Get_PopupObjectBasicSlot(ITEMTYPEID ItemType);
 	CGameObject* Get_BasicObject(UILAYER eType, UIOBJECTTTAG eObjID, _uint eUINumber)
 	{
 		UIOBJECTTTAG UIObjID;
@@ -196,9 +201,9 @@ public:
 	CGameObject* Find_ColliderSlot();
 
 public:
-	_int Update_UI(const _float& fTimeDelta);
-	void LateUpdate_UI();
-	void Render_UI(LPDIRECT3DDEVICE9 pGraphicDev);
+	_int  Update_UI(const _float& fTimeDelta);
+	void  LateUpdate_UI();
+	void  Render_UI(LPDIRECT3DDEVICE9 pGraphicDev);
 
 private:
 	//void MakeWorldSpaceUI();
@@ -224,7 +229,7 @@ private:
 	//vector<CGameObject*> m_vecCreate;
 	vector<CGameObject*> m_vecDead;
 
-	vector<CGameObject*> m_vecBasicItem;
+	//vector<CGameObject*> m_vecBasicItem;
 
 private:
 	virtual void Free() override;

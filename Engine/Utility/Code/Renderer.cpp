@@ -23,6 +23,8 @@ void CRenderer::Add_RenderGroup(RENDERID eType, CGameObject * pGameObject)
 
 void CRenderer::Render_GameObject(LPDIRECT3DDEVICE9& pGraphicDev)
 {
+	Remder_Effect(pGraphicDev);
+
 	Render_Priority(pGraphicDev);
 	Render_Nonalpha(pGraphicDev);
 	Render_Alpha(pGraphicDev);
@@ -70,6 +72,12 @@ void CRenderer::Render_Alpha(LPDIRECT3DDEVICE9& pGraphicDev)
 	pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 
 	//pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+}
+
+void CRenderer::Remder_Effect(LPDIRECT3DDEVICE9& pGraphicDev)
+{
+	for (auto iter : m_RenderGroup[RENDER_EFFECT])
+		iter->Render_Object();
 }
 
 void CRenderer::Render_UI(LPDIRECT3DDEVICE9& pGraphicDev)

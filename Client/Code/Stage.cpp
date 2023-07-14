@@ -17,6 +17,9 @@
 #include "Bow.h"
 #include "FireWands.h"
 
+#include "Box_Cube.h"
+#include "EffectSquare.h"
+
 CStage::CStage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
 {
@@ -57,6 +60,17 @@ void CStage::LateUpdate_Scene()
 
 	CollisionManager()->LateUpdate_Collision();
 	UIManager()->LateUpdate_UI();
+
+	if (Engine::InputDev()->Key_Down(DIK_7))
+	{
+		ParticleBoundingBox EffectBox;
+		EffectBox.vMin = { -100.f, -100.f, -100.f };
+		EffectBox.vMax = { 100.f, 100.f, 100.f };
+
+		// 시작점 , 개수
+		CGameObject* pGameObject = CEffectSquare::Create(m_pGraphicDev, _vec3(0.f, 5.f, 0.f), 1000, &EffectBox, L"../Bin/SRSource/Effect/Square_effect/Square_effect3.png");
+		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+	}
 }
 
 void CStage::Render_Scene()

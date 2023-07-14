@@ -57,8 +57,7 @@ void CUIManager::Delete_BasicObject(UILAYER eType)
 void CUIManager::Delete_FindItemUI(ITEMTYPEID _itemId)
 {
 	// 해당 아이디의 아이템을 찾아와서 감소 및 삭제
-	// 기본 슬롯 5개 먼저 검사
-	for (auto& iter : m_vecBasicItem) {
+	for (auto& iter : m_mapPpopupUI[POPUP_ITEM][UI_DOWN]) {
 		if (iter != nullptr) {
 			ITEMTYPEID SlotItemType = dynamic_cast<CUIitem*>(iter)->Get_ItemTag();
 
@@ -80,26 +79,41 @@ void CUIManager::Delete_FindItemUI(ITEMTYPEID _itemId)
 			}
 		}
 	}
-	// 내부 슬롯 18개 검사
-	for (auto& iter : m_mapPpopupUI[POPUP_INVEN][UI_MIDDLE]) {
-		if (iter != nullptr) {
-			ITEMTYPEID SlotItemType = dynamic_cast<CUIitem*>(iter)->Get_ItemTag();
+}
 
-			if (SlotItemType.eItemType == _itemId.eItemType)
+void CUIManager::Show_InvenItem()
+{
+	UIOBJECTTTAG _UIObjID;
+	_uint _UINumber;
+
+	for (auto& iter : m_mapPpopupUI[POPUP_ITEM][UI_DOWN]) {
+		if (iter != nullptr) {
+
+			CGameObject* pSlotObj = dynamic_cast<CTempUI*>(iter)->Get_Parent();
+			dynamic_cast<CTempUI*>(pSlotObj)->Get_UIObjID(_UIObjID, _UINumber);
+
+			if (_UIObjID != UIID_SLOTBASIC)
 			{
-				// 같은 아이템이 존재하고 들어온 개수보다 많을 시 카운트만 감소 / 같은 개수일 시 삭제
-				if (SlotItemType.iCount > _itemId.iCount)
-				{
-					dynamic_cast<CItem*>(iter)->Remove_ItemCount(_itemId.iCount);
-					return;
-				}
-				else
-				{
-					dynamic_cast<CTempUI*>(dynamic_cast<CUIitem*>(iter)->Get_Parent())->Set_EmptyBool(true);
-					Safe_Release<CGameObject*>(iter);
-					iter = nullptr;
-					return;
-				}
+				iter->Set_Dead(false);
+			}
+		}
+	}
+}
+
+void CUIManager::Hide_InvenItem()
+{
+	UIOBJECTTTAG _UIObjID;
+	_uint _UINumber;
+
+	for (auto& iter : m_mapPpopupUI[POPUP_ITEM][UI_DOWN]) {
+		if (iter != nullptr) {
+
+			CGameObject* pSlotObj = dynamic_cast<CTempUI*>(iter)->Get_Parent();
+			dynamic_cast<CTempUI*>(pSlotObj)->Get_UIObjID(_UIObjID, _UINumber);
+
+			if (_UIObjID != UIID_SLOTBASIC)
+			{
+				iter->Set_Dead(true);
 			}
 		}
 	}
@@ -114,13 +128,22 @@ void CUIManager::AddBasicGameobject_UI(UILAYER eType, CGameObject* pGameObject)
 	//pGameObject->AddRef();
 }
 
-void CUIManager::AddBasicItemGameobject_UI(CGameObject* pGameObject)
+CGameObject* CUIManager::Get_PopupObjectBasicSlot(ITEMTYPEID ItemType)
 {
-	if (nullptr == pGameObject)
-		return;
+	for (auto iter : m_vecUIbasic[UI_DOWN])
+	{
+		if (iter != nullptr)
+		{
+			CGameObject* pChildObj = dynamic_cast<CTempUI*>(iter)->Get_Child();
+			ITEMTYPEID ItemId = dynamic_cast<CUIitem*>(pChildObj)->Get_ItemTag();
 
-	m_vecBasicItem.push_back(pGameObject);
-	//pGameObject->AddRef();
+			if (ItemId.eItemID == ItemType.eItemID)
+			{
+				return iter;
+			}
+		}
+	}
+	return nullptr;
 }
 
 void CUIManager::AddPopupGameobject_UI(UIPOPUPLAYER ePopupLayer, UILAYER eType, CGameObject* pGameObject)
@@ -153,7 +176,8 @@ void CUIManager::AddItemGameobject_UI(CGameObject* pGameObject)
 		}
 	}
 	// 내부 슬롯 18개 검사
-	for (auto iter : m_mapPpopupUI[POPUP_INVEN][UI_MIDDLE]) {
+	for (auto iter : m_mapPpopupUI[POPUP_ITEM][UI_DOWN])
+	{
 		if (iter != nullptr)
 		{
 			ITEMTYPEID SlotItemType = dynamic_cast<CUIitem*>(iter)->Get_ItemTag();
@@ -178,9 +202,11 @@ void CUIManager::AddItemGameobject_UI(CGameObject* pGameObject)
 			dynamic_cast<CTempUI*>(pGameObject)->WorldMatrix(pGameObject->m_pTransform->m_vInfo[INFO_POS].x, pGameObject->m_pTransform->m_vInfo[INFO_POS].y, pGameObject->m_pTransform->m_vLocalScale.x, pGameObject->m_pTransform->m_vLocalScale.y);
 
 			dynamic_cast<CTempUI*>(pGameObject)->Set_Parent(iter);
+			dynamic_cast<CTempUI*>(iter)->Set_Child(pGameObject);
 			dynamic_cast<CTempUI*>(iter)->Set_EmptyBool(false);
 
-			Engine::UIManager()->AddBasicItemGameobject_UI(pGameObject);
+			//Engine::UIManager()->AddBasicItemGameobject_UI(pGameObject);
+			Engine::UIManager()->AddPopupGameobject_UI(Engine::UIPOPUPLAYER::POPUP_ITEM, Engine::UILAYER::UI_DOWN, pGameObject);
 			return;
 		}
 	}
@@ -194,9 +220,11 @@ void CUIManager::AddItemGameobject_UI(CGameObject* pGameObject)
 			dynamic_cast<CTempUI*>(pGameObject)->WorldMatrix(pGameObject->m_pTransform->m_vInfo[INFO_POS].x, pGameObject->m_pTransform->m_vInfo[INFO_POS].y, pGameObject->m_pTransform->m_vLocalScale.x, pGameObject->m_pTransform->m_vLocalScale.y);
 
 			dynamic_cast<CTempUI*>(pGameObject)->Set_Parent(iter);
+			dynamic_cast<CTempUI*>(iter)->Set_Child(pGameObject);
 			dynamic_cast<CTempUI*>(iter)->Set_EmptyBool(false);
 
-			Engine::UIManager()->AddPopupGameobject_UI(Engine::UIPOPUPLAYER::POPUP_INVEN, Engine::UILAYER::UI_MIDDLE, pGameObject);
+			//Engine::UIManager()->AddPopupGameobject_UI(Engine::UIPOPUPLAYER::POPUP_INVEN, Engine::UILAYER::UI_MIDDLE, pGameObject);
+			Engine::UIManager()->AddPopupGameobject_UI(Engine::UIPOPUPLAYER::POPUP_ITEM, Engine::UILAYER::UI_DOWN, pGameObject);
 			return;
 		}
 	}
@@ -292,12 +320,6 @@ _int CUIManager::Update_UI(const _float& fTimeDelta)
 		}
 	}
 
-	for (auto iter : m_vecBasicItem)
-	{
-		if (iter != nullptr)
-			iter->Update_Object(fTimeDelta);
-	}
-
 	return _int();
 }
 
@@ -318,12 +340,6 @@ void CUIManager::LateUpdate_UI()
 				if (iter != nullptr)
 					iter->LateUpdate_Object();
 		}
-	}
-
-	for (auto iter : m_vecBasicItem)
-	{
-		if (iter != nullptr)
-			iter->LateUpdate_Object();
 	}
 }
 
@@ -372,12 +388,6 @@ void CUIManager::Render_UI(LPDIRECT3DDEVICE9 pGraphicDev)
 		}
 	}
 
-	for (auto iter : m_vecBasicItem)
-	{
-		if (iter != nullptr)
-			iter->Render_Object();
-	}
-
 	pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE); // 알파렌더링 OFF
 
 	pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);      // Z버퍼 ON
@@ -406,14 +416,11 @@ void CUIManager::Free()
 	{
 		for (size_t i = 0; i < UILAYER::UI_END; ++i)
 		{
-			for_each(Mapiter.second[i].begin(), Mapiter.second[i].end(), CDeleteObj());
+			for (auto iter : Mapiter.second[i])
+				if (iter != nullptr)
+					Safe_Release(iter);
+
 			Mapiter.second[i].clear();
 		}
 	}
-
-	for (auto iter : m_vecBasicItem)
-		if (iter != nullptr)
-			Safe_Release(iter);
-
-	m_vecBasicItem.clear();
 }

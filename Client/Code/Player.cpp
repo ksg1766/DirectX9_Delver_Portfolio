@@ -16,6 +16,7 @@
 #include "Player_Attack.h"
 
 #include "UIitem.h"
+#include <UIbasicslot.h>
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CGameObject(pGraphicDev)
 {
@@ -179,9 +180,6 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 		D3DXVec3TransformCoord(&m_vOffset, &m_vOffset, &matRotY);
 	}
 
-	// I, C , M , ESC 할 때 마우스 공격 안 되게.
-
-
 	// UI 단축키 추가
 	if (Engine::InputDev()->Key_Down(DIK_I))
 	{
@@ -246,16 +244,9 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 	{
 		//  바라보고 있는 아이템 줍기 / E 키로 앞에 있는 아이템 획득을 테스트 용으로 임시 생성
 		Engine::CGameObject* pGameObjectItem = CBow::Create(m_pGraphicDev, false);
+//		Engine::CGameObject* pGameObjectItem = CTempItem::Create(m_pGraphicDev);
 		// 획득한 아이템 타입 및 개수를 받아옴.
 		ITEMTYPEID ItemType = dynamic_cast<CItem*>(pGameObjectItem)->Get_ItemTag();
-
-		// 장착하는 아이템 타입이고 아이템을 장착하고 있지 않다면 장착(생성)하면서 인벤토리에 획득
-		if (ItemType.eItemType == ITEMTYPE_WEAPONITEM && !m_bItemEquipRight) // 오른손 장착 아이템 타입
-		{
-			m_bItemEquipRight = true;
-			Set_CurrentEquipRight(pGameObjectItem);
-			Engine::EventManager()->CreateObject(pGameObjectItem, LAYERTAG::GAMELOGIC);
-		}
 
 		// 획득한 아이템을 인벤토리에 넣는다.	
 		m_pInventory->Add_ItemObject(pGameObjectItem);
@@ -265,6 +256,18 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 		dynamic_cast<CUIitem*>(pGameObjectUI)->Set_ItemTag(ItemType.eItemType, ItemType.eItemID, ItemType.iCount);
 		// 셋팅 후 UI 매니저에 아이템UI 추가.
 		Engine::UIManager()->AddItemGameobject_UI(pGameObjectUI);
+
+		// 장착하는 아이템 타입이고 아이템을 장착하고 있지 않다면 장착(생성)
+		if (ItemType.eItemType == ITEMTYPE_WEAPONITEM && !m_bItemEquipRight) // 오른손 장착 아이템 타입
+		{
+			m_bItemEquipRight = true;
+			Set_CurrentEquipRight(pGameObjectItem);
+			Engine::EventManager()->CreateObject(pGameObjectItem, LAYERTAG::GAMELOGIC);
+
+			// 장착 상태 // 해당 아이템 찾아서 해당 슬롯 장착 상태 표시
+			Engine::CGameObject* FindSlotObj = Engine::UIManager()->Get_PopupObjectBasicSlot(ItemType);
+			dynamic_cast<CUIbasicslot*>(dynamic_cast<CTempUI*>(FindSlotObj))->Set_FindSlot(true);
+		}
 	}
 	else if (Engine::InputDev()->Key_Down(DIK_Q))
 	{
@@ -280,6 +283,10 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 			{
 				// 인벤토리 내에서 해당 아이템을 찾아 삭제.
 				m_pInventory->delete_FindItem(ItemType);
+
+				// 장착 상태 해제
+				Engine::CGameObject* FindSlotObj = Engine::UIManager()->Get_PopupObjectBasicSlot(ItemType);
+				dynamic_cast<CUIbasicslot*>(dynamic_cast<CTempUI*>(FindSlotObj))->Set_FindSlot(false);
 
 				// 아이템 UI 내부에서도 해당 아이템 UI를 찾아 삭제.
 				Engine::UIManager()->Delete_FindItemUI(ItemType);

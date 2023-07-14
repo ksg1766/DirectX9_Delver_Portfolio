@@ -27,13 +27,10 @@ HRESULT CBow::Ready_Object(_bool _Item)
 	m_bWorldItem = _Item;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-
 	m_pTransform->Scale(_vec3(0.3f, 0.3f, 0.3f));
-
 
 	m_pCollider->
 		InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
-
 
 	if (!Get_WorldItem())
 	{

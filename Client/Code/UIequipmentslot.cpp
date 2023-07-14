@@ -117,54 +117,61 @@ void CUIequipmentslot::Key_Input(void)
 	if (OnCollision(pt, m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y))
 	{
 		Engine::UIManager()->Set_ColliderSlot(m_UIObjID, m_UINumber, true);
-		switch (m_UINumber)
+
+		if (!m_bFind)
 		{
-		case 0:
-			m_fCurrentImage = 3;
-			break;
-		case 1:
-			m_fCurrentImage = 12;
-			break;
-		case 2:
-			m_fCurrentImage = 6;
-			break;
-		case 3:
-			m_fCurrentImage = 18;
-			break;
-		case 4:
-			m_fCurrentImage = 9;
-			break;
-		case 5:
-			m_fCurrentImage = 15;
-			break;
+			switch (m_UINumber)
+			{
+			case 0:
+				m_fCurrentImage = 3;
+				break;
+			case 1:
+				m_fCurrentImage = 12;
+				break;
+			case 2:
+				m_fCurrentImage = 6;
+				break;
+			case 3:
+				m_fCurrentImage = 18;
+				break;
+			case 4:
+				m_fCurrentImage = 9;
+				break;
+			case 5:
+				m_fCurrentImage = 15;
+				break;
+			}
 		}
 	}
 	else
 	{
 		Engine::UIManager()->Set_ColliderSlot(m_UIObjID, m_UINumber, false);
-		switch (m_UINumber)
+
+		if (!m_bFind)
 		{
-		case 0:
-			m_fCurrentImage = 2;
-			break;
-		case 1:
-			m_fCurrentImage = 11;
-			break;
-		case 2:
-			m_fCurrentImage = 5;
-			break;
-		case 3:
-			m_fCurrentImage = 17;
-			break;
-		case 4:
-			m_fCurrentImage = 8;
-			break;
-		case 5:
-			m_fCurrentImage = 14;
-			break;
+			switch (m_UINumber)
+			{
+			case 0:
+				m_fCurrentImage = 2;
+				break;
+			case 1:
+				m_fCurrentImage = 11;
+				break;
+			case 2:
+				m_fCurrentImage = 5;
+				break;
+			case 3:
+				m_fCurrentImage = 17;
+				break;
+			case 4:
+				m_fCurrentImage = 8;
+				break;
+			case 5:
+				m_fCurrentImage = 14;
+				break;
+			}
 		}
 	}
-
 }
 
 CUIequipmentslot* CUIequipmentslot::Create(LPDIRECT3DDEVICE9 pGraphicDev)

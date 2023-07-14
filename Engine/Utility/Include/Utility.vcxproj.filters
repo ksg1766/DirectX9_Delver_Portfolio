@@ -181,6 +181,9 @@
     <Filter Include="03. GameObject\08.  NPC">
       <UniqueIdentifier>{9defc036-df09-4c41-9791-f0a360f91275}</UniqueIdentifier>
     </Filter>
+      <Filter Include="03. GameObject\08. TempParticle">
+      <UniqueIdentifier>{b2c99087-7617-4998-babc-babeb393dc45}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Header\Scene.h">
@@ -324,6 +327,9 @@
     <ClInclude Include="..\..\Header\Npc.h">
       <Filter>03. GameObject\08.  NPC</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Header\TempParticle.h">
+      <Filter>03. GameObject\08. TempParticle</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\Scene.cpp">
@@ -463,6 +469,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\Npc.cpp">
       <Filter>03. GameObject\08.  NPC</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\TempParticle.cpp">
+      <Filter>03. GameObject\08. TempParticle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -466,6 +466,12 @@
     <Filter Include="02. GameObject\01. Stage\02. Item\Wands\FireBall">
       <UniqueIdentifier>{57c21c47-1026-4302-83d6-6de16b12107b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\06. Paricle">
+      <UniqueIdentifier>{b9673013-c1a9-45a7-8a28-4ad1e8df8aa3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\06. Paricle\00. EffectSquare">
+      <UniqueIdentifier>{b6357e95-b1f3-4f69-9b3a-4ff82ed91034}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -864,6 +870,9 @@
     <ClInclude Include="..\Header\FireBall.h">
       <Filter>02. GameObject\01. Stage\02. Item\Wands\FireBall</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\EffectSquare.h">
+      <Filter>02. GameObject\06. Paricle\00. EffectSquare</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -1252,6 +1261,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\FireBall.cpp">
       <Filter>02. GameObject\01. Stage\02. Item\Wands\FireBall</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\EffectSquare.cpp">
+      <Filter>02. GameObject\06. Paricle\00. EffectSquare</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

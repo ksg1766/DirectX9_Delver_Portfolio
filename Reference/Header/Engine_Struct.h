@@ -135,6 +135,34 @@ namespace Engine
 		ITEMID   eItemID;
 		_uint    iCount;
 	};
+
+	typedef struct tagParticleVertex
+	{
+		D3DXVECTOR3	vPosition;
+		D3DCOLOR    Color;
+
+	}ParticleVTX;
+	const _ulong	FVF_Particle = D3DFVF_XYZ | D3DFVF_DIFFUSE;
+
+	typedef struct tagParticleAttribute
+	{
+		D3DXVECTOR3	vPosition;
+		D3DXVECTOR3	vVelocity;
+		D3DXVECTOR3	vAcceleration;
+		float       fLifeTime;
+		float       fAge;
+		D3DCOLOR    Color;
+		D3DCOLOR    ColorFade;
+		bool        bAlive;
+
+	}ParticleAttribute;
+
+	typedef struct tagBoundingBox
+	{
+		D3DXVECTOR3	vMin;
+		D3DXVECTOR3	vMax;
+
+	}ParticleBoundingBox;
 }
 
 

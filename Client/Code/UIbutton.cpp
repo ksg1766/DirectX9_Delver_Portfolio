@@ -98,20 +98,22 @@ void CUIbutton::Key_Input(void)
 			{
 			case 0: // 인벤토리 버튼
 				 // 눌린 상태 해제
-				Obj = Engine::UIManager()->Get_Object(Engine::UIPOPUPLAYER::POPUP_EQUIPMENT, Engine::UILAYER::UI_DOWN, UIOBJECTTTAG::UIID_INVENBUTTON, 1);
+				Obj = Engine::UIManager()->Get_PopupObject(Engine::UIPOPUPLAYER::POPUP_EQUIPMENT, Engine::UILAYER::UI_DOWN, UIOBJECTTTAG::UIID_INVENBUTTON, 1);
 				dynamic_cast<CTempUI*>(Obj)->Set_UIImage(3);
 				Engine::UIManager()->Hide_PopupUI(Engine::UIPOPUPLAYER::POPUP_STAT);
 				Engine::UIManager()->m_bStat = false;
 				// 눌린 상태
 				m_fCurrentImage = 0;
 				Engine::UIManager()->Show_PopupUI(Engine::UIPOPUPLAYER::POPUP_INVEN);
+				Engine::UIManager()->Show_InvenItem();
 				Engine::UIManager()->m_bInven = true;
 				break;
 			case 1: // 스탯창 버튼
 				// 눌린 상태 해제
-				Obj = Engine::UIManager()->Get_Object(Engine::UIPOPUPLAYER::POPUP_EQUIPMENT, Engine::UILAYER::UI_DOWN, UIOBJECTTTAG::UIID_INVENBUTTON, 0);
+				Obj = Engine::UIManager()->Get_PopupObject(Engine::UIPOPUPLAYER::POPUP_EQUIPMENT, Engine::UILAYER::UI_DOWN, UIOBJECTTTAG::UIID_INVENBUTTON, 0);
 				dynamic_cast<CTempUI*>(Obj)->Set_UIImage(1);
 				Engine::UIManager()->Hide_PopupUI(Engine::UIPOPUPLAYER::POPUP_INVEN);
+				Engine::UIManager()->Hide_InvenItem();
 				Engine::UIManager()->m_bInven = false;
 				// 눌린 상태
 				m_fCurrentImage = 2;
