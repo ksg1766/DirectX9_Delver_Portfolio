@@ -2,6 +2,8 @@
 
 #include "GameObject.h"
 
+class CTerrain;
+
 BEGIN(Engine)
 
 class CCollider;
@@ -26,6 +28,8 @@ public: // Stter
     void				Set_State(STATE _eState)             { m_eState = _eState; }
     void				Set_AttackTick(_bool _Tick)          { m_bAttackTick = _Tick; }
     void		        Set_MonsterState(MONSTERTAG _eState) { m_eMonsterTag = _eState; }
+    void                Set_Terrain(CTerrain* _pTerrain)     { m_pTerrain = _pTerrain; }
+
 public: //Getter
     _float              Get_Speed()                          { return m_fSpeed; }
     CStateMachine*      Get_StateMachine()                   { return m_pStateMachine; }
@@ -42,6 +46,7 @@ protected:
     _bool								m_bAttackTick;
 
     _float                              m_fSpeed;
+    CTerrain*                        m_pTerrain;
     // MONSTER_ID m_eMonserID;
     // MonsterAI Component 추가해서 사용
 

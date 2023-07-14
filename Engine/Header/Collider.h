@@ -17,7 +17,7 @@ public:
 	virtual void	LateUpdate_Component()	override;
 	void			Render_Collider();
 
-	HRESULT			InitOBB(_vec3& _vCenter, _vec3* _vAxisDir, float* _fAxisLen);
+	HRESULT			InitOBB(_vec3& _vCenter, _vec3* _vAxisDir, _float* _fAxisLen);
 
 	_vec3&			GetCenterPos() { return m_vCenterPos; }
 	_vec3*			GetAxisDir() { return m_vAxisDir; }

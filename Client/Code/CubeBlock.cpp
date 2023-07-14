@@ -22,7 +22,8 @@ HRESULT CCubeBlock::Ready_Object(void)
 	m_eObjectTag = OBJECTTAG::BLOCK;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	void* pVertices = nullptr;
+#ifdef _DEBUG
+	/*void* pVertices = nullptr;
 	m_pBuffer->m_pVB->Lock(0, m_pBuffer->m_dwVtxCnt * m_pBuffer->m_dwVtxSize, &pVertices, 0);
 	for (UINT i = 0; i < m_pBuffer->m_dwVtxCnt; ++i)
 	{
@@ -36,7 +37,8 @@ HRESULT CCubeBlock::Ready_Object(void)
 	{
 		m_vecCubeIndex.push_back(*(((INDEX32*)pIndices) + i));
 	}
-	m_pBuffer->m_pIB->Unlock();
+	m_pBuffer->m_pIB->Unlock();*/
+#endif _DEBUG
 
 	//m_pTransform->Scale(_vec3(2.f, 2.f, 2.f));
 	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
@@ -71,8 +73,8 @@ void CCubeBlock::Render_Object(void)
 	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 
 #if _DEBUG
-	m_pCollider->Render_Collider();
-#endif
+	//m_pCollider->Render_Collider();
+#endif _DEBUG
 }
 
 void CCubeBlock::OnCollisionEnter(CCollider* _pOther)

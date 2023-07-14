@@ -5,6 +5,7 @@
 #include "FlyingCamera.h"
 #include "Terrain.h"
 #include "CubeBlock.h"
+#include "SpawningPool.h"
 
 IMPLEMENT_SINGLETON(CImGuiManager)
 
@@ -29,23 +30,48 @@ void CImGuiManager::Key_Input(const _float& fTimeDelta)
 
         if (!ImGui::GetIO().WantCaptureMouse)
         {
-            vOut = Picking();
+            if (MAP == m_eToolMode)
+                vOut = PickingBlock();
+            else if (SPAWNER == m_eToolMode)
+                vOut = PickingSpawner();
+
             if (_vec3(0.f, -10.f, 0.f) == vOut)
                 return;
         }
+        else
+            return;
 
-        if (selected_texture)
+        Engine::CGameObject* pGameObject = nullptr;
+
+        if (MAP == m_eToolMode)
         {
-            Engine::CGameObject* pGameObject = nullptr;
-
-            pGameObject = CCubeBlock::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+            if (selected_texture)
+            {
+                pGameObject = CCubeBlock::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+                NULL_CHECK_RETURN(pGameObject);
+                dynamic_cast<CCubeBlock*>(pGameObject)->Set_TextureNumber(selected_texture_index);
+                pGameObject->m_pTransform->Translate(vOut);
+                EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+            }
+        }
+        else if (SPAWNER == m_eToolMode)
+        {
+            pGameObject = CSpawningPool::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
             NULL_CHECK_RETURN(pGameObject);
-            dynamic_cast<CCubeBlock*>(pGameObject)->Set_TextureNumber(selected_texture_index);
             pGameObject->m_pTransform->Translate(vOut);
-            EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+            dynamic_cast<CSpawningPool*>(pGameObject)->Set_SpawnTime(m_fSpawnTime);
+            dynamic_cast<CSpawningPool*>(pGameObject)->Set_MonsterTag(m_eSpawnerTag);
+            dynamic_cast<CSpawningPool*>(pGameObject)->Set_PoolCapacity(m_iSpawnCapacity);
+            dynamic_cast<CSpawningPool*>(pGameObject)->Set_SpawnRadius(m_fSpawnRadius);
+            EventManager()->CreateObject(pGameObject, LAYERTAG::ENVIRONMENT);
+
+            // 옮기자
+            /*LPD3DXMESH pShpere;
+            LPD3DXBUFFER pShpereBuffer;
+            D3DXCreateSphere(Engine::CGraphicDev::GetInstance()->Get_GraphicDev(), m_fSpawnRadius, 10, 10, &pShpere, &pShpereBuffer);
+            m_vecShpere.push_back(make_pair(pShpere, pShpereBuffer));*/
         }
     }
-
 
     if (Engine::InputDev()->Key_Pressing(DIK_LCONTROL) && Engine::InputDev()->Key_Pressing(DIK_S))
         OnSaveData();
@@ -54,9 +80,9 @@ void CImGuiManager::Key_Input(const _float& fTimeDelta)
         OnLoadData();
 }
 
-_vec3 CImGuiManager::Picking()
+_vec3 CImGuiManager::PickingBlock()
 {
-    if (0 == iPickingMode)
+    if (0 == m_iPickingMode)
         return _vec3(0.f, -10.f, 0.f);
 
 #pragma region Cube Picking
@@ -138,12 +164,13 @@ _vec3 CImGuiManager::Picking()
             }
         }
     }
+#pragma endregion Cube Picking
 
 #pragma region Terrain Picking
 
     if(!IsPicked)
     {
-        if (2 == iPickingMode)
+        if (2 == m_iPickingMode)
             return _vec3(0.f, -10.f, 0.f);
 
         _vec3 vRayPosWorld = vRayPos;
@@ -227,7 +254,7 @@ _vec3 CImGuiManager::Picking()
 
     CCubeBlock* pFinalCube = pq.top().second;
 
-    if (2 == iPickingMode)
+    if (2 == m_iPickingMode)
     {
         EventManager()->DeleteObject(pFinalCube);
         return _vec3(0.f, -10.f, 0.f);
@@ -284,6 +311,146 @@ _vec3 CImGuiManager::Picking()
     return _vec3(0.f, -10.f, 0.f);
 }
 
+_vec3 CImGuiManager::PickingSpawner()
+{
+    _vec3   vFinalPos(0.f, -10.f, 0.f);
+
+    _vec3	vRayPos, vRayDir;
+
+
+    if (0 == m_iPickingMode)
+        return vFinalPos;
+    else
+    {
+        CTerrain* pTerrain = dynamic_cast<CTerrain*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::TERRAIN).front());
+
+        POINT		ptMouse{};
+        GetCursorPos(&ptMouse);
+        ScreenToClient(g_hWnd, &ptMouse);
+
+        _vec3		vMousePos;
+
+        D3DVIEWPORT9		ViewPort;
+        ZeroMemory(&ViewPort, sizeof(D3DVIEWPORT9));
+        CGraphicDev::GetInstance()->Get_GraphicDev()->GetViewport(&ViewPort);
+
+        // 뷰포트 -> 투영
+        vMousePos.x = ptMouse.x / (ViewPort.Width * 0.5f) - 1.f;
+        vMousePos.y = ptMouse.y / -(ViewPort.Height * 0.5f) + 1.f;
+        vMousePos.z = 0.f;
+
+        // 투영 -> 뷰 스페이스
+        _matrix		matProj;
+        D3DXMatrixInverse(&matProj, 0, &dynamic_cast<CFlyingCamera*>(CCameraManager::GetInstance()
+            ->Get_CurrentCam())->Get_Camera()->Get_ProjMatrix());
+        D3DXVec3TransformCoord(&vMousePos, &vMousePos, &matProj);
+
+        vRayPos = _vec3(0.f, 0.f, 0.f);
+        vRayDir = vMousePos - vRayPos;
+
+        // 뷰 스페이스 -> 월드 스페이스
+        _matrix		matView;
+        D3DXMatrixInverse(&matView, 0, &dynamic_cast<CFlyingCamera*>(CCameraManager::GetInstance()
+            ->Get_CurrentCam())->Get_Camera()->Get_ViewMatrix());
+        D3DXVec3TransformCoord(&vRayPos, &vRayPos, &matView);
+        D3DXVec3TransformNormal(&vRayDir, &vRayDir, &matView);
+
+        _vec3 vRayPosWorld = vRayPos;
+        _vec3 vRayDirWorld = vRayDir;
+
+        if (1 == m_iPickingMode)
+        {
+            // 월드 스페이스 -> 로컬 스페이스
+            _matrix		matWorld;
+            matWorld = pTerrain->m_pTransform->WorldMatrix();
+            D3DXMatrixInverse(&matWorld, 0, &matWorld);
+            D3DXVec3TransformCoord(&vRayPosWorld, &vRayPosWorld, &matWorld);
+            D3DXVec3TransformNormal(&vRayDirWorld, &vRayDirWorld, &matWorld);
+
+            const vector<_vec3>& pTerrainVtxPos = pTerrain->LoadTerrainVertex();
+
+            _float	fU = 0.f, fV = 0.f, fDist = 0.f;
+            //
+            _ulong	dwVtxIdx[3]{};
+
+            for (_ulong i = 0; i < VTXCNTZ - 1; ++i)
+            {
+                for (_ulong j = 0; j < VTXCNTX - 1; ++j)
+                {
+                    _ulong	dwIndex = i * VTXCNTX + j;
+
+                    // 오른쪽 위
+                    dwVtxIdx[0] = dwIndex + VTXCNTX;
+                    dwVtxIdx[1] = dwIndex + VTXCNTX + 1;
+                    dwVtxIdx[2] = dwIndex + 1;
+
+                    if (D3DXIntersectTri(&pTerrainVtxPos[dwVtxIdx[1]],
+                        &pTerrainVtxPos[dwVtxIdx[0]],
+                        &pTerrainVtxPos[dwVtxIdx[2]],
+                        &vRayPos, &vRayDir, &fU, &fV, &fDist))
+                    {
+                        // V0 + U(V1 - V0) + V(V2 - V0)
+                        vFinalPos = _vec3(pTerrainVtxPos[dwVtxIdx[1]].x,
+                            1.f,    // 1.f 는 Cube Radius
+                            pTerrainVtxPos[dwVtxIdx[1]].z);
+                    }
+
+                    // 왼쪽 아래
+                    dwVtxIdx[0] = dwIndex + VTXCNTX;
+                    dwVtxIdx[1] = dwIndex + 1;
+                    dwVtxIdx[2] = dwIndex;
+
+                    if (D3DXIntersectTri(&pTerrainVtxPos[dwVtxIdx[1]],
+                        &pTerrainVtxPos[dwVtxIdx[0]],
+                        &pTerrainVtxPos[dwVtxIdx[2]],
+                        &vRayPos, &vRayDir, &fU, &fV, &fDist))
+                    {
+                        vFinalPos = _vec3(pTerrainVtxPos[dwVtxIdx[1]].x,
+                            1.f,    // 1.f 는 Cube Radius
+                            pTerrainVtxPos[dwVtxIdx[1]].z);
+                    }
+                }
+            }
+        }
+        else if (2 == m_iPickingMode)
+        {
+            vector<CGameObject*> vecSpawningPool = SceneManager()->Get_ObjectList(LAYERTAG::ENVIRONMENT, OBJECTTAG::SPAWNINGPOOL);
+            
+            for (auto& iter : vecSpawningPool)
+            {
+                _vec3 vRayPosWorld = vRayPos;
+                _vec3 vRayDirWorld = vRayDir;
+
+                _matrix		matWorld;
+                matWorld = iter->m_pTransform->WorldMatrix();
+                D3DXMatrixInverse(&matWorld, 0, &matWorld);
+                D3DXVec3TransformCoord(&vRayPosWorld, &vRayPosWorld, &matWorld);
+                D3DXVec3TransformNormal(&vRayDirWorld, &vRayDirWorld, &matWorld);
+
+                const vector<_vec3>& pSpawnerVtxPos = dynamic_cast<CSpawningPool*>(iter)->LoadSpawnerVertex();
+                const vector<INDEX32>& pSpawnerIdxPos = dynamic_cast<CSpawningPool*>(iter)->LoadSpawnerIndex();
+
+                _float	fU = 0.f, fV = 0.f, fDist = 0.f;
+
+                for (_ulong i = 0; i < pSpawnerIdxPos.size(); ++i)
+                {
+                    if (D3DXIntersectTri(&pSpawnerVtxPos[pSpawnerIdxPos[i]._2],
+                        &pSpawnerVtxPos[pSpawnerIdxPos[i]._0],
+                        &pSpawnerVtxPos[pSpawnerIdxPos[i]._1],
+                        &vRayPosWorld, &vRayDirWorld, &fU, &fV, &fDist))
+                    {
+                        EventManager()->DeleteObject(iter);
+                        return _vec3(0.f, -10.f, 0.f);
+                    }
+                }
+            }
+            return _vec3(0.f, -10.f, 0.f);
+        }
+    }
+
+    return vFinalPos;
+}
+
 HRESULT CImGuiManager::SetUp_ImGui()
 {
 	IMGUI_CHECKVERSION();
@@ -301,7 +468,7 @@ HRESULT CImGuiManager::SetUp_ImGui()
     // resources
     CTexture* pTerainTexture = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_Terrain"));
     m_pTerainTexture = pTerainTexture->Get_TextureList();
-    iPickingMode = 0;
+    m_iPickingMode = 0;
 	
     return S_OK;
 }
@@ -376,59 +543,102 @@ void CImGuiManager::LateUpdate_ImGui()
 
     if (map_tool_window)
     {
-        ImGui::Begin("test window 0", &map_tool_window);
+        ImGui::Begin("Tool", &map_tool_window);
         
         ImGui::Text("Camera Pos");
         ImGui::Text("Mouse Pos");
         ImGui::Text("Texture Info");
 
-        if(ImGui::TreeNode("Images"))
+        if (ImGui::TreeNode("Tool"))
         {
-            ImGuiIO& io = ImGui::GetIO();
-
-            //ImTextureID         TerrainTextureID = m_pTerainTexture[0];
-            //LPDIRECT3DTEXTURE9  TerrainTexture = nullptr;
-            //ImTextureID selected_texture = nullptr;
-            ImVec2 size = ImVec2(32.0f, 32.0f);                         // Size of the image we want to make visible
-            ImVec2 uv0 = ImVec2(0.0f, 0.0f);                            // UV coordinates for lower-left
-            ImVec2 uv1 = ImVec2(1.0f, 1.0f);                          // UV coordinates for (32,32) in our texture
-            ImVec4 bg_col = ImVec4(0.0f, 0.0f, 0.0f, 1.0f);             // Black background
-            ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);           // No tint
-
-            ImGui::Image(selected_texture, ImVec2(96.0f, 96.0f), uv0, uv1, tint_col, ImVec4(0.0f, 1.0f, 0.0f, 1.0f));
-            ImGui::SameLine();
-            if (ImGui::Button("Mode"))
-                ++iPickingMode %= 3;
-
-            ImGui::SameLine();
-            if (0 == iPickingMode)
-                ImGui::Text("None");
-            else if (1 == iPickingMode)
-                ImGui::Text("Draw");
-            else
-                ImGui::Text("Erase");
-
-            for (int i = 0; i < 6; i++)
+            ImGuiTabBarFlags tab_bar_flags = ImGuiTabBarFlags_None;
+            if (ImGui::BeginTabBar("Tool", tab_bar_flags))
             {
-                for (int j = 0; j < 5; j++)
+                if (ImGui::BeginTabItem("Block"))
                 {
-                    _int iIndex = 5 * i + j;
-                    if (iIndex >= m_pTerainTexture.size())
-                        break;
+                    m_eToolMode = MAP;
+                    //m_iPickingMode = 0;
+                    ImGuiIO& io = ImGui::GetIO();
 
-                    ImGui::PushID(iIndex);
+                    //ImTextureID         TerrainTextureID = m_pTerainTexture[0];
+                    //LPDIRECT3DTEXTURE9  TerrainTexture = nullptr;
+                    //ImTextureID selected_texture = nullptr;
+                    ImVec2 size = ImVec2(32.0f, 32.0f);                         // Size of the image we want to make visible
+                    ImVec2 uv0 = ImVec2(0.0f, 0.0f);                            // UV coordinates for lower-left
+                    ImVec2 uv1 = ImVec2(1.0f, 1.0f);                          // UV coordinates for (32,32) in our texture
+                    ImVec4 bg_col = ImVec4(0.0f, 0.0f, 0.0f, 1.0f);             // Black background
+                    ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);           // No tint
 
-                    if (ImGui::ImageButton("", m_pTerainTexture[iIndex], size))
-                    {
-                        selected_texture = m_pTerainTexture[iIndex];
-                        selected_texture_index = iIndex;
-                    }
-                    ImGui::PopID();
+                    ImGui::Image(selected_texture, ImVec2(96.0f, 96.0f), uv0, uv1, tint_col, ImVec4(0.0f, 1.0f, 0.0f, 1.0f));
                     ImGui::SameLine();
+
+                    if (ImGui::Button("Mode"))
+                        ++m_iPickingMode %= 3;
+
+                    ImGui::SameLine();
+                    if (0 == m_iPickingMode)
+                        ImGui::Text("None");
+                    else if (1 == m_iPickingMode)
+                        ImGui::Text("Draw");
+                    else
+                        ImGui::Text("Erase");
+
+                    for (int i = 0; i < 6; i++)
+                    {
+                        for (int j = 0; j < 5; j++)
+                        {
+                            _int iIndex = 5 * i + j;
+                            if (iIndex >= m_pTerainTexture.size())
+                                break;
+
+                            ImGui::PushID(iIndex);
+
+                            if (ImGui::ImageButton("", m_pTerainTexture[iIndex], size))
+                            {
+                                selected_texture = m_pTerainTexture[iIndex];
+                                selected_texture_index = iIndex;
+                            }
+                            ImGui::PopID();
+                            ImGui::SameLine();
+                        }
+                        ImGui::NewLine();
+                    }
+
+                    ImGui::EndTabItem();
                 }
-                ImGui::NewLine();
+                if (ImGui::BeginTabItem("Spawner"))
+                {
+                    m_eToolMode = SPAWNER;
+                    //m_iPickingMode = 0;
+                    ImGuiIO& io = ImGui::GetIO();
+
+                    const char* items[] = { "Spider", "Warrior", "Bat", "Wizard", "Alien", "Slime", "Skeleton" };
+                    static _int item_current = 1;
+                    ImGui::ListBox("MonsterList", &item_current, items, IM_ARRAYSIZE(items), 7);
+
+                    m_eSpawnerTag = (MONSTERTAG)item_current;
+
+                    ImGui::SliderFloat("Spawner Timer", &m_fSpawnTime, 3.f, 30.f, "%0.1f");
+                    ImGui::SliderFloat("Spawner Radius", &m_fSpawnRadius, 10.f, 50.f, "%0.1f");
+                    ImGui::SliderInt("Spawner Capacity", &m_iSpawnCapacity, 4.0f, 20.0f, "%d", ImGuiSliderFlags_Logarithmic);
+
+                    ImGui::NewLine();
+
+                    if (ImGui::Button("Mode"))
+                        ++m_iPickingMode %= 3;
+
+                    if (0 == m_iPickingMode)
+                        ImGui::Text("None");
+                    else if (1 == m_iPickingMode)
+                        ImGui::Text("Place");
+                    else
+                        ImGui::Text("Erase");
+
+                    ImGui::EndTabItem();
+                }
+                ImGui::EndTabBar();
             }
-            ImGui::NewLine();
+            ImGui::Separator();
             ImGui::TreePop();
         }
 
@@ -486,6 +696,32 @@ HRESULT CImGuiManager::OnSaveData()
                 }
             }
         }
+        if (OBJECTTAG::SPAWNINGPOOL == (OBJECTTAG)i)
+        {
+            MONSTERTAG      m_eMonsterTag = MONSTERTAG::MONSTER_END;  //
+            _int            m_iPoolCapacity = 5;
+            _float          m_fSpawnRadius = 10.0f;
+            _float          m_fSpawnTime = 10.0f;
+
+            vector<CGameObject*>& vecObjList = pScene->Get_ObjectList(LAYERTAG::ENVIRONMENT, (OBJECTTAG)i);
+            for (auto& iter : vecObjList)
+            {
+                eTag = iter->Get_ObjectTag();
+                m_eMonsterTag = dynamic_cast<CSpawningPool*>(iter)->Get_MonsterTag();
+                m_iPoolCapacity = dynamic_cast<CSpawningPool*>(iter)->Get_PoolCapacity();
+                m_fSpawnRadius = dynamic_cast<CSpawningPool*>(iter)->Get_SpawnRadius();
+                m_fSpawnTime = dynamic_cast<CSpawningPool*>(iter)->Get_SpawnTime();
+
+                WriteFile(hFile, &eTag, sizeof(OBJECTTAG), &dwByte, nullptr);
+                WriteFile(hFile, &(iter->m_pTransform->m_vInfo[INFO_POS].x), sizeof(_float), &dwByte, nullptr);
+                WriteFile(hFile, &(iter->m_pTransform->m_vInfo[INFO_POS].z), sizeof(_float), &dwByte, nullptr);
+
+                WriteFile(hFile, &m_eMonsterTag, sizeof(MONSTERTAG), &dwByte, nullptr);
+                WriteFile(hFile, &m_iPoolCapacity, sizeof(_int), &dwByte, nullptr);
+                WriteFile(hFile, &m_fSpawnRadius, sizeof(_float), &dwByte, nullptr);
+                WriteFile(hFile, &m_fSpawnTime, sizeof(_float), &dwByte, nullptr);
+            }
+        }
     }
 
     CloseHandle(hFile);
@@ -517,16 +753,15 @@ HRESULT CImGuiManager::OnLoadData()
     _float  fX, fY, fZ;
     _ubyte  byTextureNumber = 0;
 
+    MONSTERTAG      eSpawnerTag = MONSTERTAG::MONSTER_END;  //
+    _int            iPoolCapacity = 5;
+    _float          fSpawnRadius = 10.0f;
+    _float          fSpawnTime = 10.0f;
 
     while (true)
     {
         // key 값 저장
         ReadFile(hFile, &eTag, sizeof(OBJECTTAG), &dwByte, nullptr);
-
-        // value값 저장
-        ReadFile(hFile, &fX, sizeof(_float), &dwByte, nullptr);
-        ReadFile(hFile, &fY, sizeof(_float), &dwByte, nullptr);
-        ReadFile(hFile, &fZ, sizeof(_float), &dwByte, nullptr);
 
         if (0 == dwByte)
             break;
@@ -534,7 +769,14 @@ HRESULT CImGuiManager::OnLoadData()
         // if문 추가
         if (OBJECTTAG::BLOCK == eTag)
         {
+            ReadFile(hFile, &fX, sizeof(_float), &dwByte, nullptr);
+            ReadFile(hFile, &fY, sizeof(_float), &dwByte, nullptr);
+            ReadFile(hFile, &fZ, sizeof(_float), &dwByte, nullptr);
+
             ReadFile(hFile, &byTextureNumber, sizeof(_ubyte), &dwByte, nullptr);
+
+            // value값 저장
+            
 
             if (0 == dwByte)
                 break;
@@ -545,6 +787,29 @@ HRESULT CImGuiManager::OnLoadData()
             pGameObject->m_pTransform->Translate(_vec3(fX, fY, fZ));
             EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
             //pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+        }
+        else if (OBJECTTAG::SPAWNINGPOOL == eTag)
+        {
+            // value값 저장
+            ReadFile(hFile, &fX, sizeof(_float), &dwByte, nullptr);
+            ReadFile(hFile, &fZ, sizeof(_float), &dwByte, nullptr);
+
+            ReadFile(hFile, &eSpawnerTag, sizeof(MONSTERTAG), &dwByte, nullptr);
+            ReadFile(hFile, &iPoolCapacity, sizeof(_int), &dwByte, nullptr);
+            ReadFile(hFile, &fSpawnRadius, sizeof(_float), &dwByte, nullptr);
+            ReadFile(hFile, &fSpawnTime, sizeof(_float), &dwByte, nullptr);
+
+            if (0 == dwByte)
+                break;
+
+            CGameObject* pGameObject = CSpawningPool::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+            NULL_CHECK_RETURN(pGameObject, E_FAIL);
+            dynamic_cast<CSpawningPool*>(pGameObject)->Set_MonsterTag(eSpawnerTag);
+            dynamic_cast<CSpawningPool*>(pGameObject)->Set_PoolCapacity(iPoolCapacity);
+            dynamic_cast<CSpawningPool*>(pGameObject)->Set_SpawnRadius(fSpawnRadius);
+            dynamic_cast<CSpawningPool*>(pGameObject)->Set_SpawnTime(fSpawnTime);
+            pGameObject->m_pTransform->Translate(_vec3(fX, 0.f, fZ));
+            EventManager()->CreateObject(pGameObject, LAYERTAG::ENVIRONMENT);
         }
     }
 

@@ -193,6 +193,7 @@
     <ClInclude Include="..\Header\Slime.h" />
     <ClInclude Include="..\Header\SlimeAttack.h" />
     <ClInclude Include="..\Header\SlimeMove.h" />
+    <ClInclude Include="..\Header\SpawningPool.h" />
     <ClInclude Include="..\Header\TeleportPattern.h" />
     <ClInclude Include="..\Header\CameraManager.h" />
     <ClInclude Include="..\Header\Boss_Attack.h" />
@@ -295,6 +296,7 @@
     <ClCompile Include="..\Code\Slime.cpp" />
     <ClCompile Include="..\Code\SlimeAttack.cpp" />
     <ClCompile Include="..\Code\SlimeMove.cpp" />
+    <ClCompile Include="..\Code\SpawningPool.cpp" />
     <ClCompile Include="..\Code\TeleportPattern.cpp" />
     <ClCompile Include="..\Code\CameraManager.cpp" />
     <ClCompile Include="..\Code\Boss_Attack.cpp" />

@@ -27,8 +27,6 @@ public:
 	virtual void	Render_Object()								override;
 
 public:
-	void		Set_Terrain(CTerrain* _pCurrentTerrain) { m_pTerrain = _pCurrentTerrain; }
-
 	virtual void		OnCollisionEnter(CCollider* _pOther);
 	virtual void		OnCollisionStay(CCollider* _pOther);
 	virtual void		OnCollisionExit(CCollider* _pOther);
@@ -40,7 +38,6 @@ private:
 private:
 	CRcTex* m_pBuffer = nullptr;
 	CTexture* m_pTexture[static_cast<_uint>(STATE::STATE_END)] = {};
-	CTerrain* m_pTerrain = nullptr;
 	CAnimator* m_pAnimator = nullptr;
 
 

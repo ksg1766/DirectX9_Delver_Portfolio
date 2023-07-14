@@ -148,9 +148,6 @@
     <Filter Include="00. Managers\08. PoolManager\00. PoolManager">
       <UniqueIdentifier>{67eea8c4-5ece-4bb3-a6a1-6504c7af98d5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="00. Managers\08. PoolManager\01. SpawningPool">
-      <UniqueIdentifier>{912997c4-6543-42f8-9c05-342cbe7ed342}</UniqueIdentifier>
-    </Filter>
     <Filter Include="00. Managers\09. MapTool">
       <UniqueIdentifier>{e26fb72a-acc3-4bfe-af01-388217029136}</UniqueIdentifier>
     </Filter>
@@ -177,6 +174,9 @@
     </Filter>
     <Filter Include="00. Managers\10. Octree\00. Octree">
       <UniqueIdentifier>{bae899b3-c614-4bf9-9c77-3b4db69e9a60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. Component\01. VIBuffer\04. CubeBf\00. CubeColBf">
+      <UniqueIdentifier>{30cfb3e9-9adf-4b38-a7ea-b2a43f671f0a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -267,9 +267,6 @@
     <ClInclude Include="..\..\Header\PoolManager.h">
       <Filter>00. Managers\08. PoolManager\00. PoolManager</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Header\SpawningPool.h">
-      <Filter>00. Managers\08. PoolManager\01. SpawningPool</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Header\Particle.h">
       <Filter>04. Component\11. Particle</Filter>
     </ClInclude>
@@ -317,6 +314,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Header\OctreeNode.h">
       <Filter>00. Managers\10. Octree\01. OctreeNode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Header\CubeColBf.h">
+      <Filter>04. Component\01. VIBuffer\04. CubeBf\00. CubeColBf</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -404,9 +404,6 @@
     <ClCompile Include="..\Code\PoolManager.cpp">
       <Filter>00. Managers\08. PoolManager\00. PoolManager</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\SpawningPool.cpp">
-      <Filter>00. Managers\08. PoolManager\01. SpawningPool</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\Particle.cpp">
       <Filter>04. Component\11. Particle</Filter>
     </ClCompile>
@@ -454,6 +451,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\OctreeNode.cpp">
       <Filter>00. Managers\10. Octree\01. OctreeNode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CubeColBf.cpp">
+      <Filter>04. Component\01. VIBuffer\04. CubeBf\00. CubeColBf</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

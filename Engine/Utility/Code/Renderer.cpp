@@ -54,17 +54,22 @@ void CRenderer::Render_Nonalpha(LPDIRECT3DDEVICE9& pGraphicDev)
 
 void CRenderer::Render_Alpha(LPDIRECT3DDEVICE9& pGraphicDev)
 {
-	pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-	pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-	pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+	//pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	//pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA); // 내가 그리려는 색
+	//pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA); // 백 버퍼에 이미 그려져있던 색
+	//pGraphicDev->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
 
-	m_RenderGroup[RENDER_ALPHA].sort([](CGameObject* pDst, CGameObject* pSrc)
-		{ return pDst->Get_ViewZ() > pSrc->Get_ViewZ(); });
+	pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+
+	//m_RenderGroup[RENDER_ALPHA].sort([](CGameObject* pDst, CGameObject* pSrc)
+	//	{ return pDst->Get_ViewZ() > pSrc->Get_ViewZ(); });
 
 	for (auto iter : m_RenderGroup[RENDER_ALPHA])
 		iter->Render_Object();
 
-	pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+	pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+
+	//pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 }
 
 void CRenderer::Render_UI(LPDIRECT3DDEVICE9& pGraphicDev)

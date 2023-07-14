@@ -382,6 +382,9 @@
     <Filter Include="02. GameObject\01. Stage\06. Environment_Object\01. Stone\02. Cristal">
       <UniqueIdentifier>{6f349a34-7f0e-450e-a77c-e14e4c573249}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\01. Stage\05. Monster\99. SpawningPool">
+      <UniqueIdentifier>{36768cc2-412e-416a-9e29-77a50a2b39f6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -702,6 +705,9 @@
     <ClInclude Include="..\Header\Arrow.h">
       <Filter>02. GameObject\01. Stage\02. Item\Bow\Arrow</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\SpawningPool.h">
+      <Filter>02. GameObject\01. Stage\05. Monster\99. SpawningPool</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -1012,6 +1018,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\Arrow.cpp">
       <Filter>02. GameObject\01. Stage\02. Item\Bow\Arrow</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\SpawningPool.cpp">
+      <Filter>02. GameObject\01. Stage\05. Monster\99. SpawningPool</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -14,6 +14,8 @@ CEditor::~CEditor()
 
 HRESULT CEditor::Ready_Scene()
 {
+	m_eSceneTag = SCENETAG::EDITOR;
+
 	FAILED_CHECK_RETURN(Ready_Prototype(), E_FAIL);
 
 	FAILED_CHECK_RETURN(Ready_Layer_Environment(LAYERTAG::ENVIRONMENT), E_FAIL);

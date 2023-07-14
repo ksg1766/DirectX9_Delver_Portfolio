@@ -16,6 +16,7 @@
 #include "RcTex.h"
 #include "TerrainTex.h"
 #include "CubeBf.h"
+#include "CubeColBf.h"
 #include "BossBf.h"
 
 #include "Transform.h"

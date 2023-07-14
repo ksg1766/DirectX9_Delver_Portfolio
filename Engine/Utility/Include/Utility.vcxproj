@@ -193,6 +193,7 @@ call CopyUtility.bat</Command>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\Header\Camera.h" />
+    <ClInclude Include="..\..\Header\CubeColBf.h" />
     <ClInclude Include="..\..\Header\Inventory.h" />
     <ClInclude Include="..\..\Header\Item.h" />
     <ClInclude Include="..\..\Header\MonsterAI.h" />
@@ -202,7 +203,6 @@ call CopyUtility.bat</Command>
     <ClInclude Include="..\..\Header\Particle.h" />
     <ClInclude Include="..\..\Header\PlayerStat.h" />
     <ClInclude Include="..\..\Header\PoolManager.h" />
-    <ClInclude Include="..\..\Header\SpawningPool.h" />
     <ClInclude Include="..\..\Header\State.h" />
     <ClInclude Include="..\..\Header\StateMachine.h" />
     <ClInclude Include="..\..\Header\TempCamera.h" />
@@ -247,6 +247,7 @@ call CopyUtility.bat</Command>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\Code\Camera.cpp" />
+    <ClCompile Include="..\Code\CubeColBf.cpp" />
     <ClCompile Include="..\Code\Inventory.cpp" />
     <ClCompile Include="..\Code\Item.cpp" />
     <ClCompile Include="..\Code\MonsterAI.cpp" />
@@ -256,7 +257,6 @@ call CopyUtility.bat</Command>
     <ClCompile Include="..\Code\Particle.cpp" />
     <ClCompile Include="..\Code\PlayerStat.cpp" />
     <ClCompile Include="..\Code\PoolManager.cpp" />
-    <ClCompile Include="..\Code\SpawningPool.cpp" />
     <ClCompile Include="..\Code\State.cpp" />
     <ClCompile Include="..\Code\StateMachine.cpp" />
     <ClCompile Include="..\Code\TempCamera.cpp" />

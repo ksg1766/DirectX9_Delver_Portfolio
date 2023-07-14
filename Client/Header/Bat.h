@@ -29,7 +29,6 @@ public:
 
 public:
 	void		ForceHeight(_vec3 _vPos);
-	void		Set_Terrain(CTerrain* _pCurrentTerrain) { m_pTerrain = _pCurrentTerrain; }
 
 public:
 	virtual void		OnCollisionEnter(CCollider* _pOther);
@@ -39,7 +38,6 @@ public:
 private:
 	CRcTex*			m_pBuffer = nullptr;
 	CTexture*		m_pTexture[(_uint)STATE::STATE_END] = {};
-	CTerrain*		m_pTerrain = nullptr;
 	CAnimator*		m_pAnimator = nullptr;
 
 	_float m_fFrame;
