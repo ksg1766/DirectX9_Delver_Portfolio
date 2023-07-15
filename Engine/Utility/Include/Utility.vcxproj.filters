@@ -485,11 +485,10 @@
     <ClCompile Include="..\Code\TempParticle.cpp">
       <Filter>03. GameObject\08. TempParticle</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\Frustum.cpp">
-      <Filter>00. Managers\10. Octree\02. ZFrustum</Filter>
     <ClCompile Include="..\Code\Font.cpp">
       <Filter>04. Component\15. Font</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\Frustum.cpp">
       <Filter>00. Managers\10. Octree\02. Frustum</Filter>
     </ClCompile>
   </ItemGroup>

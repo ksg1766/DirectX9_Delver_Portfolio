@@ -1,7 +1,7 @@
 #include "Frustum.h"
 #include "TempCamera.h"
 
-#define PLANE_EPSILON	24.f
+#define PLANE_EPSILON	26.f
 
 CFrustum::CFrustum()
 {

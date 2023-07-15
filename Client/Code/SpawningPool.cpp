@@ -54,45 +54,45 @@ HRESULT CSpawningPool::Ready_Object()
 
 _int CSpawningPool::Update_Object(const _float& fTimeDelta)
 {
-    //if (SCENETAG::EDITOR == SceneManager()->Get_Scene()->Get_SceneTag())
-    //{
-    //    Engine::Renderer()->Add_RenderGroup(RENDER_NONALPHA, this);
-    //    return 0;
-    //}
+    if (SCENETAG::EDITOR == SceneManager()->Get_Scene()->Get_SceneTag())
+    {
+        Engine::Renderer()->Add_RenderGroup(RENDER_NONALPHA, this);
+        return 0;
+    }
 
-    //if (SceneManager()->Get_GameStop()) { return 0; } // ! Esc 및 M키 누를 시 업데이트 멈추게 하는 용도 입니다.
+    if (SceneManager()->Get_GameStop()) { return 0; } // ! Esc 및 M키 누를 시 업데이트 멈추게 하는 용도 입니다.
 
-    //_int iExit = __super::Update_Object(fTimeDelta);
+    _int iExit = __super::Update_Object(fTimeDelta);
 
-    //if (!m_MonsterList.empty())
-    //{
-    //    for (auto& iter = m_MonsterList.begin(); iter != m_MonsterList.end();)
-    //    {
-    //        if ((*iter)->IsDead())
-    //            m_MonsterList.erase(iter--);
-    //        else
-    //            ++iter;
-    //    }
-    //}
+    if (!m_MonsterList.empty())
+    {
+        for (auto& iter = m_MonsterList.begin(); iter != m_MonsterList.end();)
+        {
+            if ((*iter)->IsDead())
+                m_MonsterList.erase(iter--);
+            else
+                ++iter;
+        }
+    }
 
-    //if (m_dqReserved.size() + m_MonsterList.size() < m_iPoolCapacity)
-    //{
-    //    //++m_iReservedCount;
-    //    m_dqReserved.push_back(fTimeDelta);
-    //}
+    if (m_dqReserved.size() + m_MonsterList.size() < m_iPoolCapacity)
+    {
+        //++m_iReservedCount;
+        m_dqReserved.push_back(fTimeDelta);
+    }
 
-    //for(int i = 0; i < m_dqReserved.size(); ++i)
-    //{
-    //    m_dqReserved[i] += fTimeDelta;
-    //    if (m_dqReserved[i] > m_fSpawnTime)
-    //    {
-    //        m_dqReserved.pop_front();
-    //        ReserveSpawn();
-    //    }
-    //}
+    for(int i = 0; i < m_dqReserved.size(); ++i)
+    {
+        m_dqReserved[i] += fTimeDelta;
+        if (m_dqReserved[i] > m_fSpawnTime)
+        {
+            m_dqReserved.pop_front();
+            ReserveSpawn();
+        }
+    }
 
-    //return iExit;
-    return 0;
+    return iExit;
+    //return 0;
 }
 
 HRESULT CSpawningPool::InitSpawnerBox()

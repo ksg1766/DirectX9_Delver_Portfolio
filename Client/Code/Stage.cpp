@@ -200,11 +200,11 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
 
 
-	pGameObject = CDungeonWarrior::Create(m_pGraphicDev);
+	/*pGameObject = CDungeonWarrior::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	pGameObject->m_pTransform->Translate(_vec3(-50.f, 0.f, -50.f));
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-	dynamic_cast<CDungeonWarrior*>(pGameObject)->Set_Terrain(dynamic_cast<CTerrain*>(pLayer->Get_ObjectList(OBJECTTAG::TERRAIN).front()));
+	dynamic_cast<CDungeonWarrior*>(pGameObject)->Set_Terrain(dynamic_cast<CTerrain*>(pLayer->Get_ObjectList(OBJECTTAG::TERRAIN).front()));*/
 
 	return S_OK;
 }
