@@ -34,7 +34,7 @@ private:
 private:
 	void		First_Camera();
 	void		Third_Camera();
-	void		Shake_Camera();
+	
 
 public:
 	_bool		Get_CameraMode() { return m_bCameraCheck; }
@@ -42,6 +42,10 @@ public:
 
 public:
 	void		Set_Fix(_bool _Fix) { m_bFix = _Fix; }
+
+public:
+	void		Shake_Camera();
+	void		Drunk_Camera();
 
 private:
 	_float		m_fSpeed = 40.f;
@@ -58,6 +62,14 @@ private:
 
 	_vec3		m_vOriginPos; // 원래 있던 위치
 	CAMERA_MODE m_eCamera_Mode; // 카메라 모드 상태
+
+
+	// Camera Drunk
+	_bool		m_bDrunk;
+	
+	_float		m_fDrunkDuration;
+	_float		m_fDrunkFrequency;
+	_float		m_fDrunckAmplitude;
 
 	_bool		m_bCameraCheck;
 public:

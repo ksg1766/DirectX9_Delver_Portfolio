@@ -2,7 +2,6 @@
 
 CTransform::CTransform()
 	: m_pParent(nullptr)
-	, m_pChild(nullptr)
 	, m_vLocalScale(1.f, 1.f, 1.f)
 {
 	ZeroMemory(m_vInfo, sizeof(m_vInfo));
@@ -11,7 +10,6 @@ CTransform::CTransform()
 CTransform::CTransform(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CComponent(pGraphicDev)
 	, m_pParent(nullptr)
-	, m_pChild(nullptr)
 	, m_vLocalScale(1.f, 1.f, 1.f)
 {
 	ZeroMemory(m_vInfo, sizeof(m_vInfo));
@@ -25,6 +23,8 @@ CTransform::CTransform(const CTransform & rhs)
 {
 	for (size_t i = 0; i < INFO_END; ++i)
 		m_vInfo[i] = rhs.m_vInfo[i];
+
+	m_pChild = rhs.m_pChild;
 }
 
 CTransform::~CTransform()
@@ -34,9 +34,10 @@ CTransform::~CTransform()
 void CTransform::Translate(_vec3& _vTranslation)
 {
 	m_vInfo[INFO_POS] += _vTranslation;
-	if (m_pChild)
+	if (!m_pChild.empty())
 	{
-		m_pChild->Translate(_vTranslation);
+		for(auto& iter : m_pChild)
+			iter->Translate(_vTranslation);
 	}
 }
 
@@ -52,7 +53,12 @@ void CTransform::Scale(_vec3& _vScale)
 		D3DXVec3Normalize(&m_vInfo[i], &m_vInfo[i]);
 		m_vInfo[i] *= *(((_float*)&_vScale) + i);
 	}
-	if (m_pChild) { m_pChild->Scale(_vScale); }
+	if (!m_pChild.empty()) 
+	{
+		//m_pChild->Scale(_vScale); 
+		for (auto& iter : m_pChild)
+			iter->Scale(_vScale);
+	}
 }
 
 void CTransform::Scale(const _vec3& _vScale)
@@ -78,14 +84,17 @@ void CTransform::Rotate(_vec3& _vEulers)
 	for(int i = 0; i < INFO_POS; ++i)
 		D3DXVec3TransformNormal(&m_vInfo[i], &m_vInfo[i], &matRotate);
 
-	if (m_pChild)
+	if (!m_pChild.empty())
 	{
 		if( 0.f != _vEulers.y )
-			m_pChild->RotateAround(m_vInfo[INFO_POS], _vec3(0.f, 1.f, 0.f), _vEulers.y);
+			for(auto& iter : m_pChild)
+				iter->RotateAround(m_vInfo[INFO_POS], _vec3(0.f, 1.f, 0.f), _vEulers.y);
 		if (0.f != _vEulers.x)
-			m_pChild->RotateAround(m_vInfo[INFO_POS], m_vInfo[INFO_RIGHT], _vEulers.x);
+			for(auto& iter : m_pChild)
+				iter->RotateAround(m_vInfo[INFO_POS], m_vInfo[INFO_RIGHT], _vEulers.x);
 		if (0.f != _vEulers.z)
-			m_pChild->RotateAround(m_vInfo[INFO_POS], m_vInfo[INFO_LOOK], _vEulers.z);
+			for(auto& iter : m_pChild)
+				iter->RotateAround(m_vInfo[INFO_POS], m_vInfo[INFO_LOOK], _vEulers.z);
 	}
 }
 
@@ -177,7 +186,11 @@ CComponent * CTransform::Clone(void)
 
 void CTransform::Free()
 {
-	if(m_pParent)
-		m_pParent->m_pChild = nullptr;
+	if (m_pParent)
+	{
+		for_each(m_pChild.begin(), m_pChild.end(), CDeleteObj());
+		m_pChild.clear();
+	}
+		//m_pParent->m_pChild = nullptr;
 	CComponent::Free();
 }

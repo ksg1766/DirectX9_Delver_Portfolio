@@ -268,12 +268,6 @@
     <Filter Include="02. GameObject\01. Stage\05. Monster\07. Skeleton">
       <UniqueIdentifier>{f88ecb10-b769-4813-8c38-f0d9b10dd4a9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\01. Stage\02. Item\Bow">
-      <UniqueIdentifier>{9d0eb722-7555-4dd5-9993-6fdea81bab1e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\01. Stage\02. Item\Bow\Arrow">
-      <UniqueIdentifier>{8432909b-dd43-49bd-ab0e-024e20043a9e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObject\01. Stage\999. Boss">
       <UniqueIdentifier>{f24be3b9-a5ed-492a-94e9-af87a48ef78f}</UniqueIdentifier>
     </Filter>
@@ -460,17 +454,35 @@
     <Filter Include="02. GameObject\01. Stage\05. Monster\00. State\Public\Move">
       <UniqueIdentifier>{fe309998-c385-4ca8-8ffb-070df66fe65c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\01. Stage\02. Item\Wands">
-      <UniqueIdentifier>{fde1bedd-59b4-439d-9d7a-ed25a65b4744}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\01. Stage\02. Item\Wands\FireBall">
-      <UniqueIdentifier>{57c21c47-1026-4302-83d6-6de16b12107b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObject\06. Paricle">
       <UniqueIdentifier>{b9673013-c1a9-45a7-8a28-4ad1e8df8aa3}</UniqueIdentifier>
     </Filter>
     <Filter Include="02. GameObject\06. Paricle\00. EffectSquare">
       <UniqueIdentifier>{b6357e95-b1f3-4f69-9b3a-4ff82ed91034}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\02. Item\Consumable">
+      <UniqueIdentifier>{88c06c96-bd70-4c1a-a4b0-2d97688e64b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\02. Item\Weapon">
+      <UniqueIdentifier>{108d9537-5ad9-498a-83e6-583526c58e5a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\02. Item\Weapon\Bow">
+      <UniqueIdentifier>{9d0eb722-7555-4dd5-9993-6fdea81bab1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\02. Item\Weapon\Bow\Arrow">
+      <UniqueIdentifier>{8432909b-dd43-49bd-ab0e-024e20043a9e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\02. Item\Weapon\Wands">
+      <UniqueIdentifier>{fde1bedd-59b4-439d-9d7a-ed25a65b4744}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\02. Item\Weapon\Wands\FireBall">
+      <UniqueIdentifier>{57c21c47-1026-4302-83d6-6de16b12107b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\02. Item\Weapon\Sword">
+      <UniqueIdentifier>{f70e0963-11eb-429b-a5e4-f9daece7555b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\02. Item\Consumable\Bear">
+      <UniqueIdentifier>{cc8f90c3-3f8e-4e0f-ac43-3b2aa91b4379}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -512,9 +524,6 @@
     </ClInclude>
     <ClInclude Include="..\Header\CubeBlock.h">
       <Filter>02. GameObject\01. Stage\05. Cube\00. CubeBlock</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\TempItem.h">
-      <Filter>02. GameObject\01. Stage\02. Item</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\UIplayerhp.h">
       <Filter>02. GameObject\03. UI\00. UIplayerhp</Filter>
@@ -766,7 +775,7 @@
       <Filter>02. GameObject\01. Stage\05. Monster\07. Skeleton</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Bow.h">
-      <Filter>02. GameObject\01. Stage\02. Item\Bow</Filter>
+      <Filter>02. GameObject\01. Stage\02. Item\Weapon\Bow</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Box_Cube.h">
       <Filter>02. GameObject\01. Stage\06. Environment_Object\03. Box</Filter>
@@ -784,7 +793,7 @@
       <Filter>99. Etc\헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Arrow.h">
-      <Filter>02. GameObject\01. Stage\02. Item\Bow\Arrow</Filter>
+      <Filter>02. GameObject\01. Stage\02. Item\Weapon\Bow\Arrow</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\SpawningPool.h">
       <Filter>02. GameObject\01. Stage\05. Monster\99. SpawningPool</Filter>
@@ -865,13 +874,19 @@
       <Filter>02. GameObject\01. Stage\05. Monster\00. State\Public\Move</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\FireWands.h">
-      <Filter>02. GameObject\01. Stage\02. Item\Wands</Filter>
+      <Filter>02. GameObject\01. Stage\02. Item\Weapon\Wands</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\FireBall.h">
-      <Filter>02. GameObject\01. Stage\02. Item\Wands\FireBall</Filter>
+      <Filter>02. GameObject\01. Stage\02. Item\Weapon\Wands\FireBall</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\EffectSquare.h">
       <Filter>02. GameObject\06. Paricle\00. EffectSquare</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\TempItem.h">
+      <Filter>02. GameObject\01. Stage\02. Item\Weapon\Sword</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Beer.h">
+      <Filter>02. GameObject\01. Stage\02. Item\Consumable\Bear</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -910,9 +925,6 @@
     </ClCompile>
     <ClCompile Include="..\Code\CubeBlock.cpp">
       <Filter>02. GameObject\01. Stage\05. Cube\00. CubeBlock</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\TempItem.cpp">
-      <Filter>02. GameObject\01. Stage\02. Item</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\UIplayerhp.cpp">
       <Filter>02. GameObject\03. UI\00. UIplayerhp</Filter>
@@ -1158,7 +1170,7 @@
       <Filter>02. GameObject\01. Stage\05. Monster\07. Skeleton</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Bow.cpp">
-      <Filter>02. GameObject\01. Stage\02. Item\Bow</Filter>
+      <Filter>02. GameObject\01. Stage\02. Item\Weapon\Bow</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Box_Cube.cpp">
       <Filter>02. GameObject\01. Stage\06. Environment_Object\03. Box</Filter>
@@ -1176,7 +1188,7 @@
       <Filter>99. Etc\소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Arrow.cpp">
-      <Filter>02. GameObject\01. Stage\02. Item\Bow\Arrow</Filter>
+      <Filter>02. GameObject\01. Stage\02. Item\Weapon\Bow\Arrow</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\SpawningPool.cpp">
       <Filter>02. GameObject\01. Stage\05. Monster\99. SpawningPool</Filter>
@@ -1257,13 +1269,19 @@
       <Filter>02. GameObject\01. Stage\05. Monster\00. State\Public\Move</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\FireWands.cpp">
-      <Filter>02. GameObject\01. Stage\02. Item\Wands</Filter>
+      <Filter>02. GameObject\01. Stage\02. Item\Weapon\Wands</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\FireBall.cpp">
-      <Filter>02. GameObject\01. Stage\02. Item\Wands\FireBall</Filter>
+      <Filter>02. GameObject\01. Stage\02. Item\Weapon\Wands\FireBall</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\EffectSquare.cpp">
       <Filter>02. GameObject\06. Paricle\00. EffectSquare</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\TempItem.cpp">
+      <Filter>02. GameObject\01. Stage\02. Item\Weapon\Sword</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Beer.cpp">
+      <Filter>02. GameObject\01. Stage\02. Item\Consumable\Bear</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

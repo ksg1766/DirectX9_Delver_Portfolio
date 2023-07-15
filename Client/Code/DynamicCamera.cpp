@@ -25,12 +25,18 @@ HRESULT CDynamicCamera::Ready_Object(const _vec3* pEye, const _vec3* pAt, const 
 	// Camera Shake
 	m_bCameraCheck = false;
 	m_bShaking = false; // Èçµé¸² »óÅÂ
+	m_bDrunk = false;
 	m_fShakeElipsedTime = 0.f; // ÁßÃ¸½Ã°£
 
 	m_fAmplitude = 0.005f; // ÁøÆø
 	m_fDuration = 0.1f;  // Èçµå´Â ½Ã°£
 	m_fFrequency = 1.f; // Èçµå´Â ¼Óµµ
 	m_vOriginPos = _vec3(0.f, 0.f, 0.f);
+
+	m_fDrunckAmplitude = 5.f;
+	m_fDrunkDuration = 5.f;
+	m_fDrunkFrequency = 3.f;
+
 
 	FAILED_CHECK_RETURN(CTempCamera::Ready_Object(), E_FAIL);
 	m_eObjectTag = OBJECTTAG::CAMERA;
@@ -43,6 +49,8 @@ HRESULT CDynamicCamera::Ready_Object(const _vec3* pEye, const _vec3* pAt, const 
 _int CDynamicCamera::Update_Object(const _float& fTimeDelta)
 {
 	Key_Input(fTimeDelta);
+
+	_int iExit = CTempCamera::Update_Object(fTimeDelta);
 
 	if (false == m_bFix)
 	{
@@ -70,8 +78,8 @@ _int CDynamicCamera::Update_Object(const _float& fTimeDelta)
 
 		if (m_fShakeElipsedTime < m_fDuration)
 		{
-			_float X = m_fAmplitude * cosf(m_fShakeElipsedTime * m_fFrequency + (((_float)rand() / (_float)RAND_MAX) * (D3DX_PI * 2)));
-			_float Y = m_fAmplitude * sinf(m_fShakeElipsedTime * m_fFrequency + (((_float)rand() / (_float)RAND_MAX) * (D3DX_PI * 2)));
+			_float X = m_fAmplitude * cosf(m_fShakeElipsedTime * m_fFrequency + (((_float)rand() / (_float)RAND_MAX) * D3DX_PI));
+			_float Y = m_fAmplitude * -sinf(m_fShakeElipsedTime * m_fFrequency + (((_float)rand() / (_float)RAND_MAX) * D3DX_PI));
 			m_vEye += _vec3(X, Y, 0);
 		}
 		else
@@ -81,7 +89,6 @@ _int CDynamicCamera::Update_Object(const _float& fTimeDelta)
 		}
 	}
 
-	_int iExit = CTempCamera::Update_Object(fTimeDelta);
 
 	return iExit;
 }
@@ -280,6 +287,19 @@ void CDynamicCamera::Shake_Camera()
 	m_fShakeElipsedTime = 0.f;
 	m_vOriginPos = vPlayerPos;
 	m_bShaking = true;
+}
+
+void CDynamicCamera::Drunk_Camera()
+{
+	CComponent* pComponent = SceneManager()->GetInstance()
+		->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()
+		->Get_Component(COMPONENTTAG::TRANSFORM, COMPONENTID::ID_DYNAMIC);
+
+	_vec3	vPlayerPos = dynamic_cast<CTransform*>(pComponent)->m_vInfo[INFO_POS];
+
+	m_fShakeElipsedTime = 0.f;
+	m_vOriginPos = vPlayerPos;
+	m_bDrunk = true;
 }
 
 

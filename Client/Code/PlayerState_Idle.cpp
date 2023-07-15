@@ -2,6 +2,8 @@
 #include "Export_Function.h"
 #include "DynamicCamera.h"
 #include "Player.h"
+#include "Beer.h"
+#include "DynamicCamera.h"
 
 CPlayerState_Idle::CPlayerState_Idle()
 {
@@ -62,6 +64,29 @@ STATE CPlayerState_Idle::Key_Input(const _float& fTimeDelta)
 		return STATE::ATTACK;
 	}
 
+	if (Engine::InputDev()->GetInstance()->Mouse_Down(DIM_RB))
+	{
+		// TODO : 마우스 오른 쪽 누르면 소모류는 사용 가능하게.
+		// 스테이트 반영은 필요X
+
+		CPlayer& pPlayer = *dynamic_cast<CPlayer*>(SceneManager()->GetInstance()
+			->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
+
+		if (pPlayer.Get_CurrentEquipLeft() == nullptr)
+			return STATE::IDLE;
+
+			// 왼쪽 손에 맥주를 장착하고 있다면
+		if (dynamic_cast<CItem*>(pPlayer.Get_CurrentEquipLeft())->Get_ItemTag().eItemID == ITEMID::GENERAL_BEER)
+		{
+			if (dynamic_cast<CBeer*>(pPlayer.Get_CurrentEquipLeft())->Get_BeerCount() >= 1.f)
+			{
+				dynamic_cast<CBeer*>(pPlayer.Get_CurrentEquipLeft())->Use_Beer(1.f);
+
+				pPlayer.Set_Drunk(true);
+			}
+		}
+		
+	}
 
 	
 	pPlayer.Set_State(STATE::IDLE);
