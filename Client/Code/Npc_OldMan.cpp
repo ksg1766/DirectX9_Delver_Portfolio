@@ -31,6 +31,30 @@ HRESULT CNpc_OldMan::Ready_Object()
 
 	m_pStateMachine->Set_Animator(m_pAnimator);
 	m_pStateMachine->Set_State(STATE::IDLE);
+
+
+	D3DXFONT_DESC	lf;
+	ZeroMemory(&lf, sizeof(D3DXFONT_DESC));
+	lf.Height = 50;//높이 논리적 단위
+	lf.Width = 32;//너비 논리적 단위
+	lf.Weight = 1000;//굵기의 단위	0~1000
+	lf.Italic = false;//기울임꼴
+	lf.MipLevels = 1;//요청된 밉수준. 값이 1일 때 텍스처 공간이 화면 공간에 동일하게 맵핑
+	lf.CharSet = DEFAULT_CHARSET;//문자집합
+	lf.OutputPrecision = OUT_DEFAULT_PRECIS;//출력 정밀도
+	lf.Quality = DEFAULT_QUALITY;//품질
+	lf.PitchAndFamily = DEFAULT_PITCH;//피치 및 패밀리
+	lf.FaceName, "맑은고딕";//문자열의 길이가 32를 초과하면 안됨. 글꼴설정.
+
+	if (FAILED(D3DXCreateFontIndirect(m_pGraphicDev, &lf, &m_pFontconfig)))
+	{
+		MessageBox(0, TEXT("D3DXCreateFontIndirect() - FAILED"), 0, 0);
+	}
+	dynamic_cast<CFont*>(m_pFont)->Set_pFont(m_pFontconfig);
+	dynamic_cast<CFont*>(m_pFont)->Set_FontColor(_uint(0xFFFF0000));
+	dynamic_cast<CFont*>(m_pFont)->Set_Rect(RECT { 0, 500, WINCX, WINCY });
+	dynamic_cast<CFont*>(m_pFont)->Set_Anchor(DT_CENTER| DT_NOCLIP);
+	m_fFontTime = 0.f;
 	return S_OK;
 }
 
@@ -39,9 +63,8 @@ _int CNpc_OldMan::Update_Object(const _float& fTimeDelta)
 	Engine::Renderer()->Add_RenderGroup(RENDER_ALPHA, this);
 
 	if (SceneManager()->Get_GameStop()) { return 0; }
-
 	_uint iExit = __super::Update_Object(fTimeDelta);
-
+	m_fFontTime += fTimeDelta;
 	ForceHeight(m_pTransform->m_vInfo[INFO_POS]);
 	m_pStateMachine->Update_StateMachine(fTimeDelta);
 	return iExit;
@@ -62,7 +85,12 @@ void CNpc_OldMan::Render_Object()
 
 	m_pStateMachine->Render_StateMachine();
 	m_pBuffer->Render_Buffer();
-
+	if (0.5 < m_fFontTime)
+	{
+		m_pFont->DrawText(L"W A R R I N G");
+		if(1.f < m_fFontTime)
+			m_fFontTime = 0.f;
+	}
 #if _DEBUG
 	m_pCollider->Render_Collider();
 #endif
@@ -173,6 +201,10 @@ HRESULT CNpc_OldMan::Add_Component()
 	pComponent = m_pBasicStat = dynamic_cast<CBasicStat*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BasicStat"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BASICSTAT, pComponent);
+
+	pComponent = m_pFont = dynamic_cast<CFont*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Font"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::FONT, pComponent);
 
 	for (_uint i = 0; i < ID_END; ++i)
 		for (auto& iter : m_mapComponent[i])

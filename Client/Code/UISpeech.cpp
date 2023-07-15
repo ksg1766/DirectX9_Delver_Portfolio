@@ -1,4 +1,4 @@
-#include "CUIspeech.h"
+#include "UISpeech.h"
 #include "Export_Function.h"
 
 CUIspeech::CUIspeech(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -16,11 +16,11 @@ HRESULT CUIspeech::Ready_Object()
 	FAILED_CHECK_RETURN(CTempUI::Ready_Object(), E_FAIL);
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pTransform->m_vInfo[INFO_POS].x/2;
-	m_pTransform->m_vInfo[INFO_POS].y/4;
+	m_pTransform->m_vInfo[INFO_POS].x = WINCX/2;
+	m_pTransform->m_vInfo[INFO_POS].y = WINCY/4;
 
-	m_pTransform->m_vLocalScale.x = 100.f;
-	m_pTransform->m_vLocalScale.y = 40.f;
+	m_pTransform->m_vLocalScale.x = 200.f;
+	m_pTransform->m_vLocalScale.y = 100.f;
 
 	WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);
 
@@ -90,7 +90,7 @@ CUIspeech* CUIspeech::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 	if (FAILED(pInstance->Ready_Object()))
 	{
 		Safe_Release(pInstance);
-		MSG_BOX("UI Create Failed");
+		MSG_BOX("UISoeech Bubble Create Failed");
 		return nullptr;
 	}
 

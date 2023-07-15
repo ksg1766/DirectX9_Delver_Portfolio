@@ -168,7 +168,6 @@ void CBow::Render_Object(void)
 		m_pBuffer->Render_Buffer();
 	}
 
-
 #if _DEBUG
 	m_pCollider->Render_Collider();
 #endif

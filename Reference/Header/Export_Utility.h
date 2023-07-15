@@ -48,7 +48,8 @@
 // Inventory
 #include "Inventory.h"
 
-
+//Font
+#include "Font.h"
 BEGIN(Engine)
 
 inline CSceneManager*		SceneManager();
