@@ -28,40 +28,63 @@ HRESULT CTempItem::Ready_Object(_bool _Item)
 	m_bWorldItem = _Item;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 	
-	m_pTransform->Scale(_vec3(0.3f, 0.3f, 0.3f));
-	m_pCollider->
-		InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
+	//m_pTransform->Scale(_vec3(0.3f, 0.3f, 0.3f));
+	//m_pCollider->
+	//	InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
 
-	m_pBasicStat->Get_Stat()->fAttack = 1.f;
-	m_pBasicStat->Get_Stat()->fHealth = 20.f;
+	//m_pBasicStat->Get_Stat()->fAttack = 1.f;
+	//m_pBasicStat->Get_Stat()->fHealth = 20.f;
 
 
+	//m_fSignTime = 1.f;
 
-	m_AttackInfo.fWeaponSpeed = 0.08f;
-	m_AttackInfo.fReturnSpeed = 0.08f;
-	m_AttackInfo.fMaxDistance = 0.8f;
-
-	m_fSignTime = 1.f;
-
-	// 타입 및 아이디 지정
-	m_ItemID.eItemType = ITEMTYPE_WEAPONITEM;
-	m_ItemID.eItemID = WEAPON_SWORD;
-	m_ItemID.iCount = 1;
+	//// 타입 및 아이디 지정
+	//m_ItemID.eItemType = ITEMTYPE_WEAPONITEM;
+	//m_ItemID.eItemID = WEAPON_SWORD;
+	//m_ItemID.iCount = 1;
 
 	if (!Get_WorldItem())
 	{
-		CGameObject* pPlayer = SceneManager()->GetInstance()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front();
+		m_pTransform->Scale(_vec3(0.3f, 0.3f, 0.3f));
+		m_pCollider->
+			InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
 
-		if (pPlayer == nullptr)
+		m_pBasicStat->Get_Stat()->fAttack = 1.f;
+		m_pBasicStat->Get_Stat()->fHealth = 20.f;
+
+
+		m_fSignTime = 1.f;
+
+		// 타입 및 아이디 지정
+		m_ItemID.eItemType = ITEMTYPE_WEAPONITEM;
+		m_ItemID.eItemID = WEAPON_SWORD;
+		m_ItemID.iCount = 1;
+
+		CGameObject* pGameObject = SceneManager()->GetInstance()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front();
+
+		if (pGameObject == nullptr)
 			return S_OK;
 
 
-		if (dynamic_cast<CPlayer*>(pPlayer)->Get_CurrentEquipRight() == nullptr)
-		{
-			CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pTransform->m_pParent->Get_Host());
-			m_pTransform->Translate(pPlayer->m_pTransform->m_vInfo[INFO_POS] + *dynamic_cast<CPlayer*>(pPlayer)->Get_Offset());
+		CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pTransform->m_pParent->Get_Host());
+		m_pTransform->Translate(pPlayer->m_pTransform->m_vInfo[INFO_POS] + *dynamic_cast<CPlayer*>(pPlayer)->Get_Offset());
+	}
+	else
+	{
+		m_pTransform->Scale(_vec3(0.3f, 0.3f, 0.3f));
+		m_pCollider->
+			InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
 
-		}
+		m_pBasicStat->Get_Stat()->fAttack = 1.f;
+		m_pBasicStat->Get_Stat()->fHealth = 20.f;
+
+
+		m_fSignTime = 1.f;
+
+		// 타입 및 아이디 지정
+		m_ItemID.eItemType = ITEMTYPE_WEAPONITEM;
+		m_ItemID.eItemID = WEAPON_SWORD;
+		m_ItemID.iCount = 1;
 	}
 
 	return S_OK;
@@ -82,7 +105,7 @@ _int CTempItem::Update_Object(const _float& fTimeDelta)
 	if (ItemType != nullptr)
 		ItemID = ItemType->Get_ItemTag();
 
-	if (ItemID.eItemID != ITEMID::WEAPON_SWORD)
+	if (ItemID.eItemID != ITEMID::WEAPON_SWORD || !pPlayer->Get_ItemEquipRight())
 		return iExit;
 
 
@@ -125,8 +148,30 @@ void CTempItem::Render_Object(void)
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
 
-	m_pTexture->Render_Texture();
-	m_pBuffer->Render_Buffer();
+	CPlayer* pPlayer = dynamic_cast<CPlayer*>(SceneManager()->GetInstance()->
+		Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
+
+
+	if (!Get_WorldItem() && pPlayer != nullptr)
+	{
+		CItem* ItemType = dynamic_cast<CItem*>(pPlayer->Get_CurrentEquipRight());
+
+		ITEMTYPEID ItemID = {};
+
+		if (ItemType != nullptr)
+			ItemID = ItemType->Get_ItemTag();
+
+		if (ItemID.eItemID == ITEMID::WEAPON_SWORD && pPlayer->Get_ItemEquipRight())
+		{
+			m_pTexture->Render_Texture();
+			m_pBuffer->Render_Buffer();
+		}
+	}
+	else
+	{
+		m_pTexture->Render_Texture();
+		m_pBuffer->Render_Buffer();
+	}
 
 #if _DEBUG
 	m_pCollider->Render_Collider();
@@ -165,11 +210,11 @@ HRESULT CTempItem::Add_Component(void)
 	{
 		CPlayer* pPlayer = dynamic_cast<CPlayer*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
 
-		if (pPlayer->Get_CurrentEquipRight() == nullptr)
-		{
-			m_pTransform->Set_Parent(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform);
-			m_pTransform->Copy_RUL(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform->m_vInfo);
-		}
+	
+		
+		m_pTransform->Set_Parent(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform);
+		m_pTransform->Copy_RUL(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform->m_vInfo);
+		
 	}
 
 	return S_OK;

@@ -27,30 +27,40 @@ HRESULT CBow::Ready_Object(_bool _Item)
 	m_bWorldItem = _Item;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pTransform->Scale(_vec3(0.3f, 0.3f, 0.3f));
-
-	m_pCollider->
-		InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
+	/*m_pCollider->
+		InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());*/
 
 	if (!Get_WorldItem())
 	{
+		m_pTransform->Scale(_vec3(0.3f, 0.3f, 0.3f));
+
+		//m_pCollider->
+		//	InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
+
+
 		CGameObject* pPlayer = SceneManager()->GetInstance()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front();
 		//CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pTransform->m_pParent->Get_Host());
 
-		if (dynamic_cast<CPlayer*>(pPlayer)->Get_CurrentEquipRight() == nullptr)
-		{
-			m_pTransform->Copy_RUL(m_pTransform->m_pParent->m_vInfo);
-			m_pTransform->Scale(_vec3(0.3f, 0.3f, 0.3f));
+
+		m_pTransform->Copy_RUL(m_pTransform->m_pParent->m_vInfo);
+		m_pTransform->Scale(_vec3(0.3f, 0.3f, 0.3f));
 
 
-			m_pTransform->Translate(m_pTransform->m_pParent->m_vInfo[INFO_POS] + *dynamic_cast<CPlayer*>(pPlayer)->Get_Offset());
-		}
+		m_pTransform->Translate(m_pTransform->m_pParent->m_vInfo[INFO_POS] + *dynamic_cast<CPlayer*>(pPlayer)->Get_Offset());
+
+		m_fSignTime = 1.f;
+		m_fChase = 0.f;
+		m_fChase2 = 0.f;
+		m_fAngle = 0.f;
+	}
+	else
+	{
+		m_pTransform->Scale(_vec3(0.3f, 0.3f, 0.3f));
+
+		//m_pCollider->
+		//	InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
 	}
 
-	m_fSignTime = 1.f;
-	m_fChase = 0.f;
-	m_fChase2 = 0.f;
-	m_fAngle = 0.f;
 
 	// 타입 및 아이디 지정
 	m_ItemID.eItemType = ITEMTYPE::ITEMTYPE_WEAPONITEM;
@@ -75,7 +85,7 @@ _int CBow::Update_Object(const _float& fTimeDelta)
 	if (ItemType != nullptr)
 		ItemID = ItemType->Get_ItemTag();
 
-	if (ItemID.eItemID != ITEMID::WEAPON_BOW)
+	if (ItemID.eItemID != ITEMID::WEAPON_BOW || !pPlayer->Get_ItemEquipRight())
 		return iExit;
 
 
@@ -134,8 +144,30 @@ void CBow::Render_Object(void)
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
 
-	m_pTexture->Render_Texture();
-	m_pBuffer->Render_Buffer();
+	CPlayer* pPlayer = dynamic_cast<CPlayer*>(SceneManager()->GetInstance()->
+		Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
+
+	if (!Get_WorldItem() && pPlayer != nullptr)
+	{
+		CItem* ItemType = dynamic_cast<CItem*>(pPlayer->Get_CurrentEquipRight());
+
+		ITEMTYPEID ItemID = {};
+
+		if (ItemType != nullptr)
+			ItemID = ItemType->Get_ItemTag();
+
+		if (ItemID.eItemID == ITEMID::WEAPON_BOW && pPlayer->Get_ItemEquipRight())
+		{
+			m_pTexture->Render_Texture();
+			m_pBuffer->Render_Buffer();
+		}
+	}
+	else
+	{
+		m_pTexture->Render_Texture();
+		m_pBuffer->Render_Buffer();
+	}
+
 
 #if _DEBUG
 	m_pCollider->Render_Collider();
@@ -170,11 +202,10 @@ HRESULT CBow::Add_Component(void)
 	{
 		CPlayer* pPlayer = dynamic_cast<CPlayer*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
 
-		if (pPlayer->Get_CurrentEquipRight() == nullptr)
-		{
-			m_pTransform->Set_Parent(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform);
-			m_pTransform->Copy_RUL(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform->m_vInfo);
-		}
+
+		m_pTransform->Set_Parent(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform);
+		m_pTransform->Copy_RUL(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform->m_vInfo);
+
 	}
 
 	return S_OK;

@@ -8,6 +8,7 @@
 #include "TempItem.h"
 #include "Bow.h"
 #include "FireWands.h"
+#include "Beer.h"
 #include "DynamicCamera.h"
 
 // State
@@ -41,12 +42,20 @@ HRESULT CPlayer::Ready_Object(void)
 	m_bItemEquipLeft = false;
 	m_bIsAttack = false;
 	m_bAttackTick = true;
+	m_bDrunk = false;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	Get_Collider()->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
 
 	m_pTransform->Translate(_vec3(0.f, 1.f, 0.f));
-	m_vOffset = _vec3(0.55f, 0.1f, 1.5f);
+	m_vOffset	  =	_vec3(0.55f, 0.1f, 1.5f);
+	m_vLeftOffset = _vec3(-0.55, 0.1f, 1.5f);
+	m_fDrunkTime = 0.f;
+	m_fDrunkDuration = 5.f;
+	m_fRotationAngle = 0.f;
+	m_fRotationSpeed = 0.05f;
+	m_fAmount = 0.05f;
+	m_bFoward = true;
 
 	// 걷기 상태 추가
 	CState* pState = CPlayerState_Walk::Create(m_pGraphicDev, m_pStateMachine);
@@ -72,6 +81,33 @@ Engine::_int CPlayer::Update_Object(const _float& fTimeDelta)
 	_int iExit = __super::Update_Object(fTimeDelta);
 
 	m_pStateMachine->Update_StateMachine(fTimeDelta);
+
+	if (Get_Drunk())
+	{
+		m_fDrunkTime += fTimeDelta;
+
+		if (m_fDrunkTime < m_fDrunkDuration) // 10초 
+		{
+			if (m_bFoward)
+				/*m_fRotationAngle = sinf(0.5f * m_fRotationSpeed * D3DX_PI / m_fDrunkDuration) * m_fAmount;*/
+				m_fRotationAngle = sinf(D3DX_PI / 4);
+			else
+				/*		m_fRotationAngle = -sinf(0.5f * m_fRotationSpeed * D3DX_PI / m_fDrunkDuration) * m_fAmount;*/
+				m_fRotationAngle = -sinf(D3DX_PI / 4);
+
+			if (m_fDrunkTime >= m_fDrunkDuration * 0.5f)
+				m_bFoward = false;
+		}
+		else
+		{
+			m_fDrunkTime = 0.f;
+			Set_Drunk(false);
+		}
+
+		m_pTransform->Rotate(ROT_Z, m_fRotationAngle / 100.f);
+
+
+	}
 
 	ForceHeight(m_pTransform->m_vInfo[INFO_POS]);
 
@@ -164,6 +200,7 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 
 		D3DXMatrixRotationAxis(&matRotX, &m_pTransform->m_vInfo[INFO_UP], D3DXToRadian(dwMouseMove) * fTimeDelta * 3.f);
 		D3DXVec3TransformCoord(&m_vOffset, &m_vOffset, &matRotX);
+		D3DXVec3TransformCoord(&m_vLeftOffset, &m_vLeftOffset, &matRotX);
 	}
 
 	if (0 != (dwMouseMove = Engine::InputDev()->Get_DIMouseMove(DIMS_Y)) && !bCameraOn)
@@ -177,6 +214,7 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 
 		D3DXMatrixRotationAxis(&matRotY, &m_pTransform->m_vInfo[INFO_RIGHT], D3DXToRadian(dwMouseMove) * fTimeDelta * 3.f);
 		D3DXVec3TransformCoord(&m_vOffset, &m_vOffset, &matRotY);
+		D3DXVec3TransformCoord(&m_vLeftOffset, &m_vLeftOffset, &matRotY);
 	}
 
 	// UI 단축키 추가
@@ -242,7 +280,7 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 	if (Engine::InputDev()->Key_Down(DIK_E))
 	{
 		//  바라보고 있는 아이템 줍기 / E 키로 앞에 있는 아이템 획득을 테스트 용으로 임시 생성
-		Engine::CGameObject* pGameObjectItem = CBow::Create(m_pGraphicDev, false);
+		Engine::CGameObject* pGameObjectItem = CBeer::Create(m_pGraphicDev, false);
 //		Engine::CGameObject* pGameObjectItem = CTempItem::Create(m_pGraphicDev);
 		// 획득한 아이템 타입 및 개수를 받아옴.
 		ITEMTYPEID ItemType = dynamic_cast<CItem*>(pGameObjectItem)->Get_ItemTag();
@@ -257,10 +295,11 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 		Engine::UIManager()->AddItemGameobject_UI(pGameObjectUI);
 
 		// 장착하는 아이템 타입이고 아이템을 장착하고 있지 않다면 장착(생성)
-		if (ItemType.eItemType == ITEMTYPE_WEAPONITEM && !m_bItemEquipRight) // 오른손 장착 아이템 타입
+		if (ItemType.eItemType == ITEMTYPE::ITEMTYPE_GENERALITEM && !m_bItemEquipLeft) // 오른손 장착 아이템 타입
 		{
-			m_bItemEquipRight = true;
-			Set_CurrentEquipRight(pGameObjectItem);
+			m_bItemEquipLeft = true;
+			Set_CurrentEquipLeft(pGameObjectItem);
+			Set_PrevEquipLeft(pGameObjectItem);
 			Engine::EventManager()->CreateObject(pGameObjectItem, LAYERTAG::GAMELOGIC);
 
 			// 장착 상태 // 해당 아이템 찾아서 해당 슬롯 장착 상태 표시
@@ -292,6 +331,7 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 
 				// 1개만 가지고 있었기에 버림으로 인해 보유 X, 다음 아이템을 들기 위한 초기화
 				m_pCurrentEquipItemRight = nullptr;
+				m_pPrevEquipItemRight = nullptr;
 				m_bItemEquipRight = false;
 			}
 			else if (ItemType.iCount > 1)
@@ -394,21 +434,38 @@ void CPlayer::Use_SlotItem(INVENKEYSLOT _SlotNum)
 			if (!m_bItemEquipRight) // 오른 손에 장착하고 있는 상태가 아닐 시 
 			{
 				// 오른손에 장착 및 해당 위치 슬롯 UI 배경 밝은 색상으로 변겅
+				m_bItemEquipRight = true;
+				
+				Set_CurrentEquipRight(SlotItemObj);
+				Set_PrevEquipRight(SlotItemObj);
 
-
+				Engine::CGameObject* FindSlotObj = Engine::UIManager()->Get_PopupObjectBasicSlot(ItemType);
+				dynamic_cast<CUIbasicslot*>(dynamic_cast<CTempUI*>(FindSlotObj))->Set_FindSlot(true);
 			}
 			else // 오른 손에 장착하고 있는 상태일 시 
 			{
 				if (dynamic_cast<CItem*>(m_pCurrentEquipItemRight)->Get_ItemTag().eItemID == ItemType.eItemID)
 				{
 					// 장착하려는 타입과 같은 타입을 들고 있을 시 장착 해제 및 슬롯 UI 원래 색상으로 변경
-
+					m_bItemEquipRight = false;
+					Set_CurrentEquipRight(nullptr);
+					Set_PrevEquipRight(SlotItemObj);
+					Engine::CGameObject* FindSlotObj = Engine::UIManager()->Get_PopupObjectBasicSlot(ItemType);
+					dynamic_cast<CUIbasicslot*>(dynamic_cast<CTempUI*>(FindSlotObj))->Set_FindSlot(false);
 				}
 				else
 				{
 					// 장착하려는 타입과 다른 타입을 들고 있을 시 기존 아이템 장착 해제 및 해당 아이템으로 재 장착 + UI 슬롯 밝은 색상으로 변경
+					m_bItemEquipRight = true;
+					Set_CurrentEquipRight(SlotItemObj);
+					ITEMTYPEID PrevItemType = dynamic_cast<CItem*>(Get_PrevEquipRight())->Get_ItemTag(); // 이전 무기의 아이템 태그갖고옴.
+					Engine::CGameObject* PrevFindSlotObj = Engine::UIManager()->Get_PopupObjectBasicSlot(PrevItemType);
+					dynamic_cast<CUIbasicslot*>(dynamic_cast<CTempUI*>(PrevFindSlotObj))->Set_FindSlot(false);
 
+					Engine::CGameObject* FindSlotObj = Engine::UIManager()->Get_PopupObjectBasicSlot(ItemType);
+					dynamic_cast<CUIbasicslot*>(dynamic_cast<CTempUI*>(FindSlotObj))->Set_FindSlot(true);
 
+					Set_PrevEquipRight(SlotItemObj);
 				}
 			}
 		}
@@ -419,14 +476,41 @@ void CPlayer::Use_SlotItem(INVENKEYSLOT _SlotNum)
 			if (!m_bItemEquipLeft) // 왼 손에 장착하고 있는 상태가 아닐 시 
 			{
 				// 왼손에 장착 및 해당 위치 슬롯으로 위치 이동
+				m_bItemEquipLeft = true;
 
+				Set_CurrentEquipLeft(SlotItemObj);
+				Set_PrevEquipLeft(SlotItemObj);
+
+				Engine::CGameObject* FindSlotObj = Engine::UIManager()->Get_PopupObjectBasicSlot(ItemType);
+				dynamic_cast<CUIbasicslot*>(dynamic_cast<CTempUI*>(FindSlotObj))->Set_FindSlot(true);
 
 			}
 			else // 왼 손에 장착하고 있는 상태일 시 
 			{
 				// 장착하려는 타입과 같은 타입을 들고 있을 시 장착 해제
+				if (dynamic_cast<CItem*>(m_pCurrentEquipItemLeft)->Get_ItemTag().eItemID == ItemType.eItemID)
+				{
+					// 장착하려는 타입과 같은 타입을 들고 있을 시 장착 해제 및 슬롯 UI 원래 색상으로 변경
+					m_bItemEquipLeft = false;
+					Set_CurrentEquipLeft(nullptr);
+					Set_PrevEquipLeft(SlotItemObj);
+					Engine::CGameObject* FindSlotObj = Engine::UIManager()->Get_PopupObjectBasicSlot(ItemType);
+					dynamic_cast<CUIbasicslot*>(dynamic_cast<CTempUI*>(FindSlotObj))->Set_FindSlot(false);
+				}
+				else
+				{
+					// 장착하려는 타입과 다른 타입을 들고 있을 시 기존 아이템 장착 해제 및 해당 아이템으로 재 장착 + UI 슬롯 밝은 색상으로 변경
+					m_bItemEquipLeft = true;
+					Set_CurrentEquipRight(SlotItemObj);
+					ITEMTYPEID PrevItemType = dynamic_cast<CItem*>(Get_PrevEquipLeft())->Get_ItemTag(); // 이전 무기의 아이템 태그갖고옴.
+					Engine::CGameObject* PrevFindSlotObj = Engine::UIManager()->Get_PopupObjectBasicSlot(PrevItemType);
+					dynamic_cast<CUIbasicslot*>(dynamic_cast<CTempUI*>(PrevFindSlotObj))->Set_FindSlot(false);
 
+					Engine::CGameObject* FindSlotObj = Engine::UIManager()->Get_PopupObjectBasicSlot(ItemType);
+					dynamic_cast<CUIbasicslot*>(dynamic_cast<CTempUI*>(FindSlotObj))->Set_FindSlot(true);
 
+					Set_PrevEquipLeft(SlotItemObj);
+				}
 				// 장착하려는 타입과 다른 타입을 들고 있을 시 장착 해제 및 해당 아이템으로 재 장착
 
 
@@ -523,22 +607,25 @@ void CPlayer::OnCollisionEnter(CCollider* _pOther)
 				break;
 			}
 
-			if (ItemType.eItemType == ITEMTYPE_WEAPONITEM && !m_bItemEquipRight)
-			{
-				m_bItemEquipRight = true;
-				
-				Set_CurrentEquipRight(pItem);
-				Engine::EventManager()->CreateObject(pItem, LAYERTAG::GAMELOGIC);
-			}
-			else
-				Engine::EventManager()->CreateObject(pItem, LAYERTAG::GAMELOGIC);
-
 			m_pInventory->Add_ItemObject(pItem);
 
 			Engine::CGameObject* pGameObjectUI = CUIitem::Create(m_pGraphicDev);
 			dynamic_cast<CUIitem*>(pGameObjectUI)->Set_ItemTag(ItemType.eItemType, ItemType.eItemID, ItemType.iCount);
 
 			Engine::UIManager()->AddItemGameobject_UI(pGameObjectUI);
+
+			if (ItemType.eItemType == ITEMTYPE_WEAPONITEM && !m_bItemEquipRight)
+			{
+				m_bItemEquipRight = true;
+				
+				Set_CurrentEquipRight(pItem);
+				Set_PrevEquipRight(pItem);
+				Engine::EventManager()->CreateObject(pItem, LAYERTAG::GAMELOGIC);
+				Engine::CGameObject* FindSlotObj = Engine::UIManager()->Get_PopupObjectBasicSlot(ItemType);
+				dynamic_cast<CUIbasicslot*>(dynamic_cast<CTempUI*>(FindSlotObj))->Set_FindSlot(true);
+			}
+			else
+				Engine::EventManager()->CreateObject(pItem, LAYERTAG::GAMELOGIC);
 
 
 			EventManager()->GetInstance()->DeleteObject(dynamic_cast<CItem*>(_pOther->GetHost()));

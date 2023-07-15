@@ -1,24 +1,23 @@
-#include "..\Header\FireWands.h"
+#include "..\Header\Beer.h"
 #include "Export_Function.h"
 #include "Player.h"
 
-
-CFireWands::CFireWands(LPDIRECT3DDEVICE9 pGraphicDev)
-	: Engine::CItem(pGraphicDev)
+CBeer::CBeer(LPDIRECT3DDEVICE9 pGraphicDev)
+	: CItem(pGraphicDev)
 {
 }
 
-CFireWands::CFireWands(const CFireWands& rhs)
-	: Engine::CItem(rhs)
+CBeer::CBeer(const CBeer& rhs)
+	: CItem(rhs)
 {
 }
 
-CFireWands::~CFireWands()
+CBeer::~CBeer()
 {
 	Free();
 }
 
-HRESULT CFireWands::Ready_Object(_bool _Item)
+HRESULT CBeer::Ready_Object(_bool _Item)
 {
 	m_eObjectTag = OBJECTTAG::ITEM;
 	m_bWorldItem = _Item;
@@ -26,80 +25,59 @@ HRESULT CFireWands::Ready_Object(_bool _Item)
 
 	if (!Get_WorldItem())
 	{
-		m_pTransform->Scale(_vec3(0.3f, 0.3f, 0.3f));
-
-
+		m_pTransform->Scale(_vec3(-0.5f, 0.5f, 0.5f));
 
 		CGameObject* pPlayer = SceneManager()->GetInstance()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front();
-		//CPlayer* pPlayer = dynamic_cast<CPlayer*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
 
-		
-		m_pTransform->Translate(pPlayer->m_pTransform->m_vInfo[INFO_POS] + *dynamic_cast<CPlayer*>(pPlayer)->Get_Offset());
+		m_pTransform->Copy_RUL(m_pTransform->m_pParent->m_vInfo);
+		m_pTransform->Scale(_vec3(-0.5f, 0.5f, 0.5f));
 
-		m_fSignTime = 1.f;
+		m_pTransform->Translate(m_pTransform->m_pParent->m_vInfo[INFO_POS] + *dynamic_cast<CPlayer*>(pPlayer)->Get_LeftOffset());
 	}
 	else
-	{
-		m_pTransform->Scale(_vec3(0.3f, 0.3f, 0.3f));
+		m_pTransform->Scale(_vec3(-0.5f, 0.5f, 0.5f));
 
-	}
 
-	m_ItemID.eItemType = ITEMTYPE_WEAPONITEM;
-	m_ItemID.eItemID = WEAPON_WAND1;
+	m_ItemID.eItemType = ITEMTYPE::ITEMTYPE_GENERALITEM;
+	m_ItemID.eItemID = ITEMID::GENERAL_BEER;
 	m_ItemID.iCount = 1;
+
+	m_pBasicStat->Get_Stat()->fHealth = 1.f; // 1회 사용 느낌으로
 
 	return S_OK;
 }
 
-_int CFireWands::Update_Object(const _float& fTimeDelta)
+_int CBeer::Update_Object(const _float& fTimeDelta)
 {
 	Engine::Renderer()->Add_RenderGroup(RENDER_ALPHA, this);
 
 	if (SceneManager()->Get_GameStop()) { return 0; }
 
 	_int iExit = __super::Update_Object(fTimeDelta);
-	
+
 	CPlayer* pPlayer = dynamic_cast<CPlayer*>(SceneManager()->GetInstance()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
-	CItem* ItemType = dynamic_cast<CItem*>(pPlayer->Get_CurrentEquipRight());
+	CItem* ItemType = dynamic_cast<CItem*>(pPlayer->Get_CurrentEquipLeft());
 	ITEMTYPEID ItemID = {};
 
 	if (ItemType != nullptr)
 		ItemID = ItemType->Get_ItemTag();
 
-	if (ItemID.eItemID != ITEMID::WEAPON_WAND1 || !pPlayer->Get_ItemEquipRight())
+	if (ItemID.eItemID != ITEMID::GENERAL_BEER || !pPlayer->Get_ItemEquipLeft())
 		return iExit;
-
-	if (!Get_WorldItem())
-	{
-		if (pPlayer->Get_Attack() && pPlayer != nullptr)
-		{
-			if (1.65f < D3DXVec3Length(&(m_pTransform->m_pParent->m_vInfo[INFO_POS] - m_pTransform->m_vInfo[INFO_POS])))
-			{
-				m_fSignTime = -1.f;
-				pPlayer->Set_Attack(false);
-			}
-			else if (1.45f > D3DXVec3Length(&(m_pTransform->m_pParent->m_vInfo[INFO_POS] - m_pTransform->m_vInfo[INFO_POS])))
-			{
-				m_fSignTime = 1.f;
-			}
-			m_pTransform->Translate(m_pTransform->m_vInfo[INFO_LOOK] * m_fSignTime * 5.f * fTimeDelta);
-		}
-	}
 
 
 	return iExit;
 }
 
-void CFireWands::LateUpdate_Object(void)
+void CBeer::LateUpdate_Object(void)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
-
 
 	__super::LateUpdate_Object();
 	__super::Compute_ViewZ(&m_pTransform->m_vInfo[INFO_POS]);
 }
 
-void CFireWands::Render_Object(void)
+void CBeer::Render_Object(void)
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
@@ -111,14 +89,14 @@ void CFireWands::Render_Object(void)
 
 	if (!Get_WorldItem() && pPlayer != nullptr)
 	{
-		CItem* ItemType = dynamic_cast<CItem*>(pPlayer->Get_CurrentEquipRight());
+		CItem* ItemType = dynamic_cast<CItem*>(pPlayer->Get_CurrentEquipLeft());
 
 		ITEMTYPEID ItemID = {};
 
 		if (ItemType != nullptr)
 			ItemID = ItemType->Get_ItemTag();
 
-		if (ItemID.eItemID == ITEMID::WEAPON_WAND1 && pPlayer->Get_ItemEquipRight())
+		if (ItemID.eItemID == ITEMID::GENERAL_BEER && pPlayer->Get_ItemEquipLeft())
 		{
 			m_pTexture->Render_Texture();
 			m_pBuffer->Render_Buffer();
@@ -135,7 +113,17 @@ void CFireWands::Render_Object(void)
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
 
-HRESULT CFireWands::Add_Component(void)
+void CBeer::Use_Beer(_float _use)
+{
+	{ m_pBasicStat->Take_Damage(_use); }
+}
+
+_float CBeer::Get_BeerCount()
+{
+	{ return m_pBasicStat->Get_Stat()->fHealth; }
+}
+
+HRESULT CBeer::Add_Component(void)
 {
 	CComponent* pComponent = nullptr;
 
@@ -147,17 +135,17 @@ HRESULT CFireWands::Add_Component(void)
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::TRANSFORM, pComponent);
 
-	pComponent = m_pTexture = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_FireWands"));
+	pComponent = m_pTexture = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_Beer"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
-
-	pComponent = m_pBasicStat = dynamic_cast<CBasicStat*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BasicStat"));
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BASICSTAT, pComponent);
 
 	pComponent = m_pCollider = dynamic_cast<CCollider*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Collider"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::COLLIDER, pComponent);
+
+	pComponent = m_pBasicStat = dynamic_cast<CBasicStat*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BasicStat"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BASICSTAT, pComponent);
 
 	for (int i = 0; i < ID_END; ++i)
 		for (auto& iter : m_mapComponent[i])
@@ -166,53 +154,52 @@ HRESULT CFireWands::Add_Component(void)
 	if (!Get_WorldItem())
 	{
 		CPlayer* pPlayer = dynamic_cast<CPlayer*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
-		
-	
+
+
 		m_pTransform->Set_Parent(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform);
 		m_pTransform->Copy_RUL(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform->m_vInfo);
-		
+
 	}
+
 
 	return S_OK;
 }
 
-
-void CFireWands::OnCollisionEnter(CCollider* _pOther)
+void CBeer::OnCollisionEnter(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 
 	if (!(_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::MONSTER) &&
 		!(_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::PLAYER))
 		__super::OnCollisionEnter(_pOther);
-	// 몬스터거나 플레이어면 밀어내지않는다.
 }
 
-void CFireWands::OnCollisionStay(CCollider* _pOther)
+void CBeer::OnCollisionStay(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 }
 
-void CFireWands::OnCollisionExit(CCollider* _pOther)
+void CBeer::OnCollisionExit(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 }
 
-CFireWands* CFireWands::Create(LPDIRECT3DDEVICE9 pGraphicDev, _bool _Item)
+CBeer* CBeer::Create(LPDIRECT3DDEVICE9 pGraphicDev, _bool _Item)
 {
-	CFireWands* pInstance = new CFireWands(pGraphicDev);
+	CBeer* pInstance = new CBeer(pGraphicDev);
 
 	if (FAILED(pInstance->Ready_Object(_Item)))
 	{
-		Safe_Release<CFireWands*>(pInstance);
+		Safe_Release<CBeer*>(pInstance);
 
-		MSG_BOX("Create FireWands Failed");
+		MSG_BOX("Bear Create Failed");
 		return nullptr;
 	}
 
 	return pInstance;
 }
 
-void CFireWands::Free()
+void CBeer::Free()
 {
 	__super::Free();
 }

@@ -113,7 +113,7 @@ HRESULT CStage::Ready_Layer_Environment(LAYERTAG _eLayerTag)
 
 	// DynamicCamera
 	pGameObject = CDynamicCamera::Create(m_pGraphicDev, 
-											&_vec3(0.f, 10.f, -10.f),
+											&_vec3(0.f, 0.f, 0.f),
 											&_vec3(0.f, 0.f, 1.f),
 											&_vec3(0.f, 1.f, 0.f),
 											D3DXToRadian(60.f), 

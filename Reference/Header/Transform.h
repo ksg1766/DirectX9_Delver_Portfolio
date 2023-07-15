@@ -57,8 +57,8 @@ public:
 	_vec3			m_vLocalScale;
 
 private:
-	void			Set_Child(CTransform* _pChild) { m_pChild = _pChild; }
-	CTransform*		m_pChild;
+	void					Set_Child(CTransform* _pChild) { m_pChild.push_back(_pChild); }
+	vector<CTransform*>		m_pChild;
 
 public:
 	static CTransform*		Create(LPDIRECT3DDEVICE9 pGraphicDev);
