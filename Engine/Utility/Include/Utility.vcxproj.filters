@@ -181,8 +181,11 @@
     <Filter Include="03. GameObject\08.  NPC">
       <UniqueIdentifier>{9defc036-df09-4c41-9791-f0a360f91275}</UniqueIdentifier>
     </Filter>
-      <Filter Include="03. GameObject\08. TempParticle">
+    <Filter Include="03. GameObject\08. TempParticle">
       <UniqueIdentifier>{b2c99087-7617-4998-babc-babeb393dc45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Managers\10. Octree\02. ZFrustum">
+      <UniqueIdentifier>{56eff0a1-aaf1-4879-9341-a7904b15c4ea}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -330,6 +333,9 @@
     <ClInclude Include="..\..\Header\TempParticle.h">
       <Filter>03. GameObject\08. TempParticle</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Header\Frustum.h">
+      <Filter>00. Managers\10. Octree\02. ZFrustum</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\Scene.cpp">
@@ -472,6 +478,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\TempParticle.cpp">
       <Filter>03. GameObject\08. TempParticle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Frustum.cpp">
+      <Filter>00. Managers\10. Octree\02. ZFrustum</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

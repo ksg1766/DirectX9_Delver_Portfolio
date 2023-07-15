@@ -34,6 +34,7 @@ public:
 
     _bool                   IsInNode(const _vec3 _vPos);
     _vec3                   GetPosition()                           { return m_vPosition; }
+    _vec3*                  GetCorner()                             { return m_vCorner; }
     COctreeNode* const      GetParent()                             { return m_pParent; }
     vector<COctreeNode*>&   GetChildren()                           { return m_vecChildren; }
     COctreeNode* const      GetChildNode(_uint _iChildNum)          { return m_vecChildren[_iChildNum]; }
@@ -42,12 +43,15 @@ public:
     BoundingBox*            GetBoundingBox()                        { return m_pBoundBox; }
 
     void                    SetPosition(_vec3 _vPos)                { m_vPosition = _vPos; }
+    void                    SetCorners(_vec3* _vCorners)            { ::CopyMemory(m_vCorner, _vCorners, 8 * sizeof(_vec3)); }
     void                    SetParent(COctreeNode* const _pParent)  { m_pParent = _pParent; }
 
     void                    Render_OctreeNode(LPDIRECT3DDEVICE9 pGraphicDev);
 
-    // void                 CullNode(_bool);
-    // _bool                IsCulled();
+    //void                    CullNode(_bool _isCulled)               { m_bCulled = _isCulled; }
+    //_bool                   IsCulled()                              { return m_bCulled; }
+    void                    CullNode(_int _iCulled)                 { m_iCulled = _iCulled; }
+    _int                    IsCulled()                              { return m_iCulled; }
 
 public:
     const static _uint      m_iChild_Node_Count = 8;
@@ -60,7 +64,9 @@ private:
     vector<CGameObject*>    m_vecObjects;
     COctreeNode*            m_pParent   = nullptr;
     _vec3                   m_vPosition;
-    //  _bool               m_bCulled;
+    _vec3                   m_vCorner[8];
+    //_bool                   m_bCulled;
+    _int                   m_iCulled;
 
     // Only Used in Debug mode
     LPDIRECT3DVERTEXBUFFER9 m_pVB;

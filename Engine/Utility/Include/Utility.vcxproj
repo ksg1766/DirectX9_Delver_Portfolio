@@ -234,6 +234,7 @@ call CopyUtility.bat</Command>
     <ClInclude Include="..\..\Header\UIManager.h" />
     <ClInclude Include="..\..\Header\VIBuffer.h" />
     <ClInclude Include="..\..\Header\WarriorAI.h" />
+    <ClInclude Include="..\..\Header\Frustum.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\Animation.cpp" />
@@ -289,6 +290,7 @@ call CopyUtility.bat</Command>
     <ClCompile Include="..\Code\UIManager.cpp" />
     <ClCompile Include="..\Code\VIBuffer.cpp" />
     <ClCompile Include="..\Code\WarriorAI.cpp" />
+    <ClCompile Include="..\Code\Frustum.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Header\Export_Utility.inl" />

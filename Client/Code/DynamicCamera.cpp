@@ -36,7 +36,6 @@ HRESULT CDynamicCamera::Ready_Object(const _vec3* pEye, const _vec3* pAt, const 
 	m_eObjectTag = OBJECTTAG::CAMERA;
 	m_eCamera_Mode = CAMERA_MODE::CAMERA_FIRST;
 
-
 	return S_OK;
 }
 
@@ -52,7 +51,6 @@ _int CDynamicCamera::Update_Object(const _float& fTimeDelta)
 		Mouse_Fix();
 	}
 
-
 	switch (m_eCamera_Mode)
 	{
 	case CAMERA_MODE::CAMERA_FIRST:
@@ -62,7 +60,6 @@ _int CDynamicCamera::Update_Object(const _float& fTimeDelta)
 		//Third_Camera();
 		break;
 	}
-
 
 	if (m_bShaking)
 	{
@@ -99,8 +96,6 @@ HRESULT CDynamicCamera::Add_Component()
 
 void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 {
-
-
 	_matrix		matCamWorld;
 	D3DXMatrixInverse(&matCamWorld, 0, &m_matView);
 
@@ -113,7 +108,6 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 
 		m_vEye += vLength;
 		m_vAt += vLength;
-
 	}
 
 	if (Engine::InputDev()->Key_Pressing(DIK_DOWN))
@@ -169,7 +163,6 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 		Shake_Camera();
 	}
 
-
 	if (Engine::InputDev()->Key_Pressing(DIK_2))
 	{
 		m_eCamera_Mode = CAMERA_MODE::CAMERA_FIRST;
@@ -220,7 +213,6 @@ void CDynamicCamera::Mouse_Move()
 
 		m_vAt = m_vEye + vLook;
 	}
-
 }
 
 void CDynamicCamera::Mouse_Fix()
@@ -229,7 +221,6 @@ void CDynamicCamera::Mouse_Fix()
 
 	ClientToScreen(g_hWnd, &pt);
 	SetCursorPos(pt.x, pt.y);
-
 }
 
 void CDynamicCamera::First_Camera()
@@ -250,7 +241,6 @@ void CDynamicCamera::First_Camera()
 	m_vAt += ((vPlayerUp * 0.5f) + (vPlayerLook * 0.5f));
 
 	m_vUp = vPlayerUp;
-
 }
 
 void CDynamicCamera::Third_Camera()
@@ -266,7 +256,6 @@ void CDynamicCamera::Third_Camera()
 		m_fAspect = (_float)WINCX / WINCY;
 		m_fFov = D3DXToRadian(60.f);
 	}
-
 }
 
 void CDynamicCamera::Shake_Camera()

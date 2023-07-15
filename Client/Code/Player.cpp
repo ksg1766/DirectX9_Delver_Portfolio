@@ -63,7 +63,7 @@ HRESULT CPlayer::Ready_Object(void)
 
 Engine::_int CPlayer::Update_Object(const _float& fTimeDelta)
 {
-	Engine::Renderer()->Add_RenderGroup(RENDER_NONALPHA, this);
+	//Engine::Renderer()->Add_RenderGroup(RENDER_NONALPHA, this);
 
 	Key_Input(fTimeDelta);
 
@@ -92,8 +92,7 @@ void CPlayer::Render_Object(void)
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
-	m_pStateMachine->Render_StateMachine();
-	m_pBuffer->Render_Buffer();
+	//m_pBuffer->Render_Buffer();
 
 #if _DEBUG
 	m_pCollider->Render_Collider();

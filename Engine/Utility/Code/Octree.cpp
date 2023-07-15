@@ -1,5 +1,6 @@
 #include "Export_Utility.h"
 #include "OctreeNode.h"
+#include "Frustum.h"
 
 IMPLEMENT_SINGLETON(COctree)
 
@@ -23,14 +24,25 @@ HRESULT COctree::Ready_Octree()
     if (!m_pOctreeRoot)
         return E_FAIL;
 
+    m_pFrustum = new CFrustum;
+
 	return S_OK;
+}
+
+_int COctree::Update_Octree()
+{
+    if (m_pFrustum)
+        if (m_pFrustum->Update_Frustum())
+            FrustumCull(m_pOctreeRoot);
+
+    return _int();
 }
 
 void COctree::Render_Octree(LPDIRECT3DDEVICE9 pGraphicDev)
 {
     pGraphicDev->AddRef();
 #ifdef _DEBUG
-    pGraphicDev->SetFVF(VTXCOL::format);
+    /*pGraphicDev->SetFVF(VTXCOL::format);
     pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
     pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
     pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
@@ -39,9 +51,12 @@ void COctree::Render_Octree(LPDIRECT3DDEVICE9 pGraphicDev)
 
    pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
    pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
-   pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+   pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);*/
 #endif
+
+   m_pOctreeRoot->Render_OctreeNode(pGraphicDev);
 }
+
 COctreeNode* COctree::BuildOctree(_vec3 vCenter, _float fHalfWidth, _int depthLimit)
 {
     if (depthLimit < 0)
@@ -50,6 +65,16 @@ COctreeNode* COctree::BuildOctree(_vec3 vCenter, _float fHalfWidth, _int depthLi
     COctreeNode*    pOctNode = new COctreeNode();
     BoundingBox*    pBBox = pOctNode->GetBoundingBox();
 
+    _vec3           vCorner[8];
+
+    for (_uint i = 0; i < 8; ++i)
+    {
+        *((_float*)(vCorner + i) + 0) = ((i & 1) ? fHalfWidth : -fHalfWidth) + *((_float*)(&vCenter) + 0);
+        *((_float*)(vCorner + i) + 1) = ((i & 4) ? fHalfWidth : -fHalfWidth) + *((_float*)(&vCenter) + 1);
+        *((_float*)(vCorner + i) + 2) = ((i & 2) ? fHalfWidth : -fHalfWidth) + *((_float*)(&vCenter) + 2);
+    }
+
+    pOctNode->SetCorners(vCorner);
     pOctNode->SetPosition(vCenter);
     pBBox->SetRadius(fHalfWidth);
 
@@ -103,6 +128,44 @@ void COctree::FindCurrentPosNode(CTransform* pTransform, COctreeNode* const pNod
 
     for(_uint index = 0; index < COctreeNode::m_iChild_Node_Count; ++index)
         FindCurrentPosNode(pTransform, pNode->GetChildNode(index));
+}
+
+_int COctree::IsInFrustum(COctreeNode* pNode)
+{
+    _int    iSum = 0;
+
+    if (!m_pFrustum->IsInSphere(pNode->GetPosition(), pNode->GetBoundingBox()->GetRadius()))
+        return FRUSTUM_OUT;
+
+    for (_int i = 0; i < 8; ++i)
+        iSum += m_pFrustum->IsIn(pNode->GetCorner()[i]);
+
+    if (8 == iSum)
+        return FRUSTUM_COMPLETELY_IN;
+
+    return FRUSTUM_PRIMARILLY_IN;
+}
+
+void COctree::FrustumCull(COctreeNode* pNode)
+{
+    switch (IsInFrustum(pNode))
+    {
+    case FRUSTUM_COMPLETELY_IN:
+        pNode->CullNode(FRUSTUM_COMPLETELY_IN);
+        return;
+    case FRUSTUM_PRIMARILLY_IN:
+        pNode->CullNode(FRUSTUM_PRIMARILLY_IN);
+        break;
+    case FRUSTUM_OUT:
+        pNode->CullNode(FRUSTUM_OUT);
+        return;
+    }
+
+    vector<COctreeNode*>& vecChildren = pNode->GetChildren();
+
+    if (!vecChildren.empty())
+        for (_int i = 0; i < 8; ++i)
+            FrustumCull(vecChildren[i]);
 }
 
 COctreeNode* COctree::GetParentNodeByPos(_vec3 vPos, COctreeNode* const pNode)

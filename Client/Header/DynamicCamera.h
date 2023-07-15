@@ -7,7 +7,6 @@ class CDynamicCamera : public CTempCamera
 {
 	enum CAMERA_MODE { CAMERA_FIRST, CAMERA_THIRD, CAMERA_END };
 
-
 private:
 	explicit CDynamicCamera(LPDIRECT3DDEVICE9 pGraphicDev);
 	virtual ~CDynamicCamera();
@@ -24,8 +23,6 @@ public:
 	HRESULT		Add_Component();
 	void		Render_Object() {}
 
-	
-
 private:
 	void		Key_Input(const _float& fTimeDelta);
 	void		Mouse_Move();
@@ -37,7 +34,7 @@ private:
 	void		Shake_Camera();
 
 public:
-	_bool		Get_CameraMode() { return m_bCameraCheck; }
+	//_bool		Get_CameraMode() { return m_bCameraCheck; }
 	_bool		Get_MouseFix()	 { return m_bFix; }
 
 public:
@@ -59,7 +56,7 @@ private:
 	_vec3		m_vOriginPos; // 원래 있던 위치
 	CAMERA_MODE m_eCamera_Mode; // 카메라 모드 상태
 
-	_bool		m_bCameraCheck;
+	//_bool		m_bCameraCheck;
 public:
 	static CDynamicCamera* Create(LPDIRECT3DDEVICE9 pGraphicDev,
 		const _vec3* pEye,

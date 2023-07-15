@@ -10,8 +10,8 @@ CCollisionManager::CCollisionManager()
 	CheckGroup(OBJECTTAG::PLAYER, OBJECTTAG::BOSS);
 	CheckGroup(OBJECTTAG::PLAYER, OBJECTTAG::MONSTERBULLET);
 	CheckGroup(OBJECTTAG::PLAYER, OBJECTTAG::ITEM);
-	CheckGroup(OBJECTTAG::MONSTER, OBJECTTAG::MONSTER);
-	CheckGroup(OBJECTTAG::MONSTER, OBJECTTAG::BOSS);
+	//CheckGroup(OBJECTTAG::MONSTER, OBJECTTAG::MONSTER);
+	//CheckGroup(OBJECTTAG::MONSTER, OBJECTTAG::BOSS);
 	CheckGroup(OBJECTTAG::MONSTER, OBJECTTAG::ITEM);
 	CheckGroup(OBJECTTAG::MONSTER, OBJECTTAG::PLAYERBULLET);
 	CheckGroup(OBJECTTAG::ITEM, OBJECTTAG::ENVIRONMENT_OBJECT);
@@ -319,7 +319,6 @@ void CCollisionManager::CheckCollisionStatic(OBJECTTAG _eObjectLeft)
 	CScene* pScene = SceneManager()->Get_Scene();
 
 	const vector<CGameObject*>& vecLeft = pScene->Get_ObjectList(LAYERTAG::GAMELOGIC, _eObjectLeft);
-
 
 	map<ULONGLONG, bool>::iterator iter;
 

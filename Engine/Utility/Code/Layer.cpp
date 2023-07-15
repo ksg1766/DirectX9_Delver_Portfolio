@@ -32,24 +32,51 @@ HRESULT CLayer::Ready_Layer()
 _int CLayer::Update_Layer(const _float & fTimeDelta)
 {
 	_int        iResult = 0;
-
-	for (auto& iter : m_mapObject)
+	SCENETAG eSceneTag = SceneManager()->Get_Scene()->Get_SceneTag();
+	// Stage
+	if (SCENETAG::STAGE == eSceneTag)
 	{
-		for (auto& _iter = iter.second.begin(); _iter != iter.second.end();)
+		for (_uint i = 0; i < (_uint)OBJECTTAG::OBJECT_END; ++i)
 		{
-			if (!(*_iter)->IsDead())
-			{
-				iResult = (*_iter)->Update_Object(fTimeDelta);
-				++_iter;
+			if (i == (_uint)OBJECTTAG::BLOCK)
+				continue;
 
-				if (iResult & 0x80000000)
-					return iResult;
+			for (auto& _iter = m_mapObject[(OBJECTTAG)i].begin(); _iter != m_mapObject[(OBJECTTAG)i].end();)
+			{
+				if (!(*_iter)->IsDead())
+				{
+					iResult = (*_iter)->Update_Object(fTimeDelta);
+					++_iter;
+
+					if (iResult & 0x80000000)
+						return iResult;
+				}
+				else
+					_iter = m_mapObject[(OBJECTTAG)i].erase(_iter);
 			}
-			else
-				_iter = iter.second.erase(_iter);
 		}
 	}
 
+	// Editor
+	else if (SCENETAG::EDITOR == eSceneTag)
+	{
+		for (auto& iter : m_mapObject)
+		{
+			for (auto& _iter = iter.second.begin(); _iter != iter.second.end();)
+			{
+				if (!(*_iter)->IsDead())
+				{
+					iResult = (*_iter)->Update_Object(fTimeDelta);
+					++_iter;
+
+					if (iResult & 0x80000000)
+						return iResult;
+				}
+				else
+					_iter = iter.second.erase(_iter);
+			}
+		}
+	}
 	return iResult;
 }
 

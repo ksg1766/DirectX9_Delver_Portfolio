@@ -35,6 +35,8 @@ _int CSceneManager::Update_Scene(const _float & fTimeDelta)
 	if (nullptr == m_pScene)
 		return -1;
 
+	Octree()->Update_Octree();
+
 	return m_pScene->Update_Scene(fTimeDelta);
 }
 
@@ -51,6 +53,9 @@ void CSceneManager::Render_Scene(LPDIRECT3DDEVICE9 pGraphicDev)
 #ifdef _DEBUG
 	//if(SCENETAG::STAGE == m_pScene->Get_SceneTag())	Octree()->Render_Octree(pGraphicDev);
 #endif
+
+	if (SCENETAG::STAGE == m_pScene->Get_SceneTag())
+		Octree()->Render_Octree(pGraphicDev);
 
 	Renderer()->Render_GameObject(pGraphicDev);
 

@@ -20,7 +20,7 @@ COctreeNode::~COctreeNode()
 
 HRESULT COctreeNode::InitBoundingBoxVisible()
 {
-#if _DEBUG
+#ifdef _DEBUG
 	FAILED_CHECK_RETURN(CGraphicDev::GetInstance()->Get_GraphicDev()->CreateVertexBuffer(8 * sizeof(VTXCOL), // 생성할 버퍼의 크기
 		0, // 생성하고자 버텍스 버퍼의 종류(0인 경우 정적버퍼, D3DUSAGE_DYNAMIC 지정 시 동적 버퍼)
 		VTXCOL::format,		// 버텍스의 속성 옵션
@@ -140,7 +140,7 @@ void COctreeNode::AddChildNode(COctreeNode* pChild)
     if (pChild)
     {
         m_vecChildren.push_back(pChild);
-            pChild->SetParent(this);
+        pChild->SetParent(this);
     }
 }
 
@@ -165,27 +165,43 @@ _bool COctreeNode::IsInNode(const _vec3 _vPos)
 
 void COctreeNode::Render_OctreeNode(LPDIRECT3DDEVICE9 pGraphicDev)
 {
-#ifdef _DEBUG
 	pGraphicDev->AddRef();
+#ifdef _DEBUG
+	//pGraphicDev->SetStreamSource(0, m_pVB, 0, sizeof(VTXCOL));
 
-	pGraphicDev->SetStreamSource(0, m_pVB, 0, sizeof(VTXCOL));
+	//pGraphicDev->SetIndices(m_pIB);
 
-	pGraphicDev->SetIndices(m_pIB);
+	//_matrix matOctreeNode;
+	//D3DXMatrixIdentity(&matOctreeNode);
+	//// Fixing Bounding Box
+	//::CopyMemory(&matOctreeNode.m[3], &m_vPosition, sizeof(_vec3));
 
-	_matrix matOctreeNode;
-	D3DXMatrixIdentity(&matOctreeNode);
-	// Fixing Bounding Box
-	::CopyMemory(&matOctreeNode.m[3], &m_vPosition, sizeof(_vec3));
+	//pGraphicDev->SetTransform(D3DTS_WORLD, &matOctreeNode);
+	//pGraphicDev->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, 8, 0, 12);
 
-	pGraphicDev->SetTransform(D3DTS_WORLD, &matOctreeNode);
-	pGraphicDev->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, 8, 0, 12);
-	
+	//if (!m_vecChildren.empty())
+	//{
+	//	for (auto& iter : m_vecChildren)
+	//		iter->Render_OctreeNode(pGraphicDev);
+	//}
+#endif
+
 	if (!m_vecChildren.empty())
 	{
 		for (auto& iter : m_vecChildren)
-			iter->Render_OctreeNode(pGraphicDev);
+		{
+			if (0 == iter->IsCulled())
+				continue;
+			else if (1 == iter->IsCulled())
+				iter->Render_OctreeNode(pGraphicDev);
+			else
+			{
+				for (auto& _iter : iter->GetObjectList())
+					_iter->Render_Object();
+				continue;
+			}
+		}
 	}
-#endif
 }
 
 void COctreeNode::Free()
@@ -193,8 +209,6 @@ void COctreeNode::Free()
 	Safe_Release(m_pVB);
 	Safe_Release(m_pIB);
 	Safe_Delete(m_pBoundBox);
-
-
 
 	if (!m_vecChildren.empty())
 	{

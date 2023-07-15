@@ -30,7 +30,6 @@ HRESULT CTerrain::Ready_Object(void)
 	}
 	m_pBuffer->m_pVB->Unlock();
 
-
 	return S_OK;
 }
 
