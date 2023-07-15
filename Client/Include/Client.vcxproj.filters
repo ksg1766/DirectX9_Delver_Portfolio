@@ -472,6 +472,9 @@
     <Filter Include="02. GameObject\06. Paricle\00. EffectSquare">
       <UniqueIdentifier>{b6357e95-b1f3-4f69-9b3a-4ff82ed91034}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\04. Public\04. Font">
+      <UniqueIdentifier>{5f72c182-601d-4396-b1d2-e952169d65da}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -858,7 +861,7 @@
     <ClInclude Include="..\Header\NPC_Wizard_Idle.h">
       <Filter>02. GameObject\01. Stage\07. NPC\06. Wizard\01. State</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\CUIspeech.h">
+    <ClInclude Include="..\Header\UISpeech.h">
       <Filter>02. GameObject\03. UI\02. UItooltip</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Test_Move.h">
@@ -1250,7 +1253,7 @@
     <ClCompile Include="..\Code\NPC_Wizard_Idle.cpp">
       <Filter>02. GameObject\01. Stage\07. NPC\06. Wizard\01. State</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\CUIspeech.cpp">
+    <ClCompile Include="..\Code\UISpeech.cpp">
       <Filter>02. GameObject\03. UI\02. UItooltip</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Test_Move.cpp">

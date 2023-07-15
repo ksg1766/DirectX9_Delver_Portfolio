@@ -145,12 +145,42 @@ public:
 			Hide_PopupUI(UIPOPUPLAYER::POPUP_EQUIPMENT);
 			Hide_PopupUI(UIPOPUPLAYER::POPUP_STAT);
 			Hide_PopupUI(UIPOPUPLAYER::POPUP_MAP);
-
+			Hide_PopupUI(UIPOPUPLAYER::POPUP_SPEECH);
 			Show_PopupUI(UIPOPUPLAYER::POPUP_ESC);
 		}
 		
 		SetCursor(Cursor);
 		return m_bEsc;
+	}
+
+	_bool Set_SpeechBubbleUse()//Speech Bubble Test
+	{
+		HCURSOR Cursor = nullptr;
+
+		if (m_bMap) { // ¸»Ç³¼± ´ÝÀ» ¶§
+			m_bMap = false;
+			Show_PopupUI(UIPOPUPLAYER::POPUP_MOUSE);
+			Hide_PopupUI(UIPOPUPLAYER::POPUP_SPEECH);
+		}
+		else { // ¸»Çª¼± ¿­ ¶§
+			m_bInven = false;
+			m_bStat = false;
+			m_bEsc = false;
+
+			m_bMap = true;
+			Cursor = GetCursor();
+			Cursor = LoadCursor(NULL, IDC_ARROW);
+			Hide_PopupUI(UIPOPUPLAYER::POPUP_MOUSE);
+			Hide_PopupUI(UIPOPUPLAYER::POPUP_INVEN);
+			Hide_PopupUI(UIPOPUPLAYER::POPUP_EQUIPMENT);
+			Hide_PopupUI(UIPOPUPLAYER::POPUP_STAT);
+			Hide_PopupUI(UIPOPUPLAYER::POPUP_ESC);
+
+			Show_PopupUI(UIPOPUPLAYER::POPUP_SPEECH);
+		}
+
+		SetCursor(Cursor);
+		return m_bMap;
 	}
 
 	void  Show_PopupUI(UIPOPUPLAYER _PopupID);

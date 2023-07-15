@@ -238,6 +238,20 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 			Set_UseUI(false);
 		}
 	}
+	//Speech Bubble Test
+	else if (Engine::InputDev()->Key_Down(DIK_F))
+	{
+		if (Engine::UIManager()->Set_SpeechBubbleUse()) {
+			static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(true);
+			SceneManager()->Set_GameStop(true);
+			Set_UseUI(true);
+		}
+		else {
+			static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(false);
+			SceneManager()->Set_GameStop(false);
+			Set_UseUI(false);
+		}
+	}
 
 	// 아이템 줍기 및 버리기
 	if (Engine::InputDev()->Key_Down(DIK_E))

@@ -194,6 +194,7 @@ call CopyUtility.bat</Command>
     </ClInclude>
     <ClInclude Include="..\..\Header\Camera.h" />
     <ClInclude Include="..\..\Header\CubeColBf.h" />
+    <ClInclude Include="..\..\Header\Font.h" />
     <ClInclude Include="..\..\Header\Inventory.h" />
     <ClInclude Include="..\..\Header\Item.h" />
     <ClInclude Include="..\..\Header\MonsterAI.h" />
@@ -250,6 +251,7 @@ call CopyUtility.bat</Command>
     </ClCompile>
     <ClCompile Include="..\Code\Camera.cpp" />
     <ClCompile Include="..\Code\CubeColBf.cpp" />
+    <ClCompile Include="..\Code\Font.cpp" />
     <ClCompile Include="..\Code\Inventory.cpp" />
     <ClCompile Include="..\Code\Item.cpp" />
     <ClCompile Include="..\Code\MonsterAI.cpp" />

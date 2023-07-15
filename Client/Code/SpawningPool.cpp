@@ -64,32 +64,32 @@ _int CSpawningPool::Update_Object(const _float& fTimeDelta)
 
     _int iExit = __super::Update_Object(fTimeDelta);
 
-    if (!m_MonsterList.empty())
-    {
-        for (auto& iter = m_MonsterList.begin(); iter != m_MonsterList.end();)
-        {
-            if ((*iter)->IsDead())
-                m_MonsterList.erase(iter--);
-            else
-                ++iter;
-        }
-    }
+    //if (!m_MonsterList.empty())
+    //{
+    //    for (auto& iter = m_MonsterList.begin(); iter != m_MonsterList.end();)
+    //    {
+    //        if ((*iter)->IsDead())
+    //            m_MonsterList.erase(iter--);
+    //        else
+    //            ++iter;
+    //    }
+    //}
 
-    if (m_dqReserved.size() + m_MonsterList.size() < m_iPoolCapacity)
-    {
-        //++m_iReservedCount;
-        m_dqReserved.push_back(fTimeDelta);
-    }
+    //if (m_dqReserved.size() + m_MonsterList.size() < m_iPoolCapacity)
+    //{
+    //    //++m_iReservedCount;
+    //    m_dqReserved.push_back(fTimeDelta);
+    //}
 
-    for(int i = 0; i < m_dqReserved.size(); ++i)
-    {
-        m_dqReserved[i] += fTimeDelta;
-        if (m_dqReserved[i] > m_fSpawnTime)
-        {
-            m_dqReserved.pop_front();
-            ReserveSpawn();
-        }
-    }
+    //for(int i = 0; i < m_dqReserved.size(); ++i)
+    //{
+    //    m_dqReserved[i] += fTimeDelta;
+    //    if (m_dqReserved[i] > m_fSpawnTime)
+    //    {
+    //        m_dqReserved.pop_front();
+    //        ReserveSpawn();
+    //    }
+    //}
 
     return iExit;
 }
