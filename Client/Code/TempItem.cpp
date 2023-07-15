@@ -1,3 +1,4 @@
+
 #include "stdafx.h"
 
 #include "..\Header\TempItem.h"
@@ -18,16 +19,16 @@ CTempItem::CTempItem(const CTempItem& rhs)
 }
 
 CTempItem::~CTempItem()
-{		
+{
 	Free();
 }
 
 HRESULT CTempItem::Ready_Object(_bool _Item)
-{		
+{
 	m_eObjectTag = OBJECTTAG::ITEM;
 	m_bWorldItem = _Item;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
-	
+
 	m_pTransform->Scale(_vec3(0.3f, 0.3f, 0.3f));
 	m_pCollider->
 		InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
@@ -113,7 +114,7 @@ _int CTempItem::Update_Object(const _float& fTimeDelta)
 
 void CTempItem::LateUpdate_Object(void)
 {
-	if (SceneManager()->Get_GameStop()) { return ; }
+	if (SceneManager()->Get_GameStop()) { return; }
 
 
 	__super::LateUpdate_Object();
@@ -133,7 +134,7 @@ void CTempItem::Render_Object(void)
 	m_pBuffer->Render_Buffer();
 
 	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
-	
+
 
 #if _DEBUG
 	m_pCollider->Render_Collider();
@@ -166,7 +167,7 @@ HRESULT CTempItem::Add_Component(void)
 	pComponent = m_pBasicStat = dynamic_cast<CBasicStat*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BasicStat"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BASICSTAT, pComponent);
-	
+
 	for (int i = 0; i < ID_END; ++i)
 		for (auto& iter : m_mapComponent[i])
 			iter.second->Init_Property(this);
@@ -190,7 +191,7 @@ void CTempItem::OnCollisionEnter(CCollider* _pOther)
 	if (SceneManager()->Get_GameStop()) { return; }
 
 
-	if (!(_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::MONSTER) && 
+	if (!(_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::MONSTER) &&
 		!(_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::PLAYER))
 		__super::OnCollisionEnter(_pOther);
 	// 몬스터거나 플레이어면 밀어내지않는다.
@@ -202,16 +203,7 @@ void CTempItem::OnCollisionEnter(CCollider* _pOther)
 	if (_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::MONSTER)
 		// 무기 콜리전에 들어온 타입이 몬스터이면서, 플레이어의 스테이트가 공격이라면
 	{
-		// 이펙트 
-		ParticleBoundingBox EffectBox;
-		EffectBox.vMin = { -100.f, -100.f, -100.f };
-		EffectBox.vMax = { 100.f, 100.f, 100.f };
-
-		// 시작점 , 개수
-		CGameObject* pGameObject = CEffectSquare::Create(m_pGraphicDev, _vec3(0.f, 5.f, 0.f), 1000, &EffectBox, L"../Bin/SRSource/Effect/Square_effect/Square_effect3.png");
-		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
-
-		if (!pPlayer.Get_AttackTick() && 
+		if (!pPlayer.Get_AttackTick() &&
 			dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_StateMachine()->Get_State() != STATE::DEAD)
 			// 공격 하지 않은 상태라면.
 		{
@@ -227,7 +219,20 @@ void CTempItem::OnCollisionEnter(CCollider* _pOther)
 				dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_StateMachine()->Set_State(STATE::HIT);
 			}
 
+			//////////////////////////////////////// 이펙트 테스트 추가 -> 몬스터 종류마다 이펙트 이미지 다르게 사용하기를 추천
+			// 이펙트 유지 범위
+			ParticleBoundingBox EffectBox;
+			EffectBox.vMin = { -100.f, -100.f, -100.f };
+			EffectBox.vMax = { 100.f, 100.f, 100.f };
 
+			// 이펙트 생성 위치
+			_matrix MonsterWorld = _pOther->GetHost()->m_pTransform->WorldMatrix();
+			_vec3 TargetPos = _vec3(MonsterWorld._41, MonsterWorld._42 + .5f, MonsterWorld._43);
+
+			// 이펙트 생성
+			CGameObject* pGameObject = CEffectSquare::Create(m_pGraphicDev, TargetPos, 50, EffectBox, L"../Bin/SRSource/Effect/Square_effect/Square_effect_Warrior.png");
+			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+			//////////////////////////////////////// 이펙트 테스트 추가
 
 			cout << "데미지" << endl;
 		}

@@ -76,16 +76,16 @@ _int CDungeonWarrior::Update_Object(const _float& fTimeDelta)
 	_int iExit = __super::Update_Object(fTimeDelta);
 
 
-	if (m_pBasicStat->Get_Stat()->fHealth <= 0)
-	{
-		if (m_pAnimator->Get_Animation()->Get_Frame() >= 1)
-			m_pAnimator->Get_Animation()->Set_Loop(FALSE);
+	//if (m_pBasicStat->Get_Stat()->fHealth <= 0)
+	//{
+	//	if (m_pAnimator->Get_Animation()->Get_Frame() >= 1)
+	//		m_pAnimator->Get_Animation()->Set_Loop(FALSE);
 
-		m_pStateMachine->Set_State(STATE::DEAD);
-	}
+	//	m_pStateMachine->Set_State(STATE::DEAD);
+	//}
 
 
-	m_pStateMachine->Update_StateMachine(fTimeDelta);
+	//m_pStateMachine->Update_StateMachine(fTimeDelta);
 	ForceHeight(m_pTransform->m_vInfo[INFO_POS]);
 
 	return iExit;
@@ -97,7 +97,7 @@ void CDungeonWarrior::LateUpdate_Object()
 
 	__super::LateUpdate_Object();
 
-	m_pStateMachine->LateUpdate_StateMachine();
+	//m_pStateMachine->LateUpdate_StateMachine();
 
 	__super::Compute_ViewZ(&m_pTransform->m_vInfo[INFO_POS]);
 }

@@ -67,8 +67,11 @@ void CStage::LateUpdate_Scene()
 		EffectBox.vMin = { -100.f, -100.f, -100.f };
 		EffectBox.vMax = { 100.f, 100.f, 100.f };
 
-		// 시작점 , 개수
-		CGameObject* pGameObject = CEffectSquare::Create(m_pGraphicDev, _vec3(0.f, 5.f, 0.f), 1000, &EffectBox, L"../Bin/SRSource/Effect/Square_effect/Square_effect3.png");
+		// 이펙트 생성 위치
+		_vec3 TargetPos = _vec3(0.f, 0.f, 0.f);
+
+		// 이펙트 생성
+		CGameObject* pGameObject = CEffectSquare::Create(m_pGraphicDev, TargetPos, 50, EffectBox, L"../Bin/SRSource/Effect/Square_effect/Square_effect_Warrior.png");
 		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 	}
 }
@@ -195,6 +198,13 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	pItem->m_pTransform->Translate(_vec3(-80, 0.5f, 0.f));
 	dynamic_cast<CFireWands*>(pItem)->Set_WorldItem(true);
 	pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
+
+
+	pGameObject = CDungeonWarrior::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	pGameObject->m_pTransform->Translate(_vec3(-50.f, 0.f, -50.f));
+	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+	dynamic_cast<CDungeonWarrior*>(pGameObject)->Set_Terrain(dynamic_cast<CTerrain*>(pLayer->Get_ObjectList(OBJECTTAG::TERRAIN).front()));
 
 	return S_OK;
 }

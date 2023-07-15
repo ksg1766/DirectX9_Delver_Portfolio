@@ -9,19 +9,30 @@ CEffectSquare::CEffectSquare(LPDIRECT3DDEVICE9 pGraphicDev)
 
 CEffectSquare::~CEffectSquare()
 {
-
+	Free();
 }
 
-HRESULT CEffectSquare::Ready_Object(_vec3 vOriginPos, int numParticles, ParticleBoundingBox* boundbox, const _tchar* pPath)
+HRESULT CEffectSquare::Ready_Object(_vec3 vOriginPos, int numParticles, ParticleBoundingBox boundbox, const _tchar* pPath)
 {
+	CComponent* pComponent = nullptr;
+
+	pComponent = m_pTransform = dynamic_cast<CTransform*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Transform"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::TRANSFORM, pComponent);
+
+	for (int i = 0; i < ID_END; ++i)
+		for (auto& iter : m_mapComponent[i])
+			iter.second->Init_Property(this);
+
 	m_eObjectTag = OBJECTTAG::EFFECT;
+	m_pTransform->Translate(vOriginPos);
 
 	m_vOrigin = vOriginPos;
-	m_fSize = 0.00005f;
+	m_fSize = 0.00035f;
 	m_vbSize = 2048;
 	m_vbOffset = 0;
 	m_vbBatchSize = 512;
-	m_BoundingBox = *boundbox;
+	m_BoundingBox = boundbox;
 
 	for (int i = 0; i < numParticles; i++)
 		Add_Particle();
@@ -35,9 +46,9 @@ void CEffectSquare::Initial_Particle(ParticleAttribute* _attribute)
 {
 	_attribute->bAlive = true;
 
-	_attribute->vPosition = m_vOrigin;
-	_vec3 min = _vec3(-.05f, -1.0f, -.05f);
-	_vec3 max = _vec3(.05f, 0.0f, .05f);
+	_attribute->vPosition = _vec3(0.f, 0.f, 0.f);
+	_vec3 min = _vec3(-.05f, -.05f, -.05f);
+	_vec3 max = _vec3(.05f, 0.05f, .05f);
 
 	Get_RandomVector(
 		&_attribute->vVelocity,
@@ -50,12 +61,12 @@ void CEffectSquare::Initial_Particle(ParticleAttribute* _attribute)
 		&_attribute->vVelocity,
 		&_attribute->vVelocity);
 
-	_attribute->vVelocity *= 20.0f;
+	_attribute->vVelocity *= 10.0f;
 
 	_attribute->Color = D3DXCOLOR(
-		Get_RandomFloat(0.0f, 1.0f),
-		Get_RandomFloat(0.0f, 1.0f),
-		Get_RandomFloat(0.0f, 1.0f),
+		1.0f,
+		1.0f,
+		1.0f,
 		1.0f
 	);
 
@@ -63,11 +74,11 @@ void CEffectSquare::Initial_Particle(ParticleAttribute* _attribute)
 	_attribute->fLifeTime = 3.0f;
 }
 
-_int CEffectSquare::Update_Object(const _float & fTimeDelta)
+_int CEffectSquare::Update_Object(const _float& fTimeDelta)
 {
 	m_fTime += 5.f * fTimeDelta;
 
-	if(m_fTime > 5.f)
+	if (m_fTime > 3.f)
 		Engine::EventManager()->DeleteObject(this);
 
 	for (auto& iter : m_ParticleList)
@@ -80,11 +91,10 @@ _int CEffectSquare::Update_Object(const _float & fTimeDelta)
 			}
 			else
 			{
-				iter.vPosition.y -= 10.f * fTimeDelta * 3.f;
+				iter.vPosition.y -= 10.f * fTimeDelta;
 				iter.vPosition += iter.vVelocity * fTimeDelta;
 			}
 
-			//iter.vPosition += iter.vVelocity * fTimeDelta;// *m_fSpeed;
 			iter.fAge += fTimeDelta;
 
 			if (iter.fAge > iter.fLifeTime)
@@ -113,24 +123,12 @@ void CEffectSquare::LateUpdate_Object(void)
 
 void CEffectSquare::Render_Object()
 {
-	//m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matPosWorld);
-	
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
+
 	CTempParticle::Render_Object();
 }
 
-void CEffectSquare::OnCollisionEnter(CCollider* _pOther)
-{
-}
-
-void CEffectSquare::OnCollisionStay(CCollider* _pOther)
-{
-}
-
-void CEffectSquare::OnCollisionExit(CCollider* _pOther)
-{
-}
-
-CEffectSquare* CEffectSquare::Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 vOriginPos, int numParticles, ParticleBoundingBox* boundbox, const _tchar* pPath)
+CEffectSquare* CEffectSquare::Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 vOriginPos, int numParticles, ParticleBoundingBox boundbox, const _tchar* pPath)
 {
 	CEffectSquare* pInstance = new CEffectSquare(pGraphicDev);
 
@@ -146,4 +144,5 @@ CEffectSquare* CEffectSquare::Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 vOrigi
 
 void CEffectSquare::Free()
 {
+	__super::Free();
 }
