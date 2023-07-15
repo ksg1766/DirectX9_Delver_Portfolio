@@ -184,7 +184,7 @@
     <Filter Include="03. GameObject\08. TempParticle">
       <UniqueIdentifier>{b2c99087-7617-4998-babc-babeb393dc45}</UniqueIdentifier>
     </Filter>
-    <Filter Include="00. Managers\10. Octree\02. ZFrustum">
+    <Filter Include="00. Managers\10. Octree\02. Frustum">
       <UniqueIdentifier>{56eff0a1-aaf1-4879-9341-a7904b15c4ea}</UniqueIdentifier>
     </Filter>
     <Filter Include="04. Component\15. Font">
@@ -337,7 +337,7 @@
       <Filter>03. GameObject\08. TempParticle</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Header\Frustum.h">
-      <Filter>00. Managers\10. Octree\02. ZFrustum</Filter>
+      <Filter>00. Managers\10. Octree\02. Frustum</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Header\Font.h">
       <Filter>04. Component\15. Font</Filter>
@@ -490,6 +490,7 @@
     <ClCompile Include="..\Code\Font.cpp">
       <Filter>04. Component\15. Font</Filter>
     </ClCompile>
+      <Filter>00. Managers\10. Octree\02. Frustum</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

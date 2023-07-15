@@ -1,7 +1,7 @@
 #include "Frustum.h"
 #include "TempCamera.h"
 
-#define PLANE_EPSILON	5.f
+#define PLANE_EPSILON	24.f
 
 CFrustum::CFrustum()
 {
@@ -37,8 +37,6 @@ BOOL CFrustum::MakeFrustum(_matrix* _pmatViewProj)
 
 	for (_int i = 0; i < 8; ++i)
 		D3DXVec3TransformCoord(&m_vtx[i], &m_vtx[i], &matInv);
-
-	m_vPos = (m_vtx[0] + m_vtx[5]) / 2.f;
 
 	D3DXPlaneFromPoints(&m_tPlane[0], &m_vtx[4], &m_vtx[7], &m_vtx[6]);
 	D3DXPlaneFromPoints(&m_tPlane[1], &m_vtx[0], &m_vtx[1], &m_vtx[2]);
@@ -88,7 +86,7 @@ BOOL CFrustum::IsIn(_vec3& pv)
 BOOL CFrustum::IsInSphere(_vec3& pv, _float _fRadius)
 {
 	_float fDist;
-	_fRadius *= 2.f;
+	//_fRadius = 2.f;
 	fDist = D3DXPlaneDotCoord(&m_tPlane[0], &pv);
 	if (fDist > (_fRadius + PLANE_EPSILON)) return FALSE;
 	fDist = D3DXPlaneDotCoord(&m_tPlane[1], &pv);
