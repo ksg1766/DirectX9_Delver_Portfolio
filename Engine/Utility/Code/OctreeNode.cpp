@@ -147,7 +147,7 @@ void COctreeNode::AddChildNode(COctreeNode* pChild)
 _bool COctreeNode::IsInNode(const _vec3 _vPos)
 {
     _float fRadius = m_pBoundBox->GetRadius();
-    fRadius *= 2.f; // Loose Factor = 2.f
+    //fRadius *= m_fLooseFactor; // Loose Factor = 2.f
 
     _float fMin, fMax;
 

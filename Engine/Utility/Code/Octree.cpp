@@ -108,7 +108,7 @@ void COctree::FindCurrentPosNode(CTransform* pTransform, COctreeNode* const pNod
     _vec3 vNodePos = pNode->GetPosition();
 
     _float fRadius = pNode->GetBoundingBox()->GetRadius();
-    fRadius *= 2.f; // Loose Factor = 2.f
+    //fRadius *= 2.f; // Loose Factor = 2.f
 
     _float fMin, fMax;
 
@@ -152,6 +152,11 @@ void COctree::FrustumCull(COctreeNode* pNode)
     {
     case FRUSTUM_COMPLETELY_IN:
         pNode->CullNode(FRUSTUM_COMPLETELY_IN);
+        {
+            /*vector<CGameObject*>& vecObject = pNode->GetObjectList();
+            for (auto& iter : vecObject)
+                iter->Update_Object(0.f);*/
+        }
         return;
     case FRUSTUM_PRIMARILLY_IN:
         pNode->CullNode(FRUSTUM_PRIMARILLY_IN);
