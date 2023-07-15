@@ -25,7 +25,6 @@ HRESULT CDynamicCamera::Ready_Object(const _vec3* pEye, const _vec3* pAt, const 
 	// Camera Shake
 	m_bCameraCheck = false;
 	m_bShaking = false; // Èçµé¸² »óÅÂ
-	m_bDrunk = false;
 	m_fShakeElipsedTime = 0.f; // ÁßÃ¸½Ã°£
 
 	m_fAmplitude = 0.005f; // ÁøÆø
@@ -33,9 +32,6 @@ HRESULT CDynamicCamera::Ready_Object(const _vec3* pEye, const _vec3* pAt, const 
 	m_fFrequency = 1.f; // Èçµå´Â ¼Óµµ
 	m_vOriginPos = _vec3(0.f, 0.f, 0.f);
 
-	m_fDrunckAmplitude = 5.f;
-	m_fDrunkDuration = 5.f;
-	m_fDrunkFrequency = 3.f;
 
 
 	FAILED_CHECK_RETURN(CTempCamera::Ready_Object(), E_FAIL);
@@ -288,7 +284,7 @@ void CDynamicCamera::Drunk_Camera()
 
 	m_fShakeElipsedTime = 0.f;
 	m_vOriginPos = vPlayerPos;
-	m_bDrunk = true;
+
 }
 
 
