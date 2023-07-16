@@ -1,4 +1,5 @@
 #include "..\..\Header\Transform.h"
+#include "GameObject.h"
 
 CTransform::CTransform()
 	: m_pParent(nullptr)
@@ -36,6 +37,22 @@ void CTransform::Translate(_vec3& _vTranslation)
 	m_vInfo[INFO_POS] += _vTranslation;
 	if (!m_pChild.empty())
 	{
+
+		//for (_uint i = 0; i < m_pChild.size(); ++i)
+		//for(auto& iter = m_pChild.begin(); iter != m_pChild.end();)
+		//{
+		//	//if (m_pChild[i] == nullptr)
+		//		//continue;
+		//	if (!(*iter)->Get_Transform()->Get_Host()->IsDead())
+		//	{
+		//		iter = m_pChild.erase(iter);
+		//	}
+		//	else
+		//	{
+		//		(*iter)->Translate(_vTranslation);
+		//		++iter;
+		//	}
+		//}
 		for(auto& iter : m_pChild)
 			iter->Translate(_vTranslation);
 	}

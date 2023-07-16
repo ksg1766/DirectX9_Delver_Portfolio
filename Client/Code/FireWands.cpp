@@ -28,12 +28,9 @@ HRESULT CFireWands::Ready_Object(_bool _Item)
 	{
 		m_pTransform->Scale(_vec3(0.3f, 0.3f, 0.3f));
 
-
-
 		CGameObject* pPlayer = SceneManager()->GetInstance()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front();
 		//CPlayer* pPlayer = dynamic_cast<CPlayer*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
 
-		
 		m_pTransform->Translate(pPlayer->m_pTransform->m_vInfo[INFO_POS] + *dynamic_cast<CPlayer*>(pPlayer)->Get_Offset());
 
 		m_fSignTime = 1.f;
@@ -69,6 +66,8 @@ _int CFireWands::Update_Object(const _float& fTimeDelta)
 	if (ItemID.eItemID != ITEMID::WEAPON_WAND1 || !pPlayer->Get_ItemEquipRight())
 		return iExit;
 
+
+
 	if (!Get_WorldItem())
 	{
 		if (pPlayer->Get_Attack() && pPlayer != nullptr)
@@ -96,7 +95,7 @@ void CFireWands::LateUpdate_Object(void)
 
 
 	__super::LateUpdate_Object();
-	__super::Compute_ViewZ(&m_pTransform->m_vInfo[INFO_POS]);
+	m_pTransform->Scale(_vec3(0.3f, 0.3f, 0.3f));
 }
 
 void CFireWands::Render_Object(void)
@@ -159,9 +158,9 @@ HRESULT CFireWands::Add_Component(void)
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::COLLIDER, pComponent);
 
-	for (int i = 0; i < ID_END; ++i)
-		for (auto& iter : m_mapComponent[i])
-			iter.second->Init_Property(this);
+	pComponent = dynamic_cast<CBillBoard*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BillBoard"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::BILLBOARD, pComponent);
 
 	if (!Get_WorldItem())
 	{
@@ -170,8 +169,26 @@ HRESULT CFireWands::Add_Component(void)
 	
 		m_pTransform->Set_Parent(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform);
 		m_pTransform->Copy_RUL(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform->m_vInfo);
+
+
+		for (int i = 0; i < ID_END; ++i)
+			for (auto& iter : m_mapComponent[i])
+				iter.second->Init_Property(this);
 		
 	}
+	else
+	{
+		//pComponent = dynamic_cast<CBillBoard*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BillBoard"));
+		//NULL_CHECK_RETURN(pComponent, E_FAIL);
+		//m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::BILLBOARD, pComponent);
+
+
+		for (int i = 0; i < ID_END; ++i)
+			for (auto& iter : m_mapComponent[i])
+				iter.second->Init_Property(this);
+	}
+
+
 
 	return S_OK;
 }

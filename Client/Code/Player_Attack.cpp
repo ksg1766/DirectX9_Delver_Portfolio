@@ -101,8 +101,8 @@ STATE CPlayer_Attack::Key_Input(const _float& fTimeDelta)
 				pPlayer.Set_State(STATE::ATTACK);
 				m_fSpeed += 1.3f;
 
-				if (m_fSpeed >= 30)
-					m_fSpeed = 30.f;
+				if (m_fSpeed >= 20)
+					m_fSpeed = 20.f;
 
 				_eState = STATE::ATTACK;
 			}
@@ -110,7 +110,7 @@ STATE CPlayer_Attack::Key_Input(const _float& fTimeDelta)
 			{
 				// TODO : 마우스를 놓으면 화살 날라감.(Preesing에서 누르만큼 +Speed)
 				// CreateArrow. -> 내가 보는 방향으로 날리기.
-				if (m_fSpeed >= 30.f)
+				if (m_fSpeed >= 20.f)
 				{
 					CGameObject* pGameObject = nullptr;
 					pGameObject = CArrow::Create(m_pGraphicDev,

@@ -46,11 +46,6 @@ HRESULT CTempItem::Ready_Object(_bool _Item)
 		m_ItemID.eItemID = WEAPON_SWORD;
 		m_ItemID.iCount = 1;
 
-		CGameObject* pGameObject = SceneManager()->GetInstance()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front();
-
-		if (pGameObject == nullptr)
-			return S_OK;
-
 
 		CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pTransform->m_pParent->Get_Host());
 		m_pTransform->Translate(pPlayer->m_pTransform->m_vInfo[INFO_POS] + *dynamic_cast<CPlayer*>(pPlayer)->Get_Offset());
@@ -58,6 +53,7 @@ HRESULT CTempItem::Ready_Object(_bool _Item)
 	else
 	{
 		m_pTransform->Scale(_vec3(0.3f, 0.3f, 0.3f));
+
 		m_pCollider->
 			InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
 
@@ -102,9 +98,9 @@ _int CTempItem::Update_Object(const _float& fTimeDelta)
 #pragma region ksg
 		if (pPlayer->Get_Attack() && pPlayer != nullptr)
 		{
-			if (1.85f < D3DXVec3Length(&(m_pTransform->m_pParent->m_vInfo[INFO_POS] - m_pTransform->m_vInfo[INFO_POS])))
+			if (2.2f < D3DXVec3Length(&(m_pTransform->m_pParent->m_vInfo[INFO_POS] - m_pTransform->m_vInfo[INFO_POS])))
 				m_fSignTime = -1.f;
-			else if (1.5f > D3DXVec3Length(&(m_pTransform->m_pParent->m_vInfo[INFO_POS] - m_pTransform->m_vInfo[INFO_POS])))
+			else if (1.85f > D3DXVec3Length(&(m_pTransform->m_pParent->m_vInfo[INFO_POS] - m_pTransform->m_vInfo[INFO_POS])))
 			{
 				m_fSignTime = 1.f;
 				pPlayer->Set_Attack(false);
@@ -126,7 +122,8 @@ void CTempItem::LateUpdate_Object(void)
 
 
 	__super::LateUpdate_Object();
-	__super::Compute_ViewZ(&m_pTransform->m_vInfo[INFO_POS]);
+	m_pTransform->Scale(_vec3(0.3f, 0.3f, 0.3f));
+
 }
 
 
@@ -187,20 +184,34 @@ HRESULT CTempItem::Add_Component(void)
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BASICSTAT, pComponent);
 
-	for (int i = 0; i < ID_END; ++i)
-		for (auto& iter : m_mapComponent[i])
-			iter.second->Init_Property(this);
 
 	if (!Get_WorldItem())
 	{
 		CPlayer* pPlayer = dynamic_cast<CPlayer*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
 
-	
-		
 		m_pTransform->Set_Parent(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform);
 		m_pTransform->Copy_RUL(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform->m_vInfo);
+
+		for (int i = 0; i < ID_END; ++i)
+			for (auto& iter : m_mapComponent[i])
+				iter.second->Init_Property(this);
+
 		
 	}
+	else
+	{
+		pComponent = m_pBillBoard = dynamic_cast<CBillBoard*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BillBoard"));
+		NULL_CHECK_RETURN(pComponent, E_FAIL);
+		m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::BILLBOARD, pComponent);
+
+		for (int i = 0; i < ID_END; ++i)
+			for (auto& iter : m_mapComponent[i])
+				iter.second->Init_Property(this);
+
+	}
+
+
+
 
 	return S_OK;
 }

@@ -25,7 +25,6 @@ HRESULT CWarror_Attack::Ready_State(CStateMachine* pOwner)
 	m_fSpeed = 10.f;
 
 	m_bAttackTick  = false;
-	m_bAttackTick2 = false;
 
 	return S_OK;
 }
@@ -37,44 +36,42 @@ STATE CWarror_Attack::Update_State(const _float& fTimeDelta)
 		(SceneManager()->GetInstance()->Get_ObjectList
 		(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
 	
+
 	if (!m_bIsAttack)
-	{
-		m_vPrevPos = pPlayer.m_pTransform->m_vInfo[INFO_POS];
-		m_bIsAttack = true;
+	{		
+		m_fChase += fTimeDelta;
+
+		if (m_fChase < 1.f)
+		{
+			m_pOwner->Get_Animator()->Get_Animation()->Set_Frame(1.f);
+			m_pOwner->Get_Animator()->Get_Animation()->Set_Loop(false);
+		}
+		else
+		{
+			dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Set_AttackTick(false);
+			m_pOwner->Get_Animator()->Get_Animation()->Set_Loop(true);
+			m_vPrevPos = pPlayer.m_pTransform->m_vInfo[INFO_POS];
+			m_bIsAttack = true;
+			m_fChase = 0.f;
+		}
 	}
 
-	_vec3 vDir = 
-		m_vPrevPos - m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
-	D3DXVec3Normalize(&vDir, &vDir);
+	if (m_bIsAttack)
+	{
+		_vec3 vDir = m_vPrevPos - m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
+		D3DXVec3Normalize(&vDir, &vDir);
 
-	_float fAttackDistance = m_fSpeed * fTimeDelta;
-	_vec3 vAttackPos = m_pOwner->Get_Transform()->m_vInfo[INFO_POS] + vDir * fAttackDistance;
+		m_pOwner->Get_Transform()->m_vInfo[INFO_POS] =
+			m_pOwner->Get_Transform()->m_vInfo[INFO_POS] + vDir * 10 * fTimeDelta;
+	}
 
-	m_pOwner->Get_Transform()->m_vInfo[INFO_POS] = vAttackPos;
 
-	_float fRange = D3DXVec3LengthSq(&(m_pOwner->Get_Transform()->m_vInfo[INFO_POS]
-		- m_vPrevPos));
-
-	if (fRange <= 4.8f && m_pOwner->Get_Animator()->Get_Animation()->Get_Frame() > 4.8)
+	if (D3DXVec3Length(&(m_vPrevPos  - m_pOwner->Get_Transform()->m_vInfo[INFO_POS])) < 0.5f
+		&& m_pOwner->Get_Animator()->Get_Animation()->Get_Frame() > 4.8f)
 	{
 		m_bIsAttack = false;
-		m_bAttackTick = false;
-		m_pOwner->Set_State(STATE::ROMIMG);
 		return STATE::ROMIMG;
 	}
-
-	m_fChase += fTimeDelta;
-
-	if (m_fChase >= 2)
-	{
-		m_fChase = 0.f;
-		m_pOwner->Set_State(STATE::ROMIMG);
-		return STATE::ROMIMG;
-	}
-
-	m_pOwner->Set_State(STATE::ATTACK);
-
-	return STATE::ATTACK;
 }
 
 void CWarror_Attack::LateUpdate_State()

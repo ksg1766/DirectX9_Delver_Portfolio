@@ -7,6 +7,7 @@ BEGIN(Engine)
 class CRcTex;
 class CTexture;
 class CBasicStat;
+class CBillBoard;
 
 END
 
@@ -37,6 +38,7 @@ private:
 private:
 	CRcTex*		m_pBuffer = nullptr;
 	CTexture*	m_pTexture = nullptr;
+	CBillBoard* m_pBillBoard = nullptr;
 	_float		m_fSignTime;
 	_float		m_fChase;
 

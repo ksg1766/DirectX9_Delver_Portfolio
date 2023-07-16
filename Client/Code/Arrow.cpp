@@ -29,27 +29,24 @@ HRESULT CArrow::Ready_Object(CTransform* Weapon, CTransform* pOwner, _float _fSp
 	m_fSpeed = _fSpeed;
 
 	//m_pTransform->Set_Parent(pOwner);
-	m_pTransform->Scale(_vec3(0.3f, 0.3f, 0.3f));
 
-	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT],
-		m_pTransform->LocalScale() * 0.5f);
 	
 	if (Weapon != nullptr && pOwner != nullptr)
 	{
-		//m_pPlayerTransform = pOwner;
-		m_pTransform->m_vInfo[INFO_POS] = Weapon->m_vInfo[INFO_POS];
 		m_pTransform->Copy_RUL(pOwner->Get_Transform()->m_vInfo);
+		m_pTransform->Scale(_vec3(0.3f, 0.3f, 0.3f));
+		m_pTransform->m_vInfo[INFO_POS] = Weapon->m_vInfo[INFO_POS];
+
+
+		m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT],
+			m_pTransform->LocalScale());
 
 		m_vDir = pOwner->Get_Transform()->m_vInfo[INFO_LOOK];
 		D3DXVec3Normalize(&m_vDir, &m_vDir);
 
-		_matrix matRot;
-		D3DXMatrixRotationAxis(&matRot, &m_pTransform->m_vInfo[INFO_UP], -80.f);
-		D3DXVec3TransformCoord(&m_pTransform->m_vInfo[INFO_LOOK], &m_pTransform->m_vInfo[INFO_LOOK], &matRot);
-		D3DXVec3TransformCoord(&m_pTransform->m_vInfo[INFO_RIGHT], &m_pTransform->m_vInfo[INFO_RIGHT], &matRot);
+		m_pTransform->Rotate(ROT_Y, 30.f);
 	}
 
-	m_pTransform->Scale(_vec3(0.3f, 0.3f, 0.3f));
 	m_pBasicStat->Get_Stat()->fAttack = 1.f;
 
 	return S_OK;
@@ -65,8 +62,6 @@ _int CArrow::Update_Object(const _float& fTimeDelta)
 
 	CPlayer& pPlayer = *dynamic_cast<CPlayer*>(SceneManager()->GetInstance()->
 		Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
-
-	//pPlayer.m_pTransform->m_vInfo[INFO_LOOK];
 
 	m_pTransform->m_vInfo[INFO_POS] = m_pTransform->m_vInfo[INFO_POS] + m_vDir * m_fSpeed * fTimeDelta;
 
