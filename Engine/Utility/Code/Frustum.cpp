@@ -2,6 +2,7 @@
 #include "TempCamera.h"
 
 #define PLANE_EPSILON	5.f
+#define MAX_SLOPE		1.8f
 
 CFrustum::CFrustum()
 {
@@ -88,17 +89,17 @@ BOOL CFrustum::IsInSphere(_vec3& pv, _float _fRadius)
 	_float fDist;
 	//_fRadius = 2.f;
 	fDist = D3DXPlaneDotCoord(&m_tPlane[0], &pv);
-	if (fDist > (_fRadius + PLANE_EPSILON)) return FALSE;
+	if (fDist > (_fRadius * MAX_SLOPE)) return FALSE;
 	fDist = D3DXPlaneDotCoord(&m_tPlane[1], &pv);
-	if (fDist > (_fRadius + PLANE_EPSILON)) return FALSE;
+	if (fDist > (_fRadius * MAX_SLOPE)) return FALSE;
 	fDist = D3DXPlaneDotCoord(&m_tPlane[2], &pv);
-	if (fDist > (_fRadius + PLANE_EPSILON)) return FALSE;
+	if (fDist > (_fRadius * MAX_SLOPE)) return FALSE;
 	fDist = D3DXPlaneDotCoord(&m_tPlane[3], &pv);
-	if (fDist > (_fRadius + PLANE_EPSILON)) return FALSE;
+	if (fDist > (_fRadius * MAX_SLOPE)) return FALSE;
 	fDist = D3DXPlaneDotCoord(&m_tPlane[4], &pv);
-	if (fDist > (_fRadius + PLANE_EPSILON)) return FALSE;
+	if (fDist > (_fRadius * MAX_SLOPE)) return FALSE;
 	fDist = D3DXPlaneDotCoord(&m_tPlane[5], &pv);
-	if (fDist > (_fRadius + PLANE_EPSILON)) return FALSE;
+	if (fDist > (_fRadius * MAX_SLOPE)) return FALSE;
 
 	return TRUE;
 }

@@ -69,7 +69,7 @@ _int CSpawningPool::Update_Object(const _float& fTimeDelta)
         for (auto& iter = m_MonsterList.begin(); iter != m_MonsterList.end();)
         {
             if ((*iter)->IsDead())
-                m_MonsterList.erase(iter--);
+                iter = m_MonsterList.erase(iter);
             else
                 ++iter;
         }

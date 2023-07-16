@@ -348,7 +348,7 @@ HRESULT CStage::Load_Data()
 
 		vector<CGameObject*>& refObjectList = pLayer->Get_ObjectList((OBJECTTAG)i);
 		for_each(refObjectList.begin(), refObjectList.end(), [&](CGameObject* pObj) { EventManager()->DeleteObject(pObj); });
-		//refObjectList.clear();
+		refObjectList.clear();
 	}
 	HANDLE hFile = CreateFile(L"../Bin/Data/TempData.dat", GENERIC_READ,
 		0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);

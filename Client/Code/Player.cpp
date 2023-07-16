@@ -47,7 +47,7 @@ HRESULT CPlayer::Ready_Object(void)
 
 	Get_Collider()->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
 
-	m_pTransform->Translate(_vec3(0.f, 1.f, 0.f));
+	m_pTransform->Translate(_vec3(0.f, 3.f, 0.f));
 	m_vOffset	  =	_vec3(0.55f, 0.1f, 1.5f);
 	m_vLeftOffset = _vec3(-0.55, 0.1f, 1.5f);
 	m_fDrunkTime = 0.f;
@@ -109,7 +109,7 @@ Engine::_int CPlayer::Update_Object(const _float& fTimeDelta)
 
 	//}
 
-	ForceHeight(m_pTransform->m_vInfo[INFO_POS]);
+	//ForceHeight(m_pTransform->m_vInfo[INFO_POS]);
 
 	return iExit;
 }

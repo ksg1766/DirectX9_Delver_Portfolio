@@ -23,21 +23,24 @@ HRESULT CCubeBlock::Ready_Object(void)
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 #ifdef _DEBUG
-	/*void* pVertices = nullptr;
-	m_pBuffer->m_pVB->Lock(0, m_pBuffer->m_dwVtxCnt * m_pBuffer->m_dwVtxSize, &pVertices, 0);
-	for (UINT i = 0; i < m_pBuffer->m_dwVtxCnt; ++i)
+	//if (SCENETAG::EDITOR == SceneManager()->Get_Scene()->Get_SceneTag())
 	{
-		m_vecCubeVertex.push_back((((VTXCUBE*)pVertices) + i)->vPosition);
-	}
-	m_pBuffer->m_pVB->Unlock();
+		void* pVertices = nullptr;
+		m_pBuffer->m_pVB->Lock(0, m_pBuffer->m_dwVtxCnt * m_pBuffer->m_dwVtxSize, &pVertices, 0);
+		for (UINT i = 0; i < m_pBuffer->m_dwVtxCnt; ++i)
+		{
+			m_vecCubeVertex.push_back((((VTXCUBE*)pVertices) + i)->vPosition);
+		}
+		m_pBuffer->m_pVB->Unlock();
 
-	void* pIndices = nullptr;
-	m_pBuffer->m_pIB->Lock(0, m_pBuffer->m_dwTriCnt * m_pBuffer->m_dwIdxSize, &pIndices, 0);
-	for (UINT i = 0; i < m_pBuffer->m_dwTriCnt; ++i)
-	{
-		m_vecCubeIndex.push_back(*(((INDEX32*)pIndices) + i));
+		void* pIndices = nullptr;
+		m_pBuffer->m_pIB->Lock(0, m_pBuffer->m_dwTriCnt * m_pBuffer->m_dwIdxSize, &pIndices, 0);
+		for (UINT i = 0; i < m_pBuffer->m_dwTriCnt; ++i)
+		{
+			m_vecCubeIndex.push_back(*(((INDEX32*)pIndices) + i));
+		}
+		m_pBuffer->m_pIB->Unlock();
 	}
-	m_pBuffer->m_pIB->Unlock();*/
 #endif _DEBUG
 
 	//m_pTransform->Scale(_vec3(2.f, 2.f, 2.f));

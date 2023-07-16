@@ -73,10 +73,41 @@ void CImGuiManager::Key_Input(const _float& fTimeDelta)
         }
     }
 
-    if (Engine::InputDev()->Key_Pressing(DIK_LCONTROL) && Engine::InputDev()->Key_Pressing(DIK_S))
+    if (Engine::InputDev()->Key_Pressing(DIK_LCONTROL) && Engine::InputDev()->Mouse_Pressing(DIM_LB))
+    {
+        if (!ImGui::IsMousePosValid())
+            return;
+
+        if (!ImGui::GetIO().WantCaptureMouse)
+        {
+            if (MAP == m_eToolMode)
+                vOut = PickingBlock();
+
+            if (_vec3(0.f, -10.f, 0.f) == vOut)
+                return;
+        }
+        else
+            return;
+
+        Engine::CGameObject* pGameObject = nullptr;
+
+        if (MAP == m_eToolMode)
+        {
+            if (selected_texture)
+            {
+                pGameObject = CCubeBlock::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+                NULL_CHECK_RETURN(pGameObject);
+                dynamic_cast<CCubeBlock*>(pGameObject)->Set_TextureNumber(selected_texture_index);
+                pGameObject->m_pTransform->Translate(vOut);
+                EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+            }
+        }
+    }
+
+    if (Engine::InputDev()->Key_Pressing(DIK_LCONTROL) && Engine::InputDev()->Key_Down(DIK_S))
         OnSaveData();
 
-    if (Engine::InputDev()->Key_Pressing(DIK_LCONTROL) && Engine::InputDev()->Key_Pressing(DIK_L))
+    if (Engine::InputDev()->Key_Pressing(DIK_LCONTROL) && Engine::InputDev()->Key_Down(DIK_L))
         OnLoadData();
 }
 
@@ -679,6 +710,9 @@ HRESULT CImGuiManager::OnSaveData()
             vector<CGameObject*>& vecObjList = pScene->Get_ObjectList(LAYERTAG::GAMELOGIC, (OBJECTTAG)i);
             for (auto& iter : vecObjList)
             {
+                if (_vec3(0.00000000f, 0.00000000f, -1.99999988f) == iter->m_pTransform->m_vInfo[INFO_POS])
+                    continue;
+
                 //dwStrByte = sizeof(CHAR) * (strlen(typeid(*iter).name()) + 1);
                 eTag = iter->Get_ObjectTag();
                 //CHAR* pName = nullptr;
@@ -771,10 +805,13 @@ HRESULT CImGuiManager::OnLoadData()
         {
             ReadFile(hFile, &fX, sizeof(_float), &dwByte, nullptr);
             ReadFile(hFile, &fY, sizeof(_float), &dwByte, nullptr);
+            
             ReadFile(hFile, &fZ, sizeof(_float), &dwByte, nullptr);
 
             ReadFile(hFile, &byTextureNumber, sizeof(_ubyte), &dwByte, nullptr);
-
+            
+            if (fY < 0.f)
+                continue;
             // value°ª ÀúÀå
             
 
