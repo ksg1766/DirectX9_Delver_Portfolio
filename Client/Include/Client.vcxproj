@@ -177,6 +177,10 @@
     <ClInclude Include="..\Header\Beer.h" />
     <ClInclude Include="..\Header\BlackIn.h" />
     <ClInclude Include="..\Header\BlackOutIn.h" />
+    <ClInclude Include="..\Header\Blade_Trap_Body.h" />
+    <ClInclude Include="..\Header\Blade_Trap_Attack.h" />
+    <ClInclude Include="..\Header\Blade_Trap_Blade.h" />
+    <ClInclude Include="..\Header\Blade_Trap_Idle.h" />
     <ClInclude Include="..\Header\BossExplosion.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
@@ -279,6 +283,7 @@
     <ClInclude Include="..\Header\UIOptionsButton.h" />
     <ClInclude Include="..\Header\UIplayerhp.h" />
     <ClInclude Include="..\Header\UIResumeButton.h" />
+    <ClInclude Include="..\Header\UISpeech_OldMan.h" />
     <ClInclude Include="..\Header\WakeUp_BossSkeleton.h" />
     <ClInclude Include="..\Header\Warrior_Attack.h" />
     <ClInclude Include="..\Header\Wizard.h" />
@@ -309,6 +314,10 @@
     <ClCompile Include="..\Code\Beer.cpp" />
     <ClCompile Include="..\Code\BlackIn.cpp" />
     <ClCompile Include="..\Code\BlackOutIn.cpp" />
+    <ClCompile Include="..\Code\Blade_Trap_Body.cpp" />
+    <ClCompile Include="..\Code\Blade_Trap_Attack.cpp" />
+    <ClCompile Include="..\Code\Blade_Trap_Blade.cpp" />
+    <ClCompile Include="..\Code\Blade_Trap_Idle.cpp" />
     <ClCompile Include="..\Code\BossExplosion.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
@@ -410,6 +419,7 @@
     <ClCompile Include="..\Code\UIOptionsButton.cpp" />
     <ClCompile Include="..\Code\UIplayerhp.cpp" />
     <ClCompile Include="..\Code\UIResumeButton.cpp" />
+    <ClCompile Include="..\Code\UISpeech_OldMan.cpp" />
     <ClCompile Include="..\Code\WakeUp_BossSkeleton.cpp" />
     <ClCompile Include="..\Code\Warrior_Attack.cpp" />
     <ClCompile Include="..\Code\Wizard.cpp" />

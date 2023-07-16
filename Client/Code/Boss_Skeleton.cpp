@@ -45,10 +45,6 @@ HRESULT CBoss_Skeleton::Ready_Object()
         m_pTexture[(_uint)STATE::DEAD], STATE::DEAD, 8.f, FALSE);
     m_pAnimator->Add_Animation(STATE::DEAD, pAnimation);
 
-  /*  pAnimation = CAnimation::Create(m_pGraphicDev,
-        m_pTexture[(_uint)STATE::IDLE], STATE::IDLE, 8.f, FALSE);
-    m_pAnimator->Add_Animation(STATE::IDLE, pAnimation);*/
-
     pAnimation = CAnimation::Create(m_pGraphicDev,
         m_pTexture[(_uint)STATE::ROMIMG], STATE::ROMIMG, 8.f, TRUE);
     m_pAnimator->Add_Animation(STATE::ROMIMG, pAnimation);
@@ -93,10 +89,6 @@ void CBoss_Skeleton::LateUpdate_Object()
 void CBoss_Skeleton::Render_Object()
 {
     m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
-    m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-
-    m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
-
 
     m_pStateMachine->Render_StateMachine();
     m_pBuffer->Render_Buffer();
@@ -104,9 +96,6 @@ void CBoss_Skeleton::Render_Object()
 #if _DEBUG
     m_pCollider->Render_Collider();
 #endif
-
-    m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
-    m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
 
 void CBoss_Skeleton::OnCollisionEnter(CCollider* _pOther)

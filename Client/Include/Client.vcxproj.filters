@@ -139,9 +139,6 @@
     <Filter Include="02. GameObject\03. UI\01. UIitem">
       <UniqueIdentifier>{7a317ac9-ac1d-42c4-977f-4c74b225bb6f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\03. UI\02. UItooltip">
-      <UniqueIdentifier>{ddc9164e-7713-45f6-8c0c-a47d4efd9cfe}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObject\03. UI\03. UIbutton">
       <UniqueIdentifier>{20cb5742-3f30-4c17-861d-368d7e1974b1}</UniqueIdentifier>
     </Filter>
@@ -492,6 +489,48 @@
     </Filter>
     <Filter Include="02. GameObject\04. Public\04. Font">
       <UniqueIdentifier>{5f72c182-601d-4396-b1d2-e952169d65da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\03. UI\14. UISpeech">
+      <UniqueIdentifier>{ddc9164e-7713-45f6-8c0c-a47d4efd9cfe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\03. UI\14. UISpeech\01. NPC">
+      <UniqueIdentifier>{a64420c7-77c2-4d6f-b686-1875219bb633}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\03. UI\14. UISpeech\01. NPC\00. Old Man">
+      <UniqueIdentifier>{24640305-1800-46bf-a864-dde94e9c2483}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\03. UI\14. UISpeech\00. Player">
+      <UniqueIdentifier>{f7320ac6-a338-411f-bdf1-74f6c2bdfc15}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\08. Trap">
+      <UniqueIdentifier>{04e20ed8-f87f-42ff-936e-ccbf86fc9d76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\08. Trap\00. Blade_Trap">
+      <UniqueIdentifier>{5710f7e4-a69a-464b-ba9c-642b736f8881}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\08. Trap\00. Blade_Trap\00. Trap_Body">
+      <UniqueIdentifier>{91ac1019-978d-42fe-8ac0-0b92b92e0707}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\08. Trap\01. Arrow_Trap">
+      <UniqueIdentifier>{d5e15b02-90b9-44b3-a954-84cd7644e8c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\08. Trap\01. Arrow_Trap\00. Trap_Body">
+      <UniqueIdentifier>{f094fe46-6c35-4f75-9d23-1aca8c88bf1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\08. Trap\01. Arrow_Trap\01. Trap_Arrow">
+      <UniqueIdentifier>{c4edad17-6239-450c-8368-170f49310cda}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\08. Trap\00. Blade_Trap\01. Trap_Blade">
+      <UniqueIdentifier>{b69ff1ab-c6e4-4fb1-be5e-1c63c7834fd3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\08. Trap\00. Blade_Trap\01. Trap_Blade\00. State">
+      <UniqueIdentifier>{25766413-5d61-490c-baf1-cc2eaf67f7a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\08. Trap\00. Blade_Trap\01. Trap_Blade\00. State\00. Idle">
+      <UniqueIdentifier>{2404dd0a-c763-49e1-9283-44390951428a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\08. Trap\00. Blade_Trap\01. Trap_Blade\00. State\01. Attack">
+      <UniqueIdentifier>{ae417934-7b96-4c8c-b275-77601d705dac}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -877,7 +916,7 @@
       <Filter>02. GameObject\01. Stage\07. NPC\06. Wizard\01. State</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\UISpeech.h">
-      <Filter>02. GameObject\03. UI\02. UItooltip</Filter>
+      <Filter>02. GameObject\03. UI\14. UISpeech</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Test_Move.h">
       <Filter>02. GameObject\01. Stage\05. Monster\00. State\Public\Move</Filter>
@@ -896,6 +935,21 @@
     </ClInclude>
     <ClInclude Include="..\Header\Beer.h">
       <Filter>02. GameObject\01. Stage\02. Item\Consumable\Bear</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\UISpeech_OldMan.h">
+      <Filter>02. GameObject\03. UI\14. UISpeech\01. NPC\00. Old Man</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Blade_Trap_Idle.h">
+      <Filter>02. GameObject\01. Stage\08. Trap\00. Blade_Trap\01. Trap_Blade\00. State\00. Idle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Blade_Trap_Attack.h">
+      <Filter>02. GameObject\01. Stage\08. Trap\00. Blade_Trap\01. Trap_Blade\00. State\01. Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Blade_Trap_Body.h">
+      <Filter>02. GameObject\01. Stage\08. Trap\00. Blade_Trap\00. Trap_Body</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Blade_Trap_Blade.h">
+      <Filter>02. GameObject\01. Stage\08. Trap\00. Blade_Trap\01. Trap_Blade</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1272,7 +1326,7 @@
       <Filter>02. GameObject\01. Stage\07. NPC\06. Wizard\01. State</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\UISpeech.cpp">
-      <Filter>02. GameObject\03. UI\02. UItooltip</Filter>
+      <Filter>02. GameObject\03. UI\14. UISpeech</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Test_Move.cpp">
       <Filter>02. GameObject\01. Stage\05. Monster\00. State\Public\Move</Filter>
@@ -1291,6 +1345,21 @@
     </ClCompile>
     <ClCompile Include="..\Code\Beer.cpp">
       <Filter>02. GameObject\01. Stage\02. Item\Consumable\Bear</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UISpeech_OldMan.cpp">
+      <Filter>02. GameObject\03. UI\14. UISpeech\01. NPC\00. Old Man</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Blade_Trap_Idle.cpp">
+      <Filter>02. GameObject\01. Stage\08. Trap\00. Blade_Trap\01. Trap_Blade\00. State\00. Idle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Blade_Trap_Attack.cpp">
+      <Filter>02. GameObject\01. Stage\08. Trap\00. Blade_Trap\01. Trap_Blade\00. State\01. Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Blade_Trap_Body.cpp">
+      <Filter>02. GameObject\01. Stage\08. Trap\00. Blade_Trap\00. Trap_Body</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Blade_Trap_Blade.cpp">
+      <Filter>02. GameObject\01. Stage\08. Trap\00. Blade_Trap\01. Trap_Blade</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

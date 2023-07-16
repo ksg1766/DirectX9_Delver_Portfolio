@@ -82,6 +82,14 @@ STATE CJump_BossSkeleton::Update_State(const _float& fTimeDelta)
 
         m_pOwner->Get_Transform()->Translate((m_vDir * m_fSpeed) * fTimeDelta);
     }
+    else if (1.5f <= m_fCool)
+    {
+        m_fJumpVelocity = 13.f;
+        m_bJumCoolDown = true;
+        m_bIsJumping = false;
+        m_bJump = true;
+        return STATE::ATTACK;
+    }
 }
 
 void CJump_BossSkeleton::LateUpdate_State()

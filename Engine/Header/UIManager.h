@@ -136,7 +136,7 @@ public:
 			m_bInven = false;
 			m_bStat = false;
 			m_bMap = false;
-
+			m_bSpeech = false;
 			m_bEsc = true;
 			Cursor = GetCursor();
 			Cursor = LoadCursor(NULL, IDC_ARROW);
@@ -157,17 +157,17 @@ public:
 	{
 		HCURSOR Cursor = nullptr;
 
-		if (m_bMap) { // ¸»Ç³¼± ´ÝÀ» ¶§
-			m_bMap = false;
+		if (m_bSpeech) { // ¸»Ç³¼± ´ÝÀ» ¶§
+			m_bSpeech = false;
 			Show_PopupUI(UIPOPUPLAYER::POPUP_MOUSE);
 			Hide_PopupUI(UIPOPUPLAYER::POPUP_SPEECH);
 		}
-		else { // ¸»Çª¼± ¿­ ¶§
+		else { // ¸»Ç³¼± ¿­ ¶§
 			m_bInven = false;
 			m_bStat = false;
 			m_bEsc = false;
-
-			m_bMap = true;
+			m_bMap = false;
+			m_bSpeech = true;
 			Cursor = GetCursor();
 			Cursor = LoadCursor(NULL, IDC_ARROW);
 			Hide_PopupUI(UIPOPUPLAYER::POPUP_MOUSE);
@@ -180,7 +180,7 @@ public:
 		}
 
 		SetCursor(Cursor);
-		return m_bMap;
+		return m_bSpeech;
 	}
 
 	void  Show_PopupUI(UIPOPUPLAYER _PopupID);
@@ -247,6 +247,7 @@ public:
 	_bool m_bStat  = false;
 	_bool m_bMap   = false;
 	_bool m_bEsc   = false;
+	_bool m_bSpeech   = false;
 
 	_bool m_bSlotBasicCollider[5];     // UIOBJECTTTAG::UIID_SLOTBASIC
 	_bool m_bSlotEquipmentCollider[6]; // UIOBJECTTTAG::UIID_SLOTEQUIPMENT
