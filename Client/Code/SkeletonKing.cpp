@@ -167,6 +167,7 @@ void CSkeletonKing::LateUpdate_Object(void)
 	if (SceneManager()->Get_GameStop()) { return; }
 
 	m_pBillBoard->LateUpdate_Component();
+
 	Key_Input();
 	__super::LateUpdate_Object();
 	__super::Compute_ViewZ(&m_pTransform->m_vInfo[INFO_POS]);

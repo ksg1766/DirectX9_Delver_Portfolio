@@ -227,6 +227,7 @@ call CopyUtility.bat</Command>
     <ClInclude Include="..\..\Header\RcTex.h" />
     <ClInclude Include="..\..\Header\Renderer.h" />
     <ClInclude Include="..\..\Header\Scene.h" />
+    <ClInclude Include="..\..\Header\TempEffect.h" />
     <ClInclude Include="..\..\Header\TempParticle.h" />
     <ClInclude Include="..\..\Header\TempUI.h" />
     <ClInclude Include="..\..\Header\TerrainTex.h" />
@@ -284,6 +285,7 @@ call CopyUtility.bat</Command>
     <ClCompile Include="..\Code\RcTex.cpp" />
     <ClCompile Include="..\Code\Renderer.cpp" />
     <ClCompile Include="..\Code\Scene.cpp" />
+    <ClCompile Include="..\Code\TempEffect.cpp" />
     <ClCompile Include="..\Code\TempParticle.cpp" />
     <ClCompile Include="..\Code\TempUI.cpp" />
     <ClCompile Include="..\Code\TerrainTex.cpp" />

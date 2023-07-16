@@ -193,6 +193,13 @@
     <ClInclude Include="..\Header\Bow.h" />
     <ClInclude Include="..\Header\Box_Cube.h" />
     <ClInclude Include="..\Header\CrawlPattern.h" />
+    <ClInclude Include="..\Header\EffectBlood.h" />
+    <ClInclude Include="..\Header\EffectBrokenbox.h" />
+    <ClInclude Include="..\Header\EffectBubble.h" />
+    <ClInclude Include="..\Header\EffectDamage.h" />
+    <ClInclude Include="..\Header\EffectDamageStar.h" />
+    <ClInclude Include="..\Header\EffectExplosion.h" />
+    <ClInclude Include="..\Header\EffectWand.h" />
     <ClInclude Include="..\Header\UISpeech.h" />
     <ClInclude Include="..\Header\Dead_BossSkeleton.h" />
     <ClInclude Include="..\Header\Dog_Idle.h" />
@@ -324,6 +331,13 @@
     <ClCompile Include="..\Code\Bow.cpp" />
     <ClCompile Include="..\Code\Box_Cube.cpp" />
     <ClCompile Include="..\Code\CrawlPattern.cpp" />
+    <ClCompile Include="..\Code\EffectBlood.cpp" />
+    <ClCompile Include="..\Code\EffectBrokenbox.cpp" />
+    <ClCompile Include="..\Code\EffectBubble.cpp" />
+    <ClCompile Include="..\Code\EffectDamage.cpp" />
+    <ClCompile Include="..\Code\EffectDamageStar.cpp" />
+    <ClCompile Include="..\Code\EffectExplosion.cpp" />
+    <ClCompile Include="..\Code\EffectWand.cpp" />
     <ClCompile Include="..\Code\UISpeech.cpp" />
     <ClCompile Include="..\Code\Dead_BossSkeleton.cpp" />
     <ClCompile Include="..\Code\Dog_Idle.cpp" />

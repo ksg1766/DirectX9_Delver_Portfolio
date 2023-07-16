@@ -493,6 +493,30 @@
     <Filter Include="02. GameObject\04. Public\04. Font">
       <UniqueIdentifier>{5f72c182-601d-4396-b1d2-e952169d65da}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\07. Effect">
+      <UniqueIdentifier>{04e3b9f1-e51a-49b3-9ffb-8818573078d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\07. Effect\00. EffectBubble">
+      <UniqueIdentifier>{78eafbac-276b-49b2-92fa-465bed6ac6ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\07. Effect\01. EffectBrokenbox">
+      <UniqueIdentifier>{cf16b892-bbf0-4670-bd9d-b34cd2a57bab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\07. Effect\02. EffectDamage">
+      <UniqueIdentifier>{e75ffab7-616e-4b71-b916-eb6d13824da6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\07. Effect\03. EffectDamageStar">
+      <UniqueIdentifier>{bc2a040b-8606-4e61-8a31-038dfcfc492c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\07. Effect\04. EffectBlood">
+      <UniqueIdentifier>{b0474ad3-c599-4f57-b8e9-4250bde4f4b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\07. Effect\05. EffectWand">
+      <UniqueIdentifier>{b4b52f5c-59ae-4bda-b9b5-2e5e2f4d158c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\07. Effect\06. EffectExplosion">
+      <UniqueIdentifier>{61402c79-06ea-47e0-a9fc-702f750b45b3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -897,6 +921,27 @@
     <ClInclude Include="..\Header\Beer.h">
       <Filter>02. GameObject\01. Stage\02. Item\Consumable\Bear</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\EffectBubble.h">
+      <Filter>02. GameObject\07. Effect\00. EffectBubble</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\EffectBrokenbox.h">
+      <Filter>02. GameObject\07. Effect\01. EffectBrokenbox</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\EffectDamage.h">
+      <Filter>02. GameObject\07. Effect\02. EffectDamage</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\EffectDamageStar.h">
+      <Filter>02. GameObject\07. Effect\03. EffectDamageStar</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\EffectBlood.h">
+      <Filter>02. GameObject\07. Effect\04. EffectBlood</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\EffectWand.h">
+      <Filter>02. GameObject\07. Effect\05. EffectWand</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\EffectExplosion.h">
+      <Filter>02. GameObject\07. Effect\06. EffectExplosion</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -1291,6 +1336,27 @@
     </ClCompile>
     <ClCompile Include="..\Code\Beer.cpp">
       <Filter>02. GameObject\01. Stage\02. Item\Consumable\Bear</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\EffectBubble.cpp">
+      <Filter>02. GameObject\07. Effect\00. EffectBubble</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\EffectBrokenbox.cpp">
+      <Filter>02. GameObject\07. Effect\01. EffectBrokenbox</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\EffectDamage.cpp">
+      <Filter>02. GameObject\07. Effect\02. EffectDamage</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\EffectDamageStar.cpp">
+      <Filter>02. GameObject\07. Effect\03. EffectDamageStar</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\EffectBlood.cpp">
+      <Filter>02. GameObject\07. Effect\04. EffectBlood</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\EffectWand.cpp">
+      <Filter>02. GameObject\07. Effect\05. EffectWand</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\EffectExplosion.cpp">
+      <Filter>02. GameObject\07. Effect\06. EffectExplosion</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

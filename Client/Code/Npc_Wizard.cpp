@@ -57,8 +57,8 @@ void CNpc_Wizard::LateUpdate_Object()
 void CNpc_Wizard::Render_Object()
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
-	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	//m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 
 	m_pStateMachine->Render_StateMachine();
 	m_pBuffer->Render_Buffer();
@@ -66,8 +66,8 @@ void CNpc_Wizard::Render_Object()
 #if _DEBUG
 	m_pCollider->Render_Collider();
 #endif
-	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
-	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+	//m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
 
 void CNpc_Wizard::ForceHeight(_vec3 _vPos)
