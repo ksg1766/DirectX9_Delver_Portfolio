@@ -29,6 +29,28 @@ HRESULT CFont::Ready_Font()
 	return S_OK;
 }
 
+ID3DXFont* CFont::Create_3DXFont(_int _Height, _uint _Width, _uint _Weight, _bool _Italic, const wchar_t _wchar[], ID3DXFont* _pFont)
+{
+	D3DXFONT_DESC	lf;
+	ZeroMemory(&lf, sizeof(D3DXFONT_DESC));
+	lf.Height = _Height;//높이 논리적 단위
+	lf.Width = _Width;//너비 논리적 단위
+	lf.Weight = _Weight;//굵기의 단위	0~1000
+	lf.Italic = _Italic;//기울임꼴
+	lf.MipLevels = 1;//요청된 밉수준. 값이 1일 때 텍스처 공간이 화면 공간에 동일하게 맵핑
+	lf.CharSet = DEFAULT_CHARSET;//문자집합
+	lf.OutputPrecision = OUT_DEFAULT_PRECIS;//출력 정밀도
+	lf.Quality = DEFAULT_QUALITY;//품질
+	lf.PitchAndFamily = DEFAULT_PITCH;//피치 및 패밀리
+	lf.FaceName, _wchar;//문자열의 길이가 32를 초과하면 안됨. 글꼴설정.
+
+	if (FAILED(D3DXCreateFontIndirect(m_pGraphicDev, &lf, &_pFont)))
+	{
+		MessageBox(0, TEXT("D3DXCreateFontIndirect() - FAILED"), 0, 0);
+	}
+	return _pFont;
+}
+
 
 
 void CFont::DrawText(const TCHAR* outputString, LONG x, LONG y)

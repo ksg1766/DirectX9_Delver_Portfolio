@@ -19,7 +19,7 @@ HRESULT CUIspeech::Ready_Object()
 	m_pTransform->m_vInfo[INFO_POS].x = WINCX/2;
 	m_pTransform->m_vInfo[INFO_POS].y = WINCY/4;
 
-	m_pTransform->m_vLocalScale.x = 200.f;
+	m_pTransform->m_vLocalScale.x = 400.f;
 	m_pTransform->m_vLocalScale.y = 100.f;
 
 	WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);

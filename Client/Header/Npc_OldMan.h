@@ -34,6 +34,8 @@ public:
 	virtual void		OnCollisionStay(CCollider* _pOther);
 	virtual void		OnCollisionExit(CCollider* _pOther);
 	void			Set_UseUI(_bool _use) { m_bUseUI = _use; }
+	_bool			Get_UseUI() { return m_bUseUI; }
+
 private:
 	HRESULT	Add_Component();
 private:
@@ -42,12 +44,15 @@ private:
 	CTerrain* m_pTerrain = nullptr;
 	CAnimator* m_pAnimator = nullptr;
 	CFont* m_pFont = nullptr;
-public:
-	static CNpc_OldMan* Create(LPDIRECT3DDEVICE9 pGraphicDev);
-private:
+
 	ID3DXFont* m_pFontconfig;
 	_bool			m_bUseUI;
+	_bool			m_bTalkButton;
+	_bool			m_bTalkingBox;
 	_float			m_fFontTime;
+	CGameObject* m_pGameObject;
+public:
+	static CNpc_OldMan* Create(LPDIRECT3DDEVICE9 pGraphicDev);
 	virtual void Free() override;
 };
 

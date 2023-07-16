@@ -79,7 +79,7 @@ void CBoss_MeteorCube::LateUpdate_Object(void)
 void CBoss_MeteorCube::Render_Object(void)
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
-	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
 	m_pCubeBf->Render_Buffer();//큐브버퍼
 
@@ -87,7 +87,7 @@ void CBoss_MeteorCube::Render_Object(void)
 	m_pCollider->Render_Collider();
 #endif
 
-	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
 
 void CBoss_MeteorCube::Channeling_Begin()

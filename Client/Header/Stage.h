@@ -19,7 +19,7 @@
 #include "UIResumeButton.h"
 #include "UIOptionsButton.h"
 #include "UIQuitButton.h"
-#include "UISpeech.h"//Speech Bubble Test
+#include "UISpeech_OldMan.h"//Speech Bubble Test
 
 #include "SkeletonKing.h"
 #include "Npc_OldMan.h"

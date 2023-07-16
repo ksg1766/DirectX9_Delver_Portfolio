@@ -40,8 +40,6 @@ private:
     CCubeBf* m_pCubeBf;
     CTexture* m_pTexture;
 
-    STATE   m_eState;
-
     _vec3 m_vDir;
 
     _float   m_fEndTime;

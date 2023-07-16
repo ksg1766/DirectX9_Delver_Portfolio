@@ -176,8 +176,6 @@ void CSkeletonKing::LateUpdate_Object(void)
 void CSkeletonKing::Render_Object(void)
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
-	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-	//m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 
 	if (STATE::BOSS_TELEPORT != m_pStateMachine->Get_State())
 	{
@@ -188,8 +186,7 @@ void CSkeletonKing::Render_Object(void)
 #if _DEBUG
 	m_pCollider->Render_Collider();
 #endif
-	//m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
-	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+
 }
 
 void CSkeletonKing::ForceHeight(_vec3 _vPos)

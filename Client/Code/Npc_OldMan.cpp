@@ -2,6 +2,8 @@
 #include "Export_Function.h"
 #include "Terrain.h"
 #include "OldMan_Idle.h"
+#include "DynamicCamera.h"
+
 CNpc_OldMan::CNpc_OldMan(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CNpc(pGraphicDev)
 {
@@ -32,29 +34,17 @@ HRESULT CNpc_OldMan::Ready_Object()
 	m_pStateMachine->Set_Animator(m_pAnimator);
 	m_pStateMachine->Set_State(STATE::IDLE);
 
+	m_bTalkButton = false;
+	m_bTalkingBox = false;
 
-	D3DXFONT_DESC	lf;
-	ZeroMemory(&lf, sizeof(D3DXFONT_DESC));
-	lf.Height = 50;//높이 논리적 단위
-	lf.Width = 32;//너비 논리적 단위
-	lf.Weight = 1000;//굵기의 단위	0~1000
-	lf.Italic = false;//기울임꼴
-	lf.MipLevels = 1;//요청된 밉수준. 값이 1일 때 텍스처 공간이 화면 공간에 동일하게 맵핑
-	lf.CharSet = DEFAULT_CHARSET;//문자집합
-	lf.OutputPrecision = OUT_DEFAULT_PRECIS;//출력 정밀도
-	lf.Quality = DEFAULT_QUALITY;//품질
-	lf.PitchAndFamily = DEFAULT_PITCH;//피치 및 패밀리
-	lf.FaceName, "맑은고딕";//문자열의 길이가 32를 초과하면 안됨. 글꼴설정.
-
-	if (FAILED(D3DXCreateFontIndirect(m_pGraphicDev, &lf, &m_pFontconfig)))
-	{
-		MessageBox(0, TEXT("D3DXCreateFontIndirect() - FAILED"), 0, 0);
-	}
+	m_pFontconfig = dynamic_cast<CFont*>(m_pFont)->Create_3DXFont(40, 32.f, 800.f, false, L"Times New Roman", m_pFontconfig);
 	dynamic_cast<CFont*>(m_pFont)->Set_pFont(m_pFontconfig);
-	dynamic_cast<CFont*>(m_pFont)->Set_FontColor(_uint(0xFFFF0000));
-	dynamic_cast<CFont*>(m_pFont)->Set_Rect(RECT { 0, 500, WINCX, WINCY });
+	dynamic_cast<CFont*>(m_pFont)->Set_FontColor(_uint(0xffffffff));
+	dynamic_cast<CFont*>(m_pFont)->Set_Rect(RECT { 0, 350, WINCX, 650 });
 	dynamic_cast<CFont*>(m_pFont)->Set_Anchor(DT_CENTER| DT_NOCLIP);
+
 	m_fFontTime = 0.f;
+
 	return S_OK;
 }
 
@@ -67,6 +57,40 @@ _int CNpc_OldMan::Update_Object(const _float& fTimeDelta)
 	m_fFontTime += fTimeDelta;
 	ForceHeight(m_pTransform->m_vInfo[INFO_POS]);
 	m_pStateMachine->Update_StateMachine(fTimeDelta);
+
+	_vec3 vPlayerPos = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform->m_vInfo[INFO_POS];
+	_vec3 vDir = vPlayerPos - m_pTransform->m_vInfo[INFO_POS];
+	_float fDistance = D3DXVec3LengthSq(&vDir);
+
+	if (fDistance < pow(4, 2))
+	{
+		m_bTalkButton = true;
+
+		if (Engine::InputDev()->Key_Down(DIK_F))
+		{
+			m_pGameObject = SceneManager()->Get_ObjectList(LAYERTAG::ENVIRONMENT, OBJECTTAG::CAMERA).front();
+			if (Engine::UIManager()->Set_SpeechBubbleUse())
+			{
+				static_cast<CDynamicCamera*>(m_pGameObject)->Set_Fix(true);
+				m_bTalkingBox = true;
+			}
+			else
+			{
+				static_cast<CDynamicCamera*>(m_pGameObject)->Set_Fix(false);
+				Engine::UIManager()->Hide_PopupUI(UIPOPUPLAYER::POPUP_SPEECH);
+				m_bTalkingBox = false;
+			}
+		}
+	}
+	else
+	{
+		m_pGameObject = SceneManager()->Get_ObjectList(LAYERTAG::ENVIRONMENT, OBJECTTAG::CAMERA).front();
+		static_cast<CDynamicCamera*>(m_pGameObject)->Set_Fix(false);
+		Engine::UIManager()->Hide_PopupUI(UIPOPUPLAYER::POPUP_SPEECH);
+		m_bTalkButton = false;
+		m_bTalkingBox = false;
+	}
+
 	return iExit;
 }
 
@@ -80,22 +104,19 @@ void CNpc_OldMan::LateUpdate_Object()
 void CNpc_OldMan::Render_Object()
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
-	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-	//m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 
 	m_pStateMachine->Render_StateMachine();
 	m_pBuffer->Render_Buffer();
-	if (0.5 < m_fFontTime)
-	{
-		m_pFont->DrawText(L"W A R R I N G");
-		if(1.f < m_fFontTime)
-			m_fFontTime = 0.f;
-	}
+	
 #if _DEBUG
 	m_pCollider->Render_Collider();
 #endif
-	//m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
-	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+
+	if ((!m_bTalkingBox) && (m_bTalkButton))
+	{
+		dynamic_cast<CFont*>(m_pFont)->Set_pFont(m_pFontconfig);
+		m_pFont->DrawText(L"F : TALK");
+	}
 }
 
 void CNpc_OldMan::ForceHeight(_vec3 _vPos)
@@ -147,11 +168,6 @@ void CNpc_OldMan::ForceHeight(_vec3 _vPos)
 void CNpc_OldMan::OnCollisionEnter(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
-
-	if (OBJECTTAG::PLAYER == _pOther->Get_ObjectTag())
-	{
-
-	}
 }
 
 void CNpc_OldMan::OnCollisionStay(CCollider* _pOther)

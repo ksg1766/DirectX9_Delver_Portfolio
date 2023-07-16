@@ -41,16 +41,16 @@ _int CBoss_BatSwarm::Update_Object(const _float& fTimeDelta)
 	m_fRallyTime += fTimeDelta;
 	if (2.f < m_fFrame)
 		m_fFrame = 0.f;
-	if((2.5f < m_fRallyTime)|| (m_vDir == m_pTransform->m_vInfo[INFO_POS]))
+	if((3.f < m_fRallyTime)|| (m_vDir == m_pTransform->m_vInfo[INFO_POS]))
 		Engine::EventManager()->DeleteObject(this);
-	if (1.6f < m_fRallyTime)
+	if (2.f < m_fRallyTime)
 	{
 		m_vDir = Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front()->m_pTransform->m_vInfo[INFO_POS] - m_pTransform->m_vInfo[INFO_POS];
 		m_vDir.y = 0.5f - m_pTransform->m_vInfo[INFO_POS].y;
 		D3DXVec3Normalize(&m_vDir,&m_vDir);
-		m_pTransform->Translate((m_vDir*25.F)* fTimeDelta);
+		m_pTransform->Translate((m_vDir*50.f)* fTimeDelta);
 	}
-	else if(1.6 > m_fRallyTime)
+	else if(2.f >= m_fRallyTime)
 		Move_to_Random(fTimeDelta);
 
 	return iExit;
