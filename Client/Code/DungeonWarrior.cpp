@@ -33,7 +33,7 @@ HRESULT CDungeonWarrior::Ready_Object()
 
 	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
 
-	m_pTransform->Translate(_vec3(1.f, 0.f, 3.f));
+	m_pTransform->Translate(_vec3(1.f, 3.f, 3.f));
 
 	CState* pState = CHorizontalMove::Create(m_pGraphicDev, m_pStateMachine);
 	m_pStateMachine->Add_State(STATE::ROMIMG, pState);
@@ -191,6 +191,9 @@ void CDungeonWarrior::OnCollisionStay(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 	// 충돌 밀어내기 후 이벤트 : 구현하시면 됩니다.
+	if (this->Get_StateMachine()->Get_State() != STATE::DEAD &&
+		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::ITEM)
+		__super::OnCollisionEnter(_pOther);
 }
 
 void CDungeonWarrior::OnCollisionExit(CCollider* _pOther)
@@ -214,6 +217,10 @@ HRESULT CDungeonWarrior::Add_Component()
 	pComponent = m_pCollider = static_cast<CCollider*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Collider"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::COLLIDER, pComponent);
+
+	pComponent = m_pRigidBody = dynamic_cast<CRigidBody*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_RigidBody"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::RIGIDBODY, pComponent);
 
 	pComponent = m_pTexture[(_uint)STATE::ROMIMG] = static_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_Warrior"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);

@@ -30,6 +30,8 @@ HRESULT CTerrain::Ready_Object(void)
 	}
 	m_pBuffer->m_pVB->Unlock();
 
+	m_pTransform->Translate(_vec3(0.f, 1.99f, 0.f));
+
 	return S_OK;
 }
 

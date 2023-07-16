@@ -47,7 +47,7 @@ HRESULT CSpawningPool::Ready_Object()
     m_pBuffer->m_pIB->Unlock();
 
     m_pTransform->Scale(_vec3(m_fSpawnRadius, 8.f, m_fSpawnRadius));
-    m_pTransform->Translate(_vec3(0.f, 8.f, 0.f));
+    m_pTransform->Translate(_vec3(0.f, 10.f, 0.f));
 
     return S_OK;
 }
@@ -139,12 +139,11 @@ void CSpawningPool::ReserveSpawn()
     NULL_CHECK_RETURN(pMonster);
     _float fX = generator();
     _float fZ = generator();
-    pMonster->m_pTransform->Translate(m_pTransform->m_vInfo[INFO_POS] + _vec3(fX, 0.f, fZ));
+    pMonster->m_pTransform->Translate(m_pTransform->m_vInfo[INFO_POS] + _vec3(fX, -2.f, fZ));
     EventManager()->CreateObject(pMonster, LAYERTAG::GAMELOGIC);
     m_MonsterList.push_back(pMonster);
 
     CLayer* pLayer = SceneManager()->Get_Layer(LAYERTAG::GAMELOGIC);
-    pMonster->Set_Terrain(dynamic_cast<CTerrain*>(pLayer->Get_ObjectList(OBJECTTAG::TERRAIN).front()));
 }
 
 void CSpawningPool::Set_SpawnRadius(_float _fRadius)

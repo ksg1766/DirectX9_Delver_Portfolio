@@ -23,6 +23,8 @@ HRESULT CNpc_Dog::Ready_Object()
 	m_eNPCTag = NPCTAG::TRADER;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
+	m_pTransform->Translate(_vec3(0.f, 3.f, 0.f));
+
 	CState* pState = CNpc_Dog_Idle::Create(m_pGraphicDev, m_pStateMachine);
 	m_pStateMachine->Add_State(STATE::IDLE, pState);
 

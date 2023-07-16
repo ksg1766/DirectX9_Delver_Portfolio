@@ -6,6 +6,7 @@ class CTerrain;
 
 BEGIN(Engine)
 
+class CRigidBody;
 class CCollider;
 class ENGINE_DLL CMonster : public CGameObject
 {
@@ -44,6 +45,7 @@ public: // Setter
     void                Set_Terrain(CTerrain* _pTerrain)     { m_pTerrain = _pTerrain; }
 
 protected:
+    CRigidBody*                         m_pRigidBody = nullptr;
     CStateMachine*                      m_pStateMachine = nullptr;
     CBasicStat*                         m_pBasicStat = nullptr;
     MONSTERTAG							m_eMonsterTag;

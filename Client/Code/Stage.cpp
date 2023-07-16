@@ -161,30 +161,30 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	Engine::CGameObject*		pGameObject = nullptr;
 
 	// Terrain
-	pGameObject = CTerrain::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+	//pGameObject = CTerrain::Create(m_pGraphicDev);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
 	// Player
 	pGameObject = CPlayer::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	pGameObject->m_pTransform->Translate(_vec3(-40.f, 0.f,-40.f));
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-	dynamic_cast<CPlayer*>(pGameObject)->Set_Terrain(dynamic_cast<CTerrain*>(pLayer->Get_ObjectList(OBJECTTAG::TERRAIN).front()));
+	//dynamic_cast<CPlayer*>(pGameObject)->Set_Terrain(dynamic_cast<CTerrain*>(pLayer->Get_ObjectList(OBJECTTAG::TERRAIN).front()));
 	
 	//// Boss
 	pGameObject = CSkeletonKing::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	pGameObject->m_pTransform->Translate(_vec3(50.f, 0.f, 50.f));
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-	dynamic_cast<CSkeletonKing*>(pGameObject)->Set_Terrain(dynamic_cast<CTerrain*>(pLayer->Get_ObjectList(OBJECTTAG::TERRAIN).front()));
+	//dynamic_cast<CSkeletonKing*>(pGameObject)->Set_Terrain(dynamic_cast<CTerrain*>(pLayer->Get_ObjectList(OBJECTTAG::TERRAIN).front()));
 
 	//Npc Test
 	pGameObject = CNpc_OldMan::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	pGameObject->m_pTransform->Translate(_vec3(-50.f, 0.f, -50.f));
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-	dynamic_cast<CNpc_OldMan*>(pGameObject)->Set_Terrain(dynamic_cast<CTerrain*>(pLayer->Get_ObjectList(OBJECTTAG::TERRAIN).front()));
+	//dynamic_cast<CNpc_OldMan*>(pGameObject)->Set_Terrain(dynamic_cast<CTerrain*>(pLayer->Get_ObjectList(OBJECTTAG::TERRAIN).front()));
 
 	CItem* pItem = CTempItem::Create(m_pGraphicDev, true);
 	NULL_CHECK_RETURN(pItem, E_FAIL);
@@ -203,13 +203,6 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	pItem->m_pTransform->Translate(_vec3(-80, 0.5f, 0.f));
 	dynamic_cast<CFireWands*>(pItem)->Set_WorldItem(true);
 	pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
-
-
-	pGameObject = CDungeonWarrior::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pGameObject->m_pTransform->Translate(_vec3(-50.f, 1.f, -50.f));
-	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-	dynamic_cast<CDungeonWarrior*>(pGameObject)->Set_Terrain(dynamic_cast<CTerrain*>(pLayer->Get_ObjectList(OBJECTTAG::TERRAIN).front()));
 
 	return S_OK;
 }

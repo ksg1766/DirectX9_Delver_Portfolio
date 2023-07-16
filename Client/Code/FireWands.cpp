@@ -38,7 +38,7 @@ HRESULT CFireWands::Ready_Object(_bool _Item)
 	else
 	{
 		m_pTransform->Scale(_vec3(0.3f, 0.3f, 0.3f));
-
+		m_pTransform->Translate(_vec3(0.0f, 2.f, 0.0f));
 	}
 
 	m_ItemID.eItemType = ITEMTYPE_WEAPONITEM;

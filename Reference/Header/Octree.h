@@ -31,7 +31,7 @@ private:
     void	        FrustumCull(COctreeNode* pNode);
 
 private:
-    enum eValue     { Depth_Limit = 6, Width = 256 };
+    enum eValue     { Depth_Limit = 7, Width = 256 };
     COctreeNode*    m_pOctreeRoot = nullptr;
 
     enum FrustemTest { FRUSTUM_OUT, FRUSTUM_PRIMARILLY_IN, FRUSTUM_COMPLETELY_IN, FRUSTUM_UNKNOWN = -1};

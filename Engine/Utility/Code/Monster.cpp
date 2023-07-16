@@ -23,6 +23,8 @@ HRESULT CMonster::Ready_Object()
 
 _int CMonster::Update_Object(const _float& fTimeDelta)
 {
+	if(m_pRigidBody)
+		m_pRigidBody->Update_RigidBody(fTimeDelta);
 	_int iExit = __super::Update_Object(fTimeDelta);
 
 	return iExit;
@@ -47,12 +49,15 @@ void CMonster::OnCollisionEnter(CCollider* _pOther)
 
 	_float fMinAxis = min(min(fRadiusX, fRadiusY), fRadiusZ);	// 가장 작은 값이 가장 얕게 충돌한 축. 이 축을 밀어내야 함.
 
-	if (fRadiusX == fMinAxis)
+	if (fRadiusY == fMinAxis)
 	{
-		if (vOtherPos.x < vThisPos.x)
-			m_pTransform->Translate(_vec3(fRadiusX, 0.f, 0.f));
+		if (vOtherPos.y < vThisPos.y)
+		{
+			m_pRigidBody->Set_Force(_vec3(0.f, 0.f, 0.f));
+			m_pTransform->Translate(_vec3(0.f, fRadiusY - 0.000001f, 0.f));
+		}
 		else
-			m_pTransform->Translate(_vec3(-fRadiusX, 0.f, 0.f));
+			m_pTransform->Translate(_vec3(0.f, -fRadiusY, 0.f));
 	}
 	else if (fRadiusZ == fMinAxis)
 	{
@@ -61,12 +66,12 @@ void CMonster::OnCollisionEnter(CCollider* _pOther)
 		else
 			m_pTransform->Translate(_vec3(0.f, 0.f, -fRadiusZ));
 	}
-	else //(fRadiusY == fMinAxis)
+	else //(fRadiusX == fMinAxis)
 	{
-		if (vOtherPos.y < vThisPos.y)
-			m_pTransform->Translate(_vec3(0.f, fRadiusY, 0.f));
+		if (vOtherPos.x < vThisPos.x)
+			m_pTransform->Translate(_vec3(fRadiusX, 0.f, 0.f));
 		else
-			m_pTransform->Translate(_vec3(0.f, -fRadiusY, 0.f));
+			m_pTransform->Translate(_vec3(-fRadiusX, 0.f, 0.f));
 	}
 }
 
@@ -89,12 +94,15 @@ void CMonster::OnCollisionStay(CCollider* _pOther)
 
 	_float fMinAxis = min(min(fRadiusX, fRadiusY), fRadiusZ);	// 가장 작은 값이 가장 얕게 충돌한 축. 이 축을 밀어내야 함.
 
-	if (fRadiusX == fMinAxis)
+	if (fRadiusY == fMinAxis)
 	{
-		if (vOtherPos.x < vThisPos.x)
-			m_pTransform->Translate(_vec3(fRadiusX, 0.f, 0.f));
+		if (vOtherPos.y < vThisPos.y)
+		{
+			m_pRigidBody->Set_Force(_vec3(0.f, 0.f, 0.f));
+			m_pTransform->Translate(_vec3(0.f, fRadiusY - 0.000001f, 0.f));
+		}
 		else
-			m_pTransform->Translate(_vec3(-fRadiusX, 0.f, 0.f));
+			m_pTransform->Translate(_vec3(0.f, -fRadiusY, 0.f));
 	}
 	else if (fRadiusZ == fMinAxis)
 	{
@@ -103,17 +111,12 @@ void CMonster::OnCollisionStay(CCollider* _pOther)
 		else
 			m_pTransform->Translate(_vec3(0.f, 0.f, -fRadiusZ));
 	}
-	else //(fRadiusY == fMinAxis)
+	else //(fRadiusX == fMinAxis)
 	{
-		if (vOtherPos.y < vThisPos.y)
-		{
-			if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BLOCK)
-				Set_BlockOn(false);
-
-			m_pTransform->Translate(_vec3(0.f, fRadiusY, 0.f));
-		}
+		if (vOtherPos.x < vThisPos.x)
+			m_pTransform->Translate(_vec3(fRadiusX, 0.f, 0.f));
 		else
-			m_pTransform->Translate(_vec3(0.f, -fRadiusY, 0.f));
+			m_pTransform->Translate(_vec3(-fRadiusX, 0.f, 0.f));
 	}
 }
 

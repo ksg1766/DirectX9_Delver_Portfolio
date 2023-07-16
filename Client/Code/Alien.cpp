@@ -30,7 +30,7 @@ HRESULT CAlien::Ready_Object()
 	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT],
 		m_pTransform->LocalScale());
 
-	m_pTransform->Translate(_vec3(5.f, 3.f, 10.f));
+	m_pTransform->Translate(_vec3(5.f, 5.f, 10.f));
 
 	CState* pState = CMonster_Fly::Create(m_pGraphicDev, m_pStateMachine);
 	m_pStateMachine->Add_State(STATE::ROMIMG, pState);
@@ -79,7 +79,7 @@ _int CAlien::Update_Object(const _float& fTimeDelta)
 
 		m_pStateMachine->Set_State(STATE::DEAD);
 
-		ForceHeight(this->m_pTransform->m_vInfo[INFO_POS]);
+		//ForceHeight(this->m_pTransform->m_vInfo[INFO_POS]);
 	}
 
 
@@ -170,6 +170,10 @@ void CAlien::OnCollisionEnter(CCollider* _pOther)
 void CAlien::OnCollisionStay(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
+
+	if (this->Get_StateMachine()->Get_State() != STATE::DEAD &&
+		_pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::ITEM)
+		__super::OnCollisionEnter(_pOther);
 }
 
 void CAlien::OnCollisionExit(CCollider* _pOther)
@@ -192,6 +196,11 @@ HRESULT CAlien::Add_Component(void)
 	pComponent = m_pCollider = dynamic_cast<CCollider*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Collider"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::COLLIDER, pComponent);
+
+	pComponent = m_pRigidBody = dynamic_cast<CRigidBody*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_RigidBody"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::RIGIDBODY, pComponent);
+	m_pRigidBody->UseGravity(false);
 
 	pComponent = dynamic_cast<CBillBoard*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BillBoard"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);

@@ -155,7 +155,7 @@ _int CSkeletonKing::Update_Object(const _float& fTimeDelta)
 
 	_int iExit = __super::Update_Object(fTimeDelta);
 
-	ForceHeight(m_pTransform->m_vInfo[INFO_POS]);
+	//ForceHeight(m_pTransform->m_vInfo[INFO_POS]);
 	if(5 <= m_iHitCount)
 		m_pStateMachine->Set_State(STATE::BOSS_STURN);
 	m_pStateMachine->Update_StateMachine(fTimeDelta);
@@ -313,6 +313,10 @@ HRESULT CSkeletonKing::Add_Component(void)
 	pComponent = m_pCollider = dynamic_cast<CCollider*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Collider"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::COLLIDER, pComponent);
+
+	pComponent = m_pRigidBody = dynamic_cast<CRigidBody*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_RigidBody"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::RIGIDBODY, pComponent);
 
 #pragma region 텍스쳐 컴포넌트
 

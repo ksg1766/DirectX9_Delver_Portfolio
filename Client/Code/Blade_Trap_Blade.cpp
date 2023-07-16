@@ -20,6 +20,9 @@ HRESULT CBlade_Trap_Blade::Ready_Object(void)
 {
 	//m_eObjectTag = OBJECTTAG::MONSTERBULLET; //¹ÌÁ¤
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
+
+	m_pTransform->Translate(_vec3(0.f, 3.f, 0.f));
+
 	CState* pState = CBlade_Trap_Idle::Create(m_pGraphicDev, m_pStateMachine);
 	m_pStateMachine->Add_State(STATE::IDLE, pState);
 

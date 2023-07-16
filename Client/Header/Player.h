@@ -5,6 +5,7 @@ BEGIN(Engine)
 
 class CPlayerBf;
 class CTransform;
+class CRigidBody;
 class CStateMachine;
 class CPlayerStat;
 class CAnimator;
@@ -74,6 +75,7 @@ public:
 	//void			Add_Item(CGameObject* pItem, ITEMTAG _eItem) { m_pItem[(_uint)_eItem] = pItem; }
 
 private:
+	CRigidBody*		m_pRigidBody = nullptr;
 	CStateMachine*	m_pStateMachine = nullptr;
 	CPlayerBf*		m_pBuffer = nullptr;
 	CPlayerStat*	m_pStat = nullptr;
@@ -101,6 +103,8 @@ private:
 	_bool			m_bDrunk;
 
 	_float			m_fSpeed = 10.f;
+	_bool			m_IsJump = false;
+	_bool			m_OnGround = false;
 
 	// Debuff
 	_float			m_fDrunkTime;

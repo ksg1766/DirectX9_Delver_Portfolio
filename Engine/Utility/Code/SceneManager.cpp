@@ -61,7 +61,6 @@ void CSceneManager::Render_Scene(LPDIRECT3DDEVICE9 pGraphicDev)
 
 	if (m_pScene)
 		m_pScene->Render_Scene();	
-
 }
 
 HRESULT CSceneManager::Load_Data()

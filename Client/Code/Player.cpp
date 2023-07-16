@@ -47,7 +47,7 @@ HRESULT CPlayer::Ready_Object(void)
 
 	Get_Collider()->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
 
-	m_pTransform->Translate(_vec3(0.f, 1.f, 0.f));
+	m_pTransform->Translate(_vec3(0.f, 10.f, 0.f));
 	m_vOffset	  =	_vec3(0.7f, -0.6f, 1.5f);
 	m_vLeftOffset = _vec3(-0.7, -0.6f, 1.5f);
 	m_fDrunkTime = 0.f;
@@ -73,10 +73,13 @@ HRESULT CPlayer::Ready_Object(void)
 Engine::_int CPlayer::Update_Object(const _float& fTimeDelta)
 {
 	//Engine::Renderer()->Add_RenderGroup(RENDER_NONALPHA, this);
-
+	// 
+	//
 	Key_Input(fTimeDelta);
-
 	if (SceneManager()->Get_GameStop()) { return 0; }
+	m_pRigidBody->Update_RigidBody(fTimeDelta);
+	//
+
 
 	_int iExit = __super::Update_Object(fTimeDelta);
 
@@ -161,6 +164,10 @@ HRESULT CPlayer::Add_Component(void)
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::COLLIDER, pComponent);
 
+	pComponent = m_pRigidBody = dynamic_cast<CRigidBody*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_RigidBody"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::RIGIDBODY, pComponent);
+
 	pComponent = m_pStat = dynamic_cast<CPlayerStat*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Player_Stat"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BASICSTAT, pComponent);
@@ -215,6 +222,15 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 		D3DXMatrixRotationAxis(&matRotY, &m_pTransform->m_vInfo[INFO_RIGHT], D3DXToRadian(dwMouseMove) * fTimeDelta * 3.f);
 		D3DXVec3TransformCoord(&m_vOffset, &m_vOffset, &matRotY);
 		D3DXVec3TransformCoord(&m_vLeftOffset, &m_vLeftOffset, &matRotY);
+	}
+
+	if (Engine::InputDev()->Key_Down(DIK_SPACE))
+	{
+		if (!m_IsJump)
+		{
+			m_pRigidBody->Add_Force(_vec3(0.f, 7.f, 0.f));
+			m_pRigidBody->UseGravity(true);
+		}
 	}
 
 	// UI 단축키 추가
@@ -562,12 +578,20 @@ void CPlayer::OnCollisionEnter(CCollider* _pOther)
 
 		_float fMinAxis = min(min(fRadiusX, fRadiusY), fRadiusZ);	// 가장 작은 값이 가장 얕게 충돌한 축. 이 축을 밀어내야 함.
 
-		if (fRadiusX == fMinAxis)
+		if (fRadiusY == fMinAxis)
 		{
-			if (vOtherPos.x < vThisPos.x)
-				m_pTransform->Translate(_vec3(fRadiusX, 0.f, 0.f));
+			if (vOtherPos.y < vThisPos.y)
+			{
+				m_IsJump = false;
+				m_pRigidBody->UseGravity(false);
+				m_pRigidBody->Set_Force(_vec3(0.f, 0.f, 0.f));
+				m_pTransform->Translate(_vec3(0.f, fRadiusY - 0.000001f, 0.f));
+			}
 			else
-				m_pTransform->Translate(_vec3(-fRadiusX, 0.f, 0.f));
+			{
+				m_pRigidBody->Set_Force(_vec3(0.f, 0.f, 0.f));
+				m_pTransform->Translate(_vec3(0.f, -fRadiusY, 0.f));
+			}
 		}
 		else if (fRadiusZ == fMinAxis)
 		{
@@ -576,12 +600,12 @@ void CPlayer::OnCollisionEnter(CCollider* _pOther)
 			else
 				m_pTransform->Translate(_vec3(0.f, 0.f, -fRadiusZ));
 		}
-		else //(fRadiusY == fMinAxis)
+		else //(fRadiusX == fMinAxis)
 		{
-			if (vOtherPos.y < vThisPos.y)
-				m_pTransform->Translate(_vec3(0.f, fRadiusY, 0.f));
+			if (vOtherPos.x < vThisPos.x)
+				m_pTransform->Translate(_vec3(fRadiusX, 0.f, 0.f));
 			else
-				m_pTransform->Translate(_vec3(0.f, -fRadiusY, 0.f));
+				m_pTransform->Translate(_vec3(-fRadiusX, 0.f, 0.f));
 		}
 	}
 
@@ -656,12 +680,17 @@ void CPlayer::OnCollisionStay(CCollider* _pOther)
 
 		_float fMinAxis = min(min(fRadiusX, fRadiusY), fRadiusZ);	// 가장 작은 값이 가장 얕게 충돌한 축. 이 축을 밀어내야 함.
 
-		if (fRadiusX == fMinAxis)
+		if (fRadiusY == fMinAxis)
 		{
-			if (vOtherPos.x < vThisPos.x)
-				m_pTransform->Translate(_vec3(fRadiusX, 0.f, 0.f));
+			if (vOtherPos.y < vThisPos.y)
+			{
+				m_IsJump = false;
+				m_pRigidBody->UseGravity(false);
+				m_pRigidBody->Set_Force(_vec3(0.f, 0.f, 0.f));
+				m_pTransform->Translate(_vec3(0.f, fRadiusY - 0.000001f, 0.f));
+			}
 			else
-				m_pTransform->Translate(_vec3(-fRadiusX, 0.f, 0.f));
+				m_pTransform->Translate(_vec3(0.f, -fRadiusY, 0.f));
 		}
 		else if (fRadiusZ == fMinAxis)
 		{
@@ -670,12 +699,12 @@ void CPlayer::OnCollisionStay(CCollider* _pOther)
 			else
 				m_pTransform->Translate(_vec3(0.f, 0.f, -fRadiusZ));
 		}
-		else //(fRadiusY == fMinAxis)
+		else //(fRadiusX == fMinAxis)
 		{
-			if (vOtherPos.y < vThisPos.y)
-				m_pTransform->Translate(_vec3(0.f, fRadiusY, 0.f));
+			if (vOtherPos.x < vThisPos.x)
+				m_pTransform->Translate(_vec3(fRadiusX, 0.f, 0.f));
 			else
-				m_pTransform->Translate(_vec3(0.f, -fRadiusY, 0.f));
+				m_pTransform->Translate(_vec3(-fRadiusX, 0.f, 0.f));
 		}
 	}
 	
@@ -683,6 +712,17 @@ void CPlayer::OnCollisionStay(CCollider* _pOther)
 
 void CPlayer::OnCollisionExit(CCollider* _pOther)
 {
+	if (_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::BLOCK)
+	{
+		_vec3 vThisPos = m_pTransform->m_vInfo[INFO_POS];
+		_vec3 vOtherPos = _pOther->Get_Transform()->m_vInfo[INFO_POS];
+
+		if (1.5f < vThisPos.y - vOtherPos.y && 2.5f > vThisPos.y - vOtherPos.y)
+		{
+			//m_IsJump = true;
+			m_pRigidBody->UseGravity(true);
+		}
+	}
 }
 
 void CPlayer::Free()

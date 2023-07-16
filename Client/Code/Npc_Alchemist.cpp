@@ -22,6 +22,8 @@ HRESULT CNpc_Alchemist::Ready_Object()
 	m_eNPCTag = NPCTAG::TRADER;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
+	m_pTransform->Translate(_vec3(0.f, 3.f, 0.f));
+
 	CState* pState = CNpc_Alchemist_Idle::Create(m_pGraphicDev, m_pStateMachine);
 	m_pStateMachine->Add_State(STATE::IDLE, pState);
 
@@ -42,7 +44,7 @@ _int CNpc_Alchemist::Update_Object(const _float& fTimeDelta)
 
 	_uint iExit = __super::Update_Object(fTimeDelta);
 
-	ForceHeight(m_pTransform->m_vInfo[INFO_POS]);
+	//ForceHeight(m_pTransform->m_vInfo[INFO_POS]);
 	m_pStateMachine->Update_StateMachine(fTimeDelta);
 	return iExit;
 }

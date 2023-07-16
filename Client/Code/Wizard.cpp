@@ -28,7 +28,7 @@ HRESULT CWizard::Ready_Object()
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
-	//m_pTransform->Translate(_vec3(1.f, 1.f, 20.f));
+	m_pTransform->Translate(_vec3(1.f, 3.f, 20.f));
 
 	CState* pState = CMonster_Move::Create(m_pGraphicDev, m_pStateMachine);
 	m_pStateMachine->Add_State(STATE::ROMIMG, pState);
@@ -82,7 +82,7 @@ _int CWizard::Update_Object(const _float& fTimeDelta)
 
 
 	m_pStateMachine->Update_StateMachine(fTimeDelta);
-	ForceHeight(m_pTransform->m_vInfo[INFO_POS]);
+	//ForceHeight(m_pTransform->m_vInfo[INFO_POS]);
 
 	return iExit;
 }
@@ -169,7 +169,8 @@ void CWizard::OnCollisionStay(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 
-
+	if (this->Get_StateMachine()->Get_State() != STATE::DEAD && _pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::ITEM)
+		__super::OnCollisionEnter(_pOther);
 }
 
 void CWizard::OnCollisionExit(CCollider* _pOther)
@@ -194,6 +195,10 @@ HRESULT CWizard::Add_Component()
 	pComponent = m_pCollider = dynamic_cast<CCollider*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Collider"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::COLLIDER, pComponent);
+
+	pComponent = m_pRigidBody = dynamic_cast<CRigidBody*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_RigidBody"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::RIGIDBODY, pComponent);
 
 	pComponent = m_pTexture[(_uint)STATE::ROMIMG] = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_Wizard"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);

@@ -167,6 +167,10 @@ _uint CLoading::Loading_ForStage()
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Collider", CCollider::Create(m_pGraphicDev)), E_FAIL);
 #pragma endregion Collider
 
+#pragma region RigidBody
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_RigidBody", CRigidBody::Create(m_pGraphicDev)), E_FAIL);
+#pragma endregion RigidBody
+
 #pragma region NPC
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_NpcTrader", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/NPC/ManNPC/Man%d.png", 17)), E_FAIL);
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_NpcAlchemist", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/NPC/WayfarerNPC/NPC%d.png", 4)), E_FAIL);

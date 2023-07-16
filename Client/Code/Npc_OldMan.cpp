@@ -24,6 +24,8 @@ HRESULT CNpc_OldMan::Ready_Object()
 	m_eNPCTag = NPCTAG::TRADER;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
+	m_pTransform->Translate(_vec3(0.f, 3.f, 0.f));
+
 	CState* pState = CNpc_OldMan_Idle::Create(m_pGraphicDev, m_pStateMachine);
 	m_pStateMachine->Add_State(STATE::IDLE, pState);
 
@@ -55,7 +57,7 @@ _int CNpc_OldMan::Update_Object(const _float& fTimeDelta)
 	if (SceneManager()->Get_GameStop()) { return 0; }
 	_uint iExit = __super::Update_Object(fTimeDelta);
 	m_fFontTime += fTimeDelta;
-	ForceHeight(m_pTransform->m_vInfo[INFO_POS]);
+	//ForceHeight(m_pTransform->m_vInfo[INFO_POS]);
 	m_pStateMachine->Update_StateMachine(fTimeDelta);
 
 	_vec3 vPlayerPos = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform->m_vInfo[INFO_POS];

@@ -56,22 +56,30 @@ STATE CPlayerState_Walk::Key_Input(const _float& fTimeDelta)
 
 	if (Engine::InputDev()->GetInstance()->Key_Pressing(DIK_W))
 	{
-		m_pOwner->Get_Transform()->Translate(10.f * fTimeDelta * vLook);
+		_vec3 vFront = vLook;
+		vFront.y = 0.f;
+		m_pOwner->Get_Transform()->Translate(10.f * fTimeDelta * vFront);
 		_eState = STATE::ROMIMG;
 	}
 	if (Engine::InputDev()->GetInstance()->Key_Pressing(DIK_S))
 	{
-		m_pOwner->Get_Transform()->Translate(10.f * fTimeDelta * -vLook);
+		_vec3 vFront = vLook;
+		vFront.y = 0.f;
+		m_pOwner->Get_Transform()->Translate(10.f * fTimeDelta * -vFront);
 		_eState = STATE::ROMIMG;
 	}
 	if (Engine::InputDev()->GetInstance()->Key_Pressing(DIK_A))
 	{
-		m_pOwner->Get_Transform()->Translate(10.f * fTimeDelta * -vRight);
+		_vec3 vSide = vRight;
+		vSide.y = 0.f;
+		m_pOwner->Get_Transform()->Translate(10.f * fTimeDelta * -vSide);
 		_eState = STATE::ROMIMG;
 	}
 	if (Engine::InputDev()->GetInstance()->Key_Pressing(DIK_D))
 	{
-		m_pOwner->Get_Transform()->Translate(10.f * fTimeDelta * vRight);
+		_vec3 vSide = vRight;
+		vSide.y = 0.f;
+		m_pOwner->Get_Transform()->Translate(10.f * fTimeDelta * vSide);
 		_eState = STATE::ROMIMG;
 	}
 

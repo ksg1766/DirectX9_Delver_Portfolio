@@ -65,7 +65,7 @@ HRESULT CSkeleton::Ready_Object()
 
 	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
 
-	m_pTransform->Translate(_vec3(-10.f, 1.f, 10.f));
+	m_pTransform->Translate(_vec3(-10.f, 3.f, 10.f));
 
 	return S_OK;
 }
@@ -88,7 +88,7 @@ _int CSkeleton::Update_Object(const _float& fTimeDelta)
 	//	ForceHeight(m_pTransform->m_vInfo[INFO_POS]);
 
 	if (!Get_BlockOn())
-		ForceHeight(m_pTransform->m_vInfo[INFO_POS]);
+		//ForceHeight(m_pTransform->m_vInfo[INFO_POS]);
 
 	return iExit;
 }
@@ -188,6 +188,10 @@ HRESULT CSkeleton::Add_Component()
 	pComponent = m_pCollider = dynamic_cast<CCollider*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Collider"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::COLLIDER, pComponent);
+
+	pComponent = m_pRigidBody = dynamic_cast<CRigidBody*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_RigidBody"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::RIGIDBODY, pComponent);
 
 	pComponent = dynamic_cast<CBillBoard*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BillBoard"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);

@@ -66,7 +66,7 @@ HRESULT CSlime::Ready_Object()
 
 	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
 
-	m_pTransform->Translate(_vec3(-3.f, 1.f, 10.f));
+	m_pTransform->Translate(_vec3(-3.f, 3.f, 10.f));
 
 	return S_OK;
 }
@@ -91,7 +91,7 @@ _int CSlime::Update_Object(const _float& fTimeDelta)
 	m_pStateMachine->Update_StateMachine(fTimeDelta);
 
 	if (m_pStateMachine->Get_State() != STATE::ATTACK)
-		ForceHeight(m_pTransform->m_vInfo[INFO_POS]);
+		//ForceHeight(m_pTransform->m_vInfo[INFO_POS]);
 
 	return iExit;
 }
@@ -180,7 +180,6 @@ HRESULT CSlime::Add_Component()
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
 
-
 	pComponent = m_pTransform = dynamic_cast<CTransform*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Transform"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::TRANSFORM, pComponent);
@@ -188,6 +187,10 @@ HRESULT CSlime::Add_Component()
 	pComponent = m_pCollider = dynamic_cast<CCollider*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Collider"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::COLLIDER, pComponent);
+
+	pComponent = m_pRigidBody = dynamic_cast<CRigidBody*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_RigidBody"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::RIGIDBODY, pComponent);
 
 	pComponent = dynamic_cast<CBillBoard*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BillBoard"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
