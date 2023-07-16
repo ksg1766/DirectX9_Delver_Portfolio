@@ -52,7 +52,7 @@ void CCollider::Render_Collider()
 	m_pGraphicDev->SetFVF(VTXCOL::format);
 	m_pGraphicDev->SetIndices(m_pIB);
 
-	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+	//m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 	m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 
 	_matrix matCollider;
@@ -67,7 +67,7 @@ void CCollider::Render_Collider()
 	m_pGraphicDev->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, 8, 0, 12);
 
 	m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
-	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	//m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 }
 
 HRESULT CCollider::InitOBB(_vec3 & _vCenter, _vec3 * _vAxisDir, _float * _fAxisLen)

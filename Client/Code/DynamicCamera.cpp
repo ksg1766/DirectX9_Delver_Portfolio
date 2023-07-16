@@ -240,8 +240,8 @@ void CDynamicCamera::First_Camera()
 
 	m_vAt = { matPlayerWorld._41 + vPlayerLook.x, matPlayerWorld._42 + vPlayerLook.y , matPlayerWorld._43 + vPlayerLook.z };
 	m_vEye = { matPlayerWorld._41, matPlayerWorld._42, matPlayerWorld._43 };
-	m_vEye += ((vPlayerUp * 0.5f) + (vPlayerLook * 0.5f));
-	m_vAt += ((vPlayerUp * 0.5f) + (vPlayerLook * 0.5f));
+	//m_vEye += ((vPlayerUp * 0.5f) + (vPlayerLook * 0.5f));
+	//m_vAt += ((vPlayerUp * 0.5f) + (vPlayerLook * 0.5f));
 
 	m_vUp = vPlayerUp;
 }

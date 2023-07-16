@@ -101,7 +101,7 @@ void CSlime::LateUpdate_Object()
 	if (SceneManager()->Get_GameStop()) { return; } // ! Esc 및 M키 누를 시 업데이트 멈추게 하는 용도 입니다.
 
 	__super::LateUpdate_Object();
-	__super::Compute_ViewZ(&m_pTransform->m_vInfo[INFO_POS]);
+	//__super::Compute_ViewZ(&m_pTransform->m_vInfo[INFO_POS]);
 
 
 }

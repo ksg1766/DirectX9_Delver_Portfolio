@@ -69,15 +69,9 @@ COctreeNode* COctree::BuildOctree(_vec3 vCenter, _float fHalfWidth, _int depthLi
 
     for (_uint i = 0; i < 8; ++i)
     {
-        _vec3           vOffset;
-
-        *((_float*)(&vOffset) + 0) = ((i & 1) ? fHalfWidth : -fHalfWidth);
-        *((_float*)(&vOffset) + 1) = ((i & 4) ? fHalfWidth : -fHalfWidth);
-        *((_float*)(&vOffset) + 2) = ((i & 2) ? fHalfWidth : -fHalfWidth);
-
-        *((_float*)(&vCorner[i]) + 0) = *((_float*)(&vOffset) + 0) + *((_float*)(&vCenter) + 0);
-        *((_float*)(&vCorner[i]) + 1) = *((_float*)(&vOffset) + 1) + *((_float*)(&vCenter) + 1);
-        *((_float*)(&vCorner[i]) + 2) = *((_float*)(&vOffset) + 2) + *((_float*)(&vCenter) + 2);
+        *((_float*)(&vCorner[i]) + 0) = ((i & 1) ? fHalfWidth : -fHalfWidth) + *((_float*)(&vCenter) + 0);
+        *((_float*)(&vCorner[i]) + 1) = ((i & 4) ? fHalfWidth : -fHalfWidth) + *((_float*)(&vCenter) + 1);
+        *((_float*)(&vCorner[i]) + 2) = ((i & 2) ? fHalfWidth : -fHalfWidth) + *((_float*)(&vCenter) + 2);
     }
 
     pOctNode->SetCorners(vCorner);
@@ -237,4 +231,5 @@ COctreeNode* COctree::GetParentNodeByPos(_vec3 vPos, COctreeNode* const pNode)
 void COctree::Free()
 {
     Safe_Release(m_pOctreeRoot);
+    Safe_Release(m_pFrustum);
 }

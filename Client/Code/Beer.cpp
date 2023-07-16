@@ -74,15 +74,15 @@ void CBeer::LateUpdate_Object(void)
 	if (SceneManager()->Get_GameStop()) { return; }
 
 	__super::LateUpdate_Object();
-	__super::Compute_ViewZ(&m_pTransform->m_vInfo[INFO_POS]);
+//	__super::Compute_ViewZ(&m_pTransform->m_vInfo[INFO_POS]);
 }
 
 void CBeer::Render_Object(void)
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
-	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CW);
 
-	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+	//m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 
 	CPlayer* pPlayer = dynamic_cast<CPlayer*>(SceneManager()->GetInstance()->
 		Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
@@ -108,7 +108,7 @@ void CBeer::Render_Object(void)
 		m_pBuffer->Render_Buffer();
 	}
 
-	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+	//m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }

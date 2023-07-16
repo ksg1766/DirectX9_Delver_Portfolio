@@ -119,7 +119,7 @@ HRESULT CStage::Ready_Layer_Environment(LAYERTAG _eLayerTag)
 											&_vec3(0.f, 0.f, 0.f),
 											&_vec3(0.f, 0.f, 1.f),
 											&_vec3(0.f, 1.f, 0.f),
-											D3DXToRadian(60.f), 
+											D3DXToRadian(90.f), 
 											(_float)WINCX / WINCY,
 											0.1f, 
 											1000.f);

@@ -82,32 +82,32 @@ Engine::_int CPlayer::Update_Object(const _float& fTimeDelta)
 
 	m_pStateMachine->Update_StateMachine(fTimeDelta);
 
-	if (Get_Drunk())
-	{
-		m_fDrunkTime += fTimeDelta;
+	//if (Get_Drunk())
+	//{
+	//	m_fDrunkTime += fTimeDelta;
 
-		if (m_fDrunkTime < m_fDrunkDuration) // 10ÃÊ 
-		{
-			if (m_bFoward)
-				/*m_fRotationAngle = sinf(0.5f * m_fRotationSpeed * D3DX_PI / m_fDrunkDuration) * m_fAmount;*/
-				m_fRotationAngle = sinf(D3DX_PI / 4);
-			else
-				/*		m_fRotationAngle = -sinf(0.5f * m_fRotationSpeed * D3DX_PI / m_fDrunkDuration) * m_fAmount;*/
-				m_fRotationAngle = -sinf(D3DX_PI / 4);
+	//	if (m_fDrunkTime < m_fDrunkDuration) // 10ÃÊ 
+	//	{
+	//		if (m_bFoward)
+	//			/*m_fRotationAngle = sinf(0.5f * m_fRotationSpeed * D3DX_PI / m_fDrunkDuration) * m_fAmount;*/
+	//			m_fRotationAngle = sinf(D3DX_PI / 4);
+	//		else
+	//			/*		m_fRotationAngle = -sinf(0.5f * m_fRotationSpeed * D3DX_PI / m_fDrunkDuration) * m_fAmount;*/
+	//			m_fRotationAngle = -sinf(D3DX_PI / 4);
 
-			if (m_fDrunkTime >= m_fDrunkDuration * 0.5f)
-				m_bFoward = false;
-		}
-		else
-		{
-			m_fDrunkTime = 0.f;
-			Set_Drunk(false);
-		}
+	//		if (m_fDrunkTime >= m_fDrunkDuration * 0.5f)
+	//			m_bFoward = false;
+	//	}
+	//	else
+	//	{
+	//		m_fDrunkTime = 0.f;
+	//		Set_Drunk(false);
+	//	}
 
-		m_pTransform->Rotate(ROT_Z, m_fRotationAngle / 100.f);
+	//	m_pTransform->Rotate(ROT_Z, m_fRotationAngle / 100.f);
 
 
-	}
+	//}
 
 	ForceHeight(m_pTransform->m_vInfo[INFO_POS]);
 

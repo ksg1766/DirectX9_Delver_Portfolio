@@ -85,7 +85,7 @@ _int CDungeonWarrior::Update_Object(const _float& fTimeDelta)
 	}
 
 	m_pStateMachine->Update_StateMachine(fTimeDelta);
-	ForceHeight(m_pTransform->m_vInfo[INFO_POS]);
+	//ForceHeight(m_pTransform->m_vInfo[INFO_POS]);
 
 	return iExit;
 }
@@ -98,7 +98,7 @@ void CDungeonWarrior::LateUpdate_Object()
 
 	m_pStateMachine->LateUpdate_StateMachine();
 
-	__super::Compute_ViewZ(&m_pTransform->m_vInfo[INFO_POS]);
+	//__super::Compute_ViewZ(&m_pTransform->m_vInfo[INFO_POS]);
 }
 
 void CDungeonWarrior::Render_Object()

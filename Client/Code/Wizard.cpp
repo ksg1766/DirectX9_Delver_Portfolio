@@ -94,7 +94,7 @@ void CWizard::LateUpdate_Object()
 	__super::LateUpdate_Object();
 
 	m_pStateMachine->LateUpdate_StateMachine();
-	__super::Compute_ViewZ(&m_pTransform->m_vInfo[INFO_POS]);
+	//__super::Compute_ViewZ(&m_pTransform->m_vInfo[INFO_POS]);
 
 
 }

@@ -99,7 +99,7 @@ void CMagic_Ball::LateUpdate_Object()
 	if (SceneManager()->Get_GameStop()) { return; }
 
 	__super::LateUpdate_Object();
-	__super::Compute_ViewZ(&m_pTransform->m_vInfo[INFO_POS]);
+	//__super::Compute_ViewZ(&m_pTransform->m_vInfo[INFO_POS]);
 
 }
 
