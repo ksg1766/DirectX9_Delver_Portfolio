@@ -21,7 +21,7 @@ void CEventManager::Update()
 			CManagers::instance().Pool()->ReturnPool(m_vecDead[i]);
 		}*/
 
-		Safe_Delete(m_vecDead[i]);
+		Safe_Release(m_vecDead[i]);
 	}
 	m_vecDead.clear();
 

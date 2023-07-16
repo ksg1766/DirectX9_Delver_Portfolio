@@ -13,6 +13,7 @@ private:
 	virtual ~CTransform();
 
 public:
+	CTransform* Get_Parent() { return m_pParent; }
 	void	Set_Parent(CTransform* _pParent) { m_pParent = _pParent; m_pParent->Set_Child(this); }
 
 	void	Copy_RUL(_vec3* _Info) 
@@ -45,6 +46,7 @@ public:
 	void	Set_WorldMatrix(_matrix& _matWorld);
 
 	_vec3	LocalScale() { return _vec3(m_vInfo[INFO_RIGHT].x, m_vInfo[INFO_UP].y, m_vInfo[INFO_LOOK].z); }
+	vector<CTransform*>& Get_Child() { return m_pChild; }
 
 public:
 	HRESULT			Ready_Transform();

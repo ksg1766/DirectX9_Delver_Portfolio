@@ -31,6 +31,7 @@ void CBillBoard::LateUpdate_Component()
 	m_pTransform->m_vInfo[INFO_LOOK] = *D3DXVec3Normalize(&_vec3(), &(m_pTransform->m_vInfo[INFO_POS] -
 		SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform->m_vInfo[INFO_POS]));
 	m_pTransform->m_vInfo[INFO_RIGHT] = *D3DXVec3Cross(&_vec3(), &_vec3(0.f, 1.f, 0.f), &m_pTransform->m_vInfo[INFO_LOOK]);
+	m_pTransform->m_vInfo[INFO_UP] = *D3DXVec3Cross(&_vec3(), &m_pTransform->m_vInfo[INFO_LOOK], &m_pTransform->m_vInfo[INFO_RIGHT]);
 }
 
 CBillBoard* CBillBoard::Create(LPDIRECT3DDEVICE9 pGraphicDev)

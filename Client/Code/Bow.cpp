@@ -136,7 +136,7 @@ void CBow::LateUpdate_Object(void)
 	if (SceneManager()->Get_GameStop()) { return; }
 
 	__super::LateUpdate_Object();
-	__super::Compute_ViewZ(&m_pTransform->m_vInfo[INFO_POS]);
+	m_pTransform->Scale(_vec3(0.3f, 0.3f, 0.3f));
 }
 
 
@@ -193,9 +193,11 @@ HRESULT CBow::Add_Component(void)
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::COLLIDER, pComponent);
 
-	for (int i = 0; i < ID_END; ++i)
-		for (auto& iter : m_mapComponent[i])
-			iter.second->Init_Property(this);
+	//pComponent = dynamic_cast<CBillBoard*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BillBoard"));
+	//NULL_CHECK_RETURN(pComponent, E_FAIL);
+	//m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::BILLBOARD, pComponent);
+
+
 
 	if (!Get_WorldItem())
 	{
@@ -205,7 +207,25 @@ HRESULT CBow::Add_Component(void)
 		m_pTransform->Set_Parent(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform);
 		m_pTransform->Copy_RUL(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform->m_vInfo);
 
+
+		for (int i = 0; i < ID_END; ++i)
+			for (auto& iter : m_mapComponent[i])
+				iter.second->Init_Property(this);
+
 	}
+	else
+	{
+		//pComponent = dynamic_cast<CBillBoard*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BillBoard"));
+		//NULL_CHECK_RETURN(pComponent, E_FAIL);
+		//m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::BILLBOARD, pComponent);
+
+
+		for (int i = 0; i < ID_END; ++i)
+			for (auto& iter : m_mapComponent[i])
+				iter.second->Init_Property(this);
+	}
+
+
 
 	return S_OK;
 }

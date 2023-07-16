@@ -879,7 +879,7 @@
     <ClInclude Include="..\Header\UISpeech.h">
       <Filter>02. GameObject\03. UI\02. UItooltip</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\Test_Move.h">
+    <ClInclude Include="..\Header\Longitudinal.h">
       <Filter>02. GameObject\01. Stage\05. Monster\00. State\Public\Move</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\FireWands.h">
@@ -896,6 +896,9 @@
     </ClInclude>
     <ClInclude Include="..\Header\Beer.h">
       <Filter>02. GameObject\01. Stage\02. Item\Consumable\Bear</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\HorizontalMove.h">
+      <Filter>02. GameObject\01. Stage\05. Monster\00. State\Public\Move</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1274,7 +1277,7 @@
     <ClCompile Include="..\Code\UISpeech.cpp">
       <Filter>02. GameObject\03. UI\02. UItooltip</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\Test_Move.cpp">
+    <ClCompile Include="..\Code\Longitudinal.cpp">
       <Filter>02. GameObject\01. Stage\05. Monster\00. State\Public\Move</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\FireWands.cpp">
@@ -1291,6 +1294,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\Beer.cpp">
       <Filter>02. GameObject\01. Stage\02. Item\Consumable\Bear</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\HorizontalMove.cpp">
+      <Filter>02. GameObject\01. Stage\05. Monster\00. State\Public\Move</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -193,6 +193,7 @@
     <ClInclude Include="..\Header\Bow.h" />
     <ClInclude Include="..\Header\Box_Cube.h" />
     <ClInclude Include="..\Header\CrawlPattern.h" />
+    <ClInclude Include="..\Header\HorizontalMove.h" />
     <ClInclude Include="..\Header\UISpeech.h" />
     <ClInclude Include="..\Header\Dead_BossSkeleton.h" />
     <ClInclude Include="..\Header\Dog_Idle.h" />
@@ -266,7 +267,7 @@
     <ClInclude Include="..\Header\TempItem.h" />
     <ClInclude Include="..\Header\Terrain.h" />
     <ClInclude Include="..\Header\Trader_Idle.h" />
-    <ClInclude Include="..\Header\Test_Move.h" />
+    <ClInclude Include="..\Header\Longitudinal.h" />
     <ClInclude Include="..\Header\UIaimpoint.h" />
     <ClInclude Include="..\Header\UIbasicslot.h" />
     <ClInclude Include="..\Header\UIbigmap.h" />
@@ -324,6 +325,7 @@
     <ClCompile Include="..\Code\Bow.cpp" />
     <ClCompile Include="..\Code\Box_Cube.cpp" />
     <ClCompile Include="..\Code\CrawlPattern.cpp" />
+    <ClCompile Include="..\Code\HorizontalMove.cpp" />
     <ClCompile Include="..\Code\UISpeech.cpp" />
     <ClCompile Include="..\Code\Dead_BossSkeleton.cpp" />
     <ClCompile Include="..\Code\Dog_Idle.cpp" />
@@ -397,7 +399,7 @@
     <ClCompile Include="..\Code\TempItem.cpp" />
     <ClCompile Include="..\Code\Terrain.cpp" />
     <ClCompile Include="..\Code\Trader_Idle.cpp" />
-    <ClCompile Include="..\Code\Test_Move.cpp" />
+    <ClCompile Include="..\Code\Longitudinal.cpp" />
     <ClCompile Include="..\Code\UIaimpoint.cpp" />
     <ClCompile Include="..\Code\UIbasicslot.cpp" />
     <ClCompile Include="..\Code\UIbigmap.cpp" />

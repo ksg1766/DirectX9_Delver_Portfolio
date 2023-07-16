@@ -5,7 +5,8 @@
 #include "Monster_Move.h"
 #include "Monster_Hit.h"
 #include "Monster_Dead.h"
-#include "Test_Move.h"
+#include "Longitudinal.h"
+#include "HorizontalMove.h"
 #include "Player.h"
 
 CDungeonWarrior::CDungeonWarrior(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -32,30 +33,30 @@ HRESULT CDungeonWarrior::Ready_Object()
 
 	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
 
-	m_pTransform->Translate(_vec3(1.f, 1.f, 3.f));
+	m_pTransform->Translate(_vec3(1.f, 0.f, 3.f));
 
-	CState* pState = CMonster_Move::Create(m_pGraphicDev, m_pStateMachine);
+	CState* pState = CHorizontalMove::Create(m_pGraphicDev, m_pStateMachine);
 	m_pStateMachine->Add_State(STATE::ROMIMG, pState);
 	pState = CWarror_Attack::Create(m_pGraphicDev, m_pStateMachine);
 	m_pStateMachine->Add_State(STATE::ATTACK, pState);
-	pState = CMonster_Hit::Create(m_pGraphicDev, m_pStateMachine);
-	m_pStateMachine->Add_State(STATE::HIT, pState);
-	pState = CMonster_Dead::Create(m_pGraphicDev, m_pStateMachine);
-	m_pStateMachine->Add_State(STATE::DEAD, pState);
+	//pState = CMonster_Hit::Create(m_pGraphicDev, m_pStateMachine);
+	//m_pStateMachine->Add_State(STATE::HIT, pState);
+	//pState = CMonster_Dead::Create(m_pGraphicDev, m_pStateMachine);
+	//m_pStateMachine->Add_State(STATE::DEAD, pState);
 
 
 	CAnimation* pAnimation = CAnimation::Create(m_pGraphicDev,
 		m_pTexture[(_uint)STATE::ROMIMG], STATE::ROMIMG, 5.f, TRUE);
 	m_pAnimator->Add_Animation(STATE::ROMIMG, pAnimation);
 	pAnimation = CAnimation::Create(m_pGraphicDev,
-		m_pTexture[(_uint)STATE::ATTACK], STATE::ATTACK, 5.f, TRUE);
+		m_pTexture[(_uint)STATE::ATTACK], STATE::ATTACK, 6.f, TRUE);
 	m_pAnimator->Add_Animation(STATE::ATTACK, pAnimation);
-	pAnimation = CAnimation::Create(m_pGraphicDev,
-		m_pTexture[(_uint)STATE::HIT], STATE::HIT, 5.f, TRUE);
-	m_pAnimator->Add_Animation(STATE::HIT, pAnimation);
-	pAnimation = CAnimation::Create(m_pGraphicDev,
-		m_pTexture[(_uint)STATE::DEAD], STATE::DEAD, 3.f, TRUE);
-	m_pAnimator->Add_Animation(STATE::DEAD, pAnimation);
+	//pAnimation = CAnimation::Create(m_pGraphicDev,
+	//	m_pTexture[(_uint)STATE::HIT], STATE::HIT, 5.f, TRUE);
+	//m_pAnimator->Add_Animation(STATE::HIT, pAnimation);
+	//pAnimation = CAnimation::Create(m_pGraphicDev,
+	//	m_pTexture[(_uint)STATE::DEAD], STATE::DEAD, 3.f, TRUE);
+	//m_pAnimator->Add_Animation(STATE::DEAD, pAnimation);
 
 	m_pStateMachine->Set_Animator(m_pAnimator);
 	m_pStateMachine->Set_State(STATE::ROMIMG);
@@ -164,7 +165,8 @@ void CDungeonWarrior::OnCollisionEnter(CCollider* _pOther)
 	if (SceneManager()->Get_GameStop()) { return; }
 
 
-	if (this->Get_StateMachine()->Get_State() != STATE::DEAD && _pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::ITEM)
+	if (this->Get_StateMachine()->Get_State() != STATE::DEAD && 
+		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::ITEM)
 		__super::OnCollisionEnter(_pOther);
 
 	// 충돌 밀어내기 후 이벤트 : 구현하시면 됩니다.
