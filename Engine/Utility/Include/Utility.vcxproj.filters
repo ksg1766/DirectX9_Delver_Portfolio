@@ -190,6 +190,9 @@
     <Filter Include="04. Component\15. Font">
       <UniqueIdentifier>{4d0a9887-64b4-43b0-9602-3c267433c73d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. GameObject\09. TempEffect">
+      <UniqueIdentifier>{2899eed3-4d96-4afa-a6a2-c7f5779f9867}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Header\Scene.h">
@@ -342,6 +345,9 @@
     <ClInclude Include="..\..\Header\Font.h">
       <Filter>04. Component\15. Font</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Header\TempEffect.h">
+      <Filter>03. GameObject\09. TempEffect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\Scene.cpp">
@@ -490,6 +496,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\Frustum.cpp">
       <Filter>00. Managers\10. Octree\02. Frustum</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\TempEffect.cpp">
+      <Filter>03. GameObject\09. TempEffect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

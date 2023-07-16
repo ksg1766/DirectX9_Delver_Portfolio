@@ -19,7 +19,7 @@
 
 #include "Box_Cube.h"
 #include "EffectSquare.h"
-
+#include "EffectBubble.h"
 CStage::CStage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
 {
@@ -61,17 +61,22 @@ void CStage::LateUpdate_Scene()
 	CollisionManager()->LateUpdate_Collision();
 	UIManager()->LateUpdate_UI();
 
-	if (Engine::InputDev()->Key_Down(DIK_7))
+	// 테스트용입니다.
+	if (Engine::InputDev()->Key_Down(DIK_F6))
 	{
 		ParticleBoundingBox EffectBox;
 		EffectBox.vMin = { -100.f, -100.f, -100.f };
 		EffectBox.vMax = { 100.f, 100.f, 100.f };
 
-		// 이펙트 생성 위치
-		_vec3 TargetPos = _vec3(0.f, 0.f, 0.f);
+		_vec3 TargetPos = _vec3(0.f, 10.f, 0.f);
 
-		// 이펙트 생성
 		CGameObject* pGameObject = CEffectSquare::Create(m_pGraphicDev, TargetPos, 50, EffectBox, L"../Bin/SRSource/Effect/Square_effect/Square_effect_Warrior.png");
+		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+	}
+	else if (Engine::InputDev()->Key_Down(DIK_F7))
+	{
+		CGameObject* pGameObject = CEffectBubble::Create(m_pGraphicDev);
+		pGameObject->m_pTransform->Translate(_vec3(0.f, 10.f, 0.f));
 		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 	}
 }
