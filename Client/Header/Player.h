@@ -13,7 +13,6 @@ class CInventory;
 
 END
 
-
 class CTerrain;
 class CPlayer : public Engine::CGameObject
 {
@@ -31,7 +30,6 @@ public:
 private:
 	HRESULT			Add_Component(void);
 	void			Key_Input(const _float& fTimeDelta);
-	void			ForceHeight(_vec3 _vPos);
 	void            Use_SlotItem(INVENKEYSLOT _SlotNum);
 
 public:
@@ -74,6 +72,7 @@ public:
 	void			Set_LeftOffset(_vec3 _vOffset)					{ m_vLeftOffset = _vOffset; }
 	void			Set_Drunk(_bool _Drunk)							{ m_bDrunk = _Drunk; }
 
+	// ksg
 	void			Set_JumpState(_bool _bJump)						{ m_IsJump = _bJump; }
 
 public:
@@ -109,7 +108,6 @@ private:
 
 	_float			m_fSpeed = 10.f;
 	_bool			m_IsJump = false;
-	CGameObject*	m_pObjBelow = nullptr;
 
 	// Debuff
 	_float			m_fDrunkTime;
@@ -119,7 +117,6 @@ private:
 	_float			m_fAmount;
 	_bool			m_bFoward;
 
-	CTerrain*		m_pTerrain;
 	_vec3			m_vOffset;
 	_vec3			m_vLeftOffset;
 

@@ -34,7 +34,7 @@ private:
 	CRcTex*		m_pBuffer = nullptr;
 	CTexture*	m_pTexture = nullptr;
 
-	_float		m_fSignTime;
+	_int		m_iAttackTick;
 
 public:
 	static CFireWands* Create(LPDIRECT3DDEVICE9 pGraphicDev, _bool _Item);

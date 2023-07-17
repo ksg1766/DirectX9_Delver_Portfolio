@@ -31,9 +31,18 @@ HRESULT CFireWands::Ready_Object(_bool _Item)
 		CGameObject* pPlayer = SceneManager()->GetInstance()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front();
 		//CPlayer* pPlayer = dynamic_cast<CPlayer*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
 
-		m_pTransform->Translate(pPlayer->m_pTransform->m_vInfo[INFO_POS] + *dynamic_cast<CPlayer*>(pPlayer)->Get_Offset());
+		//m_pTransform->Translate(pPlayer->m_pTransform->m_vInfo[INFO_POS] + *dynamic_cast<CPlayer*>(pPlayer)->Get_Offset());
 
-		m_fSignTime = 1.f;
+#pragma region ksg
+
+		CTransform* pPlayerTransform = pPlayer->m_pTransform;
+
+		_vec3 vOffSet = 0.7f * pPlayerTransform->m_vInfo[INFO_RIGHT] + 1.5f * pPlayerTransform->m_vInfo[INFO_LOOK] - 0.4f * pPlayerTransform->m_vInfo[INFO_UP];
+		m_pTransform->m_vInfo[INFO_POS] = (pPlayerTransform->m_vInfo[INFO_POS] + vOffSet);
+
+#pragma endregion ksg
+
+		m_iAttackTick = 10;
 	}
 	else
 	{
@@ -67,21 +76,27 @@ _int CFireWands::Update_Object(const _float& fTimeDelta)
 		return iExit;
 
 
-
 	if (!Get_WorldItem())
 	{
 		if (pPlayer->Get_Attack() && pPlayer != nullptr)
 		{
-			if (1.65f < D3DXVec3Length(&(m_pTransform->m_pParent->m_vInfo[INFO_POS] - m_pTransform->m_vInfo[INFO_POS])))
+			if(m_iAttackTick > 0)
+				m_pTransform->Translate(m_pTransform->m_vInfo[INFO_LOOK] * 0.1f);
+			else
+				m_pTransform->Translate(m_pTransform->m_vInfo[INFO_LOOK] * -0.1f);
+			
+			--m_iAttackTick;
+
+			if (-9 == m_iAttackTick)
 			{
-				m_fSignTime = -1.f;
+				m_iAttackTick = 10;
 				pPlayer->Set_Attack(false);
+
+				CTransform* pPlayerTransform = pPlayer->m_pTransform;
+
+				_vec3 vOffSet = 0.7f * pPlayerTransform->m_vInfo[INFO_RIGHT] + 1.5f * pPlayerTransform->m_vInfo[INFO_LOOK] - 0.4f * pPlayerTransform->m_vInfo[INFO_UP];
+				m_pTransform->m_vInfo[INFO_POS] = (pPlayerTransform->m_vInfo[INFO_POS] + vOffSet);
 			}
-			else if (1.45f > D3DXVec3Length(&(m_pTransform->m_pParent->m_vInfo[INFO_POS] - m_pTransform->m_vInfo[INFO_POS])))
-			{
-				m_fSignTime = 1.f;
-			}
-			m_pTransform->Translate(m_pTransform->m_vInfo[INFO_LOOK] * m_fSignTime * 5.f * fTimeDelta);
 		}
 	}
 

@@ -236,7 +236,8 @@ HRESULT CStage::Ready_Layer_UI(LAYERTAG _eLayerTag)
 	Engine::CGameObject*		pGameObject = nullptr;
 
 	// 기본 인벤토리 5칸
-	for (_uint i = 0; i < 5; ++i) {
+	for (_uint i = 0; i < 5; ++i)
+	{
 		pGameObject = CUIbasicslot::Create(m_pGraphicDev);
 		NULL_CHECK_RETURN(pGameObject, E_FAIL);
 		pGameObject->m_pTransform->m_vInfo[INFO_POS].x = 520.f + (60.f * i);
@@ -249,8 +250,10 @@ HRESULT CStage::Ready_Layer_UI(LAYERTAG _eLayerTag)
 
 	_uint Index = 0;
 	// 장비슬롯
-	for (_uint iy = 0; iy < 3; ++iy) {
-		for (_uint ix = 0; ix < 2; ++ix) {
+	for (_uint iy = 0; iy < 3; ++iy)
+	{
+		for (_uint ix = 0; ix < 2; ++ix)
+		{
 
 			Index = iy * 2 + ix;
 			pGameObject = CUIequipmentslot::Create(m_pGraphicDev);
@@ -261,13 +264,14 @@ HRESULT CStage::Ready_Layer_UI(LAYERTAG _eLayerTag)
 			dynamic_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_SLOTEQUIPMENT, Index);
 			dynamic_cast<CTempUI*>(pGameObject)->Set_Setup(true);
 			Engine::UIManager()->AddPopupGameobject_UI(Engine::UIPOPUPLAYER::POPUP_EQUIPMENT, Engine::UILAYER::UI_DOWN, pGameObject);
-
 		}
 	}
 
 	// 메인 인벤토리
-	for (_uint iy = 0; iy < 3; ++iy) {
-		for (_uint ix = 0; ix < 6; ++ix) {
+	for (_uint iy = 0; iy < 3; ++iy)
+	{
+		for (_uint ix = 0; ix < 6; ++ix)
+		{
 
 			pGameObject = CUIemptyslot::Create(m_pGraphicDev);
 			NULL_CHECK_RETURN(pGameObject, E_FAIL);
@@ -281,17 +285,20 @@ HRESULT CStage::Ready_Layer_UI(LAYERTAG _eLayerTag)
 	}
 
 	// 인벤토리 및 스탯 버튼
-	for (_uint iy = 0; iy < 2; ++iy) {
+	for (_uint iy = 0; iy < 2; ++iy)
+	{
 		pGameObject = CUIbutton::Create(m_pGraphicDev);
 		NULL_CHECK_RETURN(pGameObject, E_FAIL);
 		pGameObject->m_pTransform->m_vInfo[INFO_POS].x = 850.f;
 		pGameObject->m_pTransform->m_vInfo[INFO_POS].y = 595.f - (40 * iy);
 		dynamic_cast<CTempUI*>(pGameObject)->WorldMatrix(pGameObject->m_pTransform->m_vInfo[INFO_POS].x, pGameObject->m_pTransform->m_vInfo[INFO_POS].y, pGameObject->m_pTransform->m_vLocalScale.x, pGameObject->m_pTransform->m_vLocalScale.y);
 		dynamic_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_INVENBUTTON, iy);
-		if (iy == 0) {
+		if (iy == 0)
+		{
 			dynamic_cast<CTempUI*>(pGameObject)->Set_UIImage(1);
 		}
-		else {
+		else
+		{
 			dynamic_cast<CTempUI*>(pGameObject)->Set_UIImage(3);
 		}
 

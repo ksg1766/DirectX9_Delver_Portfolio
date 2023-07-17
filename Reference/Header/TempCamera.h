@@ -13,8 +13,8 @@ protected:
 
 public:
 	HRESULT			Ready_Object();
-	_int			Update_Object(const _float& fTimeDelta);
-
+	virtual _int	Update_Object(const _float& fTimeDelta) override;
+	virtual void	LateUpdate_Object()						override;
 	_bool			Get_CameraMode() { return m_bCameraCheck; }
 
 	_matrix& Get_ViewMat() { return m_matView; }

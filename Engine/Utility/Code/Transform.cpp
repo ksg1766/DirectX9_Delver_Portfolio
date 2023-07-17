@@ -166,6 +166,15 @@ void CTransform::Set_WorldMatrix(_matrix& _matWorld)
 		::CopyMemory(&m_vInfo[i], &_matWorld.m[i][0], sizeof(_vec3));
 }
 
+_vec3 CTransform::LocalScale()
+{
+	_vec3 vScale;
+	for (_int i = 0; i < INFO_POS; ++i)
+		*(((_float*)&vScale) + i) = D3DXVec3Length(&m_vInfo[i]);
+
+	return vScale;
+}
+
 HRESULT CTransform::Ready_Transform()
 {
 	::ZeroMemory(m_vInfo, sizeof(m_vInfo));

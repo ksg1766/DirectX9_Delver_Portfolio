@@ -38,31 +38,36 @@ HRESULT CTempItem::Ready_Object(_bool _Item)
 		m_pBasicStat->Get_Stat()->fAttack = 1.f;
 		m_pBasicStat->Get_Stat()->fHealth = 20.f;
 
-
-		m_fSignTime = 1.f;
+		m_iAttackTick = 7;
 
 		// 타입 및 아이디 지정
 		m_ItemID.eItemType = ITEMTYPE_WEAPONITEM;
 		m_ItemID.eItemID = WEAPON_SWORD;
 		m_ItemID.iCount = 1;
 
-
 		CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pTransform->m_pParent->Get_Host());
-		m_pTransform->Translate(pPlayer->m_pTransform->m_vInfo[INFO_POS] + *dynamic_cast<CPlayer*>(pPlayer)->Get_Offset());
+		//m_pTransform->Translate(pPlayer->m_pTransform->m_vInfo[INFO_POS] + *dynamic_cast<CPlayer*>(pPlayer)->Get_Offset());
+
+#pragma region ksg
+
+		CTransform* pPlayerTransform = pPlayer->m_pTransform;
+
+		_vec3 vOffSet = 0.7f * pPlayerTransform->m_vInfo[INFO_RIGHT] + 1.5f * pPlayerTransform->m_vInfo[INFO_LOOK] - 0.4f * pPlayerTransform->m_vInfo[INFO_UP];
+		m_pTransform->m_vInfo[INFO_POS] = (pPlayerTransform->m_vInfo[INFO_POS] + vOffSet);
+
+#pragma endregion ksg
 	}
 	else
 	{
 		m_pTransform->Scale(_vec3(0.3f, 0.3f, 0.3f));
-		m_pCollider->
-			InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
+		m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
 
 		m_pTransform->Translate(_vec3(0.0f, 2.f, 0.0f));
 
 		m_pBasicStat->Get_Stat()->fAttack = 1.f;
 		m_pBasicStat->Get_Stat()->fHealth = 20.f;
 
-
-		m_fSignTime = 1.f;
+		m_iAttackTick = 7;
 
 		// 타입 및 아이디 지정
 		m_ItemID.eItemType = ITEMTYPE_WEAPONITEM;
@@ -91,7 +96,6 @@ _int CTempItem::Update_Object(const _float& fTimeDelta)
 	if (ItemID.eItemID != ITEMID::WEAPON_SWORD || !pPlayer->Get_ItemEquipRight())
 		return iExit;
 
-
 	if (!Get_WorldItem())
 	{
 		CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pTransform->m_pParent->Get_Host());
@@ -99,16 +103,23 @@ _int CTempItem::Update_Object(const _float& fTimeDelta)
 #pragma region ksg
 		if (pPlayer->Get_Attack() && pPlayer != nullptr)
 		{
-			if (2.2f < D3DXVec3Length(&(m_pTransform->m_pParent->m_vInfo[INFO_POS] - m_pTransform->m_vInfo[INFO_POS])))
-				m_fSignTime = -1.f;
-			else if (1.85f > D3DXVec3Length(&(m_pTransform->m_pParent->m_vInfo[INFO_POS] - m_pTransform->m_vInfo[INFO_POS])))
-			{
-				m_fSignTime = 1.f;
-				pPlayer->Set_Attack(false);
-			}
-			m_pTransform->Translate(m_pTransform->m_vInfo[INFO_LOOK] * m_fSignTime * 7.f * fTimeDelta);
+			if (m_iAttackTick > 0)
+				m_pTransform->Translate(m_pTransform->m_vInfo[INFO_LOOK] * 0.1f);
+			else
+				m_pTransform->Translate(m_pTransform->m_vInfo[INFO_LOOK] * -0.1f);
 
-			// 1.8848은 그냥 D3DXVec3Length(&오프셋) 하셔서 바꿔주시면 돼요. 2.3f는 적당히 사거리 더해서 하심 됩니다.
+			--m_iAttackTick;
+
+			if (-6 == m_iAttackTick)
+			{
+				m_iAttackTick = 7;
+				pPlayer->Set_Attack(false);
+
+				CTransform* pPlayerTransform = pPlayer->m_pTransform;
+
+				_vec3 vOffSet = 0.7f * pPlayerTransform->m_vInfo[INFO_RIGHT] + 1.5f * pPlayerTransform->m_vInfo[INFO_LOOK] - 0.4f * pPlayerTransform->m_vInfo[INFO_UP];
+				m_pTransform->m_vInfo[INFO_POS] = (pPlayerTransform->m_vInfo[INFO_POS] + vOffSet);
+			}
 		}
 #pragma endregion ksg
 
@@ -185,7 +196,6 @@ HRESULT CTempItem::Add_Component(void)
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BASICSTAT, pComponent);
 
-
 	if (!Get_WorldItem())
 	{
 		CPlayer* pPlayer = dynamic_cast<CPlayer*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
@@ -193,7 +203,7 @@ HRESULT CTempItem::Add_Component(void)
 		m_pTransform->Set_Parent(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform);
 		m_pTransform->Copy_RUL(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform->m_vInfo);
 
-		for (int i = 0; i < ID_END; ++i)
+		for (_int i = 0; i < ID_END; ++i)
 			for (auto& iter : m_mapComponent[i])
 				iter.second->Init_Property(this);
 	}

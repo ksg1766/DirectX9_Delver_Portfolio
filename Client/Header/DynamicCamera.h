@@ -19,9 +19,10 @@ public:
 		const float& fAspect,
 		const float& fNear,
 		const float& fFar);
-	_int		Update_Object(const _float& fTimeDelta);
-	HRESULT		Add_Component();
-	void		Render_Object() {}
+	virtual _int	Update_Object(const _float& fTimeDelta) override;
+	virtual void	LateUpdate_Object()	override;
+	HRESULT			Add_Component();
+	void			Render_Object() {}
 
 private:
 	void		Key_Input(const _float& fTimeDelta);

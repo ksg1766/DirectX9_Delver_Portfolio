@@ -42,6 +42,7 @@ HRESULT CBlade_Trap::Ready_Object(void)
 	m_vBladeDir[6] = _vec3(0.f, 30.f, 0.f);//°¡¿îµ¥
 
 	m_bSpawnBlade = false;
+
 	return S_OK;
 }
 
