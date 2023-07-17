@@ -39,8 +39,7 @@ STATE CBlade_Trap_Attack::Update_State(const _float& fTimeDelta)
 			m_bAttack = true;
 		}
 	}
-	/*else if (m_bAttack)
-		m_fCool += fTimeDelta;*/
+
 	if ((1.5f < m_fCool) && (m_bAttack))
 	{
 		m_pOwner->Get_Transform()->Translate(_vec3(0.f, -1.f* fTimeDelta, 0.f));

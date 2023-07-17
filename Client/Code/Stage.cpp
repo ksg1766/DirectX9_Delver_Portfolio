@@ -22,7 +22,8 @@
 #include "EffectBubble.h"
 
 #include "Blade_Trap_Body.h"
-#include "Blade_Trap_Blade.h"
+#include "Projectile_Trap_Body.h"
+#include "Projectile_Trap_Arrow.h"
 CStage::CStage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
 {
@@ -216,6 +217,12 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	pGameObject->m_pTransform->Translate(_vec3(-45.f, 5.f, -45.f));
 	dynamic_cast<CBlade_Trap*>(pGameObject)->Create_Blade();
+	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+
+	pGameObject = CProjectile_Trap::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	pGameObject->m_pTransform->Translate(_vec3(-40.f, 3.f, -40.f));
+	dynamic_cast<CProjectile_Trap*>(pGameObject)->Create_Projectile();
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
 	return S_OK;

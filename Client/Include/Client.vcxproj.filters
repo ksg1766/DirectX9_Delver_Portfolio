@@ -532,15 +532,6 @@
     <Filter Include="02. GameObject\01. Stage\08. Trap\00. Blade_Trap\00. Trap_Body">
       <UniqueIdentifier>{91ac1019-978d-42fe-8ac0-0b92b92e0707}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\01. Stage\08. Trap\01. Arrow_Trap">
-      <UniqueIdentifier>{d5e15b02-90b9-44b3-a954-84cd7644e8c4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\01. Stage\08. Trap\01. Arrow_Trap\00. Trap_Body">
-      <UniqueIdentifier>{f094fe46-6c35-4f75-9d23-1aca8c88bf1e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\01. Stage\08. Trap\01. Arrow_Trap\01. Trap_Arrow">
-      <UniqueIdentifier>{c4edad17-6239-450c-8368-170f49310cda}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObject\01. Stage\08. Trap\00. Blade_Trap\01. Trap_Blade">
       <UniqueIdentifier>{b69ff1ab-c6e4-4fb1-be5e-1c63c7834fd3}</UniqueIdentifier>
     </Filter>
@@ -555,6 +546,15 @@
     </Filter>
     <Filter Include="02. GameObject\01. Stage\01. Player\02. Ray">
       <UniqueIdentifier>{34c19ba7-543b-412b-9fa5-6c6085639da3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\08. Trap\01. Projectile_Trap">
+      <UniqueIdentifier>{d5e15b02-90b9-44b3-a954-84cd7644e8c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\08. Trap\01. Projectile_Trap\00. Trap_Body">
+      <UniqueIdentifier>{f094fe46-6c35-4f75-9d23-1aca8c88bf1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\08. Trap\01. Projectile_Trap\01. Trap_Arrow">
+      <UniqueIdentifier>{c4edad17-6239-450c-8368-170f49310cda}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1002,6 +1002,12 @@
     <ClInclude Include="..\Header\FootRay.h">
       <Filter>02. GameObject\01. Stage\01. Player\02. Ray</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\Projectile_Trap_Body.h">
+      <Filter>02. GameObject\01. Stage\08. Trap\01. Projectile_Trap\00. Trap_Body</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Projectile_Trap_Arrow.h">
+      <Filter>02. GameObject\01. Stage\08. Trap\01. Projectile_Trap\01. Trap_Arrow</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -1438,6 +1444,12 @@
     </ClCompile>
     <ClCompile Include="..\Code\FootRay.cpp">
       <Filter>02. GameObject\01. Stage\01. Player\02. Ray</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Projectile_Trap_Body.cpp">
+      <Filter>02. GameObject\01. Stage\08. Trap\01. Projectile_Trap\00. Trap_Body</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Projectile_Trap_Arrow.cpp">
+      <Filter>02. GameObject\01. Stage\08. Trap\01. Projectile_Trap\01. Trap_Arrow</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

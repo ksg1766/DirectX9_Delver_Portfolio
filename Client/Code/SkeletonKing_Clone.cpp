@@ -45,8 +45,6 @@ _int CSkeletonKing_Clone::Update_Object(const _float& fTimeDelta)
 	if (!m_bSkill)
 		Clone_Pattern();
 
-	ForceHeight(m_pTransform->m_vInfo[INFO_POS]);
-
 	return iExit;
 }
 
@@ -69,46 +67,6 @@ void CSkeletonKing_Clone::Render_Object(void)
 
 	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
-}
-
-void CSkeletonKing_Clone::ForceHeight(_vec3 _vPos)
-{
-	_float x = (VTXCNTX * VTXITV / 2.f) + _vPos.x;
-	_float z = (VTXCNTZ * VTXITV / 2.f) + _vPos.z;
-
-	x /= (_float)VTXITV;
-	z /= (_float)VTXITV;
-
-	_int col = ::floorf(x);
-	_int row = ::floorf(z);
-
-	_vec3 A = m_pTerrain->LoadTerrainVertex()[row * VTXCNTX + col];
-	_vec3 B = m_pTerrain->LoadTerrainVertex()[row * VTXCNTX + col + 1];
-	_vec3 C = m_pTerrain->LoadTerrainVertex()[(row + 1) * VTXCNTX + col];
-	_vec3 D = m_pTerrain->LoadTerrainVertex()[(row + 1) * VTXCNTX + col + 1];
-
-	_float dx = x - col;
-	_float dz = z - row;
-
-	_float height;
-
-	if (dz < 1.0f - dx)
-	{
-
-		_vec3 uy = B - A;
-		_vec3 vy = C - A;
-
-		height = A.y + (uy.y * dx) + (vy.y * dz) + 1.f;
-		m_pTransform->m_vInfo[INFO_POS].y = height;
-	}
-	else
-	{
-		_vec3 uy = C - D;
-		_vec3 vy = B - D;
-
-		height = D.y + (uy.y * (1.f - dx)) + (vy.y * (1.f - dz)) + 1.f;
-		m_pTransform->m_vInfo[INFO_POS].y = height;
-	}
 }
 
 HRESULT CSkeletonKing_Clone::Add_Component(void)
@@ -153,7 +111,6 @@ void CSkeletonKing_Clone::Clone_Pattern()
 			m_bSkill = true;
 			pGameObject = CBossProjectile::Create(m_pGraphicDev);
 			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
-			dynamic_cast<CBossProjectile*>(pGameObject)->Set_Terrain(m_pTerrain);
 			dynamic_cast<CBossProjectile*>(pGameObject)->Set_Target(m_pTransform->m_vInfo[INFO_POS]);
 			Engine::EventManager()->DeleteObject(this);
 			break;

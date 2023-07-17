@@ -72,7 +72,6 @@ void CTeleportPattern::Make_BossClone()
         Engine::CGameObject* pGameObject = nullptr;
         pGameObject = CSkeletonKing_Clone::Create(m_pGraphicDev);
         Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
-        dynamic_cast<CSkeletonKing_Clone*>(pGameObject)->Set_Terrain(dynamic_cast<CSkeletonKing*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_Terrain());
         dynamic_cast<CSkeletonKing_Clone*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
         m_bSkillCount = true;
 

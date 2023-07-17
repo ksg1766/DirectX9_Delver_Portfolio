@@ -25,7 +25,7 @@ HRESULT CBossProjectile::Ready_Object(void)
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	m_pBasicStat->Get_Stat()->fAttack = 5.f;
-
+	m_fTime = 0.f;
 	return S_OK;
 }
 
@@ -36,8 +36,10 @@ _int CBossProjectile::Update_Object(const _float& fTimeDelta)
 	if (SceneManager()->Get_GameStop()) { return 0; }
 
 	_int iExit = __super::Update_Object(fTimeDelta);
-		if (m_pTransform->m_vInfo[INFO_POS].y < HitTerrain(m_pTransform->m_vInfo[INFO_POS]))
+	m_fTime += fTimeDelta;
+		if (5.f < m_fTime)
 		{
+			m_fTime = 0.f;
 			Engine::EventManager()->DeleteObject(this);
 		}
 		else
@@ -72,48 +74,6 @@ void CBossProjectile::Render_Object(void)
 #endif
 	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
-}
-
-float CBossProjectile::HitTerrain(_vec3 _vPos)
-{
-	_float x = (VTXCNTX * VTXITV / 2.f) + _vPos.x;
-	_float z = (VTXCNTZ * VTXITV / 2.f) + _vPos.z;
-
-	x /= (_float)VTXITV;
-	z /= (_float)VTXITV;
-
-	_int col = ::floorf(x);
-	_int row = ::floorf(z);
-
-	_vec3 A = m_pTerrain->LoadTerrainVertex()[row * VTXCNTX + col];
-	_vec3 B = m_pTerrain->LoadTerrainVertex()[row * VTXCNTX + col + 1];
-	_vec3 C = m_pTerrain->LoadTerrainVertex()[(row + 1) * VTXCNTX + col];
-	_vec3 D = m_pTerrain->LoadTerrainVertex()[(row + 1) * VTXCNTX + col + 1];
-
-	_float dx = x - col;
-	_float dz = z - row;
-
-	_float height;
-
-	if (dz < 1.0f - dx)
-	{
-
-		_vec3 uy = B - A;
-		_vec3 vy = C - A;
-
-		height = A.y + (uy.y * dx) + (vy.y * dz) + 1.f;
-		//m_pTransform->m_vInfo[INFO_POS].y = height;
-		return height;
-	}
-	else
-	{
-		_vec3 uy = C - D;
-		_vec3 vy = B - D;
-
-		height = D.y + (uy.y * (1.f - dx)) + (vy.y * (1.f - dz)) + 1.f;
-		//m_pTransform->m_vInfo[INFO_POS].y = height + 2.f;
-		return height;
-	}
 }
 
 void CBossProjectile::Set_Target(_vec3 _vPos)

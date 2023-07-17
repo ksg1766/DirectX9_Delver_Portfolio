@@ -10,8 +10,6 @@ class CStateMachine;
 
 END
 
-class CTerrain;
-
 class CNpc_Bard : public  Engine::CNpc
 {
 private:
@@ -26,9 +24,6 @@ public:
 	virtual void	Render_Object() override;
 
 public:
-	void		ForceHeight(_vec3 _vPos);
-	void		Set_Terrain(CTerrain* _pCurrentTerrain) { m_pTerrain = _pCurrentTerrain; }
-
 	virtual void		OnCollisionEnter(CCollider* _pOther);
 	virtual void		OnCollisionStay(CCollider* _pOther);
 	virtual void		OnCollisionExit(CCollider* _pOther);
@@ -39,7 +34,6 @@ private:
 private:
 	CRcTex* m_pBuffer = nullptr;
 	CTexture* m_pTexture[(_uint)STATE::STATE_END] = {};
-	CTerrain* m_pTerrain = nullptr;
 	CAnimator* m_pAnimator = nullptr;
 
 public:

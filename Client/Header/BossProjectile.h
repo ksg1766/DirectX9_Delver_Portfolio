@@ -23,10 +23,7 @@ public:
 	virtual void Render_Object(void) override;
 
 public:
-	float		HitTerrain(_vec3 _vPos);
-
 	//테스트용충돌코드
-	void		Set_Terrain(CTerrain* _pCurrentTerrain) { m_pTerrain = _pCurrentTerrain; }
 	void		Set_Target(_vec3 _vPos);
 
 	virtual void		OnCollisionEnter(CCollider* _pOther);
@@ -39,6 +36,7 @@ private:
 	CBillBoard* m_pBillBoard = nullptr;
 	CTerrain* m_pTerrain = nullptr;
 	_float			m_fFrame;
+	_float			m_fTime;
 	_vec3 m_vTargetPos;
 	_vec3 m_vDir;
 private:
