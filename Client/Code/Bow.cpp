@@ -41,14 +41,22 @@ HRESULT CBow::Ready_Object(_bool _Item)
 		CGameObject* pPlayer = SceneManager()->GetInstance()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front();
 		//CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pTransform->m_pParent->Get_Host());
 
-
-		m_pTransform->Copy_RUL(m_pTransform->m_pParent->m_vInfo);
+		// 밑으로 ksg가 주석 처리 함
+		//m_pTransform->Copy_RUL(m_pTransform->m_pParent->m_vInfo);
 		m_pTransform->Scale(_vec3(0.3f, 0.3f, 0.3f));
 
+		//m_pTransform->Translate(m_pTransform->m_pParent->m_vInfo[INFO_POS] + *dynamic_cast<CPlayer*>(pPlayer)->Get_Offset());
 
-		m_pTransform->Translate(m_pTransform->m_pParent->m_vInfo[INFO_POS] + *dynamic_cast<CPlayer*>(pPlayer)->Get_Offset());
+#pragma region ksg
 
-		m_fSignTime = 1.f;
+		CTransform* pPlayerTransform = pPlayer->m_pTransform;
+
+		_vec3 vOffSet = 0.7f * pPlayerTransform->m_vInfo[INFO_RIGHT] + 1.5f * pPlayerTransform->m_vInfo[INFO_LOOK] - 0.4f * pPlayerTransform->m_vInfo[INFO_UP];
+		m_pTransform->m_vInfo[INFO_POS] = (pPlayerTransform->m_vInfo[INFO_POS] + vOffSet);
+
+#pragma endregion ksg
+
+		m_iAttackTick = 10;
 		m_fChase = 0.f;
 		m_fChase2 = 0.f;
 		m_fAngle = 0.f;

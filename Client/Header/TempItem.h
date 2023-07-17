@@ -39,7 +39,8 @@ private:
 	CRcTex*		m_pBuffer = nullptr;
 	CTexture*	m_pTexture = nullptr;
 	CBillBoard* m_pBillBoard = nullptr;
-	_float		m_fSignTime;
+
+	_int		m_iAttackTick;
 	_float		m_fChase;
 
 	// 공격 모션

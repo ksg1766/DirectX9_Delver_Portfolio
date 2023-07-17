@@ -62,7 +62,6 @@ STATE CPlayer_Attack::Key_Input(const _float& fTimeDelta)
 		m_pOwner->Get_Transform()->Translate(10.f * fTimeDelta * vLook);
 	}
 
-
 	if (Engine::InputDev()->GetInstance()->Key_Pressing(DIK_S))
 	{
 		m_pOwner->Get_Transform()->Translate(10.f * fTimeDelta * -vLook);
@@ -82,7 +81,6 @@ STATE CPlayer_Attack::Key_Input(const _float& fTimeDelta)
 	{
 		ITEMTYPEID _eID = dynamic_cast<CItem*>(pPlayer.Get_CurrentEquipRight())->Get_ItemTag();
 		
-
 		switch (_eID.eItemID)
 		{
 		case ITEMID::WEAPON_SWORD:
@@ -106,7 +104,7 @@ STATE CPlayer_Attack::Key_Input(const _float& fTimeDelta)
 
 				_eState = STATE::ATTACK;
 			}
-			if (Engine::InputDev()->GetInstance()->Mouse_Up(DIM_LB))
+			if (Engine::InputDev()->Mouse_Up(DIM_LB))
 			{
 				// TODO : 마우스를 놓으면 화살 날라감.(Preesing에서 누르만큼 +Speed)
 				// CreateArrow. -> 내가 보는 방향으로 날리기.
@@ -127,7 +125,7 @@ STATE CPlayer_Attack::Key_Input(const _float& fTimeDelta)
 			}
 			break;
 		case ITEMID::WEAPON_WAND1:
-			if (Engine::InputDev()->GetInstance()->Mouse_Down(DIM_LB))
+			if (Engine::InputDev()->Mouse_Down(DIM_LB))
 			{
 				pPlayer.Set_Attack(true);
 				pPlayer.Set_AttackTick(false);

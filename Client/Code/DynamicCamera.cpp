@@ -32,8 +32,6 @@ HRESULT CDynamicCamera::Ready_Object(const _vec3* pEye, const _vec3* pAt, const 
 	m_fFrequency = 1.f; // Èçµå´Â ¼Óµµ
 	m_vOriginPos = _vec3(0.f, 0.f, 0.f);
 
-
-
 	FAILED_CHECK_RETURN(CTempCamera::Ready_Object(), E_FAIL);
 	m_eObjectTag = OBJECTTAG::CAMERA;
 	m_eCamera_Mode = CAMERA_MODE::CAMERA_FIRST;
@@ -82,8 +80,12 @@ _int CDynamicCamera::Update_Object(const _float& fTimeDelta)
 		}
 	}
 
-
 	return iExit;
+}
+
+void CDynamicCamera::LateUpdate_Object()
+{
+	CTempCamera::LateUpdate_Object();
 }
 
 HRESULT CDynamicCamera::Add_Component()

@@ -102,7 +102,7 @@ COctreeNode* COctree::BuildOctree(_vec3 vCenter, _float fHalfWidth, _int depthLi
     return pOctNode;
 }
 
-void COctree::FindCurrentPosNode(CTransform* pTransform, COctreeNode* const pNode)
+void COctree::FindCurrentPosNode(CTransform* pTransform, COctreeNode* const pNode) // static object 추가
 {
     _vec3 vObjectPos = pTransform->m_vInfo[INFO_POS];
     _vec3 vNodePos = pNode->GetPosition();
@@ -152,11 +152,6 @@ void COctree::FrustumCull(COctreeNode* pNode)
     {
     case FRUSTUM_COMPLETELY_IN:
         pNode->CullNode(FRUSTUM_COMPLETELY_IN);
-        {
-            /*vector<CGameObject*>& vecObject = pNode->GetObjectList();
-            for (auto& iter : vecObject)
-                iter->Update_Object(0.f);*/
-        }
         return;
     case FRUSTUM_PRIMARILLY_IN:
         pNode->CullNode(FRUSTUM_PRIMARILLY_IN);
@@ -175,7 +170,6 @@ void COctree::FrustumCull(COctreeNode* pNode)
 
 COctreeNode* COctree::GetParentNodeByPos(_vec3 vPos, COctreeNode* const pNode)
 {
-    // 여긴 이상 없는거 같고
     // DFS
     if (pNode->IsInNode(vPos))
     {
@@ -195,37 +189,6 @@ COctreeNode* COctree::GetParentNodeByPos(_vec3 vPos, COctreeNode* const pNode)
     }
     else
         return nullptr;
-    
-    //
-
-    // 여긴 이상있는 듯
-    /*
-    COctreeNode* pParent;
-
-    if (pNode->IsInNode(vPos))
-    {
-        if (pNode->GetChildren().empty())
-            pParent = pNode->GetParent();
-        else
-        {
-            for (_uint iIndex = 0; iIndex < COctreeNode::m_iChild_Node_Count; ++iIndex)
-            {
-                pParent = GetParentNodeByPos(vPos, pNode->GetChildNode(iIndex));
-                if (pParent)
-                    break;
-            }
-            if (!pParent)
-            {
-                pParent = pNode->GetParent();
-                return pParent;
-            }
-        }
-    }
-    else
-        pParent = nullptr;
-
-    return pParent;
-    */
 }
 
 void COctree::Free()

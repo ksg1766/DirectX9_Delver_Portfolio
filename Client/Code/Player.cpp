@@ -80,10 +80,36 @@ Engine::_int CPlayer::Update_Object(const _float& fTimeDelta)
 	m_pRigidBody->Update_RigidBody(fTimeDelta);
 	//
 
-
 	_int iExit = __super::Update_Object(fTimeDelta);
 
 	m_pStateMachine->Update_StateMachine(fTimeDelta);
+
+#pragma region ksg
+
+	if (m_pCurrentEquipItemRight)
+	{
+		CTransform* pRightTrans = m_pCurrentEquipItemRight->m_pTransform;
+		_vec3 vLocalScale = pRightTrans->LocalScale();
+		
+		pRightTrans->Copy_RUL(m_pTransform->m_vInfo);
+
+		for (_int i = 0; i < INFO_POS; ++i)
+			pRightTrans->m_vInfo[i] *= *(((_float*)&vLocalScale) + i);
+	}
+
+	if (m_pCurrentEquipItemLeft)
+	{
+		CTransform* pLeftTrans = m_pCurrentEquipItemLeft->m_pTransform;
+		_vec3 vLocalScale = pLeftTrans->LocalScale();
+
+		pLeftTrans->Copy_RUL(m_pTransform->m_vInfo);
+
+		for (_int i = 0; i < INFO_POS; ++i)
+			pLeftTrans->m_vInfo[i] *= *(((_float*)&vLocalScale) + i);
+	}
+
+#pragma endregion ksg
+
 
 	//if (Get_Drunk())
 	//{
@@ -599,7 +625,6 @@ void CPlayer::OnCollisionEnter(CCollider* _pOther)
 			}
 			else
 				Engine::EventManager()->CreateObject(pItem, LAYERTAG::GAMELOGIC);
-
 
 			EventManager()->GetInstance()->DeleteObject(dynamic_cast<CItem*>(_pOther->GetHost()));
 		}

@@ -21,9 +21,8 @@ public:
 	void        Set_FindSlot(_bool bFind)
 	{
 		m_bEquip = bFind;
-		if (m_bEquip) {
+		if (m_bEquip)
 			m_fCurrentImage = 20;
-		}
 	}
 
 public:

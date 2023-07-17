@@ -35,7 +35,8 @@ private:
 private:
 	CRcTex*		m_pBuffer = nullptr;
 	CTexture*	m_pTexture = nullptr;
-	_float		m_fSignTime;
+
+	_int		m_iAttackTick;
 	_float		m_fChase2;
 	_float		m_fChase;
 	_float		m_fAngle;
