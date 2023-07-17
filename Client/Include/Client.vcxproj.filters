@@ -487,9 +487,6 @@
     <Filter Include="02. GameObject\01. Stage\02. Item\Consumable\Bear">
       <UniqueIdentifier>{cc8f90c3-3f8e-4e0f-ac43-3b2aa91b4379}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\04. Public\04. Font">
-      <UniqueIdentifier>{5f72c182-601d-4396-b1d2-e952169d65da}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObject\07. Effect">
       <UniqueIdentifier>{04e3b9f1-e51a-49b3-9ffb-8818573078d0}</UniqueIdentifier>
     </Filter>
