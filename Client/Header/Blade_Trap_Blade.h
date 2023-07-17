@@ -5,6 +5,7 @@ BEGIN(Engine)
 class CRcTex;
 class CTexture;
 class CStateMachine;
+class CAnimator;
 END
 
 class CBlade_Trap_Blade :
@@ -21,13 +22,16 @@ public:
 	virtual void LateUpdate_Object(void) override;
 	virtual void Render_Object(void) override;
 
+	void		Set_TrapCenter(_vec3 _vCenter) { m_vTrapCenter = _vCenter; }
+	_vec3		Get_TrapCenter() { return m_vTrapCenter; }
 private:
 	CRcTex* m_pBuffer = nullptr;
 	CTexture* m_pTexture[(_uint)STATE::STATE_END] = {};
 	CStateMachine* m_pStateMachine = nullptr;
-
+	CAnimator* m_pAnimator = nullptr;
 	_vec3			m_vPlayerPos;
 	_vec3			m_vDir;
+	_vec3			m_vTrapCenter;
 
 	_float			m_fDistance;
 	_float			m_fCooltime;
