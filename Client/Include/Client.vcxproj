@@ -216,7 +216,6 @@
     <ClInclude Include="..\Header\Ghost_Attack.h" />
     <ClInclude Include="..\Header\Ghost_Bullet.h" />
     <ClInclude Include="..\Header\Ghost_IDLE.h" />
-    <ClInclude Include="..\Header\HorizontalMove.h" />
     <ClInclude Include="..\Header\UISpeech.h" />
     <ClInclude Include="..\Header\Dead_BossSkeleton.h" />
     <ClInclude Include="..\Header\Dog_Idle.h" />
@@ -373,7 +372,6 @@
     <ClCompile Include="..\Code\Ghost_Attack.cpp" />
     <ClCompile Include="..\Code\Ghost_Bullet.cpp" />
     <ClCompile Include="..\Code\Ghost_IDLE.cpp" />
-    <ClCompile Include="..\Code\HorizontalMove.cpp" />
     <ClCompile Include="..\Code\UISpeech.cpp" />
     <ClCompile Include="..\Code\Dead_BossSkeleton.cpp" />
     <ClCompile Include="..\Code\Dog_Idle.cpp" />
