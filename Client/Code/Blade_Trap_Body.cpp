@@ -42,12 +42,6 @@ HRESULT CBlade_Trap::Ready_Object(void)
 	m_vBladeDir[6] = _vec3(0.f, 30.f, 0.f);//°¡¿îµ¥
 
 	m_bSpawnBlade = false;
-<<<<<<< HEAD
-=======
-
-	m_pTransform->Translate(_vec3(0.f, 3.f, 0.f));
-
->>>>>>> 1ea0b8b6806af0fca243d78973485c07321acf3b
 	return S_OK;
 }
 
@@ -56,8 +50,6 @@ _int CBlade_Trap::Update_Object(const _float& fTimeDelta)
 	Engine::Renderer()->Add_RenderGroup(RENDER_PRIORITY, this);
 	if (SceneManager()->Get_GameStop()) { return 0; }
 	_uint iExit = __super::Update_Object(fTimeDelta);
-	/*if (!m_bSpawnBlade)
-		Create_Blade();*/
 	return iExit;
 }
 

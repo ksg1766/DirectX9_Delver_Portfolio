@@ -212,18 +212,9 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	dynamic_cast<CFireWands*>(pItem)->Set_WorldItem(true);
 	pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
 
-<<<<<<< HEAD
-	/*pGameObject = CDungeonWarrior::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pGameObject->m_pTransform->Translate(_vec3(-50.f, 1.f, -50.f));
-	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-	dynamic_cast<CDungeonWarrior*>(pGameObject)->Set_Terrain(dynamic_cast<CTerrain*>(pLayer->Get_ObjectList(OBJECTTAG::TERRAIN).front()));*/
-
-=======
->>>>>>> 1ea0b8b6806af0fca243d78973485c07321acf3b
 	pGameObject = CBlade_Trap::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pGameObject->m_pTransform->Translate(_vec3(-45.f, 0.f, -45.f));
+	pGameObject->m_pTransform->Translate(_vec3(-45.f, 5.f, -45.f));
 	dynamic_cast<CBlade_Trap*>(pGameObject)->Create_Blade();
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 

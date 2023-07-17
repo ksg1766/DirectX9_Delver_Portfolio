@@ -32,9 +32,9 @@ STATE CBlade_Trap_Attack::Update_State(const _float& fTimeDelta)
 	if (!m_bAttack)
 	{
 		m_pOwner->Get_Transform()->Translate(_vec3(0.f, 0.2f, 0.f));
-		if (m_fTrapHeight <= m_pOwner->Get_Transform()->m_vInfo[INFO_POS].y)
+		if (m_fTrapHeight+1.f <= m_pOwner->Get_Transform()->m_vInfo[INFO_POS].y)
 		{
-			m_pOwner->Get_Transform()->m_vInfo[INFO_POS].y = 0.f;
+			m_pOwner->Get_Transform()->m_vInfo[INFO_POS].y = m_fTrapHeight+1.f;
 			m_fCool = 0.f;
 			m_bAttack = true;
 		}
@@ -44,10 +44,10 @@ STATE CBlade_Trap_Attack::Update_State(const _float& fTimeDelta)
 	if ((1.5f < m_fCool) && (m_bAttack))
 	{
 		m_pOwner->Get_Transform()->Translate(_vec3(0.f, -1.f* fTimeDelta, 0.f));
-		if ((m_pOwner->Get_Transform()->m_vInfo[INFO_POS].y) <= -1.f)
-			m_pOwner->Get_Transform()->m_vInfo[INFO_POS].y = -1.f;
+		if ((m_pOwner->Get_Transform()->m_vInfo[INFO_POS].y) <= m_fTrapHeight -1.f)
+			m_pOwner->Get_Transform()->m_vInfo[INFO_POS].y = m_fTrapHeight - 1.f;
 	}
-	if (3.f < m_fCool)
+	if (5.f < m_fCool)
 	{
 		m_bAttack = false;
 		m_fCool = 0.f;
