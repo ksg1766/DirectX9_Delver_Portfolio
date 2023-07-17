@@ -51,6 +51,8 @@ private:
 	_vec3			m_vDir;
 	STATE			m_eState;
 
+	CGameObject*    m_pEffect;
+
 public:
 	static CFireBall* Create(LPDIRECT3DDEVICE9 pGraphicDev, CTransform* pWeapon, 
 		CTransform* pOwner, _float _fSpeed);

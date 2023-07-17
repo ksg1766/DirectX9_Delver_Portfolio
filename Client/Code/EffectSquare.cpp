@@ -11,7 +11,7 @@ CEffectSquare::~CEffectSquare()
 	Free();
 }
 
-HRESULT CEffectSquare::Ready_Object(_vec3 vOriginPos, int numParticles, ParticleBoundingBox boundbox, const _tchar* pPath)
+HRESULT CEffectSquare::Ready_Object(_vec3 vOriginPos, int numParticles, EFFECTCOLOR _Color)
 {
 	CComponent* pComponent = nullptr;
 
@@ -26,15 +26,54 @@ HRESULT CEffectSquare::Ready_Object(_vec3 vOriginPos, int numParticles, Particle
 	m_eObjectTag = OBJECTTAG::EFFECT;
 	m_pTransform->Translate(vOriginPos);
 
+	ParticleBoundingBox EffectBox;
+	EffectBox.vMin = { -100.f, -100.f, -100.f };
+	EffectBox.vMax = { 100.f, 100.f, 100.f };
+
 	m_vOrigin = vOriginPos;
 	m_fSize = 0.00035f;
 	m_vbSize = 2048;
 	m_vbOffset = 0;
 	m_vbBatchSize = 512;
-	m_BoundingBox = boundbox;
+	m_BoundingBox = EffectBox;
 
 	for (int i = 0; i < numParticles; i++)
 		Add_Particle();
+
+	m_ParticleColor = _Color;
+
+	_tchar* pPath = nullptr;
+
+	switch (m_ParticleColor)
+	{
+	case Engine::ECOLOR_PINK:
+		break;
+	case Engine::ECOLOR_RED:
+		pPath = L"../Bin/SRSource/Effect/Square_effect/Square_effect_Red.png";
+		break;
+	case Engine::ECOLOR_ORANGE:
+		break;
+	case Engine::ECOLOR_YELLOW:
+		break;
+	case Engine::ECOLOR_LIGHTGREEN:
+		break;
+	case Engine::ECOLOR_GREEN:
+		break;
+	case Engine::ECOLOR_SKYBLUE:
+		break;
+	case Engine::ECOLOR_BLUE:
+		break;
+	case Engine::ECOLOR_INDIGO:
+		break;
+	case Engine::ECOLOR_PURPLE:
+		break;
+	case Engine::ECOLOR_WHITE:
+		break;
+	case Engine::ECOLOR_RAINBOW:
+		break;
+	default:
+    	break;
+	}
 
 	CTempParticle::Ready_Object(pPath);
 
@@ -127,11 +166,11 @@ void CEffectSquare::Render_Object()
 	CTempParticle::Render_Object();
 }
 
-CEffectSquare* CEffectSquare::Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 vOriginPos, int numParticles, ParticleBoundingBox boundbox, const _tchar* pPath)
+CEffectSquare* CEffectSquare::Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 vOriginPos, int numParticles, EFFECTCOLOR _Color)
 {
 	CEffectSquare* pInstance = new CEffectSquare(pGraphicDev);
 
-	if (FAILED(pInstance->Ready_Object(vOriginPos, numParticles, boundbox, pPath)))
+	if (FAILED(pInstance->Ready_Object(vOriginPos, numParticles, _Color)))
 	{
 		Safe_Release(pInstance);
 		MSG_BOX("CEffectSquare Create Failed");

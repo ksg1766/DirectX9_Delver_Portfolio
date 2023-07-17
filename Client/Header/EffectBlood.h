@@ -16,7 +16,7 @@ public:
 	void    Render_Object(void) override;
 
 private:
-	HRESULT		Add_Component(void);
+	HRESULT	Add_Component(void);
 
 private:
 

@@ -69,6 +69,8 @@ private:
 	virtual void Remove_DeadParticle();
 
 protected:
+	EFFECTCOLOR m_ParticleColor = EFFECTCOLOR::ECOLOR_END;
+
 	LPDIRECT3DVERTEXBUFFER9			m_pVB;
 	LPDIRECT3DTEXTURE9              m_pTexture;
 

@@ -6,6 +6,7 @@
 #include "Bow.h"
 #include "FireBall.h"
 #include "FireWands.h"
+#include "EffectProjectileTrace.h"
 
 CPlayer_Attack::CPlayer_Attack()
 {

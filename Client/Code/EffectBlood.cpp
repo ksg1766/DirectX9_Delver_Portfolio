@@ -16,38 +16,128 @@ HRESULT CEffectBlood::Ready_Object(void)
 	FAILED_CHECK_RETURN(CTempEffect::Ready_Object(), E_FAIL); // 초기화 및 초기 설정
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_fFrame = 0.f;
-	m_fFrist = 0.f;
-	m_fFinal = 5.f;
-	m_fFrameSpeed = CTempEffect::Get_RandomFloat(1.f, 2.f);
+	m_fLife  = 10.f;
+	m_pTransform->Rotate(ROT_X, D3DXToRadian(90.f));
+	m_pTransform->Rotate(ROT_Y, D3DXToRadian(CTempEffect::Get_RandomFloat(.0f, 180.f)));
 
-	m_fLife       = CTempEffect::Get_RandomFloat(5.f, 10.f);
-
-	m_fEffectScale = CTempEffect::Get_RandomFloat(1.f, 1.5f);
+	m_bParent = true;
 
 	return S_OK;
 }
 
 Engine::_int CEffectBlood::Update_Object(const _float& fTimeDelta)
 {
-	//if (m_RandomSet)
-	//{
-	//	m_RandomSet = false;
-	//	// 랜덤으로 50%의 확률로 자신 객체 하나 더 생성
-	//	if (CTempEffect::Get_RandomFloat(0.0f, 1.f) > 0.3f)
-	//	{
-	//		CGameObject* pGameObject = CEffectBubble::Create(m_pGraphicDev);
-	//		pGameObject->m_pTransform->Translate(_vec3(m_pTransform->m_vInfo[INFO_POS].x + CTempEffect::Get_RandomFloat(.5f, 1.f), m_pTransform->m_vInfo[INFO_POS].y + CTempEffect::Get_RandomFloat(.5f, 1.f), m_pTransform->m_vInfo[INFO_POS].z + CTempEffect::Get_RandomFloat(.5f, 1.f)));
-	//		dynamic_cast<CTempEffect*>(pGameObject)->Set_RandomSet(false);
-	//		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
-	//	}
-	//}
+	if (m_bParent && !m_bScaleSet) {
+		m_bScaleSet = true;
+		switch (m_EffectColor)
+		{
+		case Engine::ECOLOR_PINK:
+			m_fFrame = 0.f;
+			break;
+		case Engine::ECOLOR_RED:
+			m_fFrame = 0.f;
+			break;
+		case Engine::ECOLOR_ORANGE:
+			m_fFrame = 0.f;
+			break;
+		case Engine::ECOLOR_YELLOW:
+			m_fFrame = 4.f;
+			break;
+		case Engine::ECOLOR_LIGHTGREEN:
+			m_fFrame = 0.f;
+			break;
+		case Engine::ECOLOR_GREEN:
+			m_fFrame = 2.f;
+			break;
+		case Engine::ECOLOR_SKYBLUE:
+			m_fFrame = 0.f;
+			break;
+		case Engine::ECOLOR_BLUE:
+			m_fFrame = 0.f;
+			break;
+		case Engine::ECOLOR_INDIGO:
+			m_fFrame = 0.f;
+			break;
+		case Engine::ECOLOR_PURPLE:
+			m_fFrame = 0.f;
+			break;
+		case Engine::ECOLOR_WHITE:
+			m_fFrame = 0.f;
+			break;
+		case Engine::ECOLOR_RAINBOW:
+			m_fFrame = 0.f;
+			break;
+		default:
+			m_fFrame = 0.f;
+			break;
+		}
+
+		m_fEffectScale = CTempEffect::Get_RandomFloat(.7f, 1.2f);
+		m_pTransform->Scale(_vec3(m_fEffectScale, m_fEffectScale, m_fEffectScale));
+	}
+	else if (m_bChild && !m_bScaleSet) {
+		m_bScaleSet = true;
+		switch (m_EffectColor)
+		{
+		case Engine::ECOLOR_PINK:
+			m_fFrame = 1.f;
+			break;
+		case Engine::ECOLOR_RED:
+			m_fFrame = 1.f;
+			break;
+		case Engine::ECOLOR_ORANGE:
+			m_fFrame = 1.f;
+			break;
+		case Engine::ECOLOR_YELLOW:
+			m_fFrame = 5.f;
+			break;
+		case Engine::ECOLOR_LIGHTGREEN:
+			m_fFrame = 1.f;
+			break;
+		case Engine::ECOLOR_GREEN:
+			m_fFrame = 3.f;
+			break;
+		case Engine::ECOLOR_SKYBLUE:
+			m_fFrame = 1.f;
+			break;
+		case Engine::ECOLOR_BLUE:
+			m_fFrame = 1.f;
+			break;
+		case Engine::ECOLOR_INDIGO:
+			m_fFrame = 1.f;
+			break;
+		case Engine::ECOLOR_PURPLE:
+			m_fFrame = 1.f;
+			break;
+		case Engine::ECOLOR_WHITE:
+			m_fFrame = 1.f;
+			break;
+		case Engine::ECOLOR_RAINBOW:
+			m_fFrame = 0.f;
+			break;
+		default:
+			m_fFrame = 0.f;
+			break;
+		}
+		m_fEffectScale = CTempEffect::Get_RandomFloat(.5f, .8f);
+		m_pTransform->Scale(_vec3(m_fEffectScale, m_fEffectScale, m_fEffectScale));
+	}
+
+	if (m_RandomSet)
+	{
+		m_RandomSet = false;
+		CGameObject* pGameObject = CEffectBlood::Create(m_pGraphicDev);
+		pGameObject->m_pTransform->Translate(_vec3(m_pTransform->m_vInfo[INFO_POS].x + CTempEffect::Get_RandomFloat(-1.f, 1.f), m_pTransform->m_vInfo[INFO_POS].y + 0.1f, m_pTransform->m_vInfo[INFO_POS].z + CTempEffect::Get_RandomFloat(-1.f, 1.f)));
+		dynamic_cast<CTempEffect*>(pGameObject)->Set_Parent(false);
+		dynamic_cast<CTempEffect*>(pGameObject)->Set_Child(true);
+		dynamic_cast<CTempEffect*>(pGameObject)->Set_RandomSet(false);
+		dynamic_cast<CTempEffect*>(pGameObject)->Set_EffectColor(m_EffectColor);
+		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+	}
 
 	Engine::Renderer()->Add_RenderGroup(RENDER_ALPHA, this);
 
 	_int iExit = CTempEffect::Update_Object(fTimeDelta);
-
-	//m_pTransform->m_vInfo[INFO_POS].y += m_fUpSpeed * fTimeDelta;
 
 	return iExit;
 }
@@ -55,9 +145,6 @@ Engine::_int CEffectBlood::Update_Object(const _float& fTimeDelta)
 void CEffectBlood::LateUpdate_Object(void)
 {
 	CTempEffect::LateUpdate_Object();
-
-	m_pBillBoardCom->LateUpdate_Component();
-	m_pTransform->Scale(_vec3(m_fEffectScale, m_fEffectScale, m_fEffectScale));
 }
 
 void CEffectBlood::Render_Object(void)
@@ -80,13 +167,9 @@ HRESULT CEffectBlood::Add_Component(void)
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::TRANSFORM, pComponent);
 
-	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_WhiteBubble"));
+	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_EffectBlood"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
-
-	pComponent = m_pBillBoardCom = dynamic_cast<CBillBoard*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BillBoard"));
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::BILLBOARD, pComponent);
 
 	for (int i = 0; i < ID_END; ++i)
 		for (auto& iter : m_mapComponent[i])
