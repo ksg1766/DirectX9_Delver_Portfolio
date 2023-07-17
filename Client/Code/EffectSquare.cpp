@@ -6,7 +6,6 @@ CEffectSquare::CEffectSquare(LPDIRECT3DDEVICE9 pGraphicDev)
 {
 }
 
-
 CEffectSquare::~CEffectSquare()
 {
 	Free();

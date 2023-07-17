@@ -173,21 +173,26 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	pGameObject->m_pTransform->Translate(_vec3(-40.f, 0.f,-40.f));
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-	//dynamic_cast<CPlayer*>(pGameObject)->Set_Terrain(dynamic_cast<CTerrain*>(pLayer->Get_ObjectList(OBJECTTAG::TERRAIN).front()));
-	
-	//// Boss
+	m_pPlayer = dynamic_cast<CPlayer*>(pGameObject);
+
+	// FootRay
+	pGameObject = CFootRay::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+	dynamic_cast<CFootRay*>(pGameObject)->Set_Host(m_pPlayer);
+	//pGameObject->m_pTransform->Translate(m_pPlayer->m_pTransform->m_vInfo[INFO_POS] + _vec3(0.f, -1.25f, 0.f));
+
+	// Boss
 	pGameObject = CSkeletonKing::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	pGameObject->m_pTransform->Translate(_vec3(50.f, 0.f, 50.f));
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-	//dynamic_cast<CSkeletonKing*>(pGameObject)->Set_Terrain(dynamic_cast<CTerrain*>(pLayer->Get_ObjectList(OBJECTTAG::TERRAIN).front()));
 
-	//Npc Test
+	// Npc Test
 	pGameObject = CNpc_OldMan::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	pGameObject->m_pTransform->Translate(_vec3(-50.f, 0.f, -50.f));
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-	//dynamic_cast<CNpc_OldMan*>(pGameObject)->Set_Terrain(dynamic_cast<CTerrain*>(pLayer->Get_ObjectList(OBJECTTAG::TERRAIN).front()));
 
 	CItem* pItem = CTempItem::Create(m_pGraphicDev, true);
 	NULL_CHECK_RETURN(pItem, E_FAIL);
@@ -207,12 +212,15 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	dynamic_cast<CFireWands*>(pItem)->Set_WorldItem(true);
 	pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
 
+<<<<<<< HEAD
 	/*pGameObject = CDungeonWarrior::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	pGameObject->m_pTransform->Translate(_vec3(-50.f, 1.f, -50.f));
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 	dynamic_cast<CDungeonWarrior*>(pGameObject)->Set_Terrain(dynamic_cast<CTerrain*>(pLayer->Get_ObjectList(OBJECTTAG::TERRAIN).front()));*/
 
+=======
+>>>>>>> 1ea0b8b6806af0fca243d78973485c07321acf3b
 	pGameObject = CBlade_Trap::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	pGameObject->m_pTransform->Translate(_vec3(-45.f, 0.f, -45.f));

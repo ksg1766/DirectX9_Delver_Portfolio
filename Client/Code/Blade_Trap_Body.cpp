@@ -20,6 +20,7 @@ HRESULT CBlade_Trap::Ready_Object(void)
 {
 	m_eObjectTag = OBJECTTAG::MONSTERBULLET; //미정
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
+
 	m_pTransform->Scale(_vec3(1.f, 0.2f, 1.f));
 
 	m_vBladePos[0] = _vec3(0.6f,	0.f,	0.6f);//우측상단
@@ -41,6 +42,12 @@ HRESULT CBlade_Trap::Ready_Object(void)
 	m_vBladeDir[6] = _vec3(0.f, 30.f, 0.f);//가운데
 
 	m_bSpawnBlade = false;
+<<<<<<< HEAD
+=======
+
+	m_pTransform->Translate(_vec3(0.f, 3.f, 0.f));
+
+>>>>>>> 1ea0b8b6806af0fca243d78973485c07321acf3b
 	return S_OK;
 }
 

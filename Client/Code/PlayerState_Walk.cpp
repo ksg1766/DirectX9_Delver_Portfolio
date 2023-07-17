@@ -58,28 +58,28 @@ STATE CPlayerState_Walk::Key_Input(const _float& fTimeDelta)
 	{
 		_vec3 vFront = vLook;
 		vFront.y = 0.f;
-		m_pOwner->Get_Transform()->Translate(10.f * fTimeDelta * vFront);
+		m_pOwner->Get_Transform()->Translate(6.f * fTimeDelta * vFront);
 		_eState = STATE::ROMIMG;
 	}
 	if (Engine::InputDev()->GetInstance()->Key_Pressing(DIK_S))
 	{
 		_vec3 vFront = vLook;
 		vFront.y = 0.f;
-		m_pOwner->Get_Transform()->Translate(10.f * fTimeDelta * -vFront);
+		m_pOwner->Get_Transform()->Translate(6.f * fTimeDelta * -vFront);
 		_eState = STATE::ROMIMG;
 	}
 	if (Engine::InputDev()->GetInstance()->Key_Pressing(DIK_A))
 	{
 		_vec3 vSide = vRight;
 		vSide.y = 0.f;
-		m_pOwner->Get_Transform()->Translate(10.f * fTimeDelta * -vSide);
+		m_pOwner->Get_Transform()->Translate(6.f * fTimeDelta * -vSide);
 		_eState = STATE::ROMIMG;
 	}
 	if (Engine::InputDev()->GetInstance()->Key_Pressing(DIK_D))
 	{
 		_vec3 vSide = vRight;
 		vSide.y = 0.f;
-		m_pOwner->Get_Transform()->Translate(10.f * fTimeDelta * vSide);
+		m_pOwner->Get_Transform()->Translate(6.f * fTimeDelta * vSide);
 		_eState = STATE::ROMIMG;
 	}
 

@@ -39,8 +39,8 @@ _int CRigidBody::Update_RigidBody(const _float& fTimeDelta)
 		// 임시 중력 해제
 		/*if (m_pTransform->m_vInfo[INFO_POS].y >= m_pTransform->LocalScale().y + 2.1f)
 			m_vNetPower.y += fTimeDelta * m_fGravityAcc;*/
-		if (m_vNetPower.y < -9.8f)
-			m_vNetPower.y = -9.8f;
+		if (m_vNetPower.y < m_fGravityAcc)
+			m_vNetPower.y = m_fGravityAcc;
 	}
 	/*else
 	{

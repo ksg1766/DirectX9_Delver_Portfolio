@@ -27,7 +27,6 @@ public:
 
 public:
 	void		ForceHeight(_vec3 _vPos);
-	void		Set_Terrain(CTerrain* _pCurrentTerrain) { m_pTerrain = _pCurrentTerrain; }
 
 	virtual void		OnCollisionEnter(CCollider* _pOther);
 	virtual void		OnCollisionStay(CCollider* _pOther);

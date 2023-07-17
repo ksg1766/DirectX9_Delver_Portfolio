@@ -2,6 +2,8 @@
 
 #include "Layer.h"
 
+class CPlayer;
+
 BEGIN(Engine)
 
 class ENGINE_DLL CScene : public CBase
@@ -24,10 +26,15 @@ public:
 
 	virtual	HRESULT		Load_Data() { return S_OK; }
 
+public:
+	CPlayer*			Get_MainPlayer() { return m_pPlayer; }
+
 protected:
 	LPDIRECT3DDEVICE9				m_pGraphicDev;
 	map<LAYERTAG, CLayer*>			m_mapLayer;
 	SCENETAG						m_eSceneTag;
+
+	CPlayer*						m_pPlayer;
 
 public:
 	virtual void	Free();

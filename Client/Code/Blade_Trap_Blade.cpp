@@ -37,6 +37,9 @@ HRESULT CBlade_Trap_Blade::Ready_Object(void)
 	m_pTransform->Scale(_vec3(0.6f, 1.f, 0.6f));
 
 	m_vTrapCenter = _vec3(0.f, 0.f, 0.f);
+
+	m_pTransform->Translate(_vec3(0.f, 3.f, 0.f));
+
 	return S_OK;
 }
 

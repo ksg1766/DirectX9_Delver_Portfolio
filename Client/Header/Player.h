@@ -28,8 +28,6 @@ public:
 	virtual void	LateUpdate_Object(void) override;
 	virtual void	Render_Object(void) override;
 
-	void			Set_Terrain(CTerrain* _pCurrentTerrain);
-
 private:
 	HRESULT			Add_Component(void);
 	void			Key_Input(const _float& fTimeDelta);
@@ -38,39 +36,46 @@ private:
 
 public:
 
-	const _vec3*	Get_Offset()			 { return &m_vOffset; }
-	const _vec3*	Get_LeftOffset()		 { return &m_vLeftOffset; }
-	CPlayerStat*	Get_Stat()				 { return m_pStat; }
-	//CGameObject*	Get_Item(ITEMTAG _eItem) { return m_pItem[(_uint)_eItem]; }
-	CGameObject*	Get_CurrentEquipRight()	 { return m_pCurrentEquipItemRight; }
-	CGameObject*    Get_CurrentEquipLeft()   { return m_pCurrentEquipItemLeft; }
-	CGameObject*	Get_PrevEquipRight()	 { return m_pPrevEquipItemRight; }
-	CGameObject*	Get_PrevEquipLeft()		 { return m_pPrevEquipItemLeft; }
-	_bool			Get_ItemEquipRight()     { return m_bItemEquipRight; }
-	_bool			Get_ItemEquipLeft()      { return m_bItemEquipLeft; }
-	_bool			Get_Attack()			 { return m_bIsAttack; }
-	_bool			Get_AttackTick()		 { return m_bAttackTick; }
-	_bool			Get_UseUI()				 { return m_bUseUI; }
-	_bool			Get_Drunk()				 { return m_bDrunk; }
+	const _vec3*	Get_Offset()			{ return &m_vOffset; }
+	const _vec3*	Get_LeftOffset()		{ return &m_vLeftOffset; }
+	CPlayerStat*	Get_Stat()				{ return m_pStat; }
+	//CGameObject*	Get_Item(ITEMTAG _eItem){ return m_pItem[(_uint)_eItem]; }
+	CGameObject*	Get_CurrentEquipRight()	{ return m_pCurrentEquipItemRight; }
+	CGameObject*    Get_CurrentEquipLeft()  { return m_pCurrentEquipItemLeft; }
+	CGameObject*	Get_PrevEquipRight()	{ return m_pPrevEquipItemRight; }
+	CGameObject*	Get_PrevEquipLeft()		{ return m_pPrevEquipItemLeft; }
+	_bool			Get_ItemEquipRight()    { return m_bItemEquipRight; }
+	_bool			Get_ItemEquipLeft()     { return m_bItemEquipLeft; }
+	_bool			Get_Attack()			{ return m_bIsAttack; }
+	_bool			Get_AttackTick()		{ return m_bAttackTick; }
+	_bool			Get_UseUI()				{ return m_bUseUI; }
+	_bool			Get_Drunk()				{ return m_bDrunk; }
+
+	_float			Get_Speed()				{ return m_fSpeed; }
+	_bool			IsJump()				{ return m_IsJump; }
+	CRigidBody*		Get_RigidBody()			{ return m_pRigidBody; }
 
 	virtual void	OnCollisionEnter(CCollider* _pOther);
 	virtual void	OnCollisionStay(CCollider* _pOther);
 	virtual void	OnCollisionExit(CCollider* _pOther);
 
 public:
-	void			Set_Offset(_vec3 _vOffset)					  { m_vOffset = _vOffset; }
-	void			Set_ItemEquipRight(_bool _ItemOn)		      { m_bItemEquipRight = _ItemOn; }
-	void			Set_CurrentEquipRight(CGameObject* _pCurItem) { m_pCurrentEquipItemRight = _pCurItem; }
-	void			Set_ItemEquipLeft(_bool _ItemOn)              { m_bItemEquipLeft = _ItemOn; }
-	void			Set_CurrentEquipLeft(CGameObject* _pCurItem)  { m_pCurrentEquipItemLeft = _pCurItem; }
-	void			Set_Attack(_bool _bAttack)					  { m_bIsAttack = _bAttack; }
-	void			Set_AttackTick(_bool _bTick)				  { m_bAttackTick = _bTick; }
-	void			Set_State(STATE _eState)					  { m_eState = _eState; }
-	void			Set_UseUI(_bool _use)						  { m_bUseUI = _use; }
-	void			Set_PrevEquipRight(CGameObject* _pPrevItem)	  { m_pPrevEquipItemRight = _pPrevItem; }
-	void			Set_PrevEquipLeft(CGameObject* _pPrevItem)	  { m_pPrevEquipItemLeft = _pPrevItem; }
-	void			Set_LeftOffset(_vec3 _vOffset)				  { m_vLeftOffset = _vOffset; }
-	void			Set_Drunk(_bool _Drunk)						  { m_bDrunk = _Drunk; }
+	void			Set_Offset(_vec3 _vOffset)						{ m_vOffset = _vOffset; }
+	void			Set_ItemEquipRight(_bool _ItemOn)				{ m_bItemEquipRight = _ItemOn; }
+	void			Set_CurrentEquipRight(CGameObject* _pCurItem)	{ m_pCurrentEquipItemRight = _pCurItem; }
+	void			Set_ItemEquipLeft(_bool _ItemOn)				{ m_bItemEquipLeft = _ItemOn; }
+	void			Set_CurrentEquipLeft(CGameObject* _pCurItem)	{ m_pCurrentEquipItemLeft = _pCurItem; }
+	void			Set_Attack(_bool _bAttack)						{ m_bIsAttack = _bAttack; }
+	void			Set_AttackTick(_bool _bTick)					{ m_bAttackTick = _bTick; }
+	void			Set_State(STATE _eState)						{ m_eState = _eState; }
+	void			Set_UseUI(_bool _use)							{ m_bUseUI = _use; }
+	void			Set_PrevEquipRight(CGameObject* _pPrevItem)		{ m_pPrevEquipItemRight = _pPrevItem; }
+	void			Set_PrevEquipLeft(CGameObject* _pPrevItem)		{ m_pPrevEquipItemLeft = _pPrevItem; }
+	void			Set_LeftOffset(_vec3 _vOffset)					{ m_vLeftOffset = _vOffset; }
+	void			Set_Drunk(_bool _Drunk)							{ m_bDrunk = _Drunk; }
+
+	void			Set_JumpState(_bool _bJump)						{ m_IsJump = _bJump; }
+
 public:
 	//void			Add_Item(CGameObject* pItem, ITEMTAG _eItem) { m_pItem[(_uint)_eItem] = pItem; }
 
@@ -104,7 +109,7 @@ private:
 
 	_float			m_fSpeed = 10.f;
 	_bool			m_IsJump = false;
-	_bool			m_OnGround = false;
+	CGameObject*	m_pObjBelow = nullptr;
 
 	// Debuff
 	_float			m_fDrunkTime;
