@@ -10,7 +10,7 @@ private:
 	virtual ~CEffectSquare();
 
 public:
-	HRESULT		Ready_Object(_vec3 vOriginPos, int numParticles, ParticleBoundingBox boundbox, const _tchar* pPath);
+	HRESULT		Ready_Object(_vec3 vOriginPos, int numParticles, EFFECTCOLOR _Color);
 	_int		Update_Object(const _float& fTimeDelta);
 	void		LateUpdate_Object(void);
 	void		Render_Object();
@@ -23,7 +23,7 @@ private:
 	_float      m_fSpeed = 0.f;
 
 public:
-	static CEffectSquare* Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 vOriginPos, int numParticles, ParticleBoundingBox boundbox, const _tchar* pPath);
+	static CEffectSquare* Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 vOriginPos, int numParticles, EFFECTCOLOR _Color);
 
 private:
 	virtual void Free();

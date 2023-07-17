@@ -139,12 +139,7 @@ STATE CPlayer_Attack::Key_Input(const _float& fTimeDelta)
 					dynamic_cast<CFireWands*>(pPlayer.Get_CurrentEquipRight())->m_pTransform,
 					m_pOwner->Get_Transform(), 10.f);
 
-				// Åõ»çÃ¼ ÈçÀû ÀÌÆåÆ® Ãß°¡
-				//CGameObject* pGameObjectEffect = CEffectProjectileTrace::Create(m_pGraphicDev);
-				//pGameObjectEffect->m_pTransform->Translate(pGameObject->m_pTransform->m_vInfo[INFO_POS]);
-
 				Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
-				//Engine::EventManager()->CreateObject(pGameObjectEffect, LAYERTAG::GAMELOGIC);
 
 				_eState = STATE::ATTACK;
 			}

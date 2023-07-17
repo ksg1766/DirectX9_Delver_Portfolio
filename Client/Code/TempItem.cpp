@@ -250,17 +250,12 @@ void CTempItem::OnCollisionEnter(CCollider* _pOther)
 			}
 
 			//////////////////////////////////////// 이펙트 테스트 추가 -> 몬스터 종류마다 이펙트 이미지 다르게 사용하기를 추천
-			// 이펙트 유지 범위
-			ParticleBoundingBox EffectBox;
-			EffectBox.vMin = { -100.f, -100.f, -100.f };
-			EffectBox.vMax = { 100.f, 100.f, 100.f };
-
 			// 이펙트 생성 위치
 			_matrix MonsterWorld = _pOther->GetHost()->m_pTransform->WorldMatrix();
 			_vec3 TargetPos = _vec3(MonsterWorld._41, MonsterWorld._42 + .5f, MonsterWorld._43);
 
 			// 이펙트 생성
-			CGameObject* pGameObject = CEffectSquare::Create(m_pGraphicDev, TargetPos, 50, EffectBox, L"../Bin/SRSource/Effect/Square_effect/Square_effect_Warrior.png");
+			CGameObject* pGameObject = CEffectSquare::Create(m_pGraphicDev, TargetPos, 50, EFFECTCOLOR::ECOLOR_RED);
 			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 			//////////////////////////////////////// 이펙트 테스트 추가
 

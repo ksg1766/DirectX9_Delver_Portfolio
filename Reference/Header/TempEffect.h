@@ -16,6 +16,7 @@ protected:
 	virtual ~CTempEffect();
 
 public:
+	void        Set_EffectColor(EFFECTCOLOR _Color) { m_EffectColor = _Color; }
 	void        Set_RandomSet(_bool _RandomSetbool) { m_RandomSet = _RandomSetbool; }
 	void        Set_Parent(_bool _Parent) { m_bParent = _Parent; }
 	void        Set_Child(_bool _Child) { m_bChild = _Child; }
@@ -44,6 +45,8 @@ protected:
 	}
 
 protected:
+	EFFECTCOLOR  m_EffectColor = EFFECTCOLOR::ECOLOR_END;
+
 	CRcTex*      m_pBufferCom;
 	CTexture*    m_pTextureCom;
 	CBillBoard*  m_pBillBoardCom;

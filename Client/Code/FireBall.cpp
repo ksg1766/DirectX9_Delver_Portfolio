@@ -49,9 +49,10 @@ HRESULT CFireBall::Ready_Object(CTransform* pWeapon, CTransform* pOwner, _float 
 	m_pBasicStat->Get_Stat()->fAttack = 1.f;
 
 	// Åõ»çÃ¼ ÈçÀû ÀÌÆåÆ® Ãß°¡
-	CGameObject* pGameObjectEffect = m_pEffect = CEffectProjectileTrace::Create(m_pGraphicDev);
-	pGameObjectEffect->m_pTransform->Translate(m_pTransform->m_vInfo[INFO_POS]);
-	Engine::EventManager()->CreateObject(pGameObjectEffect, LAYERTAG::GAMELOGIC);
+	CGameObject* pGameObject = m_pEffect = CEffectProjectileTrace::Create(m_pGraphicDev);
+	pGameObject->m_pTransform->Translate(m_pTransform->m_vInfo[INFO_POS]);
+	dynamic_cast<CTempEffect*>(pGameObject)->Set_EffectColor(ECOLOR_WHITE);
+	Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 
 	return S_OK;
 }

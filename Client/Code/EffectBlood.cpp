@@ -29,33 +29,94 @@ Engine::_int CEffectBlood::Update_Object(const _float& fTimeDelta)
 {
 	if (m_bParent && !m_bScaleSet) {
 		m_bScaleSet = true;
-		switch (m_iBloodColor)
+		switch (m_EffectColor)
 		{
-		case 0:
+		case Engine::ECOLOR_PINK:
 			m_fFrame = 0.f;
 			break;
-		case 1:
-			m_fFrame = 2.f;
+		case Engine::ECOLOR_RED:
+			m_fFrame = 0.f;
 			break;
-		case 2:
+		case Engine::ECOLOR_ORANGE:
+			m_fFrame = 0.f;
+			break;
+		case Engine::ECOLOR_YELLOW:
 			m_fFrame = 4.f;
 			break;
+		case Engine::ECOLOR_LIGHTGREEN:
+			m_fFrame = 0.f;
+			break;
+		case Engine::ECOLOR_GREEN:
+			m_fFrame = 2.f;
+			break;
+		case Engine::ECOLOR_SKYBLUE:
+			m_fFrame = 0.f;
+			break;
+		case Engine::ECOLOR_BLUE:
+			m_fFrame = 0.f;
+			break;
+		case Engine::ECOLOR_INDIGO:
+			m_fFrame = 0.f;
+			break;
+		case Engine::ECOLOR_PURPLE:
+			m_fFrame = 0.f;
+			break;
+		case Engine::ECOLOR_WHITE:
+			m_fFrame = 0.f;
+			break;
+		case Engine::ECOLOR_RAINBOW:
+			m_fFrame = 0.f;
+			break;
+		default:
+			m_fFrame = 0.f;
+			break;
 		}
+
 		m_fEffectScale = CTempEffect::Get_RandomFloat(.7f, 1.2f);
 		m_pTransform->Scale(_vec3(m_fEffectScale, m_fEffectScale, m_fEffectScale));
 	}
 	else if (m_bChild && !m_bScaleSet) {
 		m_bScaleSet = true;
-		switch (m_iBloodColor)
+		switch (m_EffectColor)
 		{
-		case 0:
+		case Engine::ECOLOR_PINK:
 			m_fFrame = 1.f;
 			break;
-		case 1:
+		case Engine::ECOLOR_RED:
+			m_fFrame = 1.f;
+			break;
+		case Engine::ECOLOR_ORANGE:
+			m_fFrame = 1.f;
+			break;
+		case Engine::ECOLOR_YELLOW:
+			m_fFrame = 5.f;
+			break;
+		case Engine::ECOLOR_LIGHTGREEN:
+			m_fFrame = 1.f;
+			break;
+		case Engine::ECOLOR_GREEN:
 			m_fFrame = 3.f;
 			break;
-		case 2:
-			m_fFrame = 5.f;
+		case Engine::ECOLOR_SKYBLUE:
+			m_fFrame = 1.f;
+			break;
+		case Engine::ECOLOR_BLUE:
+			m_fFrame = 1.f;
+			break;
+		case Engine::ECOLOR_INDIGO:
+			m_fFrame = 1.f;
+			break;
+		case Engine::ECOLOR_PURPLE:
+			m_fFrame = 1.f;
+			break;
+		case Engine::ECOLOR_WHITE:
+			m_fFrame = 1.f;
+			break;
+		case Engine::ECOLOR_RAINBOW:
+			m_fFrame = 0.f;
+			break;
+		default:
+			m_fFrame = 0.f;
 			break;
 		}
 		m_fEffectScale = CTempEffect::Get_RandomFloat(.5f, .8f);
@@ -70,7 +131,7 @@ Engine::_int CEffectBlood::Update_Object(const _float& fTimeDelta)
 		dynamic_cast<CTempEffect*>(pGameObject)->Set_Parent(false);
 		dynamic_cast<CTempEffect*>(pGameObject)->Set_Child(true);
 		dynamic_cast<CTempEffect*>(pGameObject)->Set_RandomSet(false);
-		dynamic_cast<CEffectBlood*>(pGameObject)->Set_BloodColor(m_iBloodColor);
+		dynamic_cast<CTempEffect*>(pGameObject)->Set_EffectColor(m_EffectColor);
 		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 	}
 
