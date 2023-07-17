@@ -99,9 +99,9 @@ void CAlien::LateUpdate_Object()
 void CAlien::Render_Object()
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
+	
 	m_pStateMachine->Render_StateMachine();
 
-	m_pStateMachine->Render_StateMachine();
 	m_pBuffer->Render_Buffer();
 
 #if _DEBUG
@@ -109,51 +109,6 @@ void CAlien::Render_Object()
 #endif
 }
 
-void CAlien::ForceHeight(_vec3 _vPos)
-{
-	_float x = (VTXCNTX * VTXITV / 2.f) + _vPos.x;
-	_float z = (VTXCNTZ * VTXITV / 2.f) + _vPos.z;
-
-	x /= (_float)VTXITV;
-	z /= (_float)VTXITV;
-
-	_int col = ::floorf(x);
-	_int row = ::floorf(z);
-
-	_vec3 A = m_pTerrain->LoadTerrainVertex()[row * VTXCNTX + col];
-	_vec3 B = m_pTerrain->LoadTerrainVertex()[row * VTXCNTX + col + 1];
-	_vec3 C = m_pTerrain->LoadTerrainVertex()[(row + 1) * VTXCNTX + col];
-	_vec3 D = m_pTerrain->LoadTerrainVertex()[(row + 1) * VTXCNTX + col + 1];
-
-	_float dx = x - col;
-	_float dz = z - row;
-
-	_float height;
-	//c-d b-d cdb 
-	if (dz < 1.0f - dx)
-	{
-		/*
-		Lerp(_float _a, _float _b, _float _c)
-		{
-			return a - (a * t) + (b * t);
-		}
-		*/
-
-		_vec3 uy = B - A;
-		_vec3 vy = C - A;
-
-		height = A.y + (uy.y * dx) + (vy.y * dz) + 1.f;
-		m_pTransform->m_vInfo[INFO_POS].y = height;
-	}// c-a b-a cba
-	else
-	{
-		_vec3 uy = C - D;
-		_vec3 vy = B - D;
-
-		height = D.y + (uy.y * (1.f - dx)) + (vy.y * (1.f - dz)) + 1.f;
-		m_pTransform->m_vInfo[INFO_POS].y = height;
-	}
-}
 
 void CAlien::OnCollisionEnter(CCollider* _pOther)
 {
@@ -161,7 +116,8 @@ void CAlien::OnCollisionEnter(CCollider* _pOther)
 
 
 	if (this->Get_StateMachine()->Get_State() != STATE::DEAD && 
-		_pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::ITEM)
+		_pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::ITEM &&
+		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::PLAYER)
 		__super::OnCollisionEnter(_pOther);
 
 
@@ -172,8 +128,9 @@ void CAlien::OnCollisionStay(CCollider* _pOther)
 	if (SceneManager()->Get_GameStop()) { return; }
 
 	if (this->Get_StateMachine()->Get_State() != STATE::DEAD &&
-		_pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::ITEM)
-		__super::OnCollisionEnter(_pOther);
+		_pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::ITEM &&
+		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::PLAYER)
+		__super::OnCollisionStay(_pOther);
 }
 
 void CAlien::OnCollisionExit(CCollider* _pOther)

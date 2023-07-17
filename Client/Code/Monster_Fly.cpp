@@ -104,7 +104,7 @@ void CMonster_Fly::Fly(const _float& fTimeDelta)
 
 	_float X = m_vSavePos.x + (fAmplitude * cosf((_float)rand() / RAND_MAX * 2.f * D3DX_PI)) / fRandX;
 	_float Y = m_vSavePos.y + (fAmplitude * -sinf((_float)rand() / RAND_MAX * 2.f * D3DX_PI)) / 50.f;
-	_float Z = m_vSavePos.z + (fAmplitude * sinf((_float)rand() / RAND_MAX * 2.f * D3DX_PI)) / 50.f;
+	_float Z = m_vSavePos.z + (fAmplitude * cosf((_float)rand() / RAND_MAX * 2.f * D3DX_PI)) / 50.f;
 
 	_vec3 vDir = _vec3(X, Y, Z);
 

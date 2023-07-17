@@ -26,6 +26,7 @@ public:
 	static CLongitudinal* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
 
 private:
+	_float	m_fAttackCool;
 
 private:
 	virtual void Free();

@@ -19,7 +19,7 @@ CMagic_Ball::~CMagic_Ball()
 	Free();
 }
 
-HRESULT CMagic_Ball::Ready_Object(CTransform* pOwner, _float _fSpeed)
+HRESULT CMagic_Ball::Ready_Object(CTransform* pOwner, _float _fSpeed, _vec3 _vOffset)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
@@ -29,13 +29,13 @@ HRESULT CMagic_Ball::Ready_Object(CTransform* pOwner, _float _fSpeed)
 	m_bCheck = false;
 	m_bIsAttack = false;
 	m_vPrevPos = _vec3(0.f, 0.f, 0.f);
-	m_pTransform->Set_Parent(pOwner);
 	m_pTransform->Scale(_vec3(0.8f, 0.8f, 0.8f));
 
 	m_pCollider->InitOBB(
 		m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT],
 		m_pTransform->LocalScale() * 0.5);
-	
+
+
 	m_pTransform->Copy_RUL_AddPos(pOwner->Get_Transform()->m_vInfo);
 	
 	m_fFrame = 0.f;
@@ -51,6 +51,7 @@ HRESULT CMagic_Ball::Ready_Object(CTransform* pOwner, _float _fSpeed)
 	m_pAnimator->Set_Animation(STATE::ATTACK);
 
 	m_pBasicStat->Get_Stat()->fAttack = 1.f;
+
 
 	return S_OK;
 }
@@ -81,6 +82,13 @@ _int CMagic_Ball::Update_Object(const _float& fTimeDelta)
 		m_vInit = m_pTransform->m_vInfo[INFO_POS];
 		m_vPrevPos = pPlayer.m_pTransform->m_vInfo[INFO_POS];
 		m_bIsAttack = true;
+	}
+	
+	_float fDistance = D3DXVec3Length(&(m_pTransform->m_vInfo[INFO_POS] - m_vInit));
+
+	if (fDistance > 70.f)
+	{
+		EventManager()->DeleteObject(this);
 	}
 
 	_vec3 vDir = m_vPrevPos - m_vInit;
@@ -115,58 +123,16 @@ void CMagic_Ball::Render_Object()
 #endif
 }
 
-void CMagic_Ball::ForceHeight(_vec3 _vPos)
-{
-	_float x = (VTXCNTX * VTXITV / 2.f) + _vPos.x;
-	_float z = (VTXCNTZ * VTXITV / 2.f) + _vPos.z;
 
-	x /= (_float)VTXITV;
-	z /= (_float)VTXITV;
-
-	_int col = ::floorf(x);
-	_int row = ::floorf(z);
-
-	_vec3 A = m_pTerrain->LoadTerrainVertex()[row * VTXCNTX + col];
-	_vec3 B = m_pTerrain->LoadTerrainVertex()[row * VTXCNTX + col + 1];
-	_vec3 C = m_pTerrain->LoadTerrainVertex()[(row + 1) * VTXCNTX + col];
-	_vec3 D = m_pTerrain->LoadTerrainVertex()[(row + 1) * VTXCNTX + col + 1];
-
-	_float dx = x - col;
-	_float dz = z - row;
-
-	_float height;
-	//c-d b-d cdb 
-	if (dz < 1.0f - dx)
-	{
-		/*
-		Lerp(_float _a, _float _b, _float _c)
-		{
-			return a - (a * t) + (b * t);
-		}
-		*/
-
-		_vec3 uy = B - A;
-		_vec3 vy = C - A;
-
-		height = A.y + (uy.y * dx) + (vy.y * dz) + 1.f;
-		m_pTransform->m_vInfo[INFO_POS].y = height;
-	}// c-a b-a cba
-	else
-	{
-		_vec3 uy = C - D;
-		_vec3 vy = B - D;
-
-		height = D.y + (uy.y * (1.f - dx)) + (vy.y * (1.f - dz)) + 1.f;
-		m_pTransform->m_vInfo[INFO_POS].y = height;
-	}
-}
 
 void CMagic_Ball::OnCollisionEnter(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 
-	//if (_pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::ITEM)	
-	//	__super::OnCollisionEnter(_pOther);
+	if (_pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::ITEM
+		&& _pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::PLAYER
+		&& _pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::MONSTER)
+		__super::OnCollisionEnter(_pOther);
 
 	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BLOCK && this->Get_State() != STATE::DEAD)
 	{
@@ -191,6 +157,7 @@ void CMagic_Ball::OnCollisionEnter(CCollider* _pOther)
 		m_pAnimator->Set_Animation(STATE::DEAD);
 
 		m_bCheck = true;
+		EventManager()->GetInstance()->DeleteObject(this);
 	}
 }
 
@@ -199,16 +166,13 @@ void CMagic_Ball::OnCollisionStay(CCollider* _pOther)
 	if (SceneManager()->Get_GameStop()) { return; }
 
 
-	if (!(_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::ITEM))
+	if (_pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::ITEM
+		&& _pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::PLAYER
+		&& _pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::MONSTER)
 		__super::OnCollisionStay(_pOther);
 
-	cout << "마법구 데미지" << endl;
 
-	if (m_pAnimator->Get_Animation()->Get_Frame() >= 1)
-	{
-		m_pAnimator->Get_Animation()->Set_Loop(FALSE);
-		EventManager()->GetInstance()->DeleteObject(this);
-	}
+
 
 }
 
@@ -261,11 +225,12 @@ HRESULT CMagic_Ball::Add_Component()
 	return S_OK;
 }
 
-CMagic_Ball* CMagic_Ball::Create(LPDIRECT3DDEVICE9 pGraphicDev, CTransform* pOwner, _float _fSpeed)
+CMagic_Ball* CMagic_Ball::Create(
+	LPDIRECT3DDEVICE9 pGraphicDev, CTransform* pOwner, _float _fSpeed, _vec3 _vOffset)
 {
 	CMagic_Ball* pInstance = new CMagic_Ball(pGraphicDev);
 
-	if (FAILED(pInstance->Ready_Object(pOwner, _fSpeed)))
+	if (FAILED(pInstance->Ready_Object(pOwner, _fSpeed, _vOffset)))
 	{
 		Safe_Release<CMagic_Ball*>(pInstance);
 

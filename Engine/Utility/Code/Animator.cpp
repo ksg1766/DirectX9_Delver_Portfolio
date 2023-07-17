@@ -1,6 +1,7 @@
 #include "..\..\Header\Animator.h"
 #include "Texture.h"
 #include "Animation.h"
+#include "Export_Function.h"
 
 CAnimator::CAnimator()
 {
@@ -28,11 +29,10 @@ HRESULT CAnimator::Ready_Animator()
 }
 
 _int CAnimator::Update_Animator(const _float& fTimeDelta)
-
-{
-
+{	
 	if(m_pCurAnimation != nullptr)
 	m_pCurAnimation->Update_Animation(fTimeDelta);
+
 
 	return S_OK;
 }
@@ -77,6 +77,7 @@ HRESULT CAnimator::Add_Animation(STATE _eState, CAnimation* pAnimation)
 
 	return S_OK;
 }
+
 
 
 CAnimator* CAnimator::Create(LPDIRECT3DDEVICE9 pGraphicDev)

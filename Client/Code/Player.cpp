@@ -43,6 +43,11 @@ HRESULT CPlayer::Ready_Object(void)
 	m_bIsAttack = false;
 	m_bAttackTick = true;
 	m_bDrunk = false;
+	m_bLeftRot = false;
+	m_bRightRot = false;
+	m_bStartRot = true;
+	m_iDrunkCount = 0.f;
+	m_iRootCount = 0;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	Get_Collider()->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
@@ -78,41 +83,13 @@ Engine::_int CPlayer::Update_Object(const _float& fTimeDelta)
 	Key_Input(fTimeDelta);
 	if (SceneManager()->Get_GameStop()) { return 0; }
 	m_pRigidBody->Update_RigidBody(fTimeDelta);
-	//
-
 
 	_int iExit = __super::Update_Object(fTimeDelta);
 
 	m_pStateMachine->Update_StateMachine(fTimeDelta);
 
-	//if (Get_Drunk())
-	//{
-	//	m_fDrunkTime += fTimeDelta;
+	
 
-	//	if (m_fDrunkTime < m_fDrunkDuration) // 10ÃÊ 
-	//	{
-	//		if (m_bFoward)
-	//			/*m_fRotationAngle = sinf(0.5f * m_fRotationSpeed * D3DX_PI / m_fDrunkDuration) * m_fAmount;*/
-	//			m_fRotationAngle = sinf(D3DX_PI / 4);
-	//		else
-	//			/*		m_fRotationAngle = -sinf(0.5f * m_fRotationSpeed * D3DX_PI / m_fDrunkDuration) * m_fAmount;*/
-	//			m_fRotationAngle = -sinf(D3DX_PI / 4);
-
-	//		if (m_fDrunkTime >= m_fDrunkDuration * 0.5f)
-	//			m_bFoward = false;
-	//	}
-	//	else
-	//	{
-	//		m_fDrunkTime = 0.f;
-	//		Set_Drunk(false);
-	//	}
-
-	//	m_pTransform->Rotate(ROT_Z, m_fRotationAngle / 100.f);
-
-
-	//}
-
-	//ForceHeight(m_pTransform->m_vInfo[INFO_POS]);
 
 	return iExit;
 }
@@ -122,6 +99,45 @@ void CPlayer::LateUpdate_Object(void)
 	if (SceneManager()->Get_GameStop()) { return; }
 
 	__super::LateUpdate_Object();
+
+	if (Get_Drunk())
+	{
+		if (m_bStartRot)
+		{
+			m_bStartRot = false;
+			D3DXMatrixIdentity(&m_matPlayerWorld);
+			m_matPlayerWorld = m_pTransform->WorldMatrix();
+		}
+
+		if (m_iRootCount < 4)
+		{
+			if (m_iDrunkCount < 20 && !m_bRightRot)
+			{
+				++m_iDrunkCount;
+				m_pTransform->Rotate(ROT_Z, 5.5 * powf(0.035,2));
+			}
+			else if (m_iDrunkCount > -20 && !m_bLeftRot)
+			{
+				--m_iDrunkCount;
+				m_pTransform->Rotate(ROT_Z, -5.5 * powf(0.035,2));
+				m_bRightRot = true;
+			}
+			else
+			{
+				m_bRightRot = false;
+				++m_iRootCount;
+			}
+		}
+		else if (m_iDrunkCount == -20 && !m_bRightRot)
+		{
+			m_pTransform->Set_WorldMatrix(m_matPlayerWorld);
+			Set_Drunk(false);
+			m_bStartRot = true;
+			m_bLeftRot = false;
+			m_bRightRot = false;
+		}
+	}
+
 
 	m_pStateMachine->LateUpdate_StateMachine();
 }

@@ -181,6 +181,7 @@
     <ClInclude Include="..\Header\Blade_Trap_Attack.h" />
     <ClInclude Include="..\Header\Blade_Trap_Blade.h" />
     <ClInclude Include="..\Header\Blade_Trap_Idle.h" />
+    <ClInclude Include="..\Header\BoneGhost.h" />
     <ClInclude Include="..\Header\BossExplosion.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
@@ -196,6 +197,7 @@
     <ClInclude Include="..\Header\Boss_Sturn.h" />
     <ClInclude Include="..\Header\Bow.h" />
     <ClInclude Include="..\Header\Box_Cube.h" />
+    <ClInclude Include="..\Header\Charge.h" />
     <ClInclude Include="..\Header\CrawlPattern.h" />
     <ClInclude Include="..\Header\EffectBlood.h" />
     <ClInclude Include="..\Header\EffectBrokenbox.h" />
@@ -204,6 +206,9 @@
     <ClInclude Include="..\Header\EffectDamageStar.h" />
     <ClInclude Include="..\Header\EffectExplosion.h" />
     <ClInclude Include="..\Header\EffectWand.h" />
+    <ClInclude Include="..\Header\Ghost_Attack.h" />
+    <ClInclude Include="..\Header\Ghost_Bullet.h" />
+    <ClInclude Include="..\Header\Ghost_IDLE.h" />
     <ClInclude Include="..\Header\HorizontalMove.h" />
     <ClInclude Include="..\Header\UISpeech.h" />
     <ClInclude Include="..\Header\Dead_BossSkeleton.h" />
@@ -293,6 +298,7 @@
     <ClInclude Include="..\Header\UIResumeButton.h" />
     <ClInclude Include="..\Header\UISpeech_OldMan.h" />
     <ClInclude Include="..\Header\WakeUp_BossSkeleton.h" />
+    <ClInclude Include="..\Header\Worm.h" />
     <ClInclude Include="..\Header\Warrior_Attack.h" />
     <ClInclude Include="..\Header\Wizard.h" />
     <ClInclude Include="..\Header\Wizard_Attack.h" />
@@ -326,6 +332,7 @@
     <ClCompile Include="..\Code\Blade_Trap_Attack.cpp" />
     <ClCompile Include="..\Code\Blade_Trap_Blade.cpp" />
     <ClCompile Include="..\Code\Blade_Trap_Idle.cpp" />
+    <ClCompile Include="..\Code\BoneGhost.cpp" />
     <ClCompile Include="..\Code\BossExplosion.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
@@ -340,6 +347,7 @@
     <ClCompile Include="..\Code\Boss_SturnEffect.cpp" />
     <ClCompile Include="..\Code\Bow.cpp" />
     <ClCompile Include="..\Code\Box_Cube.cpp" />
+    <ClCompile Include="..\Code\Charge.cpp" />
     <ClCompile Include="..\Code\CrawlPattern.cpp" />
     <ClCompile Include="..\Code\EffectBlood.cpp" />
     <ClCompile Include="..\Code\EffectBrokenbox.cpp" />
@@ -348,6 +356,9 @@
     <ClCompile Include="..\Code\EffectDamageStar.cpp" />
     <ClCompile Include="..\Code\EffectExplosion.cpp" />
     <ClCompile Include="..\Code\EffectWand.cpp" />
+    <ClCompile Include="..\Code\Ghost_Attack.cpp" />
+    <ClCompile Include="..\Code\Ghost_Bullet.cpp" />
+    <ClCompile Include="..\Code\Ghost_IDLE.cpp" />
     <ClCompile Include="..\Code\HorizontalMove.cpp" />
     <ClCompile Include="..\Code\UISpeech.cpp" />
     <ClCompile Include="..\Code\Dead_BossSkeleton.cpp" />
@@ -437,6 +448,7 @@
     <ClCompile Include="..\Code\UIResumeButton.cpp" />
     <ClCompile Include="..\Code\UISpeech_OldMan.cpp" />
     <ClCompile Include="..\Code\WakeUp_BossSkeleton.cpp" />
+    <ClCompile Include="..\Code\Worm.cpp" />
     <ClCompile Include="..\Code\Warrior_Attack.cpp" />
     <ClCompile Include="..\Code\Wizard.cpp" />
     <ClCompile Include="..\Code\Wizard_Attack.cpp" />

@@ -1,10 +1,11 @@
 #include "..\Header\Slime.h"
 #include "Export_Function.h"
-#include "Terrain.h"
-#include "SlimeMove.h"
+#include "Monster_Move.h"
 #include "SlimeAttack.h"
 #include "Monster_Hit.h"
 #include "Monster_Dead.h"
+#include "Warrior_Attack.h"
+#include "HorizontalMove.h"
 #include "Player.h"
 
 CSlime::CSlime(LPDIRECT3DDEVICE9 pGrapicDev)
@@ -29,14 +30,14 @@ HRESULT CSlime::Ready_Object()
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	CState* pState = CSlimeMove::Create(m_pGraphicDev, m_pStateMachine);
+	CState* pState = CMonster_Move::Create(m_pGraphicDev, m_pStateMachine);
 	m_pStateMachine->Add_State(STATE::ROMIMG, pState);
 	pState = CSlimeAttack::Create(m_pGraphicDev, m_pStateMachine);
 	m_pStateMachine->Add_State(STATE::ATTACK, pState);
-	pState = CMonster_Hit::Create(m_pGraphicDev, m_pStateMachine);
-	m_pStateMachine->Add_State(STATE::HIT, pState);
-	pState = CMonster_Dead::Create(m_pGraphicDev, m_pStateMachine);
-	m_pStateMachine->Add_State(STATE::DEAD, pState);
+	//pState = CMonster_Hit::Create(m_pGraphicDev, m_pStateMachine);
+	//m_pStateMachine->Add_State(STATE::HIT, pState);
+	//pState = CMonster_Dead::Create(m_pGraphicDev, m_pStateMachine);
+	//m_pStateMachine->Add_State(STATE::DEAD, pState);
 
 
 
@@ -48,13 +49,13 @@ HRESULT CSlime::Ready_Object()
 		m_pTexture[(_uint)STATE::ATTACK], STATE::ATTACK, 4.f, TRUE);
 	m_pAnimator->Add_Animation(STATE::ATTACK, pAnimation);
 
-	pAnimation = CAnimation::Create(m_pGraphicDev,
-		m_pTexture[(_uint)STATE::HIT], STATE::HIT, 3.f, TRUE);
-	m_pAnimator->Add_Animation(STATE::HIT, pAnimation);
-
-	pAnimation = CAnimation::Create(m_pGraphicDev,
-		m_pTexture[(_uint)STATE::DEAD], STATE::DEAD, 4.f, TRUE);
-	m_pAnimator->Add_Animation(STATE::DEAD, pAnimation);
+	//pAnimation = CAnimation::Create(m_pGraphicDev,
+	//	m_pTexture[(_uint)STATE::HIT], STATE::HIT, 3.f, TRUE);
+	//m_pAnimator->Add_Animation(STATE::HIT, pAnimation);
+	//
+	//pAnimation = CAnimation::Create(m_pGraphicDev,
+	//	m_pTexture[(_uint)STATE::DEAD], STATE::DEAD, 4.f, TRUE);
+	//m_pAnimator->Add_Animation(STATE::DEAD, pAnimation);
 
 	m_pStateMachine->Set_Animator(m_pAnimator);
 
@@ -123,12 +124,13 @@ void CSlime::OnCollisionEnter(CCollider* _pOther)
 	// 충돌 밀어내기 후 이벤트 : 구현하시면 됩니다.
 	if (SceneManager()->Get_GameStop()) { return; }
 
-	if (this->Get_StateMachine()->Get_State() != STATE::DEAD &&
+	if (_pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::PLAYER&&
+		this->Get_StateMachine()->Get_State() != STATE::DEAD &&
 		_pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::ITEM)
 		__super::OnCollisionEnter(_pOther);
 
 	if (_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::PLAYER
-		&& this->Get_State() == STATE::ATTACK)
+		&& this->Get_StateMachine()->Get_State() == STATE::ATTACK)
 	{
 		CPlayerStat& PlayerState = *dynamic_cast<CPlayer*>(_pOther->GetHost())->Get_Stat();
 
@@ -147,8 +149,12 @@ void CSlime::OnCollisionStay(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 
+	if (_pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::PLAYER&&
+		this->Get_StateMachine()->Get_State() != STATE::DEAD &&
+		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::ITEM)
+		__super::OnCollisionStay(_pOther);
 
-	__super::OnCollisionStay(_pOther);
+
 	// 충돌 밀어내기 후 이벤트 : 구현하시면 됩니다.
 }
 
@@ -217,52 +223,6 @@ HRESULT CSlime::Add_Component()
 }
 
 
-
-void CSlime::ForceHeight(_vec3 _vPos)
-{
-	_float x = (VTXCNTX * VTXITV / 2.f) + _vPos.x;
-	_float z = (VTXCNTZ * VTXITV / 2.f) + _vPos.z;
-
-	x /= (_float)VTXITV;
-	z /= (_float)VTXITV;
-
-	_int col = ::floorf(x);
-	_int row = ::floorf(z);
-
-	_vec3 A = m_pTerrain->LoadTerrainVertex()[row * VTXCNTX + col];
-	_vec3 B = m_pTerrain->LoadTerrainVertex()[row * VTXCNTX + col + 1];
-	_vec3 C = m_pTerrain->LoadTerrainVertex()[(row + 1) * VTXCNTX + col];
-	_vec3 D = m_pTerrain->LoadTerrainVertex()[(row + 1) * VTXCNTX + col + 1];
-
-	_float dx = x - col;
-	_float dz = z - row;
-
-	_float height;
-	//c-d b-d cdb 
-	if (dz < 1.0f - dx)
-	{
-		/*
-		Lerp(_float _a, _float _b, _float _c)
-		{
-			return a - (a * t) + (b * t);
-		}
-		*/
-
-		_vec3 uy = B - A;
-		_vec3 vy = C - A;
-
-		height = A.y + (uy.y * dx) + (vy.y * dz) + 1.f;
-		m_pTransform->m_vInfo[INFO_POS].y = height;
-	}// c-a b-a cba
-	else
-	{
-		_vec3 uy = C - D;
-		_vec3 vy = B - D;
-
-		height = D.y + (uy.y * (1.f - dx)) + (vy.y * (1.f - dz)) + 1.f;
-		m_pTransform->m_vInfo[INFO_POS].y = height;
-	}
-}
 
 CSlime* CSlime::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 {

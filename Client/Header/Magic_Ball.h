@@ -20,14 +20,12 @@ private:
 	virtual ~CMagic_Ball();
 
 public:
-	virtual HRESULT	Ready_Object(CTransform* pOwner, _float _fSpeed);
+	virtual HRESULT	Ready_Object(CTransform* pOwner, _float _fSpeed, _vec3 _vOffset);
 	virtual _int	Update_Object(const _float& fTimeDelta) override;
 	virtual void	LateUpdate_Object() override;
 	virtual void	Render_Object() override;
 
 public:
-	void		ForceHeight(_vec3 _vPos);
-	void		Set_Terrain(CTerrain* _pCurrentTerrain) { m_pTerrain = _pCurrentTerrain; }
 
 	virtual void		OnCollisionEnter(CCollider* _pOther);
 	virtual void		OnCollisionStay(CCollider* _pOther);
@@ -52,7 +50,8 @@ private:
 	_vec3  m_vInit;
 
 public:
-	static CMagic_Ball* Create(LPDIRECT3DDEVICE9 pGraphicDev, CTransform* pOwner, _float _fSpeed);
+	static CMagic_Ball* Create(
+		LPDIRECT3DDEVICE9 pGraphicDev, CTransform* pOwner, _float _fSpeed, _vec3 _vOffset = _vec3(0.f,0.f,0.f));
 
 private:
 	virtual void Free() override;

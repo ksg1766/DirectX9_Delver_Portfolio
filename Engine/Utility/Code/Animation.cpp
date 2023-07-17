@@ -23,9 +23,10 @@ CAnimation::CAnimation(const CAnimation& rhs)
 	m_fFrameSpeed(rhs.m_fFrameSpeed),
 	m_fCurFrame(rhs.m_fCurFrame),
 	m_bIsEnd(rhs.m_bIsEnd),
-	m_bIsLoop(rhs.m_bIsLoop)
-
-
+	m_bIsLoop(rhs.m_bIsLoop),
+	m_pPrevAnmation(rhs.m_pPrevAnmation),
+	m_pGhostingRenderTarget(rhs.m_pGhostingRenderTarget),
+	m_pOriginalRenderTarget(rhs.m_pOriginalRenderTarget)
 {
 }
 
@@ -73,6 +74,9 @@ STATE CAnimation::Update_Animation(const _float& fTimeDelta)
 			// Loop가 아니면 여기로 들어와서 마지막 End에 고정 됨.
 		}
 	}
+
+	if (m_pCurAnimation != nullptr)
+		m_pPrevAnmation = m_pCurAnimation;
 
 	return STATE::STATE_END; // 신경쓰지말 것 반환 아무도 안 받음.
 }
