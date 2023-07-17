@@ -20,6 +20,9 @@
 #include "Box_Cube.h"
 #include "EffectSquare.h"
 #include "EffectBubble.h"
+
+#include "Blade_Trap_Body.h"
+#include "Blade_Trap_Blade.h"
 CStage::CStage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
 {
@@ -203,6 +206,18 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	pItem->m_pTransform->Translate(_vec3(-80, 0.5f, 0.f));
 	dynamic_cast<CFireWands*>(pItem)->Set_WorldItem(true);
 	pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
+
+	/*pGameObject = CDungeonWarrior::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	pGameObject->m_pTransform->Translate(_vec3(-50.f, 1.f, -50.f));
+	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+	dynamic_cast<CDungeonWarrior*>(pGameObject)->Set_Terrain(dynamic_cast<CTerrain*>(pLayer->Get_ObjectList(OBJECTTAG::TERRAIN).front()));*/
+
+	pGameObject = CBlade_Trap::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	pGameObject->m_pTransform->Translate(_vec3(-45.f, 0.f, -45.f));
+	dynamic_cast<CBlade_Trap*>(pGameObject)->Create_Blade();
+	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
 	return S_OK;
 }

@@ -74,12 +74,14 @@ _int CNpc_OldMan::Update_Object(const _float& fTimeDelta)
 			if (Engine::UIManager()->Set_SpeechBubbleUse())
 			{
 				static_cast<CDynamicCamera*>(m_pGameObject)->Set_Fix(true);
+				SceneManager()->Set_GameStop(true);
 				m_bTalkingBox = true;
 			}
 			else
 			{
 				static_cast<CDynamicCamera*>(m_pGameObject)->Set_Fix(false);
 				Engine::UIManager()->Hide_PopupUI(UIPOPUPLAYER::POPUP_SPEECH);
+				SceneManager()->Set_GameStop(false);
 				m_bTalkingBox = false;
 			}
 		}

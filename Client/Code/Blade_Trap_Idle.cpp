@@ -1,5 +1,6 @@
 #include "Blade_Trap_Idle.h"
 #include "Export_Function.h"
+#include "Blade_Trap_Body.h"
 
 CBlade_Trap_Idle::CBlade_Trap_Idle()
 {
@@ -22,13 +23,18 @@ HRESULT CBlade_Trap_Idle::Ready_State(CStateMachine* pOwner)
 
 STATE CBlade_Trap_Idle::Update_State(const _float& fTimeDelta)
 {
-	//해당 상태일 때 업데이트 할 것들
-	_vec3 vPlayerPos = Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform->m_vInfo[INFO_POS];
-	_float fDistance = D3DXVec3LengthSq(&(vPlayerPos - m_pOwner->Get_Transform()-> m_vInfo[INFO_POS]));
 
+	_vec3 vPlayerPos = Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform->m_vInfo[INFO_POS];
+	_vec3 vDir = vPlayerPos - (dynamic_cast<CBlade_Trap*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::MONSTERBULLET).front())->m_pTransform->m_vInfo[INFO_POS]);
+	_float fDistance = D3DXVec3LengthSq(&vDir);
 	if (fDistance < pow(4, 2))
 	{
 		return STATE::ATTACK;
+	}
+	else
+	{
+		m_pOwner->Get_Transform()->m_vInfo[INFO_POS].y = -1.f;
+		return STATE::IDLE;
 	}
 }
 

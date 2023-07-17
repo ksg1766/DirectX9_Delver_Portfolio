@@ -25,6 +25,7 @@ private:
     //º¯¼ö
     _bool       m_bAttack;
     _float      m_fCool;
+    _float      m_fTrapHeight;
 public:
     static CBlade_Trap_Attack* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
 
