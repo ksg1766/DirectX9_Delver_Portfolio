@@ -2,12 +2,12 @@
 #include "Monster.h"
 
 CMonster::CMonster(LPDIRECT3DDEVICE9 pGraphicDev)
-	: CGameObject(pGraphicDev)
+	: CGameObject(pGraphicDev), m_vCenterPos(_vec3(-50.f, 0.f, 20.f))
 {
 }
 
 CMonster::CMonster(const CMonster& rhs)
-	: CGameObject(rhs)
+	: CGameObject(rhs), m_vCenterPos(rhs.m_vCenterPos)
 {
 }
 
@@ -55,6 +55,10 @@ void CMonster::OnCollisionEnter(CCollider* _pOther)
 		{
 			if(m_pRigidBody)
 				m_pRigidBody->Set_Force(_vec3(0.f, 0.f, 0.f));
+
+			if (m_pRigidBody)
+			m_pRigidBody->Set_Force(_vec3(0.f, 0.f, 0.f));
+
 			m_pTransform->Translate(_vec3(0.f, fRadiusY - 0.000001f, 0.f));
 		}
 		else

@@ -29,6 +29,9 @@ public:
 	virtual STATE		Get_State()		{ return m_eState; }
 	virtual STATE		Get_PrevState() { return m_ePrevState; }
 
+	_bool	Get_AttackCool()			{ return m_bAttackCool; }
+	void	Set_AttackCool(_bool _Cool) { m_bAttackCool = _Cool; }
+
 protected:
 	// 어떤 상태머신이 자신을 지니고 있는지 알려줌
 	CStateMachine* m_pOwner = nullptr;
@@ -40,6 +43,7 @@ protected:
 	_float		   m_fChase;
 	_vec3		   m_vRandomPos;
 
+	_bool		   m_bAttackCool;
 	
 	LPDIRECT3DDEVICE9		m_pGraphicDev;
 	

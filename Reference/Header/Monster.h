@@ -33,6 +33,7 @@ public: //Getter
     _bool				Get_AttackTick()                     { return m_bAttackTick; }
     _bool               Get_BlockOn()                        { return m_bBlockOn; }
     _bool               Get_WallTouch()                      { return m_bWallTouch; }
+    _vec3               Get_CenterPos()                      { return m_vCenterPos; }
 
 public: // Setter
     void                Set_Speed(_float _fSpeed)            { m_fSpeed = _fSpeed; }
@@ -43,6 +44,7 @@ public: // Setter
     void                Set_BlockOn(_bool _block)            { m_bBlockOn = _block; }
 	void                Set_WallTouch(_bool _Touch)			 { m_bWallTouch = _Touch; }
     void                Set_Terrain(CTerrain* _pTerrain)     { m_pTerrain = _pTerrain; }
+    void                Set_CenterPos(_vec3 _vPos)           { m_vCenterPos = _vPos; }
 
 protected:
     CRigidBody*                         m_pRigidBody = nullptr;
@@ -53,8 +55,11 @@ protected:
     _bool								m_bAttackTick;
     _bool		                        m_bBlockOn;
     _bool                               m_bWallTouch;
+
+    _vec3                               m_vCenterPos;
     _float                              m_fSpeed;
     CTerrain*                           m_pTerrain;
+
     // MONSTER_ID m_eMonserID;
     // MonsterAI Component 추가해서 사용
 

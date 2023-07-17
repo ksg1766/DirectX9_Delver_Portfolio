@@ -72,6 +72,7 @@ _int CNpc_OldMan::Update_Object(const _float& fTimeDelta)
 			m_pGameObject = SceneManager()->Get_ObjectList(LAYERTAG::ENVIRONMENT, OBJECTTAG::CAMERA).front();
 			if (Engine::UIManager()->Set_SpeechBubbleUse())
 			{
+				//static_cast<CDynamicCamera*>(m_pGameObject)->Set_Fix(true);
 				m_bTalkingBox = true;
 			}
 			else

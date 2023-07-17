@@ -28,7 +28,6 @@ public:
 	virtual void	Render_Object()								override;
 
 public:
-	void		ForceHeight(_vec3 _vPos);
 
 public:
 	virtual void		OnCollisionEnter(CCollider* _pOther);

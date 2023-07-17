@@ -41,33 +41,34 @@ STATE CSlimeAttack::Update_State(const _float& fTimeDelta)
 	{
 		m_vPrevPos = pPlayer.m_pTransform->m_vInfo[INFO_POS];
 		m_bIsAttack = true;
+		m_bAttackTick = false;
+
 	}
 
-	_vec3 vDir =
-		m_vPrevPos - m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
-	D3DXVec3Normalize(&vDir, &vDir);
+	if (m_bIsAttack)
+	{
+		_vec3 vDir =
+			m_vPrevPos - m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
+		D3DXVec3Normalize(&vDir, &vDir);
 
-	_float fAttackDistance = m_fSpeed * fTimeDelta;
+		_float fAttackDistance = m_fSpeed * fTimeDelta;
 
-	_vec3 vAttackPos = m_pOwner->Get_Transform()->m_vInfo[INFO_POS] + vDir * fAttackDistance;
+		_vec3 vAttackPos = m_pOwner->Get_Transform()->m_vInfo[INFO_POS] + vDir * fAttackDistance;
 
-	m_pOwner->Get_Transform()->m_vInfo[INFO_POS] = vAttackPos;
-
-	_float fRange = D3DXVec3LengthSq(&(m_pOwner->Get_Transform()->m_vInfo[INFO_POS]
-		- m_vPrevPos));
-
-
+		m_pOwner->Get_Transform()->m_vInfo[INFO_POS] = vAttackPos;
+	}
 
 
-	if (fRange <= 5.3f && m_pOwner->Get_Animator()->Get_Animation()->Get_Frame() > 4.f)
+	_float fRange = D3DXVec3Length(&(m_vPrevPos - 
+		m_pOwner->Get_Transform()->m_vInfo[INFO_POS]));
+
+	if (fRange < 1.f 
+		&& m_pOwner->Get_Animator()->Get_Animation()->Get_Frame() > 4.8f)
 	{
 		m_bIsAttack = false;
-		m_bAttackTick = false;
 		m_pOwner->Set_State(STATE::ROMIMG);
 		return STATE::ROMIMG;
 	}
-
-	m_pOwner->Set_State(STATE::ATTACK);
 
 	return STATE::ATTACK;
 }

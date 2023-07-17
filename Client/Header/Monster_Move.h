@@ -19,34 +19,36 @@ public:
 	virtual void	LateUpdate_State();
 	virtual void	Render_State();
 
+
+private:
+	void Move_RandomPos(const _float& fTimeDelta);
+	void MoveTo_Pos(const _vec3& vTargetPos, const _float& fTimeDelta);
+	_vec3 Get_RandomDir(const _float& fTimeDelta);
 public:
 	virtual STATE	Key_Input(const _float& fTimeDelta) { return STATE(); }
+
 
 public:
 	static CMonster_Move* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
 
 private:
-	void	Set_NewPos(const _float& fTimeDelta);
-	void	Set_NewPos();
-	void	Move_NewPos(const _float& fTimeDelta);
-	_bool	Reached_Pos();
-	
-	void  Move_RandomPos(const _float& fTimeDelta);
-	_vec3 Get_RandomDir(const _float& fTimeDelta);
-	void  MoveTo_Pos(const _vec3& vTargetPos, const _float& fTimeDelta);
+	_float RandomRange(_float _Min, _float _Max)
+	{
+		_float fRandom = static_cast<_float>(rand()) / static_cast<_float>(RAND_MAX);
+		return _Min + fRandom * (_Max - _Min);
+	}
 
 private:
-	_bool	m_bJumCoolDown;
-	_bool	m_bFirstCool;
-	_float	m_fJumpCoolDuration;
-	_float	m_fJumpCoolTimer;
+	_float m_fDistance;
+	_float m_fAngle;
+	_float m_fChase;
+	_float m_fSpeed;
+	_float m_fRandomRange;
+	_float m_fAttackCool;
 
-	_vec3	m_vSavePos;
-	_vec3	m_vReverseDir;
-	STATE	m_ePrev;
+	_vec3  m_vSavePos;
 
-	_float	m_fAmplitude;
-	_float	m_fTime;
+	_bool  m_bCheck;
 
 private:
 	virtual void Free();

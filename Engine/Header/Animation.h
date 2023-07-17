@@ -26,16 +26,27 @@ public:
 	void	Set_Frame(_float _fFrame) { m_fCurFrame = _fFrame; }
 
 public:
+
+
+public:
 	void	Set_Loop(_bool _loop)		{ m_bIsLoop = _loop; }
 	void	Set_End(_bool _end)			{ m_bIsEnd = _end; }
 	_bool	Get_Loop()					{ return m_bIsLoop; }
 	_bool	Get_End()					{ return m_bIsEnd; }
+
+	CTexture* Get_CurTexture()				   { return m_pCurAnimation; }
+	CTexture* Get_PrevTexture()				   { return m_pPrevAnmation; }
+	LPDIRECT3DTEXTURE9* Get_GhostiongTexture() { return m_pGhostingRenderTarget; }
+	IDirect3DSurface9* Get_OriginalTarget()	   { return m_pOriginalRenderTarget; }
 
 protected:
 	// 애니메이션 관련 함수
 	CAnimator* m_pOwner = nullptr;
 	// 누가 갖고 있는지, (현재 사용 안하는 중)
 	CTexture* m_pCurAnimation = nullptr;
+	CTexture* m_pPrevAnmation = nullptr;
+	LPDIRECT3DTEXTURE9* m_pGhostingRenderTarget = nullptr;
+	IDirect3DSurface9* m_pOriginalRenderTarget = nullptr;
 	// 현재 어떤 텍스쳐를 쥐고 있는 지
 	_float	m_fFrameSpeed;
 	// 프레임 누적시간 속도.

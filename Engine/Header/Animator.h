@@ -27,7 +27,8 @@ public:
 
 public:
 	HRESULT	Add_Animation(STATE _eState, CAnimation* pAnimation);
-
+	void	RenderSpriteWithGhostingEffect(LPDIRECT3DTEXTURE9 _pTexture, _float fAlpha);
+	void	RenderSprite(IDirect3DBaseTexture9* pTexture, _float fAlpha);
 
 private:
 	multimap<STATE, CAnimation*> m_mapAnimation;

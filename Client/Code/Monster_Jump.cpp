@@ -70,15 +70,13 @@ STATE CMonster_Jump::Jump(const _float& fTimeDelta)
 	//_float fSight = pow(15, 2);
 
 
-	if (vMonsterPos.y < 1.f)
+	if (vMonsterPos.y < 3.f)
 	{
-		vMonsterPos.y = 1.f;
+		vMonsterPos.y = 3.f;
 		m_fJumpVelocity = 15.f;
 		m_bJumCoolDown = true;
 		m_bIsJumping = false;
 		m_pOwner->Get_Animator()->Get_Animation()->Set_Frame(0.f);
-	
-		dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Set_State(STATE::ROMIMG);
 		
 		return STATE::ROMIMG;
 	}

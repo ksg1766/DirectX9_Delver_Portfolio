@@ -85,7 +85,7 @@ private:
 	CPlayerStat*	m_pStat = nullptr;
 	CAnimator*		m_pAnimator = nullptr;
 	CInventory*     m_pInventory = nullptr;
-
+	_matrix			m_matPlayerWorld;
 	// 게임아이템
 
 	//CGameObject*	m_pItem[(_uint)ITEMTAG::ITEM_END];      //-> 인벤토리로 이동
@@ -106,8 +106,16 @@ private:
 	_bool			m_bAttackTick;
 	_bool			m_bDrunk;
 
+	_int			m_iDrunkCount;
 	_float			m_fSpeed = 10.f;
 	_bool			m_IsJump = false;
+
+	_bool			m_OnGround = false;
+	_bool			m_bLeftRot;
+	_bool			m_bRightRot;
+	_bool			m_bStartRot;
+
+	_int			m_iRootCount;
 
 	// Debuff
 	_float			m_fDrunkTime;

@@ -1,14 +1,16 @@
 #include "..\Header\Monster_Move.h"
 #include "Export_Function.h"
 #include "DungeonSpider.h"
+#include "Player.h"
 
 CMonster_Move::CMonster_Move()
 {
 }
 
 CMonster_Move::CMonster_Move(LPDIRECT3DDEVICE9 pGraphicDev)
-	: CState(pGraphicDev), m_vSavePos(_vec3(0.f,0.f,0.f))
+	: CState(pGraphicDev)
 {
+
 }
 
 CMonster_Move::~CMonster_Move()
@@ -18,12 +20,18 @@ CMonster_Move::~CMonster_Move()
 HRESULT CMonster_Move::Ready_State(CStateMachine* pOwner)
 {
 	m_pOwner = pOwner;
-	m_bJumCoolDown = false;
-	m_bFirstCool = true;
-	m_fJumpCoolDuration = 2.f;
-		m_fJumpCoolTimer = 0.f;
-		m_fAmplitude = 0.f;
-	m_vReverseDir = _vec3(0.f, 0.f, 0.f);
+
+	m_fDistance = 30.f;
+	m_fAngle = 0.f;
+	m_fChase = 10.f;
+	m_fSpeed = 5.f;
+	m_fRandomRange = 50.f;  // 이건 변수 넣는걸로 한다치고.
+	m_vSavePos = _vec3(0.f, 0.f, 0.f);
+	m_vRandomPos = _vec3(0.f, 0.f, 0.f);
+	m_fAttackCool = 0.f;
+	m_bAttackCool = false;
+	m_bCheck = false;
+
 	return S_OK;
 }
 
@@ -31,166 +39,66 @@ HRESULT CMonster_Move::Ready_State(CStateMachine* pOwner)
 STATE CMonster_Move::Update_State(const _float& fTimeDelta)
 {
 
-	if (m_pOwner->Get_PrevState() == STATE::ATTACK || m_pOwner->Get_PrevState() == STATE::HIT)
-		m_bJumCoolDown = true;
-
-	CComponent* pPlayerTransform =
-		SceneManager()->GetInstance()->
-		Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()
-		->Get_Component(COMPONENTTAG::TRANSFORM, COMPONENTID::ID_DYNAMIC);
-
-	_vec3 vPlayerPos = static_cast<CTransform*>(pPlayerTransform)->m_vInfo[INFO_POS];
-
-	_vec3 vDistance = vPlayerPos - m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
-	_float fDistanceLength = D3DXVec3LengthSq(&vDistance);
-	_float fSight = pow(13, 2);
+	CPlayer& pPlayer =
+		*dynamic_cast<CPlayer*>
+		(SceneManager()->GetInstance()->Get_ObjectList
+		(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
 
 
-	if (fDistanceLength >= fSight) // 몬스터의 시야보다 플레이어와 몬스터의 사이거리가 멀 때까지 true
+	if (m_pOwner->Get_PrevState() == STATE::ATTACK)
 	{
-		if (dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Get_WallTouch()) // 사이가 멀다면, 현재 비교대상과의 거리를 측정하고 true, false값을 반환시키고 할 행동을한다..
-		{
-			Set_NewPos(); // 비교대상과 가까워졌다면 새로운 Pos 값을 줘야되니까, 그 값을 줬다면 Move_NewPos -> 새로운 곳으로 이동시킴.
-			//dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Set_WallTouch(false);
-		}
-		
-		Move_RandomPos(fTimeDelta);
-
-		return STATE::ROMIMG;
+		m_fAttackCool += fTimeDelta;
+		if (m_fAttackCool > 2.f)
+			m_bAttackCool = false;
 	}
 
 
+	_vec3 fDistance = m_pOwner->Get_Host()->m_pTransform->m_vInfo[INFO_POS] - pPlayer.m_pTransform->m_vInfo[INFO_POS];
+	_float fLength = D3DXVec3Length(&fDistance);
 
-	if (m_bFirstCool)
+	if (fLength < m_fChase)
 	{
-		m_bFirstCool = false;
-		return STATE::ATTACK;
-	}
+		_vec3 fChaseDir = pPlayer.m_pTransform->m_vInfo[INFO_POS] - m_pOwner->Get_Host()->m_pTransform->m_vInfo[INFO_POS];
+		D3DXVec3Normalize(&fChaseDir, &fChaseDir);
 
+		m_pOwner->Get_Host()->m_pTransform->m_vInfo[INFO_POS] += fChaseDir * m_fSpeed * fTimeDelta;
 
-	if (m_bJumCoolDown)
-	{
-		m_fJumpCoolTimer += fTimeDelta;
-
-		if (m_fJumpCoolTimer >= m_fJumpCoolDuration)
+		if (fLength < 5.f && !Get_AttackCool())
 		{
-			m_bJumCoolDown = false;
-			m_fJumpCoolTimer = 0.f;
+			m_fAttackCool = 0.f;
+			m_bAttackCool = true;
 			dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Set_AttackTick(false);
 			return STATE::ATTACK;
 		}
-		else
+	}
+	else
+	{
+		_vec3 vReturn = dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Get_CenterPos() - m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
+		_float fReturnDistance = D3DXVec3Length(&vReturn);
+		D3DXVec3Normalize(&vReturn, &vReturn);
+
+		if (fReturnDistance >= 30.f && !m_bCheck)
 		{
-			Move_RandomPos(fTimeDelta);
+			m_pOwner->Get_Transform()->m_vInfo[INFO_POS] += vReturn * m_fSpeed * fTimeDelta; // Distance가 큰 동안 무조건 Center 쪽으로 보냄. 근데 30이 됐을 땐 bool값을 TRUE로 바꿈
+			//m_bCheck = true; // 이러면 30 영역 안에 들어왔다는 것임. 여기서부터 랜덤지역을 배회시킴. 근데 센터에서 50 ~ 100 정도 벗어나면 다시 돌아가게 만든다.
+		}
+		else
+			m_bCheck = true;
+
+		if (m_bCheck)
+		{
+			if (fReturnDistance > 50.f)
+				m_bCheck = false;
+			else
+			{
+				Move_RandomPos(fTimeDelta);
+			}
 		}
 	}
 
-	m_pOwner->Set_State(STATE::ROMIMG);
 
+	return STATE::ROMIMG;
 }
-
-void CMonster_Move::Set_NewPos()
-{
-	srand((unsigned)time(NULL));
-
-
-	//_float radius = 10.f; // X와 Z 값의 최대 범위
-	//_float angle = (_float)rand() / 2.f * D3DX_PI; // 0에서 2파이(360도) 사이의 랜덤한 각도
-	//
-	//_float X = m_vSavePos.x + (radius * cosf(angle)) / 100.f; // X 값 계산
-	//_float Z = m_vSavePos.z + (radius * -sinf(angle)) / 100.f; // Z 값 계산
-
-	/*m_vRandomPos.x = 15 * cosf((_float)rand() / RAND_MAX * (D3DX_PI * 2));
-	m_vRandomPos.y = 1.f;
-	m_vRandomPos.z = 15 * -sinf((_float)rand() / RAND_MAX * (D3DX_PI * 2));*/
-
-	m_vRandomPos *= -1.f;
-
-	m_fAmplitude = 50 + rand() % 30;
-
-	_float fRadius = 5.f;
-	_float fAngle = (_float)rand() / 2.f * D3DX_PI;
-	
-	m_vRandomPos.x = (fRadius * cosf(fAngle)) / m_fAmplitude;
-	m_vRandomPos.y = 1.f;
-	m_vRandomPos.z = (fRadius * -sinf(fAngle)) / m_fAmplitude;
-}
-
-void CMonster_Move::Move_NewPos(const _float& fTimeDelta)
-{
-	_vec3 vCurrentPos = m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
-	_vec3 vDir = (_vec3(0.f,0.f,0.f)) - vCurrentPos;
-
-	D3DXVec3Normalize(&vDir, &vDir);
-
-	_float fMoveSpeed = 5.f;
-
-	_float fMoveDistanve = fMoveSpeed * fTimeDelta;
-
-	vCurrentPos += vDir * fMoveDistanve;
-
-	//m_pOwner->Get_Transform()->Translate(vCurrentPos * fTimeDelta);
-
-	m_pOwner->Get_Transform()->m_vInfo[INFO_POS] = vCurrentPos;
-}
-
-_bool CMonster_Move::Reached_Pos()
-{
-	_vec3 vCurrentPos = m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
-	_float fDistance = D3DXVec3Length(&(vCurrentPos - _vec3(0.f,0.f,0.f)));
-
-	return fDistance <= 20.f;
-}
-
-void CMonster_Move::Move_RandomPos(const _float& fTimeDelta)
-{
-	CTransform* pPlayerTransform = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform;
-
-	_vec3 vPlayerPos = pPlayerTransform->m_vInfo[INFO_POS];
-	_vec3 vRandomDir = Get_RandomDir(fTimeDelta);
-	m_vSavePos = vRandomDir;
-	_vec3 vTargetPos = _vec3(0.f,0.f,0.f) + vRandomDir * 200.f;
-	
-	//m_vReverseDir = -(vTargetPos + vRandomDir * 200.f);
-
-	MoveTo_Pos(vTargetPos, fTimeDelta);
-}
-
-_vec3 CMonster_Move::Get_RandomDir(const _float& fTimeDelta)
-{
-
-	_float radius = 10.f; // X와 Z 값의 최대 범위
-	_float angle = (_float)rand() / 2.f * D3DX_PI; // 0에서 2파이(360도) 사이의 랜덤한 각도
-
-	_float X = m_vSavePos.x + (radius * cosf(angle)) / 100.f; // X 값 계산
-	_float Z = m_vSavePos.z + (radius * -sinf(angle)) / 100.f; // Z 값 계산
-
-	m_vRandomPos = _vec3(X, 0.f, Z);
-	D3DXVec3Normalize(&m_vRandomPos, &m_vRandomPos);
-
-
-	return m_vRandomPos;
-
-}
-
-void CMonster_Move::MoveTo_Pos(const _vec3& vTargetPos, const _float& fTimeDelta)
-{
-	_vec3& vMonsterPos = m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
-
-	_vec3 vDir = vTargetPos - vMonsterPos;
-	D3DXVec3Normalize(&vDir, &vDir);
-
-	_float fMoveSpeed = 5.f;
-	_float fMoveDistance = fMoveSpeed * fTimeDelta;
-
-	vMonsterPos += vDir * fMoveDistance;
-}
-
-
-
-
-
-// 잠시 test
 
 
 
@@ -290,7 +198,7 @@ void CMonster_Move::MoveTo_Pos(const _vec3& vTargetPos, const _float& fTimeDelta
 //
 //	MoveTo_Pos(pTarget, fTimeDelta);
 //}
-//
+
 //void CMonster_Move::Move_NewPos(const _float& fTimeDelta)
 //{
 //	_vec3 vCurrentPos = m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
@@ -306,7 +214,7 @@ void CMonster_Move::MoveTo_Pos(const _vec3& vTargetPos, const _float& fTimeDelta
 //
 //	m_pOwner->Get_Transform()->m_vInfo[INFO_POS] = vCurrentPos;
 //}
-//
+
 //_bool CMonster_Move::Reached_Pos()
 //{
 //	_vec3 vCurrentPos = m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
@@ -314,56 +222,60 @@ void CMonster_Move::MoveTo_Pos(const _vec3& vTargetPos, const _float& fTimeDelta
 //
 //	return fDistance <= 70.f;
 //}
-//
-//void CMonster_Move::Move_RandomPos(const _float& fTimeDelta)
-//{
-//	//_vec3 vTerrainCenter = _vec3((VTXCNTX * 32) / 2.f, 0.f, (VTXCNTZ * 32) / 2.f);
-//	_vec3 vTerrainCenter = _vec3(0.f, 0.f, 0.f);
-//
-//	_float	fMinDistance = 10.f;
-//	_float	fMaxDistance = 100.f;
-//
-//	_float fDistance = fMinDistance + (rand() / (_float)RAND_MAX) * (fMaxDistance - fMinDistance);
-//
-//	//_vec3 vRamdomDir = _vec3(cosf(fAngle), 0.f, -sinf(fAngle));
-//	_vec3 vRandomDir = Get_RandomDir(fTimeDelta);
-//	m_vSavePos = vRandomDir * 300;
-//	D3DXVec3Normalize(&vRandomDir, &vRandomDir);
-//
-//	m_vRandomPos =  vTerrainCenter + vRandomDir * fDistance;
-//
-//	MoveTo_Pos(m_vRandomPos, fTimeDelta);
-//}
-//
-//_vec3 CMonster_Move::Get_RandomDir(const _float& fTimeDelta)
-//{
-//	_float distance = 1.f + (rand() % 50);
-//
-//
-//	_float X = m_vSavePos.x + (distance * cosf((_float)rand() / RAND_MAX * 2.f * D3DX_PI)) / 100.f;
-//	_float Z = m_vSavePos.z + (-distance * sinf((_float)rand() / RAND_MAX * 2.f * D3DX_PI)) / 100.f;
-//
-//	_vec3 vDir = _vec3(X, 0.f, Z);
-//
-//	D3DXVec3Normalize(&vDir, &vDir);
-//
-//
-//	return vDir;
-//
-//}
-//
-//void CMonster_Move::MoveTo_Pos(const _vec3& vTargetPos, const _float& fTimeDelta)
-//{
-//	_vec3& vMonsterPos = m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
-//
-//	_vec3 vDir = vTargetPos - vMonsterPos;
-//	D3DXVec3Normalize(&vDir, &vDir);
-//
-//	_float fMoveSpeed = 3.f;
-//	_float fMoveDistance = fMoveSpeed * fTimeDelta;
-//
-//	vMonsterPos += vDir * fMoveDistance;
-//}
+
+void CMonster_Move::Move_RandomPos(const _float& fTimeDelta)
+{
+	//_vec3 vTerrainCenter = _vec3((VTXCNTX * 32) / 2.f, 0.f, (VTXCNTZ * 32) / 2.f);
+
+	_float	fMinDistance = 10.f;
+	_float	fMaxDistance = 40.f;
+
+	_float fDistance = fMinDistance + (rand() / (_float)RAND_MAX) * (fMaxDistance - fMinDistance);
+
+	//_vec3 vRamdomDir = _vec3(cosf(fAngle), 0.f, -sinf(fAngle));
+	_vec3 vRandomDir = Get_RandomDir(fTimeDelta);
+	m_vSavePos = vRandomDir;
+	D3DXVec3Normalize(&vRandomDir, &vRandomDir);
+
+	m_vRandomPos =  m_pOwner->Get_Host()->m_pTransform->m_vInfo[INFO_POS] + vRandomDir * fDistance;
+
+	MoveTo_Pos(m_vRandomPos, fTimeDelta);
+}
+
+_vec3 CMonster_Move::Get_RandomDir(const _float& fTimeDelta)
+{
+	_float distance = 15.f;
+
+	if (dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Get_BlockOn())
+	{
+		distance *= -1.f;
+		dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Set_BlockOn(false);
+	}
+
+	_float X = m_vSavePos.x + (distance * cosf((_float)rand() / RAND_MAX * 2.f * D3DX_PI)) / 100.f;
+	_float Z = m_vSavePos.z + (distance * -sinf((_float)rand() / RAND_MAX * 2.f * D3DX_PI)) / 100.f;
+
+	_vec3 vDir = _vec3(X, 0.f, Z);
+
+	D3DXVec3Normalize(&vDir, &vDir);
+
+
+	return vDir;
+
+}
+
+void CMonster_Move::MoveTo_Pos(const _vec3& vTargetPos, const _float& fTimeDelta)
+{
+	_vec3& vMonsterPos = m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
+
+	_vec3 vDir = vTargetPos - vMonsterPos;
+	D3DXVec3Normalize(&vDir, &vDir);
+
+	_float fMoveSpeed = 3.f;
+	_float fMoveDistance = fMoveSpeed * fTimeDelta;
+
+	vMonsterPos += vDir * fMoveDistance;
+}
 
 
 void CMonster_Move::LateUpdate_State()
