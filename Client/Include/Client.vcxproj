@@ -197,17 +197,17 @@
     <ClInclude Include="..\Header\Bow.h" />
     <ClInclude Include="..\Header\Box_Cube.h" />
     <ClInclude Include="..\Header\CrawlPattern.h" />
-<<<<<<< HEAD
     <ClInclude Include="..\Header\EffectBlood.h" />
     <ClInclude Include="..\Header\EffectBrokenbox.h" />
     <ClInclude Include="..\Header\EffectBubble.h" />
     <ClInclude Include="..\Header\EffectDamage.h" />
     <ClInclude Include="..\Header\EffectDamageStar.h" />
     <ClInclude Include="..\Header\EffectExplosion.h" />
+    <ClInclude Include="..\Header\EffectExplosionChild.h" />
+    <ClInclude Include="..\Header\EffectProjectileTrace.h" />
+    <ClInclude Include="..\Header\EffectTrace.h" />
     <ClInclude Include="..\Header\EffectWand.h" />
-=======
     <ClInclude Include="..\Header\HorizontalMove.h" />
->>>>>>> origin/feature/JunYeop
     <ClInclude Include="..\Header\UISpeech.h" />
     <ClInclude Include="..\Header\Dead_BossSkeleton.h" />
     <ClInclude Include="..\Header\Dog_Idle.h" />
@@ -344,17 +344,17 @@
     <ClCompile Include="..\Code\Bow.cpp" />
     <ClCompile Include="..\Code\Box_Cube.cpp" />
     <ClCompile Include="..\Code\CrawlPattern.cpp" />
-<<<<<<< HEAD
     <ClCompile Include="..\Code\EffectBlood.cpp" />
     <ClCompile Include="..\Code\EffectBrokenbox.cpp" />
     <ClCompile Include="..\Code\EffectBubble.cpp" />
     <ClCompile Include="..\Code\EffectDamage.cpp" />
     <ClCompile Include="..\Code\EffectDamageStar.cpp" />
     <ClCompile Include="..\Code\EffectExplosion.cpp" />
+    <ClCompile Include="..\Code\EffectExplosionChild.cpp" />
+    <ClCompile Include="..\Code\EffectProjectileTrace.cpp" />
+    <ClCompile Include="..\Code\EffectTrace.cpp" />
     <ClCompile Include="..\Code\EffectWand.cpp" />
-=======
     <ClCompile Include="..\Code\HorizontalMove.cpp" />
->>>>>>> origin/feature/JunYeop
     <ClCompile Include="..\Code\UISpeech.cpp" />
     <ClCompile Include="..\Code\Dead_BossSkeleton.cpp" />
     <ClCompile Include="..\Code\Dog_Idle.cpp" />

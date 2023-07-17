@@ -16,38 +16,53 @@ HRESULT CEffectBrokenbox::Ready_Object(void)
 	FAILED_CHECK_RETURN(CTempEffect::Ready_Object(), E_FAIL); // 초기화 및 초기 설정
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_fFrame = 0.f;
-	m_fFrist = 0.f;
-	m_fFinal = 5.f;
-	m_fFrameSpeed = CTempEffect::Get_RandomFloat(1.f, 2.f);
+	_float fRandom = CTempEffect::Get_RandomFloat(.0f, .4f);
+	if (fRandom > .2f)
+		m_fFrame = 0.f;
+	else
+		m_fFrame = 1.f;
 
-	m_fLife       = CTempEffect::Get_RandomFloat(5.f, 10.f);
+	m_fLife        = 7.f;
+	m_fEffectScale = .5f;
 
-	m_fEffectScale = CTempEffect::Get_RandomFloat(1.f, 1.5f);
+	CTempEffect::Get_RandomVector( &m_vecVelocity, &_vec3(-1.f, .0f, -1.f), &_vec3(1.f, .0f, 1.f));
+	m_fDownSpeed = 7.f;
 
 	return S_OK;
 }
 
 Engine::_int CEffectBrokenbox::Update_Object(const _float& fTimeDelta)
 {
-	//if (m_RandomSet)
-	//{
-	//	m_RandomSet = false;
-	//	// 랜덤으로 50%의 확률로 자신 객체 하나 더 생성
-	//	if (CTempEffect::Get_RandomFloat(0.0f, 1.f) > 0.3f)
-	//	{
-	//		CGameObject* pGameObject = CEffectBubble::Create(m_pGraphicDev);
-	//		pGameObject->m_pTransform->Translate(_vec3(m_pTransform->m_vInfo[INFO_POS].x + CTempEffect::Get_RandomFloat(.5f, 1.f), m_pTransform->m_vInfo[INFO_POS].y + CTempEffect::Get_RandomFloat(.5f, 1.f), m_pTransform->m_vInfo[INFO_POS].z + CTempEffect::Get_RandomFloat(.5f, 1.f)));
-	//		dynamic_cast<CTempEffect*>(pGameObject)->Set_RandomSet(false);
-	//		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
-	//	}
-	//}
+	// 이미지 랜덤 1 택 
+	if (m_RandomSet)
+	{
+		m_RandomSet = false;
+		_int iNum = 0.f;
+
+		_float fRandom = CTempEffect::Get_RandomFloat(.0f, .4f);
+		if (fRandom > .2f)
+			iNum = 3.f;
+		else
+			iNum = 4.f;
+
+		for (_int i = 0; i < iNum; ++i)
+		{
+			CGameObject* pGameObject = CEffectBrokenbox::Create(m_pGraphicDev);
+			pGameObject->m_pTransform->Translate(_vec3(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vInfo[INFO_POS].z));
+			dynamic_cast<CTempEffect*>(pGameObject)->Set_RandomSet(false);
+			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+		}
+	}
 
 	Engine::Renderer()->Add_RenderGroup(RENDER_ALPHA, this);
 
 	_int iExit = CTempEffect::Update_Object(fTimeDelta);
 
-	//m_pTransform->m_vInfo[INFO_POS].y += m_fUpSpeed * fTimeDelta;
+	if (m_fTime < .26f)
+	{
+		_vec3		vDir = m_vecVelocity - m_pTransform->m_vInfo[INFO_POS];
+		m_pTransform->m_vInfo[INFO_POS] += *D3DXVec3Normalize(&vDir, &vDir) * fTimeDelta * m_fDownSpeed;
+	}
 
 	return iExit;
 }
@@ -80,7 +95,7 @@ HRESULT CEffectBrokenbox::Add_Component(void)
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::TRANSFORM, pComponent);
 
-	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_WhiteBubble"));
+	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_EffectBrokenbox"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
 

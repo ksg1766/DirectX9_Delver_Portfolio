@@ -20,6 +20,14 @@
 #include "Box_Cube.h"
 #include "EffectSquare.h"
 #include "EffectBubble.h"
+#include "EffectBrokenbox.h"
+#include "EffectDamage.h"
+#include "EffectDamageStar.h"
+#include "EffectBlood.h"
+#include "EffectWand.h"
+#include "EffectExplosion.h"
+#include "EffectProjectileTrace.h"
+
 CStage::CStage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
 {
@@ -68,7 +76,7 @@ void CStage::LateUpdate_Scene()
 		EffectBox.vMin = { -100.f, -100.f, -100.f };
 		EffectBox.vMax = { 100.f, 100.f, 100.f };
 
-		_vec3 TargetPos = _vec3(0.f, 10.f, 0.f);
+		_vec3 TargetPos = _vec3(0.f, 5.f, 0.f);
 
 		CGameObject* pGameObject = CEffectSquare::Create(m_pGraphicDev, TargetPos, 50, EffectBox, L"../Bin/SRSource/Effect/Square_effect/Square_effect_Warrior.png");
 		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
@@ -76,8 +84,51 @@ void CStage::LateUpdate_Scene()
 	else if (Engine::InputDev()->Key_Down(DIK_F7))
 	{
 		CGameObject* pGameObject = CEffectBubble::Create(m_pGraphicDev);
-		pGameObject->m_pTransform->Translate(_vec3(0.f, 10.f, 0.f));
+		pGameObject->m_pTransform->Translate(_vec3(0.f, 5.f, 0.f));
 		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+	}
+	else if (Engine::InputDev()->Key_Down(DIK_F8))
+	{
+		CGameObject* pGameObject = CEffectBrokenbox::Create(m_pGraphicDev);
+		pGameObject->m_pTransform->Translate(_vec3(0.f, 2.f, 0.f));
+		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+	}
+	else if (Engine::InputDev()->Key_Down(DIK_F9))
+	{
+		CGameObject* pGameObject = CEffectDamage::Create(m_pGraphicDev);
+		pGameObject->m_pTransform->Translate(_vec3(0.f, 2.f, 0.f));
+		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+	}
+	else if (Engine::InputDev()->Key_Down(DIK_Z))
+	{
+		CGameObject* pGameObject = CEffectDamageStar::Create(m_pGraphicDev);
+		pGameObject->m_pTransform->Translate(_vec3(0.f, 2.f, 0.f));
+		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+	}
+	else if (Engine::InputDev()->Key_Down(DIK_X))
+	{
+		CGameObject* pGameObject = CEffectBlood::Create(m_pGraphicDev);
+		pGameObject->m_pTransform->Translate(_vec3(0.f, .1f, 0.f));
+		dynamic_cast<CEffectBlood*>(pGameObject)->Set_BloodColor(1);
+		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+	}
+	else if (Engine::InputDev()->Key_Down(DIK_V))
+	{
+		CGameObject* pGameObject = CEffectWand::Create(m_pGraphicDev);
+		pGameObject->m_pTransform->Translate(_vec3(0.f, 2.f, 0.f));
+		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+	}
+	else if (Engine::InputDev()->Key_Down(DIK_B))
+	{
+		CGameObject* pGameObject = CEffectExplosion::Create(m_pGraphicDev);
+		pGameObject->m_pTransform->Translate(_vec3(0.f, 2.f, 0.f));
+		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+	}
+	else if (Engine::InputDev()->Key_Down(DIK_N))
+	{
+		//CGameObject* pGameObject = CEffectProjectileTrace::Create(m_pGraphicDev);
+		//pGameObject->m_pTransform->Translate(_vec3(0.f, 2.f, 0.f));
+		//Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 	}
 }
 

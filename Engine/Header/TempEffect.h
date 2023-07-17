@@ -17,6 +17,8 @@ protected:
 
 public:
 	void        Set_RandomSet(_bool _RandomSetbool) { m_RandomSet = _RandomSetbool; }
+	void        Set_Parent(_bool _Parent) { m_bParent = _Parent; }
+	void        Set_Child(_bool _Child) { m_bChild = _Child; }
 
 public:
 	HRESULT		Ready_Object();
@@ -25,7 +27,13 @@ public:
 	void		Render_Object(void);
 
 protected:
-	float Get_RandomFloat(float lowBound, float hightBound)
+	void Get_RandomVector(_vec3* out, _vec3* min, _vec3* max)
+	{
+		out->x = Get_RandomFloat(min->x, max->x);
+		out->y = Get_RandomFloat(min->y, max->y);
+		out->z = Get_RandomFloat(min->z, max->z);
+	}
+	float       Get_RandomFloat(float lowBound, float hightBound)
 	{
 		if (lowBound >= hightBound)
 			return lowBound;
@@ -49,8 +57,13 @@ protected:
 
 	_float       m_fLife;
 
+	_bool        m_bAnimation;
 	_bool        m_bLoop;
 	_bool        m_RandomSet;
+	_bool        m_bScaleSet;
+
+	_bool        m_bParent;
+	_bool        m_bChild;
 
 	_float       m_fEffectScale;
 

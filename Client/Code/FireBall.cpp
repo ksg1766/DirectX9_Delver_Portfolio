@@ -1,6 +1,7 @@
 #include "..\Header\FireBall.h"
 #include "Export_Function.h"
 #include "Player.h"
+#include "EffectProjectileTrace.h"
 
 CFireBall::CFireBall(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CGameObject(pGraphicDev)
@@ -47,6 +48,11 @@ HRESULT CFireBall::Ready_Object(CTransform* pWeapon, CTransform* pOwner, _float 
 	m_pAnimator->Set_Animation(STATE::ATTACK);
 	m_pBasicStat->Get_Stat()->fAttack = 1.f;
 
+	// 투사체 흔적 이펙트 추가
+	CGameObject* pGameObjectEffect = m_pEffect = CEffectProjectileTrace::Create(m_pGraphicDev);
+	pGameObjectEffect->m_pTransform->Translate(m_pTransform->m_vInfo[INFO_POS]);
+	Engine::EventManager()->CreateObject(pGameObjectEffect, LAYERTAG::GAMELOGIC);
+
 	return S_OK;
 }
 
@@ -80,10 +86,10 @@ void CFireBall::LateUpdate_Object()
 void CFireBall::Render_Object()
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
-	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
 	//m_pStateMachine->Render_StateMachine();
-	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+	//m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 
 
 	m_pAnimator->Render_Animator();
@@ -93,8 +99,8 @@ void CFireBall::Render_Object()
 	m_pCollider->Render_Collider();
 #endif
 
-	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
-	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+	//m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
 
 void CFireBall::ForceHeight(_vec3 _vPos)
@@ -108,14 +114,20 @@ void CFireBall::OnCollisionEnter(CCollider* _pOther)
 	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BLOCK)
 	{
 		cout << "벽돌 충돌" << endl;
-		EventManager()->GetInstance()->DeleteObject(this);
 
+		if (m_pEffect != nullptr)
+			Engine::EventManager()->DeleteObject(m_pEffect);
+
+		EventManager()->GetInstance()->DeleteObject(this);
 	}
 
 	if (_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::MONSTER && m_eState != STATE::DEAD)
 	{
 		cout << "파이어볼 몬스터 충돌" << endl;
 		
+		if (m_pEffect != nullptr)
+			Engine::EventManager()->DeleteObject(m_pEffect);
+
 		Set_State(STATE::DEAD);
 		EventManager()->GetInstance()->DeleteObject(this);
 	}

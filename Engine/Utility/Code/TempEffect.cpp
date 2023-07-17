@@ -31,8 +31,13 @@ HRESULT CTempEffect::Ready_Object()
 
 	m_fLife = 0.f;
 
-	m_bLoop     = false;
-	m_RandomSet = true;
+	m_bAnimation = false;
+	m_bLoop      = false;
+	m_RandomSet  = true;
+	m_bScaleSet  = false;
+
+	m_bParent = false;
+	m_bChild  = false;
 
 	return S_OK;
 }
@@ -41,19 +46,22 @@ _int CTempEffect::Update_Object(const _float & fTimeDelta)
 {
 	m_fTime += 1.f * fTimeDelta;
 
-	if (m_fTime > m_fLife || m_fFrame == m_fFinal) {
+	if (m_fTime > m_fLife || m_fFrame == m_fFinal && m_bAnimation && !m_bLoop) {
 		Engine::EventManager()->DeleteObject(this);
 	}
 
-	m_fFrame += m_fFinal * fTimeDelta * m_fFrameSpeed;
-
-	if (m_fFinal < m_fFrame)
+	if (m_bAnimation)
 	{
-		if (m_bLoop) {
-			m_fFrame = m_fFrist;
-		}
-		else {
-			m_fFrame = m_fFinal;
+		m_fFrame += m_fFinal * fTimeDelta * m_fFrameSpeed;
+
+		if (m_fFinal < m_fFrame)
+		{
+			if (m_bLoop) {
+				m_fFrame = m_fFrist;
+			}
+			else {
+				m_fFrame = m_fFinal;
+			}
 		}
 	}
 	

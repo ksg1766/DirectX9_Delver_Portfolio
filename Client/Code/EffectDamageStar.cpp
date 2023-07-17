@@ -16,38 +16,26 @@ HRESULT CEffectDamageStar::Ready_Object(void)
 	FAILED_CHECK_RETURN(CTempEffect::Ready_Object(), E_FAIL); // 초기화 및 초기 설정
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
+	m_bAnimation = true;
+	m_bLoop      = true;
+
 	m_fFrame = 0.f;
 	m_fFrist = 0.f;
-	m_fFinal = 5.f;
-	m_fFrameSpeed = CTempEffect::Get_RandomFloat(1.f, 2.f);
+	m_fFinal = 8.f;
+	m_fFrameSpeed = 2.f;
 
-	m_fLife       = CTempEffect::Get_RandomFloat(5.f, 10.f);
+	m_fLife       = 1.5f;
 
-	m_fEffectScale = CTempEffect::Get_RandomFloat(1.f, 1.5f);
+	m_fEffectScale = 1.f;
 
 	return S_OK;
 }
 
 Engine::_int CEffectDamageStar::Update_Object(const _float& fTimeDelta)
 {
-	//if (m_RandomSet)
-	//{
-	//	m_RandomSet = false;
-	//	// 랜덤으로 50%의 확률로 자신 객체 하나 더 생성
-	//	if (CTempEffect::Get_RandomFloat(0.0f, 1.f) > 0.3f)
-	//	{
-	//		CGameObject* pGameObject = CEffectBubble::Create(m_pGraphicDev);
-	//		pGameObject->m_pTransform->Translate(_vec3(m_pTransform->m_vInfo[INFO_POS].x + CTempEffect::Get_RandomFloat(.5f, 1.f), m_pTransform->m_vInfo[INFO_POS].y + CTempEffect::Get_RandomFloat(.5f, 1.f), m_pTransform->m_vInfo[INFO_POS].z + CTempEffect::Get_RandomFloat(.5f, 1.f)));
-	//		dynamic_cast<CTempEffect*>(pGameObject)->Set_RandomSet(false);
-	//		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
-	//	}
-	//}
-
 	Engine::Renderer()->Add_RenderGroup(RENDER_ALPHA, this);
 
 	_int iExit = CTempEffect::Update_Object(fTimeDelta);
-
-	//m_pTransform->m_vInfo[INFO_POS].y += m_fUpSpeed * fTimeDelta;
 
 	return iExit;
 }
@@ -64,8 +52,12 @@ void CEffectDamageStar::Render_Object(void)
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, & m_pTransform->WorldMatrix());
 
+	//m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+
 	m_pTextureCom->Render_Texture((_uint)m_fFrame);
 	m_pBufferCom->Render_Buffer();
+
+	//m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 }
 
 HRESULT CEffectDamageStar::Add_Component(void)
@@ -80,7 +72,7 @@ HRESULT CEffectDamageStar::Add_Component(void)
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::TRANSFORM, pComponent);
 
-	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_WhiteBubble"));
+	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_EffectDamageStar"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
 
