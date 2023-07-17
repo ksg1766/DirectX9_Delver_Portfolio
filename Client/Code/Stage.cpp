@@ -259,13 +259,13 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 
 	pGameObject = CBlade_Trap::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pGameObject->m_pTransform->Translate(_vec3(-45.f, 5.f, -45.f));
+	pGameObject->m_pTransform->Translate(_vec3(-45.f, 2.f, -45.f));
 	dynamic_cast<CBlade_Trap*>(pGameObject)->Create_Blade();
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
 	pGameObject = CProjectile_Trap::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pGameObject->m_pTransform->Translate(_vec3(-40.f, 3.f, -40.f));
+	pGameObject->m_pTransform->Translate(_vec3(-40.f, 0.f, -40.f));
 	dynamic_cast<CProjectile_Trap*>(pGameObject)->Create_Projectile();
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
@@ -430,7 +430,7 @@ HRESULT CStage::Load_Data()
 		for_each(refObjectList.begin(), refObjectList.end(), [&](CGameObject* pObj) { EventManager()->DeleteObject(pObj); });
 		refObjectList.clear();
 	}
-	HANDLE hFile = CreateFile(L"../Bin/Data/TerrainWithGiantTree.dat", GENERIC_READ,
+	HANDLE hFile = CreateFile(L"../Bin/Data/TerrainGiantTree.dat", GENERIC_READ,
 		0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
 
 	if (INVALID_HANDLE_VALUE == hFile)
