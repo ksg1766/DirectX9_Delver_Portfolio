@@ -32,6 +32,7 @@ void CCollisionManager::LateUpdate_Collision()
 	CheckCollisionStatic(OBJECTTAG::BOSS);
 	CheckCollisionStatic(OBJECTTAG::MONSTERBULLET);
 	CheckCollisionStatic(OBJECTTAG::PLAYERBULLET);
+	CheckCollisionStatic(OBJECTTAG::RAY);
 
 	// Dtnamic Object
 	for (UINT iRow = 0; iRow < (UINT)OBJECTTAG::OBJECT_END; ++iRow)

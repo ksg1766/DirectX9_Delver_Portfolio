@@ -53,7 +53,8 @@ void CMonster::OnCollisionEnter(CCollider* _pOther)
 	{
 		if (vOtherPos.y < vThisPos.y)
 		{
-			m_pRigidBody->Set_Force(_vec3(0.f, 0.f, 0.f));
+			if(m_pRigidBody)
+				m_pRigidBody->Set_Force(_vec3(0.f, 0.f, 0.f));
 			m_pTransform->Translate(_vec3(0.f, fRadiusY - 0.000001f, 0.f));
 		}
 		else
@@ -98,7 +99,9 @@ void CMonster::OnCollisionStay(CCollider* _pOther)
 	{
 		if (vOtherPos.y < vThisPos.y)
 		{
-			m_pRigidBody->Set_Force(_vec3(0.f, 0.f, 0.f));
+			if (m_pRigidBody)
+				m_pRigidBody->Set_Force(_vec3(0.f, 0.f, 0.f));
+
 			m_pTransform->Translate(_vec3(0.f, fRadiusY - 0.000001f, 0.f));
 		}
 		else

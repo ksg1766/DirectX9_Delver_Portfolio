@@ -196,8 +196,6 @@ HRESULT CTempItem::Add_Component(void)
 		for (int i = 0; i < ID_END; ++i)
 			for (auto& iter : m_mapComponent[i])
 				iter.second->Init_Property(this);
-
-		
 	}
 	else
 	{
@@ -208,11 +206,7 @@ HRESULT CTempItem::Add_Component(void)
 		for (int i = 0; i < ID_END; ++i)
 			for (auto& iter : m_mapComponent[i])
 				iter.second->Init_Property(this);
-
 	}
-
-
-
 
 	return S_OK;
 }
@@ -220,7 +214,6 @@ HRESULT CTempItem::Add_Component(void)
 void CTempItem::OnCollisionEnter(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
-
 
 	if (!(_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::MONSTER) &&
 		!(_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::PLAYER))

@@ -25,9 +25,7 @@ public:
 	void	Copy_RUL_AddPos(_vec3* _Info)
 	{
 		for (_uint i = 0; i < INFO_END; ++i)
-		{
 			CopyMemory(m_vInfo[i], _Info[i], sizeof(_vec3));
-		}
 	}
 
 	void	Scale(_vec3& _vEulers);
@@ -55,6 +53,10 @@ public:
 public:
 	CTransform*		m_pParent;
 	
+	// RUL의 크기가 각 축의 길이(크기)
+	// 1, 2, 3 행을 Normalize하고 크기를 곱하는것이 Scaling
+	// 회전값 초기화 : 기존 월드 행렬의 1, 2, 3 행의 크기를 저장
+	// RUL을 초기화 후 다시 크기를 곱하면 회전행렬 초기화
 	_vec3			m_vInfo[INFO_END];
 	_vec3			m_vLocalScale;
 

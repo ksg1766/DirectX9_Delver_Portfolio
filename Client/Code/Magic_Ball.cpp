@@ -29,7 +29,7 @@ HRESULT CMagic_Ball::Ready_Object(CTransform* pOwner, _float _fSpeed)
 	m_bCheck = false;
 	m_bIsAttack = false;
 	m_vPrevPos = _vec3(0.f, 0.f, 0.f);
-	m_pTransform->Set_Parent(pOwner);
+	// m_pTransform->Set_Parent(pOwner);
 	m_pTransform->Scale(_vec3(0.8f, 0.8f, 0.8f));
 
 	m_pCollider->InitOBB(
@@ -63,8 +63,6 @@ _int CMagic_Ball::Update_Object(const _float& fTimeDelta)
 
 	_int iExit = __super::Update_Object(fTimeDelta);
 
-
-
 	CPlayer& pPlayer = *dynamic_cast<CPlayer*>(SceneManager()->GetInstance()->
 		Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
 	
@@ -87,9 +85,6 @@ _int CMagic_Ball::Update_Object(const _float& fTimeDelta)
 	D3DXVec3Normalize(&vDir, &vDir);
 	
 	m_pTransform->m_vInfo[INFO_POS] = m_pTransform->m_vInfo[INFO_POS] + vDir * m_fSpeed * fTimeDelta;
-
-
-
 
 	return _int();
 }
@@ -197,7 +192,6 @@ void CMagic_Ball::OnCollisionEnter(CCollider* _pOther)
 void CMagic_Ball::OnCollisionStay(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
-
 
 	if (!(_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::ITEM))
 		__super::OnCollisionStay(_pOther);

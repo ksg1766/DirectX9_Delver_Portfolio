@@ -204,6 +204,7 @@
     <ClInclude Include="..\Header\EffectDamageStar.h" />
     <ClInclude Include="..\Header\EffectExplosion.h" />
     <ClInclude Include="..\Header\EffectWand.h" />
+    <ClInclude Include="..\Header\FootRay.h" />
     <ClInclude Include="..\Header\HorizontalMove.h" />
     <ClInclude Include="..\Header\UISpeech.h" />
     <ClInclude Include="..\Header\Dead_BossSkeleton.h" />
@@ -348,6 +349,7 @@
     <ClCompile Include="..\Code\EffectDamageStar.cpp" />
     <ClCompile Include="..\Code\EffectExplosion.cpp" />
     <ClCompile Include="..\Code\EffectWand.cpp" />
+    <ClCompile Include="..\Code\FootRay.cpp" />
     <ClCompile Include="..\Code\HorizontalMove.cpp" />
     <ClCompile Include="..\Code\UISpeech.cpp" />
     <ClCompile Include="..\Code\Dead_BossSkeleton.cpp" />

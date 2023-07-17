@@ -556,6 +556,9 @@
     <Filter Include="02. GameObject\01. Stage\08. Trap\00. Blade_Trap\01. Trap_Blade\00. State\01. Attack">
       <UniqueIdentifier>{ae417934-7b96-4c8c-b275-77601d705dac}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\01. Stage\01. Player\02. Ray">
+      <UniqueIdentifier>{34c19ba7-543b-412b-9fa5-6c6085639da3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -999,6 +1002,9 @@
     <ClInclude Include="..\Header\HorizontalMove.h">
       <Filter>02. GameObject\01. Stage\05. Monster\00. State\Public\Move</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\FootRay.h">
+      <Filter>02. GameObject\01. Stage\01. Player\02. Ray</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -1432,6 +1438,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\HorizontalMove.cpp">
       <Filter>02. GameObject\01. Stage\05. Monster\00. State\Public\Move</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\FootRay.cpp">
+      <Filter>02. GameObject\01. Stage\01. Player\02. Ray</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

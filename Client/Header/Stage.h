@@ -5,6 +5,7 @@
 #include "DynamicCamera.h"
 #include "SkyBox.h"
 #include "Player.h"
+#include "FootRay.h"
 #include "CubeBlock.h"
 
 #include "UIplayerhp.h"
