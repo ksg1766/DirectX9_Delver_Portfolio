@@ -38,8 +38,11 @@ private:
 	CTexture* m_pTexture[(_uint)STATE::STATE_END] = {};
 	CAnimator* m_pAnimator = nullptr;
 	CFont* m_pFont = nullptr;
-
 	ID3DXFont* m_pFontconfig;
+	_vec3			m_vPlayerPos;
+	_vec3			m_vDir;
+	_float			m_fDistance;
+
 	_bool			m_bUseUI;
 	_bool			m_bTalkButton;
 	_bool			m_bTalkingBox;

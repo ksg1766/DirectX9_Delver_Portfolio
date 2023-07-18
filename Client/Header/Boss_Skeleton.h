@@ -8,7 +8,6 @@ class CTexture;
 class CBillBoard;
 class CAnimator;
 END
-class CTerrain;
 class CBoss_Skeleton :
     public CMonster
 {
@@ -32,12 +31,10 @@ public:
 
 private:
     HRESULT        Add_Component();
-    void        ForceHeight(_vec3 _vPos);
 
 private:
     CRcTex* m_pBuffer = nullptr;
     CTexture* m_pTexture[static_cast<_uint>(STATE::STATE_END)] = {};
-    CTerrain* m_pTerrain = nullptr;
     CAnimator* m_pAnimator = nullptr;
     CBillBoard* m_pBillBoard = nullptr;
 

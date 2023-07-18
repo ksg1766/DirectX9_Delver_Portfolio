@@ -24,6 +24,7 @@
 
 #include "SkeletonKing.h"
 #include "Npc_OldMan.h"
+#include "Npc_Bard.h"
 
 class CStage : public Engine::CScene
 {

@@ -63,8 +63,6 @@ void CBoss_SkeletonSpawnPattern::Spawn_Skeleton()
         dynamic_cast<CBoss_Skeleton*>(pGameObject)->Set_Terrain(dynamic_cast<CSkeletonKing*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_Terrain());
         dynamic_cast<CBoss_Skeleton*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] =
             (Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front()->m_pTransform->m_vInfo[INFO_POS]);
-        dynamic_cast<CBoss_Skeleton*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS].y = -2.f;
-        dynamic_cast<CBoss_Skeleton*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS].y += 2.f;
         Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 }
 
