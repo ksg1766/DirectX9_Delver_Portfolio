@@ -16,10 +16,12 @@ HRESULT CEffectTrace::Ready_Object(void)
 	FAILED_CHECK_RETURN(CTempEffect::Ready_Object(), E_FAIL); // 초기화 및 초기 설정
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
+	m_EffectTag = EFFECTTAG::EFFECT_TRACE;
+
 	m_fFrame = 3.f;
 	m_fLife  = 3.f;
 
-	m_fEffectScale = .15f;
+	m_fEffectScale = .2f;
 
 	return S_OK;
 }
@@ -76,7 +78,7 @@ Engine::_int CEffectTrace::Update_Object(const _float& fTimeDelta)
 	}
 
 	if (m_fEffectScale > 0.f) {
-		m_fEffectScale -= 0.02f * fTimeDelta * (m_fTraceNum / 5);
+		m_fEffectScale -= 0.02f * fTimeDelta * (m_fTraceNum / 20);
 	}
 
 	_int iExit = CTempEffect::Update_Object(fTimeDelta);

@@ -7,6 +7,7 @@
 #include "Longitudinal.h"
 #include "HorizontalMove.h"
 #include "Player.h"
+#include "EffectBlood.h"
 
 #include "PoolManager.h"
 
@@ -63,9 +64,9 @@ HRESULT CDungeonWarrior::Ready_Object()
 	m_pStateMachine->Set_State(STATE::ROMIMG);
 
 #pragma region WarriorStat
-<<<<<<< HEAD
+
 	Init_Stat();
->>>>>>> origin/feature/JunYeop
+
 #pragma endregion
 
 	return S_OK;
@@ -92,8 +93,17 @@ _int CDungeonWarrior::Update_Object(const _float& fTimeDelta)
 		if (m_pAnimator->Get_Animation()->Get_Frame() >= 1)
 			m_pAnimator->Get_Animation()->Set_Loop(FALSE);
 		{
-			m_pStateMachine->Set_State(STATE::DEAD);
-			CPoolManager::GetInstance()->Delete_Object(this);
+		m_pStateMachine->Set_State(STATE::DEAD);
+		CPoolManager::GetInstance()->Delete_Object(this);
+		}
+		if (!m_bDieEffect)
+		{
+			CGameObject* pGameObject = CEffectBlood::Create(m_pGraphicDev);
+			pGameObject->m_pTransform->Translate(_vec3(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y - 1.f, m_pTransform->m_vInfo[INFO_POS].z));
+			dynamic_cast<CTempEffect*>(pGameObject)->Set_EffectColor(ECOLOR_RED);
+			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+
+			m_bDieEffect = true;
 		}
 	}
 

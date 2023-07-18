@@ -2,7 +2,11 @@
 #include "Export_Function.h"
 #include "Player.h"
 #include "EffectProjectileTrace.h"
+
 #include "FireWands.h"
+
+#include "EffectExplosion.h"
+#include "EffectSquare.h"
 
 CFireBall::CFireBall(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CGameObject(pGraphicDev)
@@ -59,7 +63,7 @@ HRESULT CFireBall::Ready_Object(CTransform* pWeapon, CTransform* pOwner, _float 
 	// Åõ»çÃ¼ ÈçÀû ÀÌÆåÆ® Ãß°¡
 	CGameObject* pGameObject = m_pEffect = CEffectProjectileTrace::Create(m_pGraphicDev);
 	pGameObject->m_pTransform->Translate(m_pTransform->m_vInfo[INFO_POS]);
-	dynamic_cast<CTempEffect*>(pGameObject)->Set_EffectColor(ECOLOR_WHITE);
+	dynamic_cast<CTempEffect*>(pGameObject)->Set_EffectColor(ECOLOR_PINK);
 	Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 
 
@@ -133,13 +137,63 @@ void CFireBall::ForceHeight(_vec3 _vPos)
 void CFireBall::OnCollisionEnter(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
-
+	
 	if (_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::MONSTER &&
 		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::PLAYER &&
 		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::ITEM)
 		__super::OnCollisionEnter(_pOther);
-
-
+	
+	CGameObject* pGameObject = CEffectExplosion::Create(m_pGraphicDev);
+	pGameObject->m_pTransform->Translate(m_pTransform->m_vInfo[INFO_POS]);
+	Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+	
+	//////////////////////////////////////// ÀÌÆåÆ® Ãß°¡
+	_matrix      matMonsterWorld = _pOther->GetHost()->m_pTransform->WorldMatrix();
+	_vec3        vecMonsterPos = _vec3(matMonsterWorld._41, matMonsterWorld._42 + .5f, matMonsterWorld._43);
+	
+	CMonster* pMonster = dynamic_cast<CMonster*>(_pOther->Get_Host());
+	if (pMonster != nullptr)
+	{
+		// ÀÌÆåÆ® »ý¼º
+		switch (pMonster->Get_MonsterTag())
+		{
+		case MONSTERTAG::SPIDER:
+			pGameObject = CEffectSquare::Create(m_pGraphicDev, vecMonsterPos, 50, EFFECTCOLOR::ECOLOR_BROWN);
+			break;
+		case MONSTERTAG::WARRIOR:
+			pGameObject = CEffectSquare::Create(m_pGraphicDev, vecMonsterPos, 50, EFFECTCOLOR::ECOLOR_RED);
+			break;
+		case MONSTERTAG::BAT:
+			pGameObject = CEffectSquare::Create(m_pGraphicDev, vecMonsterPos, 50, EFFECTCOLOR::ECOLOR_BROWN);
+			break;
+		case MONSTERTAG::WIZARD:
+			pGameObject = CEffectSquare::Create(m_pGraphicDev, vecMonsterPos, 50, EFFECTCOLOR::ECOLOR_APRICOT);
+			break;
+		case MONSTERTAG::ALIEN:
+			pGameObject = CEffectSquare::Create(m_pGraphicDev, vecMonsterPos, 50, EFFECTCOLOR::ECOLOR_PINK);
+			break;
+		case MONSTERTAG::SLIME:
+			pGameObject = CEffectSquare::Create(m_pGraphicDev, vecMonsterPos, 50, EFFECTCOLOR::ECOLOR_GREEN);
+			break;
+		case MONSTERTAG::SKELETON:
+			pGameObject = CEffectSquare::Create(m_pGraphicDev, vecMonsterPos, 50, EFFECTCOLOR::ECOLOR_APRICOT);
+			break;
+		case MONSTERTAG::BONEGHOST:
+			pGameObject = CEffectSquare::Create(m_pGraphicDev, vecMonsterPos, 50, EFFECTCOLOR::ECOLOR_WHITE);
+			break;
+		case MONSTERTAG::WORM:
+			pGameObject = CEffectSquare::Create(m_pGraphicDev, vecMonsterPos, 50, EFFECTCOLOR::ECOLOR_RED);
+			break;
+		default:
+			pGameObject = CEffectSquare::Create(m_pGraphicDev, vecMonsterPos, 50, EFFECTCOLOR::ECOLOR_RED);
+			break;
+		}
+		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+		//////////////////////////////////////// ÀÌÆåÆ® Ãß°¡
+	}
+	
+	EventManager()->GetInstance()->DeleteObject(this);
+	
 	CPlayer& pPlayer = *dynamic_cast<CPlayer*>(SceneManager()->GetInstance()
 		->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
 
@@ -148,6 +202,11 @@ void CFireBall::OnCollisionEnter(CCollider* _pOther)
 	{
 		pPlayer.IsAttack(dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_BasicStat());
 
+		CGameObject* pGameObject = CEffectExplosion::Create(m_pGraphicDev);
+		pGameObject->m_pTransform->Translate(m_pTransform->m_vInfo[INFO_POS]);
+		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+
+		Set_State(STATE::DEAD);
 		EventManager()->DeleteObject(this);
 	}
 

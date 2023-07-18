@@ -33,8 +33,6 @@
 #include "EffectDamage.h"
 #include "EffectDamageStar.h"
 #include "EffectBlood.h"
-#include "EffectWand.h"
-#include "EffectExplosion.h"
 #include "EffectProjectileTrace.h"
 
 CStage::CStage(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -90,50 +88,15 @@ void CStage::LateUpdate_Scene()
 	else if (Engine::InputDev()->Key_Down(DIK_F7))
 	{
 		CGameObject* pGameObject = CEffectBubble::Create(m_pGraphicDev);
-		pGameObject->m_pTransform->Translate(_vec3(-40.f, 4.f, -40.f));
+
+		pGameObject->m_pTransform->Translate(_vec3(-40.f, 5.f, -40.f));
 		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 		//CPoolManager::GetInstance()->Create_Effect(EFFECTTAG::, TargetPos);
 	}
 	else if (Engine::InputDev()->Key_Down(DIK_F8))
 	{
 		CGameObject* pGameObject = CEffectBrokenbox::Create(m_pGraphicDev);
-		pGameObject->m_pTransform->Translate(_vec3(-40.f, 4.f, -40.f));
-		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
-		//CPoolManager::GetInstance()->Create_Effect(EFFECTTAG::, TargetPos);
-	}
-	else if (Engine::InputDev()->Key_Down(DIK_F9))
-	{
-		CGameObject* pGameObject = CEffectDamage::Create(m_pGraphicDev);
-		pGameObject->m_pTransform->Translate(_vec3(-40.f, 4.f, -40.f));
-		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
-		//CPoolManager::GetInstance()->Create_Effect(EFFECTTAG::, TargetPos);
-	}
-	else if (Engine::InputDev()->Key_Down(DIK_Z))
-	{
-		CGameObject* pGameObject = CEffectDamageStar::Create(m_pGraphicDev);
-		pGameObject->m_pTransform->Translate(_vec3(-40.f, 4.f, -40.f));
-		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
-		//CPoolManager::GetInstance()->Create_Effect(EFFECTTAG::, TargetPos);
-	}
-	else if (Engine::InputDev()->Key_Down(DIK_X))
-	{
-		CGameObject* pGameObject = CEffectBlood::Create(m_pGraphicDev);
-		pGameObject->m_pTransform->Translate(_vec3(-40.f, 4.f, -40.f));
-		dynamic_cast<CTempEffect*>(pGameObject)->Set_EffectColor(ECOLOR_RED);
-		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
-		//CPoolManager::GetInstance()->Create_Effect(EFFECTTAG::, TargetPos);
-	}
-	else if (Engine::InputDev()->Key_Down(DIK_V))
-	{
-		CGameObject* pGameObject = CEffectWand::Create(m_pGraphicDev);
-		pGameObject->m_pTransform->Translate(_vec3(-40.f, 4.f, -40.f));
-		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
-		//CPoolManager::GetInstance()->Create_Effect(EFFECTTAG::, TargetPos);
-	}
-	else if (Engine::InputDev()->Key_Down(DIK_B))
-	{
-		CGameObject* pGameObject = CEffectExplosion::Create(m_pGraphicDev);
-		pGameObject->m_pTransform->Translate(_vec3(-40.f, 4.f, -40.f));
+		pGameObject->m_pTransform->Translate(_vec3(-40.f, 3.5f, -40.f));
 		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 		//CPoolManager::GetInstance()->Create_Effect(EFFECTTAG::, TargetPos);
 	}

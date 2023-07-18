@@ -18,8 +18,6 @@ public:
 private:
 	HRESULT		Add_Component(void);
 
-private:
-
 public:
 	static CEffectDamageStar*		Create(LPDIRECT3DDEVICE9 pGraphicDev);
 

@@ -60,6 +60,7 @@ private:
 private:
 	_bool       m_bFind = false;
 	_bool		m_bUse = false;
+
 public:
 	static CUIequipmentslot*	Create(LPDIRECT3DDEVICE9 pGraphicDev);
 	

@@ -36,6 +36,8 @@ private:
 
 	_int		m_iAttackTick;
 
+	_bool       m_bEffect = false;
+
 public:
 	static CFireWands* Create(LPDIRECT3DDEVICE9 pGraphicDev, _bool _Item);
 

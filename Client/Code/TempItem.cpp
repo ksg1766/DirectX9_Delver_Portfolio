@@ -5,6 +5,7 @@
 #include "Export_Function.h"
 #include "Player.h"
 #include "EffectSquare.h"
+#include "EffectDamage.h"
 
 static _int g_iCount = 0;
 
@@ -237,6 +238,81 @@ void CTempItem::OnCollisionEnter(CCollider* _pOther)
 	if (!(_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::MONSTER) &&
 		!(_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::PLAYER))
 		__super::OnCollisionEnter(_pOther);
+
+	// 몬스터거나 플레이어면 밀어내지않는다.
+
+	CPlayer& pPlayer = *dynamic_cast<CPlayer*>(SceneManager()->GetInstance()
+		->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
+	// 플레이어의 정보를 레퍼런스로 얻어옴.
+
+	if (_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::MONSTER)
+		// 무기 콜리전에 들어온 타입이 몬스터이면서, 플레이어의 스테이트가 공격이라면
+	{
+		if (!pPlayer.Get_AttackTick() &&
+			dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_StateMachine()->Get_State() != STATE::DEAD)
+			// 공격 하지 않은 상태라면.
+		{
+			dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_BasicStat()->Take_Damage(1.f);
+			pPlayer.Set_AttackTick(true);
+
+			++g_iCount;
+
+			if (dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_StateMachine()->Get_PrevState() != STATE::HIT
+				&& g_iCount > 4)
+			{
+				g_iCount = 0;
+				dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_StateMachine()->Set_State(STATE::HIT);
+			}
+
+			//////////////////////////////////////// 이펙트 추가
+			_matrix      matMonsterWorld  = _pOther->GetHost()->m_pTransform->WorldMatrix();
+			_vec3        vecMonsterPos    = _vec3(matMonsterWorld._41, matMonsterWorld._42 + .5f, matMonsterWorld._43);
+			CGameObject* pGameObject      = nullptr;
+
+			// 이펙트 생성
+			switch (dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_MonsterTag())
+			{
+			case MONSTERTAG::SPIDER:
+				pGameObject = CEffectSquare::Create(m_pGraphicDev, vecMonsterPos, 50, EFFECTCOLOR::ECOLOR_BROWN);
+				break;
+			case MONSTERTAG::WARRIOR:
+				pGameObject = CEffectSquare::Create(m_pGraphicDev, vecMonsterPos, 50, EFFECTCOLOR::ECOLOR_RED);
+				break;
+			case MONSTERTAG::BAT:
+				pGameObject = CEffectSquare::Create(m_pGraphicDev, vecMonsterPos, 50, EFFECTCOLOR::ECOLOR_BROWN);
+				break;
+			case MONSTERTAG::WIZARD:
+				pGameObject = CEffectSquare::Create(m_pGraphicDev, vecMonsterPos, 50, EFFECTCOLOR::ECOLOR_APRICOT);
+				break;
+			case MONSTERTAG::ALIEN:
+				pGameObject = CEffectSquare::Create(m_pGraphicDev, vecMonsterPos, 50, EFFECTCOLOR::ECOLOR_PINK);
+				break;
+			case MONSTERTAG::SLIME:
+				pGameObject = CEffectSquare::Create(m_pGraphicDev, vecMonsterPos, 50, EFFECTCOLOR::ECOLOR_GREEN);
+				break;
+			case MONSTERTAG::SKELETON:
+				pGameObject = CEffectSquare::Create(m_pGraphicDev, vecMonsterPos, 50, EFFECTCOLOR::ECOLOR_APRICOT);
+				break;
+			case MONSTERTAG::BONEGHOST:
+				pGameObject = CEffectSquare::Create(m_pGraphicDev, vecMonsterPos, 50, EFFECTCOLOR::ECOLOR_WHITE);
+				break;
+			case MONSTERTAG::WORM:
+				pGameObject = CEffectSquare::Create(m_pGraphicDev, vecMonsterPos, 50, EFFECTCOLOR::ECOLOR_RED);
+				break;
+			default:
+				pGameObject = CEffectSquare::Create(m_pGraphicDev, vecMonsterPos, 50, EFFECTCOLOR::ECOLOR_RED);
+				break;
+			}
+			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+
+			pGameObject = CEffectDamage::Create(m_pGraphicDev);
+			pGameObject->m_pTransform->Translate(_vec3(vecMonsterPos.x, vecMonsterPos.y - 0.5f, vecMonsterPos.z + .5f));
+			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+			//////////////////////////////////////// 이펙트 추가
+
+			cout << "데미지" << endl;
+		}
+	}
 }
 
 void CTempItem::OnCollisionStay(CCollider* _pOther)

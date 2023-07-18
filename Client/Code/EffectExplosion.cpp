@@ -17,6 +17,8 @@ HRESULT CEffectExplosion::Ready_Object(void)
 	FAILED_CHECK_RETURN(CTempEffect::Ready_Object(), E_FAIL); // 초기화 및 초기 설정
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
+	m_EffectTag = EFFECTTAG::EFFECT_EXPLOSION;
+
 	m_bAnimation = true;
 
 	m_fFrame = 0.f;

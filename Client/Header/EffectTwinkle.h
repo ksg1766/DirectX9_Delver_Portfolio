@@ -3,11 +3,11 @@
 #include "Export_Function.h"
 #include "TempEffect.h"
 
-class CEffectBrokenbox : public CTempEffect
+class CEffectTwinkle : public CTempEffect
 {
 private:
-	explicit CEffectBrokenbox(LPDIRECT3DDEVICE9 pGraphicDev);
-	virtual ~CEffectBrokenbox();
+	explicit CEffectTwinkle(LPDIRECT3DDEVICE9 pGraphicDev);
+	virtual ~CEffectTwinkle();
 
 public:
 	HRESULT Ready_Object() override;
@@ -19,10 +19,9 @@ private:
 	HRESULT		Add_Component(void);
 
 private:
-	_float m_fDownSpeed;
 
 public:
-	static CEffectBrokenbox*		Create(LPDIRECT3DDEVICE9 pGraphicDev);
+	static CEffectTwinkle*		Create(LPDIRECT3DDEVICE9 pGraphicDev);
 
 private:
 	virtual void Free() override;

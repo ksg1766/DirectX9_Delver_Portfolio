@@ -208,6 +208,7 @@
     <ClInclude Include="..\Header\EffectExplosionChild.h" />
     <ClInclude Include="..\Header\EffectProjectileTrace.h" />
     <ClInclude Include="..\Header\EffectTrace.h" />
+    <ClInclude Include="..\Header\EffectTwinkle.h" />
     <ClInclude Include="..\Header\EffectWand.h" />
     <ClInclude Include="..\Header\FootRay.h" />
     <ClInclude Include="..\Header\Helmet.h" />
@@ -365,6 +366,7 @@
     <ClCompile Include="..\Code\EffectExplosionChild.cpp" />
     <ClCompile Include="..\Code\EffectProjectileTrace.cpp" />
     <ClCompile Include="..\Code\EffectTrace.cpp" />
+    <ClCompile Include="..\Code\EffectTwinkle.cpp" />
     <ClCompile Include="..\Code\EffectWand.cpp" />
     <ClCompile Include="..\Code\FootRay.cpp" />
     <ClCompile Include="..\Code\Helmet.cpp" />

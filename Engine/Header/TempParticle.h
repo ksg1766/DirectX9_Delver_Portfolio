@@ -69,6 +69,7 @@ private:
 	virtual void Remove_DeadParticle();
 
 protected:
+	PARTICLETAG m_ParticleTag   = PARTICLETAG::PARTICLE_END;
 	EFFECTCOLOR m_ParticleColor = EFFECTCOLOR::ECOLOR_END;
 
 	LPDIRECT3DVERTEXBUFFER9			m_pVB;

@@ -672,7 +672,7 @@ void CPlayer::OnCollisionEnter(CCollider* _pOther)
 			case ITEMID::WEAPON_BOW:
 				pItem = CBow::Create(m_pGraphicDev, false);
 				break;
-			case ITEMID::WEAPON_WAND1:
+			case ITEMID::WEAPON_WAND3:
 				pItem = CFireWands::Create(m_pGraphicDev, false);
 				break;
 			case ITEMID::EQUIP_OLDHELMET:

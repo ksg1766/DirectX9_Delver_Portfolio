@@ -16,6 +16,8 @@ HRESULT CEffectDamageStar::Ready_Object(void)
 	FAILED_CHECK_RETURN(CTempEffect::Ready_Object(), E_FAIL); // 초기화 및 초기 설정
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
+	m_EffectTag = EFFECTTAG::EFFECT_DAMAGESTAR;
+
 	m_bAnimation = true;
 	m_bLoop      = true;
 
@@ -37,6 +39,13 @@ Engine::_int CEffectDamageStar::Update_Object(const _float& fTimeDelta)
 
 	_int iExit = CTempEffect::Update_Object(fTimeDelta);
 
+	if (m_pTarget != nullptr)
+	{
+		m_pTransform->m_vInfo[INFO_POS].x = m_pTarget->m_pTransform->m_vInfo[INFO_POS].x;
+		m_pTransform->m_vInfo[INFO_POS].y = m_pTarget->m_pTransform->m_vInfo[INFO_POS].y + 0.7f;
+		m_pTransform->m_vInfo[INFO_POS].z = m_pTarget->m_pTransform->m_vInfo[INFO_POS].z;
+	}
+
 	return iExit;
 }
 
@@ -52,12 +61,8 @@ void CEffectDamageStar::Render_Object(void)
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, & m_pTransform->WorldMatrix());
 
-	//m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
-
 	m_pTextureCom->Render_Texture((_uint)m_fFrame);
 	m_pBufferCom->Render_Buffer();
-
-	//m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 }
 
 HRESULT CEffectDamageStar::Add_Component(void)

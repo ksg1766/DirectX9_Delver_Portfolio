@@ -5,6 +5,7 @@
 #include "Monster_Dead.h"
 #include "Bat_Attack.h"
 #include "Player.h"
+#include "EffectBlood.h"
 
 #include "PoolManager.h"
 
@@ -83,7 +84,6 @@ _int CBat::Update_Object(const _float& fTimeDelta)
 		Set_KnockBack(false);
 	}
 
-
 	if (m_pBasicStat->Get_Stat()->fHP <= 0)
 	{
 		if (m_pAnimator->Get_Animation()->Get_Frame() >= 3)
@@ -92,6 +92,18 @@ _int CBat::Update_Object(const _float& fTimeDelta)
 			m_pStateMachine->Set_State(STATE::DEAD);
 			CPoolManager::GetInstance()->Delete_Object(this);
 		}
+
+		if (!m_bDieEffect)
+		{
+			CGameObject* pGameObject = CEffectBlood::Create(m_pGraphicDev);
+			pGameObject->m_pTransform->Translate(_vec3(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y - 1.f, m_pTransform->m_vInfo[INFO_POS].z));
+			dynamic_cast<CTempEffect*>(pGameObject)->Set_EffectColor(ECOLOR_RED);
+			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+
+			m_bDieEffect = true;
+		}
+
+		//ForceHeight(this->m_pTransform->m_vInfo[INFO_POS]);
 	}
 
 

@@ -5,6 +5,7 @@
 #include "Monster_Hit.h"
 #include "Monster_Dead.h"
 #include "Player.h"
+#include "EffectBlood.h"
 
 CWorm::CWorm(LPDIRECT3DDEVICE9 pGrapicDev)
 	: Engine::CMonster(pGrapicDev), m_fFrame(0.f), m_bAttackTick(false)
@@ -60,19 +61,7 @@ HRESULT CWorm::Ready_Object()
 
 	m_pTransform->Translate(_vec3(2.f, 3.f, 5.f));
 
-
-#pragma region Worm Stat
-	m_pBasicStat->Get_Stat()->fMaxHP		= 4.f;
-	m_pBasicStat->Get_Stat()->fHP			= 4.f;
-	m_pBasicStat->Get_Stat()->iDamageMin	= 1;
-	m_pBasicStat->Get_Stat()->iDamageMax	= 2;
-	m_pBasicStat->Get_Stat()->fSpeed		= 4.f;
-	m_pBasicStat->Get_Stat()->fAgility		= 4.f;
-	m_pBasicStat->Get_Stat()->fDeffense		= 4.f;
-	m_pBasicStat->Get_Stat()->fMagic		= 4.f;
-	m_pBasicStat->Get_Stat()->fAttack		= 4.f;
-	m_pBasicStat->Get_Stat()->iExp			= 6.f;
-#pragma endregion
+	Init_Stat();
 
 	return S_OK;
 }
@@ -85,7 +74,6 @@ _int CWorm::Update_Object(const _float& fTimeDelta)
 
 	_int iExit = __super::Update_Object(fTimeDelta);
 
-
 	if (IsKnockBack())
 	{
 		m_pStateMachine->Set_State(STATE::HIT);
@@ -93,8 +81,20 @@ _int CWorm::Update_Object(const _float& fTimeDelta)
 	}
 
 	if (m_pBasicStat->Get_Stat()->fHP <= 0)
+	{
+
 		m_pStateMachine->Set_State(STATE::DEAD);
 
+		if (!m_bDieEffect)
+		{
+			CGameObject* pGameObject = CEffectBlood::Create(m_pGraphicDev);
+			pGameObject->m_pTransform->Translate(_vec3(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y - 1.f, m_pTransform->m_vInfo[INFO_POS].z));
+			dynamic_cast<CTempEffect*>(pGameObject)->Set_EffectColor(ECOLOR_RED);
+			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+
+			m_bDieEffect = true;
+		}
+	}
 
 	m_pStateMachine->Update_StateMachine(fTimeDelta);
 
@@ -133,6 +133,16 @@ void CWorm::Render_Object()
 
 void CWorm::Init_Stat()
 {
+	m_pBasicStat->Get_Stat()->fMaxHP = 4.f;
+	m_pBasicStat->Get_Stat()->fHP = 4.f;
+	m_pBasicStat->Get_Stat()->iDamageMin = 1;
+	m_pBasicStat->Get_Stat()->iDamageMax = 2;
+	m_pBasicStat->Get_Stat()->fSpeed = 4.f;
+	m_pBasicStat->Get_Stat()->fAgility = 4.f;
+	m_pBasicStat->Get_Stat()->fDeffense = 4.f;
+	m_pBasicStat->Get_Stat()->fMagic = 4.f;
+	m_pBasicStat->Get_Stat()->fAttack = 4.f;
+	m_pBasicStat->Get_Stat()->iExp = 6.f;
 }
 
 void CWorm::OnCollisionEnter(CCollider* _pOther)

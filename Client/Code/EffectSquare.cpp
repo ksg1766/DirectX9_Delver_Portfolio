@@ -24,6 +24,8 @@ HRESULT CEffectSquare::Ready_Object(_vec3 vOriginPos, int numParticles, EFFECTCO
 			iter.second->Init_Property(this);
 
 	m_eObjectTag = OBJECTTAG::EFFECT;
+	m_ParticleTag = PARTICLETAG::PARTICLE_SQUARE;
+	//M_PARTICLETAG
 	m_pTransform->Translate(vOriginPos);
 
 	ParticleBoundingBox EffectBox;
@@ -47,6 +49,7 @@ HRESULT CEffectSquare::Ready_Object(_vec3 vOriginPos, int numParticles, EFFECTCO
 	switch (m_ParticleColor)
 	{
 	case Engine::ECOLOR_PINK:
+		pPath = L"../Bin/SRSource/Effect/Square_effect/Square_effect_Alien.png";
 		break;
 	case Engine::ECOLOR_RED:
 		pPath = L"../Bin/SRSource/Effect/Square_effect/Square_effect_Red.png";
@@ -54,22 +57,33 @@ HRESULT CEffectSquare::Ready_Object(_vec3 vOriginPos, int numParticles, EFFECTCO
 	case Engine::ECOLOR_ORANGE:
 		break;
 	case Engine::ECOLOR_YELLOW:
+		pPath = L"../Bin/SRSource/Effect/Square_effect/Square_effect_Yellow.png";
 		break;
 	case Engine::ECOLOR_LIGHTGREEN:
 		break;
 	case Engine::ECOLOR_GREEN:
+		pPath = L"../Bin/SRSource/Effect/Square_effect/Square_effect_Slime.png";
 		break;
 	case Engine::ECOLOR_SKYBLUE:
 		break;
 	case Engine::ECOLOR_BLUE:
+		pPath = L"../Bin/SRSource/Effect/Square_effect/Square_effect_Blue.png";
 		break;
 	case Engine::ECOLOR_INDIGO:
 		break;
 	case Engine::ECOLOR_PURPLE:
 		break;
+	case Engine::ECOLOR_BROWN:
+		pPath = L"../Bin/SRSource/Effect/Square_effect/Square_effect_Bat.png";
+		break;
+	case Engine::ECOLOR_APRICOT:
+		pPath = L"../Bin/SRSource/Effect/Square_effect/Square_effect_BasicSkeleton.png";
+		break;
 	case Engine::ECOLOR_WHITE:
+		pPath = L"../Bin/SRSource/Effect/Square_effect/Square_effect_White.png";
 		break;
 	case Engine::ECOLOR_RAINBOW:
+		pPath = L"../Bin/SRSource/Effect/Square_effect/Square_effect_White.png";
 		break;
 	default:
     	break;

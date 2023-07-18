@@ -5,6 +5,7 @@
 #include "Monster_Hit.h"
 #include "Monster_Dead.h"
 #include "Player.h"
+#include "EffectBlood.h"
 
 #include "PoolManager.h"
 
@@ -65,7 +66,6 @@ HRESULT CDungeonSpider::Ready_Object()
 
 	Init_Stat();
 
->>>>>>> origin/feature/JunYeop
 #pragma endregion
 
 	return S_OK;
@@ -79,21 +79,26 @@ _int CDungeonSpider::Update_Object(const _float& fTimeDelta)
 
 	_int iExit = __super::Update_Object(fTimeDelta);
 
-
 	if (IsKnockBack())
 	{
 		m_pStateMachine->Set_State(STATE::HIT);
 		Set_KnockBack(false);
 	}
 
-<<<<<<< HEAD
-	if (m_pBasicStat->Get_Stat()->fHealth <= 0)
-	{
-=======
 	if (m_pBasicStat->Get_Stat()->fHP <= 0)
->>>>>>> origin/feature/JunYeop
+	{
 		m_pStateMachine->Set_State(STATE::DEAD);
 		CPoolManager::GetInstance()->Delete_Object(this);
+	}
+
+	if (!m_bDieEffect)
+	{
+		CGameObject* pGameObject = CEffectBlood::Create(m_pGraphicDev);
+		pGameObject->m_pTransform->Translate(_vec3(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y - 1.f, m_pTransform->m_vInfo[INFO_POS].z));
+		dynamic_cast<CTempEffect*>(pGameObject)->Set_EffectColor(ECOLOR_RED);
+		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+
+		m_bDieEffect = true;
 	}
 
 	m_pStateMachine->Update_StateMachine(fTimeDelta);

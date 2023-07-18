@@ -51,6 +51,7 @@ STATE CWizard_Attack::Update_State(const _float& fTimeDelta)
 			_float fSpeed = dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Get_Speed();
 
 			m_pOwner->Get_Animator()->Get_Animation()->Set_Frame(0.f);
+
 			CGameObject* pGameObject = nullptr;
 			pGameObject = CMagic_Ball::Create(m_pGraphicDev, m_pOwner->Get_Transform(), fSpeed);
 			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);

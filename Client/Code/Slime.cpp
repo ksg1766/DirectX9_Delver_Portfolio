@@ -7,6 +7,7 @@
 #include "Warrior_Attack.h"
 #include "HorizontalMove.h"
 #include "Player.h"
+#include "EffectBlood.h"
 
 #include "PoolManager.h"
 
@@ -65,18 +66,7 @@ HRESULT CSlime::Ready_Object()
 #pragma region Slime
 
 	Init_Stat();
-=======
-	m_pBasicStat->Get_Stat()->fMaxHP			= 4.f;
-	m_pBasicStat->Get_Stat()->fHP				= 4.f;
-	m_pBasicStat->Get_Stat()->iDamageMin		= 1;
-	m_pBasicStat->Get_Stat()->iDamageMax		= 2;
-	m_pBasicStat->Get_Stat()->fSpeed			= 4.f;
-	m_pBasicStat->Get_Stat()->fAgility		    = 4.f;
-	m_pBasicStat->Get_Stat()->fDeffense			= 4.f;
-	m_pBasicStat->Get_Stat()->fMagic			= 4.f;
-	m_pBasicStat->Get_Stat()->fAttack			= 4.f;
-	m_pBasicStat->Get_Stat()->iExp				= 6.f;	
->>>>>>> origin/feature/JunYeop
+
 #pragma endregion
 
 	return S_OK;
@@ -100,9 +90,20 @@ _int CSlime::Update_Object(const _float& fTimeDelta)
 	{
 		if (m_pAnimator->Get_Animation()->Get_Frame() >= 2)
 			m_pAnimator->Get_Animation()->Set_Loop(FALSE);
+
 		{
 			m_pStateMachine->Set_State(STATE::DEAD);
 			CPoolManager::GetInstance()->Delete_Object(this);
+		}
+
+		if (!m_bDieEffect)
+		{
+			CGameObject* pGameObject = CEffectBlood::Create(m_pGraphicDev);
+			pGameObject->m_pTransform->Translate(_vec3(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y - 1.f, m_pTransform->m_vInfo[INFO_POS].z));
+			dynamic_cast<CTempEffect*>(pGameObject)->Set_EffectColor(ECOLOR_GREEN);
+			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+
+			m_bDieEffect = true;
 		}
 	}
 
@@ -138,13 +139,15 @@ void CSlime::Render_Object()
 
 void CSlime::Init_Stat()
 {
+	m_pBasicStat->Get_Stat()->fMaxHP = 4.f;
+	m_pBasicStat->Get_Stat()->fHP = 4.f;
+	m_pBasicStat->Get_Stat()->iDamageMin = 1;
+	m_pBasicStat->Get_Stat()->iDamageMax = 2;
 	m_pBasicStat->Get_Stat()->fSpeed = 4.f;
 	m_pBasicStat->Get_Stat()->fAgility = 4.f;
 	m_pBasicStat->Get_Stat()->fDeffense = 4.f;
 	m_pBasicStat->Get_Stat()->fMagic = 4.f;
 	m_pBasicStat->Get_Stat()->fAttack = 4.f;
-	m_pBasicStat->Get_Stat()->fHealth = 4.f;
-	m_pBasicStat->Get_Stat()->fHP = 4.f;
 	m_pBasicStat->Get_Stat()->iExp = 6.f;
 }
 

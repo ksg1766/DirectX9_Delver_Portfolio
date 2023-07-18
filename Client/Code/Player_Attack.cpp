@@ -125,7 +125,7 @@ STATE CPlayer_Attack::Key_Input(const _float& fTimeDelta)
 				_eState = STATE::ROMIMG;
 			}
 			break;
-		case ITEMID::WEAPON_WAND1:
+		case ITEMID::WEAPON_WAND3:
 			if (Engine::InputDev()->Mouse_Down(DIM_LB))
 			{
 				pPlayer.Set_Attack(true);
