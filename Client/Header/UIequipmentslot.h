@@ -18,6 +18,7 @@ private:
 	virtual ~CUIequipmentslot();
 
 public:
+	void        Set_UseSlot(_bool _bUse) { m_bUse = _bUse; }
 	void        Set_FindSlot(_bool bFind) 
 	{ 
 		m_bFind = bFind; 
@@ -58,6 +59,7 @@ private:
 
 private:
 	_bool       m_bFind = false;
+	_bool       m_bUse = false;
 
 public:
 	static CUIequipmentslot*	Create(LPDIRECT3DDEVICE9 pGraphicDev);

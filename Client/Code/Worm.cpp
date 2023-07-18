@@ -6,6 +6,7 @@
 #include "Monster_Hit.h"
 #include "Monster_Dead.h"
 #include "Player.h"
+#include "EffectBlood.h"
 
 CWorm::CWorm(LPDIRECT3DDEVICE9 pGrapicDev)
 	: Engine::CMonster(pGrapicDev), m_fFrame(0.f), m_bAttackTick(false)
@@ -81,8 +82,19 @@ _int CWorm::Update_Object(const _float& fTimeDelta)
 	_int iExit = __super::Update_Object(fTimeDelta);
 
 	if (m_pBasicStat->Get_Stat()->fHealth <= 0)
+	{
 		m_pStateMachine->Set_State(STATE::DEAD);
 
+		if (!m_bDieEffect)
+		{
+			CGameObject* pGameObject = CEffectBlood::Create(m_pGraphicDev);
+			pGameObject->m_pTransform->Translate(_vec3(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y - 1.f, m_pTransform->m_vInfo[INFO_POS].z));
+			dynamic_cast<CTempEffect*>(pGameObject)->Set_EffectColor(ECOLOR_RED);
+			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+
+			m_bDieEffect = true;
+		}
+	}
 
 	m_pStateMachine->Update_StateMachine(fTimeDelta);
 

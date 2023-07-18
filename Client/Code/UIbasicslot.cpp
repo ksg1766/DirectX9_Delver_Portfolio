@@ -58,6 +58,9 @@ _int CUIbasicslot::Update_Object(const _float & fTimeDelta)
 		}
 	}
 
+	if (m_bEmpty)
+		m_bEquip = false;
+
 	_int iExit = CTempUI::Update_Object(fTimeDelta);
 
 	return iExit;

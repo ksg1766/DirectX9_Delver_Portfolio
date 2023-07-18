@@ -20,8 +20,6 @@ private:
 
 private:
 	_float m_fDownSpeed;
-	_vec3  m_vecVelocity;
-
 
 public:
 	static CEffectBrokenbox*		Create(LPDIRECT3DDEVICE9 pGraphicDev);

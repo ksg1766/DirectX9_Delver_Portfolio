@@ -1,6 +1,7 @@
 #include "..\Header\FireWands.h"
 #include "Export_Function.h"
 #include "Player.h"
+#include "EffectWand.h"
 
 
 CFireWands::CFireWands(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -51,7 +52,7 @@ HRESULT CFireWands::Ready_Object(_bool _Item)
 	}
 
 	m_ItemID.eItemType = ITEMTYPE_WEAPONITEM;
-	m_ItemID.eItemID = WEAPON_WAND1;
+	m_ItemID.eItemID = WEAPON_WAND3;
 	m_ItemID.iCount = 1;
 
 	return S_OK;
@@ -72,14 +73,25 @@ _int CFireWands::Update_Object(const _float& fTimeDelta)
 	if (ItemType != nullptr)
 		ItemID = ItemType->Get_ItemTag();
 
-	if (ItemID.eItemID != ITEMID::WEAPON_WAND1 || !pPlayer->Get_ItemEquipRight())
+	if (ItemID.eItemID != ITEMID::WEAPON_WAND3 || !pPlayer->Get_ItemEquipRight())
 		return iExit;
-
 
 	if (!Get_WorldItem())
 	{
 		if (pPlayer->Get_Attack() && pPlayer != nullptr)
 		{
+			if (!m_bEffect)
+			{
+				m_bEffect = true;
+
+				CGameObject* pGameObject = CEffectWand::Create(m_pGraphicDev);
+
+
+				_vec3 vOffSet = -0.5f * m_pTransform->m_vInfo[INFO_RIGHT] + 1.5f * m_pTransform->m_vInfo[INFO_LOOK] + 0.4f * m_pTransform->m_vInfo[INFO_UP];
+				pGameObject->m_pTransform->Translate(m_pTransform->m_vInfo[INFO_POS] + vOffSet);
+				Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+			}
+
 			if(m_iAttackTick > 0)
 				m_pTransform->Translate(m_pTransform->m_vInfo[INFO_LOOK] * 0.1f);
 			else
@@ -96,6 +108,8 @@ _int CFireWands::Update_Object(const _float& fTimeDelta)
 
 				_vec3 vOffSet = 0.7f * pPlayerTransform->m_vInfo[INFO_RIGHT] + 1.5f * pPlayerTransform->m_vInfo[INFO_LOOK] - 0.4f * pPlayerTransform->m_vInfo[INFO_UP];
 				m_pTransform->m_vInfo[INFO_POS] = (pPlayerTransform->m_vInfo[INFO_POS] + vOffSet);
+
+				m_bEffect = false;
 			}
 		}
 	}
@@ -132,7 +146,7 @@ void CFireWands::Render_Object(void)
 		if (ItemType != nullptr)
 			ItemID = ItemType->Get_ItemTag();
 
-		if (ItemID.eItemID == ITEMID::WEAPON_WAND1 && pPlayer->Get_ItemEquipRight())
+		if (ItemID.eItemID == ITEMID::WEAPON_WAND3 && pPlayer->Get_ItemEquipRight())
 		{
 			m_pTexture->Render_Texture();
 			m_pBuffer->Render_Buffer();

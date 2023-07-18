@@ -580,6 +580,9 @@
     <Filter Include="02. GameObject\01. Stage\05. Monster\10. Monk">
       <UniqueIdentifier>{60f7a618-df51-4ae4-8b78-391efaf0fef8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\07. Effect\08. EffectTwinkle">
+      <UniqueIdentifier>{d89a7002-1f41-4e28-8d22-8fa1481dc351}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -1059,6 +1062,9 @@
     <ClInclude Include="..\Header\Worm.h">
       <Filter>02. GameObject\01. Stage\05. Monster\09.Worm</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\EffectTwinkle.h">
+      <Filter>02. GameObject\07. Effect\08. EffectTwinkle</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -1528,6 +1534,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\Worm.cpp">
       <Filter>02. GameObject\01. Stage\05. Monster\09.Worm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\EffectTwinkle.cpp">
+      <Filter>02. GameObject\07. Effect\08. EffectTwinkle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -16,6 +16,8 @@ protected:
 	virtual ~CTempEffect();
 
 public:
+	EFFECTTAG   Get_EffectTag() { return m_EffectTag; }
+	void        Set_TargetObject(CGameObject* _pObject) { m_pTarget = _pObject; }
 	void        Set_EffectColor(EFFECTCOLOR _Color) { m_EffectColor = _Color; }
 	void        Set_RandomSet(_bool _RandomSetbool) { m_RandomSet = _RandomSetbool; }
 	void        Set_Parent(_bool _Parent) { m_bParent = _Parent; }
@@ -45,7 +47,10 @@ protected:
 	}
 
 protected:
+	EFFECTTAG    m_EffectTag   = EFFECTTAG::EFFECT_END;
 	EFFECTCOLOR  m_EffectColor = EFFECTCOLOR::ECOLOR_END;
+
+	CGameObject* m_pTarget = nullptr;
 
 	CRcTex*      m_pBufferCom;
 	CTexture*    m_pTextureCom;

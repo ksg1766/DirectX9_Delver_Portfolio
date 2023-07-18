@@ -22,7 +22,7 @@ private:
 	_vec3		 m_vecDir;
 
 	_float       m_fCreatTime  = 0.f;
-	_float       m_fCreatCount = 100.f;
+	_float       m_fCreatCount = 200.f;
 	_float       m_fSpeed = 0.f;
 
 public:

@@ -60,6 +60,7 @@ protected:
 
 	CGameObject* m_pParent = nullptr;
 	CGameObject* m_pChild  = nullptr;
+
     //_float  m_fX;
     //_float  m_fY;
     //_float  m_fSizeX;

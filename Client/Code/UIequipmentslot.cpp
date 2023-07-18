@@ -61,6 +61,14 @@ _int CUIequipmentslot::Update_Object(const _float & fTimeDelta)
 		}
 	}
 
+	if (m_bUse == true && m_bEmpty)
+	{
+		m_bUse = false;
+		// 해당 슬롯을 통해 플레이어 스탯을 업데이트 중이었는데 비어버린 상태라면 해당 스탯만큼 플레이어 스탯에서 제외
+
+
+	}
+
 	_int iExit = CTempUI::Update_Object(fTimeDelta);
 
 	return iExit;

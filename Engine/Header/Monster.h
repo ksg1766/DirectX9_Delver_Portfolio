@@ -60,6 +60,8 @@ protected:
     _float                              m_fSpeed;
     CTerrain*                           m_pTerrain;
 
+    _bool                               m_bDieEffect = false;
+
     // MONSTER_ID m_eMonserID;
     // MonsterAI Component 추가해서 사용
 

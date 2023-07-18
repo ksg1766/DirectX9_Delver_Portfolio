@@ -7,6 +7,7 @@
 #include "Player.h"
 #include "Monster_Fly.h"
 #include "Warrior_Attack.h"
+#include "EffectBlood.h"
 
 CBoneGhost::CBoneGhost(LPDIRECT3DDEVICE9 pGrapicDev)
 	: CMonster(pGrapicDev)
@@ -69,6 +70,21 @@ _int CBoneGhost::Update_Object(const _float& fTimeDelta)
 	if (SceneManager()->Get_GameStop()) { return 0; } // ! Esc 및 M키 누를 시 업데이트 멈추게 하는 용도 입니다.
 
 	_int iExit = __super::Update_Object(fTimeDelta);
+
+	if (m_pBasicStat->Get_Stat()->fHealth <= 0)
+	{
+		m_pStateMachine->Set_State(STATE::DEAD);
+
+		if (!m_bDieEffect)
+		{
+			CGameObject* pGameObject = CEffectBlood::Create(m_pGraphicDev);
+			pGameObject->m_pTransform->Translate(_vec3(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y - 1.f, m_pTransform->m_vInfo[INFO_POS].z));
+			dynamic_cast<CTempEffect*>(pGameObject)->Set_EffectColor(ECOLOR_RED);
+			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+
+			m_bDieEffect = true;
+		}
+	}
 
 	m_pStateMachine->Update_StateMachine(fTimeDelta);
 

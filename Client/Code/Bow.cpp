@@ -3,6 +3,7 @@
 
 #include "..\Header\Bow.h"
 #include "Export_Function.h"
+#include "EffectDamage.h"
 
 static _int iCount = 0;
 
@@ -115,6 +116,10 @@ _int CBow::Update_Object(const _float& fTimeDelta)
 					vUp, -0.01f);
 				m_pTransform->RotateAround(m_pTransform->m_vInfo[INFO_POS], m_pTransform->m_vInfo[INFO_UP],
 					0.06f);
+
+				CGameObject* pGameObject = CEffectDamage::Create(m_pGraphicDev);
+				pGameObject->m_pTransform->Translate(_vec3(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vInfo[INFO_POS].z));
+				Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 			}
 			pPlayer->Set_Attack(false);
 

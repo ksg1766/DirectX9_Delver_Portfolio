@@ -18,6 +18,8 @@ HRESULT CEffectProjectileTrace::Ready_Object(void)
 	FAILED_CHECK_RETURN(CTempEffect::Ready_Object(), E_FAIL); // 초기화 및 초기 설정
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
+	m_EffectTag = EFFECTTAG::EFFECT_PROJECTILETRACE;
+
 	m_fLife  = 50.f;
 	m_fSpeed = 24.f;
 

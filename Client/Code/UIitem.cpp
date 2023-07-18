@@ -250,6 +250,16 @@ void CUIitem::Key_Input(void)
 							CInventory* Inventory = dynamic_cast<CInventory*>(pPlayer->Get_Component(COMPONENTTAG::INVENTORY, ID_DYNAMIC));
 							Inventory->Switch_InvenItem(m_ItemID, UIObjID, UINumber); // : 이동한 아이템 아이디, 이동할 슬롯 타입 및 번호
 						}
+
+						if (UIObjID == Engine::UIID_SLOTEQUIPMENT)
+						{
+							// 장착한 슬롯이 장착 슬롯일 시 해당 값 만큼 플레이어 스탯에 업데이트
+
+
+
+
+							dynamic_cast<CUIequipmentslot*>(Get_Parent())->Set_UseSlot(true); // 해당 슬롯을 사용함으로 써 플레이어 스탯 업데이트 상태이다.
+						}
 					}
 					else
 					{
