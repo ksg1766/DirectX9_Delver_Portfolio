@@ -198,6 +198,7 @@
     <ClInclude Include="..\Header\Bow.h" />
     <ClInclude Include="..\Header\Box_Cube.h" />
     <ClInclude Include="..\Header\Charge.h" />
+    <ClInclude Include="..\Header\Chease.h" />
     <ClInclude Include="..\Header\CrawlPattern.h" />
     <ClInclude Include="..\Header\EffectBlood.h" />
     <ClInclude Include="..\Header\EffectBrokenbox.h" />
@@ -214,8 +215,12 @@
     <ClInclude Include="..\Header\Helmet.h" />
     <ClInclude Include="..\Header\HorizontalMove.h" />
     <ClInclude Include="..\Header\PoolManager.h" />
-    <ClInclude Include="..\Header\Projectile_Trap_Arrow.h" />
-    <ClInclude Include="..\Header\Projectile_Trap_Body.h" />
+    <ClInclude Include="..\Header\Plate_Trap_Body.h" />
+    <ClInclude Include="..\Header\Pot.h" />
+    <ClInclude Include="..\Header\Projectile_Trap_Arrow.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\Header\StrikeDown_Trap_Body.h" />
     <ClInclude Include="..\Header\Ghost_Attack.h" />
     <ClInclude Include="..\Header\Ghost_Bullet.h" />
     <ClInclude Include="..\Header\Ghost_IDLE.h" />
@@ -356,6 +361,7 @@
     <ClCompile Include="..\Code\Bow.cpp" />
     <ClCompile Include="..\Code\Box_Cube.cpp" />
     <ClCompile Include="..\Code\Charge.cpp" />
+    <ClCompile Include="..\Code\Chease.cpp" />
     <ClCompile Include="..\Code\CrawlPattern.cpp" />
     <ClCompile Include="..\Code\EffectBlood.cpp" />
     <ClCompile Include="..\Code\EffectBrokenbox.cpp" />
@@ -372,8 +378,12 @@
     <ClCompile Include="..\Code\Helmet.cpp" />
     <ClCompile Include="..\Code\HorizontalMove.cpp" />
     <ClCompile Include="..\Code\PoolManager.cpp" />
-    <ClCompile Include="..\Code\Projectile_Trap_Arrow.cpp" />
-    <ClCompile Include="..\Code\Projectile_Trap_Body.cpp" />
+    <ClCompile Include="..\Code\Plate_Trap_Body.cpp" />
+    <ClCompile Include="..\Code\Pot.cpp" />
+    <ClCompile Include="..\Code\Projectile_Trap_Arrow.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\Code\StrikeDown_Trap_Body.cpp" />
     <ClCompile Include="..\Code\Ghost_Attack.cpp" />
     <ClCompile Include="..\Code\Ghost_Bullet.cpp" />
     <ClCompile Include="..\Code\Ghost_IDLE.cpp" />

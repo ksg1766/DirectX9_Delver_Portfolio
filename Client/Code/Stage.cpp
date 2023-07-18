@@ -26,8 +26,9 @@
 #include "EffectBubble.h"
 
 #include "Blade_Trap_Body.h"
-#include "Projectile_Trap_Body.h"
-#include "Projectile_Trap_Arrow.h"
+#include "StrikeDown_Trap_Body.h"
+#include "Plate_Trap_Body.h"
+#include "Pot.h"
 
 #include "EffectBrokenbox.h"
 #include "EffectDamage.h"
@@ -210,6 +211,11 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	pGameObject->m_pTransform->Translate(_vec3(-50.f, 0.f, -50.f));
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
+	pGameObject = CNpc_Bard::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	pGameObject->m_pTransform->Translate(_vec3(-55.f, 0.f, -55.f));
+	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+
 	CItem* pItem = CTempItem::Create(m_pGraphicDev, true);
 	NULL_CHECK_RETURN(pItem, E_FAIL);
 	pItem->m_pTransform->Translate(_vec3(-40, 0.5f, 0.f));
@@ -240,13 +246,32 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	dynamic_cast<CBlade_Trap*>(pGameObject)->Create_Blade();
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
-	pGameObject = CProjectile_Trap::Create(m_pGraphicDev);
+	pGameObject = CStrikeDown_Trap::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	pGameObject->m_pTransform->Translate(_vec3(-35.f, 15.f, -40.f));
+	dynamic_cast<CStrikeDown_Trap*>(pGameObject)->Set_InitailHeight(15.f);
+	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+
+	pGameObject = CPlate_Trap::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	pGameObject->m_pTransform->Translate(_vec3(-40.f, 2.5f, -40.f));
-	dynamic_cast<CProjectile_Trap*>(pGameObject)->Create_Projectile();
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
 	/*pGameObject = CWorm::Create(m_pGraphicDev);
+	pGameObject->m_pTransform->Translate(_vec3(-30.f, 2.f, -40.f));
+	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+
+	pGameObject = CBox_Cube::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	pGameObject->m_pTransform->Translate(_vec3(-30.f, 2.5f, -30.f));
+	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+
+	pGameObject = CPot::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	pGameObject->m_pTransform->Translate(_vec3(-25.f, 3.f, -25.f));
+	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+	
+	pGameObject = CBoneGhost::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	pGameObject->m_pTransform->Translate(_vec3(-70.f, 0.f, -40.f));
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);*/
@@ -462,14 +487,14 @@ HRESULT CStage::Load_Data()
 			if (0 == dwByte)
 				break;
 
-			CGameObject* pGameObject = CSpawningPool::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+			/*CGameObject* pGameObject = CSpawningPool::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
 			NULL_CHECK_RETURN(pGameObject, E_FAIL);
 			dynamic_cast<CSpawningPool*>(pGameObject)->Set_MonsterTag(eSpawnerTag);
 			dynamic_cast<CSpawningPool*>(pGameObject)->Set_PoolCapacity(iPoolCapacity);
 			dynamic_cast<CSpawningPool*>(pGameObject)->Set_SpawnRadius(fSpawnRadius);
 			dynamic_cast<CSpawningPool*>(pGameObject)->Set_SpawnTime(fSpawnTime);
 			pGameObject->m_pTransform->Translate(_vec3(fX, 0.f, fZ));
-			EventManager()->CreateObject(pGameObject, LAYERTAG::ENVIRONMENT);
+			EventManager()->CreateObject(pGameObject, LAYERTAG::ENVIRONMENT);*/
 		}
 	}
 

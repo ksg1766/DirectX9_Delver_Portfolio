@@ -18,7 +18,7 @@ CBlade_Trap::~CBlade_Trap()
 
 HRESULT CBlade_Trap::Ready_Object(void)
 {
-	m_eObjectTag = OBJECTTAG::MONSTERBULLET; //¹ÌÁ¤
+	m_eObjectTag = OBJECTTAG::MONSTER;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	m_pTransform->Scale(_vec3(1.f, 0.2f, 1.f));
@@ -76,6 +76,8 @@ void CBlade_Trap::Create_Blade()
 		pGameObject = m_pTrapBlade = CBlade_Trap_Blade::Create(m_pGraphicDev);
 		dynamic_cast<CBlade_Trap_Blade*>(m_pTrapBlade)->m_pTransform->m_vInfo[INFO_POS] = m_pTransform->m_vInfo[INFO_POS];
 		dynamic_cast<CBlade_Trap_Blade*>(m_pTrapBlade)->m_pTransform->Translate(m_vBladePos[i]);
+		if (i == 6)
+			dynamic_cast<CBlade_Trap_Blade*>(m_pTrapBlade)->Set_Collider();
 		if(i < 7)
 			dynamic_cast<CBlade_Trap_Blade*>(m_pTrapBlade)->m_pTransform->Rotate(m_vBladeDir[i]);
 		dynamic_cast<CBlade_Trap_Blade*>(m_pTrapBlade)->Set_TrapCenter(m_pTransform->m_vInfo[INFO_POS]);

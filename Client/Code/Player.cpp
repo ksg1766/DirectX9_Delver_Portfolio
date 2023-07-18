@@ -225,14 +225,14 @@ void CPlayer::LateUpdate_Object(void)
 void CPlayer::Render_Object(void)
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
-	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
 	//m_pBuffer->Render_Buffer();
 
 #if _DEBUG
 	m_pCollider->Render_Collider();
 #endif
-	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
 
 HRESULT CPlayer::Add_Component(void)
@@ -603,7 +603,8 @@ void CPlayer::Use_SlotItem(INVENKEYSLOT _SlotNum)
 
 void CPlayer::OnCollisionEnter(CCollider* _pOther)
 {
-	if (_pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::MONSTERBULLET
+	if (_pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::MONSTER 
+		&& _pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::MONSTERBULLET
 		&& _pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::ITEM)
 	{
 		_vec3	vOtherPos = _pOther->GetCenterPos();
@@ -712,7 +713,8 @@ void CPlayer::OnCollisionEnter(CCollider* _pOther)
 
 void CPlayer::OnCollisionStay(CCollider* _pOther)
 {
-	if (_pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::MONSTERBULLET
+	if (_pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::MONSTER 
+		&& _pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::MONSTERBULLET
 		&& _pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::ITEM)
 	{
 		_vec3	vOtherPos = _pOther->GetCenterPos();

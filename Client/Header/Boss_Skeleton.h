@@ -33,7 +33,7 @@ public:
 
 private:
     HRESULT        Add_Component();
-   
+
 private:
     CRcTex* m_pBuffer = nullptr;
     CTexture* m_pTexture[static_cast<_uint>(STATE::STATE_END)] = {};
@@ -51,8 +51,5 @@ public:
 
 private:
     virtual void Free() override;
-
-
-
 };
 

@@ -44,9 +44,7 @@ void CInventory::Add_ItemObject(CGameObject* pGameObject)
 				// 같은 아이템이 존재할 시 해당 개수만큼 카운트 증가 후 들어온 아이템 삭제
 				dynamic_cast<CItem*>(iter.second)->Add_ItemCount(ItemType.iCount);
 				
-				CTransform* pPlayerTransform = SceneManager()->
-					Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->
-					m_pTransform;
+				CTransform* pPlayerTransform = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform;
 
 				vector<CTransform*>& ChildTransform = pPlayerTransform->Get_Child();
 				vector<CTransform*>::iterator iter = ChildTransform.begin();
@@ -91,7 +89,6 @@ void CInventory::Add_ItemObject(CGameObject* pGameObject)
 					else
 						++iter;
 				}
-
 				return;
 			}
 		}
@@ -121,7 +118,6 @@ void CInventory::Add_ItemObject(CGameObject* pGameObject)
 					else
 						++iter;
 				}
-
 				return;
 			}
 		}

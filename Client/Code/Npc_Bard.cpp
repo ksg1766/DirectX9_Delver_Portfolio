@@ -1,6 +1,8 @@
 #include "Npc_Bard.h"
 #include "Export_Function.h"
 #include "Bard_Idle.h"
+#include "DynamicCamera.h"
+
 CNpc_Bard::CNpc_Bard(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CNpc(pGraphicDev)
 {
@@ -32,18 +34,34 @@ HRESULT CNpc_Bard::Ready_Object()
 
 	m_pStateMachine->Set_Animator(m_pAnimator);
 	m_pStateMachine->Set_State(STATE::IDLE);
+
+	m_pFontconfig = dynamic_cast<CFont*>(m_pFont)->Create_3DXFont(35, 28.f, 1000.f, false, L"Times New Roman", m_pFontconfig);
+	dynamic_cast<CFont*>(m_pFont)->Set_pFont(m_pFontconfig);
+	dynamic_cast<CFont*>(m_pFont)->Set_FontColor(_uint(0xffffffff));
+	dynamic_cast<CFont*>(m_pFont)->Set_Rect(RECT{ 0, 350, WINCX, 650 });
+	dynamic_cast<CFont*>(m_pFont)->Set_Anchor(DT_CENTER | DT_NOCLIP);
 	return S_OK;
 }
 
 _int CNpc_Bard::Update_Object(const _float& fTimeDelta)
 {
 	Engine::Renderer()->Add_RenderGroup(RENDER_ALPHA, this);
-
 	if (SceneManager()->Get_GameStop()) { return 0; }
-
 	_uint iExit = __super::Update_Object(fTimeDelta);
-
 	m_pStateMachine->Update_StateMachine(fTimeDelta);
+
+	m_vPlayerPos = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform->m_vInfo[INFO_POS];
+	m_vDir = m_vPlayerPos - m_pTransform->m_vInfo[INFO_POS];
+	m_fDistance = D3DXVec3LengthSq(&m_vDir);
+	if (m_fDistance < pow(3, 2))
+	{
+		m_bTalkButton = true;
+	}
+	else
+	{
+		m_bTalkButton = false;
+		m_bTalkingBox = false;
+	}
 	return iExit;
 }
 
@@ -57,8 +75,6 @@ void CNpc_Bard::LateUpdate_Object()
 void CNpc_Bard::Render_Object()
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
-	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-	//m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 
 	m_pStateMachine->Render_StateMachine();
 	m_pBuffer->Render_Buffer();
@@ -66,18 +82,20 @@ void CNpc_Bard::Render_Object()
 #if _DEBUG
 	m_pCollider->Render_Collider();
 #endif
-	//m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
-	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+	if (!SceneManager()->Get_GameStop())
+	{
+		if ((!m_bTalkingBox) && (m_bTalkButton))
+		{
+			dynamic_cast<CFont*>(m_pFont)->Set_pFont(m_pFontconfig);
+			m_pFont->DrawText(L"F : TALK");
+		}
+	}
 }
 
 void CNpc_Bard::OnCollisionEnter(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 
-	if (OBJECTTAG::PLAYER == _pOther->Get_ObjectTag())
-	{
-
-	}
 }
 
 void CNpc_Bard::OnCollisionStay(CCollider* _pOther)
@@ -127,6 +145,10 @@ HRESULT CNpc_Bard::Add_Component()
 	pComponent = m_pBasicStat = dynamic_cast<CBasicStat*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BasicStat"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BASICSTAT, pComponent);
+	
+	pComponent = m_pFont = dynamic_cast<CFont*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Font"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::FONT, pComponent);
 
 	for (_uint i = 0; i < ID_END; ++i)
 		for (auto& iter : m_mapComponent[i])

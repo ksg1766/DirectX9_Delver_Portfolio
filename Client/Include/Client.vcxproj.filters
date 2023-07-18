@@ -349,6 +349,9 @@
     <Filter Include="03. GameObject\01. Stage\07. NPC\04. OldMan">
       <UniqueIdentifier>{e1eac793-e421-4595-9d5c-c63756d03cda}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\01. Stage\05. Monster\99. SpawningPool">
+      <UniqueIdentifier>{36768cc2-412e-416a-9e29-77a50a2b39f6}</UniqueIdentifier>
+    </Filter>
     <Filter Include="03. GameObject\01. Stage\07. NPC\04. OldMan\01. State">
       <UniqueIdentifier>{85b14cc8-a96a-454c-977a-316fe5ea04da}</UniqueIdentifier>
     </Filter>
@@ -594,6 +597,21 @@
     </Filter>
     <Filter Include="02. GameObject\07. Effect\08. EffectTwinkle">
       <UniqueIdentifier>{d89a7002-1f41-4e28-8d22-8fa1481dc351}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\02. Item\Consumable\Chease">
+      <UniqueIdentifier>{477600d1-5f17-4eb2-bc8d-ff3205479be4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\08. Trap\02. Plate_Trap">
+      <UniqueIdentifier>{566d8cf0-9191-47f0-9d1f-1db6ca8fb76f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\06. Fragile">
+      <UniqueIdentifier>{a379a509-25e7-4158-844f-c136a6fe3fd5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\06. Fragile\00. Box">
+      <UniqueIdentifier>{a699dc28-2b64-44eb-b93e-ecb76894b31a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\06. Fragile\01. Pot">
+      <UniqueIdentifier>{2d214bb8-b2d6-48a5-9b91-f46f87d484c0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -883,7 +901,7 @@
       <Filter>03. GameObject\01. Stage\02. Item\Weapon\Bow</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Box_Cube.h">
-      <Filter>03. GameObject\01. Stage\06. Environment_Object\03. Box</Filter>
+      <Filter>02. GameObject\01. Stage\06. Fragile\00. Box</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Boss_MeteorReady.h">
       <Filter>03. GameObject\01. Stage\999. Boss\02. State\03. Attack\05. Meteor\01.Ready</Filter>
@@ -1035,8 +1053,8 @@
     <ClInclude Include="..\Header\FootRay.h">
       <Filter>03. GameObject\01. Stage\01. Player\02. Ray</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\Projectile_Trap_Body.h">
-      <Filter>03. GameObject\01. Stage\08. Trap\01. Projectile_Trap\00. Trap_Body</Filter>
+    <ClInclude Include="..\Header\StrikeDown_Trap_Body.h">
+      <Filter>02. GameObject\01. Stage\08. Trap\01. Projectile_Trap\00. Trap_Body</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Projectile_Trap_Arrow.h">
       <Filter>03. GameObject\01. Stage\08. Trap\01. Projectile_Trap\01. Trap_Arrow</Filter>
@@ -1079,6 +1097,15 @@
     </ClInclude>
     <ClInclude Include="..\Header\EffectTwinkle.h">
       <Filter>02. GameObject\07. Effect\08. EffectTwinkle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Pot.h">
+      <Filter>02. GameObject\01. Stage\06. Fragile\01. Pot</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Chease.h">
+      <Filter>02. GameObject\01. Stage\02. Item\Consumable\Chease</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Plate_Trap_Body.h">
+      <Filter>02. GameObject\01. Stage\08. Trap\02. Plate_Trap</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1359,7 +1386,7 @@
       <Filter>03. GameObject\01. Stage\02. Item\Weapon\Bow</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Box_Cube.cpp">
-      <Filter>03. GameObject\01. Stage\06. Environment_Object\03. Box</Filter>
+      <Filter>02. GameObject\01. Stage\06. Fragile\00. Box</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Boss_MeteorReady.cpp">
       <Filter>03. GameObject\01. Stage\999. Boss\02. State\03. Attack\05. Meteor\01.Ready</Filter>
@@ -1511,8 +1538,8 @@
     <ClCompile Include="..\Code\FootRay.cpp">
       <Filter>03. GameObject\01. Stage\01. Player\02. Ray</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\Projectile_Trap_Body.cpp">
-      <Filter>03. GameObject\01. Stage\08. Trap\01. Projectile_Trap\00. Trap_Body</Filter>
+    <ClCompile Include="..\Code\StrikeDown_Trap_Body.cpp">
+      <Filter>02. GameObject\01. Stage\08. Trap\01. Projectile_Trap\00. Trap_Body</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Projectile_Trap_Arrow.cpp">
       <Filter>03. GameObject\01. Stage\08. Trap\01. Projectile_Trap\01. Trap_Arrow</Filter>
@@ -1555,6 +1582,15 @@
     </ClCompile>
     <ClCompile Include="..\Code\EffectTwinkle.cpp">
       <Filter>02. GameObject\07. Effect\08. EffectTwinkle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Pot.cpp">
+      <Filter>02. GameObject\01. Stage\06. Fragile\01. Pot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Chease.cpp">
+      <Filter>02. GameObject\01. Stage\02. Item\Consumable\Chease</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Plate_Trap_Body.cpp">
+      <Filter>02. GameObject\01. Stage\08. Trap\02. Plate_Trap</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

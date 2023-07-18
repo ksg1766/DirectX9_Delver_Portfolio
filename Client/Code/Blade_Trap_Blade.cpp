@@ -2,6 +2,7 @@
 #include "Export_Function.h"
 #include "Blade_Trap_Idle.h"
 #include "Blade_Trap_Attack.h"
+#include "Player.h"
 CBlade_Trap_Blade::CBlade_Trap_Blade(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CGameObject(pGraphicDev)
 {
@@ -18,7 +19,7 @@ CBlade_Trap_Blade::~CBlade_Trap_Blade()
 
 HRESULT CBlade_Trap_Blade::Ready_Object(void)
 {
-	m_eObjectTag = OBJECTTAG::MONSTERBULLET; //미정
+	m_eObjectTag = OBJECTTAG::MONSTER;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	CState* pState = CBlade_Trap_Idle::Create(m_pGraphicDev, m_pStateMachine);
@@ -34,12 +35,10 @@ HRESULT CBlade_Trap_Blade::Ready_Object(void)
 	m_pStateMachine->Set_Animator(m_pAnimator);
 	m_pStateMachine->Set_State(STATE::IDLE);
 
-	m_pTransform->Scale(_vec3(0.6f, 1.f, 0.6f));
-
-	m_vTrapCenter = _vec3(0.f, 0.f, 0.f);
-
-	m_pTransform->Translate(_vec3(0.f, 2.f, 0.f));
-
+	m_pTransform->Scale(_vec3(0.7f, 1.f, 0.7f));
+	m_bHit = false;
+	m_bCollider = false;
+	m_fHitTime = 0.f;
 	return S_OK;
 }
 
@@ -49,6 +48,12 @@ _int CBlade_Trap_Blade::Update_Object(const _float& fTimeDelta)
 	if (SceneManager()->Get_GameStop()) { return 0; }
 	_uint iExit = __super::Update_Object(fTimeDelta);
 	m_pStateMachine->Update_StateMachine(fTimeDelta);
+	m_fHitTime += fTimeDelta;
+	if ((m_bHit)&&(1.5f < m_fHitTime))
+	{
+		m_fHitTime = 0.f;
+		m_bHit = false;
+	}
 	return iExit;
 }
 
@@ -68,9 +73,40 @@ void CBlade_Trap_Blade::Render_Object(void)
 	m_pBuffer->Render_Buffer();
 
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+
 #if _DEBUG
-	m_pCollider->Render_Collider();
+		m_pCollider->Render_Collider();
 #endif
+}
+
+void CBlade_Trap_Blade::Set_Collider()
+{
+	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale()*0.5f);
+	m_bCollider = true;
+}
+
+void CBlade_Trap_Blade::OnCollisionEnter(CCollider* _pOther)
+{
+	if (SceneManager()->Get_GameStop()) { return; }
+	if ((!m_bCollider) || (m_bHit)) { return; }
+	m_pOtherObj = _pOther->Get_Host();
+	if (OBJECTTAG::PLAYER == m_pOtherObj->Get_ObjectTag())
+	{
+		CPlayerStat& PlayerState = *static_cast<CPlayer*>(_pOther->GetHost())->Get_Stat();
+		PlayerState.Take_Damage(4.f);
+		cout << "아야!" << endl;
+		m_bHit = true;
+	}
+}
+
+void CBlade_Trap_Blade::OnCollisionStay(CCollider* _pOther)
+{
+	if (SceneManager()->Get_GameStop()) { return; }
+}
+
+void CBlade_Trap_Blade::OnCollisionExit(CCollider* _pOther)
+{
+	if (SceneManager()->Get_GameStop()) { return; }
 }
 
 HRESULT CBlade_Trap_Blade::Add_Component(void)

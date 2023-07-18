@@ -38,7 +38,7 @@ HRESULT CNpc_OldMan::Ready_Object()
 	m_bTalkButton = false;
 	m_bTalkingBox = false;
 
-	m_pFontconfig = dynamic_cast<CFont*>(m_pFont)->Create_3DXFont(40, 32.f, 800.f, false, L"Times New Roman", m_pFontconfig);
+	m_pFontconfig = dynamic_cast<CFont*>(m_pFont)->Create_3DXFont(35, 28.f, 1000.f, false, L"Times New Roman", m_pFontconfig);
 	dynamic_cast<CFont*>(m_pFont)->Set_pFont(m_pFontconfig);
 	dynamic_cast<CFont*>(m_pFont)->Set_FontColor(_uint(0xffffffff));
 	dynamic_cast<CFont*>(m_pFont)->Set_Rect(RECT { 0, 350, WINCX, 650 });
@@ -58,11 +58,11 @@ _int CNpc_OldMan::Update_Object(const _float& fTimeDelta)
 	m_fFontTime += fTimeDelta;
 	m_pStateMachine->Update_StateMachine(fTimeDelta);
 
-	_vec3 vPlayerPos = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform->m_vInfo[INFO_POS];
-	_vec3 vDir = vPlayerPos - m_pTransform->m_vInfo[INFO_POS];
-	_float fDistance = D3DXVec3LengthSq(&vDir);
+	m_vPlayerPos = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform->m_vInfo[INFO_POS];
+	m_vDir = m_vPlayerPos - m_pTransform->m_vInfo[INFO_POS];
+	m_fDistance = D3DXVec3LengthSq(&m_vDir);
 
-	if (fDistance < pow(4, 2))
+	if (m_fDistance < pow(3, 2))
 	{
 		m_bTalkButton = true;
 
