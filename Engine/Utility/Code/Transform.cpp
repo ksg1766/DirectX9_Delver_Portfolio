@@ -65,16 +65,22 @@ void CTransform::Translate(const _vec3& _vTranslation)
 
 void CTransform::Scale(_vec3& _vScale)
 {
+	_vec3 vScale;
+	vScale.x = D3DXVec3Length(&m_vInfo[INFO_RIGHT]);
+	vScale.y = D3DXVec3Length(&m_vInfo[INFO_UP]);
+	vScale.z = D3DXVec3Length(&m_vInfo[INFO_LOOK]);
+
 	for (_int i = 0; i < INFO_POS; ++i)
 	{
 		D3DXVec3Normalize(&m_vInfo[i], &m_vInfo[i]);
+		//m_vInfo[i] *= (*(((_float*)&vScale) + i) * *(((_float*)&_vScale) + i));
 		m_vInfo[i] *= *(((_float*)&_vScale) + i);
 	}
 	if (!m_pChild.empty()) 
 	{
 		//m_pChild->Scale(_vScale); 
-		for (auto& iter : m_pChild)
-			iter->Scale(_vScale);
+		//for (auto& iter : m_pChild)
+			//iter->Scale(_vScale);
 	}
 }
 
@@ -95,7 +101,9 @@ void CTransform::Rotate(_vec3& _vEulers)
 		D3DXQuaternionRotationAxis(&quat, &m_vInfo[INFO_RIGHT], _vEulers.x);
 	else if (0.f != _vEulers.z)
 		D3DXQuaternionRotationAxis(&quat, &m_vInfo[INFO_LOOK], _vEulers.z);
-	
+	else
+		return;
+
 	D3DXMatrixRotationQuaternion(&matRotate, &quat);
 
 	for(int i = 0; i < INFO_POS; ++i)
