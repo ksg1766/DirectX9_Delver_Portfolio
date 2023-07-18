@@ -92,13 +92,13 @@ Engine::_int CPlayer::Update_Object(const _float& fTimeDelta)
 
 	if (m_pCurrentEquipItemRight)
 	{
-		CTransform* pRightTrans = m_pCurrentEquipItemRight->m_pTransform;
+		/*CTransform* pRightTrans = m_pCurrentEquipItemRight->m_pTransform;
 		_vec3 vLocalScale = pRightTrans->LocalScale();
 		
 		pRightTrans->Copy_RUL(m_pTransform->m_vInfo);
 
 		for (_int i = 0; i < INFO_POS; ++i)
-			pRightTrans->m_vInfo[i] *= *(((_float*)&vLocalScale) + i);
+			pRightTrans->m_vInfo[i] *= *(((_float*)&vLocalScale) + i);*/
 	}
 
 	if (m_pCurrentEquipItemLeft)
@@ -574,8 +574,7 @@ void CPlayer::Use_SlotItem(INVENKEYSLOT _SlotNum)
 
 void CPlayer::OnCollisionEnter(CCollider* _pOther)
 {
-	if (_pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::MONSTER 
-		&& _pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::MONSTERBULLET
+	if (_pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::MONSTERBULLET
 		&& _pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::ITEM)
 	{
 		_vec3	vOtherPos = _pOther->GetCenterPos();
@@ -597,6 +596,8 @@ void CPlayer::OnCollisionEnter(CCollider* _pOther)
 
 		if (fRadiusY == fMinAxis)
 		{
+			if (_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::MONSTER)
+				return;
 			if (vOtherPos.y < vThisPos.y)
 			{
 				//m_IsJump = false;
@@ -674,8 +675,7 @@ void CPlayer::OnCollisionEnter(CCollider* _pOther)
 
 void CPlayer::OnCollisionStay(CCollider* _pOther)
 {
-	if (_pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::MONSTER 
-		&& _pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::MONSTERBULLET
+	if (_pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::MONSTERBULLET
 		&& _pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::ITEM)
 	{
 		_vec3	vOtherPos = _pOther->GetCenterPos();
@@ -697,6 +697,8 @@ void CPlayer::OnCollisionStay(CCollider* _pOther)
 
 		if (fRadiusY == fMinAxis)
 		{
+			if (_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::MONSTER)
+				return;
 			if (vOtherPos.y < vThisPos.y)
 			{
 				//m_IsJump = false;

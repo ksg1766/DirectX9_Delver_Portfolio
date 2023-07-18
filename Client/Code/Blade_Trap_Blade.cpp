@@ -28,7 +28,7 @@ HRESULT CBlade_Trap_Blade::Ready_Object(void)
 	m_pStateMachine->Add_State(STATE::ATTACK, pState);
 	
 	CAnimation* pAnimation = CAnimation::Create(m_pGraphicDev,
-		m_pTexture[(_uint)STATE::IDLE], STATE::IDLE, 8.f, FALSE);
+	m_pTexture[(_uint)STATE::IDLE], STATE::IDLE, 8.f, FALSE);
 	m_pAnimator->Add_Animation(STATE::IDLE, pAnimation);
 
 	m_pStateMachine->Set_Animator(m_pAnimator);

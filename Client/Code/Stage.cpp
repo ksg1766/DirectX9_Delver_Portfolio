@@ -79,7 +79,7 @@ void CStage::LateUpdate_Scene()
 	// 테스트용입니다.
 	if (Engine::InputDev()->Key_Down(DIK_F6))
 	{
-		_vec3 TargetPos = _vec3(0.f, 5.f, 0.f);
+		_vec3 TargetPos = _vec3(-40.f, 4.f, -40.f);
 
 		CGameObject* pGameObject = CEffectSquare::Create(m_pGraphicDev, TargetPos, 50, EFFECTCOLOR::ECOLOR_RED);
 		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
@@ -87,44 +87,44 @@ void CStage::LateUpdate_Scene()
 	else if (Engine::InputDev()->Key_Down(DIK_F7))
 	{
 		CGameObject* pGameObject = CEffectBubble::Create(m_pGraphicDev);
-		pGameObject->m_pTransform->Translate(_vec3(50.f, 5.f, 50.f));
+		pGameObject->m_pTransform->Translate(_vec3(-40.f, 4.f, -40.f));
 		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 	}
 	else if (Engine::InputDev()->Key_Down(DIK_F8))
 	{
 		CGameObject* pGameObject = CEffectBrokenbox::Create(m_pGraphicDev);
-		pGameObject->m_pTransform->Translate(_vec3(50.f, 2.f, 50.f));
+		pGameObject->m_pTransform->Translate(_vec3(-40.f, 4.f, -40.f));
 		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 	}
 	else if (Engine::InputDev()->Key_Down(DIK_F9))
 	{
 		CGameObject* pGameObject = CEffectDamage::Create(m_pGraphicDev);
-		pGameObject->m_pTransform->Translate(_vec3(50.f, 2.f, 50.f));
+		pGameObject->m_pTransform->Translate(_vec3(-40.f, 4.f, -40.f));
 		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 	}
 	else if (Engine::InputDev()->Key_Down(DIK_Z))
 	{
 		CGameObject* pGameObject = CEffectDamageStar::Create(m_pGraphicDev);
-		pGameObject->m_pTransform->Translate(_vec3(50.f, 2.f, 50.f));
+		pGameObject->m_pTransform->Translate(_vec3(-40.f, 4.f, -40.f));
 		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 	}
 	else if (Engine::InputDev()->Key_Down(DIK_X))
 	{
 		CGameObject* pGameObject = CEffectBlood::Create(m_pGraphicDev);
-		pGameObject->m_pTransform->Translate(_vec3(50.f, .1f, 50.f));
+		pGameObject->m_pTransform->Translate(_vec3(-40.f, 4.f, -40.f));
 		dynamic_cast<CTempEffect*>(pGameObject)->Set_EffectColor(ECOLOR_RED);
 		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 	}
 	else if (Engine::InputDev()->Key_Down(DIK_V))
 	{
 		CGameObject* pGameObject = CEffectWand::Create(m_pGraphicDev);
-		pGameObject->m_pTransform->Translate(_vec3(50.f, 2.f, 50.f));
+		pGameObject->m_pTransform->Translate(_vec3(-40.f, 4.f, -40.f));
 		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 	}
 	else if (Engine::InputDev()->Key_Down(DIK_B))
 	{
 		CGameObject* pGameObject = CEffectExplosion::Create(m_pGraphicDev);
-		pGameObject->m_pTransform->Translate(_vec3(50.f, 2.f, 50.f));
+		pGameObject->m_pTransform->Translate(_vec3(-40.f, 4.f, -40.f));
 		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 	}
 }
@@ -265,7 +265,7 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 
 	pGameObject = CProjectile_Trap::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pGameObject->m_pTransform->Translate(_vec3(-40.f, 0.f, -40.f));
+	pGameObject->m_pTransform->Translate(_vec3(-40.f, 2.5f, -40.f));
 	dynamic_cast<CProjectile_Trap*>(pGameObject)->Create_Projectile();
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
@@ -274,10 +274,10 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	pGameObject->m_pTransform->Translate(_vec3(-70.f, 0.f, -40.f));
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
-	pGameObject = CWorm::Create(m_pGraphicDev);
+	/*pGameObject = CWorm::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	pGameObject->m_pTransform->Translate(_vec3(-70.f, 0.f, -40.f));
-	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);*/
 
 	return S_OK;
 }

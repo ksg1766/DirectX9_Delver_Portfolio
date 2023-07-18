@@ -67,7 +67,6 @@ HRESULT CLight::Ready_Light(LIGHT_TYPE _eLightType)
 		break;
 	}
 
-
     return S_OK;
 }
 

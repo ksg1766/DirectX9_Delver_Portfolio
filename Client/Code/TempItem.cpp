@@ -38,7 +38,7 @@ HRESULT CTempItem::Ready_Object(_bool _Item)
 		m_pBasicStat->Get_Stat()->fAttack = 1.f;
 		m_pBasicStat->Get_Stat()->fHealth = 20.f;
 
-		m_iAttackTick = 7;
+		m_iAttackTick = 10;
 
 		// 타입 및 아이디 지정
 		m_ItemID.eItemType = ITEMTYPE_WEAPONITEM;
@@ -67,7 +67,7 @@ HRESULT CTempItem::Ready_Object(_bool _Item)
 		m_pBasicStat->Get_Stat()->fAttack = 1.f;
 		m_pBasicStat->Get_Stat()->fHealth = 20.f;
 
-		m_iAttackTick = 7;
+		m_iAttackTick = 10;
 
 		// 타입 및 아이디 지정
 		m_ItemID.eItemType = ITEMTYPE_WEAPONITEM;
@@ -104,21 +104,36 @@ _int CTempItem::Update_Object(const _float& fTimeDelta)
 		if (pPlayer->Get_Attack() && pPlayer != nullptr)
 		{
 			if (m_iAttackTick > 0)
-				m_pTransform->Translate(m_pTransform->m_vInfo[INFO_LOOK] * 0.1f);
+			{
+				m_pTransform->Translate(m_pTransform->m_vInfo[INFO_LOOK] * 0.2f);
+				m_pTransform->Rotate(ROT_X, -0.1f);
+				m_pTransform->Rotate(ROT_Y, -0.05f);
+				m_pTransform->Rotate(ROT_Z, 0.02f);
+			}
 			else
-				m_pTransform->Translate(m_pTransform->m_vInfo[INFO_LOOK] * -0.1f);
-
+			{
+				m_pTransform->Translate(m_pTransform->m_vInfo[INFO_LOOK] * -0.2f);
+				m_pTransform->Rotate(ROT_Z, -0.02f);
+				m_pTransform->Rotate(ROT_Y, 0.05f);
+				m_pTransform->Rotate(ROT_X, 0.1f);
+			}
 			--m_iAttackTick;
 
-			if (-6 == m_iAttackTick)
+			if (-9 == m_iAttackTick)
 			{
-				m_iAttackTick = 7;
+				m_iAttackTick = 10;
 				pPlayer->Set_Attack(false);
 
 				CTransform* pPlayerTransform = pPlayer->m_pTransform;
 
 				_vec3 vOffSet = 0.7f * pPlayerTransform->m_vInfo[INFO_RIGHT] + 1.5f * pPlayerTransform->m_vInfo[INFO_LOOK] - 0.4f * pPlayerTransform->m_vInfo[INFO_UP];
 				m_pTransform->m_vInfo[INFO_POS] = (pPlayerTransform->m_vInfo[INFO_POS] + vOffSet);
+
+				_vec3 vLocalScale = m_pTransform->LocalScale();
+
+				m_pTransform->Copy_RUL(pPlayerTransform->m_vInfo);
+				for (_int i = 0; i < INFO_POS; ++i)
+					m_pTransform->m_vInfo[i] *= *(((_float*)&vLocalScale) + i);
 			}
 		}
 #pragma endregion ksg
@@ -202,21 +217,17 @@ HRESULT CTempItem::Add_Component(void)
 
 		m_pTransform->Set_Parent(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform);
 		m_pTransform->Copy_RUL(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform->m_vInfo);
-
-		for (_int i = 0; i < ID_END; ++i)
-			for (auto& iter : m_mapComponent[i])
-				iter.second->Init_Property(this);
 	}
 	else
 	{
 		pComponent = m_pBillBoard = dynamic_cast<CBillBoard*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BillBoard"));
 		NULL_CHECK_RETURN(pComponent, E_FAIL);
 		m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::BILLBOARD, pComponent);
-
-		for (int i = 0; i < ID_END; ++i)
-			for (auto& iter : m_mapComponent[i])
-				iter.second->Init_Property(this);
 	}
+
+	for (int i = 0; i < ID_END; ++i)
+		for (auto& iter : m_mapComponent[i])
+			iter.second->Init_Property(this);
 
 	return S_OK;
 }

@@ -111,30 +111,28 @@ _int CBow::Update_Object(const _float& fTimeDelta)
 			if (m_iCount < 24.f)
 			{
 				++m_iCount;
-				m_pTransform->RotateAround(m_pTransform->m_pParent->m_vInfo[INFO_POS],
-					vUp, -0.01f);
-				m_pTransform->RotateAround(m_pTransform->m_vInfo[INFO_POS], m_pTransform->m_vInfo[INFO_UP],
-					0.06f);
+				m_pTransform->RotateAround(m_pTransform->m_pParent->m_vInfo[INFO_POS], vUp, -0.01f);
+				m_pTransform->RotateAround(m_pTransform->m_vInfo[INFO_POS], m_pTransform->m_vInfo[INFO_UP], 0.06f);
 			}
 			pPlayer->Set_Attack(false);
-
 		}
 		else
 		{
 			if (m_iCount > 0.f)
 			{
 				--m_iCount;
-				m_pTransform->RotateAround(m_pTransform->m_pParent->m_vInfo[INFO_POS],
-					vUp, 0.01f);
-				m_pTransform->RotateAround(m_pTransform->m_vInfo[INFO_POS], m_pTransform->m_vInfo[INFO_UP],
-					-0.06f);
+				m_pTransform->RotateAround(m_pTransform->m_pParent->m_vInfo[INFO_POS], vUp, 0.01f);
+				m_pTransform->RotateAround(m_pTransform->m_vInfo[INFO_POS], m_pTransform->m_vInfo[INFO_UP], -0.06f);
+			}
+			else
+			{
+				CTransform* pPlayerTransform = pPlayer->m_pTransform;
 
-
-				//pPlayer->Set_Attack(false);
+				_vec3 vOffSet = 0.7f * pPlayerTransform->m_vInfo[INFO_RIGHT] + 1.5f * pPlayerTransform->m_vInfo[INFO_LOOK] - 0.4f * pPlayerTransform->m_vInfo[INFO_UP];
+				m_pTransform->m_vInfo[INFO_POS] = (pPlayerTransform->m_vInfo[INFO_POS] + vOffSet);
 			}
 		}
 	}
-
 
 	return iExit;
 }
@@ -219,14 +217,12 @@ HRESULT CBow::Add_Component(void)
 		for (int i = 0; i < ID_END; ++i)
 			for (auto& iter : m_mapComponent[i])
 				iter.second->Init_Property(this);
-
 	}
 	else
 	{
-		//pComponent = dynamic_cast<CBillBoard*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BillBoard"));
-		//NULL_CHECK_RETURN(pComponent, E_FAIL);
-		//m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::BILLBOARD, pComponent);
-
+		pComponent = dynamic_cast<CBillBoard*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BillBoard"));
+		NULL_CHECK_RETURN(pComponent, E_FAIL);
+		m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::BILLBOARD, pComponent);
 
 		for (int i = 0; i < ID_END; ++i)
 			for (auto& iter : m_mapComponent[i])

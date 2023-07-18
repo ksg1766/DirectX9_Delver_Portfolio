@@ -127,7 +127,7 @@ Engine::_int CEffectBlood::Update_Object(const _float& fTimeDelta)
 	{
 		m_RandomSet = false;
 		CGameObject* pGameObject = CEffectBlood::Create(m_pGraphicDev);
-		pGameObject->m_pTransform->Translate(_vec3(m_pTransform->m_vInfo[INFO_POS].x + CTempEffect::Get_RandomFloat(-1.f, 1.f), m_pTransform->m_vInfo[INFO_POS].y + 0.1f, m_pTransform->m_vInfo[INFO_POS].z + CTempEffect::Get_RandomFloat(-1.f, 1.f)));
+		pGameObject->m_pTransform->Translate(_vec3(m_pTransform->m_vInfo[INFO_POS].x + CTempEffect::Get_RandomFloat(-1.f, 1.f), m_pTransform->m_vInfo[INFO_POS].y + 0.01f, m_pTransform->m_vInfo[INFO_POS].z + CTempEffect::Get_RandomFloat(-1.f, 1.f)));
 		dynamic_cast<CTempEffect*>(pGameObject)->Set_Parent(false);
 		dynamic_cast<CTempEffect*>(pGameObject)->Set_Child(true);
 		dynamic_cast<CTempEffect*>(pGameObject)->Set_RandomSet(false);
