@@ -18,6 +18,9 @@ public:
     _bool       Get_WorldItem()                 { return m_bWorldItem; }
     void        Set_WorldItem(_bool _WorldItem) { m_bWorldItem = _WorldItem; }
 
+    _int        Get_HitCount()                  { return m_iHitCount; }
+    void        Set_HitCount(_int iHit)         { m_iHitCount = iHit; }
+
 public:
     HRESULT     Ready_Object();
     _int        Update_Object(const _float& fTimeDelta);
@@ -26,6 +29,8 @@ protected:
     ITEMTYPEID  m_ItemID;
     _bool       m_bWorldItem;
     CBasicStat* m_pBasicStat = nullptr;
+
+    _int        m_iHitCount;
 
 #pragma region ksg
 

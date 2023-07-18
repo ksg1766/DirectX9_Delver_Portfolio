@@ -134,7 +134,7 @@ void CMonster_Fly::Fly(const _float& fTimeDelta)
 	_vec3 vDir2 = vTargetPos - m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
 	D3DXVec3Normalize(&vDir2, &vDir2);
 
-	_float fMoveSpeed = 5.f;
+	_float fMoveSpeed = dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Get_BasicStat()->Get_Stat()->fSpeed;
 	_float fMoveDistance = fMoveSpeed * fTimeDelta;
 
 	_vec3 vNewPos = m_pOwner->Get_Transform()->m_vInfo[INFO_POS] + vDir2 * fMoveDistance;

@@ -72,6 +72,18 @@ HRESULT CPlayer::Ready_Object(void)
 
 	m_pStateMachine->Set_State(STATE::IDLE);
 
+
+#pragma region PlayerStat
+	m_pStat->Get_Stat()->fSpeed			= 4.f;
+	m_pStat->Get_Stat()->fAgility		= 4.f;
+	m_pStat->Get_Stat()->fDeffense		= 4.f;
+	m_pStat->Get_Stat()->fMagic			= 4.f;
+	m_pStat->Get_Stat()->fAttack		= 4.f;
+	m_pStat->Get_Stat()->fHealth		= 12.f;
+	m_pStat->Get_Stat()->iExp			= 0.f;
+	m_pStat->Get_Stat()->iExpMax		= 8.f;
+#pragma endregion
+
 	return S_OK;
 }
 
@@ -114,34 +126,6 @@ Engine::_int CPlayer::Update_Object(const _float& fTimeDelta)
 
 #pragma endregion ksg
 
-
-	//if (Get_Drunk())
-	//{
-	//	m_fDrunkTime += fTimeDelta;
-
-	//	if (m_fDrunkTime < m_fDrunkDuration) // 10ÃÊ 
-	//	{
-	//		if (m_bFoward)
-	//			/*m_fRotationAngle = sinf(0.5f * m_fRotationSpeed * D3DX_PI / m_fDrunkDuration) * m_fAmount;*/
-	//			m_fRotationAngle = sinf(D3DX_PI / 4);
-	//		else
-	//			/*		m_fRotationAngle = -sinf(0.5f * m_fRotationSpeed * D3DX_PI / m_fDrunkDuration) * m_fAmount;*/
-	//			m_fRotationAngle = -sinf(D3DX_PI / 4);
-
-	//		if (m_fDrunkTime >= m_fDrunkDuration * 0.5f)
-	//			m_bFoward = false;
-	//	}
-	//	else
-	//	{
-	//		m_fDrunkTime = 0.f;
-	//		Set_Drunk(false);
-	//	}
-
-	//	m_pTransform->Rotate(ROT_Z, m_fRotationAngle / 100.f);
-
-
-	//}
-
 	return iExit;
 }
 
@@ -162,15 +146,15 @@ void CPlayer::LateUpdate_Object(void)
 
 		if (m_iRootCount < 4)
 		{
-			if (m_iDrunkCount < 20 && !m_bRightRot)
+			if (m_iDrunkCount < 30 && !m_bRightRot)
 			{
 				++m_iDrunkCount;
-				m_pTransform->Rotate(ROT_Z, 5.5 * powf(0.035,2));
+				m_pTransform->Rotate(ROT_Z, 0.05 *  Engine::Get_TimeDelta(L"Timer_FPS60"));
 			}
-			else if (m_iDrunkCount > -20 && !m_bLeftRot)
+			else if (m_iDrunkCount > -30 && !m_bLeftRot)
 			{
 				--m_iDrunkCount;
-				m_pTransform->Rotate(ROT_Z, -5.5 * powf(0.035,2));
+				m_pTransform->Rotate(ROT_Z, -0.05  * Engine::Get_TimeDelta(L"Timer_FPS60"));
 				m_bRightRot = true;
 			}
 			else

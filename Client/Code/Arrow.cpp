@@ -2,7 +2,7 @@
 #include "Export_Function.h"
 #include "Player.h"
 
-static _int iCount = 0;
+static _int g_iCount = 0;
 
 CArrow::CArrow(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CItem(pGraphicDev)
@@ -141,15 +141,12 @@ void CArrow::OnCollisionEnter(CCollider* _pOther)
 		{
 			dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_BasicStat()->Take_Damage(1.f);
 
-			++iCount;
-
-			if (dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_StateMachine()->Get_PrevState() != STATE::HIT
-				&& iCount > 4)
+			if (++g_iCount == 2)
 			{
-				iCount = 0;
-				dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_StateMachine()->Set_State(STATE::HIT);
-
+				dynamic_cast<CMonster*>(_pOther->Get_Host())->Set_KnockBack(true);
+				g_iCount = 0;
 			}
+
 
 			cout << "µ¥¹ÌÁö" << endl;
 

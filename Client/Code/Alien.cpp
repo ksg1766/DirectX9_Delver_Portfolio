@@ -59,7 +59,15 @@ HRESULT CAlien::Ready_Object()
 
 	Set_Speed(30.f);
 
-	m_pBasicStat->Get_Stat()->fHealth = 5.f;
+#pragma region AlienStat
+	m_pBasicStat->Get_Stat()->fSpeed = 4.f;
+	m_pBasicStat->Get_Stat()->fAgility = 4.f;
+	m_pBasicStat->Get_Stat()->fDeffense = 4.f;
+	m_pBasicStat->Get_Stat()->fMagic = 4.f;
+	m_pBasicStat->Get_Stat()->fAttack = 4.f;
+	m_pBasicStat->Get_Stat()->fHealth = 4.f;
+	m_pBasicStat->Get_Stat()->iExp = 6.f;
+#pragma endregion
 	
 	return S_OK;
 }
@@ -71,6 +79,12 @@ _int CAlien::Update_Object(const _float& fTimeDelta)
 	if (SceneManager()->Get_GameStop()) { return 0; }
 
 	_int iExit = __super::Update_Object(fTimeDelta);
+
+	if (IsKnockBack())
+	{
+		m_pStateMachine->Set_State(STATE::HIT);
+		Set_KnockBack(false);
+	}
 
 	if (m_pBasicStat->Get_Stat()->fHealth <= 0)
 	{

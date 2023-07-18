@@ -269,7 +269,7 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	dynamic_cast<CProjectile_Trap*>(pGameObject)->Create_Projectile();
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
-	pGameObject = CBoneGhost::Create(m_pGraphicDev);
+	pGameObject = CDungeonWarrior::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	pGameObject->m_pTransform->Translate(_vec3(-70.f, 0.f, -40.f));
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);

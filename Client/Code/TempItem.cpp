@@ -244,14 +244,6 @@ void CTempItem::OnCollisionEnter(CCollider* _pOther)
 			dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_BasicStat()->Take_Damage(1.f);
 			pPlayer.Set_AttackTick(true);
 
-			++g_iCount;
-
-			if (dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_StateMachine()->Get_PrevState() != STATE::HIT
-				&& g_iCount > 4)
-			{
-				g_iCount = 0;
-				dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_StateMachine()->Set_State(STATE::HIT);
-			}
 
 			//////////////////////////////////////// 이펙트 테스트 추가 -> 몬스터 종류마다 이펙트 이미지 다르게 사용하기를 추천
 			// 이펙트 생성 위치
@@ -276,6 +268,45 @@ void CTempItem::OnCollisionStay(CCollider* _pOther)
 	if (!(_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::MONSTER) &&
 		!(_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::PLAYER))
 		__super::OnCollisionStay(_pOther);
+
+	CPlayer& pPlayer = *dynamic_cast<CPlayer*>(SceneManager()->GetInstance()
+		->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
+	// 플레이어의 정보를 레퍼런스로 얻어옴.
+
+	if (_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::MONSTER)
+		// 무기 콜리전에 들어온 타입이 몬스터이면서, 플레이어의 스테이트가 공격이라면
+	{
+		if (!pPlayer.Get_AttackTick() &&
+			dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_StateMachine()->Get_State() != STATE::DEAD)
+			// 공격 하지 않은 상태라면.
+		{
+			dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_BasicStat()->Take_Damage(1.f);
+			pPlayer.Set_AttackTick(true);
+
+			++m_iHitCount;
+
+			if (m_iHitCount == 2)
+			{
+				m_iHitCount = 0;
+				dynamic_cast<CMonster*>(_pOther->Get_Host())->Set_KnockBack(true);
+			}
+
+
+			//////////////////////////////////////// 이펙트 테스트 추가 -> 몬스터 종류마다 이펙트 이미지 다르게 사용하기를 추천
+			// 이펙트 생성 위치
+			_matrix MonsterWorld = _pOther->GetHost()->m_pTransform->WorldMatrix();
+			_vec3 TargetPos = _vec3(MonsterWorld._41, MonsterWorld._42 + .5f, MonsterWorld._43);
+
+			// 이펙트 생성
+			CGameObject* pGameObject = CEffectSquare::Create(m_pGraphicDev, TargetPos, 50, EFFECTCOLOR::ECOLOR_RED);
+			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+			//////////////////////////////////////// 이펙트 테스트 추가
+
+			cout << "데미지" << endl;
+		}
+	}
+
+
 }
 
 void CTempItem::OnCollisionExit(CCollider* _pOther)

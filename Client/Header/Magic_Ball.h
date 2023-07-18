@@ -33,7 +33,7 @@ public:
 public:
 
 private:
-	HRESULT	Add_Component();
+	HRESULT	Add_Component(CTransform* pOwner);
 
 private:
 	CRcTex* m_pBuffer = nullptr;

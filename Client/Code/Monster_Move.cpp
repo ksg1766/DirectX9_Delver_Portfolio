@@ -24,7 +24,7 @@ HRESULT CMonster_Move::Ready_State(CStateMachine* pOwner)
 	m_fDistance = 30.f;
 	m_fAngle = 0.f;
 	m_fChase = 10.f;
-	m_fSpeed = 5.f;
+	m_fSpeed = dynamic_cast<CMonster*>(pOwner->Get_Host())->Get_BasicStat()->Get_Stat()->fSpeed;
 	m_fRandomRange = 50.f;  // 이건 변수 넣는걸로 한다치고.
 	m_vSavePos = _vec3(0.f, 0.f, 0.f);
 	m_vRandomPos = _vec3(0.f, 0.f, 0.f);
@@ -61,14 +61,37 @@ STATE CMonster_Move::Update_State(const _float& fTimeDelta)
 		_vec3 fChaseDir = pPlayer.m_pTransform->m_vInfo[INFO_POS] - m_pOwner->Get_Host()->m_pTransform->m_vInfo[INFO_POS];
 		D3DXVec3Normalize(&fChaseDir, &fChaseDir);
 
-		m_pOwner->Get_Host()->m_pTransform->m_vInfo[INFO_POS] += fChaseDir * m_fSpeed * fTimeDelta;
-
-		if (fLength < 5.f && !Get_AttackCool())
+		
+		if (dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Get_MonsterTag() == MONSTERTAG::SPIDER ||
+			dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Get_MonsterTag() == MONSTERTAG::WORM)
 		{
-			m_fAttackCool = 0.f;
-			m_bAttackCool = true;
-			dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Set_AttackTick(false);
-			return STATE::ATTACK;
+			if (!Get_AttackCool())
+			{
+				m_fAttackCool = 0.f;
+				m_bAttackCool = true;
+				dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Set_AttackTick(false);
+				return STATE::ATTACK;
+			}
+			else
+			{
+				Move_RandomPos(fTimeDelta);
+			}
+		}
+		else
+		{
+			//m_pOwner->Get_Host()->m_pTransform->m_vInfo[INFO_POS] += fChaseDir * m_fSpeed * fTimeDelta;
+
+			if (!Get_AttackCool())
+			{
+				m_fAttackCool = 0.f;
+				m_bAttackCool = true;
+				dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Set_AttackTick(false);
+				return STATE::ATTACK;
+			}
+			else
+			{
+				Move_RandomPos(fTimeDelta);
+			}
 		}
 	}
 	else

@@ -39,10 +39,10 @@ HRESULT CDungeonWarrior::Ready_Object()
 	m_pStateMachine->Add_State(STATE::ROMIMG, pState);
 	pState = CWarror_Attack::Create(m_pGraphicDev, m_pStateMachine);
 	m_pStateMachine->Add_State(STATE::ATTACK, pState);
-	//pState = CMonster_Hit::Create(m_pGraphicDev, m_pStateMachine);
-	//m_pStateMachine->Add_State(STATE::HIT, pState);
-	//pState = CMonster_Dead::Create(m_pGraphicDev, m_pStateMachine);
-	//m_pStateMachine->Add_State(STATE::DEAD, pState);
+	pState = CMonster_Hit::Create(m_pGraphicDev, m_pStateMachine);
+	m_pStateMachine->Add_State(STATE::HIT, pState);
+	pState = CMonster_Dead::Create(m_pGraphicDev, m_pStateMachine);
+	m_pStateMachine->Add_State(STATE::DEAD, pState);
 	//
 	//
 	CAnimation* pAnimation = CAnimation::Create(m_pGraphicDev,
@@ -51,18 +51,25 @@ HRESULT CDungeonWarrior::Ready_Object()
 	pAnimation = CAnimation::Create(m_pGraphicDev,
 		m_pTexture[(_uint)STATE::ATTACK], STATE::ATTACK, 6.f, TRUE);
 	m_pAnimator->Add_Animation(STATE::ATTACK, pAnimation);
-	//pAnimation = CAnimation::Create(m_pGraphicDev,
-	//	m_pTexture[(_uint)STATE::HIT], STATE::HIT, 5.f, TRUE);
-	//m_pAnimator->Add_Animation(STATE::HIT, pAnimation);
-	//pAnimation = CAnimation::Create(m_pGraphicDev,
-	//	m_pTexture[(_uint)STATE::DEAD], STATE::DEAD, 3.f, TRUE);
-	//m_pAnimator->Add_Animation(STATE::DEAD, pAnimation);
+	pAnimation = CAnimation::Create(m_pGraphicDev,
+		m_pTexture[(_uint)STATE::HIT], STATE::HIT, 5.f, TRUE);
+	m_pAnimator->Add_Animation(STATE::HIT, pAnimation);
+	pAnimation = CAnimation::Create(m_pGraphicDev,
+		m_pTexture[(_uint)STATE::DEAD], STATE::DEAD, 3.f, TRUE);
+	m_pAnimator->Add_Animation(STATE::DEAD, pAnimation);
 
 	m_pStateMachine->Set_Animator(m_pAnimator);
 	m_pStateMachine->Set_State(STATE::ROMIMG);
 
-	m_pBasicStat->Get_Stat()->fAttack = 1.f;
-	m_pBasicStat->Get_Stat()->fHealth = 5.f;
+#pragma region WarriorStat
+	m_pBasicStat->Get_Stat()->fSpeed = 4.f;
+	m_pBasicStat->Get_Stat()->fAgility = 4.f;
+	m_pBasicStat->Get_Stat()->fDeffense = 4.f;
+	m_pBasicStat->Get_Stat()->fMagic = 4.f;
+	m_pBasicStat->Get_Stat()->fAttack = 4.f;
+	m_pBasicStat->Get_Stat()->fHealth = 4.f;
+	m_pBasicStat->Get_Stat()->iExp = 6.f;
+#pragma endregion
 
 
 	return S_OK;
@@ -77,6 +84,13 @@ _int CDungeonWarrior::Update_Object(const _float& fTimeDelta)
 	_int iExit = __super::Update_Object(fTimeDelta);
 
 
+	if (IsKnockBack())
+	{
+		m_pStateMachine->Set_State(STATE::HIT);
+		Set_KnockBack(false);
+		
+	}
+
 	if (m_pBasicStat->Get_Stat()->fHealth <= 0)
 	{
 		if (m_pAnimator->Get_Animation()->Get_Frame() >= 1)
@@ -84,6 +98,7 @@ _int CDungeonWarrior::Update_Object(const _float& fTimeDelta)
 
 		m_pStateMachine->Set_State(STATE::DEAD);
 	}
+
 
 	m_pStateMachine->Update_StateMachine(fTimeDelta);
 	//ForceHeight(m_pTransform->m_vInfo[INFO_POS]);

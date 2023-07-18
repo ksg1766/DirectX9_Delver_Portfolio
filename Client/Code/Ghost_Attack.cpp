@@ -36,7 +36,22 @@ STATE CGhost_Attack::Update_State(const _float& fTimeDelta)
 
 
 
-	if (!m_bIsAttack)
+	for (_uint i = 0; i < 36; ++i)
+	{
+		_float fAngle = i * 30;
+
+		_float fSpeed = dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Get_Speed();
+
+
+		_vec3 vDir = _vec3(cos(D3DXToRadian(fAngle)), 0.f, sinf(D3DXToRadian(fAngle)));
+		_vec3 vOffset = vDir * fSpeed;
+
+		CGameObject* pGameObject = nullptr;
+		pGameObject = CGhost_Bullet::Create(m_pGraphicDev, m_pOwner->Get_Transform(), fSpeed, vOffset);
+		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+	}
+
+	/*if (!m_bIsAttack)
 	{
 		if (m_pOwner->Get_Animator()->Get_Animation()->Get_Frame() >= 3.8f)
 		{
@@ -61,12 +76,12 @@ STATE CGhost_Attack::Update_State(const _float& fTimeDelta)
 			}
 		}
 
-	}
-		m_bIsAttack = false;
+	}*/
+	m_bIsAttack = false;
 	
 
 
-	return STATE::ATTACK;
+	return STATE::ROMIMG;
 }
 
 void CGhost_Attack::LateUpdate_State()

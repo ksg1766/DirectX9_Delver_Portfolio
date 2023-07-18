@@ -34,6 +34,7 @@ public: //Getter
     _bool               Get_BlockOn()                        { return m_bBlockOn; }
     _bool               Get_WallTouch()                      { return m_bWallTouch; }
     _vec3               Get_CenterPos()                      { return m_vCenterPos; }
+    _bool               IsKnockBack()                        { return m_bKnockback; }
 
 public: // Setter
     void                Set_Speed(_float _fSpeed)            { m_fSpeed = _fSpeed; }
@@ -45,6 +46,7 @@ public: // Setter
 	void                Set_WallTouch(_bool _Touch)			 { m_bWallTouch = _Touch; }
     void                Set_Terrain(CTerrain* _pTerrain)     { m_pTerrain = _pTerrain; }
     void                Set_CenterPos(_vec3 _vPos)           { m_vCenterPos = _vPos; }
+    void                Set_KnockBack(_bool _KnockBack)        { m_bKnockback = _KnockBack; }
 
 protected:
     CRigidBody*                         m_pRigidBody = nullptr;
@@ -55,6 +57,7 @@ protected:
     _bool								m_bAttackTick;
     _bool		                        m_bBlockOn;
     _bool                               m_bWallTouch;
+    _bool                               m_bKnockback;
 
     _vec3                               m_vCenterPos;
     _float                              m_fSpeed;

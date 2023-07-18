@@ -97,6 +97,7 @@ namespace Engine
 		_float	fAttack = 4.f;
 		_float	fDeffense = 4.f;
 		_float	fAgility = 4.f;
+		_int	iExp = 8.f;
 		//STATE	eState		= STATE::IDLE;
 	}BASICSTAT;
 

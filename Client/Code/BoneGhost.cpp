@@ -34,10 +34,6 @@ HRESULT CBoneGhost::Ready_Object()
 	m_pStateMachine->Add_State(STATE::ROMIMG, pState);
 	pState = CGhost_Attack::Create(m_pGraphicDev, m_pStateMachine);
 	m_pStateMachine->Add_State(STATE::ATTACK, pState);
-	//pState = CMonster_Move::Create(m_pGraphicDev, m_pStateMachine);
-	//m_pStateMachine->Add_State(STATE::SEMI_PATTERN1, pState);
-	//pState = CCharge::Create(m_pGraphicDev, m_pStateMachine);
-	//m_pStateMachine->Add_State(STATE::ROMIMG, pState);
 
 	CAnimation* pAnimation = CAnimation::Create(m_pGraphicDev,
 		m_pTexture[(_uint)STATE::ROMIMG], STATE::ROMIMG, 5.f, TRUE);
@@ -49,14 +45,23 @@ HRESULT CBoneGhost::Ready_Object()
 	Set_CenterPos(_vec3(-70.f, 0.f, -40.f));
 
 	m_pStateMachine->Set_Animator(m_pAnimator);
-
 	m_pStateMachine->Set_State(STATE::ROMIMG);
 
 	m_pTransform->Scale(_vec3(1.f, 1.f, 1.f));
-
 	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
 
 	m_pTransform->Translate(_vec3(-10.f, 3.f, 10.f));
+
+
+#pragma region BoneGhost
+	m_pBasicStat->Get_Stat()->fSpeed = 4.f;
+	m_pBasicStat->Get_Stat()->fAgility = 4.f;
+	m_pBasicStat->Get_Stat()->fDeffense = 4.f;
+	m_pBasicStat->Get_Stat()->fMagic = 4.f;
+	m_pBasicStat->Get_Stat()->fAttack = 4.f;
+	m_pBasicStat->Get_Stat()->fHealth = 8.f;
+	m_pBasicStat->Get_Stat()->iExp = 6.f;
+#pragma endregion
 
 	return S_OK;
 }

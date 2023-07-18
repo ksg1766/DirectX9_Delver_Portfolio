@@ -30,11 +30,7 @@ HRESULT CBat::Ready_Object()
 	Set_MonsterState(MONSTERTAG::BAT);
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
-
-	// Stat
-	m_pBasicStat->Get_Stat()->fHealth = 5.f;
-
-
+	
 	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
 
 	m_pTransform->Translate(_vec3(20.f, 5.f, 10.f));
@@ -63,6 +59,17 @@ HRESULT CBat::Ready_Object()
 	m_pStateMachine->Set_Animator(m_pAnimator);
 	m_pStateMachine->Set_State(STATE::ROMIMG);
 
+
+#pragma region BatStat
+	m_pBasicStat->Get_Stat()->fSpeed = 4.f;
+	m_pBasicStat->Get_Stat()->fAgility = 4.f;
+	m_pBasicStat->Get_Stat()->fDeffense = 4.f;
+	m_pBasicStat->Get_Stat()->fMagic = 4.f;
+	m_pBasicStat->Get_Stat()->fAttack = 4.f;
+	m_pBasicStat->Get_Stat()->fHealth = 4.f;
+	m_pBasicStat->Get_Stat()->iExp = 6.f;
+#pragma endregion
+
 	return S_OK;
 }
 
@@ -73,6 +80,14 @@ _int CBat::Update_Object(const _float& fTimeDelta)
 	if (SceneManager()->Get_GameStop()) { return 0; }
 
 	_int iExit = __super::Update_Object(fTimeDelta);
+
+
+	if (IsKnockBack())
+	{
+		m_pStateMachine->Set_State(STATE::HIT);
+		Set_KnockBack(false);
+	}
+
 
 	if (m_pBasicStat->Get_Stat()->fHealth <= 0)
 	{

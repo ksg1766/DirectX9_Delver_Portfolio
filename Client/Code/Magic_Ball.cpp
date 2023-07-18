@@ -21,7 +21,8 @@ CMagic_Ball::~CMagic_Ball()
 
 HRESULT CMagic_Ball::Ready_Object(CTransform* pOwner, _float _fSpeed, _vec3 _vOffset)
 {
-	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
+	FAILED_CHECK_RETURN(Add_Component(pOwner), E_FAIL);
+
 
 	m_eObjectTag = OBJECTTAG::MONSTERBULLET;
 	Set_State(STATE::ATTACK);
@@ -85,7 +86,7 @@ _int CMagic_Ball::Update_Object(const _float& fTimeDelta)
 	
 	_float fDistance = D3DXVec3Length(&(m_pTransform->m_vInfo[INFO_POS] - m_vInit));
 
-	if (fDistance > 70.f)
+	if (fDistance > 60.f)
 	{
 		EventManager()->DeleteObject(this);
 	}
@@ -171,15 +172,21 @@ void CMagic_Ball::OnCollisionExit(CCollider* _pOther)
 	if (SceneManager()->Get_GameStop()) { return; }
 }
 
-HRESULT CMagic_Ball::Add_Component()
+HRESULT CMagic_Ball::Add_Component(CTransform* pOwner)
 {
 	CComponent* pComponent = nullptr;
+
 
 	pComponent = m_pBuffer = dynamic_cast<CRcTex*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_RcTex"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BUFFER, pComponent);
 
-	pComponent = m_pTexture[(_uint)STATE::ATTACK] = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_MonsterBullet"));
+	if (dynamic_cast<CMonster*>(pOwner->Get_Host())->Get_MonsterTag() == MONSTERTAG::WIZARD)
+		pComponent = m_pTexture[(_uint)STATE::ATTACK] = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_MonsterBullet"));
+	else
+		pComponent = m_pTexture[(_uint)STATE::ATTACK] = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_MonsterBullet")); 
+	// 여기에 에일리언 매직볼 텍스쳐
+
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
 	pComponent = m_pTexture[(_uint)STATE::DEAD] = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_MonsterBulletDelete"));

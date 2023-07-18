@@ -34,40 +34,41 @@ HRESULT CSlime::Ready_Object()
 	m_pStateMachine->Add_State(STATE::ROMIMG, pState);
 	pState = CSlimeAttack::Create(m_pGraphicDev, m_pStateMachine);
 	m_pStateMachine->Add_State(STATE::ATTACK, pState);
-	//pState = CMonster_Hit::Create(m_pGraphicDev, m_pStateMachine);
-	//m_pStateMachine->Add_State(STATE::HIT, pState);
-	//pState = CMonster_Dead::Create(m_pGraphicDev, m_pStateMachine);
-	//m_pStateMachine->Add_State(STATE::DEAD, pState);
+	pState = CMonster_Hit::Create(m_pGraphicDev, m_pStateMachine);
+	m_pStateMachine->Add_State(STATE::HIT, pState);
+	pState = CMonster_Dead::Create(m_pGraphicDev, m_pStateMachine);
+	m_pStateMachine->Add_State(STATE::DEAD, pState);
 
 
 
 	CAnimation* pAnimation = CAnimation::Create(m_pGraphicDev,
 		m_pTexture[(_uint)STATE::ROMIMG], STATE::ROMIMG, 5.f, TRUE);
 	m_pAnimator->Add_Animation(STATE::ROMIMG, pAnimation);
-
 	pAnimation = CAnimation::Create(m_pGraphicDev,
 		m_pTexture[(_uint)STATE::ATTACK], STATE::ATTACK, 4.f, TRUE);
 	m_pAnimator->Add_Animation(STATE::ATTACK, pAnimation);
-
-	//pAnimation = CAnimation::Create(m_pGraphicDev,
-	//	m_pTexture[(_uint)STATE::HIT], STATE::HIT, 3.f, TRUE);
-	//m_pAnimator->Add_Animation(STATE::HIT, pAnimation);
-	//
-	//pAnimation = CAnimation::Create(m_pGraphicDev,
-	//	m_pTexture[(_uint)STATE::DEAD], STATE::DEAD, 4.f, TRUE);
-	//m_pAnimator->Add_Animation(STATE::DEAD, pAnimation);
+	pAnimation = CAnimation::Create(m_pGraphicDev,
+		m_pTexture[(_uint)STATE::HIT], STATE::HIT, 3.f, TRUE);
+	m_pAnimator->Add_Animation(STATE::HIT, pAnimation);
+	pAnimation = CAnimation::Create(m_pGraphicDev,
+		m_pTexture[(_uint)STATE::DEAD], STATE::DEAD, 4.f, TRUE);
+	m_pAnimator->Add_Animation(STATE::DEAD, pAnimation);
 
 	m_pStateMachine->Set_Animator(m_pAnimator);
-
 	m_pStateMachine->Set_State(STATE::ROMIMG);
 
-	m_pBasicStat->Get_Stat()->fHealth = 10.f;
-
-	m_pBasicStat->Get_Stat()->fAttack = 2.f;
-
 	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
-
 	m_pTransform->Translate(_vec3(-3.f, 3.f, 10.f));
+
+#pragma region Slime
+	m_pBasicStat->Get_Stat()->fSpeed = 4.f;
+	m_pBasicStat->Get_Stat()->fAgility = 4.f;
+	m_pBasicStat->Get_Stat()->fDeffense = 4.f;
+	m_pBasicStat->Get_Stat()->fMagic = 4.f;
+	m_pBasicStat->Get_Stat()->fAttack = 4.f;
+	m_pBasicStat->Get_Stat()->fHealth = 4.f;
+	m_pBasicStat->Get_Stat()->iExp = 6.f;
+#pragma endregion
 
 	return S_OK;
 }
@@ -79,6 +80,14 @@ _int CSlime::Update_Object(const _float& fTimeDelta)
 	if (SceneManager()->Get_GameStop()) { return 0; } // ! Esc 및 M키 누를 시 업데이트 멈추게 하는 용도 입니다.
 
 	_int iExit = __super::Update_Object(fTimeDelta);
+
+	if (IsKnockBack())
+	{
+		m_pStateMachine->Set_State(STATE::HIT);
+		Set_KnockBack(false);
+	}
+
+
 
 	if (m_pBasicStat->Get_Stat()->fHealth <= 0)
 	{

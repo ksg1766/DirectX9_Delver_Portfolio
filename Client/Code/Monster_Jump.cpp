@@ -47,23 +47,40 @@ STATE CMonster_Jump::Jump(const _float& fTimeDelta)
 
 	CTransform* pPlayerTransform = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform;
 	
-
-	_vec3 vPlayerPos = pPlayerTransform->m_vInfo[INFO_POS];
 	_vec3& vMonsterPos = m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
 
 	if (!m_bIsJumping)
 	{
-		m_vLastPos = vPlayerPos;
-		m_bIsJumping = true;
+		m_fChase += fTimeDelta;
+
+		if (m_fChase < 0.1f)
+		{
+			m_pOwner->Get_Animator()->Get_Animation()->Set_Frame(1.f);
+			m_pOwner->Get_Animator()->Get_Animation()->Set_Loop(false);
+		}
+		else
+		{
+			dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Set_AttackTick(false);
+			m_pOwner->Get_Animator()->Get_Animation()->Set_Loop(true);
+			m_vLastPos = pPlayerTransform->m_vInfo[INFO_POS];
+			m_bIsJumping = true;
+			m_fChase = 0.f;
+		}
 	}
 
-	_vec3 vDir = m_vLastPos - vMonsterPos;
-	D3DXVec3Normalize(&vDir, &vDir);
+	if (m_bIsJumping)
+	{
+		_vec3 vDir = m_vLastPos - vMonsterPos;
+		D3DXVec3Normalize(&vDir, &vDir);
 
-	vMonsterPos.y += m_fJumpVelocity * fTimeDelta;
-	vMonsterPos += vDir * 10.f * fTimeDelta;
+		vMonsterPos.y += m_fJumpVelocity * fTimeDelta;
+		vMonsterPos += vDir * 10.f * fTimeDelta;
+		
 
-	m_fJumpVelocity -= 0.5f * fTimeDelta * fTimeDelta * 3000.f;
+		m_fJumpVelocity -= 0.5f * fTimeDelta * fTimeDelta * 3000.f;
+	}
+
+
 
 	//_vec3 vDistance = vPlayerPos - m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
 	//_float fDistanceLength = D3DXVec3LengthSq(&vDistance);

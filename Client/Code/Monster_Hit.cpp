@@ -33,13 +33,30 @@ STATE CMonster_Hit::Update_State(const _float& fTimeDelta)
 	CPlayer& pPlayer = *dynamic_cast<CPlayer*>(SceneManager()->GetInstance()
 		->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
 
+	CItem* ItemType = dynamic_cast<CItem*>(pPlayer.Get_CurrentEquipRight());
+	ITEMTYPEID ItemID = {};
+
 	m_fChase += fTimeDelta;
 
-	if (m_fChase >= 1.5f)
+
+	if (m_fChase <= 0.5f)
+	{
+		if(ItemID.eItemID == ITEMID::WEAPON_SWORD)
+		m_pOwner->Get_Host()->m_pTransform->m_vInfo[INFO_POS] += 
+			pPlayer.m_pTransform->m_vInfo[INFO_LOOK] * 5 * fTimeDelta;
+
+		if (ItemID.eItemID == ITEMID::WEAPON_BOW)
+			m_pOwner->Get_Host()->m_pTransform->m_vInfo[INFO_POS] +=
+			pPlayer.m_pTransform->m_vInfo[INFO_LOOK] * 0.5 * fTimeDelta;
+
+	
+	}
+	else
 	{
 		m_fChase = 0.f;
 		return STATE::ROMIMG;
 	}
+
 
 
 

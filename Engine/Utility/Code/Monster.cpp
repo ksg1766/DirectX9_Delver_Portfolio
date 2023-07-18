@@ -2,12 +2,12 @@
 #include "Monster.h"
 
 CMonster::CMonster(LPDIRECT3DDEVICE9 pGraphicDev)
-	: CGameObject(pGraphicDev), m_vCenterPos(_vec3(-50.f, 0.f, 20.f))
+	: CGameObject(pGraphicDev), m_vCenterPos(_vec3(-50.f, 0.f, 20.f)), m_bKnockback(false)
 {
 }
 
 CMonster::CMonster(const CMonster& rhs)
-	: CGameObject(rhs), m_vCenterPos(rhs.m_vCenterPos)
+	: CGameObject(rhs), m_vCenterPos(rhs.m_vCenterPos), m_bKnockback(rhs.m_bKnockback)
 {
 }
 

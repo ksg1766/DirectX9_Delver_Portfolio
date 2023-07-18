@@ -28,6 +28,7 @@ HRESULT CWorm::Ready_Object()
 	Set_MonsterState(MONSTERTAG::WORM);
 	m_bBlockOn = false;
 	m_bWallTouch = false;
+	
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
@@ -79,6 +80,13 @@ _int CWorm::Update_Object(const _float& fTimeDelta)
 	if (SceneManager()->Get_GameStop()) { return 0; } // ! Esc 및 M키 누를 시 업데이트 멈추게 하는 용도 입니다.
 
 	_int iExit = __super::Update_Object(fTimeDelta);
+
+
+	if (IsKnockBack())
+	{
+		m_pStateMachine->Set_State(STATE::HIT);
+		Set_KnockBack(false);
+	}
 
 	if (m_pBasicStat->Get_Stat()->fHealth <= 0)
 		m_pStateMachine->Set_State(STATE::DEAD);
