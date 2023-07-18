@@ -8,6 +8,7 @@ BEGIN(Engine)
 
 class CRigidBody;
 class CCollider;
+class CBasicStat;
 class ENGINE_DLL CMonster : public CGameObject
 {
 protected:
@@ -47,6 +48,9 @@ public: // Setter
     void                Set_Terrain(CTerrain* _pTerrain)     { m_pTerrain = _pTerrain; }
     void                Set_CenterPos(_vec3 _vPos)           { m_vCenterPos = _vPos; }
     void                Set_KnockBack(_bool _KnockBack)        { m_bKnockback = _KnockBack; }
+
+public:
+    void                IsAttack(CBasicStat* _PlayerStat);
 
 protected:
     CRigidBody*                         m_pRigidBody = nullptr;

@@ -60,13 +60,16 @@ HRESULT CAlien::Ready_Object()
 	Set_Speed(30.f);
 
 #pragma region AlienStat
-	m_pBasicStat->Get_Stat()->fSpeed = 4.f;
-	m_pBasicStat->Get_Stat()->fAgility = 4.f;
-	m_pBasicStat->Get_Stat()->fDeffense = 4.f;
-	m_pBasicStat->Get_Stat()->fMagic = 4.f;
-	m_pBasicStat->Get_Stat()->fAttack = 4.f;
-	m_pBasicStat->Get_Stat()->fHealth = 4.f;
-	m_pBasicStat->Get_Stat()->iExp = 6.f;
+	m_pBasicStat->Get_Stat()->fMaxHP		= 4.f;
+	m_pBasicStat->Get_Stat()->fHP			= 4.f;
+	m_pBasicStat->Get_Stat()->iDamageMin	= 2;
+	m_pBasicStat->Get_Stat()->iDamageMax	= 6;
+	m_pBasicStat->Get_Stat()->fSpeed		= 4.f;
+	m_pBasicStat->Get_Stat()->fAgility		= 4.f;
+	m_pBasicStat->Get_Stat()->fDeffense		= 4.f;
+	m_pBasicStat->Get_Stat()->fMagic		= 4.f;
+	m_pBasicStat->Get_Stat()->fAttack		= 4.f;
+	m_pBasicStat->Get_Stat()->iExp			= 6.f;
 #pragma endregion
 	
 	return S_OK;
@@ -86,7 +89,7 @@ _int CAlien::Update_Object(const _float& fTimeDelta)
 		Set_KnockBack(false);
 	}
 
-	if (m_pBasicStat->Get_Stat()->fHealth <= 0)
+	if (m_pBasicStat->Get_Stat()->fHP <= 0)
 	{
 		if (m_pAnimator->Get_Animation()->Get_Frame() >= 3)
 			m_pAnimator->Get_Animation()->Set_Loop(FALSE);

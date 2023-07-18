@@ -1,5 +1,8 @@
 #include "stdafx.h"
 #include "..\Header\UIequipmentslot.h"
+#include "Player.h"
+#include "Export_Function.h"
+#include "UIitem.h"
 
 CUIequipmentslot::CUIequipmentslot(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CTempUI(pGraphicDev)
@@ -58,6 +61,22 @@ _int CUIequipmentslot::Update_Object(const _float & fTimeDelta)
 		case 5:
 			m_fCurrentImage = 14;
 			break;
+		}
+	}
+
+	if (m_bUse == true && m_bEmpty)
+	{
+		m_bUse = false;
+
+		CPlayer* pPlayer = dynamic_cast<CPlayer*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
+		CInventory* Inventory = dynamic_cast<CInventory*>(pPlayer->Get_Component(COMPONENTTAG::INVENTORY, ID_DYNAMIC));
+		ITEMTYPEID ItemId = dynamic_cast<CUIitem*>(m_pChild)->Get_ItemTag();
+		CGameObject* pGameObject = Inventory->Get_IDItem(ItemId.eItemID);
+	
+		if (pGameObject != nullptr)
+		{
+			pPlayer->Get_Stat()->Get_Stat()->iArmorMax -= dynamic_cast<CItem*>(pGameObject)->Get_ItemStat()->Get_Stat()->iArmorMax;
+			pPlayer->Get_Stat()->Get_Stat()->iArmorMin -= dynamic_cast<CItem*>(pGameObject)->Get_ItemStat()->Get_Stat()->iArmorMin;
 		}
 	}
 

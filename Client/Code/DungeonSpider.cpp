@@ -61,13 +61,18 @@ HRESULT CDungeonSpider::Ready_Object()
 	m_pTransform->Translate(_vec3(2.f, 3.f, 5.f));
 
 #pragma region SpiderStat
-	m_pBasicStat->Get_Stat()->fSpeed = 4.f;
-	m_pBasicStat->Get_Stat()->fAgility = 4.f;
-	m_pBasicStat->Get_Stat()->fDeffense = 4.f;
-	m_pBasicStat->Get_Stat()->fMagic = 4.f;
-	m_pBasicStat->Get_Stat()->fAttack = 4.f;
-	m_pBasicStat->Get_Stat()->fHealth = 4.f;
-	m_pBasicStat->Get_Stat()->iExp = 6.f;
+	m_pBasicStat->Get_Stat()->fMaxHP		= 4.f;
+	m_pBasicStat->Get_Stat()->fHP			= 4.f;
+	m_pBasicStat->Get_Stat()->iDamageMin	= 1;
+	m_pBasicStat->Get_Stat()->iDamageMax	= 2;
+	m_pBasicStat->Get_Stat()->fSpeed		= 4.f;
+	m_pBasicStat->Get_Stat()->fAgility		= 4.f;
+	m_pBasicStat->Get_Stat()->fDeffense		= 4.f;
+	m_pBasicStat->Get_Stat()->fMagic		= 4.f;
+	m_pBasicStat->Get_Stat()->fAttack		= 4.f;
+	m_pBasicStat->Get_Stat()->fMaxHP		= 4.f;
+	m_pBasicStat->Get_Stat()->fHP			= 4.f;
+	m_pBasicStat->Get_Stat()->iExp			= 6.f;
 #pragma endregion
 
 	return S_OK;
@@ -88,7 +93,7 @@ _int CDungeonSpider::Update_Object(const _float& fTimeDelta)
 		Set_KnockBack(false);
 	}
 
-	if (m_pBasicStat->Get_Stat()->fHealth <= 0)
+	if (m_pBasicStat->Get_Stat()->fHP <= 0)
 		m_pStateMachine->Set_State(STATE::DEAD);
 
 
@@ -139,17 +144,14 @@ void CDungeonSpider::OnCollisionEnter(CCollider* _pOther)
 
 	if (_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::PLAYER
 		&& this->Get_StateMachine()->Get_State() == STATE::ATTACK)
-	{
-		CPlayerStat& PlayerState = *dynamic_cast<CPlayer*>(_pOther->GetHost())->Get_Stat();
-
 		if (!this->Get_AttackTick())
 		{
-			PlayerState.Take_Damage(this->Get_BasicStat()->Get_Stat()->fAttack);
+			CPlayerStat& PlayerStat = *static_cast<CPlayer*>(_pOther->GetHost())->Get_Stat();
 			this->Set_AttackTick(true);
-
+			IsAttack(&PlayerStat);
+			
 			cout << "거미 공격" << endl;
 		}
-	}
 
 	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BLOCK)
 	{

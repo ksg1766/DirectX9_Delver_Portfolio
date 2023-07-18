@@ -41,6 +41,9 @@ private:
 	_vec3		 m_vDir;
 	_float		 m_fSpeed;
 	STATE		 m_eState;
+
+	_bool		 m_bIsAttack;
+	_vec3		 m_vPrevPos;
 public:
 	static CArrow* Create(LPDIRECT3DDEVICE9 pGraphicDev, CTransform* Weapon, 
 		CTransform* pOwner, _float _fSpeed);

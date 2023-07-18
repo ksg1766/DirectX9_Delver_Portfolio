@@ -91,13 +91,23 @@ namespace Engine
 	};
 
 	typedef struct tagBasicStat {
+		_float	fMaxHP = 4.f;
+		_float	fHP = 4.f;
+		_int	iDamageMax = 2;
+		_int	iDamageMin = 1;
+		_int	iArmorMax = 2;
+		_int	iArmorMin = 1;
+
 		_float	fHealth = 4.f;
 		_float	fMagic = 4.f;
 		_float	fSpeed = 4.f;
 		_float	fAttack = 4.f;
 		_float	fDeffense = 4.f;
 		_float	fAgility = 4.f;
-		_int	iExp = 8.f;
+		_int	iExp = 0;
+		_int	iExpMax = 8;
+		_int	iGold = 100;
+		_int	iLevel = 1;
 		//STATE	eState		= STATE::IDLE;
 	}BASICSTAT;
 

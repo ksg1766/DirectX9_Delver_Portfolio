@@ -35,9 +35,6 @@ HRESULT CTempItem::Ready_Object(_bool _Item)
 		m_pCollider->
 			InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
 
-		m_pBasicStat->Get_Stat()->fAttack = 1.f;
-		m_pBasicStat->Get_Stat()->fHealth = 20.f;
-
 		m_iAttackTick = 10;
 
 		// 타입 및 아이디 지정
@@ -64,9 +61,6 @@ HRESULT CTempItem::Ready_Object(_bool _Item)
 
 		m_pTransform->Translate(_vec3(0.0f, 2.f, 0.0f));
 
-		m_pBasicStat->Get_Stat()->fAttack = 1.f;
-		m_pBasicStat->Get_Stat()->fHealth = 20.f;
-
 		m_iAttackTick = 10;
 
 		// 타입 및 아이디 지정
@@ -74,6 +68,11 @@ HRESULT CTempItem::Ready_Object(_bool _Item)
 		m_ItemID.eItemID = WEAPON_SWORD;
 		m_ItemID.iCount = 1;
 	}
+
+#pragma region SwoardStat
+	m_pBasicStat->Get_Stat()->iDamageMax = 2.f;
+	m_pBasicStat->Get_Stat()->iDamageMin = 1.f;
+#pragma endregion
 
 	return S_OK;
 }
@@ -239,36 +238,7 @@ void CTempItem::OnCollisionEnter(CCollider* _pOther)
 	if (!(_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::MONSTER) &&
 		!(_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::PLAYER))
 		__super::OnCollisionEnter(_pOther);
-	// 몬스터거나 플레이어면 밀어내지않는다.
 
-	CPlayer& pPlayer = *dynamic_cast<CPlayer*>(SceneManager()->GetInstance()
-		->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
-	// 플레이어의 정보를 레퍼런스로 얻어옴.
-
-	if (_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::MONSTER)
-		// 무기 콜리전에 들어온 타입이 몬스터이면서, 플레이어의 스테이트가 공격이라면
-	{
-		if (!pPlayer.Get_AttackTick() &&
-			dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_StateMachine()->Get_State() != STATE::DEAD)
-			// 공격 하지 않은 상태라면.
-		{
-			dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_BasicStat()->Take_Damage(1.f);
-			pPlayer.Set_AttackTick(true);
-
-
-			//////////////////////////////////////// 이펙트 테스트 추가 -> 몬스터 종류마다 이펙트 이미지 다르게 사용하기를 추천
-			// 이펙트 생성 위치
-			_matrix MonsterWorld = _pOther->GetHost()->m_pTransform->WorldMatrix();
-			_vec3 TargetPos = _vec3(MonsterWorld._41, MonsterWorld._42 + .5f, MonsterWorld._43);
-
-			// 이펙트 생성
-			CGameObject* pGameObject = CEffectSquare::Create(m_pGraphicDev, TargetPos, 50, EFFECTCOLOR::ECOLOR_RED);
-			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
-			//////////////////////////////////////// 이펙트 테스트 추가
-
-			cout << "데미지" << endl;
-		}
-	}
 }
 
 void CTempItem::OnCollisionStay(CCollider* _pOther)
@@ -284,40 +254,27 @@ void CTempItem::OnCollisionStay(CCollider* _pOther)
 		->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
 	// 플레이어의 정보를 레퍼런스로 얻어옴.
 
-	if (_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::MONSTER)
-		// 무기 콜리전에 들어온 타입이 몬스터이면서, 플레이어의 스테이트가 공격이라면
+	if (_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::MONSTER && !pPlayer.Get_AttackTick() &&
+		dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_StateMachine()->Get_State() != STATE::DEAD)
 	{
-		if (!pPlayer.Get_AttackTick() &&
-			dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_StateMachine()->Get_State() != STATE::DEAD)
-			// 공격 하지 않은 상태라면.
+		++m_iHitCount;
+
+		if (m_iHitCount == 2)
 		{
-			dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_BasicStat()->Take_Damage(1.f);
-			pPlayer.Set_AttackTick(true);
-
-			++m_iHitCount;
-
-			if (m_iHitCount == 2)
-			{
-				m_iHitCount = 0;
-				dynamic_cast<CMonster*>(_pOther->Get_Host())->Set_KnockBack(true);
-			}
-
-
-			//////////////////////////////////////// 이펙트 테스트 추가 -> 몬스터 종류마다 이펙트 이미지 다르게 사용하기를 추천
-			// 이펙트 생성 위치
-			_matrix MonsterWorld = _pOther->GetHost()->m_pTransform->WorldMatrix();
-			_vec3 TargetPos = _vec3(MonsterWorld._41, MonsterWorld._42 + .5f, MonsterWorld._43);
-
-			// 이펙트 생성
-			CGameObject* pGameObject = CEffectSquare::Create(m_pGraphicDev, TargetPos, 50, EFFECTCOLOR::ECOLOR_RED);
-			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
-			//////////////////////////////////////// 이펙트 테스트 추가
-
-			cout << "데미지" << endl;
+			m_iHitCount = 0;
+			dynamic_cast<CMonster*>(_pOther->Get_Host())->Set_KnockBack(true);
 		}
+		pPlayer.IsAttack(dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_BasicStat());
+		//////////////////////////////////////// 이펙트 테스트 추가 -> 몬스터 종류마다 이펙트 이미지 다르게 사용하기를 추천
+		// 이펙트 생성 위치
+		_matrix MonsterWorld = _pOther->GetHost()->m_pTransform->WorldMatrix();
+		_vec3 TargetPos = _vec3(MonsterWorld._41, MonsterWorld._42 + .5f, MonsterWorld._43);
+
+		// 이펙트 생성
+		CGameObject* pGameObject = CEffectSquare::Create(m_pGraphicDev, TargetPos, 50, EFFECTCOLOR::ECOLOR_RED);
+		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+		//////////////////////////////////////// 이펙트 테스트 추가
 	}
-
-
 }
 
 void CTempItem::OnCollisionExit(CCollider* _pOther)

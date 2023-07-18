@@ -580,6 +580,9 @@
     <Filter Include="02. GameObject\01. Stage\05. Monster\10. Monk">
       <UniqueIdentifier>{60f7a618-df51-4ae4-8b78-391efaf0fef8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\01. Stage\02. Item\Armor">
+      <UniqueIdentifier>{64d531cb-0c48-4f59-8ef4-a6e3465cc6d3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -1059,6 +1062,9 @@
     <ClInclude Include="..\Header\Worm.h">
       <Filter>02. GameObject\01. Stage\05. Monster\09.Worm</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\Helmet.h">
+      <Filter>02. GameObject\01. Stage\02. Item\Armor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -1528,6 +1534,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\Worm.cpp">
       <Filter>02. GameObject\01. Stage\05. Monster\09.Worm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Helmet.cpp">
+      <Filter>02. GameObject\01. Stage\02. Item\Armor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

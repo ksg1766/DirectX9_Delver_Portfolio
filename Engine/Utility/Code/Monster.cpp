@@ -1,5 +1,6 @@
 #include "Export_Utility.h"
 #include "Monster.h"
+#include "PlayerStat.h"
 
 CMonster::CMonster(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev), m_vCenterPos(_vec3(-50.f, 0.f, 20.f)), m_bKnockback(false)
@@ -131,6 +132,22 @@ void CMonster::OnCollisionExit(CCollider* _pOther)
 {
 
 }
+
+void CMonster::IsAttack(CBasicStat* _PlayerStat)
+{
+	_int iDamage = 1 + rand() % (m_pBasicStat->Get_Stat()->iDamageMin +
+		(m_pBasicStat->Get_Stat()->iDamageMax - m_pBasicStat->Get_Stat()->iDamageMin));
+
+	_int iDeffence = 1 + rand() % (_PlayerStat->Get_Stat()->iArmorMin + (_PlayerStat->Get_Stat()->iArmorMax - _PlayerStat->Get_Stat()->iArmorMin));
+
+	_int iResultDamage = iDamage - iDeffence;
+
+	if (iResultDamage <= 0)
+		iResultDamage = 1;
+
+	_PlayerStat->Take_Damage(iResultDamage);
+}
+
 
 void CMonster::Free(void)
 {

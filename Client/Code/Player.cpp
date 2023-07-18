@@ -9,6 +9,7 @@
 #include "Bow.h"
 #include "FireWands.h"
 #include "Beer.h"
+#include "Helmet.h"
 #include "DynamicCamera.h"
 
 // State
@@ -55,12 +56,6 @@ HRESULT CPlayer::Ready_Object(void)
 	m_pTransform->Translate(_vec3(0.f, 10.f, 0.f));
 	m_vOffset	  =	_vec3(0.7f, -0.6f, 1.5f);
 	m_vLeftOffset = _vec3(-0.7, -0.6f, 1.5f);
-	m_fDrunkTime = 0.f;
-	m_fDrunkDuration = 5.f;
-	m_fRotationAngle = 0.f;
-	m_fRotationSpeed = 0.05f;
-	m_fAmount = 0.05f;
-	m_bFoward = true;
 
 	// 걷기 상태 추가
 	CState* pState = CPlayerState_Walk::Create(m_pGraphicDev, m_pStateMachine);
@@ -74,14 +69,32 @@ HRESULT CPlayer::Ready_Object(void)
 
 
 #pragma region PlayerStat
+	// 현재 상태
+	m_pStat->Get_Stat()->fMaxHP			= 12.f;
+	m_pStat->Get_Stat()->fHP			= 12.f;
+	m_pStat->Get_Stat()->iDamageMin		= 1;
+	m_pStat->Get_Stat()->iDamageMax		= 2;
+	m_pStat->Get_Stat()->iArmorMin		= 1;
+	m_pStat->Get_Stat()->iArmorMax		= 2;
+
+	// 스텟
 	m_pStat->Get_Stat()->fSpeed			= 4.f;
 	m_pStat->Get_Stat()->fAgility		= 4.f;
 	m_pStat->Get_Stat()->fDeffense		= 4.f;
 	m_pStat->Get_Stat()->fMagic			= 4.f;
 	m_pStat->Get_Stat()->fAttack		= 4.f;
-	m_pStat->Get_Stat()->fHealth		= 12.f;
+	m_pStat->Get_Stat()->fHealth		= 4.f;
 	m_pStat->Get_Stat()->iExp			= 0.f;
 	m_pStat->Get_Stat()->iExpMax		= 8.f;
+	m_pStat->Get_Stat()->iGold			= 100;
+	m_pStat->Get_Stat()->iLevel			= 1;
+
+
+	iDefalutDamageMax = 0;
+	iDefalutDamageMin = 0;
+	iArmorMax = 0;
+	iArmorMin = 0;
+	m_bEquipStat = false;
 #pragma endregion
 
 	return S_OK;
@@ -125,6 +138,31 @@ Engine::_int CPlayer::Update_Object(const _float& fTimeDelta)
 	}
 
 #pragma endregion ksg
+
+
+	if (!m_bEquipStat)
+	{
+		iDefalutDamageMax = m_pStat->Get_Stat()->iDamageMax;
+		iDefalutDamageMin = m_pStat->Get_Stat()->iDamageMin;
+		iArmorMax = m_pStat->Get_Stat()->iArmorMax;
+		iArmorMin = m_pStat->Get_Stat()->iArmorMin;
+	}
+
+	if (m_pCurrentEquipItemRight)
+	{
+		m_pStat->Get_Stat()->iDamageMax = iDefalutDamageMax + dynamic_cast<CItem*>(m_pCurrentEquipItemRight)->Get_ItemStat()->Get_Stat()->iDamageMax;
+		m_pStat->Get_Stat()->iDamageMin = iDefalutDamageMin + dynamic_cast<CItem*>(m_pCurrentEquipItemRight)->Get_ItemStat()->Get_Stat()->iDamageMin;
+
+		m_bEquipStat = true;
+	}
+	else
+	{
+		m_pStat->Get_Stat()->iDamageMax = iDefalutDamageMax;
+		m_pStat->Get_Stat()->iDamageMin = iDefalutDamageMin;
+
+		m_bEquipStat = false;
+	}
+
 
 	return iExit;
 }
@@ -340,37 +378,37 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 	}
 
 	// 아이템 줍기 및 버리기
-	if (Engine::InputDev()->Key_Down(DIK_E))
-	{
-		//  바라보고 있는 아이템 줍기 / E 키로 앞에 있는 아이템 획득을 테스트 용으로 임시 생성
-		Engine::CGameObject* pGameObjectItem = CBeer::Create(m_pGraphicDev, false);
-		//Engine::CGameObject* pGameObjectItem = CTempItem::Create(m_pGraphicDev, false);
-		// 획득한 아이템 타입 및 개수를 받아옴.
-		ITEMTYPEID ItemType = dynamic_cast<CItem*>(pGameObjectItem)->Get_ItemTag();
+	//if (Engine::InputDev()->Key_Down(DIK_E))
+	//{
+	//	//  바라보고 있는 아이템 줍기 / E 키로 앞에 있는 아이템 획득을 테스트 용으로 임시 생성
+	//	Engine::CGameObject* pGameObjectItem = CBeer::Create(m_pGraphicDev, false);
+	//	//Engine::CGameObject* pGameObjectItem = CTempItem::Create(m_pGraphicDev, false);
+	//	// 획득한 아이템 타입 및 개수를 받아옴.
+	//	ITEMTYPEID ItemType = dynamic_cast<CItem*>(pGameObjectItem)->Get_ItemTag();
 
-		// 획득한 아이템을 인벤토리에 넣는다.	
-		m_pInventory->Add_ItemObject(pGameObjectItem);
+	//	// 획득한 아이템을 인벤토리에 넣는다.	
+	//	m_pInventory->Add_ItemObject(pGameObjectItem);
 
-		//// ITEM UI 객체 생성 후 들어온 아이템 타입 및 아이디로 값 셋팅.
-		Engine::CGameObject* pGameObjectUI = CUIitem::Create(m_pGraphicDev);
-		dynamic_cast<CUIitem*>(pGameObjectUI)->Set_ItemTag(ItemType.eItemType, ItemType.eItemID, ItemType.iCount);
-		// 셋팅 후 UI 매니저에 아이템UI 추가.
-		Engine::UIManager()->AddItemGameobject_UI(pGameObjectUI);
+	//	//// ITEM UI 객체 생성 후 들어온 아이템 타입 및 아이디로 값 셋팅.
+	//	Engine::CGameObject* pGameObjectUI = CUIitem::Create(m_pGraphicDev);
+	//	dynamic_cast<CUIitem*>(pGameObjectUI)->Set_ItemTag(ItemType.eItemType, ItemType.eItemID, ItemType.iCount);
+	//	// 셋팅 후 UI 매니저에 아이템UI 추가.
+	//	Engine::UIManager()->AddItemGameobject_UI(pGameObjectUI);
 
-		// 장착하는 아이템 타입이고 아이템을 장착하고 있지 않다면 장착(생성)
-		if (ItemType.eItemType == ITEMTYPE::ITEMTYPE_GENERALITEM && !m_bItemEquipLeft) // 오른손 장착 아이템 타입
-		{
-			m_bItemEquipLeft = true;
-			Set_CurrentEquipLeft(pGameObjectItem);
-			Set_PrevEquipLeft(pGameObjectItem);
-			Engine::EventManager()->CreateObject(pGameObjectItem, LAYERTAG::GAMELOGIC);
+	//	// 장착하는 아이템 타입이고 아이템을 장착하고 있지 않다면 장착(생성)
+	//	if (ItemType.eItemType == ITEMTYPE::ITEMTYPE_GENERALITEM && !m_bItemEquipLeft) // 오른손 장착 아이템 타입
+	//	{
+	//		m_bItemEquipLeft = true;
+	//		Set_CurrentEquipLeft(pGameObjectItem);
+	//		Set_PrevEquipLeft(pGameObjectItem);
+	//		Engine::EventManager()->CreateObject(pGameObjectItem, LAYERTAG::GAMELOGIC);
 
-			// 장착 상태 // 해당 아이템 찾아서 해당 슬롯 장착 상태 표시
-			Engine::CGameObject* FindSlotObj = Engine::UIManager()->Get_PopupObjectBasicSlot(ItemType);
-			dynamic_cast<CUIbasicslot*>(dynamic_cast<CTempUI*>(FindSlotObj))->Set_FindSlot(true);
-		}
-	}
-	else if (Engine::InputDev()->Key_Down(DIK_Q))
+	//		// 장착 상태 // 해당 아이템 찾아서 해당 슬롯 장착 상태 표시
+	//		Engine::CGameObject* FindSlotObj = Engine::UIManager()->Get_PopupObjectBasicSlot(ItemType);
+	//		dynamic_cast<CUIbasicslot*>(dynamic_cast<CTempUI*>(FindSlotObj))->Set_FindSlot(true);
+	//	}
+	//}
+	if (Engine::InputDev()->Key_Down(DIK_Q))
 	{
 		// 오른손에 들고 있는 아이템만 Q키로 버리기 가능
 
@@ -630,6 +668,9 @@ void CPlayer::OnCollisionEnter(CCollider* _pOther)
 			case ITEMID::WEAPON_WAND1:
 				pItem = CFireWands::Create(m_pGraphicDev, false);
 				break;
+			case ITEMID::EQUIP_OLDHELMET:
+				pItem = CHelmet::Create(m_pGraphicDev, false);
+				break;
 			}
 
 			m_pInventory->Add_ItemObject(pItem);
@@ -650,7 +691,12 @@ void CPlayer::OnCollisionEnter(CCollider* _pOther)
 				dynamic_cast<CUIbasicslot*>(dynamic_cast<CTempUI*>(FindSlotObj))->Set_FindSlot(true);
 			}
 			else
+			{
 				Engine::EventManager()->CreateObject(pItem, LAYERTAG::GAMELOGIC);
+				//Engine::CGameObject* FindSlotObj = Engine::UIManager()->Get_PopupObjectBasicSlot(ItemType);
+				//dynamic_cast<CUIbasicslot*>(dynamic_cast<CTempUI*>(FindSlotObj))->Set_FindSlot(false);
+			}
+
 
 			EventManager()->GetInstance()->DeleteObject(dynamic_cast<CItem*>(_pOther->GetHost()));
 		}
@@ -724,6 +770,24 @@ void CPlayer::OnCollisionExit(CCollider* _pOther)
 	//		//m_pRigidBody->UseGravity(true);
 	//	}
 	//}
+}
+
+void CPlayer::IsAttack(CBasicStat* _MonsterStat)
+{
+	_int iDamage = 1 + rand() % (m_pStat->Get_Stat()->iDamageMin +
+		(m_pStat->Get_Stat()->iDamageMax - m_pStat->Get_Stat()->iDamageMin));
+
+	_int iDeffence = 1 + rand() % (_MonsterStat->Get_Stat()->iArmorMin + (_MonsterStat->Get_Stat()->iArmorMax - _MonsterStat->Get_Stat()->iArmorMin));
+
+	_int iResultDamage = iDamage - iDeffence;
+
+	if (iResultDamage <= 0)
+		iResultDamage = 1;
+
+	cout << iResultDamage << " 데미지" << endl;
+
+	Set_AttackTick(true);
+	_MonsterStat->Take_Damage(iResultDamage);
 }
 
 void CPlayer::Free()

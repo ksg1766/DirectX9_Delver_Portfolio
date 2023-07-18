@@ -210,6 +210,7 @@
     <ClInclude Include="..\Header\EffectTrace.h" />
     <ClInclude Include="..\Header\EffectWand.h" />
     <ClInclude Include="..\Header\FootRay.h" />
+    <ClInclude Include="..\Header\Helmet.h" />
     <ClInclude Include="..\Header\HorizontalMove.h" />
     <ClInclude Include="..\Header\Projectile_Trap_Arrow.h" />
     <ClInclude Include="..\Header\Projectile_Trap_Body.h" />
@@ -366,6 +367,7 @@
     <ClCompile Include="..\Code\EffectTrace.cpp" />
     <ClCompile Include="..\Code\EffectWand.cpp" />
     <ClCompile Include="..\Code\FootRay.cpp" />
+    <ClCompile Include="..\Code\Helmet.cpp" />
     <ClCompile Include="..\Code\HorizontalMove.cpp" />
     <ClCompile Include="..\Code\Projectile_Trap_Arrow.cpp" />
     <ClCompile Include="..\Code\Projectile_Trap_Body.cpp" />

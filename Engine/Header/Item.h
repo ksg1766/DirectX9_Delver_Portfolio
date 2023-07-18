@@ -21,6 +21,8 @@ public:
     _int        Get_HitCount()                  { return m_iHitCount; }
     void        Set_HitCount(_int iHit)         { m_iHitCount = iHit; }
 
+    CBasicStat* Get_ItemStat()                  { return m_pBasicStat; }
+
 public:
     HRESULT     Ready_Object();
     _int        Update_Object(const _float& fTimeDelta);

@@ -250,6 +250,16 @@ void CUIitem::Key_Input(void)
 							CInventory* Inventory = dynamic_cast<CInventory*>(pPlayer->Get_Component(COMPONENTTAG::INVENTORY, ID_DYNAMIC));
 							Inventory->Switch_InvenItem(m_ItemID, UIObjID, UINumber); // : 이동한 아이템 아이디, 이동할 슬롯 타입 및 번호
 						}
+
+						if (UIObjID == Engine::UIID_SLOTEQUIPMENT)
+						{
+							CInventory* Inventory = dynamic_cast<CInventory*>(pPlayer->Get_Component(COMPONENTTAG::INVENTORY, ID_DYNAMIC));
+							CGameObject* pGameObject = dynamic_cast<CGameObject*>(Inventory->Get_ItemSlot((INVENITEMSLOT)UINumber));
+
+							pPlayer->Get_Stat()->Get_Stat()->iArmorMax = pPlayer->Get_Stat()->Get_Stat()->iArmorMax + dynamic_cast<CItem*>(pGameObject)->Get_ItemStat()->Get_Stat()->iArmorMax;
+							pPlayer->Get_Stat()->Get_Stat()->iArmorMin = pPlayer->Get_Stat()->Get_Stat()->iArmorMin + dynamic_cast<CItem*>(pGameObject)->Get_ItemStat()->Get_Stat()->iArmorMin;
+							dynamic_cast<CUIequipmentslot*>(Get_Parent())->Set_UseSlot(true);
+						}
 					}
 					else
 					{

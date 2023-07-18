@@ -20,6 +20,10 @@ public:
 	CGameObject*    Get_KeySlotObject(INVENKEYSLOT _key) { return m_mapKeySlot[_key]; }
 	ITEMTYPEID      Get_KeySlotObjID(INVENKEYSLOT _key)  { return dynamic_cast<CItem*>(m_mapKeySlot[_key])->Get_ItemTag(); }
 
+
+	CGameObject*	Get_ItemSlot(INVENITEMSLOT _Key)		 { return m_mapItemSlot[_Key]; }
+	CGameObject*	Get_IDItem(ITEMID _eID);
+
 	void            Switch_InvenItem(ITEMTYPEID _itemId, UIOBJECTTTAG _slotId, _uint _UINumber); // 아이템 아이디와 옮길려는 슬롯 위치 아이디
 
 public:

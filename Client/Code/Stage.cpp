@@ -18,6 +18,7 @@
 #include "TempItem.h"
 #include "Bow.h"
 #include "FireWands.h"
+#include "Helmet.h"
 
 #include "Box_Cube.h"
 #include "EffectSquare.h"
@@ -255,6 +256,12 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	NULL_CHECK_RETURN(pItem, E_FAIL);
 	pItem->m_pTransform->Translate(_vec3(-80, 0.5f, 0.f));
 	dynamic_cast<CFireWands*>(pItem)->Set_WorldItem(true);
+	pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
+
+	pItem = CHelmet::Create(m_pGraphicDev, true);
+	NULL_CHECK_RETURN(pItem, E_FAIL);
+	pItem->m_pTransform->Translate(_vec3(-40, 3.f, -20.f));
+	dynamic_cast<CHelmet*>(pItem)->Set_WorldItem(true);
 	pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
 
 	pGameObject = CBlade_Trap::Create(m_pGraphicDev);

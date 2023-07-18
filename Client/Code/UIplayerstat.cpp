@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "..\Header\UIplayerstat.h"
+#include "Player.h"
 
 CUIplayerstat::CUIplayerstat(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CTempUI(pGraphicDev)
@@ -56,8 +57,8 @@ HRESULT CUIplayerstat::Ready_Object()
 	m_pTransform->m_vLocalScale.y = 140.f;
 	WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);
 
-	m_fAttackPowerNumber = 1;
-	m_fArmorClassNumber = 2;
+	m_fAttackPowerNumberMin = 1;
+	m_fArmorClassNumberMin = 2;
 
 	m_fHealthNumber = 3;
 	m_fMagicNumber = 4;
@@ -91,6 +92,26 @@ void CUIplayerstat::LateUpdate_Object(void)
 		return;
 
 	CTempUI::LateUpdate_Object();
+
+	CPlayer& rPlayer = *dynamic_cast<CPlayer*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
+
+	m_fAttackPowerNumberMin = rPlayer.Get_Stat()->Get_Stat()->iDamageMin;
+	m_fAttackPowerNumberMax = rPlayer.Get_Stat()->Get_Stat()->iDamageMax;
+	m_fArmorClassNumberMin = rPlayer.Get_Stat()->Get_Stat()->iArmorMin;
+	m_fArmorClassNumberMax = rPlayer.Get_Stat()->Get_Stat()->iArmorMax;
+
+	m_fHealthNumber		= rPlayer.Get_Stat()->Get_Stat()->fHealth;
+	m_fMagicNumber		= rPlayer.Get_Stat()->Get_Stat()->fMagic;
+	m_fSpeedNumber		= rPlayer.Get_Stat()->Get_Stat()->fSpeed;
+
+	m_fAttackNumber		= rPlayer.Get_Stat()->Get_Stat()->fAttack;
+	m_fDefenseNumber	= rPlayer.Get_Stat()->Get_Stat()->fDeffense;
+	m_fAgilityNumber	= rPlayer.Get_Stat()->Get_Stat()->fAgility;
+
+	m_fLevelNumber		= rPlayer.Get_Stat()->Get_Stat()->iLevel;
+	m_fCurrentXPNumber	= rPlayer.Get_Stat()->Get_Stat()->iExp;
+	m_fMaxXPNumber		= rPlayer.Get_Stat()->Get_Stat()->iExpMax;
+	m_fGoldNumber		= rPlayer.Get_Stat()->Get_Stat()->iGold;
 
 	Update_NumverUI();
 }
@@ -288,8 +309,8 @@ void CUIplayerstat::Key_Input(void)
 
 void CUIplayerstat::Update_NumverUI()
 {
-	Check_Number(m_fAttackPowerNumber, m_fAttackPowerNumberOne, m_fAttackPowerNumberTwo);
-	Check_Number(m_fArmorClassNumber, m_fArmorClassNumberOne, m_fArmorClassNumberTwo);
+	Check_Number(m_fAttackPowerNumberMin, m_fAttackPowerNumberOne, m_fAttackPowerNumberTwo);
+	Check_Number(m_fArmorClassNumberMin, m_fArmorClassNumberOne, m_fArmorClassNumberTwo);
 	Check_Number(m_fHealthNumber, m_fHealthNumberOne, m_fHealthNumberTwo);
 	Check_Number(m_fMagicNumber, m_fMagicNumberOne, m_fMagicNumberTwo);
 	Check_Number(m_fSpeedNumber, m_fSpeedNumberOne, m_fSpeedNumberTwo);

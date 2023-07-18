@@ -54,13 +54,16 @@ HRESULT CBoneGhost::Ready_Object()
 
 
 #pragma region BoneGhost
-	m_pBasicStat->Get_Stat()->fSpeed = 4.f;
-	m_pBasicStat->Get_Stat()->fAgility = 4.f;
-	m_pBasicStat->Get_Stat()->fDeffense = 4.f;
-	m_pBasicStat->Get_Stat()->fMagic = 4.f;
-	m_pBasicStat->Get_Stat()->fAttack = 4.f;
-	m_pBasicStat->Get_Stat()->fHealth = 8.f;
-	m_pBasicStat->Get_Stat()->iExp = 6.f;
+	m_pBasicStat->Get_Stat()->fMaxHP		= 4.f;
+	m_pBasicStat->Get_Stat()->fHP			= 4.f;
+	m_pBasicStat->Get_Stat()->iDamageMin	= 1;
+	m_pBasicStat->Get_Stat()->iDamageMax	= 2;
+	m_pBasicStat->Get_Stat()->fSpeed		= 4.f;
+	m_pBasicStat->Get_Stat()->fAgility		= 4.f;
+	m_pBasicStat->Get_Stat()->fDeffense		= 4.f;
+	m_pBasicStat->Get_Stat()->fMagic		= 4.f;
+	m_pBasicStat->Get_Stat()->fAttack		= 4.f;
+	m_pBasicStat->Get_Stat()->iExp			= 6.f;
 #pragma endregion
 
 	return S_OK;

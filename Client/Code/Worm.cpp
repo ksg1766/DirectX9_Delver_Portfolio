@@ -45,30 +45,36 @@ HRESULT CWorm::Ready_Object()
 	CAnimation* pAnimation = CAnimation::Create(m_pGraphicDev,
 		m_pTexture[(_uint)STATE::ROMIMG], STATE::ROMIMG, 5.f, TRUE);
 	m_pAnimator->Add_Animation(STATE::ROMIMG, pAnimation);
-
 	pAnimation = CAnimation::Create(m_pGraphicDev,
 		m_pTexture[(_uint)STATE::ATTACK], STATE::ATTACK, 10.f, TRUE);
 	m_pAnimator->Add_Animation(STATE::ATTACK, pAnimation);
-
 	pAnimation = CAnimation::Create(m_pGraphicDev,
 		m_pTexture[(_uint)STATE::HIT], STATE::HIT, 3.f, TRUE);
 	m_pAnimator->Add_Animation(STATE::HIT, pAnimation);
-
 	pAnimation = CAnimation::Create(m_pGraphicDev,
 		m_pTexture[(_uint)STATE::DEAD], STATE::DEAD, 3.f, TRUE);
 	m_pAnimator->Add_Animation(STATE::DEAD, pAnimation);
 
 	m_pStateMachine->Set_Animator(m_pAnimator);
-
 	m_pStateMachine->Set_State(STATE::ROMIMG);
-
-	m_pBasicStat->Get_Stat()->fHealth = 10.f;
-
-	m_pBasicStat->Get_Stat()->fAttack = 2.f;
-
 	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
 
+
 	m_pTransform->Translate(_vec3(2.f, 3.f, 5.f));
+
+
+#pragma region Worm Stat
+	m_pBasicStat->Get_Stat()->fMaxHP		= 4.f;
+	m_pBasicStat->Get_Stat()->fHP			= 4.f;
+	m_pBasicStat->Get_Stat()->iDamageMin	= 1;
+	m_pBasicStat->Get_Stat()->iDamageMax	= 2;
+	m_pBasicStat->Get_Stat()->fSpeed		= 4.f;
+	m_pBasicStat->Get_Stat()->fAgility		= 4.f;
+	m_pBasicStat->Get_Stat()->fDeffense		= 4.f;
+	m_pBasicStat->Get_Stat()->fMagic		= 4.f;
+	m_pBasicStat->Get_Stat()->fAttack		= 4.f;
+	m_pBasicStat->Get_Stat()->iExp			= 6.f;
+#pragma endregion
 
 	return S_OK;
 }
@@ -88,7 +94,7 @@ _int CWorm::Update_Object(const _float& fTimeDelta)
 		Set_KnockBack(false);
 	}
 
-	if (m_pBasicStat->Get_Stat()->fHealth <= 0)
+	if (m_pBasicStat->Get_Stat()->fHP <= 0)
 		m_pStateMachine->Set_State(STATE::DEAD);
 
 
@@ -137,19 +143,17 @@ void CWorm::OnCollisionEnter(CCollider* _pOther)
 		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::PLAYER)
 		__super::OnCollisionEnter(_pOther);
 
+
 	if (_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::PLAYER
 		&& this->Get_StateMachine()->Get_State() == STATE::ATTACK)
-	{
-		CPlayerStat& PlayerState = *dynamic_cast<CPlayer*>(_pOther->GetHost())->Get_Stat();
-
 		if (!this->Get_AttackTick())
 		{
-			PlayerState.Take_Damage(this->Get_BasicStat()->Get_Stat()->fAttack);
+			CPlayerStat& PlayerStat = *static_cast<CPlayer*>(_pOther->GetHost())->Get_Stat();
 			this->Set_AttackTick(true);
+			IsAttack(&PlayerStat);
 
-			cout << "거미 공격" << endl;
+			cout << "벌레 공격" << endl;
 		}
-	}
 
 	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BLOCK)
 	{

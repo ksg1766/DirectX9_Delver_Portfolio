@@ -2,6 +2,7 @@
 #include "Export_Function.h"
 #include "Player.h"
 #include "EffectProjectileTrace.h"
+#include "FireWands.h"
 
 CFireBall::CFireBall(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CGameObject(pGraphicDev)
@@ -44,15 +45,26 @@ HRESULT CFireBall::Ready_Object(CTransform* pWeapon, CTransform* pOwner, _float 
 	CAnimation* pAnimation = CAnimation::Create(m_pGraphicDev,
 		m_pTexture[(_uint)STATE::ATTACK], STATE::ATTACK, 10.f, TRUE);
 	m_pAnimator->Add_Animation(STATE::ATTACK, pAnimation);
-
 	m_pAnimator->Set_Animation(STATE::ATTACK);
-	m_pBasicStat->Get_Stat()->fAttack = 1.f;
+
+
+	BASICSTAT* pOwnerStat = dynamic_cast<CFireWands*>(pWeapon->Get_Host())->Get_ItemStat()->Get_Stat();
+
+	if (pOwnerStat != nullptr)
+	{
+		m_pBasicStat->Get_Stat()->iDamageMin = pOwnerStat->iDamageMin;
+		m_pBasicStat->Get_Stat()->iDamageMax = pOwnerStat->iDamageMax;
+	}
 
 	// 투사체 흔적 이펙트 추가
 	CGameObject* pGameObject = m_pEffect = CEffectProjectileTrace::Create(m_pGraphicDev);
 	pGameObject->m_pTransform->Translate(m_pTransform->m_vInfo[INFO_POS]);
 	dynamic_cast<CTempEffect*>(pGameObject)->Set_EffectColor(ECOLOR_WHITE);
 	Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+
+
+	m_bIsAttack = false;
+	m_vPrevPos = _vec3(0.f, 0.f, 0.f);
 
 	return S_OK;
 }
@@ -68,6 +80,16 @@ _int CFireBall::Update_Object(const _float& fTimeDelta)
 	CPlayer& pPlayer = *dynamic_cast<CPlayer*>(SceneManager()->GetInstance()->
 		Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
 
+	if (!m_bIsAttack)
+	{
+		m_vPrevPos = m_pTransform->m_vInfo[INFO_POS];
+		m_bIsAttack = true;
+	}
+
+	_float fDistance = D3DXVec3Length(&(m_pTransform->m_vInfo[INFO_POS] - m_vPrevPos));
+
+	if (fDistance > 60.f)
+		EventManager()->DeleteObject(this);
 
 	m_pTransform->m_vInfo[INFO_POS] = m_pTransform->m_vInfo[INFO_POS] + m_vDir * 25.f * fTimeDelta;
 
@@ -112,26 +134,25 @@ void CFireBall::OnCollisionEnter(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 
+	if (_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::MONSTER &&
+		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::PLAYER &&
+		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::ITEM)
+		__super::OnCollisionEnter(_pOther);
+
+
+	CPlayer& pPlayer = *dynamic_cast<CPlayer*>(SceneManager()->GetInstance()
+		->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
+
+	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::MONSTER &&
+		dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_StateMachine()->Get_State() != STATE::DEAD)
+	{
+		pPlayer.IsAttack(dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_BasicStat());
+
+		EventManager()->DeleteObject(this);
+	}
+
 	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BLOCK)
-	{
-		cout << "벽돌 충돌" << endl;
-
-		if (m_pEffect != nullptr)
-			Engine::EventManager()->DeleteObject(m_pEffect);
-
-		EventManager()->GetInstance()->DeleteObject(this);
-	}
-
-	if (_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::MONSTER && m_eState != STATE::DEAD)
-	{
-		cout << "파이어볼 몬스터 충돌" << endl;
-		
-		if (m_pEffect != nullptr)
-			Engine::EventManager()->DeleteObject(m_pEffect);
-
-		Set_State(STATE::DEAD);
-		EventManager()->GetInstance()->DeleteObject(this);
-	}
+		EventManager()->DeleteObject(this);
 }
 
 void CFireBall::OnCollisionStay(CCollider* _pOther)
