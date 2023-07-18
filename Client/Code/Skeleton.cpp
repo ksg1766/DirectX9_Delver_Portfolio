@@ -88,9 +88,7 @@ _int CSkeleton::Update_Object(const _float& fTimeDelta)
 	{
 		m_pStateMachine->Set_State(STATE::DEAD);
 		CPoolManager::GetInstance()->Delete_Object(this);
-	}
-
-		if (!m_bDieEffect)
+	if (!m_bDieEffect)
 		{
 			CGameObject* pGameObject = CEffectBlood::Create(m_pGraphicDev);
 			pGameObject->m_pTransform->Translate(_vec3(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y - 1.f, m_pTransform->m_vInfo[INFO_POS].z));
@@ -118,8 +116,6 @@ void CSkeleton::LateUpdate_Object()
 
 	__super::LateUpdate_Object();
 	//__super::Compute_ViewZ(&m_pTransform->m_vInfo[INFO_POS]);
-
-
 }
 
 void CSkeleton::Render_Object()

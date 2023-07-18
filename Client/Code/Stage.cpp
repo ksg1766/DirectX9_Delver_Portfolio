@@ -487,14 +487,14 @@ HRESULT CStage::Load_Data()
 			if (0 == dwByte)
 				break;
 
-			/*CGameObject* pGameObject = CSpawningPool::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+			CGameObject* pGameObject = CSpawningPool::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
 			NULL_CHECK_RETURN(pGameObject, E_FAIL);
 			dynamic_cast<CSpawningPool*>(pGameObject)->Set_MonsterTag(eSpawnerTag);
 			dynamic_cast<CSpawningPool*>(pGameObject)->Set_PoolCapacity(iPoolCapacity);
 			dynamic_cast<CSpawningPool*>(pGameObject)->Set_SpawnRadius(fSpawnRadius);
 			dynamic_cast<CSpawningPool*>(pGameObject)->Set_SpawnTime(fSpawnTime);
 			pGameObject->m_pTransform->Translate(_vec3(fX, 0.f, fZ));
-			EventManager()->CreateObject(pGameObject, LAYERTAG::ENVIRONMENT);*/
+			EventManager()->CreateObject(pGameObject, LAYERTAG::ENVIRONMENT);
 		}
 	}
 

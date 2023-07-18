@@ -293,7 +293,7 @@ void CTempItem::OnCollisionEnter(CCollider* _pOther)
 			case MONSTERTAG::SKELETON:
 				pGameObject = CEffectSquare::Create(m_pGraphicDev, vecMonsterPos, 50, EFFECTCOLOR::ECOLOR_APRICOT);
 				break;
-			case MONSTERTAG::BONEGHOST:
+			case MONSTERTAG::SKULLGHOST:
 				pGameObject = CEffectSquare::Create(m_pGraphicDev, vecMonsterPos, 50, EFFECTCOLOR::ECOLOR_WHITE);
 				break;
 			case MONSTERTAG::WORM:
