@@ -5,8 +5,8 @@ BEGIN(Engine)
 class CRcTex;
 class CTexture;
 class CBillBoard;
+
 END
-class CTerrain;
 
 class CBossProjectile :
     public CMonster
@@ -17,28 +17,30 @@ private:
 	virtual		~CBossProjectile();
 
 public:
-	virtual HRESULT Ready_Object(void) override;
-	virtual _int Update_Object(const _float& fTimeDelta) override;
-	virtual void LateUpdate_Object(void) override;
-	virtual void Render_Object(void) override;
+	virtual HRESULT Ready_Object(void)						override;
+	virtual _int	Update_Object(const _float& fTimeDelta)	override;
+	virtual void	LateUpdate_Object(void)					override;
+	virtual void	Render_Object(void)						override;
+
+public:
+	virtual void	Init_Stat()								override;
 
 public:
 	//테스트용충돌코드
-	void		Set_Target(_vec3 _vPos);
+	void			Set_Target(_vec3 _vPos);
 
-	virtual void		OnCollisionEnter(CCollider* _pOther);
-	virtual void		OnCollisionStay(CCollider* _pOther);
-	virtual void		OnCollisionExit(CCollider* _pOther);
+	virtual void	OnCollisionEnter(CCollider* _pOther);
+	virtual void	OnCollisionStay(CCollider* _pOther);
+	virtual void	OnCollisionExit(CCollider* _pOther);
 
 private:
-	CRcTex* m_pBuffer = nullptr;
-	CTexture* m_pTexture = nullptr;
-	CBillBoard* m_pBillBoard = nullptr;
-	CTerrain* m_pTerrain = nullptr;
+	CRcTex*			m_pBuffer = nullptr;
+	CTexture*		m_pTexture = nullptr;
+	CBillBoard*		m_pBillBoard = nullptr;
 	_float			m_fFrame;
 	_float			m_fTime;
-	_vec3 m_vTargetPos;
-	_vec3 m_vDir;
+	_vec3			m_vTargetPos;
+	_vec3			m_vDir;
 private:
 	HRESULT		Add_Component(void);
 

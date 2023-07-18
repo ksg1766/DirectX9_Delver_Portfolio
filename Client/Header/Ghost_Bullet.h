@@ -21,14 +21,14 @@ private:
 
 public:
 	virtual HRESULT	Ready_Object(CTransform* pOwner, _float _fSpeed, _vec3 _vOffset);
-	virtual _int	Update_Object(const _float& fTimeDelta) override;
-	virtual void	LateUpdate_Object() override;
-	virtual void	Render_Object() override;
+	virtual _int	Update_Object(const _float& fTimeDelta)								override;
+	virtual void	LateUpdate_Object()													override;
+	virtual void	Render_Object()														override;
 
 public:
-	void		ForceHeight(_vec3 _vPos);
-	void		Set_Terrain(CTerrain* _pCurrentTerrain) { m_pTerrain = _pCurrentTerrain; }
+	virtual void	Init_Stat()															override;
 
+public:
 	virtual void		OnCollisionEnter(CCollider* _pOther);
 	virtual void		OnCollisionStay(CCollider* _pOther);
 	virtual void		OnCollisionExit(CCollider* _pOther);

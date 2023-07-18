@@ -1,6 +1,5 @@
 #include "Npc_OldMan.h"
 #include "Export_Function.h"
-#include "Terrain.h"
 #include "OldMan_Idle.h"
 #include "DynamicCamera.h"
 

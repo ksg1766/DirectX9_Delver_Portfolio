@@ -18,11 +18,11 @@ public:
 
 public:
 	CComponent*			Get_Component(COMPONENTTAG pComponentTag, COMPONENTID eID);
-	OBJECTTAG			Get_ObjectTag()	 { return m_eObjectTag; }
+	const OBJECTTAG&	Get_ObjectTag()	const { return m_eObjectTag; }
 
 	void				Set_ObjectTag(OBJECTTAG _eTag) { m_eObjectTag = _eTag; }
 
-	_bool				IsDead() { return m_IsDead; }
+	const _bool&		IsDead() const { return m_IsDead; }
 	void				Set_Dead(_bool _IsDead) { m_IsDead = _IsDead; }
 
 public:
@@ -39,7 +39,7 @@ public:
 	virtual void		OnCollisionExit(CCollider* _pOther) {};
 
 public:
-	_float				Get_ViewZ()			{ return m_fViewZ; }
+	const _float&		Get_ViewZ()	const		{ return m_fViewZ; }
 
 public:
 	void				Compute_ViewZ(const _vec3* pPos);

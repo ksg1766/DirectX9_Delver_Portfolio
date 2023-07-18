@@ -134,14 +134,25 @@ namespace Engine
 		template <typename T>
 		void operator () (T& Pair)
 		{
-			for (auto& iter : Pair.second)
+			//if (OBJECTTAG::MONSTER == Pair.first && OBJECTTAG::EFFECT == Pair.first)
+			if (OBJECTTAG::MONSTER == Pair.first)
 			{
-				_ulong dwRefCnt = 0;
+				for (auto& iter : Pair.second)
+				{
+					EventManager()->DeleteObject(iter);
+				}
+			}
+			else
+			{
+				for (auto& iter : Pair.second)
+				{
+					_ulong dwRefCnt = 0;
 
-				dwRefCnt = iter->Release();
+					dwRefCnt = iter->Release();
 
-				if (0 == dwRefCnt)
-					iter = NULL;
+					if (0 == dwRefCnt)
+						iter = NULL;
+				}
 			}
 		}
 	};

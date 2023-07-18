@@ -3,7 +3,6 @@
 
 #include "CameraManager.h"
 #include "FlyingCamera.h"
-#include "Terrain.h"
 #include "CubeBlock.h"
 #include "SpawningPool.h"
 
@@ -118,7 +117,7 @@ _vec3 CImGuiManager::PickingBlock()
 
 #pragma region Cube Picking
     const vector<CGameObject*>& vecBlock = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BLOCK);
-    CTerrain* pTerrain = dynamic_cast<CTerrain*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::TERRAIN).front());
+    //CTerrain* pTerrain = dynamic_cast<CTerrain*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::TERRAIN).front());
 
     priority_queue<pair<_float, CCubeBlock*>, vector<pair<_float, CCubeBlock*>>, greater<pair<_float, CCubeBlock*>>> pq;
 
@@ -199,82 +198,82 @@ _vec3 CImGuiManager::PickingBlock()
 
 #pragma region Terrain Picking
 
-    if(!IsPicked)
-    {
-        if (2 == m_iPickingMode)
-            return _vec3(0.f, -10.f, 0.f);
+    //if(!IsPicked)
+    //{
+    //    if (2 == m_iPickingMode)
+    //        return _vec3(0.f, -10.f, 0.f);
 
-        _vec3 vRayPosWorld = vRayPos;
-        _vec3 vRayDirWorld = vRayDir;
+    //    _vec3 vRayPosWorld = vRayPos;
+    //    _vec3 vRayDirWorld = vRayDir;
 
-        // 월드 스페이스 -> 로컬 스페이스
-        _matrix		matWorld;
-        matWorld = pTerrain->m_pTransform->WorldMatrix();
-        D3DXMatrixInverse(&matWorld, 0, &matWorld);
-        D3DXVec3TransformCoord(&vRayPosWorld, &vRayPosWorld, &matWorld);
-        D3DXVec3TransformNormal(&vRayDirWorld, &vRayDirWorld, &matWorld);
+    //    // 월드 스페이스 -> 로컬 스페이스
+    //    _matrix		matWorld;
+    //    matWorld = pTerrain->m_pTransform->WorldMatrix();
+    //    D3DXMatrixInverse(&matWorld, 0, &matWorld);
+    //    D3DXVec3TransformCoord(&vRayPosWorld, &vRayPosWorld, &matWorld);
+    //    D3DXVec3TransformNormal(&vRayDirWorld, &vRayDirWorld, &matWorld);
 
-        const vector<_vec3>& pTerrainVtxPos = pTerrain->LoadTerrainVertex();
-        
-        _float	fU = 0.f, fV = 0.f, fDist = 0.f;
-        //
-        _ulong		dwVtxIdx[3]{};
+    //    const vector<_vec3>& pTerrainVtxPos = pTerrain->LoadTerrainVertex();
+    //    
+    //    _float	fU = 0.f, fV = 0.f, fDist = 0.f;
+    //    //
+    //    _ulong		dwVtxIdx[3]{};
 
-        for (_ulong i = 0; i < VTXCNTZ - 1; ++i)
-        {
-            for (_ulong j = 0; j < VTXCNTX - 1; ++j)
-            {
-                _ulong	dwIndex = i * VTXCNTX + j;
+    //    for (_ulong i = 0; i < VTXCNTZ - 1; ++i)
+    //    {
+    //        for (_ulong j = 0; j < VTXCNTX - 1; ++j)
+    //        {
+    //            _ulong	dwIndex = i * VTXCNTX + j;
 
-                // 오른쪽 위
-                dwVtxIdx[0] = dwIndex + VTXCNTX;
-                dwVtxIdx[1] = dwIndex + VTXCNTX + 1;
-                dwVtxIdx[2] = dwIndex + 1;
+    //            // 오른쪽 위
+    //            dwVtxIdx[0] = dwIndex + VTXCNTX;
+    //            dwVtxIdx[1] = dwIndex + VTXCNTX + 1;
+    //            dwVtxIdx[2] = dwIndex + 1;
 
-                if (D3DXIntersectTri(&pTerrainVtxPos[dwVtxIdx[1]],
-                    &pTerrainVtxPos[dwVtxIdx[0]],
-                    &pTerrainVtxPos[dwVtxIdx[2]],
-                    &vRayPos, &vRayDir, &fU, &fV, &fDist))
-                {
-                    // V0 + U(V1 - V0) + V(V2 - V0)
-                    _vec3 vFinalPos = _vec3(pTerrainVtxPos[dwVtxIdx[1]].x,
-                        1.f,    // 1.f 는 Cube Radius
-                        pTerrainVtxPos[dwVtxIdx[1]].z);
+    //            if (D3DXIntersectTri(&pTerrainVtxPos[dwVtxIdx[1]],
+    //                &pTerrainVtxPos[dwVtxIdx[0]],
+    //                &pTerrainVtxPos[dwVtxIdx[2]],
+    //                &vRayPos, &vRayDir, &fU, &fV, &fDist))
+    //            {
+    //                // V0 + U(V1 - V0) + V(V2 - V0)
+    //                _vec3 vFinalPos = _vec3(pTerrainVtxPos[dwVtxIdx[1]].x,
+    //                    1.f,    // 1.f 는 Cube Radius
+    //                    pTerrainVtxPos[dwVtxIdx[1]].z);
 
-                    //if ((int)pTerrainVtxPos[dwVtxIdx[1]].x % 2)
-                     //   vFinalPos.x += 1.f;
+    //                //if ((int)pTerrainVtxPos[dwVtxIdx[1]].x % 2)
+    //                 //   vFinalPos.x += 1.f;
 
-                    //if ((int)pTerrainVtxPos[dwVtxIdx[1]].z % 2)
-                     //   vFinalPos.z += 1.f;
+    //                //if ((int)pTerrainVtxPos[dwVtxIdx[1]].z % 2)
+    //                 //   vFinalPos.z += 1.f;
 
-                    return vFinalPos;
-                }
+    //                return vFinalPos;
+    //            }
 
-                // 왼쪽 아래
-                dwVtxIdx[0] = dwIndex + VTXCNTX;
-                dwVtxIdx[1] = dwIndex + 1;
-                dwVtxIdx[2] = dwIndex;
+    //            // 왼쪽 아래
+    //            dwVtxIdx[0] = dwIndex + VTXCNTX;
+    //            dwVtxIdx[1] = dwIndex + 1;
+    //            dwVtxIdx[2] = dwIndex;
 
-                if (D3DXIntersectTri(&pTerrainVtxPos[dwVtxIdx[1]],
-                    &pTerrainVtxPos[dwVtxIdx[0]],
-                    &pTerrainVtxPos[dwVtxIdx[2]],
-                    &vRayPos, &vRayDir, &fU, &fV, &fDist))
-                {
-                    _vec3 vFinalPos = _vec3(pTerrainVtxPos[dwVtxIdx[1]].x,
-                        1.f,    // 1.f 는 Cube Radius
-                        pTerrainVtxPos[dwVtxIdx[1]].z);
+    //            if (D3DXIntersectTri(&pTerrainVtxPos[dwVtxIdx[1]],
+    //                &pTerrainVtxPos[dwVtxIdx[0]],
+    //                &pTerrainVtxPos[dwVtxIdx[2]],
+    //                &vRayPos, &vRayDir, &fU, &fV, &fDist))
+    //            {
+    //                _vec3 vFinalPos = _vec3(pTerrainVtxPos[dwVtxIdx[1]].x,
+    //                    1.f,    // 1.f 는 Cube Radius
+    //                    pTerrainVtxPos[dwVtxIdx[1]].z);
 
-                    //if ((int)pTerrainVtxPos[dwVtxIdx[1]].x % 2)
-                    //    vFinalPos.x += 1.f;
+    //                //if ((int)pTerrainVtxPos[dwVtxIdx[1]].x % 2)
+    //                //    vFinalPos.x += 1.f;
 
-                    //if ((int)pTerrainVtxPos[dwVtxIdx[1]].z % 2)
-                     //   vFinalPos.z += 1.f;
+    //                //if ((int)pTerrainVtxPos[dwVtxIdx[1]].z % 2)
+    //                 //   vFinalPos.z += 1.f;
 
-                    return vFinalPos;
-                }
-            }
-        }
-    }
+    //                return vFinalPos;
+    //            }
+    //        }
+    //    }
+    //}
 
 #pragma endregion Terrain Picking
 
@@ -353,7 +352,7 @@ _vec3 CImGuiManager::PickingSpawner()
         return vFinalPos;
     else
     {
-        CTerrain* pTerrain = dynamic_cast<CTerrain*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::TERRAIN).front());
+        //CTerrain* pTerrain = dynamic_cast<CTerrain*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::TERRAIN).front());
 
         POINT		ptMouse{};
         GetCursorPos(&ptMouse);
@@ -392,56 +391,56 @@ _vec3 CImGuiManager::PickingSpawner()
         if (1 == m_iPickingMode)
         {
             // 월드 스페이스 -> 로컬 스페이스
-            _matrix		matWorld;
-            matWorld = pTerrain->m_pTransform->WorldMatrix();
-            D3DXMatrixInverse(&matWorld, 0, &matWorld);
-            D3DXVec3TransformCoord(&vRayPosWorld, &vRayPosWorld, &matWorld);
-            D3DXVec3TransformNormal(&vRayDirWorld, &vRayDirWorld, &matWorld);
+            //_matrix		matWorld;
+            //matWorld = pTerrain->m_pTransform->WorldMatrix();
+            //D3DXMatrixInverse(&matWorld, 0, &matWorld);
+            //D3DXVec3TransformCoord(&vRayPosWorld, &vRayPosWorld, &matWorld);
+            //D3DXVec3TransformNormal(&vRayDirWorld, &vRayDirWorld, &matWorld);
 
-            const vector<_vec3>& pTerrainVtxPos = pTerrain->LoadTerrainVertex();
+            //const vector<_vec3>& pTerrainVtxPos = pTerrain->LoadTerrainVertex();
 
-            _float	fU = 0.f, fV = 0.f, fDist = 0.f;
-            //
-            _ulong	dwVtxIdx[3]{};
+            //_float	fU = 0.f, fV = 0.f, fDist = 0.f;
+            ////
+            //_ulong	dwVtxIdx[3]{};
 
-            for (_ulong i = 0; i < VTXCNTZ - 1; ++i)
-            {
-                for (_ulong j = 0; j < VTXCNTX - 1; ++j)
-                {
-                    _ulong	dwIndex = i * VTXCNTX + j;
+            //for (_ulong i = 0; i < VTXCNTZ - 1; ++i)
+            //{
+            //    for (_ulong j = 0; j < VTXCNTX - 1; ++j)
+            //    {
+            //        _ulong	dwIndex = i * VTXCNTX + j;
 
-                    // 오른쪽 위
-                    dwVtxIdx[0] = dwIndex + VTXCNTX;
-                    dwVtxIdx[1] = dwIndex + VTXCNTX + 1;
-                    dwVtxIdx[2] = dwIndex + 1;
+            //        // 오른쪽 위
+            //        dwVtxIdx[0] = dwIndex + VTXCNTX;
+            //        dwVtxIdx[1] = dwIndex + VTXCNTX + 1;
+            //        dwVtxIdx[2] = dwIndex + 1;
 
-                    if (D3DXIntersectTri(&pTerrainVtxPos[dwVtxIdx[1]],
-                        &pTerrainVtxPos[dwVtxIdx[0]],
-                        &pTerrainVtxPos[dwVtxIdx[2]],
-                        &vRayPos, &vRayDir, &fU, &fV, &fDist))
-                    {
-                        // V0 + U(V1 - V0) + V(V2 - V0)
-                        vFinalPos = _vec3(pTerrainVtxPos[dwVtxIdx[1]].x,
-                            1.f,    // 1.f 는 Cube Radius
-                            pTerrainVtxPos[dwVtxIdx[1]].z);
-                    }
+            //        if (D3DXIntersectTri(&pTerrainVtxPos[dwVtxIdx[1]],
+            //            &pTerrainVtxPos[dwVtxIdx[0]],
+            //            &pTerrainVtxPos[dwVtxIdx[2]],
+            //            &vRayPos, &vRayDir, &fU, &fV, &fDist))
+            //        {
+            //            // V0 + U(V1 - V0) + V(V2 - V0)
+            //            vFinalPos = _vec3(pTerrainVtxPos[dwVtxIdx[1]].x,
+            //                1.f,    // 1.f 는 Cube Radius
+            //                pTerrainVtxPos[dwVtxIdx[1]].z);
+            //        }
 
-                    // 왼쪽 아래
-                    dwVtxIdx[0] = dwIndex + VTXCNTX;
-                    dwVtxIdx[1] = dwIndex + 1;
-                    dwVtxIdx[2] = dwIndex;
+            //        // 왼쪽 아래
+            //        dwVtxIdx[0] = dwIndex + VTXCNTX;
+            //        dwVtxIdx[1] = dwIndex + 1;
+            //        dwVtxIdx[2] = dwIndex;
 
-                    if (D3DXIntersectTri(&pTerrainVtxPos[dwVtxIdx[1]],
-                        &pTerrainVtxPos[dwVtxIdx[0]],
-                        &pTerrainVtxPos[dwVtxIdx[2]],
-                        &vRayPos, &vRayDir, &fU, &fV, &fDist))
-                    {
-                        vFinalPos = _vec3(pTerrainVtxPos[dwVtxIdx[1]].x,
-                            1.f,    // 1.f 는 Cube Radius
-                            pTerrainVtxPos[dwVtxIdx[1]].z);
-                    }
-                }
-            }
+            //        if (D3DXIntersectTri(&pTerrainVtxPos[dwVtxIdx[1]],
+            //            &pTerrainVtxPos[dwVtxIdx[0]],
+            //            &pTerrainVtxPos[dwVtxIdx[2]],
+            //            &vRayPos, &vRayDir, &fU, &fV, &fDist))
+            //        {
+            //            vFinalPos = _vec3(pTerrainVtxPos[dwVtxIdx[1]].x,
+            //                1.f,    // 1.f 는 Cube Radius
+            //                pTerrainVtxPos[dwVtxIdx[1]].z);
+            //        }
+            //    }
+            //}
         }
         else if (2 == m_iPickingMode)
         {

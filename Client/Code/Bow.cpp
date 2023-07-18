@@ -34,8 +34,8 @@ HRESULT CBow::Ready_Object(_bool _Item)
 	{
 		m_pTransform->Scale(_vec3(0.3f, 0.3f, 0.3f));
 
-		//m_pCollider->
-		//	InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
+		m_pCollider->
+			InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
 
 
 		CGameObject* pPlayer = SceneManager()->GetInstance()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front();

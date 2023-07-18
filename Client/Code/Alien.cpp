@@ -1,10 +1,11 @@
 #include "..\Header\Alien.h"
 #include "Export_Function.h"
-#include "Terrain.h"
 #include "Monster_Fly.h"
 #include "Monster_Dead.h"
 #include "Monster_Hit.h"
 #include "Wizard_Attack.h"
+
+#include "PoolManager.h"
 
 CAlien::CAlien(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CMonster(pGraphicDev)
@@ -60,13 +61,7 @@ HRESULT CAlien::Ready_Object()
 	Set_Speed(30.f);
 
 #pragma region AlienStat
-	m_pBasicStat->Get_Stat()->fSpeed = 4.f;
-	m_pBasicStat->Get_Stat()->fAgility = 4.f;
-	m_pBasicStat->Get_Stat()->fDeffense = 4.f;
-	m_pBasicStat->Get_Stat()->fMagic = 4.f;
-	m_pBasicStat->Get_Stat()->fAttack = 4.f;
-	m_pBasicStat->Get_Stat()->fHealth = 4.f;
-	m_pBasicStat->Get_Stat()->iExp = 6.f;
+	Init_Stat();
 #pragma endregion
 	
 	return S_OK;
@@ -90,8 +85,10 @@ _int CAlien::Update_Object(const _float& fTimeDelta)
 	{
 		if (m_pAnimator->Get_Animation()->Get_Frame() >= 3)
 			m_pAnimator->Get_Animation()->Set_Loop(FALSE);
-
-		m_pStateMachine->Set_State(STATE::DEAD);
+		{
+			m_pStateMachine->Set_State(STATE::DEAD);
+			CPoolManager::GetInstance()->Delete_Object(this);
+		}
 
 		//ForceHeight(this->m_pTransform->m_vInfo[INFO_POS]);
 	}
@@ -121,6 +118,17 @@ void CAlien::Render_Object()
 #if _DEBUG
 	m_pCollider->Render_Collider();
 #endif
+}
+
+void CAlien::Init_Stat()
+{
+	m_pBasicStat->Get_Stat()->fSpeed = 4.f;
+	m_pBasicStat->Get_Stat()->fAgility = 4.f;
+	m_pBasicStat->Get_Stat()->fDeffense = 4.f;
+	m_pBasicStat->Get_Stat()->fMagic = 4.f;
+	m_pBasicStat->Get_Stat()->fAttack = 4.f;
+	m_pBasicStat->Get_Stat()->fHealth = 4.f;
+	m_pBasicStat->Get_Stat()->iExp = 6.f;
 }
 
 

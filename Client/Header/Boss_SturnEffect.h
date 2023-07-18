@@ -17,18 +17,19 @@ private:
 	virtual		~CBoss_SturnEffect();
 
 public:
-	virtual HRESULT Ready_Object(void) override;
-	virtual _int Update_Object(const _float& fTimeDelta) override;
-	virtual void LateUpdate_Object(void) override;
-	virtual void Render_Object(void) override;
+	virtual HRESULT Ready_Object(void)						override;
+	virtual _int Update_Object(const _float& fTimeDelta)	override;
+	virtual void LateUpdate_Object(void)					override;
+	virtual void Render_Object(void)						override;
 
 public:
+	virtual void	Init_Stat()								override;
 
 private:
-	CRcTex* m_pBuffer = nullptr;
-	CTexture* m_pTexture = nullptr;
+	CRcTex*		m_pBuffer = nullptr;
+	CTexture*	m_pTexture = nullptr;
 	CBillBoard* m_pBillBoard = nullptr;
-	_float			m_fFrame;
+	_float		m_fFrame;
 	_float		m_fTime;
 private:
 	HRESULT		Add_Component(void);

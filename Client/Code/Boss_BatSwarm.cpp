@@ -77,6 +77,10 @@ void CBoss_BatSwarm::Render_Object(void)
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
 
+void CBoss_BatSwarm::Init_Stat()
+{
+}
+
 void CBoss_BatSwarm::OnCollisionEnter(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }

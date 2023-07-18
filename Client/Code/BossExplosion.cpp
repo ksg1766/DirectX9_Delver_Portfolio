@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "..\Header\BossExplosion.h"
 #include "Export_Function.h"
-#include "Terrain.h"
 #include "Player.h"
+
 CBossExplosion::CBossExplosion(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CMonster(pGraphicDev)
 {
@@ -71,6 +71,10 @@ void CBossExplosion::Render_Object(void)
 #endif
 	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+}
+
+void CBossExplosion::Init_Stat()
+{
 }
 
 void CBossExplosion::OnCollisionEnter(CCollider* _pOther)

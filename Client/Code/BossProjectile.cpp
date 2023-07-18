@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "..\Header\BossProjectile.h"
 #include "Export_Function.h"
-#include "Terrain.h"
 #include "Player.h"
 CBossProjectile::CBossProjectile(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CMonster(pGraphicDev), m_fFrame(0.f)
@@ -74,6 +73,10 @@ void CBossProjectile::Render_Object(void)
 #endif
 	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+}
+
+void CBossProjectile::Init_Stat()
+{
 }
 
 void CBossProjectile::Set_Target(_vec3 _vPos)

@@ -1,11 +1,12 @@
 #include "..\Header\Skeleton.h"
 #include "Export_Function.h"
-#include "Terrain.h"
 #include "Monster_Move.h"
 #include "Warrior_Attack.h"
 #include "Monster_Hit.h"
 #include "Monster_Dead.h"
 #include "Player.h"
+
+#include "PoolManager.h"
 
 CSkeleton::CSkeleton(LPDIRECT3DDEVICE9 pGrapicDev)
 	: Engine::CMonster(pGrapicDev), m_fFrame(0.f), m_bAttackTick(false)
@@ -60,13 +61,7 @@ HRESULT CSkeleton::Ready_Object()
 	m_pTransform->Translate(_vec3(-10.f, 3.f, 10.f));
 
 #pragma region Skeleton
-	m_pBasicStat->Get_Stat()->fSpeed = 4.f;
-	m_pBasicStat->Get_Stat()->fAgility = 4.f;
-	m_pBasicStat->Get_Stat()->fDeffense = 4.f;
-	m_pBasicStat->Get_Stat()->fMagic = 4.f;
-	m_pBasicStat->Get_Stat()->fAttack = 4.f;
-	m_pBasicStat->Get_Stat()->fHealth = 4.f;
-	m_pBasicStat->Get_Stat()->iExp = 6.f;
+	Init_Stat();
 #pragma endregion
 
 	return S_OK;
@@ -87,7 +82,10 @@ _int CSkeleton::Update_Object(const _float& fTimeDelta)
 	}
 
 	if (m_pBasicStat->Get_Stat()->fHealth <= 0)
+	{
 		m_pStateMachine->Set_State(STATE::DEAD);
+		CPoolManager::GetInstance()->Delete_Object(this);
+	}
 
 
 	m_pStateMachine->Update_StateMachine(fTimeDelta);
@@ -121,6 +119,17 @@ void CSkeleton::Render_Object()
 #if _DEBUG
 	m_pCollider->Render_Collider();
 #endif
+}
+
+void CSkeleton::Init_Stat()
+{
+	m_pBasicStat->Get_Stat()->fSpeed = 4.f;
+	m_pBasicStat->Get_Stat()->fAgility = 4.f;
+	m_pBasicStat->Get_Stat()->fDeffense = 4.f;
+	m_pBasicStat->Get_Stat()->fMagic = 4.f;
+	m_pBasicStat->Get_Stat()->fAttack = 4.f;
+	m_pBasicStat->Get_Stat()->fHealth = 4.f;
+	m_pBasicStat->Get_Stat()->iExp = 6.f;
 }
 
 void CSkeleton::OnCollisionEnter(CCollider* _pOther)

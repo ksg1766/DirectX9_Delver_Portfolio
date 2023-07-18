@@ -96,11 +96,6 @@ HRESULT CEditor::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 
 	Engine::CGameObject* pGameObject = nullptr;
 
-	// Terrain
-	pGameObject = CTerrain::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-
 	pGameObject = CCubeBlock::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	pGameObject->m_pTransform->Translate(_vec3(1.f, 1.f, 1.f));

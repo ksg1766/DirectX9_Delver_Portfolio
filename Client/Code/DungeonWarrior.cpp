@@ -1,6 +1,5 @@
 #include "..\Header\DungeonWarrior.h"
 #include "Export_Function.h"
-#include "Terrain.h"
 #include "Warrior_Attack.h"
 #include "Monster_Move.h"
 #include "Monster_Hit.h"
@@ -8,6 +7,8 @@
 #include "Longitudinal.h"
 #include "HorizontalMove.h"
 #include "Player.h"
+
+#include "PoolManager.h"
 
 CDungeonWarrior::CDungeonWarrior(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CMonster(pGraphicDev)
@@ -62,15 +63,8 @@ HRESULT CDungeonWarrior::Ready_Object()
 	m_pStateMachine->Set_State(STATE::ROMIMG);
 
 #pragma region WarriorStat
-	m_pBasicStat->Get_Stat()->fSpeed = 4.f;
-	m_pBasicStat->Get_Stat()->fAgility = 4.f;
-	m_pBasicStat->Get_Stat()->fDeffense = 4.f;
-	m_pBasicStat->Get_Stat()->fMagic = 4.f;
-	m_pBasicStat->Get_Stat()->fAttack = 4.f;
-	m_pBasicStat->Get_Stat()->fHealth = 4.f;
-	m_pBasicStat->Get_Stat()->iExp = 6.f;
+	Init_Stat();
 #pragma endregion
-
 
 	return S_OK;
 }
@@ -95,8 +89,10 @@ _int CDungeonWarrior::Update_Object(const _float& fTimeDelta)
 	{
 		if (m_pAnimator->Get_Animation()->Get_Frame() >= 1)
 			m_pAnimator->Get_Animation()->Set_Loop(FALSE);
-
-		m_pStateMachine->Set_State(STATE::DEAD);
+		{
+			m_pStateMachine->Set_State(STATE::DEAD);
+			CPoolManager::GetInstance()->Delete_Object(this);
+		}
 	}
 
 
@@ -129,11 +125,21 @@ void CDungeonWarrior::Render_Object()
 #endif
 }
 
+void CDungeonWarrior::Init_Stat()
+{
+	m_pBasicStat->Get_Stat()->fSpeed = 4.f;
+	m_pBasicStat->Get_Stat()->fAgility = 4.f;
+	m_pBasicStat->Get_Stat()->fDeffense = 4.f;
+	m_pBasicStat->Get_Stat()->fMagic = 4.f;
+	m_pBasicStat->Get_Stat()->fAttack = 4.f;
+	m_pBasicStat->Get_Stat()->fHealth = 4.f;
+	m_pBasicStat->Get_Stat()->iExp = 6.f;
+}
+
 
 void CDungeonWarrior::OnCollisionEnter(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
-
 
 	if (_pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::PLAYER
 		&&this->Get_StateMachine()->Get_State() != STATE::DEAD && 
@@ -154,7 +160,6 @@ void CDungeonWarrior::OnCollisionEnter(CCollider* _pOther)
 
 			cout << "워리어 공격" << endl;
 		}
-
 	}
 }
 
@@ -162,7 +167,7 @@ void CDungeonWarrior::OnCollisionStay(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 	// 충돌 밀어내기 후 이벤트 : 구현하시면 됩니다.
-	if (_pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::PLAYER&&
+	if (_pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::PLAYER &&
 		this->Get_StateMachine()->Get_State() != STATE::DEAD &&
 		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::ITEM)
 		__super::OnCollisionStay(_pOther);

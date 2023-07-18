@@ -20,18 +20,17 @@ private:
 	virtual		~CSkeletonKing();
 
 public:
-	virtual HRESULT Ready_Object(void) override;
-	virtual _int Update_Object(const _float& fTimeDelta) override;
-	virtual void LateUpdate_Object(void) override;
-	virtual void Render_Object(void) override;
+	virtual HRESULT Ready_Object(void)						override;
+	virtual _int Update_Object(const _float& fTimeDelta)	override;
+	virtual void LateUpdate_Object(void)					override;
+	virtual void Render_Object(void)						override;
 
 public:
-	void		ForceHeight(_vec3 _vPos);
-	void		ReSet_Sturn() { m_iHitCount = 0; }
-	void		Set_Terrain(CTerrain* _pCurrentTerrain) { m_pTerrain = _pCurrentTerrain; }
-	CTerrain*	Get_Terrain() { return m_pTerrain; }
-	virtual _float		Get_Frame() { return m_fFrame; }
-	CStateMachine* Get_StatMachine() { return m_pStateMachine; }
+	virtual	void	Init_Stat()								override;
+
+	void			ReSet_Sturn() { m_iHitCount = 0; }
+	virtual _float	Get_Frame() { return m_fFrame; }
+	CStateMachine*	Get_StatMachine() { return m_pStateMachine; }
 
 	virtual void	OnCollisionEnter(CCollider* _pOther);
 	virtual void	OnCollisionStay(CCollider* _pOther);
@@ -40,11 +39,11 @@ public:
 private:
 	HRESULT		Add_Component(void);
 	void		Key_Input();
+
 private:
 	CRcTex*		m_pBuffer = nullptr;
 	CTexture*	m_pTexture[(_uint)STATE::STATE_END] = {};
 	CBillBoard*	m_pBillBoard = nullptr;
-	CTerrain*	m_pTerrain = nullptr;
 	CStateMachine* m_pStateMachine = nullptr;
 
 	CAnimator*  m_pAnimator = nullptr;

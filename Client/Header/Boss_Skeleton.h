@@ -8,7 +8,7 @@ class CTexture;
 class CBillBoard;
 class CAnimator;
 END
-class CTerrain;
+
 class CBoss_Skeleton :
     public CMonster
 {
@@ -18,26 +18,25 @@ private:
     virtual ~CBoss_Skeleton();
 
 public:
-    virtual HRESULT    Ready_Object()                                override;
-    virtual _int    Update_Object(const _float& fTimeDelta)        override;
-    virtual void    LateUpdate_Object()                            override;
-    virtual void    Render_Object()                                override;
+    virtual HRESULT    Ready_Object()                               override;
+    virtual _int    Update_Object(const _float& fTimeDelta)         override;
+    virtual void    LateUpdate_Object()                             override;
+    virtual void    Render_Object()                                 override;
 
 public:
-    void        Set_Terrain(CTerrain* _pCurrentTerrain) { m_pTerrain = _pCurrentTerrain; }
+    virtual void            Init_Stat()                             override;
 
+public:
     virtual void        OnCollisionEnter(CCollider* _pOther);
     virtual void        OnCollisionStay(CCollider* _pOther);
     virtual void        OnCollisionExit(CCollider* _pOther);
 
 private:
     HRESULT        Add_Component();
-    void        ForceHeight(_vec3 _vPos);
-
+   
 private:
     CRcTex* m_pBuffer = nullptr;
     CTexture* m_pTexture[static_cast<_uint>(STATE::STATE_END)] = {};
-    CTerrain* m_pTerrain = nullptr;
     CAnimator* m_pAnimator = nullptr;
     CBillBoard* m_pBillBoard = nullptr;
 

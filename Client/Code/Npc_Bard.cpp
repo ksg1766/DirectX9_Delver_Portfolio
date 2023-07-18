@@ -1,6 +1,5 @@
 #include "Npc_Bard.h"
 #include "Export_Function.h"
-#include "Terrain.h"
 #include "Bard_Idle.h"
 CNpc_Bard::CNpc_Bard(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CNpc(pGraphicDev)

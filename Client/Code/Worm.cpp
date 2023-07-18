@@ -1,6 +1,5 @@
 #include "Worm.h"
 #include "Export_Function.h"
-#include "Terrain.h"
 #include "Monster_Move.h"
 #include "Monster_Jump.h"
 #include "Monster_Hit.h"
@@ -28,7 +27,6 @@ HRESULT CWorm::Ready_Object()
 	Set_MonsterState(MONSTERTAG::WORM);
 	m_bBlockOn = false;
 	m_bWallTouch = false;
-	
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
@@ -125,6 +123,10 @@ void CWorm::Render_Object()
 #if _DEBUG
 	m_pCollider->Render_Collider();
 #endif
+}
+
+void CWorm::Init_Stat()
+{
 }
 
 void CWorm::OnCollisionEnter(CCollider* _pOther)

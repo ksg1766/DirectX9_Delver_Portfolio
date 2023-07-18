@@ -15,12 +15,14 @@ private:
     virtual ~CBoss_MeteorCube();
 
 public:
-    virtual HRESULT Ready_Object() override;
-    virtual _int Update_Object(const _float& fTimeDelta) override;
-    virtual void LateUpdate_Object(void) override;
-    virtual void Render_Object(void) override;
+    virtual HRESULT Ready_Object()                          override;
+    virtual _int Update_Object(const _float& fTimeDelta)    override;
+    virtual void LateUpdate_Object(void)                    override;
+    virtual void Render_Object(void)                        override;
 
 public:
+    virtual void    Init_Stat()                             override;
+
     virtual void    Set_Center(_vec3    _CenterPos);
     virtual void    Set_PlayerPos();
     virtual void    Set_ChannelingEnd() { m_bChanneling_End = true; }

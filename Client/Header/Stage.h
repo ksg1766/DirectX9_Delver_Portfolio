@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Scene.h"
-#include "Terrain.h"
 #include "DynamicCamera.h"
 #include "SkyBox.h"
 #include "Player.h"

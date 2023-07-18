@@ -47,6 +47,8 @@ void CCollider::LateUpdate_Component()
 
 void CCollider::Render_Collider()
 {
+	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+
 	m_pGraphicDev->SetStreamSource(0, m_pVB, 0, sizeof(VTXCOL));
 
 	m_pGraphicDev->SetFVF(VTXCOL::format);
@@ -67,7 +69,8 @@ void CCollider::Render_Collider()
 	m_pGraphicDev->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, 8, 0, 12);
 
 	m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
-	//m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+
+	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
 }
 
 HRESULT CCollider::InitOBB(_vec3 & _vCenter, _vec3 * _vAxisDir, _float * _fAxisLen)

@@ -2,8 +2,6 @@
 
 #include "GameObject.h"
 
-class CTerrain;
-
 BEGIN(Engine)
 
 class CRigidBody;
@@ -18,6 +16,9 @@ protected:
 public:
     HRESULT     Ready_Object();
     _int        Update_Object(const _float& fTimeDelta);
+
+public:
+    virtual void Init_Stat() PURE;
 
 public:
     virtual void		OnCollisionEnter(CCollider* _pOther);
@@ -44,25 +45,23 @@ public: // Setter
 
     void                Set_BlockOn(_bool _block)            { m_bBlockOn = _block; }
 	void                Set_WallTouch(_bool _Touch)			 { m_bWallTouch = _Touch; }
-    void                Set_Terrain(CTerrain* _pTerrain)     { m_pTerrain = _pTerrain; }
     void                Set_CenterPos(_vec3 _vPos)           { m_vCenterPos = _vPos; }
     void                Set_KnockBack(_bool _KnockBack)        { m_bKnockback = _KnockBack; }
 
 protected:
-    CRigidBody*                         m_pRigidBody = nullptr;
-    CStateMachine*                      m_pStateMachine = nullptr;
-    CBasicStat*                         m_pBasicStat = nullptr;
-    MONSTERTAG							m_eMonsterTag;
-    STATE								m_eState;
-    _bool								m_bAttackTick;
-    _bool		                        m_bBlockOn;
-    _bool                               m_bWallTouch;
-    _bool                               m_bKnockback;
+    CRigidBody*         m_pRigidBody = nullptr;
+    CStateMachine*      m_pStateMachine = nullptr;
+    CBasicStat*         m_pBasicStat = nullptr;
+    MONSTERTAG			m_eMonsterTag;
+    STATE				m_eState;
+    _bool				m_bAttackTick;
+    _bool		        m_bBlockOn;
+    _bool               m_bWallTouch;
+    _bool               m_bKnockback;
 
-    _vec3                               m_vCenterPos;
-    _float                              m_fSpeed;
-    CTerrain*                           m_pTerrain;
-
+    _vec3               m_vCenterPos;
+    _float              m_fSpeed;
+  
     // MONSTER_ID m_eMonserID;
     // MonsterAI Component 추가해서 사용
 

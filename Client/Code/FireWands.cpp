@@ -28,6 +28,9 @@ HRESULT CFireWands::Ready_Object(_bool _Item)
 	{
 		m_pTransform->Scale(_vec3(0.3f, 0.3f, 0.3f));
 
+		m_pCollider->
+			InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
+
 		CGameObject* pPlayer = SceneManager()->GetInstance()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front();
 		//CPlayer* pPlayer = dynamic_cast<CPlayer*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
 
@@ -144,9 +147,9 @@ void CFireWands::Render_Object(void)
 		m_pBuffer->Render_Buffer();
 	}
 
-	//m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
-
-	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+#if _DEBUG
+	m_pCollider->Render_Collider();
+#endif
 }
 
 HRESULT CFireWands::Add_Component(void)

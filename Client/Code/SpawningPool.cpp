@@ -1,5 +1,7 @@
 #include "..\Header\SpawningPool.h"
 #include "Export_Function.h"
+#include "PoolManager.h"
+
 #include "DungeonWarrior.h"
 #include "DungeonSpider.h"
 #include "Wizard.h"
@@ -7,8 +9,9 @@
 #include "Alien.h"
 #include "Slime.h"
 #include "Skeleton.h"
-
-#include "Terrain.h"
+#include "Worm.h"
+#include "SkullGhost.h"
+//#include "Monk.h"
 
 CSpawningPool::CSpawningPool(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CGameObject(pGraphicDev)
@@ -77,7 +80,6 @@ _int CSpawningPool::Update_Object(const _float& fTimeDelta)
 
     if (m_dqReserved.size() + m_MonsterList.size() < m_iPoolCapacity)
     {
-        //++m_iReservedCount;
         m_dqReserved.push_back(fTimeDelta);
     }
 
@@ -92,7 +94,6 @@ _int CSpawningPool::Update_Object(const _float& fTimeDelta)
     }
 
     return iExit;
-    //return 0;
 }
 
 HRESULT CSpawningPool::InitSpawnerBox()
@@ -139,8 +140,10 @@ void CSpawningPool::ReserveSpawn()
     NULL_CHECK_RETURN(pMonster);
     _float fX = generator();
     _float fZ = generator();
-    pMonster->m_pTransform->Translate(m_pTransform->m_vInfo[INFO_POS] + _vec3(fX, -2.f, fZ));
-    EventManager()->CreateObject(pMonster, LAYERTAG::GAMELOGIC);
+    /*pMonster->m_pTransform->Translate(m_pTransform->m_vInfo[INFO_POS] + _vec3(fX, -2.f, fZ));
+    EventManager()->CreateObject(pMonster, LAYERTAG::GAMELOGIC);*/
+    CPoolManager::GetInstance()->Create_Monster(m_eMonsterTag, m_pTransform->m_vInfo[INFO_POS] + _vec3(fX, -2.f, fZ));
+
     m_MonsterList.push_back(pMonster);
 
     CLayer* pLayer = SceneManager()->Get_Layer(LAYERTAG::GAMELOGIC);

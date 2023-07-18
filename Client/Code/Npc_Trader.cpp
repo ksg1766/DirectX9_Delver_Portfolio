@@ -1,7 +1,7 @@
 #include "Npc_Trader.h"
 #include "Export_Function.h"
-#include "Terrain.h"
 #include "Trader_Idle.h"
+
 CNpc_Trader::CNpc_Trader(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CNpc(pGraphicDev)
 {

@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "..\Header\SkeletonKing_Clone.h"
 #include "Export_Function.h"
-#include "Terrain.h"
 #include "BossProjectile.h"
 #include "BossExplosion.h"
 

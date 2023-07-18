@@ -147,7 +147,6 @@ void CTempItem::LateUpdate_Object(void)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 
-
 	__super::LateUpdate_Object();
 	m_pTransform->Scale(_vec3(0.3f, 0.3f, 0.3f));
 
@@ -264,6 +263,7 @@ void CTempItem::OnCollisionEnter(CCollider* _pOther)
 			// 이펙트 생성
 			CGameObject* pGameObject = CEffectSquare::Create(m_pGraphicDev, TargetPos, 50, EFFECTCOLOR::ECOLOR_RED);
 			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+			//CPoolManager::GetInstance()->Create_Effect(EFFECTTAG::, TargetPos);
 			//////////////////////////////////////// 이펙트 테스트 추가
 
 			cout << "데미지" << endl;
@@ -311,6 +311,8 @@ void CTempItem::OnCollisionStay(CCollider* _pOther)
 			// 이펙트 생성
 			CGameObject* pGameObject = CEffectSquare::Create(m_pGraphicDev, TargetPos, 50, EFFECTCOLOR::ECOLOR_RED);
 			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+			//CPoolManager::GetInstance()->Create_Effect(EFFECTTAG::, TargetPos);
+
 			//////////////////////////////////////// 이펙트 테스트 추가
 
 			cout << "데미지" << endl;

@@ -5,8 +5,8 @@ BEGIN(Engine)
 class CRcTex;
 class CTexture;
 class CBillBoard;
+
 END
-class CTerrain;
 
 class CBossExplosion :
     public CMonster
@@ -17,10 +17,13 @@ private:
 	virtual		~CBossExplosion();
 
 public:
-	virtual HRESULT Ready_Object(void) override;
-	virtual _int Update_Object(const _float& fTimeDelta) override;
-	virtual void LateUpdate_Object(void) override;
-	virtual void Render_Object(void) override;
+	virtual HRESULT Ready_Object(void)						override;
+	virtual _int	Update_Object(const _float& fTimeDelta) override;
+	virtual void	LateUpdate_Object(void)					override;
+	virtual void	Render_Object(void)						override;
+
+public:
+	virtual void	Init_Stat()								override;
 
 	virtual void	OnCollisionEnter(CCollider* _pOther);
 	virtual void	OnCollisionStay(CCollider* _pOther);
@@ -29,11 +32,12 @@ public:
 public:
 	virtual void	Set_StartPos(_vec3 _vec);
 	virtual void	Set_StartPosY(float _fY);
+
 private:
-	CRcTex* m_pBuffer = nullptr;
-	CTexture* m_pTexture = nullptr;
+	CRcTex*		m_pBuffer = nullptr;
+	CTexture*	m_pTexture = nullptr;
 	CBillBoard* m_pBillBoard = nullptr;
-	_float			m_fFrame;
+	_float		m_fFrame;
 	_uint		m_iCount;
 private:
 	HRESULT		Add_Component(void);

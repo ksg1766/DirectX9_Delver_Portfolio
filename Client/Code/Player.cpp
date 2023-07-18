@@ -2,7 +2,6 @@
 #include "..\Header\Player.h"
 
 #include "Export_Function.h"
-#include "Terrain.h"
 
 // 임시 아이템
 #include "TempItem.h"
@@ -18,6 +17,10 @@
 
 #include "UIitem.h"
 #include <UIbasicslot.h>
+
+// 임시 몬스터 삭제용
+#include "PoolManager.h"
+
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CGameObject(pGraphicDev)
 {
@@ -80,8 +83,8 @@ HRESULT CPlayer::Ready_Object(void)
 	m_pStat->Get_Stat()->fMagic			= 4.f;
 	m_pStat->Get_Stat()->fAttack		= 4.f;
 	m_pStat->Get_Stat()->fHealth		= 12.f;
-	m_pStat->Get_Stat()->iExp			= 0.f;
-	m_pStat->Get_Stat()->iExpMax		= 8.f;
+	m_pStat->Get_Stat()->iExp			= 0;
+	m_pStat->Get_Stat()->iExpMax		= 8;
 #pragma endregion
 
 	return S_OK;
@@ -104,13 +107,16 @@ Engine::_int CPlayer::Update_Object(const _float& fTimeDelta)
 
 	if (m_pCurrentEquipItemRight)
 	{
-		/*CTransform* pRightTrans = m_pCurrentEquipItemRight->m_pTransform;
-		_vec3 vLocalScale = pRightTrans->LocalScale();
-		
-		pRightTrans->Copy_RUL(m_pTransform->m_vInfo);
+		if (!m_bIsAttack)
+		{
+			CTransform* pRightTrans = m_pCurrentEquipItemRight->m_pTransform;
+			_vec3 vLocalScale = pRightTrans->LocalScale();
 
-		for (_int i = 0; i < INFO_POS; ++i)
-			pRightTrans->m_vInfo[i] *= *(((_float*)&vLocalScale) + i);*/
+			pRightTrans->Copy_RUL(m_pTransform->m_vInfo);
+
+			for (_int i = 0; i < INFO_POS; ++i)
+				pRightTrans->m_vInfo[i] *= *(((_float*)&vLocalScale) + i);
+		}
 	}
 
 	if (m_pCurrentEquipItemLeft)
@@ -435,8 +441,8 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 	if (Engine::InputDev()->Key_Down(DIK_DELETE))
 	{
 		vector<CGameObject*>& vecMonsterList = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::MONSTER);
-		if(!vecMonsterList.empty())
-			EventManager()->DeleteObject(vecMonsterList.back());
+		if (!vecMonsterList.empty())
+			CPoolManager::GetInstance()->Delete_Object(vecMonsterList.back());
 	}
 }
 

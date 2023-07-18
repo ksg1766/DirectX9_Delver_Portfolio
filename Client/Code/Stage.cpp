@@ -2,6 +2,7 @@
 #include "..\Header\Stage.h"
 
 #include "Export_Function.h"
+#include "PoolManager.h"
 
 #include "DungeonWarrior.h"
 #include "DungeonSpider.h"
@@ -11,7 +12,7 @@
 #include "Slime.h"
 #include "Skeleton.h"
 #include "SpawningPool.h"
-#include "BoneGhost.h"
+#include "SkullGhost.h"
 #include "Worm.h"
 
 #include "Item.h"
@@ -83,30 +84,35 @@ void CStage::LateUpdate_Scene()
 
 		CGameObject* pGameObject = CEffectSquare::Create(m_pGraphicDev, TargetPos, 50, EFFECTCOLOR::ECOLOR_RED);
 		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+		//CPoolManager::GetInstance()->Create_Effect(EFFECTTAG::, TargetPos);
 	}
 	else if (Engine::InputDev()->Key_Down(DIK_F7))
 	{
 		CGameObject* pGameObject = CEffectBubble::Create(m_pGraphicDev);
 		pGameObject->m_pTransform->Translate(_vec3(-40.f, 4.f, -40.f));
 		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+		//CPoolManager::GetInstance()->Create_Effect(EFFECTTAG::, TargetPos);
 	}
 	else if (Engine::InputDev()->Key_Down(DIK_F8))
 	{
 		CGameObject* pGameObject = CEffectBrokenbox::Create(m_pGraphicDev);
 		pGameObject->m_pTransform->Translate(_vec3(-40.f, 4.f, -40.f));
 		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+		//CPoolManager::GetInstance()->Create_Effect(EFFECTTAG::, TargetPos);
 	}
 	else if (Engine::InputDev()->Key_Down(DIK_F9))
 	{
 		CGameObject* pGameObject = CEffectDamage::Create(m_pGraphicDev);
 		pGameObject->m_pTransform->Translate(_vec3(-40.f, 4.f, -40.f));
 		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+		//CPoolManager::GetInstance()->Create_Effect(EFFECTTAG::, TargetPos);
 	}
 	else if (Engine::InputDev()->Key_Down(DIK_Z))
 	{
 		CGameObject* pGameObject = CEffectDamageStar::Create(m_pGraphicDev);
 		pGameObject->m_pTransform->Translate(_vec3(-40.f, 4.f, -40.f));
 		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+		//CPoolManager::GetInstance()->Create_Effect(EFFECTTAG::, TargetPos);
 	}
 	else if (Engine::InputDev()->Key_Down(DIK_X))
 	{
@@ -114,18 +120,21 @@ void CStage::LateUpdate_Scene()
 		pGameObject->m_pTransform->Translate(_vec3(-40.f, 4.f, -40.f));
 		dynamic_cast<CTempEffect*>(pGameObject)->Set_EffectColor(ECOLOR_RED);
 		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+		//CPoolManager::GetInstance()->Create_Effect(EFFECTTAG::, TargetPos);
 	}
 	else if (Engine::InputDev()->Key_Down(DIK_V))
 	{
 		CGameObject* pGameObject = CEffectWand::Create(m_pGraphicDev);
 		pGameObject->m_pTransform->Translate(_vec3(-40.f, 4.f, -40.f));
 		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+		//CPoolManager::GetInstance()->Create_Effect(EFFECTTAG::, TargetPos);
 	}
 	else if (Engine::InputDev()->Key_Down(DIK_B))
 	{
 		CGameObject* pGameObject = CEffectExplosion::Create(m_pGraphicDev);
 		pGameObject->m_pTransform->Translate(_vec3(-40.f, 4.f, -40.f));
 		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+		//CPoolManager::GetInstance()->Create_Effect(EFFECTTAG::, TargetPos);
 	}
 }
 
@@ -137,6 +146,7 @@ void CStage::Render_Scene()
 void CStage::Free()
 {
 	__super::Free();
+	CPoolManager::DestroyInstance();
 }
 
 CStage* CStage::Create(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -206,12 +216,9 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 
 	m_mapLayer.insert({ _eLayerTag, pLayer });
 
-	Engine::CGameObject*		pGameObject = nullptr;
+	CPoolManager::GetInstance()->Ready_Pool();
 
-	// Terrain
-	//pGameObject = CTerrain::Create(m_pGraphicDev);
-	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+	Engine::CGameObject*		pGameObject = nullptr;
 
 	// Player
 	pGameObject = CPlayer::Create(m_pGraphicDev);
@@ -267,11 +274,6 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	pGameObject->m_pTransform->Translate(_vec3(-40.f, 2.5f, -40.f));
 	dynamic_cast<CProjectile_Trap*>(pGameObject)->Create_Projectile();
-	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-
-	pGameObject = CDungeonWarrior::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pGameObject->m_pTransform->Translate(_vec3(-70.f, 0.f, -40.f));
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
 	/*pGameObject = CWorm::Create(m_pGraphicDev);

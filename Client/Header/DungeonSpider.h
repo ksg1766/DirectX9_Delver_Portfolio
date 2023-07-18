@@ -25,7 +25,10 @@ public:
 	virtual _int	Update_Object(const _float& fTimeDelta)		override;
 	virtual void	LateUpdate_Object()							override;
 	virtual void	Render_Object()								override;
-	
+
+public:
+	virtual void	Init_Stat()									override;
+
 public:
 	virtual void		OnCollisionEnter(CCollider* _pOther);
 	virtual void		OnCollisionStay(CCollider* _pOther);

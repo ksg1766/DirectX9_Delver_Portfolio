@@ -1,13 +1,12 @@
 #include "..\Header\Bat.h"
 #include "Export_Function.h"
-#include "Terrain.h"
-
 #include "Monster_Fly.h"
 #include "Monster_Hit.h"
 #include "Monster_Dead.h"
 #include "Bat_Attack.h"
 #include "Player.h"
 
+#include "PoolManager.h"
 
 CBat::CBat(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CMonster(pGraphicDev), m_fFrame(0.f)
@@ -61,13 +60,7 @@ HRESULT CBat::Ready_Object()
 
 
 #pragma region BatStat
-	m_pBasicStat->Get_Stat()->fSpeed = 4.f;
-	m_pBasicStat->Get_Stat()->fAgility = 4.f;
-	m_pBasicStat->Get_Stat()->fDeffense = 4.f;
-	m_pBasicStat->Get_Stat()->fMagic = 4.f;
-	m_pBasicStat->Get_Stat()->fAttack = 4.f;
-	m_pBasicStat->Get_Stat()->fHealth = 4.f;
-	m_pBasicStat->Get_Stat()->iExp = 6.f;
+	Init_Stat();
 #pragma endregion
 
 	return S_OK;
@@ -93,10 +86,10 @@ _int CBat::Update_Object(const _float& fTimeDelta)
 	{
 		if (m_pAnimator->Get_Animation()->Get_Frame() >= 3)
 			m_pAnimator->Get_Animation()->Set_Loop(FALSE);
-
-		m_pStateMachine->Set_State(STATE::DEAD);
-
-		//ForceHeight(this->m_pTransform->m_vInfo[INFO_POS]);
+		{
+			m_pStateMachine->Set_State(STATE::DEAD);
+			CPoolManager::GetInstance()->Delete_Object(this);
+		}
 	}
 
 
@@ -123,6 +116,17 @@ void CBat::Render_Object()
 #if _DEBUG
 	m_pCollider->Render_Collider();
 #endif
+}
+
+void CBat::Init_Stat()
+{
+	m_pBasicStat->Get_Stat()->fSpeed = 4.f;
+	m_pBasicStat->Get_Stat()->fAgility = 4.f;
+	m_pBasicStat->Get_Stat()->fDeffense = 4.f;
+	m_pBasicStat->Get_Stat()->fMagic = 4.f;
+	m_pBasicStat->Get_Stat()->fAttack = 4.f;
+	m_pBasicStat->Get_Stat()->fHealth = 4.f;
+	m_pBasicStat->Get_Stat()->iExp = 6.f;
 }
 
 void CBat::OnCollisionEnter(CCollider* _pOther)

@@ -28,6 +28,7 @@ public:
 	virtual void	Render_Object()								override;
 
 public:
+	virtual void	Init_Stat()									override;
 
 public:
 	virtual void		OnCollisionEnter(CCollider* _pOther);
@@ -43,7 +44,6 @@ private:
 	
 private:
 	HRESULT		Add_Component(void);
-
 
 public:
 	static CBat* Create(LPDIRECT3DDEVICE9 pGraphicDev);

@@ -181,7 +181,7 @@
     <ClInclude Include="..\Header\Blade_Trap_Attack.h" />
     <ClInclude Include="..\Header\Blade_Trap_Blade.h" />
     <ClInclude Include="..\Header\Blade_Trap_Idle.h" />
-    <ClInclude Include="..\Header\BoneGhost.h" />
+    <ClInclude Include="..\Header\SkullGhost.h" />
     <ClInclude Include="..\Header\BossExplosion.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
@@ -211,6 +211,7 @@
     <ClInclude Include="..\Header\EffectWand.h" />
     <ClInclude Include="..\Header\FootRay.h" />
     <ClInclude Include="..\Header\HorizontalMove.h" />
+    <ClInclude Include="..\Header\PoolManager.h" />
     <ClInclude Include="..\Header\Projectile_Trap_Arrow.h" />
     <ClInclude Include="..\Header\Projectile_Trap_Body.h" />
     <ClInclude Include="..\Header\Ghost_Attack.h" />
@@ -287,7 +288,6 @@
     <ClInclude Include="..\Header\Stage.h" />
     <ClInclude Include="..\Header\StartButton.h" />
     <ClInclude Include="..\Header\TempItem.h" />
-    <ClInclude Include="..\Header\Terrain.h" />
     <ClInclude Include="..\Header\Trader_Idle.h" />
     <ClInclude Include="..\Header\Longitudinal.h" />
     <ClInclude Include="..\Header\UIaimpoint.h" />
@@ -338,7 +338,7 @@
     <ClCompile Include="..\Code\Blade_Trap_Attack.cpp" />
     <ClCompile Include="..\Code\Blade_Trap_Blade.cpp" />
     <ClCompile Include="..\Code\Blade_Trap_Idle.cpp" />
-    <ClCompile Include="..\Code\BoneGhost.cpp" />
+    <ClCompile Include="..\Code\SkullGhost.cpp" />
     <ClCompile Include="..\Code\BossExplosion.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
@@ -367,6 +367,7 @@
     <ClCompile Include="..\Code\EffectWand.cpp" />
     <ClCompile Include="..\Code\FootRay.cpp" />
     <ClCompile Include="..\Code\HorizontalMove.cpp" />
+    <ClCompile Include="..\Code\PoolManager.cpp" />
     <ClCompile Include="..\Code\Projectile_Trap_Arrow.cpp" />
     <ClCompile Include="..\Code\Projectile_Trap_Body.cpp" />
     <ClCompile Include="..\Code\Ghost_Attack.cpp" />
@@ -443,7 +444,6 @@
     <ClCompile Include="..\Code\Stage.cpp" />
     <ClCompile Include="..\Code\StartButton.cpp" />
     <ClCompile Include="..\Code\TempItem.cpp" />
-    <ClCompile Include="..\Code\Terrain.cpp" />
     <ClCompile Include="..\Code\Trader_Idle.cpp" />
     <ClCompile Include="..\Code\Longitudinal.cpp" />
     <ClCompile Include="..\Code\UIaimpoint.cpp" />

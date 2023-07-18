@@ -10,8 +10,6 @@ class CAnimator;
 
 END
 
-class CTerrain;
-
 class CMagic_Ball : public CMonster
 {
 private:
@@ -21,9 +19,12 @@ private:
 
 public:
 	virtual HRESULT	Ready_Object(CTransform* pOwner, _float _fSpeed, _vec3 _vOffset);
-	virtual _int	Update_Object(const _float& fTimeDelta) override;
-	virtual void	LateUpdate_Object() override;
-	virtual void	Render_Object() override;
+	virtual _int	Update_Object(const _float& fTimeDelta)								override;
+	virtual void	LateUpdate_Object()													override;
+	virtual void	Render_Object()														override;
+
+public:
+	virtual void	Init_Stat()															override;
 
 public:
 	virtual void		OnCollisionEnter(CCollider* _pOther);
@@ -38,7 +39,6 @@ private:
 private:
 	CRcTex* m_pBuffer = nullptr;
 	CTexture* m_pTexture[(_uint)STATE::STATE_END] = {};
-	CTerrain* m_pTerrain = nullptr;
 	CAnimator* m_pAnimator = nullptr;
 
 	_float m_fFrame;

@@ -48,7 +48,7 @@ HRESULT CBlade_Trap::Ready_Object(void)
 
 _int CBlade_Trap::Update_Object(const _float& fTimeDelta)
 {
-	Engine::Renderer()->Add_RenderGroup(RENDER_PRIORITY, this);
+	Engine::Renderer()->Add_RenderGroup(RENDER_NONALPHA, this);
 	if (SceneManager()->Get_GameStop()) { return 0; }
 	_uint iExit = __super::Update_Object(fTimeDelta);
 	return iExit;
@@ -80,6 +80,7 @@ void CBlade_Trap::Create_Blade()
 			dynamic_cast<CBlade_Trap_Blade*>(m_pTrapBlade)->m_pTransform->Rotate(m_vBladeDir[i]);
 		dynamic_cast<CBlade_Trap_Blade*>(m_pTrapBlade)->Set_TrapCenter(m_pTransform->m_vInfo[INFO_POS]);
 		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+
 	}
 	//m_bSpawnBlade = true;
 }

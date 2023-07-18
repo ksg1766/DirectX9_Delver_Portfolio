@@ -26,6 +26,7 @@ public:
 	virtual void	Render_Object()								override;
 
 public:
+	virtual void	Init_Stat()									override;
 
 public:
 	virtual void		OnCollisionEnter(CCollider* _pOther);

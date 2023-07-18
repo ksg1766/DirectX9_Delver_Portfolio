@@ -42,7 +42,7 @@ private:
     HRESULT		    Add_Component();
 
 protected:
-    //_int            m_iReservedCount = 0;
+    //_int          m_iReservedCount = 0;
     _int            m_iPoolCapacity = 5;
     _float          m_fSpawnRadius = 1.0f;
     _float          m_fSpawnTime = 10.0f;

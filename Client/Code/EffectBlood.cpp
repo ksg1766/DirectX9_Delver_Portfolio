@@ -133,6 +133,7 @@ Engine::_int CEffectBlood::Update_Object(const _float& fTimeDelta)
 		dynamic_cast<CTempEffect*>(pGameObject)->Set_RandomSet(false);
 		dynamic_cast<CTempEffect*>(pGameObject)->Set_EffectColor(m_EffectColor);
 		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+		//CPoolManager::GetInstance()->Create_Effect(EFFECTTAG::, TargetPos);
 	}
 
 	Engine::Renderer()->Add_RenderGroup(RENDER_ALPHA, this);

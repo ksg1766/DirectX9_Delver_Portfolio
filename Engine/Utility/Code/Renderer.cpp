@@ -77,6 +77,7 @@ void CRenderer::Render_Alpha(LPDIRECT3DDEVICE9& pGraphicDev)
 	//pGraphicDev->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
 
 	pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	// 
 	//pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 
 	pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
@@ -91,7 +92,9 @@ void CRenderer::Render_Alpha(LPDIRECT3DDEVICE9& pGraphicDev)
 	pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 
 	//pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+	// 
 	pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+	// 
 	//pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 }
 

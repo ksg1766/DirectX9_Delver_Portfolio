@@ -51,6 +51,7 @@ Engine::_int CEffectBrokenbox::Update_Object(const _float& fTimeDelta)
 			pGameObject->m_pTransform->Translate(_vec3(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vInfo[INFO_POS].z));
 			dynamic_cast<CTempEffect*>(pGameObject)->Set_RandomSet(false);
 			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+			//CPoolManager::GetInstance()->Create_Effect(EFFECTTAG::, TargetPos);
 		}
 	}
 

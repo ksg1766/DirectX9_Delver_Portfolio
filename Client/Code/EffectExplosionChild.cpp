@@ -67,6 +67,8 @@ Engine::_int CEffectExplosionChild::Update_Object(const _float& fTimeDelta)
 			dynamic_cast<CTempEffect*>(pGameObject)->Set_Child(true);
 			dynamic_cast<CTempEffect*>(pGameObject)->Set_RandomSet(false);
 			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+			//CPoolManager::GetInstance()->Create_Effect(EFFECTTAG::, TargetPos);
+
 		}
 	}
 

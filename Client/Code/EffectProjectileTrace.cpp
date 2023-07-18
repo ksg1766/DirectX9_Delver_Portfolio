@@ -48,6 +48,7 @@ Engine::_int CEffectProjectileTrace::Update_Object(const _float& fTimeDelta)
 			dynamic_cast<CEffectTrace*>(pGameObject)->Set_TraceNumber(m_fCreatCount);
 			dynamic_cast<CTempEffect*>(pGameObject)->Set_EffectColor(m_EffectColor);
 			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+			//CPoolManager::GetInstance()->Create_Effect(EFFECTTAG::, TargetPos);
 
 			m_fCreatCount -= 1.f;
 		}

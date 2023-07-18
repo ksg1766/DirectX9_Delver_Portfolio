@@ -1,6 +1,5 @@
 #include "Npc_Dog.h"
 #include "Export_Function.h"
-#include "Terrain.h"
 #include "Dog_Idle.h"
 #include "Dog_Stand.h"
 CNpc_Dog::CNpc_Dog(LPDIRECT3DDEVICE9 pGraphicDev)

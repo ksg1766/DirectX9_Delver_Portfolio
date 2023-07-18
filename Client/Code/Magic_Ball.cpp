@@ -1,6 +1,5 @@
 #include "..\Header\Magic_Ball.h"
 #include "Export_Function.h"
-#include "Terrain.h"
 #include "Player.h"
 
 CMagic_Ball::CMagic_Ball(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -118,6 +117,10 @@ void CMagic_Ball::Render_Object()
 #if _DEBUG
 	m_pCollider->Render_Collider();
 #endif
+}
+
+void CMagic_Ball::Init_Stat()
+{
 }
 
 

@@ -150,6 +150,10 @@ void CBoss_MeteorCube::OnCollisionExit(CCollider* _pOther)
 	m_pBasicStat->Get_Stat()->fAttack = 15.f;
 }
 
+void CBoss_MeteorCube::Init_Stat()
+{
+}
+
 void CBoss_MeteorCube::Set_Center(_vec3 _CenterPos)
 {
 	m_pTransform->m_vInfo[INFO_POS] = _CenterPos;

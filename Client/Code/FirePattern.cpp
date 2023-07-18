@@ -35,7 +35,6 @@ STATE CFirePattern::Update_State(const _float& fTimeDelta)
         {
             pGameObject = CBossProjectile::Create(m_pGraphicDev);
             Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
-            dynamic_cast<CBossProjectile*>(pGameObject)->Set_Terrain(dynamic_cast<CSkeletonKing*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_Terrain());
             dynamic_cast<CBossProjectile*>(pGameObject)->Set_Target(m_pOwner->Get_Transform()->m_vInfo[INFO_POS]);
             ++m_iSkillCount;
             m_fDelay = 0.f;

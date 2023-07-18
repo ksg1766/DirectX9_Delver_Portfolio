@@ -1,6 +1,5 @@
 #include "Npc_Alchemist.h"
 #include "Export_Function.h"
-#include "Terrain.h"
 #include "Alchemist_Idle.h"
 CNpc_Alchemist::CNpc_Alchemist(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CNpc(pGraphicDev)

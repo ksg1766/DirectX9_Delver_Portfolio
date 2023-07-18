@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "..\Header\SkeletonKing.h"
 #include "Export_Function.h"
-#include "Terrain.h"
 #include "Boss_Sleep.h"
 #include "Boss_WakeUp.h"
 #include "Boss_Idle.h"
@@ -189,46 +188,8 @@ void CSkeletonKing::Render_Object(void)
 
 }
 
-void CSkeletonKing::ForceHeight(_vec3 _vPos)
+void CSkeletonKing::Init_Stat()
 {
-	if (STATE::BOSS_METEORREADY == m_pStateMachine->Get_State())
-		return;
-	_float x = (VTXCNTX * VTXITV / 2.f) + _vPos.x;
-	_float z = (VTXCNTZ * VTXITV / 2.f) + _vPos.z;
-
-	x /= (_float)VTXITV;
-	z /= (_float)VTXITV;
-
-	_int col = ::floorf(x);
-	_int row = ::floorf(z);
-
-	_vec3 A = m_pTerrain->LoadTerrainVertex()[row * VTXCNTX + col];
-	_vec3 B = m_pTerrain->LoadTerrainVertex()[row * VTXCNTX + col + 1];
-	_vec3 C = m_pTerrain->LoadTerrainVertex()[(row + 1) * VTXCNTX + col];
-	_vec3 D = m_pTerrain->LoadTerrainVertex()[(row + 1) * VTXCNTX + col + 1];
-
-	_float dx = x - col;
-	_float dz = z - row;
-
-	_float height;
-
-	if (dz < 1.0f - dx)
-	{
-
-		_vec3 uy = B - A;
-		_vec3 vy = C - A;
-
-		height = A.y + (uy.y * dx) + (vy.y * dz) + 1.f;
-		m_pTransform->m_vInfo[INFO_POS].y = height;
-	}
-	else
-	{
-		_vec3 uy = C - D;
-		_vec3 vy = B - D;
-
-		height = D.y + (uy.y * (1.f - dx)) + (vy.y * (1.f - dz)) + 1.f;
-		m_pTransform->m_vInfo[INFO_POS].y = height;
-	}
 }
 
 void CSkeletonKing::OnCollisionEnter(CCollider* _pOther)

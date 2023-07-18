@@ -8,6 +8,8 @@
 #include "HorizontalMove.h"
 #include "Player.h"
 
+#include "PoolManager.h"
+
 CSlime::CSlime(LPDIRECT3DDEVICE9 pGrapicDev)
 	: Engine::CMonster(pGrapicDev), m_fFrame(0.f), m_bAttackTick(false)
 {
@@ -61,13 +63,7 @@ HRESULT CSlime::Ready_Object()
 	m_pTransform->Translate(_vec3(-3.f, 3.f, 10.f));
 
 #pragma region Slime
-	m_pBasicStat->Get_Stat()->fSpeed = 4.f;
-	m_pBasicStat->Get_Stat()->fAgility = 4.f;
-	m_pBasicStat->Get_Stat()->fDeffense = 4.f;
-	m_pBasicStat->Get_Stat()->fMagic = 4.f;
-	m_pBasicStat->Get_Stat()->fAttack = 4.f;
-	m_pBasicStat->Get_Stat()->fHealth = 4.f;
-	m_pBasicStat->Get_Stat()->iExp = 6.f;
+	Init_Stat();
 #pragma endregion
 
 	return S_OK;
@@ -87,16 +83,15 @@ _int CSlime::Update_Object(const _float& fTimeDelta)
 		Set_KnockBack(false);
 	}
 
-
-
 	if (m_pBasicStat->Get_Stat()->fHealth <= 0)
 	{
 		if (m_pAnimator->Get_Animation()->Get_Frame() >= 2)
 			m_pAnimator->Get_Animation()->Set_Loop(FALSE);
-
-		m_pStateMachine->Set_State(STATE::DEAD);
+		{
+			m_pStateMachine->Set_State(STATE::DEAD);
+			CPoolManager::GetInstance()->Delete_Object(this);
+		}
 	}
-
 
 	m_pStateMachine->Update_StateMachine(fTimeDelta);
 
@@ -126,6 +121,17 @@ void CSlime::Render_Object()
 #if _DEBUG
 	m_pCollider->Render_Collider();
 #endif
+}
+
+void CSlime::Init_Stat()
+{
+	m_pBasicStat->Get_Stat()->fSpeed = 4.f;
+	m_pBasicStat->Get_Stat()->fAgility = 4.f;
+	m_pBasicStat->Get_Stat()->fDeffense = 4.f;
+	m_pBasicStat->Get_Stat()->fMagic = 4.f;
+	m_pBasicStat->Get_Stat()->fAttack = 4.f;
+	m_pBasicStat->Get_Stat()->fHealth = 4.f;
+	m_pBasicStat->Get_Stat()->iExp = 6.f;
 }
 
 void CSlime::OnCollisionEnter(CCollider* _pOther)

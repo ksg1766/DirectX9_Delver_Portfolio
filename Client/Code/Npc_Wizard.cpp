@@ -1,6 +1,5 @@
 #include "Npc_Wizard.h"
 #include "Export_Function.h"
-#include "Terrain.h"
 #include "NPC_Wizard_Idle.h"
 CNpc_Wizard::CNpc_Wizard(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CNpc(pGraphicDev)

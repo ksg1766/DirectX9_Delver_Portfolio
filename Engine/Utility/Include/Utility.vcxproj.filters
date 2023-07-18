@@ -142,15 +142,6 @@
     <Filter Include="04. Component\09. MonsterAI\999. BossAI">
       <UniqueIdentifier>{c4deb4c5-75bd-4a73-b330-499f80cbddff}</UniqueIdentifier>
     </Filter>
-    <Filter Include="00. Managers\08. PoolManager">
-      <UniqueIdentifier>{3ca53c11-387c-45cc-a945-6b841ea0f775}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00. Managers\08. PoolManager\00. PoolManager">
-      <UniqueIdentifier>{67eea8c4-5ece-4bb3-a6a1-6504c7af98d5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00. Managers\09. MapTool">
-      <UniqueIdentifier>{e26fb72a-acc3-4bfe-af01-388217029136}</UniqueIdentifier>
-    </Filter>
     <Filter Include="04. Component\01. VIBuffer\05. BossBf">
       <UniqueIdentifier>{beb92803-f568-4903-9742-0586fb71b7ec}</UniqueIdentifier>
     </Filter>
@@ -160,38 +151,38 @@
     <Filter Include="04. Component\10. Animator\Animation">
       <UniqueIdentifier>{28d0c955-9fcc-46e6-a073-3eab4d9debfa}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. GameObject\07.  Plane">
-      <UniqueIdentifier>{95020471-972d-4def-90ea-3139fdb5dfde}</UniqueIdentifier>
-    </Filter>
     <Filter Include="04. Component\14. Inventory">
       <UniqueIdentifier>{081154d8-d2f3-4992-9d9d-25ae1f527e16}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00. Managers\10. Octree">
-      <UniqueIdentifier>{2370993b-41c7-4b5d-a6dd-e0fa4f223fba}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00. Managers\10. Octree\01. OctreeNode">
-      <UniqueIdentifier>{367dbddf-ae9f-4ba8-bd85-df5de0f7a298}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00. Managers\10. Octree\00. Octree">
-      <UniqueIdentifier>{bae899b3-c614-4bf9-9c77-3b4db69e9a60}</UniqueIdentifier>
     </Filter>
     <Filter Include="04. Component\01. VIBuffer\04. CubeBf\00. CubeColBf">
       <UniqueIdentifier>{30cfb3e9-9adf-4b38-a7ea-b2a43f671f0a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. GameObject\08.  NPC">
-      <UniqueIdentifier>{9defc036-df09-4c41-9791-f0a360f91275}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03. GameObject\08. TempParticle">
       <UniqueIdentifier>{b2c99087-7617-4998-babc-babeb393dc45}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00. Managers\10. Octree\02. Frustum">
-      <UniqueIdentifier>{56eff0a1-aaf1-4879-9341-a7904b15c4ea}</UniqueIdentifier>
     </Filter>
     <Filter Include="04. Component\15. Font">
       <UniqueIdentifier>{4d0a9887-64b4-43b0-9602-3c267433c73d}</UniqueIdentifier>
     </Filter>
     <Filter Include="03. GameObject\09. TempEffect">
       <UniqueIdentifier>{2899eed3-4d96-4afa-a6a2-c7f5779f9867}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Managers\09. Octree">
+      <UniqueIdentifier>{2370993b-41c7-4b5d-a6dd-e0fa4f223fba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Managers\09. Octree\01. OctreeNode">
+      <UniqueIdentifier>{367dbddf-ae9f-4ba8-bd85-df5de0f7a298}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Managers\09. Octree\00. Octree">
+      <UniqueIdentifier>{bae899b3-c614-4bf9-9c77-3b4db69e9a60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Managers\09. Octree\02. Frustum">
+      <UniqueIdentifier>{56eff0a1-aaf1-4879-9341-a7904b15c4ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\07. Plane">
+      <UniqueIdentifier>{95020471-972d-4def-90ea-3139fdb5dfde}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\08. NPC">
+      <UniqueIdentifier>{9defc036-df09-4c41-9791-f0a360f91275}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -279,9 +270,6 @@
     <ClInclude Include="..\..\Header\Animator.h">
       <Filter>04. Component\10. Animator</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Header\PoolManager.h">
-      <Filter>00. Managers\08. PoolManager\00. PoolManager</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Header\Particle.h">
       <Filter>04. Component\11. Particle</Filter>
     </ClInclude>
@@ -325,22 +313,22 @@
       <Filter>04. Component\14. Inventory</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Header\Octree.h">
-      <Filter>00. Managers\10. Octree\00. Octree</Filter>
+      <Filter>00. Managers\09. Octree\00. Octree</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Header\OctreeNode.h">
-      <Filter>00. Managers\10. Octree\01. OctreeNode</Filter>
+      <Filter>00. Managers\09. Octree\01. OctreeNode</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Header\CubeColBf.h">
       <Filter>04. Component\01. VIBuffer\04. CubeBf\00. CubeColBf</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Header\Npc.h">
-      <Filter>03. GameObject\08.  NPC</Filter>
+      <Filter>03. GameObject\08. NPC</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Header\TempParticle.h">
       <Filter>03. GameObject\08. TempParticle</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Header\Frustum.h">
-      <Filter>00. Managers\10. Octree\02. Frustum</Filter>
+      <Filter>00. Managers\09. Octree\02. Frustum</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Header\Font.h">
       <Filter>04. Component\15. Font</Filter>
@@ -431,9 +419,6 @@
     <ClCompile Include="..\Code\Animator.cpp">
       <Filter>04. Component\10. Animator</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\PoolManager.cpp">
-      <Filter>00. Managers\08. PoolManager\00. PoolManager</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\Particle.cpp">
       <Filter>04. Component\11. Particle</Filter>
     </ClCompile>
@@ -477,16 +462,16 @@
       <Filter>04. Component\14. Inventory</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Octree.cpp">
-      <Filter>00. Managers\10. Octree\00. Octree</Filter>
+      <Filter>00. Managers\09. Octree\00. Octree</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\OctreeNode.cpp">
-      <Filter>00. Managers\10. Octree\01. OctreeNode</Filter>
+      <Filter>00. Managers\09. Octree\01. OctreeNode</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\CubeColBf.cpp">
       <Filter>04. Component\01. VIBuffer\04. CubeBf\00. CubeColBf</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Npc.cpp">
-      <Filter>03. GameObject\08.  NPC</Filter>
+      <Filter>03. GameObject\08. NPC</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\TempParticle.cpp">
       <Filter>03. GameObject\08. TempParticle</Filter>
@@ -495,7 +480,7 @@
       <Filter>04. Component\15. Font</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Frustum.cpp">
-      <Filter>00. Managers\10. Octree\02. Frustum</Filter>
+      <Filter>00. Managers\09. Octree\02. Frustum</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\TempEffect.cpp">
       <Filter>03. GameObject\09. TempEffect</Filter>

@@ -72,6 +72,10 @@ void CBoss_SturnEffect::Render_Object(void)
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
 
+void CBoss_SturnEffect::Init_Stat()
+{
+}
+
 HRESULT CBoss_SturnEffect::Add_Component(void)
 {
 	CComponent* pComponent = nullptr;

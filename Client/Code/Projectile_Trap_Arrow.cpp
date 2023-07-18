@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "Projectile_Trap_Arrow.h"
 #include "Export_Function.h"
-#include "Terrain.h"
 #include "Player.h"
 #include "Projectile_Trap_Body.h"
 CProjectile_Trap_Arrow::CProjectile_Trap_Arrow(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -72,6 +71,10 @@ void CProjectile_Trap_Arrow::Render_Object(void)
 	m_pCollider->Render_Collider();
 #endif
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+}
+
+void CProjectile_Trap_Arrow::Init_Stat()
+{
 }
 
 void CProjectile_Trap_Arrow::OnCollisionEnter(CCollider* _pOther)

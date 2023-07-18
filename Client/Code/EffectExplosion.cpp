@@ -48,6 +48,7 @@ Engine::_int CEffectExplosion::Update_Object(const _float& fTimeDelta)
 			CGameObject* pGameObject = CEffectExplosionChild::Create(m_pGraphicDev);
 			pGameObject->m_pTransform->Translate(_vec3(posX, posY, posZ));
 			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+			//CPoolManager::GetInstance()->Create_Effect(EFFECTTAG::, TargetPos);
 		}
 	}
 

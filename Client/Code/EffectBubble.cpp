@@ -44,6 +44,7 @@ Engine::_int CEffectBubble::Update_Object(const _float& fTimeDelta)
 			pGameObject->m_pTransform->Translate(_vec3(m_pTransform->m_vInfo[INFO_POS].x + CTempEffect::Get_RandomFloat(.5f, 1.f), m_pTransform->m_vInfo[INFO_POS].y + CTempEffect::Get_RandomFloat(.5f, 1.f), m_pTransform->m_vInfo[INFO_POS].z + CTempEffect::Get_RandomFloat(.5f, 1.f)));
 			dynamic_cast<CTempEffect*>(pGameObject)->Set_RandomSet(false);
 			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+			//CPoolManager::GetInstance()->Create_Effect(EFFECTTAG::, TargetPos);
 		}
 	}
 
