@@ -48,11 +48,10 @@ HRESULT CGhost_Bullet::Ready_Object(CTransform* pOwner, _float _fSpeed, _vec3 _v
 	m_pAnimator->Add_Animation(STATE::DEAD, pAnimation);
 
 	m_pAnimator->Set_Animation(STATE::ATTACK);
-
-	m_pBasicStat->Get_Stat()->fAttack = 1.f;
-
 	m_pTransform->m_vInfo[INFO_POS] += _vOffset;
 
+	m_pBasicStat->Get_Stat()->iDamageMax = 5.f;
+	m_pBasicStat->Get_Stat()->iDamageMin = 2.f;
 
 	return S_OK;
 }
@@ -134,28 +133,17 @@ void CGhost_Bullet::OnCollisionEnter(CCollider* _pOther)
 		&& _pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::MONSTER)
 		__super::OnCollisionEnter(_pOther);
 
-	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BLOCK && this->Get_State() != STATE::DEAD)
+	if (_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::PLAYER && this->Get_State() != STATE::DEAD
+		&& _pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BLOCK)
 	{
-		Set_State(STATE::DEAD);
-		m_pAnimator->Set_Animation(STATE::DEAD);
-		m_bCheck = true;
-
-		cout << "벽돌충돌 " << endl;
-	}
-
-
-	if (_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::PLAYER && this->Get_State() != STATE::DEAD)
-	{
-		CPlayerStat& PlayerState = *dynamic_cast<CPlayer*>(_pOther->GetHost())->Get_Stat();
-
-		PlayerState.Take_Damage(this->Get_BasicStat()->Get_Stat()->fAttack);
+		CPlayerStat& PlayerStat = *static_cast<CPlayer*>(_pOther->GetHost())->Get_Stat();
 		this->Set_AttackTick(true);
+		IsAttack(&PlayerStat);
 
-		cout << "마법구 데미지" << endl;
+		cout << "마법구 충돌" << endl;
 
 		Set_State(STATE::DEAD);
 		m_pAnimator->Set_Animation(STATE::DEAD);
-
 		m_bCheck = true;
 		EventManager()->GetInstance()->DeleteObject(this);
 	}

@@ -63,7 +63,9 @@ HRESULT CDungeonWarrior::Ready_Object()
 	m_pStateMachine->Set_State(STATE::ROMIMG);
 
 #pragma region WarriorStat
+<<<<<<< HEAD
 	Init_Stat();
+>>>>>>> origin/feature/JunYeop
 #pragma endregion
 
 	return S_OK;
@@ -85,7 +87,7 @@ _int CDungeonWarrior::Update_Object(const _float& fTimeDelta)
 		
 	}
 
-	if (m_pBasicStat->Get_Stat()->fHealth <= 0)
+	if (m_pBasicStat->Get_Stat()->fHP <= 0)
 	{
 		if (m_pAnimator->Get_Animation()->Get_Frame() >= 1)
 			m_pAnimator->Get_Animation()->Set_Loop(FALSE);
@@ -143,24 +145,22 @@ void CDungeonWarrior::OnCollisionEnter(CCollider* _pOther)
 
 	if (_pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::PLAYER
 		&&this->Get_StateMachine()->Get_State() != STATE::DEAD && 
-		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::ITEM)
+		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::ITEM &&
+		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::PLAYERBULLET)
 		__super::OnCollisionEnter(_pOther);
 
 	// 충돌 밀어내기 후 이벤트 : 구현하시면 됩니다.
 
 	if (_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::PLAYER
 		&& this->Get_StateMachine()->Get_State() == STATE::ATTACK)
-	{
-		CPlayerStat& PlayerState = *static_cast<CPlayer*>(_pOther->GetHost())->Get_Stat();
-
-		if (!this->Get_AttackTick())
+		if (!this->Get_AttackTick())		
 		{
-			PlayerState.Take_Damage(this->Get_BasicStat()->Get_Stat()->fAttack);
+			CPlayerStat& PlayerStat = *static_cast<CPlayer*>(_pOther->GetHost())->Get_Stat();
 			this->Set_AttackTick(true);
+			IsAttack(&PlayerStat);
 
 			cout << "워리어 공격" << endl;
 		}
-	}
 }
 
 void CDungeonWarrior::OnCollisionStay(CCollider* _pOther)
@@ -169,7 +169,8 @@ void CDungeonWarrior::OnCollisionStay(CCollider* _pOther)
 	// 충돌 밀어내기 후 이벤트 : 구현하시면 됩니다.
 	if (_pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::PLAYER &&
 		this->Get_StateMachine()->Get_State() != STATE::DEAD &&
-		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::ITEM)
+		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::ITEM&&
+		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::PLAYERBULLET)
 		__super::OnCollisionStay(_pOther);
 
 	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BLOCK)

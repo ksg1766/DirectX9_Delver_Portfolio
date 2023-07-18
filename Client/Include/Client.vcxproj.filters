@@ -583,6 +583,15 @@
     <Filter Include="03. GameObject\01. Stage\05. Monster\08. SkullGhost\Bullet">
       <UniqueIdentifier>{8723f588-6158-451d-9daf-701075554ecf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\01. Stage\05. Monster\09.Worm">
+      <UniqueIdentifier>{48c719c2-4bc1-4b02-b162-c9de2a6b3265}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\05. Monster\10. Monk">
+      <UniqueIdentifier>{60f7a618-df51-4ae4-8b78-391efaf0fef8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\02. Item\Armor">
+      <UniqueIdentifier>{64d531cb-0c48-4f59-8ef4-a6e3465cc6d3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -1062,6 +1071,9 @@
     <ClInclude Include="..\Header\PoolManager.h">
       <Filter>01. Managers\01. PoolManager</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\Helmet.h">
+      <Filter>02. GameObject\01. Stage\02. Item\Armor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -1531,6 +1543,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\PoolManager.cpp">
       <Filter>01. Managers\01. PoolManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Helmet.cpp">
+      <Filter>02. GameObject\01. Stage\02. Item\Armor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

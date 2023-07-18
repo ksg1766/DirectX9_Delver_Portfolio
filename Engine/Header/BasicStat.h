@@ -16,7 +16,7 @@ public:
 	BASICSTAT* Get_Stat()		{ return &m_tBasicStat; }
 
 public:
-	void			Take_Damage(_float _fAttack) { m_tBasicStat.fHealth -= _fAttack;  }
+	void			Take_Damage(_float _fAttack) { m_tBasicStat.fHP -= _fAttack;  }
 
 public:
 	HRESULT			Ready_BasicStat();

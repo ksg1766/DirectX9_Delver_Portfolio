@@ -61,7 +61,9 @@ HRESULT CAlien::Ready_Object()
 	Set_Speed(30.f);
 
 #pragma region AlienStat
+
 	Init_Stat();
+
 #pragma endregion
 	
 	return S_OK;
@@ -81,7 +83,7 @@ _int CAlien::Update_Object(const _float& fTimeDelta)
 		Set_KnockBack(false);
 	}
 
-	if (m_pBasicStat->Get_Stat()->fHealth <= 0)
+	if (m_pBasicStat->Get_Stat()->fHP <= 0)
 	{
 		if (m_pAnimator->Get_Animation()->Get_Frame() >= 3)
 			m_pAnimator->Get_Animation()->Set_Loop(FALSE);

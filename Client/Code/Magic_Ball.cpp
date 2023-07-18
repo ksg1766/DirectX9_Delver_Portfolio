@@ -51,7 +51,13 @@ HRESULT CMagic_Ball::Ready_Object(CTransform* pOwner, _float _fSpeed, _vec3 _vOf
 
 	m_pAnimator->Set_Animation(STATE::ATTACK);
 
-	m_pBasicStat->Get_Stat()->fAttack = 1.f;
+	BASICSTAT* pOwnerStat = dynamic_cast<CMonster*>(pOwner->Get_Host())->Get_BasicStat()->Get_Stat();
+
+	if (pOwnerStat != nullptr)
+	{
+		m_pBasicStat->Get_Stat()->iDamageMin = pOwnerStat->iDamageMin;
+		m_pBasicStat->Get_Stat()->iDamageMax = pOwnerStat->iDamageMax;
+	}
 
 
 	return S_OK;
@@ -86,9 +92,7 @@ _int CMagic_Ball::Update_Object(const _float& fTimeDelta)
 	_float fDistance = D3DXVec3Length(&(m_pTransform->m_vInfo[INFO_POS] - m_vInit));
 
 	if (fDistance > 60.f)
-	{
 		EventManager()->DeleteObject(this);
-	}
 
 	_vec3 vDir = m_vPrevPos - m_vInit;
 	D3DXVec3Normalize(&vDir, &vDir);
@@ -134,30 +138,24 @@ void CMagic_Ball::OnCollisionEnter(CCollider* _pOther)
 		&& _pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::MONSTER)
 		__super::OnCollisionEnter(_pOther);
 
-	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BLOCK && this->Get_State() != STATE::DEAD)
-	{
-		Set_State(STATE::DEAD);
-		m_pAnimator->Set_Animation(STATE::DEAD);
-		m_bCheck = true;
 
-		cout << "벽돌충돌 " << endl;
-	}
-		
 	if (_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::PLAYER && this->Get_State() != STATE::DEAD)
 	{
-		CPlayerStat& PlayerState = *dynamic_cast<CPlayer*>(_pOther->GetHost())->Get_Stat();
-
-		PlayerState.Take_Damage(this->Get_BasicStat()->Get_Stat()->fAttack);
+		CPlayerStat& PlayerStat = *static_cast<CPlayer*>(_pOther->GetHost())->Get_Stat();
 		this->Set_AttackTick(true);
+		IsAttack(&PlayerStat);
 
-		cout << "마법구 데미지" << endl;
+		cout << "마법구 충돌" << endl;
 
 		Set_State(STATE::DEAD);
 		m_pAnimator->Set_Animation(STATE::DEAD);
-
 		m_bCheck = true;
 		EventManager()->GetInstance()->DeleteObject(this);
 	}
+
+
+	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BLOCK)
+		EventManager()->DeleteObject(this);
 }
 
 void CMagic_Ball::OnCollisionStay(CCollider* _pOther)

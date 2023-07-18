@@ -63,7 +63,20 @@ HRESULT CSlime::Ready_Object()
 	m_pTransform->Translate(_vec3(-3.f, 3.f, 10.f));
 
 #pragma region Slime
+
 	Init_Stat();
+=======
+	m_pBasicStat->Get_Stat()->fMaxHP			= 4.f;
+	m_pBasicStat->Get_Stat()->fHP				= 4.f;
+	m_pBasicStat->Get_Stat()->iDamageMin		= 1;
+	m_pBasicStat->Get_Stat()->iDamageMax		= 2;
+	m_pBasicStat->Get_Stat()->fSpeed			= 4.f;
+	m_pBasicStat->Get_Stat()->fAgility		    = 4.f;
+	m_pBasicStat->Get_Stat()->fDeffense			= 4.f;
+	m_pBasicStat->Get_Stat()->fMagic			= 4.f;
+	m_pBasicStat->Get_Stat()->fAttack			= 4.f;
+	m_pBasicStat->Get_Stat()->iExp				= 6.f;	
+>>>>>>> origin/feature/JunYeop
 #pragma endregion
 
 	return S_OK;
@@ -83,7 +96,7 @@ _int CSlime::Update_Object(const _float& fTimeDelta)
 		Set_KnockBack(false);
 	}
 
-	if (m_pBasicStat->Get_Stat()->fHealth <= 0)
+	if (m_pBasicStat->Get_Stat()->fHP <= 0)
 	{
 		if (m_pAnimator->Get_Animation()->Get_Frame() >= 2)
 			m_pAnimator->Get_Animation()->Set_Loop(FALSE);
@@ -131,6 +144,7 @@ void CSlime::Init_Stat()
 	m_pBasicStat->Get_Stat()->fMagic = 4.f;
 	m_pBasicStat->Get_Stat()->fAttack = 4.f;
 	m_pBasicStat->Get_Stat()->fHealth = 4.f;
+	m_pBasicStat->Get_Stat()->fHP = 4.f;
 	m_pBasicStat->Get_Stat()->iExp = 6.f;
 }
 
@@ -146,18 +160,14 @@ void CSlime::OnCollisionEnter(CCollider* _pOther)
 
 	if (_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::PLAYER
 		&& this->Get_StateMachine()->Get_State() == STATE::ATTACK)
-	{
-		CPlayerStat& PlayerState = *dynamic_cast<CPlayer*>(_pOther->GetHost())->Get_Stat();
-
 		if (!this->Get_AttackTick())
 		{
-			PlayerState.Take_Damage(this->Get_BasicStat()->Get_Stat()->fAttack);
+			CPlayerStat& PlayerStat = *static_cast<CPlayer*>(_pOther->GetHost())->Get_Stat();
 			this->Set_AttackTick(true);
+			IsAttack(&PlayerStat);
 
 			cout << "슬라임 공격" << endl;
 		}
-
-	}
 }
 
 void CSlime::OnCollisionStay(CCollider* _pOther)

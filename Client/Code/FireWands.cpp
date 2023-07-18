@@ -57,6 +57,10 @@ HRESULT CFireWands::Ready_Object(_bool _Item)
 	m_ItemID.eItemID = WEAPON_WAND1;
 	m_ItemID.iCount = 1;
 
+#pragma region FireWands
+	m_pBasicStat->Get_Stat()->iDamageMax = 5.f;
+	m_pBasicStat->Get_Stat()->iDamageMin = 2.f;
+#pragma endregion
 	return S_OK;
 }
 

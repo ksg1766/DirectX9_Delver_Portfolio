@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "..\Header\UIplayerhp.h"
+#include "Player.h"
 
 CUIplayerhp::CUIplayerhp(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CTempUI(pGraphicDev)
@@ -52,10 +53,10 @@ _int CUIplayerhp::Update_Object(const _float& fTimeDelta)
 		m_fTime = 0.f;
 	}
 
-	if (Engine::InputDev()->Key_Down(DIK_9))
-		m_iCurrentHp -= 1;
-	else if (Engine::InputDev()->Key_Down(DIK_0))
-		m_iCurrentHp += 1;
+	//if (Engine::InputDev()->Key_Down(DIK_9))
+	//	m_iCurrentHp -= 1;
+	//else if (Engine::InputDev()->Key_Down(DIK_0))
+	//	m_iCurrentHp += 1;
 
 	_int iExit = CTempUI::Update_Object(fTimeDelta);
 
@@ -65,6 +66,11 @@ _int CUIplayerhp::Update_Object(const _float& fTimeDelta)
 void CUIplayerhp::LateUpdate_Object(void)
 {
 	CTempUI::LateUpdate_Object();
+
+	CPlayer& rPlayer = *dynamic_cast<CPlayer*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
+
+	m_iMaxHp = rPlayer.Get_Stat()->Get_Stat()->fMaxHP;
+	m_iCurrentHp = rPlayer.Get_Stat()->Get_Stat()->fHP;
 
 	Update_NumverUI();
 }

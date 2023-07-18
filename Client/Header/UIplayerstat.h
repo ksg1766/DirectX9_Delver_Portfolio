@@ -31,8 +31,10 @@ private:
 
 private:
 	// 복사 받은 해당 값
-	_uint     m_fAttackPowerNumber;
-	_uint     m_fArmorClassNumber;
+	_uint     m_fAttackPowerNumberMin;
+	_uint	  m_fAttackPowerNumberMax;
+	_uint     m_fArmorClassNumberMin;
+	_uint     m_fArmorClassNumberMax;
 
 	_uint     m_fHealthNumber;
 	_uint     m_fMagicNumber;

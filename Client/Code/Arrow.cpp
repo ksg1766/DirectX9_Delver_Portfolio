@@ -1,6 +1,7 @@
 #include "..\Header\Arrow.h"
 #include "Export_Function.h"
 #include "Player.h"
+#include "Bow.h"
 
 static _int g_iCount = 0;
 
@@ -47,7 +48,17 @@ HRESULT CArrow::Ready_Object(CTransform* Weapon, CTransform* pOwner, _float _fSp
 		m_pTransform->Rotate(ROT_Y, 30.f);
 	}
 
-	m_pBasicStat->Get_Stat()->fAttack = 1.f;
+	BASICSTAT* pOwnerStat = dynamic_cast<CBow*>(Weapon->Get_Host())->Get_ItemStat()->Get_Stat();
+
+	if (pOwnerStat != nullptr)
+	{
+		m_pBasicStat->Get_Stat()->iDamageMin = pOwnerStat->iDamageMin;
+		m_pBasicStat->Get_Stat()->iDamageMax = pOwnerStat->iDamageMax;
+	}
+
+
+	m_bIsAttack = false;
+	m_vPrevPos = _vec3(0.f, 0.f, 0.f);
 
 	return S_OK;
 }
@@ -62,6 +73,17 @@ _int CArrow::Update_Object(const _float& fTimeDelta)
 
 	CPlayer& pPlayer = *dynamic_cast<CPlayer*>(SceneManager()->GetInstance()->
 		Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
+
+	if (!m_bIsAttack)
+	{
+		m_vPrevPos = m_pTransform->m_vInfo[INFO_POS];
+		m_bIsAttack = true;
+	}
+
+	_float fDistance = D3DXVec3Length(&(m_pTransform->m_vInfo[INFO_POS] - m_vPrevPos));
+
+	if (fDistance > 60.f)
+		EventManager()->DeleteObject(this);
 
 	m_pTransform->m_vInfo[INFO_POS] = m_pTransform->m_vInfo[INFO_POS] + m_vDir * m_fSpeed * fTimeDelta;
 
@@ -123,8 +145,9 @@ void CArrow::OnCollisionEnter(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 
-	if (!(_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::MONSTER) &&
-		!(_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::PLAYER))
+	if (_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::MONSTER &&
+		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::PLAYER &&
+		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::ITEM)
 		__super::OnCollisionEnter(_pOther);
 	// 몬스터거나 플레이어면 밀어내지않는다.
 
@@ -133,34 +156,23 @@ void CArrow::OnCollisionEnter(CCollider* _pOther)
 	// 플레이어의 정보를 레퍼런스로 얻어옴.
 
 
-	if (_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::MONSTER)
-		// 무기 콜리전에 들어온 타입이 몬스터이면서, 플레이어의 스테이트가 공격이라면
+	if (_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::MONSTER &&
+		dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_StateMachine()->Get_State() != STATE::DEAD)
 	{
-		if (dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_StateMachine()->Get_State() != STATE::DEAD)
-			// 공격 하지 않은 상태라면.
+		pPlayer.IsAttack(dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_BasicStat());
+
+		if (++g_iCount == 2)
 		{
-			dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_BasicStat()->Take_Damage(1.f);
-
-			if (++g_iCount == 2)
-			{
-				dynamic_cast<CMonster*>(_pOther->Get_Host())->Set_KnockBack(true);
-				g_iCount = 0;
-			}
-
-
-			cout << "데미지" << endl;
-
-			Engine::EventManager()->GetInstance()->DeleteObject(this);
+			dynamic_cast<CMonster*>(_pOther->Get_Host())->Set_KnockBack(true);
+			g_iCount = 0;
 		}
-	}
 
-	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BLOCK && m_eState != STATE::DEAD)
-	{
-		cout << "벽돌충돌 " << endl;
-		
-		Set_State(STATE::DEAD);
 		Engine::EventManager()->GetInstance()->DeleteObject(this);
 	}
+
+
+	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BLOCK)
+		EventManager()->DeleteObject(this);
 }
 
 void CArrow::OnCollisionStay(CCollider* _pOther)

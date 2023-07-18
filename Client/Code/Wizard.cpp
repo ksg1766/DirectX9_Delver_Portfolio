@@ -60,7 +60,9 @@ HRESULT CWizard::Ready_Object()
 	Set_Speed(20.f);
 
 #pragma region WizardStat
+
 	Init_Stat();
+
 #pragma endregion
 
 	return S_OK;
@@ -81,7 +83,7 @@ _int CWizard::Update_Object(const _float& fTimeDelta)
 		Set_KnockBack(false);
 	}
 
-	if (m_pBasicStat->Get_Stat()->fHealth <= 0)
+	if (m_pBasicStat->Get_Stat()->fHP <= 0)
 	{
 		if (m_pAnimator->Get_Animation()->Get_Frame() >= 1)
 			m_pAnimator->Get_Animation()->Set_Loop(FALSE);

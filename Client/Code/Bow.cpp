@@ -75,6 +75,12 @@ HRESULT CBow::Ready_Object(_bool _Item)
 	m_ItemID.eItemID = WEAPON_BOW;
 	m_ItemID.iCount = 1;
 
+
+#pragma region Bow
+	m_pBasicStat->Get_Stat()->iDamageMax = 2.f;
+	m_pBasicStat->Get_Stat()->iDamageMin = 1.f;
+#pragma endregion
+
 	return S_OK;
 }
 
@@ -198,6 +204,10 @@ HRESULT CBow::Add_Component(void)
 	pComponent = m_pCollider = dynamic_cast<CCollider*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Collider"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::COLLIDER, pComponent);
+
+	pComponent = m_pBasicStat = dynamic_cast<CBasicStat*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BasicStat"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BASICSTAT, pComponent);
 
 	//pComponent = dynamic_cast<CBillBoard*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BillBoard"));
 	//NULL_CHECK_RETURN(pComponent, E_FAIL);

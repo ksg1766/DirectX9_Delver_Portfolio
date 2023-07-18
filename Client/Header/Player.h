@@ -77,7 +77,7 @@ public:
 
 public:
 	//void			Add_Item(CGameObject* pItem, ITEMTAG _eItem) { m_pItem[(_uint)_eItem] = pItem; }
-
+	void                IsAttack(CBasicStat* _MonsterStat);
 private:
 	CRigidBody*		m_pRigidBody = nullptr;
 	CStateMachine*	m_pStateMachine = nullptr;
@@ -105,6 +105,7 @@ private:
 	_bool			m_bIsAttack;  // 공격형 아이템의 업데이트에 신호를 줄 불 변수
 	_bool			m_bAttackTick;
 	_bool			m_bDrunk;
+	_bool			m_bEquipStat;
 
 	_int			m_iDrunkCount;
 	_float			m_fSpeed = 10.f;
@@ -118,16 +119,14 @@ private:
 	_int			m_iRootCount;
 
 	// Debuff
-	_float			m_fDrunkTime;
-	_float			m_fDrunkDuration;
-	_float			m_fRotationAngle;
-	_float			m_fRotationSpeed;
-	_float			m_fAmount;
-	_bool			m_bFoward;
-
 	_vec3			m_vOffset;
 	_vec3			m_vLeftOffset;
 
+	// Default Stat
+	_int			iDefalutDamageMax;
+	_int			iDefalutDamageMin;
+	_int			iArmorMax;
+	_int			iArmorMin;
 
 public:
 	static CPlayer*		Create(LPDIRECT3DDEVICE9 pGraphicDev);

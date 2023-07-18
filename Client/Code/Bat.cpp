@@ -60,7 +60,9 @@ HRESULT CBat::Ready_Object()
 
 
 #pragma region BatStat
+
 	Init_Stat();
+
 #pragma endregion
 
 	return S_OK;
@@ -82,7 +84,7 @@ _int CBat::Update_Object(const _float& fTimeDelta)
 	}
 
 
-	if (m_pBasicStat->Get_Stat()->fHealth <= 0)
+	if (m_pBasicStat->Get_Stat()->fHP <= 0)
 	{
 		if (m_pAnimator->Get_Animation()->Get_Frame() >= 3)
 			m_pAnimator->Get_Animation()->Set_Loop(FALSE);
@@ -140,19 +142,14 @@ void CBat::OnCollisionEnter(CCollider* _pOther)
 			
 	if (_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::PLAYER
 		&& this->Get_State() == STATE::ATTACK)
-	{
-		CPlayerStat& PlayerState = *dynamic_cast<CPlayer*>(_pOther->GetHost())->Get_Stat();
-
 		if (!this->Get_AttackTick())
 		{
-			PlayerState.Take_Damage(this->Get_BasicStat()->Get_Stat()->fAttack);
+			CPlayerStat& PlayerStat = *static_cast<CPlayer*>(_pOther->GetHost())->Get_Stat();
 			this->Set_AttackTick(true);
+			IsAttack(&PlayerStat);
 
 			cout << "¹ÚÁã °ø°Ý" << endl;
 		}
-
-	}
-
 }
 
 void CBat::OnCollisionStay(CCollider* _pOther)

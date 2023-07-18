@@ -1,6 +1,5 @@
 #include "..\..\Header\Inventory.h"
-
-#include <Export_Utility.h>
+#include "Export_Function.h"
 
 CInventory::CInventory()
 {
@@ -44,7 +43,25 @@ void CInventory::Add_ItemObject(CGameObject* pGameObject)
 			{
 				// 같은 아이템이 존재할 시 해당 개수만큼 카운트 증가 후 들어온 아이템 삭제
 				dynamic_cast<CItem*>(iter.second)->Add_ItemCount(ItemType.iCount);
-				Safe_Release<CGameObject*>(pGameObject);
+				
+				CTransform* pPlayerTransform = SceneManager()->
+					Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->
+					m_pTransform;
+
+				vector<CTransform*>& ChildTransform = pPlayerTransform->Get_Child();
+				vector<CTransform*>::iterator iter = ChildTransform.begin();
+
+				while (iter != ChildTransform.end())
+				{
+					CItem* pItem = dynamic_cast<CItem*>((*iter)->Get_Host());
+
+					if (pItem != nullptr)
+						iter = ChildTransform.erase(iter);
+					else
+						++iter;
+				}
+
+
 				return;
 			}
 		}
@@ -59,7 +76,22 @@ void CInventory::Add_ItemObject(CGameObject* pGameObject)
 			{
 				// 같은 아이템이 존재할 시 해당 개수만큼 카운트 증가 후 들어온 아이템 삭제
 				dynamic_cast<CItem*>(iter.second)->Add_ItemCount(ItemType.iCount);
-				Safe_Release<CGameObject*>(pGameObject);
+				
+				CTransform* pPlayerTransform = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform;
+
+				vector<CTransform*>& ChildTransform = pPlayerTransform->Get_Child();
+				vector<CTransform*>::iterator iter = ChildTransform.begin();
+
+				while (iter != ChildTransform.end())
+				{
+					CItem* pItem = dynamic_cast<CItem*>((*iter)->Get_Host());
+
+					if (pItem != nullptr)
+						iter = ChildTransform.erase(iter);
+					else
+						++iter;
+				}
+
 				return;
 			}
 		}
@@ -74,7 +106,22 @@ void CInventory::Add_ItemObject(CGameObject* pGameObject)
 			{
 				// 같은 아이템이 존재할 시 해당 개수만큼 카운트 증가 후 들어온 아이템 삭제
 				dynamic_cast<CItem*>(iter)->Add_ItemCount(ItemType.iCount);
-				Safe_Release<CGameObject*>(pGameObject);
+				
+				CTransform* pPlayerTransform = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform;
+
+				vector<CTransform*>& ChildTransform = pPlayerTransform->Get_Child();
+				vector<CTransform*>::iterator iter = ChildTransform.begin();
+
+				while (iter != ChildTransform.end())
+				{
+					CItem* pItem = dynamic_cast<CItem*>((*iter)->Get_Host());
+
+					if (pItem != nullptr)
+						iter = ChildTransform.erase(iter);
+					else
+						++iter;
+				}
+
 				return;
 			}
 		}
@@ -124,7 +171,7 @@ void CInventory::delete_FindItem(ITEMTYPEID _itemId)
 	if (m_bKeySlotEmpty[KEYSLOT_ONE] == true) {
 		ITEMTYPEID SlotItemType = dynamic_cast<CItem*>(m_mapKeySlot[KEYSLOT_ONE])->Get_ItemTag();
 	
-		if (SlotItemType.eItemType == _itemId.eItemType)
+		if (SlotItemType.eItemID == _itemId.eItemID)
 		{
 			// 같은 아이템이 존재하고 들어온 개수보다 많을 시 카운트만 감소 / 같은 개수일 시 삭제
 			if (SlotItemType.iCount > _itemId.iCount)
@@ -149,17 +196,18 @@ void CInventory::delete_FindItem(ITEMTYPEID _itemId)
 						++iter;
 				}
 
-				map<INVENKEYSLOT, CGameObject*>::iterator Mapiter = m_mapKeySlot.begin();
+				Safe_Release<CGameObject*>(m_mapKeySlot[KEYSLOT_ONE]);
+				//map<INVENKEYSLOT, CGameObject*>::iterator Mapiter = m_mapKeySlot.begin();
 
-				while (Mapiter != m_mapKeySlot.end())
-				{
-					CItem* pItem = dynamic_cast<CItem*>((*Mapiter).second);
+				//while (Mapiter != m_mapKeySlot.end())
+				//{
+				//	CItem* pItem = dynamic_cast<CItem*>((*Mapiter).second);
 
-					if (pItem != nullptr)
-						Mapiter = m_mapKeySlot.erase(Mapiter);
-					else
-						++Mapiter;
-				}
+				//	if (pItem != nullptr)
+				//		Mapiter = m_mapKeySlot.erase(Mapiter);
+				//	else
+				//		++Mapiter;
+				//}
 
 				m_bKeySlotEmpty[KEYSLOT_ONE] = false;
 				return;
@@ -169,7 +217,7 @@ void CInventory::delete_FindItem(ITEMTYPEID _itemId)
 	else if (m_bKeySlotEmpty[KEYSLOT_TWO] == true) {
 		ITEMTYPEID SlotItemType = dynamic_cast<CItem*>(m_mapKeySlot[KEYSLOT_TWO])->Get_ItemTag();
 
-		if (SlotItemType.eItemType == _itemId.eItemType)
+		if (SlotItemType.eItemID == _itemId.eItemID)
 		{
 			// 같은 아이템이 존재하고 들어온 개수보다 많을 시 카운트만 감소 / 같은 개수일 시 삭제
 			if (SlotItemType.iCount > _itemId.iCount)
@@ -194,7 +242,7 @@ void CInventory::delete_FindItem(ITEMTYPEID _itemId)
 						++iter;
 				}
 
-				map<INVENKEYSLOT, CGameObject*>::iterator Mapiter = m_mapKeySlot.begin();
+			/*	map<INVENKEYSLOT, CGameObject*>::iterator Mapiter = m_mapKeySlot.begin();
 
 				while (Mapiter != m_mapKeySlot.end())
 				{
@@ -204,7 +252,7 @@ void CInventory::delete_FindItem(ITEMTYPEID _itemId)
 						Mapiter = m_mapKeySlot.erase(Mapiter);
 					else
 						++Mapiter;
-				}
+				}*/
 
 
 				m_bKeySlotEmpty[KEYSLOT_TWO] = false;
@@ -215,7 +263,7 @@ void CInventory::delete_FindItem(ITEMTYPEID _itemId)
 	else if (m_bKeySlotEmpty[KEYSLOT_THREE] == true) {
 		ITEMTYPEID SlotItemType = dynamic_cast<CItem*>(m_mapKeySlot[KEYSLOT_THREE])->Get_ItemTag();
 
-		if (SlotItemType.eItemType == _itemId.eItemType)
+		if (SlotItemType.eItemID == _itemId.eItemID)
 		{
 			// 같은 아이템이 존재하고 들어온 개수보다 많을 시 카운트만 감소 / 같은 개수일 시 삭제
 			if (SlotItemType.iCount > _itemId.iCount)
@@ -240,7 +288,7 @@ void CInventory::delete_FindItem(ITEMTYPEID _itemId)
 						++iter;
 				}
 
-				map<INVENKEYSLOT, CGameObject*>::iterator Mapiter = m_mapKeySlot.begin();
+			/*	map<INVENKEYSLOT, CGameObject*>::iterator Mapiter = m_mapKeySlot.begin();
 
 				while (Mapiter != m_mapKeySlot.end())
 				{
@@ -250,7 +298,7 @@ void CInventory::delete_FindItem(ITEMTYPEID _itemId)
 						Mapiter = m_mapKeySlot.erase(Mapiter);
 					else
 						++Mapiter;
-				}
+				}*/
 
 
 				m_bKeySlotEmpty[KEYSLOT_THREE] = false;
@@ -261,7 +309,7 @@ void CInventory::delete_FindItem(ITEMTYPEID _itemId)
 	else if (m_bKeySlotEmpty[KEYSLOT_FOUR] == true) {
 		ITEMTYPEID SlotItemType = dynamic_cast<CItem*>(m_mapKeySlot[KEYSLOT_FOUR])->Get_ItemTag();
 
-		if (SlotItemType.eItemType == _itemId.eItemType)
+		if (SlotItemType.eItemID == _itemId.eItemID)
 		{
 			// 같은 아이템이 존재하고 들어온 개수보다 많을 시 카운트만 감소 / 같은 개수일 시 삭제
 			if (SlotItemType.iCount > _itemId.iCount)
@@ -286,7 +334,7 @@ void CInventory::delete_FindItem(ITEMTYPEID _itemId)
 						++iter;
 				}
 
-				map<INVENKEYSLOT, CGameObject*>::iterator Mapiter = m_mapKeySlot.begin();
+			/*	map<INVENKEYSLOT, CGameObject*>::iterator Mapiter = m_mapKeySlot.begin();
 
 				while (Mapiter != m_mapKeySlot.end())
 				{
@@ -296,7 +344,7 @@ void CInventory::delete_FindItem(ITEMTYPEID _itemId)
 						Mapiter = m_mapKeySlot.erase(Mapiter);
 					else
 						++Mapiter;
-				}
+				}*/
 
 
 				m_bKeySlotEmpty[KEYSLOT_FOUR] = false;
@@ -307,7 +355,7 @@ void CInventory::delete_FindItem(ITEMTYPEID _itemId)
 	else if (m_bKeySlotEmpty[KEYSLOT_FIVE] == true) {
 		ITEMTYPEID SlotItemType = dynamic_cast<CItem*>(m_mapKeySlot[KEYSLOT_FIVE])->Get_ItemTag();
 
-		if (SlotItemType.eItemType == _itemId.eItemType)
+		if (SlotItemType.eItemID == _itemId.eItemID)
 		{
 			// 같은 아이템이 존재하고 들어온 개수보다 많을 시 카운트만 감소 / 같은 개수일 시 삭제
 			if (SlotItemType.iCount > _itemId.iCount)
@@ -332,7 +380,7 @@ void CInventory::delete_FindItem(ITEMTYPEID _itemId)
 						++iter;
 				}
 
-				map<INVENKEYSLOT, CGameObject*>::iterator Mapiter = m_mapKeySlot.begin();
+				/*map<INVENKEYSLOT, CGameObject*>::iterator Mapiter = m_mapKeySlot.begin();
 
 				while (Mapiter != m_mapKeySlot.end())
 				{
@@ -342,7 +390,7 @@ void CInventory::delete_FindItem(ITEMTYPEID _itemId)
 						Mapiter = m_mapKeySlot.erase(Mapiter);
 					else
 						++Mapiter;
-				}
+				}*/
 
 
 				m_bKeySlotEmpty[KEYSLOT_FIVE] = false;
@@ -355,7 +403,7 @@ void CInventory::delete_FindItem(ITEMTYPEID _itemId)
 	if (m_bItemSlotEmpty[ITEMSLOT_HELMET] == true) {
 		ITEMTYPEID SlotItemType = dynamic_cast<CItem*>(m_mapItemSlot[ITEMSLOT_HELMET])->Get_ItemTag();
 
-		if (SlotItemType.eItemType == _itemId.eItemType)
+		if (SlotItemType.eItemID == _itemId.eItemID)
 		{
 			// 같은 아이템이 존재하고 들어온 개수보다 많을 시 카운트만 감소 / 같은 개수일 시 삭제
 			if (SlotItemType.iCount > _itemId.iCount)
@@ -365,7 +413,7 @@ void CInventory::delete_FindItem(ITEMTYPEID _itemId)
 			}
 			else
 			{
-				map<INVENITEMSLOT, CGameObject*>::iterator Mapiter = m_mapItemSlot.begin();
+			/*	map<INVENITEMSLOT, CGameObject*>::iterator Mapiter = m_mapItemSlot.begin();
 
 				while (Mapiter != m_mapItemSlot.end())
 				{
@@ -375,7 +423,7 @@ void CInventory::delete_FindItem(ITEMTYPEID _itemId)
 						Mapiter = m_mapItemSlot.erase(Mapiter);
 					else
 						++Mapiter;
-				}
+				}*/
 
 				m_bItemSlotEmpty[ITEMSLOT_HELMET] = false;
 				return;
@@ -385,7 +433,7 @@ void CInventory::delete_FindItem(ITEMTYPEID _itemId)
 	else if (m_bItemSlotEmpty[ITEMSLOT_HAND] == true) {
 		ITEMTYPEID SlotItemType = dynamic_cast<CItem*>(m_mapItemSlot[ITEMSLOT_HAND])->Get_ItemTag();
 
-		if (SlotItemType.eItemType == _itemId.eItemType)
+		if (SlotItemType.eItemID == _itemId.eItemID)
 		{
 			// 같은 아이템이 존재하고 들어온 개수보다 많을 시 카운트만 감소 / 같은 개수일 시 삭제
 			if (SlotItemType.iCount > _itemId.iCount)
@@ -410,7 +458,7 @@ void CInventory::delete_FindItem(ITEMTYPEID _itemId)
 						++iter;
 				}
 
-				map<INVENITEMSLOT, CGameObject*>::iterator Mapiter = m_mapItemSlot.begin();
+			/*	map<INVENITEMSLOT, CGameObject*>::iterator Mapiter = m_mapItemSlot.begin();
 
 				while (Mapiter != m_mapItemSlot.end())
 				{
@@ -420,7 +468,7 @@ void CInventory::delete_FindItem(ITEMTYPEID _itemId)
 						Mapiter = m_mapItemSlot.erase(Mapiter);
 					else
 						++Mapiter;
-				}
+				}*/
 
 				m_bItemSlotEmpty[ITEMSLOT_HAND] = false;
 				return;
@@ -430,7 +478,7 @@ void CInventory::delete_FindItem(ITEMTYPEID _itemId)
 	else if (m_bItemSlotEmpty[ITEMSLOT_ARMOR] == true) {
 		ITEMTYPEID SlotItemType = dynamic_cast<CItem*>(m_mapItemSlot[ITEMSLOT_ARMOR])->Get_ItemTag();
 
-		if (SlotItemType.eItemType == _itemId.eItemType)
+		if (SlotItemType.eItemID == _itemId.eItemID)
 		{
 			// 같은 아이템이 존재하고 들어온 개수보다 많을 시 카운트만 감소 / 같은 개수일 시 삭제
 			if (SlotItemType.iCount > _itemId.iCount)
@@ -440,7 +488,7 @@ void CInventory::delete_FindItem(ITEMTYPEID _itemId)
 			}
 			else
 			{
-				map<INVENITEMSLOT, CGameObject*>::iterator Mapiter = m_mapItemSlot.begin();
+				/*map<INVENITEMSLOT, CGameObject*>::iterator Mapiter = m_mapItemSlot.begin();
 
 				while (Mapiter != m_mapItemSlot.end())
 				{
@@ -450,7 +498,7 @@ void CInventory::delete_FindItem(ITEMTYPEID _itemId)
 						Mapiter = m_mapItemSlot.erase(Mapiter);
 					else
 						++Mapiter;
-				}
+				}*/
 
 				m_bItemSlotEmpty[ITEMSLOT_ARMOR] = false;
 				return;
@@ -460,7 +508,7 @@ void CInventory::delete_FindItem(ITEMTYPEID _itemId)
 	else if (m_bItemSlotEmpty[ITEMSLOT_RING] == true) {
 		ITEMTYPEID SlotItemType = dynamic_cast<CItem*>(m_mapItemSlot[ITEMSLOT_RING])->Get_ItemTag();
 
-		if (SlotItemType.eItemType == _itemId.eItemType)
+		if (SlotItemType.eItemID == _itemId.eItemID)
 		{
 			// 같은 아이템이 존재하고 들어온 개수보다 많을 시 카운트만 감소 / 같은 개수일 시 삭제
 			if (SlotItemType.iCount > _itemId.iCount)
@@ -470,7 +518,7 @@ void CInventory::delete_FindItem(ITEMTYPEID _itemId)
 			}
 			else
 			{
-				map<INVENITEMSLOT, CGameObject*>::iterator Mapiter = m_mapItemSlot.begin();
+				/*map<INVENITEMSLOT, CGameObject*>::iterator Mapiter = m_mapItemSlot.begin();
 
 				while (Mapiter != m_mapItemSlot.end())
 				{
@@ -480,7 +528,7 @@ void CInventory::delete_FindItem(ITEMTYPEID _itemId)
 						Mapiter = m_mapItemSlot.erase(Mapiter);
 					else
 						++Mapiter;
-				}
+				}*/
 
 
 				m_bItemSlotEmpty[ITEMSLOT_RING] = false;
@@ -491,7 +539,7 @@ void CInventory::delete_FindItem(ITEMTYPEID _itemId)
 	else if (m_bItemSlotEmpty[ITEMSLOT_PANTS] == true) {
 		ITEMTYPEID SlotItemType = dynamic_cast<CItem*>(m_mapItemSlot[ITEMSLOT_PANTS])->Get_ItemTag();
 
-		if (SlotItemType.eItemType == _itemId.eItemType)
+		if (SlotItemType.eItemID == _itemId.eItemID)
 		{
 			// 같은 아이템이 존재하고 들어온 개수보다 많을 시 카운트만 감소 / 같은 개수일 시 삭제
 			if (SlotItemType.iCount > _itemId.iCount)
@@ -501,7 +549,7 @@ void CInventory::delete_FindItem(ITEMTYPEID _itemId)
 			}
 			else
 			{
-				map<INVENITEMSLOT, CGameObject*>::iterator Mapiter = m_mapItemSlot.begin();
+				/*map<INVENITEMSLOT, CGameObject*>::iterator Mapiter = m_mapItemSlot.begin();
 
 				while (Mapiter != m_mapItemSlot.end())
 				{
@@ -511,7 +559,7 @@ void CInventory::delete_FindItem(ITEMTYPEID _itemId)
 						Mapiter = m_mapItemSlot.erase(Mapiter);
 					else
 						++Mapiter;
-				}
+				}*/
 
 				m_bItemSlotEmpty[ITEMSLOT_PANTS] = false;
 				return;
@@ -521,7 +569,7 @@ void CInventory::delete_FindItem(ITEMTYPEID _itemId)
 	else if (m_bItemSlotEmpty[ITEMSLOT_NECKLACE] == true) {
 		ITEMTYPEID SlotItemType = dynamic_cast<CItem*>(m_mapItemSlot[ITEMSLOT_NECKLACE])->Get_ItemTag();
 
-		if (SlotItemType.eItemType == _itemId.eItemType)
+		if (SlotItemType.eItemID == _itemId.eItemID)
 		{
 			// 같은 아이템이 존재하고 들어온 개수보다 많을 시 카운트만 감소 / 같은 개수일 시 삭제
 			if (SlotItemType.iCount > _itemId.iCount)
@@ -531,7 +579,7 @@ void CInventory::delete_FindItem(ITEMTYPEID _itemId)
 			}
 			else
 			{
-				map<INVENITEMSLOT, CGameObject*>::iterator Mapiter = m_mapItemSlot.begin();
+				/*map<INVENITEMSLOT, CGameObject*>::iterator Mapiter = m_mapItemSlot.begin();
 
 				while (Mapiter != m_mapItemSlot.end())
 				{
@@ -541,7 +589,7 @@ void CInventory::delete_FindItem(ITEMTYPEID _itemId)
 						Mapiter = m_mapItemSlot.erase(Mapiter);
 					else
 						++Mapiter;
-				}
+				}*/
 
 				m_mapItemSlot[ITEMSLOT_NECKLACE] = false;
 				return;
@@ -554,7 +602,7 @@ void CInventory::delete_FindItem(ITEMTYPEID _itemId)
 		if (iter != nullptr) {
 			ITEMTYPEID SlotItemType = dynamic_cast<CItem*>(iter)->Get_ItemTag();
 
-			if (SlotItemType.eItemType == _itemId.eItemType)
+			if (SlotItemType.eItemID == _itemId.eItemID)
 			{
 				// 같은 아이템이 존재하고 들어온 개수보다 많을 시 카운트만 감소 / 같은 개수일 시 삭제
 				if (SlotItemType.iCount > _itemId.iCount)
@@ -564,7 +612,7 @@ void CInventory::delete_FindItem(ITEMTYPEID _itemId)
 				}
 				else
 				{
-					vector<CGameObject*>::iterator iter = m_vecInventory.begin();
+					/*vector<CGameObject*>::iterator iter = m_vecInventory.begin();
 
 					while (iter != m_vecInventory.end())
 					{
@@ -574,10 +622,27 @@ void CInventory::delete_FindItem(ITEMTYPEID _itemId)
 							iter = m_vecInventory.erase(iter);
 						else
 							++iter;
-					}
+					}*/
 
 					return;
 				}
+			}
+		}
+	}
+}
+
+CGameObject* CInventory::Get_IDItem(ITEMID _eID)
+{
+	for (auto& iter : m_mapItemSlot) {
+		if (iter.second != nullptr) {
+			ITEMTYPEID SlotItemType = dynamic_cast<CItem*>(iter.second)->Get_ItemTag();
+
+			if (SlotItemType.eItemID == _eID)
+			{
+				// 같은 아이템이 존재할 시 해당 개수만큼 카운트 증가 후 들어온 아이템 삭제
+			/*	dynamic_cast<CItem*>(iter.second)->Add_ItemCount(ItemType.iCount);
+				Safe_Release<CGameObject*>(pGameObject);*/
+				return iter.second;
 			}
 		}
 	}

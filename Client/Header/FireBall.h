@@ -53,6 +53,9 @@ private:
 
 	CGameObject*    m_pEffect;
 
+	_bool			m_bIsAttack;
+	_vec3			m_vPrevPos;
+
 public:
 	static CFireBall* Create(LPDIRECT3DDEVICE9 pGraphicDev, CTransform* pWeapon, 
 		CTransform* pOwner, _float _fSpeed);
