@@ -32,7 +32,12 @@ void CImGuiManager::Key_Input(const _float& fTimeDelta)
             if (MAP == m_eToolMode)
                 vOut = PickingBlock();
             else if (SPAWNER == m_eToolMode)
-                vOut = PickingSpawner();
+            {
+                if (1 == m_iPickingMode)
+                    vOut = PickingBlock();
+                else if (2 == m_iPickingMode)
+                    vOut = PickingSpawner();
+            }
 
             if (_vec3(0.f, -10.f, 0.f) == vOut)
                 return;
@@ -63,12 +68,6 @@ void CImGuiManager::Key_Input(const _float& fTimeDelta)
             dynamic_cast<CSpawningPool*>(pGameObject)->Set_PoolCapacity(m_iSpawnCapacity);
             dynamic_cast<CSpawningPool*>(pGameObject)->Set_SpawnRadius(m_fSpawnRadius);
             EventManager()->CreateObject(pGameObject, LAYERTAG::ENVIRONMENT);
-
-            // 옮기자
-            /*LPD3DXMESH pShpere;
-            LPD3DXBUFFER pShpereBuffer;
-            D3DXCreateSphere(Engine::CGraphicDev::GetInstance()->Get_GraphicDev(), m_fSpawnRadius, 10, 10, &pShpere, &pShpereBuffer);
-            m_vecShpere.push_back(make_pair(pShpere, pShpereBuffer));*/
         }
     }
 
@@ -117,8 +116,7 @@ _vec3 CImGuiManager::PickingBlock()
 
 #pragma region Cube Picking
     const vector<CGameObject*>& vecBlock = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BLOCK);
-    //CTerrain* pTerrain = dynamic_cast<CTerrain*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::TERRAIN).front());
-
+   
     priority_queue<pair<_float, CCubeBlock*>, vector<pair<_float, CCubeBlock*>>, greater<pair<_float, CCubeBlock*>>> pq;
 
     POINT		ptMouse{};
@@ -347,7 +345,6 @@ _vec3 CImGuiManager::PickingSpawner()
 
     _vec3	vRayPos, vRayDir;
 
-
     if (0 == m_iPickingMode)
         return vFinalPos;
     else
@@ -390,57 +387,7 @@ _vec3 CImGuiManager::PickingSpawner()
 
         if (1 == m_iPickingMode)
         {
-            // 월드 스페이스 -> 로컬 스페이스
-            //_matrix		matWorld;
-            //matWorld = pTerrain->m_pTransform->WorldMatrix();
-            //D3DXMatrixInverse(&matWorld, 0, &matWorld);
-            //D3DXVec3TransformCoord(&vRayPosWorld, &vRayPosWorld, &matWorld);
-            //D3DXVec3TransformNormal(&vRayDirWorld, &vRayDirWorld, &matWorld);
 
-            //const vector<_vec3>& pTerrainVtxPos = pTerrain->LoadTerrainVertex();
-
-            //_float	fU = 0.f, fV = 0.f, fDist = 0.f;
-            ////
-            //_ulong	dwVtxIdx[3]{};
-
-            //for (_ulong i = 0; i < VTXCNTZ - 1; ++i)
-            //{
-            //    for (_ulong j = 0; j < VTXCNTX - 1; ++j)
-            //    {
-            //        _ulong	dwIndex = i * VTXCNTX + j;
-
-            //        // 오른쪽 위
-            //        dwVtxIdx[0] = dwIndex + VTXCNTX;
-            //        dwVtxIdx[1] = dwIndex + VTXCNTX + 1;
-            //        dwVtxIdx[2] = dwIndex + 1;
-
-            //        if (D3DXIntersectTri(&pTerrainVtxPos[dwVtxIdx[1]],
-            //            &pTerrainVtxPos[dwVtxIdx[0]],
-            //            &pTerrainVtxPos[dwVtxIdx[2]],
-            //            &vRayPos, &vRayDir, &fU, &fV, &fDist))
-            //        {
-            //            // V0 + U(V1 - V0) + V(V2 - V0)
-            //            vFinalPos = _vec3(pTerrainVtxPos[dwVtxIdx[1]].x,
-            //                1.f,    // 1.f 는 Cube Radius
-            //                pTerrainVtxPos[dwVtxIdx[1]].z);
-            //        }
-
-            //        // 왼쪽 아래
-            //        dwVtxIdx[0] = dwIndex + VTXCNTX;
-            //        dwVtxIdx[1] = dwIndex + 1;
-            //        dwVtxIdx[2] = dwIndex;
-
-            //        if (D3DXIntersectTri(&pTerrainVtxPos[dwVtxIdx[1]],
-            //            &pTerrainVtxPos[dwVtxIdx[0]],
-            //            &pTerrainVtxPos[dwVtxIdx[2]],
-            //            &vRayPos, &vRayDir, &fU, &fV, &fDist))
-            //        {
-            //            vFinalPos = _vec3(pTerrainVtxPos[dwVtxIdx[1]].x,
-            //                1.f,    // 1.f 는 Cube Radius
-            //                pTerrainVtxPos[dwVtxIdx[1]].z);
-            //        }
-            //    }
-            //}
         }
         else if (2 == m_iPickingMode)
         {
@@ -496,8 +443,8 @@ HRESULT CImGuiManager::SetUp_ImGui()
 	ImGui_ImplDX9_Init(Engine::CGraphicDev::GetInstance()->Get_GraphicDev());
    
     // resources
-    CTexture* pTerainTexture = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_Terrain"));
-    m_pTerainTexture = pTerainTexture->Get_TextureList();
+    CTexture* pCubeTexture = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_Tile"));
+    m_pCubeTexture = pCubeTexture->Get_TextureList();
     m_iPickingMode = 0;
 	
     return S_OK;
@@ -618,14 +565,14 @@ void CImGuiManager::LateUpdate_ImGui()
                         for (int j = 0; j < 5; j++)
                         {
                             _int iIndex = 5 * i + j;
-                            if (iIndex >= m_pTerainTexture.size())
+                            if (iIndex >= m_pCubeTexture.size())
                                 break;
 
                             ImGui::PushID(iIndex);
 
-                            if (ImGui::ImageButton("", m_pTerainTexture[iIndex], size))
+                            if (ImGui::ImageButton("", m_pCubeTexture[iIndex], size))
                             {
-                                selected_texture = m_pTerainTexture[iIndex];
+                                selected_texture = m_pCubeTexture[iIndex];
                                 selected_texture_index = iIndex;
                             }
                             ImGui::PopID();
@@ -642,15 +589,15 @@ void CImGuiManager::LateUpdate_ImGui()
                     //m_iPickingMode = 0;
                     ImGuiIO& io = ImGui::GetIO();
 
-                    const char* items[] = { "Spider", "Warrior", "Bat", "Wizard", "Alien", "Slime", "Skeleton" };
+                    const char* items[] = { "Spider", "Warrior", "Bat", "Wizard", "Alien", "Slime", "Skeleton", "SkullGhost", "Worm", "Monk" };
                     static _int item_current = 1;
-                    ImGui::ListBox("MonsterList", &item_current, items, IM_ARRAYSIZE(items), 7);
+                    ImGui::ListBox("MonsterList", &item_current, items, IM_ARRAYSIZE(items), 10);
 
                     m_eSpawnerTag = (MONSTERTAG)item_current;
 
-                    ImGui::SliderFloat("Spawner Timer", &m_fSpawnTime, 3.f, 30.f, "%0.1f");
-                    ImGui::SliderFloat("Spawner Radius", &m_fSpawnRadius, 10.f, 50.f, "%0.1f");
-                    ImGui::SliderInt("Spawner Capacity", &m_iSpawnCapacity, 4.0f, 20.0f, "%d", ImGuiSliderFlags_Logarithmic);
+                    ImGui::SliderFloat("Spawner Timer", &m_fSpawnTime, 1.f, 40.f, "%0.1f");
+                    ImGui::SliderFloat("Spawner Radius", &m_fSpawnRadius, 1.f, 50.f, "%0.1f");
+                    ImGui::SliderInt("Spawner Capacity", &m_iSpawnCapacity, 1, 20, "%d", ImGuiSliderFlags_Logarithmic);
 
                     ImGui::NewLine();
 
@@ -687,7 +634,7 @@ HRESULT CImGuiManager::OnSaveData()
 {
     CScene* pScene = SceneManager()->Get_Scene();
 
-    HANDLE hFile = CreateFile(L"../Bin/Data/TempData.dat", GENERIC_WRITE, 0, 0,
+    HANDLE hFile = CreateFile(L"../Bin/Data/Sewer.dat", GENERIC_WRITE, 0, 0,
         CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0);
 
     if (INVALID_HANDLE_VALUE == hFile)
@@ -774,7 +721,7 @@ HRESULT CImGuiManager::OnLoadData()
         for_each(refObjectList.begin(), refObjectList.end(), [&](CGameObject* pObj) { EventManager()->DeleteObject(pObj); });
         //refObjectList.clear();
     }
-    HANDLE hFile = CreateFile(L"../Bin/Data/TempData.dat", GENERIC_READ,
+    HANDLE hFile = CreateFile(L"../Bin/Data/Sewer.dat", GENERIC_READ,
         0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
 
     if (INVALID_HANDLE_VALUE == hFile)
@@ -812,7 +759,6 @@ HRESULT CImGuiManager::OnLoadData()
             if (fY < 0.f)
                 continue;
             // value값 저장
-            
 
             if (0 == dwByte)
                 break;

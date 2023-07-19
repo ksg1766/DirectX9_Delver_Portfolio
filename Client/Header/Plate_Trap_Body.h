@@ -16,15 +16,15 @@ private:
 	virtual		~CPlate_Trap();
 
 public:
-	virtual HRESULT Ready_Object(void) override;
-	virtual _int Update_Object(const _float& fTimeDelta) override;
-	virtual void LateUpdate_Object(void) override;
-	virtual void Render_Object(void) override;
+	virtual HRESULT Ready_Object(void)						override;
+	virtual _int	Update_Object(const _float& fTimeDelta)	override;
+	virtual void	LateUpdate_Object(void)					override;
+	virtual void	Render_Object(void)						override;
 
 public:
-	virtual void		OnCollisionEnter(CCollider* _pOther);
-	virtual void		OnCollisionStay(CCollider* _pOther);
-	virtual void		OnCollisionExit(CCollider* _pOther);
+	virtual void	OnCollisionEnter(CCollider* _pOther);
+	virtual void	OnCollisionStay(CCollider* _pOther);
+	virtual void	OnCollisionExit(CCollider* _pOther);
 
 private:
 	CCubeBf*		m_pCubeBf = nullptr;
@@ -34,8 +34,8 @@ private:
 	_float			m_fTime;
 	_bool			m_bAttack;
 private:
-	HRESULT		Add_Component(void);
-	void		Trap_On();
+	HRESULT			Add_Component(void);
+	void			Trap_On();
 public:
 	static CPlate_Trap* Create(LPDIRECT3DDEVICE9 pGraphicDev);
 private:

@@ -13,11 +13,11 @@ CItem::CItem(LPDIRECT3DDEVICE9 pGraphicDev)
 CItem::CItem(const CItem& rhs)
 	: CGameObject(rhs)
 {
-	m_eObjectTag = rhs.m_eObjectTag;
-	m_ItemID.eItemType = rhs.m_ItemID.eItemType;
-	m_ItemID.eItemID   = rhs.m_ItemID.eItemID;
-	m_ItemID.iCount    = rhs.m_ItemID.iCount;
-	m_bWorldItem = rhs.m_bWorldItem;
+	m_eObjectTag		= rhs.m_eObjectTag;
+	m_ItemID.eItemType	= rhs.m_ItemID.eItemType;
+	m_ItemID.eItemID	= rhs.m_ItemID.eItemID;
+	m_ItemID.iCount		= rhs.m_ItemID.iCount;
+	m_bWorldItem		= rhs.m_bWorldItem;
 }
 
 CItem::~CItem()

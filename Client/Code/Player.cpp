@@ -57,8 +57,8 @@ HRESULT CPlayer::Ready_Object(void)
 	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
 
 	m_pTransform->Translate(_vec3(0.f, 10.f, 0.f));
-	m_vOffset	  =	_vec3(0.7f, -0.6f, 1.5f);
-	m_vLeftOffset = _vec3(-0.7, -0.6f, 1.5f);
+	//m_vOffset	  =	_vec3(0.7f, -0.6f, 1.5f);
+	//m_vLeftOffset = _vec3(-0.7, -0.6f, 1.5f);
 
 	// 걷기 상태 추가
 	CState* pState = CPlayerState_Walk::Create(m_pGraphicDev, m_pStateMachine);
@@ -146,7 +146,6 @@ Engine::_int CPlayer::Update_Object(const _float& fTimeDelta)
 
 #pragma endregion ksg
 
-
 	if (!m_bEquipStat)
 	{
 		iDefalutDamageMax = m_pStat->Get_Stat()->iDamageMax;
@@ -217,7 +216,6 @@ void CPlayer::LateUpdate_Object(void)
 			m_bRightRot = false;
 		}
 	}
-
 
 	m_pStateMachine->LateUpdate_StateMachine();
 }
@@ -319,7 +317,7 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 	{
 		if (!m_IsJump)
 		{
-			m_pRigidBody->Add_Force(_vec3(0.f, 11.f, 0.f));
+			m_pRigidBody->Add_Force(_vec3(0.f, 1.1f * m_fSpeed, 0.f));
 			m_pRigidBody->UseGravity(true);
 			//m_IsJump = true;
 		}

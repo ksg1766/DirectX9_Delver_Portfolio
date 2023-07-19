@@ -427,7 +427,7 @@ HRESULT CStage::Load_Data()
 		for_each(refObjectList.begin(), refObjectList.end(), [&](CGameObject* pObj) { EventManager()->DeleteObject(pObj); });
 		refObjectList.clear();
 	}
-	HANDLE hFile = CreateFile(L"../Bin/Data/TerrainGiantTree.dat", GENERIC_READ,
+	HANDLE hFile = CreateFile(L"../Bin/Data/TempData.dat", GENERIC_READ,
 		0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
 
 	if (INVALID_HANDLE_VALUE == hFile)
@@ -477,7 +477,6 @@ HRESULT CStage::Load_Data()
 			// value°ª ÀúÀå
 			ReadFile(hFile, &fX, sizeof(_float), &dwByte, nullptr);
 			ReadFile(hFile, &fZ, sizeof(_float), &dwByte, nullptr);
-
 
 			ReadFile(hFile, &eSpawnerTag, sizeof(MONSTERTAG), &dwByte, nullptr);
 			ReadFile(hFile, &iPoolCapacity, sizeof(_int), &dwByte, nullptr);

@@ -181,6 +181,7 @@
     <ClInclude Include="..\Header\Blade_Trap_Attack.h" />
     <ClInclude Include="..\Header\Blade_Trap_Blade.h" />
     <ClInclude Include="..\Header\Blade_Trap_Idle.h" />
+    <ClInclude Include="..\Header\Box_Cube.h" />
     <ClInclude Include="..\Header\SkullGhost.h" />
     <ClInclude Include="..\Header\BossExplosion.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
@@ -196,7 +197,6 @@
     <ClInclude Include="..\Header\Boss_SturnEffect.h" />
     <ClInclude Include="..\Header\Boss_Sturn.h" />
     <ClInclude Include="..\Header\Bow.h" />
-    <ClInclude Include="..\Header\Box_Cube.h" />
     <ClInclude Include="..\Header\Charge.h" />
     <ClInclude Include="..\Header\Chease.h" />
     <ClInclude Include="..\Header\CrawlPattern.h" />

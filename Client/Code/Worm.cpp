@@ -7,6 +7,8 @@
 #include "Player.h"
 #include "EffectBlood.h"
 
+#include "PoolManager.h"
+
 CWorm::CWorm(LPDIRECT3DDEVICE9 pGrapicDev)
 	: Engine::CMonster(pGrapicDev), m_fFrame(0.f), m_bAttackTick(false)
 {
@@ -82,8 +84,8 @@ _int CWorm::Update_Object(const _float& fTimeDelta)
 
 	if (m_pBasicStat->Get_Stat()->fHP <= 0)
 	{
-
 		m_pStateMachine->Set_State(STATE::DEAD);
+		CPoolManager::GetInstance()->Delete_Object(this);
 
 		if (!m_bDieEffect)
 		{

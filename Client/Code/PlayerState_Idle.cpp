@@ -46,31 +46,29 @@ void CPlayerState_Idle::Render_State()
 
 STATE CPlayerState_Idle::Key_Input(const _float& fTimeDelta)
 {
-	CPlayer& pPlayer = *dynamic_cast<CPlayer*>(SceneManager()->GetInstance()
-		->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
+	CPlayer& pPlayer = *dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer());
 
-	if (Engine::InputDev()->GetInstance()->Key_Down(DIK_W))
+	if (Engine::InputDev()->Key_Down(DIK_W))
 		return STATE::ROMIMG;
-	if (Engine::InputDev()->GetInstance()->Key_Down(DIK_S))
+	if (Engine::InputDev()->Key_Down(DIK_S))
 		return STATE::ROMIMG;
-	if (Engine::InputDev()->GetInstance()->Key_Down(DIK_A))
+	if (Engine::InputDev()->Key_Down(DIK_A))
 		return STATE::ROMIMG;
-	if (Engine::InputDev()->GetInstance()->Key_Down(DIK_D))
+	if (Engine::InputDev()->Key_Down(DIK_D))
 		return STATE::ROMIMG;
 	
-	if (Engine::InputDev()->GetInstance()->Mouse_Pressing(DIM_LB))
+	if (Engine::InputDev()->Mouse_Pressing(DIM_LB))
 	{
 		dynamic_cast<CPlayer*>(m_pOwner->Get_Host())->Set_AttackTick(true);
 		return STATE::ATTACK;
 	}
 
-	if (Engine::InputDev()->GetInstance()->Mouse_Down(DIM_RB))
+	if (Engine::InputDev()->Mouse_Down(DIM_RB))
 	{
 		// TODO : 마우스 오른 쪽 누르면 소모류는 사용 가능하게.
 		// 스테이트 반영은 필요X
 
-		CPlayer& pPlayer = *dynamic_cast<CPlayer*>(SceneManager()->GetInstance()
-			->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
+		CPlayer& pPlayer = *dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer());
 
 		if (pPlayer.Get_CurrentEquipLeft() == nullptr)
 			return STATE::IDLE;
@@ -85,10 +83,7 @@ STATE CPlayerState_Idle::Key_Input(const _float& fTimeDelta)
 				pPlayer.Set_Drunk(true);
 			}
 		}
-		
 	}
-
-	
 	pPlayer.Set_State(STATE::IDLE);
 	return STATE::IDLE;
 }

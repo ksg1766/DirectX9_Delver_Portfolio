@@ -42,8 +42,6 @@ HRESULT CSlime::Ready_Object()
 	pState = CMonster_Dead::Create(m_pGraphicDev, m_pStateMachine);
 	m_pStateMachine->Add_State(STATE::DEAD, pState);
 
-
-
 	CAnimation* pAnimation = CAnimation::Create(m_pGraphicDev,
 		m_pTexture[(_uint)STATE::ROMIMG], STATE::ROMIMG, 5.f, TRUE);
 	m_pAnimator->Add_Animation(STATE::ROMIMG, pAnimation);
@@ -90,7 +88,6 @@ _int CSlime::Update_Object(const _float& fTimeDelta)
 	{
 		if (m_pAnimator->Get_Animation()->Get_Frame() >= 2)
 			m_pAnimator->Get_Animation()->Set_Loop(FALSE);
-
 		{
 			m_pStateMachine->Set_State(STATE::DEAD);
 			CPoolManager::GetInstance()->Delete_Object(this);

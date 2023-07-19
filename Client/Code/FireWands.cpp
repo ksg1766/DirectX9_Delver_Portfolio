@@ -29,9 +29,6 @@ HRESULT CFireWands::Ready_Object(_bool _Item)
 	{
 		m_pTransform->Scale(_vec3(0.3f, 0.3f, 0.3f));
 
-		m_pCollider->
-			InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
-
 		CGameObject* pPlayer = SceneManager()->GetInstance()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front();
 		//CPlayer* pPlayer = dynamic_cast<CPlayer*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
 
@@ -41,7 +38,7 @@ HRESULT CFireWands::Ready_Object(_bool _Item)
 
 		CTransform* pPlayerTransform = pPlayer->m_pTransform;
 
-		_vec3 vOffSet = 0.7f * pPlayerTransform->m_vInfo[INFO_RIGHT] + 1.5f * pPlayerTransform->m_vInfo[INFO_LOOK] - 0.4f * pPlayerTransform->m_vInfo[INFO_UP];
+		_vec3 vOffSet = 0.7f * pPlayerTransform->m_vInfo[INFO_RIGHT] + 1.4f * pPlayerTransform->m_vInfo[INFO_LOOK] - 0.4f * pPlayerTransform->m_vInfo[INFO_UP];
 		m_pTransform->m_vInfo[INFO_POS] = (pPlayerTransform->m_vInfo[INFO_POS] + vOffSet);
 
 #pragma endregion ksg
@@ -51,6 +48,10 @@ HRESULT CFireWands::Ready_Object(_bool _Item)
 	else
 	{
 		m_pTransform->Scale(_vec3(0.3f, 0.3f, 0.3f));
+
+		m_pCollider->
+			InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
+
 		m_pTransform->Translate(_vec3(0.0f, 2.f, 0.0f));
 	}
 
@@ -73,7 +74,7 @@ _int CFireWands::Update_Object(const _float& fTimeDelta)
 
 	_int iExit = __super::Update_Object(fTimeDelta);
 	
-	CPlayer* pPlayer = dynamic_cast<CPlayer*>(SceneManager()->GetInstance()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
+	CPlayer* pPlayer = dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer());
 	CItem* ItemType = dynamic_cast<CItem*>(pPlayer->Get_CurrentEquipRight());
 	ITEMTYPEID ItemID = {};
 
@@ -94,7 +95,7 @@ _int CFireWands::Update_Object(const _float& fTimeDelta)
 				CGameObject* pGameObject = CEffectWand::Create(m_pGraphicDev);
 
 
-				_vec3 vOffSet = -0.5f * m_pTransform->m_vInfo[INFO_RIGHT] + 1.5f * m_pTransform->m_vInfo[INFO_LOOK] + 0.4f * m_pTransform->m_vInfo[INFO_UP];
+				_vec3 vOffSet = -0.5f * m_pTransform->m_vInfo[INFO_RIGHT] + 1.4f * m_pTransform->m_vInfo[INFO_LOOK] + 0.4f * m_pTransform->m_vInfo[INFO_UP];
 				pGameObject->m_pTransform->Translate(m_pTransform->m_vInfo[INFO_POS] + vOffSet);
 				Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 			}
@@ -113,11 +114,18 @@ _int CFireWands::Update_Object(const _float& fTimeDelta)
 
 				CTransform* pPlayerTransform = pPlayer->m_pTransform;
 
-				_vec3 vOffSet = 0.7f * pPlayerTransform->m_vInfo[INFO_RIGHT] + 1.5f * pPlayerTransform->m_vInfo[INFO_LOOK] - 0.4f * pPlayerTransform->m_vInfo[INFO_UP];
+				_vec3 vOffSet = 0.7f * pPlayerTransform->m_vInfo[INFO_RIGHT] + 1.4f * pPlayerTransform->m_vInfo[INFO_LOOK] - 0.4f * pPlayerTransform->m_vInfo[INFO_UP];
 				m_pTransform->m_vInfo[INFO_POS] = (pPlayerTransform->m_vInfo[INFO_POS] + vOffSet);
 
 				m_bEffect = false;
 			}
+		}
+		else
+		{
+			CTransform* pPlayerTransform = pPlayer->m_pTransform;
+
+			_vec3 vOffSet = 0.7f * pPlayerTransform->m_vInfo[INFO_RIGHT] + 1.4f * pPlayerTransform->m_vInfo[INFO_LOOK] - 0.4f * pPlayerTransform->m_vInfo[INFO_UP];
+			m_pTransform->m_vInfo[INFO_POS] = (pPlayerTransform->m_vInfo[INFO_POS] + vOffSet);
 		}
 	}
 
@@ -141,8 +149,7 @@ void CFireWands::Render_Object(void)
 
 	//m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 
-	CPlayer* pPlayer = dynamic_cast<CPlayer*>(SceneManager()->GetInstance()->
-		Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
+	CPlayer* pPlayer = dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer());
 
 	if (!Get_WorldItem() && pPlayer != nullptr)
 	{
@@ -203,8 +210,8 @@ HRESULT CFireWands::Add_Component(void)
 		CPlayer* pPlayer = dynamic_cast<CPlayer*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
 		
 	
-		m_pTransform->Set_Parent(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform);
-		m_pTransform->Copy_RUL(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform->m_vInfo);
+		m_pTransform->Set_Parent(SceneManager()->Get_Scene()->Get_MainPlayer()->m_pTransform);
+		m_pTransform->Copy_RUL(SceneManager()->Get_Scene()->Get_MainPlayer()->m_pTransform->m_vInfo);
 
 
 		for (int i = 0; i < ID_END; ++i)

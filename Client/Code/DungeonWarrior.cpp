@@ -93,17 +93,18 @@ _int CDungeonWarrior::Update_Object(const _float& fTimeDelta)
 		if (m_pAnimator->Get_Animation()->Get_Frame() >= 1)
 			m_pAnimator->Get_Animation()->Set_Loop(FALSE);
 		{
-		m_pStateMachine->Set_State(STATE::DEAD);
-		CPoolManager::GetInstance()->Delete_Object(this);
-		}
-		if (!m_bDieEffect)
-		{
-			CGameObject* pGameObject = CEffectBlood::Create(m_pGraphicDev);
-			pGameObject->m_pTransform->Translate(_vec3(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y - 1.f, m_pTransform->m_vInfo[INFO_POS].z));
-			dynamic_cast<CTempEffect*>(pGameObject)->Set_EffectColor(ECOLOR_RED);
-			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+			m_pStateMachine->Set_State(STATE::DEAD);
+			CPoolManager::GetInstance()->Delete_Object(this);
 
-			m_bDieEffect = true;
+			if (!m_bDieEffect)
+			{
+				CGameObject* pGameObject = CEffectBlood::Create(m_pGraphicDev);
+				pGameObject->m_pTransform->Translate(_vec3(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y - 1.f, m_pTransform->m_vInfo[INFO_POS].z));
+				dynamic_cast<CTempEffect*>(pGameObject)->Set_EffectColor(ECOLOR_RED);
+				Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+
+				m_bDieEffect = true;
+			}
 		}
 	}
 

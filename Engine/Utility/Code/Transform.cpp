@@ -37,7 +37,6 @@ void CTransform::Translate(_vec3& _vTranslation)
 	m_vInfo[INFO_POS] += _vTranslation;
 	if (!m_pChild.empty())
 	{
-
 		//for (_uint i = 0; i < m_pChild.size(); ++i)
 		//for(auto& iter = m_pChild.begin(); iter != m_pChild.end();)
 		//{

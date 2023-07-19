@@ -50,8 +50,7 @@ STATE CPlayerState_Walk::Key_Input(const _float& fTimeDelta)
 	_vec3 vLook = m_pOwner->Get_Transform()->m_vInfo[INFO_LOOK];
 	_vec3 vRight = m_pOwner->Get_Transform()->m_vInfo[INFO_RIGHT];
 
-	CPlayer& pPlayer = *dynamic_cast<CPlayer*>(SceneManager()->GetInstance()
-		->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
+	CPlayer& pPlayer = *dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer());
 	STATE	_eState = STATE::IDLE;
 
 	if (Engine::InputDev()->GetInstance()->Key_Pressing(DIK_W))

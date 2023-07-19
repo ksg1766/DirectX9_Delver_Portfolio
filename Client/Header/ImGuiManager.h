@@ -43,7 +43,7 @@ private:
 	_uint								m_eToolMode = TOOL_END;
 
 	// Map Tool
-	vector<IDirect3DBaseTexture9*>		m_pTerainTexture;
+	vector<IDirect3DBaseTexture9*>		m_pCubeTexture;
 	ImTextureID							selected_texture = nullptr;
 	_uint								selected_texture_index = 0;
 
@@ -54,8 +54,6 @@ private:
 	_int								m_iSpawnCapacity;
 	_float								m_fSpawnRadius;
 	MONSTERTAG							m_eSpawnerTag;
-
-	vector<CSpawningPool*>				m_vecShpere;
 
 public:
 	virtual void		Free();

@@ -55,25 +55,24 @@ STATE CPlayer_Attack::Key_Input(const _float& fTimeDelta)
 
 	STATE	_eState = STATE::ROMIMG;
 
-	CPlayer& pPlayer = *dynamic_cast<CPlayer*>(SceneManager()->GetInstance()
-		->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
+	CPlayer& pPlayer = *dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer());
 
-	if (Engine::InputDev()->GetInstance()->Key_Pressing(DIK_W))
+	if (Engine::InputDev()->Key_Pressing(DIK_W))
 	{
 		m_pOwner->Get_Transform()->Translate(10.f * fTimeDelta * vLook);
 	}
 
-	if (Engine::InputDev()->GetInstance()->Key_Pressing(DIK_S))
+	if (Engine::InputDev()->Key_Pressing(DIK_S))
 	{
 		m_pOwner->Get_Transform()->Translate(10.f * fTimeDelta * -vLook);
 	}
 
-	if (Engine::InputDev()->GetInstance()->Key_Pressing(DIK_A))
+	if (Engine::InputDev()->Key_Pressing(DIK_A))
 	{
 		m_pOwner->Get_Transform()->Translate(10.f * fTimeDelta * -vRight);
 	}
 
-	if (Engine::InputDev()->GetInstance()->Key_Pressing(DIK_D))
+	if (Engine::InputDev()->Key_Pressing(DIK_D))
 	{
 		m_pOwner->Get_Transform()->Translate(10.f * fTimeDelta * vRight);
 	}
@@ -85,7 +84,7 @@ STATE CPlayer_Attack::Key_Input(const _float& fTimeDelta)
 		switch (_eID.eItemID)
 		{
 		case ITEMID::WEAPON_SWORD:
-			if (Engine::InputDev()->GetInstance()->Mouse_Pressing(DIM_LB))
+			if (Engine::InputDev()->Mouse_Pressing(DIM_LB))
 			{
 				pPlayer.Set_Attack(true);
 				pPlayer.Set_AttackTick(false);
@@ -94,7 +93,7 @@ STATE CPlayer_Attack::Key_Input(const _float& fTimeDelta)
 			}
 			break;
 		case ITEMID::WEAPON_BOW:
-			if (Engine::InputDev()->GetInstance()->Mouse_Pressing(DIM_LB))
+			if (Engine::InputDev()->Mouse_Pressing(DIM_LB))
 			{
 				pPlayer.Set_Attack(true);
 				pPlayer.Set_State(STATE::ATTACK);

@@ -135,6 +135,15 @@ void CSpawningPool::ReserveSpawn()
     case MONSTERTAG::SKELETON:
         pMonster = CSkeleton::Create(m_pGraphicDev);
         break;
+    case MONSTERTAG::SKULLGHOST:
+        pMonster = CSkullGhost::Create(m_pGraphicDev);
+        break;
+    case MONSTERTAG::WORM:
+        pMonster = CWorm::Create(m_pGraphicDev);
+        break;
+    //case MONSTERTAG::MONK:
+    //    pMonster = CSkeleton::Create(m_pGraphicDev);
+    //    break;
     }
 
     NULL_CHECK_RETURN(pMonster);
