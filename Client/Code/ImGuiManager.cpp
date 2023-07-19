@@ -445,6 +445,7 @@ HRESULT CImGuiManager::SetUp_ImGui()
     // resources
     CTexture* pCubeTexture = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_Tile"));
     m_pCubeTexture = pCubeTexture->Get_TextureList();
+
     m_iPickingMode = 0;
 	
     return S_OK;
@@ -560,13 +561,15 @@ void CImGuiManager::LateUpdate_ImGui()
                     else
                         ImGui::Text("Erase");
 
-                    for (int i = 0; i < 6; i++)
+                    for (int i = 0; i < 10; i++)
                     {
                         for (int j = 0; j < 5; j++)
                         {
                             _int iIndex = 5 * i + j;
                             if (iIndex >= m_pCubeTexture.size())
                                 break;
+                            else if (25 == iIndex)
+                                ImGui::NewLine();
 
                             ImGui::PushID(iIndex);
 

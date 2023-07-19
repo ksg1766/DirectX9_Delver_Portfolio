@@ -44,6 +44,7 @@ private:
 
 	// Map Tool
 	vector<IDirect3DBaseTexture9*>		m_pCubeTexture;
+
 	ImTextureID							selected_texture = nullptr;
 	_uint								selected_texture_index = 0;
 
