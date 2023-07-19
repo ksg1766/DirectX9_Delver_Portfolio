@@ -175,8 +175,8 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	// Player
 	pGameObject = CPlayer::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//pGameObject->m_pTransform->Translate(_vec3(-40.f, 0.f,-40.f));
-	pGameObject->m_pTransform->Translate(_vec3(0.f, 0.f, 0.f));
+	pGameObject->m_pTransform->Translate(_vec3(-40.f, 0.f,-40.f));
+	//pGameObject->m_pTransform->Translate(_vec3(0.f, 0.f, 0.f));
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 	m_pPlayer = dynamic_cast<CPlayer*>(pGameObject);
 
@@ -484,7 +484,9 @@ HRESULT CStage::Load_Data()
 		for_each(refObjectList.begin(), refObjectList.end(), [&](CGameObject* pObj) { EventManager()->DeleteObject(pObj); });
 		refObjectList.clear();
 	}
-	HANDLE hFile = CreateFile(L"../Bin/Data/Sewer.dat", GENERIC_READ,
+	/*HANDLE hFile = CreateFile(L"../Bin/Data/Sewer.dat", GENERIC_READ,
+		0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);*/
+	HANDLE hFile = CreateFile(L"../Bin/Data/TempData.dat", GENERIC_READ,
 		0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
 
 	if (INVALID_HANDLE_VALUE == hFile)

@@ -51,7 +51,7 @@ void CPoolManager::Create_Monster(MONSTERTAG _eMonsterTag, _vec3 _vSpawnPos) // 
 void CPoolManager::Create_Effect(EFFECTTAG _eEffectTag, _vec3 _vSpawnPos)
 {
 	CGameObject* pGameObject = m_pPool->GetEffectPool(_eEffectTag).front();
-	_pGameObject->Set_Dead(false);
+	pGameObject->Set_Dead(false);
 	pGameObject->m_pTransform->m_vInfo[INFO_POS] = _vSpawnPos;
 	EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
  
