@@ -563,13 +563,11 @@ void CImGuiManager::LateUpdate_ImGui()
 
                     for (int i = 0; i < 10; i++)
                     {
-                        for (int j = 0; j < 5; j++)
+                        for (int j = 0; j < 7; j++)
                         {
-                            _int iIndex = 5 * i + j;
+                            _int iIndex = 7 * i + j;
                             if (iIndex >= m_pCubeTexture.size())
                                 break;
-                            else if (25 == iIndex)
-                                ImGui::NewLine();
 
                             ImGui::PushID(iIndex);
 
@@ -659,7 +657,7 @@ HRESULT CImGuiManager::OnSaveData()
             vector<CGameObject*>& vecObjList = pScene->Get_ObjectList(LAYERTAG::GAMELOGIC, (OBJECTTAG)i);
             for (auto& iter : vecObjList)
             {
-                if (_vec3(0.00000000f, 0.00000000f, -1.99999988f) == iter->m_pTransform->m_vInfo[INFO_POS])
+                if(iter->m_pTransform->m_vInfo[INFO_POS].y < 0.9f)
                     continue;
 
                 //dwStrByte = sizeof(CHAR) * (strlen(typeid(*iter).name()) + 1);
