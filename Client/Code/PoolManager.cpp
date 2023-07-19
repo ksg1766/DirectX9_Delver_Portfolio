@@ -216,4 +216,5 @@ void CPoolManager::ObjectPool::Free()
 			iter = m_EffectPool[i].front();
 		}
 	}*/
+
 }

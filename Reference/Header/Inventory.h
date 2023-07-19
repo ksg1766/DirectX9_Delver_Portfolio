@@ -38,6 +38,7 @@ private:
 	map<INVENKEYSLOT, CGameObject*>  m_mapKeySlot;       // 키 슬롯 5칸
 	map<INVENITEMSLOT, CGameObject*> m_mapItemSlot;      // 아이템 장착 슬롯 6칸
 	vector<CGameObject*>             m_vecInventory;     // 내부 인벤토리 18칸
+	vector<CGameObject*>			 m_vDead;
 
 	_bool                            m_bKeySlotEmpty[KEYSLOT_END];  // 키 슬롯 아이템 보유 여부
 	_bool                            m_bItemSlotEmpty[ITEMSLOT_END];// 아이템 슬롯 아이템 보유 여부

@@ -58,6 +58,7 @@ STATE CPlayerState_Idle::Key_Input(const _float& fTimeDelta)
 	if (Engine::InputDev()->GetInstance()->Key_Down(DIK_D))
 		return STATE::ROMIMG;
 	
+	if(pPlayer.Get_CurrentEquipRight())
 	if (Engine::InputDev()->GetInstance()->Mouse_Pressing(DIM_LB))
 	{
 		dynamic_cast<CPlayer*>(m_pOwner->Get_Host())->Set_AttackTick(true);
@@ -85,6 +86,10 @@ STATE CPlayerState_Idle::Key_Input(const _float& fTimeDelta)
 				pPlayer.Set_Drunk(true);
 			}
 		}
+
+
+		if (dynamic_cast<CItem*>(pPlayer.Get_CurrentEquipLeft())->Get_ItemTag().eItemID == ITEMID::GENERAL_SHIELD)
+			pPlayer.Set_ThrowShield(true);
 		
 	}
 

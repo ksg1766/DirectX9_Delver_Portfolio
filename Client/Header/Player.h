@@ -53,6 +53,7 @@ public:
 	_bool			IsJump()				{ return m_IsJump; }
 	CRigidBody*		Get_RigidBody()			{ return m_pRigidBody; }
 
+	_bool			IsThrowShield()			{ return m_bThrowShield; }
 	virtual void	OnCollisionEnter(CCollider* _pOther);
 	virtual void	OnCollisionStay(CCollider* _pOther);
 	virtual void	OnCollisionExit(CCollider* _pOther);
@@ -71,13 +72,15 @@ public:
 	void			Set_PrevEquipLeft(CGameObject* _pPrevItem)		{ m_pPrevEquipItemLeft = _pPrevItem; }
 	void			Set_LeftOffset(_vec3 _vOffset)					{ m_vLeftOffset = _vOffset; }
 	void			Set_Drunk(_bool _Drunk)							{ m_bDrunk = _Drunk; }
-
+	void			Set_ThrowShield(_bool _Throw)					{ m_bThrowShield = _Throw; }
 	// ksg
 	void			Set_JumpState(_bool _bJump)						{ m_IsJump = _bJump; }
 
 public:
 	//void			Add_Item(CGameObject* pItem, ITEMTAG _eItem) { m_pItem[(_uint)_eItem] = pItem; }
 	void                IsAttack(CBasicStat* _MonsterStat);
+	void				Eating(CBasicStat* _foodStat);
+	void				Create_Item(CCollider*	_pOther);
 private:
 	CRigidBody*		m_pRigidBody = nullptr;
 	CStateMachine*	m_pStateMachine = nullptr;
@@ -106,6 +109,7 @@ private:
 	_bool			m_bAttackTick;
 	_bool			m_bDrunk;
 	_bool			m_bEquipStat;
+	_bool			m_bThrowShield;
 
 	_int			m_iDrunkCount;
 	_float			m_fSpeed = 10.f;

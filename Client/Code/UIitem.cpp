@@ -230,6 +230,11 @@ void CUIitem::Key_Input(void)
 						}
 						break;
 					}
+					
+					if (!dynamic_cast<CTempUI*>(ColliderSlotObj)->Get_EmptyBool())
+					{
+						bSucess = false;
+					}
 
 					if (bSucess)
 					{
@@ -255,10 +260,14 @@ void CUIitem::Key_Input(void)
 						{
 							CInventory* Inventory = dynamic_cast<CInventory*>(pPlayer->Get_Component(COMPONENTTAG::INVENTORY, ID_DYNAMIC));
 							CGameObject* pGameObject = dynamic_cast<CGameObject*>(Inventory->Get_ItemSlot((INVENITEMSLOT)UINumber));
+							
+							if (pGameObject != nullptr)
+							{
+								pPlayer->Get_Stat()->Get_Stat()->iArmorMax += dynamic_cast<CItem*>(pGameObject)->Get_ItemStat()->Get_Stat()->iArmorMax;
+								pPlayer->Get_Stat()->Get_Stat()->iArmorMin += dynamic_cast<CItem*>(pGameObject)->Get_ItemStat()->Get_Stat()->iArmorMin;
+								dynamic_cast<CUIequipmentslot*>(Get_Parent())->Set_UseSlot(true);
+							}
 
-							pPlayer->Get_Stat()->Get_Stat()->iArmorMax = pPlayer->Get_Stat()->Get_Stat()->iArmorMax + dynamic_cast<CItem*>(pGameObject)->Get_ItemStat()->Get_Stat()->iArmorMax;
-							pPlayer->Get_Stat()->Get_Stat()->iArmorMin = pPlayer->Get_Stat()->Get_Stat()->iArmorMin + dynamic_cast<CItem*>(pGameObject)->Get_ItemStat()->Get_Stat()->iArmorMin;
-							dynamic_cast<CUIequipmentslot*>(Get_Parent())->Set_UseSlot(true);
 						}
 					}
 					else

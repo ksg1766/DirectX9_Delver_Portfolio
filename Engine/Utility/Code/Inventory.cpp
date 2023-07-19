@@ -41,24 +41,27 @@ void CInventory::Add_ItemObject(CGameObject* pGameObject)
 
 			if (SlotItemType.eItemID == ItemType.eItemID)
 			{
-				// 같은 아이템이 존재할 시 해당 개수만큼 카운트 증가 후 들어온 아이템 삭제
 				dynamic_cast<CItem*>(iter.second)->Add_ItemCount(ItemType.iCount);
-				
+
+
 				CTransform* pPlayerTransform = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform;
-
 				vector<CTransform*>& ChildTransform = pPlayerTransform->Get_Child();
-				vector<CTransform*>::iterator iter = ChildTransform.begin();
 
-				while (iter != ChildTransform.end())
+				for (auto& iter = ChildTransform.begin(); iter != ChildTransform.end();)
 				{
-					CItem* pItem = dynamic_cast<CItem*>((*iter)->Get_Host());
-
-					if (pItem != nullptr)
+					if (dynamic_cast<CItem*>((*iter)->Get_Host())->Get_ItemTag().eItemID == SlotItemType.eItemID)
 						iter = ChildTransform.erase(iter);
 					else
 						++iter;
 				}
 
+				for (auto& iter = m_mapKeySlot.begin(); iter != m_mapKeySlot.end();)
+				{
+					if (dynamic_cast<CItem*>(iter->second)->Get_ItemTag().eItemID == SlotItemType.eItemID)
+						iter = m_mapKeySlot.erase(iter);
+					else
+						++iter;
+				}
 
 				return;
 			}
@@ -74,21 +77,18 @@ void CInventory::Add_ItemObject(CGameObject* pGameObject)
 			{
 				// 같은 아이템이 존재할 시 해당 개수만큼 카운트 증가 후 들어온 아이템 삭제
 				dynamic_cast<CItem*>(iter.second)->Add_ItemCount(ItemType.iCount);
-				
+				/*Safe_Release<CGameObject*>(pGameObject);*/
 				CTransform* pPlayerTransform = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform;
-
 				vector<CTransform*>& ChildTransform = pPlayerTransform->Get_Child();
-				vector<CTransform*>::iterator iter = ChildTransform.begin();
 
-				while (iter != ChildTransform.end())
+				for (auto& iter = ChildTransform.begin(); iter != ChildTransform.end();)
 				{
-					CItem* pItem = dynamic_cast<CItem*>((*iter)->Get_Host());
-
-					if (pItem != nullptr)
+					if (dynamic_cast<CItem*>((*iter)->Get_Host())->Get_ItemTag().eItemID == SlotItemType.eItemID)
 						iter = ChildTransform.erase(iter);
 					else
 						++iter;
 				}
+
 				return;
 			}
 		}
@@ -103,21 +103,7 @@ void CInventory::Add_ItemObject(CGameObject* pGameObject)
 			{
 				// 같은 아이템이 존재할 시 해당 개수만큼 카운트 증가 후 들어온 아이템 삭제
 				dynamic_cast<CItem*>(iter)->Add_ItemCount(ItemType.iCount);
-				
-				CTransform* pPlayerTransform = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform;
-
-				vector<CTransform*>& ChildTransform = pPlayerTransform->Get_Child();
-				vector<CTransform*>::iterator iter = ChildTransform.begin();
-
-				while (iter != ChildTransform.end())
-				{
-					CItem* pItem = dynamic_cast<CItem*>((*iter)->Get_Host());
-
-					if (pItem != nullptr)
-						iter = ChildTransform.erase(iter);
-					else
-						++iter;
-				}
+				Safe_Release<CGameObject*>(pGameObject);
 				return;
 			}
 		}
@@ -178,39 +164,35 @@ void CInventory::delete_FindItem(ITEMTYPEID _itemId)
 			else
 			{	
 				CTransform* pPlayerTransform = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform;
-
 				vector<CTransform*>& ChildTransform = pPlayerTransform->Get_Child();
-				vector<CTransform*>::iterator iter = ChildTransform.begin();
 
-				while (iter != ChildTransform.end())
+				for (auto& iter = ChildTransform.begin(); iter != ChildTransform.end();)
 				{
-					CItem* pItem = dynamic_cast<CItem*>((*iter)->Get_Host());
-
-					if (pItem != nullptr)
+					if (dynamic_cast<CItem*>((*iter)->Get_Host())->Get_ItemTag().eItemID == SlotItemType.eItemID)
 						iter = ChildTransform.erase(iter);
 					else
 						++iter;
 				}
 
-				Safe_Release<CGameObject*>(m_mapKeySlot[KEYSLOT_ONE]);
-				//map<INVENKEYSLOT, CGameObject*>::iterator Mapiter = m_mapKeySlot.begin();
-
-				//while (Mapiter != m_mapKeySlot.end())
-				//{
-				//	CItem* pItem = dynamic_cast<CItem*>((*Mapiter).second);
-
-				//	if (pItem != nullptr)
-				//		Mapiter = m_mapKeySlot.erase(Mapiter);
-				//	else
-				//		++Mapiter;
-				//}
+				for (auto& iter = m_mapKeySlot.begin(); iter != m_mapKeySlot.end();)
+					if (iter->second != nullptr)
+						if (dynamic_cast<CItem*>(iter->second)->Get_ItemTag().eItemID == SlotItemType.eItemID)
+						{
+							m_vDead.push_back(iter->second);
+							iter = m_mapKeySlot.erase(iter);
+						}
+						else
+							++iter;
+					else
+						++iter;
+	
 
 				m_bKeySlotEmpty[KEYSLOT_ONE] = false;
 				return;
 			}
 		}
 	}
-	else if (m_bKeySlotEmpty[KEYSLOT_TWO] == true) {
+	if (m_bKeySlotEmpty[KEYSLOT_TWO] == true) {
 		ITEMTYPEID SlotItemType = dynamic_cast<CItem*>(m_mapKeySlot[KEYSLOT_TWO])->Get_ItemTag();
 
 		if (SlotItemType.eItemID == _itemId.eItemID)
@@ -224,31 +206,28 @@ void CInventory::delete_FindItem(ITEMTYPEID _itemId)
 			else
 			{
 				CTransform* pPlayerTransform = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform;
-
 				vector<CTransform*>& ChildTransform = pPlayerTransform->Get_Child();
-				vector<CTransform*>::iterator iter = ChildTransform.begin();
 
-				while (iter != ChildTransform.end())
+				for (auto& iter = ChildTransform.begin(); iter != ChildTransform.end();)
 				{
-					CItem* pItem = dynamic_cast<CItem*>((*iter)->Get_Host());
-
-					if (pItem != nullptr)
+					if (dynamic_cast<CItem*>((*iter)->Get_Host())->Get_ItemTag().eItemID == SlotItemType.eItemID)
 						iter = ChildTransform.erase(iter);
 					else
 						++iter;
 				}
 
-			/*	map<INVENKEYSLOT, CGameObject*>::iterator Mapiter = m_mapKeySlot.begin();
 
-				while (Mapiter != m_mapKeySlot.end())
-				{
-					CItem* pItem = dynamic_cast<CItem*>((*Mapiter).second);
-
-					if (pItem != nullptr)
-						Mapiter = m_mapKeySlot.erase(Mapiter);
+				for (auto& iter = m_mapKeySlot.begin(); iter != m_mapKeySlot.end();)
+					if (iter->second != nullptr)
+						if (dynamic_cast<CItem*>(iter->second)->Get_ItemTag().eItemID == SlotItemType.eItemID)
+						{
+							m_vDead.push_back(iter->second);
+							iter = m_mapKeySlot.erase(iter);
+						}
+						else
+							++iter;
 					else
-						++Mapiter;
-				}*/
+						++iter;
 
 
 				m_bKeySlotEmpty[KEYSLOT_TWO] = false;
@@ -256,7 +235,7 @@ void CInventory::delete_FindItem(ITEMTYPEID _itemId)
 			}
 		}
 	}
-	else if (m_bKeySlotEmpty[KEYSLOT_THREE] == true) {
+	if (m_bKeySlotEmpty[KEYSLOT_THREE] == true) {
 		ITEMTYPEID SlotItemType = dynamic_cast<CItem*>(m_mapKeySlot[KEYSLOT_THREE])->Get_ItemTag();
 
 		if (SlotItemType.eItemID == _itemId.eItemID)
@@ -270,31 +249,28 @@ void CInventory::delete_FindItem(ITEMTYPEID _itemId)
 			else
 			{
 				CTransform* pPlayerTransform = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform;
-
 				vector<CTransform*>& ChildTransform = pPlayerTransform->Get_Child();
-				vector<CTransform*>::iterator iter = ChildTransform.begin();
 
-				while (iter != ChildTransform.end())
+				for (auto& iter = ChildTransform.begin(); iter != ChildTransform.end();)
 				{
-					CItem* pItem = dynamic_cast<CItem*>((*iter)->Get_Host());
-
-					if (pItem != nullptr)
+					if (dynamic_cast<CItem*>((*iter)->Get_Host())->Get_ItemTag().eItemID == SlotItemType.eItemID)
 						iter = ChildTransform.erase(iter);
 					else
 						++iter;
 				}
 
-			/*	map<INVENKEYSLOT, CGameObject*>::iterator Mapiter = m_mapKeySlot.begin();
-
-				while (Mapiter != m_mapKeySlot.end())
-				{
-					CItem* pItem = dynamic_cast<CItem*>((*Mapiter).second);
-
-					if (pItem != nullptr)
-						Mapiter = m_mapKeySlot.erase(Mapiter);
+				for (auto& iter = m_mapKeySlot.begin(); iter != m_mapKeySlot.end();)
+					if (iter->second != nullptr)
+						if (dynamic_cast<CItem*>(iter->second)->Get_ItemTag().eItemID == SlotItemType.eItemID)
+						{
+							m_vDead.push_back(iter->second);
+							iter = m_mapKeySlot.erase(iter);
+						}
+						else
+							++iter;
 					else
-						++Mapiter;
-				}*/
+						++iter;
+
 
 
 				m_bKeySlotEmpty[KEYSLOT_THREE] = false;
@@ -302,7 +278,8 @@ void CInventory::delete_FindItem(ITEMTYPEID _itemId)
 			}
 		}
 	}
-	else if (m_bKeySlotEmpty[KEYSLOT_FOUR] == true) {
+
+	if (m_bKeySlotEmpty[KEYSLOT_FOUR] == true) {
 		ITEMTYPEID SlotItemType = dynamic_cast<CItem*>(m_mapKeySlot[KEYSLOT_FOUR])->Get_ItemTag();
 
 		if (SlotItemType.eItemID == _itemId.eItemID)
@@ -318,29 +295,30 @@ void CInventory::delete_FindItem(ITEMTYPEID _itemId)
 				CTransform* pPlayerTransform = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform;
 
 				vector<CTransform*>& ChildTransform = pPlayerTransform->Get_Child();
-				vector<CTransform*>::iterator iter = ChildTransform.begin();
 
-				while (iter != ChildTransform.end())
+
+				for (auto iter = ChildTransform.begin(); iter != ChildTransform.end();)
 				{
-					CItem* pItem = dynamic_cast<CItem*>((*iter)->Get_Host());
-
-					if (pItem != nullptr)
+					if (dynamic_cast<CItem*>((*iter)->Get_Host())->Get_ItemTag().eItemID == SlotItemType.eItemID)
+					{
 						iter = ChildTransform.erase(iter);
+					}
 					else
 						++iter;
+
 				}
 
-			/*	map<INVENKEYSLOT, CGameObject*>::iterator Mapiter = m_mapKeySlot.begin();
-
-				while (Mapiter != m_mapKeySlot.end())
-				{
-					CItem* pItem = dynamic_cast<CItem*>((*Mapiter).second);
-
-					if (pItem != nullptr)
-						Mapiter = m_mapKeySlot.erase(Mapiter);
+				for (auto& iter = m_mapKeySlot.begin(); iter != m_mapKeySlot.end();)
+					if (iter->second != nullptr)
+						if (dynamic_cast<CItem*>(iter->second)->Get_ItemTag().eItemID == SlotItemType.eItemID)
+						{
+							m_vDead.push_back(iter->second);
+							iter = m_mapKeySlot.erase(iter);
+						}
+						else
+							++iter;
 					else
-						++Mapiter;
-				}*/
+						++iter;
 
 
 				m_bKeySlotEmpty[KEYSLOT_FOUR] = false;
@@ -348,7 +326,7 @@ void CInventory::delete_FindItem(ITEMTYPEID _itemId)
 			}
 		}
 	}
-	else if (m_bKeySlotEmpty[KEYSLOT_FIVE] == true) {
+	if (m_bKeySlotEmpty[KEYSLOT_FIVE] == true) {
 		ITEMTYPEID SlotItemType = dynamic_cast<CItem*>(m_mapKeySlot[KEYSLOT_FIVE])->Get_ItemTag();
 
 		if (SlotItemType.eItemID == _itemId.eItemID)
@@ -364,29 +342,28 @@ void CInventory::delete_FindItem(ITEMTYPEID _itemId)
 				CTransform* pPlayerTransform = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform;
 
 				vector<CTransform*>& ChildTransform = pPlayerTransform->Get_Child();
-				vector<CTransform*>::iterator iter = ChildTransform.begin();
 
-				while (iter != ChildTransform.end())
+				for (auto iter = ChildTransform.begin(); iter != ChildTransform.end();)
 				{
-					CItem* pItem = dynamic_cast<CItem*>((*iter)->Get_Host());
-
-					if (pItem != nullptr)
+					if (dynamic_cast<CItem*>((*iter)->Get_Host())->Get_ItemTag().eItemID == SlotItemType.eItemID)
 						iter = ChildTransform.erase(iter);
 					else
 						++iter;
+
 				}
 
-				/*map<INVENKEYSLOT, CGameObject*>::iterator Mapiter = m_mapKeySlot.begin();
 
-				while (Mapiter != m_mapKeySlot.end())
-				{
-					CItem* pItem = dynamic_cast<CItem*>((*Mapiter).second);
-
-					if (pItem != nullptr)
-						Mapiter = m_mapKeySlot.erase(Mapiter);
+				for (auto& iter = m_mapKeySlot.begin(); iter != m_mapKeySlot.end();)
+					if (iter->second != nullptr)
+						if (dynamic_cast<CItem*>(iter->second)->Get_ItemTag().eItemID == SlotItemType.eItemID)
+						{
+							m_vDead.push_back(iter->second);
+							iter = m_mapKeySlot.erase(iter);
+						}
+						else
+							++iter;
 					else
-						++Mapiter;
-				}*/
+						++iter;
 
 
 				m_bKeySlotEmpty[KEYSLOT_FIVE] = false;
@@ -409,24 +386,39 @@ void CInventory::delete_FindItem(ITEMTYPEID _itemId)
 			}
 			else
 			{
-			/*	map<INVENITEMSLOT, CGameObject*>::iterator Mapiter = m_mapItemSlot.begin();
+				CTransform* pPlayerTransform = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform;
 
-				while (Mapiter != m_mapItemSlot.end())
+				vector<CTransform*>& ChildTransform = pPlayerTransform->Get_Child();
+
+				for (auto iter = ChildTransform.begin(); iter != ChildTransform.end();)
 				{
-					CItem* pItem = dynamic_cast<CItem*>((*Mapiter).second);
-
-					if (pItem != nullptr)
-						Mapiter = m_mapItemSlot.erase(Mapiter);
+					if (dynamic_cast<CItem*>((*iter)->Get_Host())->Get_ItemTag().eItemID == SlotItemType.eItemID)
+						iter = ChildTransform.erase(iter);
 					else
-						++Mapiter;
-				}*/
+						++iter;
+
+				}
+
+				for (auto& iter = m_mapItemSlot.begin(); iter != m_mapItemSlot.end();)
+					if (iter->second != nullptr)
+						if (dynamic_cast<CItem*>(iter->second)->Get_ItemTag().eItemID == SlotItemType.eItemID)
+						{
+							m_vDead.push_back(iter->second);
+							iter = m_mapItemSlot.erase(iter);
+						}
+						else
+							++iter;
+					else
+						++iter;
+
+
 
 				m_bItemSlotEmpty[ITEMSLOT_HELMET] = false;
 				return;
 			}
 		}
 	}
-	else if (m_bItemSlotEmpty[ITEMSLOT_HAND] == true) {
+	if (m_bItemSlotEmpty[ITEMSLOT_HAND] == true) {
 		ITEMTYPEID SlotItemType = dynamic_cast<CItem*>(m_mapItemSlot[ITEMSLOT_HAND])->Get_ItemTag();
 
 		if (SlotItemType.eItemID == _itemId.eItemID)
@@ -444,34 +436,34 @@ void CInventory::delete_FindItem(ITEMTYPEID _itemId)
 				vector<CTransform*>& ChildTransform = pPlayerTransform->Get_Child();
 				vector<CTransform*>::iterator iter = ChildTransform.begin();
 
-				while (iter != ChildTransform.end())
+				for (auto iter = ChildTransform.begin(); iter != ChildTransform.end();)
 				{
-					CItem* pItem = dynamic_cast<CItem*>((*iter)->Get_Host());
-
-					if (pItem != nullptr)
+					if (dynamic_cast<CItem*>((*iter)->Get_Host())->Get_ItemTag().eItemID == SlotItemType.eItemID)
 						iter = ChildTransform.erase(iter);
 					else
 						++iter;
+
 				}
 
-			/*	map<INVENITEMSLOT, CGameObject*>::iterator Mapiter = m_mapItemSlot.begin();
-
-				while (Mapiter != m_mapItemSlot.end())
-				{
-					CItem* pItem = dynamic_cast<CItem*>((*Mapiter).second);
-
-					if (pItem != nullptr)
-						Mapiter = m_mapItemSlot.erase(Mapiter);
+				for (auto& iter = m_mapItemSlot.begin(); iter != m_mapItemSlot.end();)
+					if (iter->second != nullptr)
+						if (dynamic_cast<CItem*>(iter->second)->Get_ItemTag().eItemID == SlotItemType.eItemID)
+						{
+							m_vDead.push_back(iter->second);
+							iter = m_mapItemSlot.erase(iter);
+						}
+						else
+							++iter;
 					else
-						++Mapiter;
-				}*/
+						++iter;
+
 
 				m_bItemSlotEmpty[ITEMSLOT_HAND] = false;
 				return;
 			}
 		}
 	}
-	else if (m_bItemSlotEmpty[ITEMSLOT_ARMOR] == true) {
+	if (m_bItemSlotEmpty[ITEMSLOT_ARMOR] == true) {
 		ITEMTYPEID SlotItemType = dynamic_cast<CItem*>(m_mapItemSlot[ITEMSLOT_ARMOR])->Get_ItemTag();
 
 		if (SlotItemType.eItemID == _itemId.eItemID)
@@ -484,24 +476,38 @@ void CInventory::delete_FindItem(ITEMTYPEID _itemId)
 			}
 			else
 			{
-				/*map<INVENITEMSLOT, CGameObject*>::iterator Mapiter = m_mapItemSlot.begin();
+				CTransform* pPlayerTransform = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform;
 
-				while (Mapiter != m_mapItemSlot.end())
+				vector<CTransform*>& ChildTransform = pPlayerTransform->Get_Child();
+				vector<CTransform*>::iterator iter = ChildTransform.begin();
+
+				for (auto iter = ChildTransform.begin(); iter != ChildTransform.end();)
 				{
-					CItem* pItem = dynamic_cast<CItem*>((*Mapiter).second);
-
-					if (pItem != nullptr)
-						Mapiter = m_mapItemSlot.erase(Mapiter);
+					if (dynamic_cast<CItem*>((*iter)->Get_Host())->Get_ItemTag().eItemID == SlotItemType.eItemID)
+						iter = ChildTransform.erase(iter);
 					else
-						++Mapiter;
-				}*/
+						++iter;
+				}
+
+				for (auto& iter = m_mapItemSlot.begin(); iter != m_mapItemSlot.end();)
+					if (iter->second != nullptr)
+						if (dynamic_cast<CItem*>(iter->second)->Get_ItemTag().eItemID == SlotItemType.eItemID)
+						{
+							m_vDead.push_back(iter->second);
+							iter = m_mapItemSlot.erase(iter);
+						}
+						else
+							++iter;
+					else
+						++iter;
+
 
 				m_bItemSlotEmpty[ITEMSLOT_ARMOR] = false;
 				return;
 			}
 		}
 	}
-	else if (m_bItemSlotEmpty[ITEMSLOT_RING] == true) {
+	if (m_bItemSlotEmpty[ITEMSLOT_RING] == true) {
 		ITEMTYPEID SlotItemType = dynamic_cast<CItem*>(m_mapItemSlot[ITEMSLOT_RING])->Get_ItemTag();
 
 		if (SlotItemType.eItemID == _itemId.eItemID)
@@ -514,17 +520,34 @@ void CInventory::delete_FindItem(ITEMTYPEID _itemId)
 			}
 			else
 			{
-				/*map<INVENITEMSLOT, CGameObject*>::iterator Mapiter = m_mapItemSlot.begin();
 
-				while (Mapiter != m_mapItemSlot.end())
+				CTransform* pPlayerTransform = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform;
+
+				vector<CTransform*>& ChildTransform = pPlayerTransform->Get_Child();
+				vector<CTransform*>::iterator iter = ChildTransform.begin();
+
+				for (auto iter = ChildTransform.begin(); iter != ChildTransform.end();)
 				{
-					CItem* pItem = dynamic_cast<CItem*>((*Mapiter).second);
-
-					if (pItem != nullptr)
-						Mapiter = m_mapItemSlot.erase(Mapiter);
+					if (dynamic_cast<CItem*>((*iter)->Get_Host())->Get_ItemTag().eItemID == SlotItemType.eItemID)
+						iter = ChildTransform.erase(iter);
 					else
-						++Mapiter;
-				}*/
+						++iter;
+
+
+				}
+
+				for (auto& iter = m_mapItemSlot.begin(); iter != m_mapItemSlot.end();)
+					if (iter->second != nullptr)
+						if (dynamic_cast<CItem*>(iter->second)->Get_ItemTag().eItemID == SlotItemType.eItemID)
+						{
+							m_vDead.push_back(iter->second);
+							iter = m_mapItemSlot.erase(iter);
+						}
+						else
+							++iter;
+					else
+						++iter;
+
 
 
 				m_bItemSlotEmpty[ITEMSLOT_RING] = false;
@@ -532,7 +555,7 @@ void CInventory::delete_FindItem(ITEMTYPEID _itemId)
 			}
 		}
 	}
-	else if (m_bItemSlotEmpty[ITEMSLOT_PANTS] == true) {
+	if (m_bItemSlotEmpty[ITEMSLOT_PANTS] == true) {
 		ITEMTYPEID SlotItemType = dynamic_cast<CItem*>(m_mapItemSlot[ITEMSLOT_PANTS])->Get_ItemTag();
 
 		if (SlotItemType.eItemID == _itemId.eItemID)
@@ -545,17 +568,31 @@ void CInventory::delete_FindItem(ITEMTYPEID _itemId)
 			}
 			else
 			{
-				/*map<INVENITEMSLOT, CGameObject*>::iterator Mapiter = m_mapItemSlot.begin();
 
-				while (Mapiter != m_mapItemSlot.end())
+				CTransform* pPlayerTransform = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform;
+
+				vector<CTransform*>& ChildTransform = pPlayerTransform->Get_Child();
+				vector<CTransform*>::iterator iter = ChildTransform.begin();
+
+				for (auto iter = ChildTransform.begin(); iter != ChildTransform.end();)
 				{
-					CItem* pItem = dynamic_cast<CItem*>((*Mapiter).second);
-
-					if (pItem != nullptr)
-						Mapiter = m_mapItemSlot.erase(Mapiter);
+					if (dynamic_cast<CItem*>((*iter)->Get_Host())->Get_ItemTag().eItemID == SlotItemType.eItemID)
+						iter = ChildTransform.erase(iter);
 					else
-						++Mapiter;
-				}*/
+						++iter;
+				}
+
+				for (auto& iter = m_mapItemSlot.begin(); iter != m_mapItemSlot.end();)
+					if (iter->second != nullptr)
+						if (dynamic_cast<CItem*>(iter->second)->Get_ItemTag().eItemID == SlotItemType.eItemID)
+						{
+							m_vDead.push_back(iter->second);
+							iter = m_mapItemSlot.erase(iter);
+						}
+						else
+							++iter;
+					else
+						++iter;
 
 				m_bItemSlotEmpty[ITEMSLOT_PANTS] = false;
 				return;
@@ -575,17 +612,31 @@ void CInventory::delete_FindItem(ITEMTYPEID _itemId)
 			}
 			else
 			{
-				/*map<INVENITEMSLOT, CGameObject*>::iterator Mapiter = m_mapItemSlot.begin();
+				CTransform* pPlayerTransform = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform;
 
-				while (Mapiter != m_mapItemSlot.end())
+				vector<CTransform*>& ChildTransform = pPlayerTransform->Get_Child();
+				vector<CTransform*>::iterator iter = ChildTransform.begin();
+
+				for (auto iter = ChildTransform.begin(); iter != ChildTransform.end();)
 				{
-					CItem* pItem = dynamic_cast<CItem*>((*Mapiter).second);
-
-					if (pItem != nullptr)
-						Mapiter = m_mapItemSlot.erase(Mapiter);
+					if (dynamic_cast<CItem*>((*iter)->Get_Host())->Get_ItemTag().eItemID == SlotItemType.eItemID)
+						iter = ChildTransform.erase(iter);
 					else
-						++Mapiter;
-				}*/
+						++iter;
+				}
+
+				for (auto& iter = m_mapItemSlot.begin(); iter != m_mapItemSlot.end();)
+					if (iter->second != nullptr)
+						if (dynamic_cast<CItem*>(iter->second)->Get_ItemTag().eItemID == SlotItemType.eItemID)
+						{
+							m_vDead.push_back(iter->second);
+							iter = m_mapItemSlot.erase(iter);
+						}
+						else
+							++iter;
+					else
+						++iter;
+
 
 				m_mapItemSlot[ITEMSLOT_NECKLACE] = false;
 				return;
@@ -608,17 +659,34 @@ void CInventory::delete_FindItem(ITEMTYPEID _itemId)
 				}
 				else
 				{
-					/*vector<CGameObject*>::iterator iter = m_vecInventory.begin();
+					CTransform* pPlayerTransform = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform;
 
-					while (iter != m_vecInventory.end())
+					vector<CTransform*>& ChildTransform = pPlayerTransform->Get_Child();
+					vector<CTransform*>::iterator iter = ChildTransform.begin();
+
+					for (auto iter = ChildTransform.begin(); iter != ChildTransform.end();)
 					{
-						CItem* pItem = dynamic_cast<CItem*>(*iter);
-
-						if (pItem != nullptr)
-							iter = m_vecInventory.erase(iter);
+						if (dynamic_cast<CItem*>((*iter)->Get_Host())->Get_ItemTag().eItemID == SlotItemType.eItemID)
+							iter = ChildTransform.erase(iter);
 						else
 							++iter;
-					}*/
+					}
+
+					for (auto& iter = m_vecInventory.begin(); iter != m_vecInventory.end();)
+					{
+						if (*iter != nullptr)
+						{
+							if (dynamic_cast<CItem*>(*iter)->Get_ItemTag().eItemID == SlotItemType.eItemID)
+							{
+								m_vDead.push_back(*iter);
+								iter = m_vecInventory.erase(iter);
+							}
+							else
+								++iter;
+						}
+						else
+							++iter;
+					}
 
 					return;
 				}
@@ -629,16 +697,37 @@ void CInventory::delete_FindItem(ITEMTYPEID _itemId)
 
 CGameObject* CInventory::Get_IDItem(ITEMID _eID)
 {
-	for (auto& iter : m_mapItemSlot) {
+	for (auto& iter : m_mapKeySlot) {
 		if (iter.second != nullptr) {
 			ITEMTYPEID SlotItemType = dynamic_cast<CItem*>(iter.second)->Get_ItemTag();
 
 			if (SlotItemType.eItemID == _eID)
 			{
-				// 같은 아이템이 존재할 시 해당 개수만큼 카운트 증가 후 들어온 아이템 삭제
-			/*	dynamic_cast<CItem*>(iter.second)->Add_ItemCount(ItemType.iCount);
-				Safe_Release<CGameObject*>(pGameObject);*/
 				return iter.second;
+			}
+		}
+	}
+
+	// 장착 슬롯 검사
+	for (auto& iter : m_mapItemSlot) {
+		if (iter.second != nullptr) {
+			ITEMTYPEID SlotItemType = dynamic_cast<CItem*>(iter.second)->Get_ItemTag();
+
+			if (SlotItemType.eItemType == _eID)
+			{
+				return iter.second;
+			}
+		}
+	}
+
+	// 내부 인벤토리 검사
+	for (auto& iter : m_vecInventory) {
+		if (iter != nullptr) {
+			ITEMTYPEID SlotItemType = dynamic_cast<CItem*>(iter)->Get_ItemTag();
+
+			if (SlotItemType.eItemID == _eID)
+			{
+				return iter;
 			}
 		}
 	}
@@ -997,6 +1086,10 @@ void CInventory::Free()
 		for_each(m_vecInventory.begin(), m_vecInventory.end(), CDeleteObj());
 		m_vecInventory.clear();
 	}
+
+
+	for_each(m_vDead.begin(), m_vDead.end(), CDeleteObj());
+	m_vDead.clear();
 
 	CComponent::Free();
 }
