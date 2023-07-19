@@ -44,6 +44,15 @@ HRESULT CEffectSquare::Ready_Object(_vec3 vOriginPos, int numParticles, EFFECTCO
 
 	m_ParticleColor = _Color;
 
+	if (m_ParticleColor != EFFECTCOLOR::ECOLOR_NONE) {
+		Read_Path(_Color);
+	}
+
+	return S_OK;
+}
+
+void CEffectSquare::Read_Path(EFFECTCOLOR _color)
+{
 	_tchar* pPath = nullptr;
 
 	switch (m_ParticleColor)
@@ -86,12 +95,49 @@ HRESULT CEffectSquare::Ready_Object(_vec3 vOriginPos, int numParticles, EFFECTCO
 		pPath = L"../Bin/SRSource/Effect/Square_effect/Square_effect_White.png";
 		break;
 	default:
-    	break;
+		break;
 	}
 
 	CTempParticle::Ready_Object(pPath);
+}
 
-	return S_OK;
+void CEffectSquare::Set_MonsterEffectColor(MONSTERTAG _MonsterTag)
+{
+	switch (_MonsterTag)
+	{
+	case MONSTERTAG::SPIDER:
+		m_ParticleColor = EFFECTCOLOR::ECOLOR_BROWN;
+		break;
+	case MONSTERTAG::WARRIOR:
+		m_ParticleColor = EFFECTCOLOR::ECOLOR_RED;
+		break;
+	case MONSTERTAG::BAT:
+		m_ParticleColor = EFFECTCOLOR::ECOLOR_BROWN;
+		break;
+	case MONSTERTAG::WIZARD:
+		m_ParticleColor = EFFECTCOLOR::ECOLOR_APRICOT;
+		break;
+	case MONSTERTAG::ALIEN:
+		m_ParticleColor = EFFECTCOLOR::ECOLOR_PINK;
+		break;
+	case MONSTERTAG::SLIME:
+		m_ParticleColor = EFFECTCOLOR::ECOLOR_GREEN;
+		break;
+	case MONSTERTAG::SKELETON:
+		m_ParticleColor = EFFECTCOLOR::ECOLOR_APRICOT;
+		break;
+	case MONSTERTAG::SKULLGHOST:
+		m_ParticleColor = EFFECTCOLOR::ECOLOR_WHITE;
+		break;
+	case MONSTERTAG::WORM:
+		m_ParticleColor = EFFECTCOLOR::ECOLOR_RED;
+		break;
+	default:
+		m_ParticleColor = EFFECTCOLOR::ECOLOR_RED;
+		break;
+	}
+
+	Read_Path(m_ParticleColor);
 }
 
 void CEffectSquare::Initial_Particle(ParticleAttribute* _attribute)

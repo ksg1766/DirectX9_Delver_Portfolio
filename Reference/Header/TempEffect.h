@@ -20,6 +20,7 @@ public:
 	void        Set_TargetObject(CGameObject* _pObject) { m_pTarget = _pObject; }
 	void        Set_EffectColor(EFFECTCOLOR _Color) { m_EffectColor = _Color; }
 	void        Set_RandomSet(_bool _RandomSetbool) { m_RandomSet = _RandomSetbool; }
+	void        Set_CreateSet(_bool _CreateSetbool) { m_bCreateSet = _CreateSetbool; }
 	void        Set_Parent(_bool _Parent) { m_bParent = _Parent; }
 	void        Set_Child(_bool _Child) { m_bChild = _Child; }
 
@@ -67,8 +68,11 @@ protected:
 
 	_bool        m_bAnimation;
 	_bool        m_bLoop;
+	_bool        m_bAniEnd;
+
 	_bool        m_RandomSet;
 	_bool        m_bScaleSet;
+	_bool        m_bCreateSet;
 
 	_bool        m_bParent;
 	_bool        m_bChild;

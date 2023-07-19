@@ -44,6 +44,9 @@ private:
 
 	_bool		 m_bIsAttack;
 	_vec3		 m_vPrevPos;
+
+	CGameObject* m_pEffect = nullptr;
+
 public:
 	static CArrow* Create(LPDIRECT3DDEVICE9 pGraphicDev, CTransform* Weapon, 
 		CTransform* pOwner, _float _fSpeed);

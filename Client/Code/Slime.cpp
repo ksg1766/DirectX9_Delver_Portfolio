@@ -93,17 +93,18 @@ _int CSlime::Update_Object(const _float& fTimeDelta)
 
 		{
 			m_pStateMachine->Set_State(STATE::DEAD);
+			//////////////////////////////////////////////////////////////////////////////// ÀÌÆåÆ® 
+			if (!m_bDieEffect)
+			{
+				CGameObject* pGameObject = CEffectBlood::Create(m_pGraphicDev);
+				pGameObject->m_pTransform->Translate(_vec3(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y - .95f, m_pTransform->m_vInfo[INFO_POS].z));
+				dynamic_cast<CTempEffect*>(pGameObject)->Set_EffectColor(ECOLOR_GREEN);
+				Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+
+				m_bDieEffect = true;
+			}
+			//////////////////////////////////////////////////////////////////////////////// ÀÌÆåÆ® 
 			CPoolManager::GetInstance()->Delete_Object(this);
-		}
-
-		if (!m_bDieEffect)
-		{
-			CGameObject* pGameObject = CEffectBlood::Create(m_pGraphicDev);
-			pGameObject->m_pTransform->Translate(_vec3(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y - 1.f, m_pTransform->m_vInfo[INFO_POS].z));
-			dynamic_cast<CTempEffect*>(pGameObject)->Set_EffectColor(ECOLOR_GREEN);
-			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
-
-			m_bDieEffect = true;
 		}
 	}
 

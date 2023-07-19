@@ -35,6 +35,7 @@
 #include "EffectDamageStar.h"
 #include "EffectBlood.h"
 #include "EffectProjectileTrace.h"
+#include "EffectTwinkle.h"
 
 CStage::CStage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
@@ -78,25 +79,24 @@ void CStage::LateUpdate_Scene()
 	UIManager()->LateUpdate_UI();
 
 	// 테스트용입니다.
-	if (Engine::InputDev()->Key_Down(DIK_F6))
-	{
-		_vec3 TargetPos = _vec3(-40.f, 4.f, -40.f);
-
-		CGameObject* pGameObject = CEffectSquare::Create(m_pGraphicDev, TargetPos, 50, EFFECTCOLOR::ECOLOR_RED);
-		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
-		//CPoolManager::GetInstance()->Create_Effect(EFFECTTAG::, TargetPos);
-	}
-	else if (Engine::InputDev()->Key_Down(DIK_F7))
+	if (Engine::InputDev()->Key_Down(DIK_F7))
 	{
 		CGameObject* pGameObject = CEffectBubble::Create(m_pGraphicDev);
 
-		pGameObject->m_pTransform->Translate(_vec3(-40.f, 5.f, -40.f));
-		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
-		//CPoolManager::GetInstance()->Create_Effect(EFFECTTAG::, TargetPos);
+		//pGameObject->m_pTransform->Translate(_vec3(-40.f, 5.f, -40.f));
+		//Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+		CPoolManager::GetInstance()->Create_Effect(EFFECTTAG::EFFECT_BROKENBOX, _vec3(-40.f, 5.f, -40.f));
 	}
 	else if (Engine::InputDev()->Key_Down(DIK_F8))
 	{
 		CGameObject* pGameObject = CEffectBrokenbox::Create(m_pGraphicDev);
+		pGameObject->m_pTransform->Translate(_vec3(-40.f, 3.5f, -40.f));
+		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+		//CPoolManager::GetInstance()->Create_Effect(EFFECTTAG::, TargetPos);
+	}
+	else if (Engine::InputDev()->Key_Down(DIK_F9))
+	{
+		CGameObject* pGameObject = CEffectTwinkle::Create(m_pGraphicDev);
 		pGameObject->m_pTransform->Translate(_vec3(-40.f, 3.5f, -40.f));
 		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 		//CPoolManager::GetInstance()->Create_Effect(EFFECTTAG::, TargetPos);
@@ -257,10 +257,10 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	pGameObject->m_pTransform->Translate(_vec3(-40.f, 2.5f, -40.f));
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
-	/*pGameObject = CWorm::Create(m_pGraphicDev);
+	pGameObject = CWorm::Create(m_pGraphicDev);
 	pGameObject->m_pTransform->Translate(_vec3(-30.f, 2.f, -40.f));
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-
+	/*
 	pGameObject = CBox_Cube::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	pGameObject->m_pTransform->Translate(_vec3(-30.f, 2.5f, -30.f));

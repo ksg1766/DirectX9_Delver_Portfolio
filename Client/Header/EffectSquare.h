@@ -10,6 +10,9 @@ private:
 	virtual ~CEffectSquare();
 
 public:
+	void        Set_MonsterEffectColor(MONSTERTAG _MonsterTag);
+
+public:
 	HRESULT		Ready_Object(_vec3 vOriginPos, int numParticles, EFFECTCOLOR _Color);
 	_int		Update_Object(const _float& fTimeDelta);
 	void		LateUpdate_Object(void);
@@ -17,6 +20,7 @@ public:
 
 private:
 	void        Initial_Particle(ParticleAttribute* _attribute);
+	void        Read_Path(EFFECTCOLOR _color);
 
 private:
 	_float	    m_fTime = 0.f;

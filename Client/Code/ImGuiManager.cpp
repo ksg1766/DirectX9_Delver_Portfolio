@@ -613,9 +613,9 @@ void CImGuiManager::LateUpdate_ImGui()
                     else
                         ImGui::Text("Erase");
 
-                    for (int i = 0; i < 6; i++)
+                    for (int i = 0; i < 10; i++)
                     {
-                        for (int j = 0; j < 5; j++)
+                        for (int j = 0; j < 7; j++)
                         {
                             _int iIndex = 5 * i + j;
                             if (iIndex >= m_pTerainTexture.size())
@@ -709,7 +709,9 @@ HRESULT CImGuiManager::OnSaveData()
             vector<CGameObject*>& vecObjList = pScene->Get_ObjectList(LAYERTAG::GAMELOGIC, (OBJECTTAG)i);
             for (auto& iter : vecObjList)
             {
-                if (_vec3(0.00000000f, 0.00000000f, -1.99999988f) == iter->m_pTransform->m_vInfo[INFO_POS])
+                /*if (_vec3(0.00000000f, 0.00000000f, -1.99999988f) == iter->m_pTransform->m_vInfo[INFO_POS])
+                    continue;*/
+                if (iter->m_pTransform->m_vInfo[INFO_POS].y < 0.9f)
                     continue;
 
                 //dwStrByte = sizeof(CHAR) * (strlen(typeid(*iter).name()) + 1);

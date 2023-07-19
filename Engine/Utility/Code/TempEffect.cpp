@@ -12,6 +12,7 @@ CTempEffect::CTempEffect(const CTempEffect& rhs)
 
 CTempEffect::~CTempEffect()
 {
+	
 }
 
 HRESULT CTempEffect::Ready_Object()
@@ -33,8 +34,11 @@ HRESULT CTempEffect::Ready_Object()
 
 	m_bAnimation = false;
 	m_bLoop      = false;
+	m_bAniEnd    = false;
+
 	m_RandomSet  = true;
 	m_bScaleSet  = false;
+	m_bCreateSet = false;
 
 	m_bParent = false;
 	m_bChild  = false;
@@ -57,6 +61,7 @@ _int CTempEffect::Update_Object(const _float & fTimeDelta)
 		if (m_fFinal < m_fFrame)
 		{
 			if (m_bLoop) {
+				m_bAniEnd = true;
 				m_fFrame = m_fFrist;
 			}
 			else {

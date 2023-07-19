@@ -181,6 +181,7 @@
     <ClInclude Include="..\Header\Blade_Trap_Attack.h" />
     <ClInclude Include="..\Header\Blade_Trap_Blade.h" />
     <ClInclude Include="..\Header\Blade_Trap_Idle.h" />
+    <ClInclude Include="..\Header\EffectPastTrace.h" />
     <ClInclude Include="..\Header\SkullGhost.h" />
     <ClInclude Include="..\Header\BossExplosion.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
@@ -345,6 +346,7 @@
     <ClCompile Include="..\Code\Blade_Trap_Attack.cpp" />
     <ClCompile Include="..\Code\Blade_Trap_Blade.cpp" />
     <ClCompile Include="..\Code\Blade_Trap_Idle.cpp" />
+    <ClCompile Include="..\Code\EffectPastTrace.cpp" />
     <ClCompile Include="..\Code\SkullGhost.cpp" />
     <ClCompile Include="..\Code\BossExplosion.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
