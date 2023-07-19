@@ -113,7 +113,6 @@ void CUIbutton::Key_Input(void)
 				Obj = Engine::UIManager()->Get_PopupObject(Engine::UIPOPUPLAYER::POPUP_EQUIPMENT, Engine::UILAYER::UI_DOWN, UIOBJECTTTAG::UIID_INVENBUTTON, 0);
 				dynamic_cast<CTempUI*>(Obj)->Set_UIImage(1);
 				Engine::UIManager()->Hide_PopupUI(Engine::UIPOPUPLAYER::POPUP_INVEN);
-				Engine::UIManager()->Hide_InvenItem();
 				Engine::UIManager()->m_bInven = false;
 				// 눌린 상태
 				m_fCurrentImage = 2;

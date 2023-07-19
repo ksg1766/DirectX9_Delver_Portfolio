@@ -78,7 +78,6 @@ public:
 			Cursor = LoadCursor(NULL, IDC_ARROW);
 			Hide_PopupUI(UIPOPUPLAYER::POPUP_MOUSE);
 			Hide_PopupUI(UIPOPUPLAYER::POPUP_INVEN);
-			Hide_InvenItem();
 			Hide_PopupUI(UIPOPUPLAYER::POPUP_MAP);
 			Hide_PopupUI(UIPOPUPLAYER::POPUP_ESC);
 

@@ -77,7 +77,8 @@ STATE CPlayer_Attack::Key_Input(const _float& fTimeDelta)
 		m_pOwner->Get_Transform()->Translate(10.f * fTimeDelta * vRight);
 	}
 
-	if (!pPlayer.Get_Attack() && pPlayer.Get_CurrentEquipRight() != nullptr)
+	if (!pPlayer.Get_Attack() && pPlayer.Get_CurrentEquipRight() != nullptr
+		|| pPlayer.Get_CurrentEquipLeft() != nullptr)
 	{
 		ITEMTYPEID _eID = dynamic_cast<CItem*>(pPlayer.Get_CurrentEquipRight())->Get_ItemTag();
 		

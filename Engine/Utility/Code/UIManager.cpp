@@ -56,29 +56,35 @@ void CUIManager::Delete_BasicObject(UILAYER eType)
 
 void CUIManager::Delete_FindItemUI(ITEMTYPEID _itemId)
 {
-	// 해당 아이디의 아이템을 찾아와서 감소 및 삭제
-	for (auto& iter : m_mapPpopupUI[POPUP_ITEM][UI_DOWN]) {
-		if (iter != nullptr) {
-			ITEMTYPEID SlotItemType = dynamic_cast<CUIitem*>(iter)->Get_ItemTag();
+#pragma region 인벤토리 UI 수정
+	for (auto iter = m_mapPpopupUI[POPUP_ITEM][UI_DOWN].begin(); iter != m_mapPpopupUI[POPUP_ITEM][UI_DOWN].end();)
+	{
+		if (*iter != nullptr)
+		{
+			ITEMTYPEID SlotItemType = dynamic_cast<CUIitem*>(*iter)->Get_ItemTag();
 
-			if (SlotItemType.eItemType == _itemId.eItemType)
+			if (SlotItemType.eItemID == _itemId.eItemID)
 			{
-				// 같은 아이템이 존재하고 들어온 개수보다 많을 시 카운트만 감소 / 같은 개수일 시 삭제
 				if (SlotItemType.iCount > _itemId.iCount)
 				{
-					dynamic_cast<CUIitem*>(iter)->Remove_ItemCount(_itemId.iCount);
+					dynamic_cast<CUIitem*>(*iter)->Remove_ItemCount(_itemId.iCount);
 					return;
 				}
 				else
 				{
-					dynamic_cast<CTempUI*>(dynamic_cast<CUIitem*>(iter)->Get_Parent())->Set_EmptyBool(true);
-					Safe_Release<CGameObject*>(iter);
-					iter = nullptr;
+					dynamic_cast<CTempUI*>(dynamic_cast<CUIitem*>(*iter)->Get_Parent())->Set_EmptyBool(true);
+					m_vecDead.push_back(*iter);
+					iter = m_mapPpopupUI[POPUP_ITEM][UI_DOWN].erase(iter);
 					return;
 				}
 			}
+			else
+				++iter;
 		}
+		else
+			++iter;
 	}
+#pragma endregion 인벤토리 UI 수정 
 }
 
 void CUIManager::Show_InvenItem()
@@ -135,11 +141,15 @@ CGameObject* CUIManager::Get_PopupObjectBasicSlot(ITEMTYPEID ItemType)
 		if (iter != nullptr)
 		{
 			CGameObject* pChildObj = dynamic_cast<CTempUI*>(iter)->Get_Child();
-			ITEMTYPEID ItemId = dynamic_cast<CUIitem*>(pChildObj)->Get_ItemTag();
-
-			if (ItemId.eItemID == ItemType.eItemID)
+			
+			if (pChildObj != nullptr)
 			{
-				return iter;
+				ITEMTYPEID ItemId = dynamic_cast<CUIitem*>(pChildObj)->Get_ItemTag();
+
+				if (ItemId.eItemID == ItemType.eItemID)
+				{
+					return iter;
+				}
 			}
 		}
 	}
@@ -226,6 +236,7 @@ void CUIManager::AddItemGameobject_UI(CGameObject* pGameObject)
 
 			//Engine::UIManager()->AddPopupGameobject_UI(Engine::UIPOPUPLAYER::POPUP_INVEN, Engine::UILAYER::UI_MIDDLE, pGameObject);
 			Engine::UIManager()->AddPopupGameobject_UI(Engine::UIPOPUPLAYER::POPUP_ITEM, Engine::UILAYER::UI_DOWN, pGameObject);
+			Hide_InvenItem();
 			return;
 		}
 	}
@@ -299,8 +310,8 @@ CGameObject* CUIManager::Find_ColliderSlot()
 
 _int CUIManager::Update_UI(const _float& fTimeDelta)
 {
- 	for_each(m_vecDead.begin(), m_vecDead.end(), CDeleteObj());
-	m_vecDead.clear();
+ //	for_each(m_vecDead.begin(), m_vecDead.end(), CDeleteObj());
+	//m_vecDead.clear();
 
 	for (size_t i = 0; i < UILAYER::UI_END; ++i)
 	{

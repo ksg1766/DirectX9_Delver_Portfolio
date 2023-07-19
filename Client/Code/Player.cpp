@@ -4,12 +4,8 @@
 #include "Export_Function.h"
 
 // 임시 아이템
-#include "TempItem.h"
-#include "Bow.h"
-#include "FireWands.h"
-#include "Beer.h"
-#include "Helmet.h"
 #include "DynamicCamera.h"
+#include "Itemgroup.h"
 
 // State
 #include "PlayerState_Walk.h"
@@ -50,6 +46,7 @@ HRESULT CPlayer::Ready_Object(void)
 	m_bLeftRot = false;
 	m_bRightRot = false;
 	m_bStartRot = true;
+	m_bThrowShield = false;
 	m_iDrunkCount = 0.f;
 	m_iRootCount = 0;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
@@ -579,15 +576,20 @@ void CPlayer::Use_SlotItem(INVENKEYSLOT _SlotNum)
 		else if (ItemType.eItemType == ITEMTYPE_EQUIPITEM)   // 아이템 슬롯 장착 아이템 타입
 		{
 			// 해당 아이템 슬롯에 장착 및 위치 이동 + 장착 및 해제에 따른 효과 감소 및 증가
+
 		}
 		else if (ItemType.eItemType == ITEMTYPE_EATITEM)    // HP 회복 아이템 타입
 		{
 			// 해당 아이템의 회복 값에 따른 HP 회복 및 아이템 소멸
 
 			// 아이템 효과 적용
+			Eating(dynamic_cast<CItem*>(SlotItemObj)->Get_ItemStat());
 
-			// 아이템 소멸
+			m_pInventory->delete_FindItem(ItemType);
+			Engine::UIManager()->Delete_FindItemUI(ItemType);
+			EventManager()->DeleteObject(SlotItemObj);
 		}
+
 		else if (ItemType.eItemType == ITEMTYPE_POTIONITEM) // 다양한 포션 아이템 타입
 		{
 			// 해당 아이템 능력 및 효과 적용 후 아이템 소멸
@@ -658,54 +660,7 @@ void CPlayer::OnCollisionEnter(CCollider* _pOther)
 	if (_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::ITEM)
 	{
 		if (dynamic_cast<CItem*>(_pOther->GetHost())->Get_WorldItem())
-		{
-			ITEMTYPEID ItemType = dynamic_cast<CItem*>(_pOther->GetHost())->Get_ItemTag();
-
-			CGameObject* pItem = nullptr;
-
-			switch (ItemType.eItemID)
-			{
-			case ITEMID::WEAPON_SWORD:
-				pItem = CTempItem::Create(m_pGraphicDev, false);
-				break;
-			case ITEMID::WEAPON_BOW:
-				pItem = CBow::Create(m_pGraphicDev, false);
-				break;
-			case ITEMID::WEAPON_WAND3:
-				pItem = CFireWands::Create(m_pGraphicDev, false);
-				break;
-			case ITEMID::EQUIP_OLDHELMET:
-				pItem = CHelmet::Create(m_pGraphicDev, false);
-				break;
-			}
-
-			m_pInventory->Add_ItemObject(pItem);
-
-			Engine::CGameObject* pGameObjectUI = CUIitem::Create(m_pGraphicDev);
-			dynamic_cast<CUIitem*>(pGameObjectUI)->Set_ItemTag(ItemType.eItemType, ItemType.eItemID, ItemType.iCount);
-
-			Engine::UIManager()->AddItemGameobject_UI(pGameObjectUI);
-
-			if (ItemType.eItemType == ITEMTYPE_WEAPONITEM && !m_bItemEquipRight)
-			{
-				m_bItemEquipRight = true;
-				
-				Set_CurrentEquipRight(pItem);
-				Set_PrevEquipRight(pItem);
-				Engine::EventManager()->CreateObject(pItem, LAYERTAG::GAMELOGIC);
-				Engine::CGameObject* FindSlotObj = Engine::UIManager()->Get_PopupObjectBasicSlot(ItemType);
-				dynamic_cast<CUIbasicslot*>(dynamic_cast<CTempUI*>(FindSlotObj))->Set_FindSlot(true);
-			}
-			else
-			{
-				Engine::EventManager()->CreateObject(pItem, LAYERTAG::GAMELOGIC);
-				//Engine::CGameObject* FindSlotObj = Engine::UIManager()->Get_PopupObjectBasicSlot(ItemType);
-				//dynamic_cast<CUIbasicslot*>(dynamic_cast<CTempUI*>(FindSlotObj))->Set_FindSlot(false);
-			}
-
-
-			EventManager()->GetInstance()->DeleteObject(dynamic_cast<CItem*>(_pOther->GetHost()));
-		}
+			Create_Item(_pOther);
 	}
 }
 
@@ -795,6 +750,105 @@ void CPlayer::IsAttack(CBasicStat* _MonsterStat)
 
 	Set_AttackTick(true);
 	_MonsterStat->Take_Damage(iResultDamage);
+}
+
+void CPlayer::Eating(CBasicStat* _foodStat)
+{
+	m_pStat->Get_Stat()->fHP += _foodStat->Get_Stat()->fHP;
+
+	if (m_pStat->Get_Stat()->fHP > m_pStat->Get_Stat()->fMaxHP)
+		m_pStat->Get_Stat()->fHP = m_pStat->Get_Stat()->fMaxHP;
+}
+
+void CPlayer::Create_Item(CCollider* _pOther)
+{
+	ITEMTYPEID ItemType = dynamic_cast<CItem*>(_pOther->GetHost())->Get_ItemTag();
+
+	CGameObject* pItem = nullptr;
+
+	switch (ItemType.eItemID)
+	{
+	case ITEMID::WEAPON_SWORD:
+		pItem = CTempItem::Create(m_pGraphicDev, false);
+		break;
+	case ITEMID::WEAPON_BOW:
+		pItem = CBow::Create(m_pGraphicDev, false);
+		break;
+	case ITEMID::WEAPON_WAND3:
+		pItem = CFireWands::Create(m_pGraphicDev, false);
+		break;
+	case ITEMID::EQUIP_OLDHELMET:
+		pItem = CHelmet::Create(m_pGraphicDev, false);
+		break;
+	case ITEMID::EQUIP_OLDARMOR:
+		pItem = CTop::Create(m_pGraphicDev, false);
+		break;
+	case ITEMID::EQUIP_OLDTROUSERS:
+		pItem = CPants::Create(m_pGraphicDev, false);
+		break;
+	case ITEMID::GENERAL_SHIELD:
+		pItem = CShield::Create(m_pGraphicDev, false);
+		break;
+	case ITEMID::EQUIP_GOLDNECKLACE:
+		pItem = CNecklace::Create(m_pGraphicDev, false);
+		break;
+	case ITEMID::EQUIP_BIGGOLDRING:
+		pItem = CRing::Create(m_pGraphicDev, false);
+		break;
+	case ITEMID::EAT_SLICEDBREAD:
+		pItem = CBread::Create(m_pGraphicDev, false);
+		break;
+	case ITEMID::EAT_APPLE:
+		pItem = CApple::Create(m_pGraphicDev, false);
+		break;
+	case ITEMID::EAT_CHEESE:
+		pItem = CCheese::Create(m_pGraphicDev, false);
+		break;
+	case ITEMID::EAT_RAWMEAT:
+		pItem = CMeat::Create(m_pGraphicDev, false);
+		break;
+	case ITEMID::EAT_COOKEDMEAT:
+		pItem = CRoastmeat::Create(m_pGraphicDev, false);
+		break;
+	}
+
+
+	m_pInventory->Add_ItemObject(pItem);
+
+	Engine::CGameObject* pGameObjectUI = CUIitem::Create(m_pGraphicDev);
+	dynamic_cast<CUIitem*>(pGameObjectUI)->Set_ItemTag(ItemType.eItemType, ItemType.eItemID, ItemType.iCount);
+
+	Engine::UIManager()->AddItemGameobject_UI(pGameObjectUI);
+
+	if (ItemType.eItemType == ITEMTYPE_WEAPONITEM && !m_bItemEquipRight)
+	{
+		m_bItemEquipRight = true;
+
+		Set_CurrentEquipRight(pItem);
+		Set_PrevEquipRight(pItem);
+		Engine::EventManager()->CreateObject(pItem, LAYERTAG::GAMELOGIC);
+		Engine::CGameObject* FindSlotObj = Engine::UIManager()->Get_PopupObjectBasicSlot(ItemType);
+		dynamic_cast<CUIbasicslot*>(dynamic_cast<CTempUI*>(FindSlotObj))->Set_FindSlot(true);
+	}
+	else
+		Engine::EventManager()->CreateObject(pItem, LAYERTAG::GAMELOGIC);
+
+
+	if (ItemType.eItemType == ITEMTYPE::ITEMTYPE_GENERALITEM && !m_bItemEquipLeft)
+	{
+		m_bItemEquipLeft = true;
+		Set_CurrentEquipLeft(pItem);
+		Set_PrevEquipLeft(pItem);
+		Engine::EventManager()->CreateObject(pItem, LAYERTAG::GAMELOGIC);
+
+		// 장착 상태 // 해당 아이템 찾아서 해당 슬롯 장착 상태 표시
+		Engine::CGameObject* FindSlotObj = Engine::UIManager()->Get_PopupObjectBasicSlot(ItemType);
+		dynamic_cast<CUIbasicslot*>(dynamic_cast<CTempUI*>(FindSlotObj))->Set_FindSlot(true);
+
+	}
+	// 아이템 줍기 및 버리기
+
+	EventManager()->GetInstance()->DeleteObject(dynamic_cast<CItem*>(_pOther->GetHost()));
 }
 
 void CPlayer::Free()

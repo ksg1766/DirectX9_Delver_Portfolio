@@ -4,23 +4,10 @@
 #include "Export_Function.h"
 #include "PoolManager.h"
 
-#include "DungeonWarrior.h"
-#include "DungeonSpider.h"
-#include "Bat.h"
-#include "Wizard.h"
-#include "Alien.h"
-#include "Slime.h"
-#include "Skeleton.h"
+#include "Monstergroup.h"
+#include "Itemgroup.h"
+
 #include "SpawningPool.h"
-#include "SkullGhost.h"
-#include "Worm.h"
-
-#include "Item.h"
-#include "TempItem.h"
-#include "Bow.h"
-#include "FireWands.h"
-#include "Helmet.h"
-
 #include "Box_Cube.h"
 #include "EffectSquare.h"
 #include "EffectBubble.h"
@@ -217,65 +204,134 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	pGameObject->m_pTransform->Translate(_vec3(-55.f, 0.f, -55.f));
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
-	CItem* pItem = CTempItem::Create(m_pGraphicDev, true);
-	NULL_CHECK_RETURN(pItem, E_FAIL);
-	pItem->m_pTransform->Translate(_vec3(-40, 0.5f, 0.f));
-	dynamic_cast<CTempItem*>(pItem)->Set_WorldItem(true);
-	pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
-	
-	pItem = CBow::Create(m_pGraphicDev, true);
-	NULL_CHECK_RETURN(pItem, E_FAIL);
-	pItem->m_pTransform->Translate(_vec3(-60, 0.5f, 0.f));
-	dynamic_cast<CBow*>(pItem)->Set_WorldItem(true);
-	pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
-	
-	pItem = CFireWands::Create(m_pGraphicDev, true);
-	NULL_CHECK_RETURN(pItem, E_FAIL);
-	pItem->m_pTransform->Translate(_vec3(-80, 0.5f, 0.f));
-	dynamic_cast<CFireWands*>(pItem)->Set_WorldItem(true);
-	pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
+	//CItem* pItem = CTempItem::Create(m_pGraphicDev, true);
+	//NULL_CHECK_RETURN(pItem, E_FAIL);
+	//pItem->m_pTransform->Translate(_vec3(-40, 0.5f, 0.f));
+	//dynamic_cast<CTempItem*>(pItem)->Set_WorldItem(true);
+	//pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
+	//
+	//pItem = CBow::Create(m_pGraphicDev, true);
+	//NULL_CHECK_RETURN(pItem, E_FAIL);
+	//pItem->m_pTransform->Translate(_vec3(-60, 0.5f, 0.f));
+	//dynamic_cast<CBow*>(pItem)->Set_WorldItem(true);
+	//pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
+	//
+	//pItem = CFireWands::Create(m_pGraphicDev, true);
+	//NULL_CHECK_RETURN(pItem, E_FAIL);
+	//pItem->m_pTransform->Translate(_vec3(-80, 0.5f, 0.f));
+	//dynamic_cast<CFireWands*>(pItem)->Set_WorldItem(true);
+	//pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
 
-	pItem = CHelmet::Create(m_pGraphicDev, true);
+	CItem* pItem = CHelmet::Create(m_pGraphicDev, true);
 	NULL_CHECK_RETURN(pItem, E_FAIL);
-	pItem->m_pTransform->Translate(_vec3(-40, 3.f, -20.f));
+	pItem->m_pTransform->Translate(_vec3(-40, 2.5f, -35.f));
 	dynamic_cast<CHelmet*>(pItem)->Set_WorldItem(true);
 	pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
 
-	pGameObject = CBlade_Trap::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pGameObject->m_pTransform->Translate(_vec3(-45.f, 2.f, -45.f));
-	dynamic_cast<CBlade_Trap*>(pGameObject)->Create_Blade();
-	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+	pItem = CTop::Create(m_pGraphicDev, true);
+	NULL_CHECK_RETURN(pItem, E_FAIL);
+	pItem->m_pTransform->Translate(_vec3(-40, 2.5f, -30.f));
+	dynamic_cast<CTop*>(pItem)->Set_WorldItem(true);
+	pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
 
-	pGameObject = CStrikeDown_Trap::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pGameObject->m_pTransform->Translate(_vec3(-35.f, 15.f, -40.f));
-	dynamic_cast<CStrikeDown_Trap*>(pGameObject)->Set_InitailHeight(15.f);
-	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+	pItem = CPants::Create(m_pGraphicDev, true);
+	NULL_CHECK_RETURN(pItem, E_FAIL);
+	pItem->m_pTransform->Translate(_vec3(-40, 2.5f, -25.f));
+	dynamic_cast<CPants*>(pItem)->Set_WorldItem(true);
+	pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
 
-	pGameObject = CPlate_Trap::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pGameObject->m_pTransform->Translate(_vec3(-40.f, 2.5f, -40.f));
-	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+	pItem = CShield::Create(m_pGraphicDev, true);
+	NULL_CHECK_RETURN(pItem, E_FAIL);
+	pItem->m_pTransform->Translate(_vec3(-40, 2.5f, -20.f));
+	dynamic_cast<CShield*>(pItem)->Set_WorldItem(true);
+	pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
+
+	pItem = CNecklace::Create(m_pGraphicDev, true);
+	NULL_CHECK_RETURN(pItem, E_FAIL);
+	pItem->m_pTransform->Translate(_vec3(-40, 2.5f, -15.f));
+	dynamic_cast<CNecklace*>(pItem)->Set_WorldItem(true);
+	pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
+
+	pItem = CRing::Create(m_pGraphicDev, true);
+	NULL_CHECK_RETURN(pItem, E_FAIL);
+	pItem->m_pTransform->Translate(_vec3(-40, 2.5f, -10.f));
+	dynamic_cast<CRing*>(pItem)->Set_WorldItem(true);
+	pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
+
+	pItem = CBread::Create(m_pGraphicDev, true);
+	NULL_CHECK_RETURN(pItem, E_FAIL);
+	pItem->m_pTransform->Translate(_vec3(-40, 2.5f, -5.f));
+	dynamic_cast<CBread*>(pItem)->Set_WorldItem(true);
+	pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
 
 	pGameObject = CWorm::Create(m_pGraphicDev);
 	pGameObject->m_pTransform->Translate(_vec3(-30.f, 2.f, -40.f));
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-	/*
+
+	pItem = CApple::Create(m_pGraphicDev, true);
+	NULL_CHECK_RETURN(pItem, E_FAIL);
+	pItem->m_pTransform->Translate(_vec3(-40, 2.5f, 0.f));
+	dynamic_cast<CApple*>(pItem)->Set_WorldItem(true);
+	pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
+
+	pItem = CCheese::Create(m_pGraphicDev, true);
+	NULL_CHECK_RETURN(pItem, E_FAIL);
+	pItem->m_pTransform->Translate(_vec3(-40, 2.5f, 5.f));
+	dynamic_cast<CCheese*>(pItem)->Set_WorldItem(true);
+	pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
+
 	pGameObject = CBox_Cube::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	pGameObject->m_pTransform->Translate(_vec3(-30.f, 2.5f, -30.f));
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
-	pGameObject = CPot::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pGameObject->m_pTransform->Translate(_vec3(-25.f, 3.f, -25.f));
-	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-	
-	pGameObject = CBoneGhost::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pGameObject->m_pTransform->Translate(_vec3(-70.f, 0.f, -40.f));
-	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);*/
+	pItem = CMeat::Create(m_pGraphicDev, true);
+	NULL_CHECK_RETURN(pItem, E_FAIL);
+	pItem->m_pTransform->Translate(_vec3(-40, 2.5f, 10.f));
+	dynamic_cast<CMeat*>(pItem)->Set_WorldItem(true);
+	pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
+
+	pItem = CRoastmeat::Create(m_pGraphicDev, true);
+	NULL_CHECK_RETURN(pItem, E_FAIL);
+	pItem->m_pTransform->Translate(_vec3(-40, 2.5f, 15.f));
+	dynamic_cast<CRoastmeat*>(pItem)->Set_WorldItem(true);
+	pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
+
+	//pGameObject = CBlade_Trap::Create(m_pGraphicDev);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//pGameObject->m_pTransform->Translate(_vec3(-45.f, 2.f, -45.f));
+	//dynamic_cast<CBlade_Trap*>(pGameObject)->Create_Blade();
+	//pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+
+	//pGameObject = CStrikeDown_Trap::Create(m_pGraphicDev);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//pGameObject->m_pTransform->Translate(_vec3(-35.f, 15.f, -40.f));
+	//dynamic_cast<CStrikeDown_Trap*>(pGameObject)->Set_InitailHeight(15.f);
+	//pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+
+	//pGameObject = CPlate_Trap::Create(m_pGraphicDev);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//pGameObject->m_pTransform->Translate(_vec3(-40.f, 2.5f, -40.f));
+	//pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+
+	//pGameObject = CWorm::Create(m_pGraphicDev);
+	//pGameObject->m_pTransform->Translate(_vec3(-30.f, 2.f, -40.f));
+	//pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+
+	//pGameObject = CBox_Cube::Create(m_pGraphicDev);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//pGameObject->m_pTransform->Translate(_vec3(-30.f, 2.5f, -30.f));
+	//pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+	//
+	//pGameObject = CPot::Create(m_pGraphicDev);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//pGameObject->m_pTransform->Translate(_vec3(-25.f, 3.f, -25.f));
+	//pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+	//
+	//pGameObject = CBoneGhost::Create(m_pGraphicDev);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//pGameObject->m_pTransform->Translate(_vec3(-70.f, 0.f, -40.f));
+	//pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
 	return S_OK;
 }

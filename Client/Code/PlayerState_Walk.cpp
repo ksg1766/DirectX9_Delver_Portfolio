@@ -82,6 +82,7 @@ STATE CPlayerState_Walk::Key_Input(const _float& fTimeDelta)
 		_eState = STATE::ROMIMG;
 	}
 
+	if (pPlayer.Get_CurrentEquipRight())
 	if (Engine::InputDev()->GetInstance()->Mouse_Pressing(DIM_LB))
 	{
 		dynamic_cast<CPlayer*>(m_pOwner->Get_Host())->Set_AttackTick(true);
@@ -101,13 +102,14 @@ STATE CPlayerState_Walk::Key_Input(const _float& fTimeDelta)
 
 		// 왼쪽 손에 맥주를 장착하고 있다면
 		if (dynamic_cast<CItem*>(pPlayer.Get_CurrentEquipLeft())->Get_ItemTag().eItemID == ITEMID::GENERAL_BEER)
-		{
 			if (dynamic_cast<CBeer*>(pPlayer.Get_CurrentEquipLeft())->Get_BeerCount() >= 1.f)
-			{
 				dynamic_cast<CBeer*>(pPlayer.Get_CurrentEquipLeft())->Use_Beer(1.f);
-			}
-		}
 
+		if (dynamic_cast<CItem*>(pPlayer.Get_CurrentEquipLeft())->Get_ItemTag().eItemID == ITEMID::GENERAL_SHIELD)
+		{
+			pPlayer.Set_ThrowShield(true);
+		}
+		
 	}
 
 

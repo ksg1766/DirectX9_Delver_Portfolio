@@ -169,6 +169,7 @@
   <ItemGroup>
     <ClInclude Include="..\Header\Alchemist_Idle.h" />
     <ClInclude Include="..\Header\Alien.h" />
+    <ClInclude Include="..\Header\Apple.h" />
     <ClInclude Include="..\Header\Arrow.h" />
     <ClInclude Include="..\Header\BackGround.h" />
     <ClInclude Include="..\Header\Bard_idle.h" />
@@ -183,6 +184,14 @@
     <ClInclude Include="..\Header\Blade_Trap_Idle.h" />
     <ClInclude Include="..\Header\Box_Cube.h" />
     <ClInclude Include="..\Header\EffectPastTrace.h" />
+    <ClInclude Include="..\Header\Bread.h" />
+    <ClInclude Include="..\Header\Cheese.h" />
+    <ClInclude Include="..\Header\Meat.h" />
+    <ClInclude Include="..\Header\Necklace.h" />
+    <ClInclude Include="..\Header\Pants.h" />
+    <ClInclude Include="..\Header\Ring.h" />
+    <ClInclude Include="..\Header\Roastmeat.h" />
+    <ClInclude Include="..\Header\Shield.h" />
     <ClInclude Include="..\Header\SkullGhost.h" />
     <ClInclude Include="..\Header\BossExplosion.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
@@ -225,6 +234,7 @@
     <ClInclude Include="..\Header\Ghost_Attack.h" />
     <ClInclude Include="..\Header\Ghost_Bullet.h" />
     <ClInclude Include="..\Header\Ghost_IDLE.h" />
+    <ClInclude Include="..\Header\Top.h" />
     <ClInclude Include="..\Header\UISpeech.h" />
     <ClInclude Include="..\Header\Dead_BossSkeleton.h" />
     <ClInclude Include="..\Header\Dog_Idle.h" />
@@ -327,6 +337,8 @@
     <ClInclude Include="..\ImGui\imstb_truetype.h" />
     <ClInclude Include="..\Header\UIplayerstat.h" />
     <ClInclude Include="Client.h" />
+    <ClInclude Include="Itemgroup.h" />
+    <ClInclude Include="Monstergroup.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -334,6 +346,7 @@
   <ItemGroup>
     <ClCompile Include="..\Code\Alchemist_Idle.cpp" />
     <ClCompile Include="..\Code\Alien.cpp" />
+    <ClCompile Include="..\Code\Apple.cpp" />
     <ClCompile Include="..\Code\Arrow.cpp" />
     <ClCompile Include="..\Code\BackGround.cpp" />
     <ClCompile Include="..\Code\Bard_Idle.cpp" />
@@ -347,6 +360,14 @@
     <ClCompile Include="..\Code\Blade_Trap_Blade.cpp" />
     <ClCompile Include="..\Code\Blade_Trap_Idle.cpp" />
     <ClCompile Include="..\Code\EffectPastTrace.cpp" />
+    <ClCompile Include="..\Code\Bread.cpp" />
+    <ClCompile Include="..\Code\Cheese.cpp" />
+    <ClCompile Include="..\Code\Meat.cpp" />
+    <ClCompile Include="..\Code\Necklace.cpp" />
+    <ClCompile Include="..\Code\Pants.cpp" />
+    <ClCompile Include="..\Code\Ring.cpp" />
+    <ClCompile Include="..\Code\Roastmeat.cpp" />
+    <ClCompile Include="..\Code\Shield.cpp" />
     <ClCompile Include="..\Code\SkullGhost.cpp" />
     <ClCompile Include="..\Code\BossExplosion.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
@@ -389,6 +410,7 @@
     <ClCompile Include="..\Code\Ghost_Attack.cpp" />
     <ClCompile Include="..\Code\Ghost_Bullet.cpp" />
     <ClCompile Include="..\Code\Ghost_IDLE.cpp" />
+    <ClCompile Include="..\Code\Top.cpp" />
     <ClCompile Include="..\Code\UISpeech.cpp" />
     <ClCompile Include="..\Code\Dead_BossSkeleton.cpp" />
     <ClCompile Include="..\Code\Dog_Idle.cpp" />
