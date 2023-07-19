@@ -7,6 +7,7 @@
 #include "EffectSquare.h"
 #include "EffectDamageStar.h"
 #include "EffectDamage.h"
+#include "EffectPastTrace.h"
 
 static _int g_iCount = 0;
 
@@ -50,7 +51,7 @@ HRESULT CArrow::Ready_Object(CTransform* Weapon, CTransform* pOwner, _float _fSp
 		m_vDir = pOwner->Get_Transform()->m_vInfo[INFO_LOOK];
 		D3DXVec3Normalize(&m_vDir, &m_vDir);
 
-		m_pTransform->Rotate(ROT_Y, 30.f);
+		m_pTransform->Rotate(ROT_Y, -30.f);
 	}
 
 	BASICSTAT* pOwnerStat = dynamic_cast<CBow*>(Weapon->Get_Host())->Get_ItemStat()->Get_Stat();
@@ -64,6 +65,11 @@ HRESULT CArrow::Ready_Object(CTransform* Weapon, CTransform* pOwner, _float _fSp
 
 	m_bIsAttack = false;
 	m_vPrevPos = _vec3(0.f, 0.f, 0.f);
+
+	// ≈ıªÁ√º »Á¿˚ ¿Ã∆Â∆Æ √ﬂ∞°
+	CGameObject* pGameObject = m_pEffect = CEffectPastTrace::Create(m_pGraphicDev);
+	pGameObject->m_pTransform->Translate(m_pTransform->m_vInfo[INFO_POS]);
+	Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 
 	return S_OK;
 }
@@ -107,8 +113,12 @@ void CArrow::Render_Object(void)
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
 
+	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+
 	m_pTexture->Render_Texture();
 	m_pBuffer->Render_Buffer();
+
+	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 
 #if _DEBUG
 	m_pCollider->Render_Collider();
@@ -170,58 +180,23 @@ void CArrow::OnCollisionEnter(CCollider* _pOther)
 		{
 			dynamic_cast<CMonster*>(_pOther->Get_Host())->Set_KnockBack(true);
 			g_iCount = 0;
-			//////////////////////////////////////// ¿Ã∆Â∆Æ √ﬂ∞°
-			_matrix      matMonsterWorld = _pOther->GetHost()->m_pTransform->WorldMatrix();
-			_vec3        vecMonsterPos = _vec3(matMonsterWorld._41, matMonsterWorld._42 + .5f, matMonsterWorld._43);
-			CGameObject* pGameObject = nullptr;
 
-			// ¿Ã∆Â∆Æ ª˝º∫
-			switch (dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_MonsterTag())
-			{
-			case MONSTERTAG::SPIDER:
-				pGameObject = CEffectSquare::Create(m_pGraphicDev, vecMonsterPos, 50, EFFECTCOLOR::ECOLOR_BROWN);
-				break;
-			case MONSTERTAG::WARRIOR:
-				pGameObject = CEffectSquare::Create(m_pGraphicDev, vecMonsterPos, 50, EFFECTCOLOR::ECOLOR_RED);
-				break;
-			case MONSTERTAG::BAT:
-				pGameObject = CEffectSquare::Create(m_pGraphicDev, vecMonsterPos, 50, EFFECTCOLOR::ECOLOR_BROWN);
-				break;
-			case MONSTERTAG::WIZARD:
-				pGameObject = CEffectSquare::Create(m_pGraphicDev, vecMonsterPos, 50, EFFECTCOLOR::ECOLOR_APRICOT);
-				break;
-			case MONSTERTAG::ALIEN:
-				pGameObject = CEffectSquare::Create(m_pGraphicDev, vecMonsterPos, 50, EFFECTCOLOR::ECOLOR_PINK);
-				break;
-			case MONSTERTAG::SLIME:
-				pGameObject = CEffectSquare::Create(m_pGraphicDev, vecMonsterPos, 50, EFFECTCOLOR::ECOLOR_GREEN);
-				break;
-			case MONSTERTAG::SKELETON:
-				pGameObject = CEffectSquare::Create(m_pGraphicDev, vecMonsterPos, 50, EFFECTCOLOR::ECOLOR_APRICOT);
-				break;
-			case MONSTERTAG::SKULLGHOST:
-				pGameObject = CEffectSquare::Create(m_pGraphicDev, vecMonsterPos, 50, EFFECTCOLOR::ECOLOR_WHITE);
-				break;
-			case MONSTERTAG::WORM:
-				pGameObject = CEffectSquare::Create(m_pGraphicDev, vecMonsterPos, 50, EFFECTCOLOR::ECOLOR_RED);
-				break;
-			default:
-				pGameObject = CEffectSquare::Create(m_pGraphicDev, vecMonsterPos, 50, EFFECTCOLOR::ECOLOR_RED);
-				break;
-			}
-			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
-			//////////////////////////////////////// ¿Ã∆Â∆Æ √ﬂ∞°
-
-			pGameObject = CEffectDamageStar::Create(m_pGraphicDev);
+			//////////////////////////////////////////////////////////////////////////////// ¿Ã∆Â∆Æ 
+			CGameObject* pGameObject = CEffectDamageStar::Create(m_pGraphicDev);
 			dynamic_cast<CTempEffect*>(pGameObject)->Set_TargetObject(_pOther->Get_Host());
 			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
-
-			//pGameObject = CEffectDamage::Create(m_pGraphicDev);
-			//pGameObject->m_pTransform->Translate(_vec3(vecMonsterPos.x, vecMonsterPos.y - 0.5f, vecMonsterPos.z + .5f));
-			//Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+			//////////////////////////////////////////////////////////////////////////////// ¿Ã∆Â∆Æ 
 
 			Engine::EventManager()->GetInstance()->DeleteObject(this);
 		}
+
+		//////////////////////////////////////////////////////////////////////////////// ¿Ã∆Â∆Æ 
+		_matrix      matMonsterWorld = _pOther->GetHost()->m_pTransform->WorldMatrix();
+		_vec3        vecMonsterPos = _vec3(matMonsterWorld._41, matMonsterWorld._42 + .5f, matMonsterWorld._43);
+		CGameObject* pGameObject = CEffectSquare::Create(m_pGraphicDev, vecMonsterPos, 50, EFFECTCOLOR::ECOLOR_NONE);
+		dynamic_cast<CEffectSquare*>(pGameObject)->Set_MonsterEffectColor(dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_MonsterTag());
+		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+		//////////////////////////////////////////////////////////////////////////////// ¿Ã∆Â∆Æ 
 
 		Engine::EventManager()->GetInstance()->DeleteObject(this);
 	}
@@ -259,5 +234,7 @@ CArrow* CArrow::Create(LPDIRECT3DDEVICE9 pGraphicDev, CTransform* Weapon,
 
 void CArrow::Free()
 {
+	Safe_Release(m_pEffect);
+
 	__super::Free();
 }

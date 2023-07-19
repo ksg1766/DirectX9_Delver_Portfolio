@@ -269,51 +269,17 @@ void CTempItem::OnCollisionEnter(CCollider* _pOther)
 				dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_StateMachine()->Set_State(STATE::HIT);
 			}
 
-			//////////////////////////////////////// 이펙트 추가
+			//////////////////////////////////////////////////////////////////////////////// 이펙트 
 			_matrix      matMonsterWorld  = _pOther->GetHost()->m_pTransform->WorldMatrix();
 			_vec3        vecMonsterPos    = _vec3(matMonsterWorld._41, matMonsterWorld._42 + .5f, matMonsterWorld._43);
-			CGameObject* pGameObject      = nullptr;
-
-			// 이펙트 생성
-			switch (dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_MonsterTag())
-			{
-			case MONSTERTAG::SPIDER:
-				pGameObject = CEffectSquare::Create(m_pGraphicDev, vecMonsterPos, 50, EFFECTCOLOR::ECOLOR_BROWN);
-				break;
-			case MONSTERTAG::WARRIOR:
-				pGameObject = CEffectSquare::Create(m_pGraphicDev, vecMonsterPos, 50, EFFECTCOLOR::ECOLOR_RED);
-				break;
-			case MONSTERTAG::BAT:
-				pGameObject = CEffectSquare::Create(m_pGraphicDev, vecMonsterPos, 50, EFFECTCOLOR::ECOLOR_BROWN);
-				break;
-			case MONSTERTAG::WIZARD:
-				pGameObject = CEffectSquare::Create(m_pGraphicDev, vecMonsterPos, 50, EFFECTCOLOR::ECOLOR_APRICOT);
-				break;
-			case MONSTERTAG::ALIEN:
-				pGameObject = CEffectSquare::Create(m_pGraphicDev, vecMonsterPos, 50, EFFECTCOLOR::ECOLOR_PINK);
-				break;
-			case MONSTERTAG::SLIME:
-				pGameObject = CEffectSquare::Create(m_pGraphicDev, vecMonsterPos, 50, EFFECTCOLOR::ECOLOR_GREEN);
-				break;
-			case MONSTERTAG::SKELETON:
-				pGameObject = CEffectSquare::Create(m_pGraphicDev, vecMonsterPos, 50, EFFECTCOLOR::ECOLOR_APRICOT);
-				break;
-			case MONSTERTAG::SKULLGHOST:
-				pGameObject = CEffectSquare::Create(m_pGraphicDev, vecMonsterPos, 50, EFFECTCOLOR::ECOLOR_WHITE);
-				break;
-			case MONSTERTAG::WORM:
-				pGameObject = CEffectSquare::Create(m_pGraphicDev, vecMonsterPos, 50, EFFECTCOLOR::ECOLOR_RED);
-				break;
-			default:
-				pGameObject = CEffectSquare::Create(m_pGraphicDev, vecMonsterPos, 50, EFFECTCOLOR::ECOLOR_RED);
-				break;
-			}
+			CGameObject* pGameObject = CEffectSquare::Create(m_pGraphicDev, vecMonsterPos, 50, EFFECTCOLOR::ECOLOR_NONE);
+			dynamic_cast<CEffectSquare*>(pGameObject)->Set_MonsterEffectColor(dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_MonsterTag());
 			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 
 			pGameObject = CEffectDamage::Create(m_pGraphicDev);
 			pGameObject->m_pTransform->Translate(_vec3(vecMonsterPos.x, vecMonsterPos.y - 0.5f, vecMonsterPos.z + .5f));
 			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
-			//////////////////////////////////////// 이펙트 추가
+			//////////////////////////////////////////////////////////////////////////////// 이펙트 
 
 			cout << "데미지" << endl;
 		}
@@ -344,15 +310,14 @@ void CTempItem::OnCollisionStay(CCollider* _pOther)
 			dynamic_cast<CMonster*>(_pOther->Get_Host())->Set_KnockBack(true);
 		}
 		pPlayer.IsAttack(dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_BasicStat());
-		//////////////////////////////////////// 이펙트 테스트 추가 -> 몬스터 종류마다 이펙트 이미지 다르게 사용하기를 추천
-		// 이펙트 생성 위치
-		_matrix MonsterWorld = _pOther->GetHost()->m_pTransform->WorldMatrix();
-		_vec3 TargetPos = _vec3(MonsterWorld._41, MonsterWorld._42 + .5f, MonsterWorld._43);
 
-		// 이펙트 생성
-		CGameObject* pGameObject = CEffectSquare::Create(m_pGraphicDev, TargetPos, 50, EFFECTCOLOR::ECOLOR_RED);
+		//////////////////////////////////////////////////////////////////////////////// 이펙트 
+		_matrix MonsterWorld     = _pOther->GetHost()->m_pTransform->WorldMatrix();
+		_vec3   vecMonsterPos    = _vec3(MonsterWorld._41, MonsterWorld._42 + .5f, MonsterWorld._43);
+		CGameObject* pGameObject = CEffectSquare::Create(m_pGraphicDev, vecMonsterPos, 50, EFFECTCOLOR::ECOLOR_NONE);
+		dynamic_cast<CEffectSquare*>(pGameObject)->Set_MonsterEffectColor(dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_MonsterTag());
 		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
-		//////////////////////////////////////// 이펙트 테스트 추가
+		//////////////////////////////////////////////////////////////////////////////// 이펙트 
 	}
 }
 

@@ -544,6 +544,18 @@
     <Filter Include="03. GameObject\01. Stage\05. Monster\08. SkullGhost\Bullet">
       <UniqueIdentifier>{8723f588-6158-451d-9daf-701075554ecf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\01. Stage\06. Fragile\00. Box">
+      <UniqueIdentifier>{a699dc28-2b64-44eb-b93e-ecb76894b31a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Stage\06. Fragile\01. Pot">
+      <UniqueIdentifier>{2d214bb8-b2d6-48a5-9b91-f46f87d484c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\07. Effect\08. EffectTwinkle">
+      <UniqueIdentifier>{4d0e45d8-0571-4d58-81d7-bdf30a952856}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\07. Effect\09. EffectPastTrace">
+      <UniqueIdentifier>{37ac0866-7145-4149-b867-a5c28cac918f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -1038,6 +1050,33 @@
     <ClInclude Include="..\Header\Pot.h">
       <Filter>03. GameObject</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\Pot.h">
+      <Filter>02. GameObject\01. Stage\06. Fragile\01. Pot</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Chease.h">
+      <Filter>99. Etc\헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Helmet.h">
+      <Filter>99. Etc\헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Plate_Trap_Body.h">
+      <Filter>99. Etc\헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\StrikeDown_Trap_Body.h">
+      <Filter>99. Etc\헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\EffectTwinkle.h">
+      <Filter>03. GameObject\07. Effect\08. EffectTwinkle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\EffectPastTrace.h">
+      <Filter>03. GameObject\07. Effect\09. EffectPastTrace</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\DungeonWarrior.h">
+      <Filter>03. GameObject\01. Stage\05. Monster\01. Warrior</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\DungeonSpider.h">
+      <Filter>03. GameObject\01. Stage\05. Monster\02. Spider</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -1522,6 +1561,33 @@
     </ClCompile>
     <ClCompile Include="..\Code\Pot.cpp">
       <Filter>03. GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Pot.cpp">
+      <Filter>02. GameObject\01. Stage\06. Fragile\01. Pot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Chease.cpp">
+      <Filter>99. Etc\소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Helmet.cpp">
+      <Filter>99. Etc\소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Plate_Trap_Body.cpp">
+      <Filter>99. Etc\소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\StrikeDown_Trap_Body.cpp">
+      <Filter>99. Etc\소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\EffectTwinkle.cpp">
+      <Filter>03. GameObject\07. Effect\08. EffectTwinkle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\EffectPastTrace.cpp">
+      <Filter>03. GameObject\07. Effect\09. EffectPastTrace</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\DungeonWarrior.cpp">
+      <Filter>03. GameObject\01. Stage\05. Monster\01. Warrior</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\DungeonSpider.cpp">
+      <Filter>03. GameObject\01. Stage\05. Monster\02. Spider</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

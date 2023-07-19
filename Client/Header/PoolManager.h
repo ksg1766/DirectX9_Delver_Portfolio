@@ -24,7 +24,7 @@ public:
 	void	Ready_Pool();
 
 	void	Create_Monster(MONSTERTAG _eMonsterTag, _vec3 _vSpawnPos);
-	//void	Create_Effect(EFFECTTAG _eMonsterTag, _vec3 _vSpawnPos);
+	void	Create_Effect(EFFECTTAG _eMonsterTag, _vec3 _vSpawnPos);
 
 	void	Delete_Object(CGameObject* _pGameObject);
 
@@ -41,7 +41,7 @@ private:
 		void Ready_Pool();
 
 		queue<CMonster*>& GetMonsterPool(MONSTERTAG _eMonsterTag) { return m_MonsterPool[(_uint)_eMonsterTag]; }
-		//vector<queue<CEffect*>>& GetEffectPool(EFFECTTAG _eEffectTag) { return m_EffectPool[(_uint)_eEffectTag]; }
+		queue<CTempEffect*>& GetEffectPool(EFFECTTAG _eEffectTag) { return m_EffectPool[(_uint)_eEffectTag]; }
 		
 		virtual void Free() override;
 
@@ -49,7 +49,7 @@ private:
 		static const _uint iMaxMonster = 31;
 		static const _uint iMaxEffect = 127;
 		queue<CMonster*> m_MonsterPool[(_uint)MONSTERTAG::MONSTER_END];
-		//queue<CTempEffect*> m_EffectPool[(_uint)EFFECTTAG::EFFECT_END];
+		queue<CTempEffect*> m_EffectPool[(_uint)EFFECTTAG::EFFECT_END];
 	};
 
 private:

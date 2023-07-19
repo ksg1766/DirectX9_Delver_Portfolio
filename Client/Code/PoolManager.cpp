@@ -47,7 +47,7 @@ void CPoolManager::Create_Monster(MONSTERTAG _eMonsterTag, _vec3 _vSpawnPos) // 
 
 	m_pPool->GetMonsterPool(_eMonsterTag).pop();
 }
-/*
+
 void CPoolManager::Create_Effect(EFFECTTAG _eEffectTag, _vec3 _vSpawnPos)
 {
 	CGameObject* pGameObject = m_pPool->GetEffectPool(_eEffectTag).front();
@@ -57,7 +57,7 @@ void CPoolManager::Create_Effect(EFFECTTAG _eEffectTag, _vec3 _vSpawnPos)
  
 	m_pPool->GetEffectPool(_eEffectTag).pop();
 }
-*/
+
 void CPoolManager::Delete_Object(CGameObject* _pGameObject)
 {
 	switch (_pGameObject->Get_ObjectTag())

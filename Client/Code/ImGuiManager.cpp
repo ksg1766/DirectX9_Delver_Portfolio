@@ -657,7 +657,7 @@ HRESULT CImGuiManager::OnSaveData()
             vector<CGameObject*>& vecObjList = pScene->Get_ObjectList(LAYERTAG::GAMELOGIC, (OBJECTTAG)i);
             for (auto& iter : vecObjList)
             {
-                if(iter->m_pTransform->m_vInfo[INFO_POS].y < 0.9f)
+                if (iter->m_pTransform->m_vInfo[INFO_POS].y < 0.9f)
                     continue;
 
                 //dwStrByte = sizeof(CHAR) * (strlen(typeid(*iter).name()) + 1);
