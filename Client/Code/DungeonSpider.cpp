@@ -101,6 +101,9 @@ _int CDungeonSpider::Update_Object(const _float& fTimeDelta)
 		}
 
 		//////////////////////////////////////////////////////////////////////////////// ÀÌÆåÆ® 
+		m_fDeadCoolTime += fTimeDelta;
+
+		if (m_fDeadCoolTime > 3.f)
 		CPoolManager::GetInstance()->Delete_Object(this);
 	}
 

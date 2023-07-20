@@ -97,8 +97,8 @@ void CStage::Render_Scene()
 
 void CStage::Free()
 {
-	__super::Free();
 	CPoolManager::DestroyInstance();
+	__super::Free();
 }
 
 CStage* CStage::Create(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -264,9 +264,9 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	dynamic_cast<CBread*>(pItem)->Set_WorldItem(true);
 	pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
 
-	pGameObject = CWorm::Create(m_pGraphicDev);
-	pGameObject->m_pTransform->Translate(_vec3(-30.f, 2.f, -40.f));
-	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+	//pGameObject = CWorm::Create(m_pGraphicDev);
+	//pGameObject->m_pTransform->Translate(_vec3(-30.f, 2.f, -40.f));
+	//pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
 	pItem = CApple::Create(m_pGraphicDev, true);
 	NULL_CHECK_RETURN(pItem, E_FAIL);
@@ -296,6 +296,34 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	pItem->m_pTransform->Translate(_vec3(-40, 2.5f, 15.f));
 	dynamic_cast<CRoastmeat*>(pItem)->Set_WorldItem(true);
 	pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
+
+	pItem = CHolyWater::Create(m_pGraphicDev, true);
+	NULL_CHECK_RETURN(pItem, E_FAIL);
+	pItem->m_pTransform->Translate(_vec3(-45, 2.5f, -35.f));
+	dynamic_cast<CHolyWater*>(pItem)->Set_WorldItem(true);
+	pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
+
+	pItem = CHpPotion::Create(m_pGraphicDev, true);
+	NULL_CHECK_RETURN(pItem, E_FAIL);
+	pItem->m_pTransform->Translate(_vec3(-45, 2.5f, -30.f));
+	dynamic_cast<CHpPotion*>(pItem)->Set_WorldItem(true);
+	pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
+
+	pItem = CLamp::Create(m_pGraphicDev, true);
+	NULL_CHECK_RETURN(pItem, E_FAIL);
+	pItem->m_pTransform->Translate(_vec3(-50, 2.5f, -30.f));
+	dynamic_cast<CLamp*>(pItem)->Set_WorldItem(true);
+	pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
+
+	for(_int i = 0; i < 5; ++i)
+	{
+		pItem = CRandomPotion::Create(m_pGraphicDev, true);
+		NULL_CHECK_RETURN(pItem, E_FAIL);
+		pItem->m_pTransform->Translate(_vec3(-45, 2.5f, -25.f + (i*5)));
+		dynamic_cast<CRandomPotion*>(pItem)->Set_WorldItem(true);
+		pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
+	}
+
 
 	//pGameObject = CBlade_Trap::Create(m_pGraphicDev);
 	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
@@ -486,7 +514,7 @@ HRESULT CStage::Load_Data()
 	}
 	/*HANDLE hFile = CreateFile(L"../Bin/Data/Sewer.dat", GENERIC_READ,
 		0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);*/
-	HANDLE hFile = CreateFile(L"../Bin/Data/TempData.dat", GENERIC_READ,
+	HANDLE hFile = CreateFile(L"../Bin/Data/TerrainWithGiantTree.dat", GENERIC_READ,
 		0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
 
 	if (INVALID_HANDLE_VALUE == hFile)
@@ -502,6 +530,7 @@ HRESULT CStage::Load_Data()
 	_int		iPoolCapacity = 5;
 	_float		fSpawnRadius = 10.0f;
 	_float		fSpawnTime = 10.0f;
+	CGameObject* pGameObject = nullptr;
 
 	while (true)
 	{
@@ -524,7 +553,7 @@ HRESULT CStage::Load_Data()
 			if (0 == dwByte)
 				break;
 
-			CGameObject* pGameObject = CCubeBlock::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+			pGameObject = CCubeBlock::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
 			NULL_CHECK_RETURN(pGameObject, E_FAIL);
 			dynamic_cast<CCubeBlock*>(pGameObject)->Set_TextureNumber(byTextureNumber);
 			pGameObject->m_pTransform->Translate(_vec3(fX, fY, fZ));
@@ -545,7 +574,7 @@ HRESULT CStage::Load_Data()
 			if (0 == dwByte)
 				break;
 
-			CGameObject* pGameObject = CSpawningPool::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+			pGameObject = CSpawningPool::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
 			NULL_CHECK_RETURN(pGameObject, E_FAIL);
 			dynamic_cast<CSpawningPool*>(pGameObject)->Set_MonsterTag(eSpawnerTag);
 			dynamic_cast<CSpawningPool*>(pGameObject)->Set_PoolCapacity(iPoolCapacity);
@@ -553,9 +582,10 @@ HRESULT CStage::Load_Data()
 			dynamic_cast<CSpawningPool*>(pGameObject)->Set_SpawnTime(fSpawnTime);
 			pGameObject->m_pTransform->Translate(_vec3(fX, 0.f, fZ));
 			EventManager()->CreateObject(pGameObject, LAYERTAG::ENVIRONMENT);
+
+
 		}
 	}
-
 	CloseHandle(hFile);
 	return S_OK;
 }

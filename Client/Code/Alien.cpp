@@ -86,10 +86,10 @@ _int CAlien::Update_Object(const _float& fTimeDelta)
 
 	if (m_pBasicStat->Get_Stat()->fHP <= 0)
 	{
-		if (m_pAnimator->Get_Animation()->Get_Frame() >= 3)
-			m_pAnimator->Get_Animation()->Set_Loop(FALSE);
+		if (m_pAnimator->Get_Animation()->Get_Frame() >= 2)
 		{
 			m_pStateMachine->Set_State(STATE::DEAD);
+			m_pAnimator->Get_Animation()->Set_Loop(FALSE);
 			//////////////////////////////////////////////////////////////////////////////// ÀÌÆåÆ® 
 			if (!m_bDieEffect)
 			{
@@ -101,6 +101,11 @@ _int CAlien::Update_Object(const _float& fTimeDelta)
 				m_bDieEffect = true;
 			}
 			//////////////////////////////////////////////////////////////////////////////// ÀÌÆåÆ® 
+			
+			
+			m_fDeadCoolTime += fTimeDelta;
+
+			if (m_fDeadCoolTime > 3.f)
 			CPoolManager::GetInstance()->Delete_Object(this);
 		}
 		//ForceHeight(this->m_pTransform->m_vInfo[INFO_POS]);

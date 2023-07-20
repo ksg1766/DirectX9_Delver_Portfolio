@@ -196,6 +196,9 @@ CSpawningPool* CSpawningPool::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 
 void CSpawningPool::Free(void)
 {
+    for_each(m_MonsterList.begin(), m_MonsterList.end(), CDeleteObj());
+    m_MonsterList.clear();
+
     __super::Free();
 }
 

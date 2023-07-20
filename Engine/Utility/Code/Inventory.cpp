@@ -42,8 +42,7 @@ void CInventory::Add_ItemObject(CGameObject* pGameObject)
 			if (SlotItemType.eItemID == ItemType.eItemID)
 			{
 				dynamic_cast<CItem*>(iter.second)->Add_ItemCount(ItemType.iCount);
-
-
+				
 				CTransform* pPlayerTransform = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform;
 				vector<CTransform*>& ChildTransform = pPlayerTransform->Get_Child();
 
@@ -55,13 +54,17 @@ void CInventory::Add_ItemObject(CGameObject* pGameObject)
 						++iter;
 				}
 
-				for (auto& iter = m_mapKeySlot.begin(); iter != m_mapKeySlot.end();)
+				EventManager()->DeleteObject(pGameObject);
+	/*			for (auto& iter = m_mapKeySlot.begin(); iter != m_mapKeySlot.end();)
 				{
 					if (dynamic_cast<CItem*>(iter->second)->Get_ItemTag().eItemID == SlotItemType.eItemID)
+					{
+						m_vDead.push_back(iter->second);
 						iter = m_mapKeySlot.erase(iter);
+					}
 					else
 						++iter;
-				}
+				}*/
 
 				return;
 			}
@@ -89,24 +92,39 @@ void CInventory::Add_ItemObject(CGameObject* pGameObject)
 						++iter;
 				}
 
+	/*			for (auto& iter = m_mapKeySlot.begin(); iter != m_mapKeySlot.end();)
+				{
+					if (dynamic_cast<CItem*>(iter->second)->Get_ItemTag().eItemID == SlotItemType.eItemID)
+					{
+						m_vDead.push_back(iter->second);
+						iter = m_mapKeySlot.erase(iter);
+					}
+					else
+						++iter;
+				}*/
+
 				return;
 			}
 		}
 	}
 
 	// 내부 인벤토리 검사
-	for (auto& iter : m_vecInventory) {
-		if (iter != nullptr) {
-			ITEMTYPEID SlotItemType = dynamic_cast<CItem*>(iter)->Get_ItemTag();
+	for (auto& iter = m_vecInventory.begin(); iter != m_vecInventory.end();) {
+		if (*iter != nullptr) {
+			ITEMTYPEID SlotItemType = dynamic_cast<CItem*>(*iter)->Get_ItemTag();
 
 			if (SlotItemType.eItemID == ItemType.eItemID)
 			{
 				// 같은 아이템이 존재할 시 해당 개수만큼 카운트 증가 후 들어온 아이템 삭제
-				dynamic_cast<CItem*>(iter)->Add_ItemCount(ItemType.iCount);
-				Safe_Release<CGameObject*>(pGameObject);
+				dynamic_cast<CItem*>(*iter)->Add_ItemCount(ItemType.iCount);
+				EventManager()->DeleteObject(pGameObject);
 				return;
 			}
+			else
+				++iter;
 		}
+		else
+			++iter;
 	}
 
 	// 보유하고 있지 않은 아이템이기에
@@ -781,11 +799,11 @@ void CInventory::Switch_InvenItem(ITEMTYPEID _itemId, UIOBJECTTTAG _slotId, _uin
 		return;
 
 	// 내부 인벤토리 검사
-	for (auto& iter : m_vecInventory) {
-		if (iter != nullptr) {
-			ITEMTYPEID SlotItemType = dynamic_cast<CItem*>(iter)->Get_ItemTag();
+	for (auto iter = m_vecInventory.begin(); iter != m_vecInventory.end();) {
+		if (*iter != nullptr) {
+			ITEMTYPEID SlotItemType = dynamic_cast<CItem*>(*iter)->Get_ItemTag();
 
-			if (SlotItemType.eItemType == _itemId.eItemType)
+			if (SlotItemType.eItemID == _itemId.eItemID)
 			{
 				switch (_slotId)
 				{
@@ -793,23 +811,23 @@ void CInventory::Switch_InvenItem(ITEMTYPEID _itemId, UIOBJECTTTAG _slotId, _uin
 					switch (_UINumber)       // 해당 타입의 슬롯 번호
 					{
 					case 0:
-						m_mapKeySlot[KEYSLOT_ONE] = iter;
+						m_mapKeySlot[KEYSLOT_ONE] = *iter;
 						m_bKeySlotEmpty[KEYSLOT_ONE] = true;
 						break;
 					case 1:
-						m_mapKeySlot[KEYSLOT_TWO] = iter;
+						m_mapKeySlot[KEYSLOT_TWO] = *iter;
 						m_bKeySlotEmpty[KEYSLOT_TWO] = true;
 						break;
 					case 2:
-						m_mapKeySlot[KEYSLOT_THREE] = iter;
+						m_mapKeySlot[KEYSLOT_THREE] = *iter;
 						m_bKeySlotEmpty[KEYSLOT_THREE] = true;
 						break;
 					case 3:
-						m_mapKeySlot[KEYSLOT_FOUR] = iter;
+						m_mapKeySlot[KEYSLOT_FOUR] = *iter;
 						m_bKeySlotEmpty[KEYSLOT_FOUR] = true;
 						break;
 					case 4:
-						m_mapKeySlot[KEYSLOT_FIVE] = iter;
+						m_mapKeySlot[KEYSLOT_FIVE] = *iter;
 						m_bKeySlotEmpty[KEYSLOT_FIVE] = true;
 						break;
 					}
@@ -818,37 +836,42 @@ void CInventory::Switch_InvenItem(ITEMTYPEID _itemId, UIOBJECTTTAG _slotId, _uin
 					switch (_UINumber)       // 해당 타입의 슬롯 번호
 					{
 					case 0:
-						m_mapItemSlot[ITEMSLOT_HELMET] = iter;
+						m_mapItemSlot[ITEMSLOT_HELMET] = *iter;
 						m_bItemSlotEmpty[ITEMSLOT_HELMET] = true;
 						break;
 					case 1:
-						m_mapItemSlot[ITEMSLOT_HAND] = iter;
+						m_mapItemSlot[ITEMSLOT_HAND] = *iter;
 						m_bItemSlotEmpty[ITEMSLOT_HAND] = true;
 						break;
 					case 2:
-						m_mapItemSlot[ITEMSLOT_ARMOR] = iter;
+						m_mapItemSlot[ITEMSLOT_ARMOR] = *iter;
 						m_bItemSlotEmpty[ITEMSLOT_ARMOR] = true;
 						break;
 					case 3:
-						m_mapItemSlot[ITEMSLOT_RING] = iter;
+						m_mapItemSlot[ITEMSLOT_RING] = *iter;
 						m_bItemSlotEmpty[ITEMSLOT_RING] = true;
 						break;
 					case 4:
-						m_mapItemSlot[ITEMSLOT_PANTS] = iter;
+						m_mapItemSlot[ITEMSLOT_PANTS] = *iter;
 						m_bItemSlotEmpty[ITEMSLOT_PANTS] = true;
 						break;
 					case 5:
-						m_mapItemSlot[ITEMSLOT_NECKLACE] = iter;
+						m_mapItemSlot[ITEMSLOT_NECKLACE] = *iter;
 						m_bItemSlotEmpty[ITEMSLOT_NECKLACE] = true;
 						break;
 					}
 					break;
 				}
 
-				iter = nullptr;
+				/*iter = nullptr;*/
+				iter = m_vecInventory.erase(iter);
 				m_bSwitch = false;
 			}
+			else
+				++iter;
 		}
+		else
+			++iter;
 	}
 }
 
@@ -899,7 +922,6 @@ void CInventory::Switch_Keyslot(INVENKEYSLOT _key, ITEMTYPEID _itemId, UIOBJECTT
 				break;
 			}
 			break;
-
 		case Engine::UIID_SLOTEMPTY:     // 내부 슬롯
 			m_vecInventory.push_back(m_mapKeySlot[_key]);
 			break;
@@ -936,7 +958,8 @@ void CInventory::Switch_Keyslot(INVENKEYSLOT _key, ITEMTYPEID _itemId, UIOBJECTT
 		}
 
 		m_bKeySlotEmpty[_key] = false;
-		m_mapKeySlot[_key]    = nullptr;
+	/*	m_mapKeySlot[_key] = nullptr;*/
+		m_mapKeySlot.erase(_key);
 		m_bSwitch = false;
 	}
 }

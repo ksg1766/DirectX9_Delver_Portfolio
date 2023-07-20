@@ -67,6 +67,7 @@ protected:
     _float              m_fSpeed;
  
     _bool                               m_bDieEffect = false;
+    _float              m_fDeadCoolTime;
 
     // MONSTER_ID m_eMonserID;
     // MonsterAI Component 추가해서 사용
