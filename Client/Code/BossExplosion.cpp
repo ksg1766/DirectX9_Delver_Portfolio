@@ -87,6 +87,12 @@ void CBossExplosion::OnCollisionEnter(CCollider* _pOther)
 		PlayerState.Take_Damage(this->Get_BasicStat()->Get_Stat()->fAttack);
 		this->Set_AttackTick(true);
 
+		(dynamic_cast<CPlayer*>(_pOther->GetHost())->Get_RigidBody()->Add_Force(_vec3(0.f, 1.1f * 15.f, 0.f)));
+		(dynamic_cast<CPlayer*>(_pOther->GetHost())->Get_RigidBody()->UseGravity(true));
+		(dynamic_cast<CPlayer*>(_pOther->GetHost())->Set_JumpState(true));
+
+		/*m_pRigidBody->Add_Force(_vec3(0.f, 1.1f * m_fSpeed, 0.f));
+		m_pRigidBody->UseGravity(true);*/
 		//Engine::EventManager()->DeleteObject(this);
 	}
 }
@@ -139,6 +145,10 @@ HRESULT CBossExplosion::Add_Component(void)
 	pComponent = m_pBasicStat = dynamic_cast<CBasicStat*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BasicStat"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BASICSTAT, pComponent);
+
+	pComponent = m_pRigidBody = dynamic_cast<CRigidBody*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_RigidBody"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::RIGIDBODY, pComponent);
 
 	for (_uint i = 0; i < ID_END; ++i)
 		for (auto& iter : m_mapComponent[i])

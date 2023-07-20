@@ -1,16 +1,16 @@
-#include "UISpeech_OldMan.h"
+#include "UISpeech_Bard.h"
 #include "Export_Function.h"
-#include "Npc_OldMan.h"
-CUIspeech_OldMan::CUIspeech_OldMan(LPDIRECT3DDEVICE9 pGraphicDev)
+#include "Npc_Bard.h"
+CUIspeech_Bard::CUIspeech_Bard(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CTempUI(pGraphicDev)
 {
 }
 
-CUIspeech_OldMan::~CUIspeech_OldMan()
+CUIspeech_Bard::~CUIspeech_Bard()
 {
 }
 
-HRESULT CUIspeech_OldMan::Ready_Object()
+HRESULT CUIspeech_Bard::Ready_Object()
 {
 	m_eObjectTag = OBJECTTAG::UI;
 	FAILED_CHECK_RETURN(CTempUI::Ready_Object(), E_FAIL);
@@ -42,7 +42,7 @@ HRESULT CUIspeech_OldMan::Ready_Object()
 	return S_OK;
 }
 
-_int CUIspeech_OldMan::Update_Object(const _float& fTimeDelta)
+_int CUIspeech_Bard::Update_Object(const _float& fTimeDelta)
 {
 	if (m_IsDead)
 		return 0;
@@ -52,7 +52,7 @@ _int CUIspeech_OldMan::Update_Object(const _float& fTimeDelta)
 	return iExit;;
 }
 
-void CUIspeech_OldMan::LateUpdate_Object(void)
+void CUIspeech_Bard::LateUpdate_Object(void)
 {
 	if (m_IsDead)
 		return;
@@ -60,7 +60,7 @@ void CUIspeech_OldMan::LateUpdate_Object(void)
 	CTempUI::LateUpdate_Object();
 }
 
-void CUIspeech_OldMan::Render_Object()
+void CUIspeech_Bard::Render_Object()
 {
 	if (m_IsDead)
 		return;
@@ -75,31 +75,31 @@ void CUIspeech_OldMan::Render_Object()
 	/*dynamic_cast<CFont*>(m_pFont)->Set_pFont(m_pFontconfig[1]);
 	m_pFont->DrawText(L"");*/
 	m_pGameObject = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::NPC).front();
-	if (!dynamic_cast<CNpc_OldMan*>(m_pGameObject)->Get_Quest())
-	{
-		dynamic_cast<CFont*>(m_pFont)->Set_pFont(m_pFontconfig[1]);
-		m_pFont->DrawText(L"³ª¹«Á» °íÃÄÁÖ°ÔÀ×");
-	}
-	else
-	{
-		switch (dynamic_cast<CNpc_OldMan*>(m_pGameObject)->Get_Speech())
-		{
-		case 0:
-			dynamic_cast<CFont*>(m_pFont)->Set_pFont(m_pFontconfig[1]);
-			m_pFont->DrawText(L"»¡¸® °¡¼­ ÇØÁàÀ×");
-			break;
-		case 1:	dynamic_cast<CFont*>(m_pFont)->Set_pFont(m_pFontconfig[1]);
-			m_pFont->DrawText(L"¿©±â¼­ ¹» ÇÏ°í ÀÖ³ª");
-			break;
-		case 2:
-			dynamic_cast<CFont*>(m_pFont)->Set_pFont(m_pFontconfig[1]);
-			m_pFont->DrawText(L"¿¡ÀÕ »¡¸® ²¨Á®À×");
-			break;
-		}
-	}
+	//if (!dynamic_cast<CNpc_Bard*>(m_pGameObject)->Get_Quest())
+	//{
+	//	dynamic_cast<CFont*>(m_pFont)->Set_pFont(m_pFontconfig[1]);
+	//	m_pFont->DrawText(L"³ª¹«Á» °íÃÄÁÖ°ÔÀ×");
+	//}
+	//else
+	//{
+	//	switch (dynamic_cast<CNpc_Bard*>(m_pGameObject)->Get_Speech())
+	//	{
+	//	case 0:
+	//		dynamic_cast<CFont*>(m_pFont)->Set_pFont(m_pFontconfig[1]);
+	//		m_pFont->DrawText(L"»¡¸® °¡¼­ ÇØÁàÀ×");
+	//		break;
+	//	case 1:	dynamic_cast<CFont*>(m_pFont)->Set_pFont(m_pFontconfig[1]);
+	//		m_pFont->DrawText(L"¿©±â¼­ ¹» ÇÏ°í ÀÖ³ª");
+	//		break;
+	//	case 2:
+	//		dynamic_cast<CFont*>(m_pFont)->Set_pFont(m_pFontconfig[1]);
+	//		m_pFont->DrawText(L"¿¡ÀÕ »¡¸® ²¨Á®À×");
+	//		break;
+	//	}
+	//}
 }
 
-HRESULT CUIspeech_OldMan::Add_Component(void)
+HRESULT CUIspeech_Bard::Add_Component(void)
 {
 	CComponent* pComponent = nullptr;
 
@@ -126,13 +126,13 @@ HRESULT CUIspeech_OldMan::Add_Component(void)
 	return S_OK;
 }
 
-void CUIspeech_OldMan::Key_Input(void)
+void CUIspeech_Bard::Key_Input(void)
 {
 }
 
-CUIspeech_OldMan* CUIspeech_OldMan::Create(LPDIRECT3DDEVICE9 pGraphicDev)
+CUIspeech_Bard* CUIspeech_Bard::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 {
-	CUIspeech_OldMan* pInstance = new CUIspeech_OldMan(pGraphicDev);
+	CUIspeech_Bard* pInstance = new CUIspeech_Bard(pGraphicDev);
 
 	if (FAILED(pInstance->Ready_Object()))
 	{
@@ -144,7 +144,7 @@ CUIspeech_OldMan* CUIspeech_OldMan::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 	return pInstance;
 }
 
-void CUIspeech_OldMan::Free()
+void CUIspeech_Bard::Free()
 {
 	CTempUI::Free();
 }

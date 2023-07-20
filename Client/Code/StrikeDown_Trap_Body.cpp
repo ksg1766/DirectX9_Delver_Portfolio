@@ -92,6 +92,11 @@ void CStrikeDown_Trap::OnCollisionEnter(CCollider* _pOther)
 		PlayerState.Take_Damage(10.f);
 		m_bPlayerHit = false;
 		cout << "¾Æ¾ß!" << endl;
+
+		_vec3	vDir = _pOther->GetHost()->m_pTransform->m_vInfo[INFO_POS] - m_pTransform->m_vInfo[INFO_POS];
+		(dynamic_cast<CPlayer*>(_pOther->GetHost())->Get_RigidBody()->Add_Force(_vec3(vDir.x, 1.1f * 5.f, vDir.z)));
+		(dynamic_cast<CPlayer*>(_pOther->GetHost())->Get_RigidBody()->UseGravity(true));
+		(dynamic_cast<CPlayer*>(_pOther->GetHost())->Set_JumpState(true));
 	}
 }
 
@@ -123,6 +128,11 @@ HRESULT CStrikeDown_Trap::Add_Component(void)
 	pComponent = m_pCollider = dynamic_cast<CCollider*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Collider"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::COLLIDER, pComponent);
+
+
+	pComponent = dynamic_cast<CRigidBody*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_RigidBody"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::RIGIDBODY, pComponent);
 
 	for (_uint i = 0; i < ID_END; ++i)
 		for (auto& iter : m_mapComponent[i])

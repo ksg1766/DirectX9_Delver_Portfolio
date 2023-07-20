@@ -177,6 +177,8 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	//pGameObject->m_pTransform->Translate(_vec3(-40.f, 0.f,-40.f));
 	pGameObject->m_pTransform->Translate(_vec3(0.f, 0.f, 0.f));
+	//pGameObject->m_pTransform->Translate(_vec3(100.f, 10.f,0.f));
+	//pGameObject->m_pTransform->Translate(_vec3(0.f, 0.f, 0.f));
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 	m_pPlayer = dynamic_cast<CPlayer*>(pGameObject);
 
@@ -196,7 +198,7 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	// Npc Test
 	pGameObject = CNpc_OldMan::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pGameObject->m_pTransform->Translate(_vec3(-50.f, 0.f, -50.f));
+	pGameObject->m_pTransform->Translate(_vec3(-40.f, 0.f, -40.f));
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
 	pGameObject = CNpc_Bard::Create(m_pGraphicDev);

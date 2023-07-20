@@ -1,7 +1,5 @@
 #pragma once
 #include "TempUI.h"
-
-
 BEGIN(Engine)
 
 class CRcTex;
@@ -10,12 +8,12 @@ class CTransform;
 class CFont;
 END
 
-class CUIspeech_OldMan :
+class CUIBuff :
     public CTempUI
 {
 private:
-    explicit CUIspeech_OldMan(LPDIRECT3DDEVICE9 pGraphicDev);
-    virtual ~CUIspeech_OldMan();
+    explicit CUIBuff(LPDIRECT3DDEVICE9 pGraphicDev);
+    virtual ~CUIBuff();
 
 public:
     HRESULT		Ready_Object();
@@ -25,18 +23,17 @@ public:
 
 private:
     HRESULT		Add_Component(void);
-    void	    Key_Input(void);
-    CFont*      m_pFont = nullptr;
-    ID3DXFont* m_pFontconfig[2];
+
+    CFont* m_pFont = nullptr;
+    ID3DXFont* m_pFontconfig;
     CGameObject* m_pGameObject;
 
-    _uint      m_iSpeech;
-    _bool       m_bQuest;
-    
+    _float       m_fRemainingTime;
 public:
-    static CUIspeech_OldMan* Create(LPDIRECT3DDEVICE9 pGraphicDev);
+    static CUIBuff* Create(LPDIRECT3DDEVICE9 pGraphicDev);
 
 private:
     virtual void Free();
+
 };
 

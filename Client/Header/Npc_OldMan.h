@@ -8,7 +8,7 @@ class CTexture;
 class CAnimator;
 class CStateMachine;
 class CFont;
-
+class CTempUI;
 END
 
 class CNpc_OldMan : public  Engine::CNpc
@@ -31,6 +31,8 @@ public:
 	void			Set_UseUI(_bool _use) { m_bUseUI = _use; }
 	_bool			Get_UseUI() { return m_bUseUI; }
 
+	_bool			Get_Quest() { return m_bQuest; }
+	_uint			Get_Speech() { return m_iSpeech; }
 private:
 	HRESULT	Add_Component();
 private:
@@ -46,7 +48,11 @@ private:
 	_bool			m_bUseUI;
 	_bool			m_bTalkButton;
 	_bool			m_bTalkingBox;
+	_bool			m_bQuest;//퀘스트를 줬는지 확인
+	_bool			m_bSpeech;//rand가 자동없데이트 되는걸 막음.
+
 	_float			m_fFontTime;
+	_uint			m_iSpeech;
 	CGameObject* m_pGameObject;
 public:
 	static CNpc_OldMan* Create(LPDIRECT3DDEVICE9 pGraphicDev);

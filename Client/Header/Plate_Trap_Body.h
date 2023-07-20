@@ -5,6 +5,7 @@ BEGIN(Engine)
 class CCubeBf;
 class CTexture;
 class CStateMachine;
+class CTempEffect;
 END
 
 class CPlate_Trap :
@@ -30,6 +31,7 @@ private:
 	CCubeBf*		m_pCubeBf = nullptr;
 	CTexture*		m_pTexture = nullptr;
 	CGameObject*	m_pOtherObj = nullptr;
+
 	_float			m_fInitialHeight;
 	_float			m_fTime;
 	_bool			m_bAttack;

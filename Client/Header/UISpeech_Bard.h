@@ -10,12 +10,12 @@ class CTransform;
 class CFont;
 END
 
-class CUIspeech_OldMan :
+class CUIspeech_Bard :
     public CTempUI
 {
 private:
-    explicit CUIspeech_OldMan(LPDIRECT3DDEVICE9 pGraphicDev);
-    virtual ~CUIspeech_OldMan();
+    explicit CUIspeech_Bard(LPDIRECT3DDEVICE9 pGraphicDev);
+    virtual ~CUIspeech_Bard();
 
 public:
     HRESULT		Ready_Object();
@@ -34,7 +34,7 @@ private:
     _bool       m_bQuest;
     
 public:
-    static CUIspeech_OldMan* Create(LPDIRECT3DDEVICE9 pGraphicDev);
+    static CUIspeech_Bard* Create(LPDIRECT3DDEVICE9 pGraphicDev);
 
 private:
     virtual void Free();

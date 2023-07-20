@@ -69,6 +69,7 @@ void CRenderer::Clear_RenderGroup()
 
 void CRenderer::Render_Priority(LPDIRECT3DDEVICE9& pGraphicDev)
 {
+<<<<<<< HEAD
 	if (SCENETAG::STAGE == SceneManager()->Get_Scene()->Get_SceneTag())
 	{// 안개 사용
 		pGraphicDev->SetRenderState(D3DRS_FOGENABLE, TRUE);
@@ -84,8 +85,8 @@ void CRenderer::Render_Priority(LPDIRECT3DDEVICE9& pGraphicDev)
 		pGraphicDev->SetRenderState(D3DRS_FOGEND, *(DWORD*)&fFar);
 	}
 
-	for (auto iter : m_RenderGroup[RENDER_PRIORITY])
-		iter->Render_Object();
+	//for (auto iter : m_RenderGroup[RENDER_PRIORITY])
+	//	iter->Render_Object();
 }
 	
 void CRenderer::Render_Nonalpha(LPDIRECT3DDEVICE9& pGraphicDev)

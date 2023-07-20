@@ -15,7 +15,7 @@ private:
 public:
     HRESULT Ready_Font();
     ID3DXFont* Create_3DXFont(_int _Height, _uint _Width, _uint _Weight,
-        _bool _Italic, const wchar_t _wchar[], ID3DXFont* _pFont);//높이(_int), 너비(_uint),굵기0~1000(_uint), 기울임(_bool), 글꼴 ""
+        _bool _Italic, WCHAR _wchar[], ID3DXFont* _pFont);//높이(_int), 너비(_uint),굵기0~1000(_uint), 기울임(_bool), 글꼴 ""
     void    Set_pFont(ID3DXFont* _pFont) { m_pFont = _pFont; }//매개변수를 받아 컴포넌트 내부의 ID3DXFont* pFont를 설정.
     void    Set_Rect(RECT _rect) { m_rect = _rect; }//글자를 띄울 사각형의 크기 RECT
     void    Set_Anchor(DWORD anchor) { m_dwAnchor = anchor; }//글자를 띄울 사각형의 위치조정. 자세한건 NODRAWTEXT검색

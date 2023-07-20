@@ -1,6 +1,8 @@
 #include "Plate_Trap_Body.h"
 #include "Export_Function.h"
-
+#include "Player.h"
+#include "BossExplosion.h"
+#include "Item.h"
 CPlate_Trap::CPlate_Trap(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CGameObject(pGraphicDev)
 {
@@ -59,23 +61,39 @@ void CPlate_Trap::Trap_On()
 void CPlate_Trap::OnCollisionEnter(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
-	if (m_bAttack) { return; }
-	m_pOtherObj = _pOther->GetHost();
-	if (OBJECTTAG::PLAYER == m_pOtherObj->Get_ObjectTag())
-	{
-		m_pTransform->Scale(_vec3(0.4f, 0.05f, 0.4f));
-		m_bAttack = true;
-	}
-	else if (OBJECTTAG::ITEM == m_pOtherObj->Get_ObjectTag())
-	{
-		/*m_pTransform->Scale(_vec3(0.4f, 0.05f, 0.4f));
-		m_bAttack = true;*/
-	}
 }
 
 void CPlate_Trap::OnCollisionStay(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
+	if (m_bAttack) { return; }
+	m_pOtherObj = _pOther->GetHost();
+	if (OBJECTTAG::PLAYER == m_pOtherObj->Get_ObjectTag())
+	{
+		//독함정
+		/*dynamic_cast<CPlayer*>(m_pOtherObj)->Set_Poisoning(true);
+		m_pTransform->Scale(_vec3(0.4f, 0.05f, 0.4f));
+		m_bAttack = true;*/
+
+		//폭발함정
+		CGameObject* pGameObject = CBossExplosion::Create(m_pGraphicDev);
+		m_pTransform->Scale(_vec3(0.4f, 0.05f, 0.4f));
+		pGameObject->m_pTransform->Translate(_vec3(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y+1.f, m_pTransform->m_vInfo[INFO_POS].z));
+		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+
+		m_bAttack = true;
+	}
+	if (OBJECTTAG::ITEM == m_pOtherObj->Get_ObjectTag())
+	{
+		if (dynamic_cast<CItem*>(m_pOtherObj)->Get_WorldItem())
+		{
+			CGameObject* pGameObject = CBossExplosion::Create(m_pGraphicDev);
+			m_pTransform->Scale(_vec3(0.4f, 0.05f, 0.4f));
+			pGameObject->m_pTransform->Translate(_vec3(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y + 1.f, m_pTransform->m_vInfo[INFO_POS].z));
+			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+		}
+		m_bAttack = true;
+	}
 }
 
 void CPlate_Trap::OnCollisionExit(CCollider* _pOther)
@@ -97,6 +115,10 @@ HRESULT CPlate_Trap::Add_Component(void)
 	pComponent = m_pTransform = dynamic_cast<CTransform*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Transform"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::TRANSFORM, pComponent);
+
+	pComponent = dynamic_cast<CBillBoard*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BillBoard"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BILLBOARD, pComponent);
 
 	pComponent = m_pCollider = dynamic_cast<CCollider*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Collider"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
