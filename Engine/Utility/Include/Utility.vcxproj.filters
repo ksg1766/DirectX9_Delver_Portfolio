@@ -184,6 +184,9 @@
     <Filter Include="03. GameObject\08. NPC">
       <UniqueIdentifier>{9defc036-df09-4c41-9791-f0a360f91275}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04. Component\16. Material">
+      <UniqueIdentifier>{f42eddbe-3bc4-4dc8-93ce-889ad2e9feea}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Header\Scene.h">
@@ -336,6 +339,9 @@
     <ClInclude Include="..\..\Header\TempEffect.h">
       <Filter>03. GameObject\09. TempEffect</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Header\Material.h">
+      <Filter>04. Component\16. Material</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\Scene.cpp">
@@ -484,6 +490,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\TempEffect.cpp">
       <Filter>03. GameObject\09. TempEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Material.cpp">
+      <Filter>04. Component\16. Material</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

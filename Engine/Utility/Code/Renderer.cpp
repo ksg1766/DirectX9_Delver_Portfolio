@@ -26,8 +26,33 @@ void CRenderer::Render_GameObject(LPDIRECT3DDEVICE9& pGraphicDev)
 	Remder_Effect(pGraphicDev);
 
 	Render_Priority(pGraphicDev);
+
+	/*D3DLIGHT9 light;
+	ZeroMemory(&light, sizeof(D3DLIGHT9));
+	light.Type = D3DLIGHT_DIRECTIONAL;
+	light.Diffuse = D3DCOLORVALUE{ 0.f, 1.f, 1.f, 1.f };
+	light.Ambient = D3DXCOLOR(0.f, 1.f, 1.f, 1.f);
+	_vec3 vDir(1.f, -1.f, -1.f);
+	D3DXVec3Normalize((D3DXVECTOR3*)&light.Direction, &vDir);
+
+	pGraphicDev->SetLight(0, &light);
+	pGraphicDev->LightEnable(0, TRUE);
+	pGraphicDev->SetRenderState(D3DRS_LIGHTING, TRUE);
+	pGraphicDev->SetRenderState(D3DRS_NORMALIZENORMALS, TRUE);
+
+	pGraphicDev->SetRenderState(D3DRS_AMBIENT, D3DCOLOR_ARGB(125, 255, 255, 255));
+	D3DMATERIAL9 mtrl;
+	ZeroMemory(&mtrl, sizeof(D3DMATERIAL9));
+
+	mtrl.Diffuse = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
+	mtrl.Ambient = D3DXCOLOR(0.1f, 0.1f, 0.1f, 1.f);
+	mtrl.Specular = D3DXCOLOR(0.1f, 0.1f, 0.1f, 1.f);
+	mtrl.Emissive = D3DXCOLOR(0.1f, 0.1f, 0.1f, 1.f);
+	pGraphicDev->SetMaterial(&mtrl);*/
+
 	Render_Nonalpha(pGraphicDev);
 	Render_Alpha(pGraphicDev);
+	//pGraphicDev->SetRenderState(D3DRS_LIGHTING, FALSE);
 	Render_UI(pGraphicDev);
 
 	Clear_RenderGroup();
@@ -44,20 +69,20 @@ void CRenderer::Clear_RenderGroup()
 
 void CRenderer::Render_Priority(LPDIRECT3DDEVICE9& pGraphicDev)
 {
-	//if (SCENETAG::STAGE == SceneManager()->Get_Scene()->Get_SceneTag())
-	//{// 안개 사용
-	//	pGraphicDev->SetRenderState(D3DRS_FOGENABLE, TRUE);
-	//	// Z버퍼 기준으로 안개 적용
-	//	pGraphicDev->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_LINEAR);
-	//	// 안개 색상 설정
-	//	//pGraphicDev->SetRenderState(D3DRS_FOGCOLOR, D3DCOLOR_ARGB(1, 100, 155, 180));
-	//	pGraphicDev->SetRenderState(D3DRS_FOGCOLOR, D3DCOLOR_ARGB(1, 190, 190, 190));
-	//	float fNear = 1.f;
-	//	//float fFar = 140.0f;
-	//	float fFar = 140.0f;
-	//	pGraphicDev->SetRenderState(D3DRS_FOGSTART, *(DWORD*)&fNear);
-	//	pGraphicDev->SetRenderState(D3DRS_FOGEND, *(DWORD*)&fFar);
-	//}
+	if (SCENETAG::STAGE == SceneManager()->Get_Scene()->Get_SceneTag())
+	{// 안개 사용
+		pGraphicDev->SetRenderState(D3DRS_FOGENABLE, TRUE);
+		// Z버퍼 기준으로 안개 적용
+		pGraphicDev->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_LINEAR);
+		// 안개 색상 설정
+		//pGraphicDev->SetRenderState(D3DRS_FOGCOLOR, D3DCOLOR_ARGB(1, 100, 155, 180));
+		pGraphicDev->SetRenderState(D3DRS_FOGCOLOR, D3DCOLOR_ARGB(1, 50, 180, 190));
+		float fNear = 1.f;
+		//float fFar = 140.0f;
+		float fFar = 40.0f;
+		pGraphicDev->SetRenderState(D3DRS_FOGSTART, *(DWORD*)&fNear);
+		pGraphicDev->SetRenderState(D3DRS_FOGEND, *(DWORD*)&fFar);
+	}
 
 	for (auto iter : m_RenderGroup[RENDER_PRIORITY])
 		iter->Render_Object();

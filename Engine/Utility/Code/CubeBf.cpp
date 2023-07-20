@@ -21,44 +21,54 @@ CCubeBf::~CCubeBf()
 
 HRESULT CCubeBf::Ready_Buffer(void)
 {
-	m_dwFVF = VTXCUBE::format;
+	//m_dwFVF = VTXCUBE::format;
+	m_dwFVF = VTXNTX::format;
 	m_dwTriCnt = 12;
 	m_dwVtxCnt = 8;
-	m_dwVtxSize = sizeof(VTXCUBE);
-
+	//m_dwVtxSize = sizeof(VTXCUBE);
+	m_dwVtxSize = sizeof(VTXNTX);
 	m_dwIdxSize = sizeof(INDEX32);
 	m_IdxFmt = D3DFMT_INDEX32;
 
 	FAILED_CHECK_RETURN(CVIBuffer::Ready_Buffer(), E_FAIL);
 
-	VTXCUBE*		pVertex = nullptr;
+	//VTXCUBE* pVertex = nullptr;
+	VTXNTX* pVertex = nullptr;
 
 	m_pVB->Lock(0, 0, (void**)&pVertex, 0);
 	
 	// 전면
 	pVertex[0].vPosition = { -1.f, 1.f, -1.f };
+	pVertex[0].vNormal = { -0.577350259f, 0.577350259f, 0.577350259f };
 	pVertex[0].vTexUV = pVertex[0].vPosition;
 
 	pVertex[1].vPosition = { 1.f, 1.f, -1.f };
+	pVertex[0].vNormal = { 0.577350259f, 0.577350259f, 0.577350259f };
 	pVertex[1].vTexUV = pVertex[1].vPosition;
 
 	pVertex[2].vPosition = { 1.f, -1.f, -1.f };
+	pVertex[0].vNormal = { 0.577350259f, 0.577350259f, -0.577350259f };
 	pVertex[2].vTexUV = pVertex[2].vPosition;
 
 	pVertex[3].vPosition = { -1.f, -1.f, -1.f };
+	pVertex[0].vNormal = { -0.577350259f, 0.577350259f, -0.577350259f };
 	pVertex[3].vTexUV = pVertex[3].vPosition;
 
 	// 후면
 	pVertex[4].vPosition = { -1.f, 1.f, 1.f };
+	pVertex[0].vNormal = { -0.577350259f, -0.577350259f, 0.577350259f };
 	pVertex[4].vTexUV = pVertex[4].vPosition;
 
 	pVertex[5].vPosition = { 1.f, 1.f, 1.f };
+	pVertex[0].vNormal = { 0.577350259f, -0.577350259f, 0.577350259f };
 	pVertex[5].vTexUV = pVertex[5].vPosition;
 
 	pVertex[6].vPosition = { 1.f, -1.f, 1.f };
+	pVertex[0].vNormal = { 0.577350259f, -0.577350259f, -0.577350259f };
 	pVertex[6].vTexUV = pVertex[6].vPosition;
 
 	pVertex[7].vPosition = { -1.f, -1.f, 1.f };
+	pVertex[0].vNormal = { -0.577350259f, -0.577350259f, -0.577350259f };
 	pVertex[7].vTexUV = pVertex[7].vPosition;
 	
 	m_pVB->Unlock();
@@ -122,7 +132,6 @@ HRESULT CCubeBf::Ready_Buffer(void)
 	pIndex[11]._2 = 3;
 
 	m_pIB->Unlock();
-
 
 	return S_OK;
 }

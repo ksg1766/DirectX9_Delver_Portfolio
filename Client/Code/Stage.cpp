@@ -175,8 +175,8 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	// Player
 	pGameObject = CPlayer::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pGameObject->m_pTransform->Translate(_vec3(-40.f, 0.f,-40.f));
-	//pGameObject->m_pTransform->Translate(_vec3(0.f, 0.f, 0.f));
+	//pGameObject->m_pTransform->Translate(_vec3(-40.f, 0.f,-40.f));
+	pGameObject->m_pTransform->Translate(_vec3(0.f, 0.f, 0.f));
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 	m_pPlayer = dynamic_cast<CPlayer*>(pGameObject);
 
@@ -204,25 +204,25 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	pGameObject->m_pTransform->Translate(_vec3(-55.f, 0.f, -55.f));
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
-	//CItem* pItem = CTempItem::Create(m_pGraphicDev, true);
-	//NULL_CHECK_RETURN(pItem, E_FAIL);
-	//pItem->m_pTransform->Translate(_vec3(-40, 0.5f, 0.f));
-	//dynamic_cast<CTempItem*>(pItem)->Set_WorldItem(true);
-	//pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
-	//
-	//pItem = CBow::Create(m_pGraphicDev, true);
-	//NULL_CHECK_RETURN(pItem, E_FAIL);
-	//pItem->m_pTransform->Translate(_vec3(-60, 0.5f, 0.f));
-	//dynamic_cast<CBow*>(pItem)->Set_WorldItem(true);
-	//pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
-	//
-	//pItem = CFireWands::Create(m_pGraphicDev, true);
-	//NULL_CHECK_RETURN(pItem, E_FAIL);
-	//pItem->m_pTransform->Translate(_vec3(-80, 0.5f, 0.f));
-	//dynamic_cast<CFireWands*>(pItem)->Set_WorldItem(true);
-	//pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
+	CItem* pItem = CTempItem::Create(m_pGraphicDev, true);
+	NULL_CHECK_RETURN(pItem, E_FAIL);
+	pItem->m_pTransform->Translate(_vec3(-40, 0.5f, 0.f));
+	dynamic_cast<CTempItem*>(pItem)->Set_WorldItem(true);
+	pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
+	
+	pItem = CBow::Create(m_pGraphicDev, true);
+	NULL_CHECK_RETURN(pItem, E_FAIL);
+	pItem->m_pTransform->Translate(_vec3(-60, 0.5f, 0.f));
+	dynamic_cast<CBow*>(pItem)->Set_WorldItem(true);
+	pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
+	
+	pItem = CFireWands::Create(m_pGraphicDev, true);
+	NULL_CHECK_RETURN(pItem, E_FAIL);
+	pItem->m_pTransform->Translate(_vec3(-80, 0.5f, 0.f));
+	dynamic_cast<CFireWands*>(pItem)->Set_WorldItem(true);
+	pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
 
-	CItem* pItem = CHelmet::Create(m_pGraphicDev, true);
+	pItem = CHelmet::Create(m_pGraphicDev, true);
 	NULL_CHECK_RETURN(pItem, E_FAIL);
 	pItem->m_pTransform->Translate(_vec3(-40, 2.5f, -35.f));
 	dynamic_cast<CHelmet*>(pItem)->Set_WorldItem(true);
@@ -486,7 +486,7 @@ HRESULT CStage::Load_Data()
 	}
 	/*HANDLE hFile = CreateFile(L"../Bin/Data/Sewer.dat", GENERIC_READ,
 		0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);*/
-	HANDLE hFile = CreateFile(L"../Bin/Data/TempData.dat", GENERIC_READ,
+	HANDLE hFile = CreateFile(L"../Bin/Data/Sewer.dat", GENERIC_READ,
 		0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
 
 	if (INVALID_HANDLE_VALUE == hFile)

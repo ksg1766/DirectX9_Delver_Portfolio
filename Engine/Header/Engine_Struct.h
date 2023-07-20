@@ -53,7 +53,7 @@ namespace Engine
 	{
 		_vec3		vPosition;
 		_vec3		vNormal;
-		_vec2		vTexture;
+		_vec3		vTexUV;
 		static const _ulong	format = D3DFVF_XYZ | D3DFVF_NORMAL | D3DFVF_TEX1 | D3DFVF_TEXCOORDSIZE3(0);
 	}VTXNTX;
 

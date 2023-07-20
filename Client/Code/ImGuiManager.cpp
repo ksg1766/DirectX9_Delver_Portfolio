@@ -720,7 +720,7 @@ HRESULT CImGuiManager::OnLoadData()
 
         vector<CGameObject*>& refObjectList = pLayer->Get_ObjectList((OBJECTTAG)i);
         for_each(refObjectList.begin(), refObjectList.end(), [&](CGameObject* pObj) { EventManager()->DeleteObject(pObj); });
-        //refObjectList.clear();
+        refObjectList.clear();
     }
     HANDLE hFile = CreateFile(L"../Bin/Data/Sewer.dat", GENERIC_READ,
         0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
