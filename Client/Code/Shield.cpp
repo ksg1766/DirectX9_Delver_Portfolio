@@ -2,7 +2,9 @@
 #include "Shield.h"
 #include "Export_Function.h"
 #include "Player.h" 
+#include "EffectDamage.h"
 
+_int g_iCount = 0;
 
 CShield::CShield(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CItem(pGraphicDev)
@@ -51,6 +53,8 @@ HRESULT CShield::Ready_Object(_bool _Item)
 #pragma region Shield Stat
 	m_pBasicStat->Get_Stat()->iArmorMax = 2.f;
 	m_pBasicStat->Get_Stat()->iArmorMin = 1.f;
+	m_pBasicStat->Get_Stat()->iDamageMax = 1.f;
+	m_pBasicStat->Get_Stat()->iDamageMin = 1.f;
 #pragma endregion
 
 
@@ -199,6 +203,30 @@ void CShield::OnCollisionEnter(CCollider* _pOther)
 	if (!(_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::MONSTER) &&
 		!(_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::PLAYER))
 		__super::OnCollisionEnter(_pOther);
+
+	CPlayer& pPlayer = *dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer());
+
+	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::MONSTER)
+	{
+		if (pPlayer.IsThrowShield() && dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_StateMachine()
+			->Get_State() != STATE::DEAD)
+		{
+			pPlayer.IsAttack(dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_BasicStat());
+			++g_iCount;
+
+			if (dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_StateMachine()
+				->Get_PrevState() != STATE::HIT && g_iCount > 4)
+			{
+				g_iCount = 0;
+				dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_StateMachine()->Set_State(STATE::HIT);
+			}
+
+
+			CGameObject* pGameObject = CEffectDamage::Create(m_pGraphicDev);
+			pGameObject->m_pTransform->Translate(_vec3(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vInfo[INFO_POS].z));
+			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+		}
+	}
 
 }
 

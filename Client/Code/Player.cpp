@@ -47,8 +47,11 @@ HRESULT CPlayer::Ready_Object(void)
 	m_bRightRot = false;
 	m_bStartRot = true;
 	m_bThrowShield = false;
+	m_bIsAddiction = false;
 	m_iDrunkCount = 0.f;
+	m_iAddictionCount = 0.f;
 	m_iRootCount = 0;
+	m_fAddictionTime = 0.f;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
@@ -526,7 +529,7 @@ void CPlayer::Use_SlotItem(INVENKEYSLOT _SlotNum)
 				}
 			}
 		}
-		else if (ItemType.eItemType == ITEMTYPE_GENERALITEM) // 왼 손 장착 아이템 타입
+		if (ItemType.eItemType == ITEMTYPE_GENERALITEM) // 왼 손 장착 아이템 타입
 		{
 			// 왼손에 장착 및 아이템 위치 손 슬롯으로 위치 이동
 
@@ -573,28 +576,55 @@ void CPlayer::Use_SlotItem(INVENKEYSLOT _SlotNum)
 
 			}
 		}
-		else if (ItemType.eItemType == ITEMTYPE_EQUIPITEM)   // 아이템 슬롯 장착 아이템 타입
+		if (ItemType.eItemType == ITEMTYPE_EQUIPITEM)   // 아이템 슬롯 장착 아이템 타입
 		{
 			// 해당 아이템 슬롯에 장착 및 위치 이동 + 장착 및 해제에 따른 효과 감소 및 증가
 
 		}
-		else if (ItemType.eItemType == ITEMTYPE_EATITEM)    // HP 회복 아이템 타입
+		if (ItemType.eItemType == ITEMTYPE_EATITEM)    // HP 회복 아이템 타입
 		{
 			// 해당 아이템의 회복 값에 따른 HP 회복 및 아이템 소멸
 
 			// 아이템 효과 적용
 			Eating(dynamic_cast<CItem*>(SlotItemObj)->Get_ItemStat());
 
-			m_pInventory->delete_FindItem(ItemType);
-			Engine::UIManager()->Delete_FindItemUI(ItemType);
-			EventManager()->DeleteObject(SlotItemObj);
+
+			if (ItemType.iCount == 1)
+			{
+				m_pInventory->delete_FindItem(ItemType);
+				Engine::UIManager()->Delete_FindItemUI(ItemType);
+			}
+			else if (ItemType.iCount > 1)
+			{
+				ItemType.iCount = 1;
+
+				m_pInventory->delete_FindItem(ItemType);
+
+				//아이템 UI 내부에서도 해당 아이템을 찾아 삭제.
+				Engine::UIManager()->Delete_FindItemUI(ItemType);
+			}
+			
 		}
 
-		else if (ItemType.eItemType == ITEMTYPE_POTIONITEM) // 다양한 포션 아이템 타입
+		if (ItemType.eItemType == ITEMTYPE_POTIONITEM) // 다양한 포션 아이템 타입
 		{
 			// 해당 아이템 능력 및 효과 적용 후 아이템 소멸
 
 			// 아이템 효과 적용
+			switch (ItemType.eItemID)
+			{
+			case ITEMID::EAT_POTION2:
+				dynamic_cast<CHpPotion*>(SlotItemObj)->Set_Heal(true);
+				dynamic_cast<CHpPotion*>(SlotItemObj)->Set_Use(true);
+					break;
+			case ITEMID::EAT_POTION5:
+				dynamic_cast<CRandomPotion*>(SlotItemObj)->Set_Use(true);
+				dynamic_cast<CRandomPotion*>(SlotItemObj)->Set_RandomUse(true);
+				break;
+			case ITEMID::EAT_POTION7:
+				dynamic_cast<CHolyWater*>(SlotItemObj)->Set_Heal(true);
+				break;
+			}
 
 			// 아이템 소멸
 		}
@@ -752,6 +782,33 @@ void CPlayer::IsAttack(CBasicStat* _MonsterStat)
 	_MonsterStat->Take_Damage(iResultDamage);
 }
 
+void CPlayer::IsAddiction(const _float& fTimeDelta)
+{
+	if (m_bIsAddiction)
+	{
+
+		m_fAddictionTime += fTimeDelta;
+
+		m_iAddictionCount++;
+
+		if (m_fAddictionTime > 1.5 && m_iAddictionCount < 5)
+		{
+			this->Get_Stat()->Get_Stat()->fHP -= 1;
+			CDynamicCamera* pDynamic =
+				dynamic_cast<CDynamicCamera*>(SceneManager()->
+					Get_ObjectList(LAYERTAG::ENVIRONMENT, OBJECTTAG::CAMERA).front());
+
+			pDynamic->Shake_Camera();
+
+			m_fAddictionTime = 0.f;
+			m_iAddictionCount = 0;
+			m_bIsAddiction = false;
+		}
+
+
+	}
+}
+
 void CPlayer::Eating(CBasicStat* _foodStat)
 {
 	m_pStat->Get_Stat()->fHP += _foodStat->Get_Stat()->fHP;
@@ -810,6 +867,18 @@ void CPlayer::Create_Item(CCollider* _pOther)
 	case ITEMID::EAT_COOKEDMEAT:
 		pItem = CRoastmeat::Create(m_pGraphicDev, false);
 		break;
+	case ITEMID::EAT_POTION2:
+		pItem = CHpPotion::Create(m_pGraphicDev, false);
+		break;
+	case ITEMID::EAT_POTION5:
+		pItem = CRandomPotion::Create(m_pGraphicDev, false);
+		break;
+	case ITEMID::EAT_POTION7:
+		pItem = CHolyWater::Create(m_pGraphicDev, false);
+		break;
+	case ITEMID::GENERAL_LAMP:
+		pItem = CLamp::Create(m_pGraphicDev, false);
+		break;
 	}
 
 
@@ -844,7 +913,6 @@ void CPlayer::Create_Item(CCollider* _pOther)
 		// 장착 상태 // 해당 아이템 찾아서 해당 슬롯 장착 상태 표시
 		Engine::CGameObject* FindSlotObj = Engine::UIManager()->Get_PopupObjectBasicSlot(ItemType);
 		dynamic_cast<CUIbasicslot*>(dynamic_cast<CTempUI*>(FindSlotObj))->Set_FindSlot(true);
-
 	}
 	// 아이템 줍기 및 버리기
 

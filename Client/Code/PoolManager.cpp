@@ -46,6 +46,7 @@ void CPoolManager::Create_Monster(MONSTERTAG _eMonsterTag, _vec3 _vSpawnPos) // 
 	EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 
 	m_pPool->GetMonsterPool(_eMonsterTag).pop();
+	m_pPool->GetMonsterPool(_eMonsterTag).push(dynamic_cast<CMonster*>(pGameObject));
 }
 
 void CPoolManager::Create_Effect(EFFECTTAG _eEffectTag, _vec3 _vSpawnPos)
@@ -56,6 +57,7 @@ void CPoolManager::Create_Effect(EFFECTTAG _eEffectTag, _vec3 _vSpawnPos)
 	EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
  
 	m_pPool->GetEffectPool(_eEffectTag).pop();
+	m_pPool->GetEffectPool(_eEffectTag).push(dynamic_cast<CTempEffect*>(pGameObject));
 }
 
 void CPoolManager::Delete_Object(CGameObject* _pGameObject)
@@ -80,6 +82,7 @@ void CPoolManager::Delete_Object(CGameObject* _pGameObject)
 void CPoolManager::Free()
 {
 	m_pPool->~ObjectPool();
+	Safe_Delete<ObjectPool*>(m_pPool);
 }
 
 CPoolManager::ObjectPool::ObjectPool()
@@ -199,6 +202,7 @@ void CPoolManager::ObjectPool::Free()
 			m_MonsterPool[i].pop();
 		}
 	}
+	int a = 0;		
 
 	/*for (_uint i = 0; i < (_uint)EFFECTTAG::EFFECT_END; ++i)
 	{
@@ -215,5 +219,6 @@ void CPoolManager::ObjectPool::Free()
 			iter = m_EffectPool[i].front();
 		}
 	}*/
+
 
 }

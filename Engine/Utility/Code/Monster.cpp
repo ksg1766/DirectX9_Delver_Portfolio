@@ -4,11 +4,13 @@
 
 CMonster::CMonster(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev), m_vCenterPos(_vec3(-50.f, 0.f, 20.f)), m_bKnockback(false)
+	, m_fDeadCoolTime(0.f)
 {
 }
 
 CMonster::CMonster(const CMonster& rhs)
 	: CGameObject(rhs), m_vCenterPos(rhs.m_vCenterPos), m_bKnockback(rhs.m_bKnockback)
+	, m_fDeadCoolTime(rhs.m_fDeadCoolTime)
 {
 }
 

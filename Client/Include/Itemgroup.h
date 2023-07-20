@@ -7,6 +7,7 @@
 #include "Shield.h"
 #include "Necklace.h"
 #include "Ring.h"
+#include "Lamp.h"
 
 #include "FireWands.h"
 #include "Arrow.h"
@@ -18,3 +19,7 @@
 #include "Cheese.h"
 #include "Meat.h"
 #include "Roastmeat.h"
+
+#include "HolyWater.h"
+#include "HpPotion.h"
+#include "RandomPotion.h"

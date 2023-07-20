@@ -23,6 +23,8 @@ void CEventManager::Update()
 		const OBJECTTAG& eObjectTag = m_vecDead[i]->Get_ObjectTag();
 		if(OBJECTTAG::MONSTER != eObjectTag	&& OBJECTTAG::EFFECT != eObjectTag)
 			Safe_Release(m_vecDead[i]);
+
+		
 	}
 	m_vecDead.clear();
 

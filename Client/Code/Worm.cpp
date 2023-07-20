@@ -85,19 +85,29 @@ _int CWorm::Update_Object(const _float& fTimeDelta)
 	if (m_pBasicStat->Get_Stat()->fHP <= 0)
 	{
 		m_pStateMachine->Set_State(STATE::DEAD);
-		CPoolManager::GetInstance()->Delete_Object(this);
 
-		//////////////////////////////////////////////////////////////////////////////// ÀÌÆåÆ® 
-		if (!m_bDieEffect)
+		if (m_pAnimator->Get_Animation()->Get_Frame() >= 1)
 		{
-			CGameObject* pGameObject = CEffectBlood::Create(m_pGraphicDev);
-			pGameObject->m_pTransform->Translate(_vec3(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y - .95f, m_pTransform->m_vInfo[INFO_POS].z));
-			dynamic_cast<CTempEffect*>(pGameObject)->Set_EffectColor(ECOLOR_RED);
-			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+			m_pAnimator->Get_Animation()->Set_Loop(FALSE);
 
-			m_bDieEffect = true;
+			//////////////////////////////////////////////////////////////////////////////// ÀÌÆåÆ® 
+			if (!m_bDieEffect)
+			{
+				CGameObject* pGameObject = CEffectBlood::Create(m_pGraphicDev);
+				pGameObject->m_pTransform->Translate(_vec3(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y - .95f, m_pTransform->m_vInfo[INFO_POS].z));
+				dynamic_cast<CTempEffect*>(pGameObject)->Set_EffectColor(ECOLOR_RED);
+				Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+
+				m_bDieEffect = true;
+			}
+			//////////////////////////////////////////////////////////////////////////////// ÀÌÆåÆ® 
+
+			m_fDeadCoolTime += fTimeDelta;
+
+			if (m_fDeadCoolTime > 3.f)
+				CPoolManager::GetInstance()->Delete_Object(this);
 		}
-		//////////////////////////////////////////////////////////////////////////////// ÀÌÆåÆ® 
+	
 	}
 
 	m_pStateMachine->Update_StateMachine(fTimeDelta);

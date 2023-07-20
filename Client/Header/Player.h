@@ -42,6 +42,7 @@ public:
 	CGameObject*    Get_CurrentEquipLeft()  { return m_pCurrentEquipItemLeft; }
 	CGameObject*	Get_PrevEquipRight()	{ return m_pPrevEquipItemRight; }
 	CGameObject*	Get_PrevEquipLeft()		{ return m_pPrevEquipItemLeft; }
+	CInventory*		Get_Inventory()			{ return m_pInventory; }
 	_bool			Get_ItemEquipRight()    { return m_bItemEquipRight; }
 	_bool			Get_ItemEquipLeft()     { return m_bItemEquipLeft; }
 	_bool			Get_Attack()			{ return m_bIsAttack; }
@@ -75,10 +76,11 @@ public:
 	void			Set_ThrowShield(_bool _Throw)					{ m_bThrowShield = _Throw; }
 	// ksg
 	void			Set_JumpState(_bool _bJump)						{ m_IsJump = _bJump; }
-
+	void			Set_Addiction(_bool _Addiction)					{ m_bIsAddiction = _Addiction; }
 public:
 	//void			Add_Item(CGameObject* pItem, ITEMTAG _eItem) { m_pItem[(_uint)_eItem] = pItem; }
 	void                IsAttack(CBasicStat* _MonsterStat);
+	void				IsAddiction(const _float& fTimeDelta);
 	void				Eating(CBasicStat* _foodStat);
 	void				Create_Item(CCollider*	_pOther);
 private:
@@ -110,9 +112,12 @@ private:
 	_bool			m_bDrunk;
 	_bool			m_bEquipStat;
 	_bool			m_bThrowShield;
+	_bool			m_bIsAddiction;
 
 	_int			m_iDrunkCount;
+	_int			m_iAddictionCount;
 	_float			m_fSpeed = 10.f;
+	_float			m_fAddictionTime;
 	_bool			m_IsJump = false;
 
 	_bool			m_OnGround = false;

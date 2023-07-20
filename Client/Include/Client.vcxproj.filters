@@ -544,12 +544,6 @@
     <Filter Include="03. GameObject\01. Stage\05. Monster\08. SkullGhost\Bullet">
       <UniqueIdentifier>{8723f588-6158-451d-9daf-701075554ecf}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\01. Stage\06. Fragile\00. Box">
-      <UniqueIdentifier>{a699dc28-2b64-44eb-b93e-ecb76894b31a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\01. Stage\06. Fragile\01. Pot">
-      <UniqueIdentifier>{2d214bb8-b2d6-48a5-9b91-f46f87d484c0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03. GameObject\01. Stage\02. Item\Armor">
       <UniqueIdentifier>{54f0ff31-4901-434f-b0f8-6fefd647d5c0}</UniqueIdentifier>
     </Filter>
@@ -582,6 +576,18 @@
     </Filter>
     <Filter Include="03. GameObject\07. Effect\09. EffectPastTrace">
       <UniqueIdentifier>{37ac0866-7145-4149-b867-a5c28cac918f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\01. Stage\02. Item\Consumable\HolyWater">
+      <UniqueIdentifier>{44cef915-9b8f-4262-b799-208041e8929f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\01. Stage\02. Item\Consumable\RandomPotion">
+      <UniqueIdentifier>{ce2f9955-830a-4f87-ad67-a7dd8bb20246}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\01. Stage\02. Item\Consumable\HpPotion">
+      <UniqueIdentifier>{4abad093-8cc5-4943-a34a-63473dadc301}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\01. Stage\02. Item\Lamp">
+      <UniqueIdentifier>{ffc822e3-3e08-4480-8023-5607307e35fe}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -854,9 +860,6 @@
     </ClInclude>
     <ClInclude Include="..\Header\Boss_MeteorReady.h">
       <Filter>03. GameObject\01. Stage\999. Boss\02. State\03. Attack\05. Meteor\01.Ready</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\SkeletonKing.h">
-      <Filter>02. GameObject\01. Stage\999. Boss</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Arrow.h">
       <Filter>03. GameObject\01. Stage\02. Item\Weapon\Bow\Arrow</Filter>
@@ -1145,6 +1148,21 @@
     <ClInclude Include="..\Header\Roastmeat.h">
       <Filter>03. GameObject\01. Stage\02. Item\Food</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\SkeletonKing.h">
+      <Filter>99. Etc\헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\HolyWater.h">
+      <Filter>03. GameObject\01. Stage\02. Item\Consumable\HolyWater</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\HpPotion.h">
+      <Filter>03. GameObject\01. Stage\02. Item\Consumable\HpPotion</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\RandomPotion.h">
+      <Filter>03. GameObject\01. Stage\02. Item\Consumable\RandomPotion</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Lamp.h">
+      <Filter>03. GameObject\01. Stage\02. Item\Lamp</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -1407,9 +1425,6 @@
     </ClCompile>
     <ClCompile Include="..\Code\Boss_MeteorReady.cpp">
       <Filter>03. GameObject\01. Stage\999. Boss\02. State\03. Attack\05. Meteor\01.Ready</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\SkeletonKing.cpp">
-      <Filter>02. GameObject\01. Stage\999. Boss</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Arrow.cpp">
       <Filter>03. GameObject\01. Stage\02. Item\Weapon\Bow\Arrow</Filter>
@@ -1691,6 +1706,21 @@
     </ClCompile>
     <ClCompile Include="..\Code\Roastmeat.cpp">
       <Filter>03. GameObject\01. Stage\02. Item\Food</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\SkeletonKing.cpp">
+      <Filter>99. Etc\소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\HolyWater.cpp">
+      <Filter>03. GameObject\01. Stage\02. Item\Consumable\HolyWater</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\HpPotion.cpp">
+      <Filter>03. GameObject\01. Stage\02. Item\Consumable\HpPotion</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\RandomPotion.cpp">
+      <Filter>03. GameObject\01. Stage\02. Item\Consumable\RandomPotion</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Lamp.cpp">
+      <Filter>03. GameObject\01. Stage\02. Item\Lamp</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

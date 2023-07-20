@@ -102,6 +102,10 @@ _int CBat::Update_Object(const _float& fTimeDelta)
 				m_bDieEffect = true;
 			}
 			//////////////////////////////////////////////////////////////////////////////// ÀÌÆåÆ® 
+			
+			m_fDeadCoolTime += fTimeDelta;
+
+			if (m_fDeadCoolTime > 3.f)
 			CPoolManager::GetInstance()->Delete_Object(this);
 		}
 	}
