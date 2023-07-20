@@ -635,7 +635,7 @@ HRESULT CImGuiManager::OnSaveData()
 {
     CScene* pScene = SceneManager()->Get_Scene();
 
-    HANDLE hFile = CreateFile(L"../Bin/Data/Sewer.dat", GENERIC_WRITE, 0, 0,
+    HANDLE hFile = CreateFile(L"../Bin/Data/TempData.dat", GENERIC_WRITE, 0, 0,
         CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0);
 
     if (INVALID_HANDLE_VALUE == hFile)
@@ -711,18 +711,18 @@ HRESULT CImGuiManager::OnSaveData()
 
 HRESULT CImGuiManager::OnLoadData()
 {
-    CScene* pScene = SceneManager()->Get_Scene();
-    CLayer* pLayer = pScene->Get_Layer(LAYERTAG::GAMELOGIC);
-    for (int i = 0; i < (UINT)OBJECTTAG::OBJECT_END; ++i)
-    {
-        if (OBJECTTAG::TERRAIN == (OBJECTTAG)i)
-            continue;
+    //CScene* pScene = SceneManager()->Get_Scene();
+    //CLayer* pLayer = pScene->Get_Layer(LAYERTAG::GAMELOGIC);
+    //for (int i = 0; i < (UINT)OBJECTTAG::OBJECT_END; ++i)
+    //{
+    //    if (OBJECTTAG::TERRAIN == (OBJECTTAG)i)
+    //        continue;
 
-        vector<CGameObject*>& refObjectList = pLayer->Get_ObjectList((OBJECTTAG)i);
-        for_each(refObjectList.begin(), refObjectList.end(), [&](CGameObject* pObj) { EventManager()->DeleteObject(pObj); });
-        //refObjectList.clear();
-    }
-    HANDLE hFile = CreateFile(L"../Bin/Data/Sewer.dat", GENERIC_READ,
+    //    vector<CGameObject*>& refObjectList = pLayer->Get_ObjectList((OBJECTTAG)i);
+    //    for_each(refObjectList.begin(), refObjectList.end(), [&](CGameObject* pObj) { EventManager()->DeleteObject(pObj); });
+    //    //refObjectList.clear();
+    //}
+    HANDLE hFile = CreateFile(L"../Bin/Data/TempData.dat", GENERIC_READ,
         0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
 
     if (INVALID_HANDLE_VALUE == hFile)

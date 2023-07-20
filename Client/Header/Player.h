@@ -31,7 +31,7 @@ private:
 	HRESULT			Add_Component(void);
 	void			Key_Input(const _float& fTimeDelta);
 	void            Use_SlotItem(INVENKEYSLOT _SlotNum);
-
+	void			PoisonDamage(const _float& fTimeDelta);
 public:
 
 	const _vec3*	Get_Offset()			{ return &m_vOffset; }
@@ -75,7 +75,10 @@ public:
 	void			Set_ThrowShield(_bool _Throw)					{ m_bThrowShield = _Throw; }
 	// ksg
 	void			Set_JumpState(_bool _bJump)						{ m_IsJump = _bJump; }
-
+	//Msh
+	void			Set_Poisoning(_bool	_bPoisoning)				{ m_bPoisoning = _bPoisoning; }
+	void			Set_Parrying(_bool	_bParrying)					{ m_bParrying = _bParrying; }
+	_bool			Get_Parrying()									{ return m_bParrying; }
 public:
 	//void			Add_Item(CGameObject* pItem, ITEMTAG _eItem) { m_pItem[(_uint)_eItem] = pItem; }
 	void                IsAttack(CBasicStat* _MonsterStat);
@@ -132,6 +135,11 @@ private:
 	_int			iArmorMax;
 	_int			iArmorMin;
 
+	//Msh
+	_bool			m_bParrying = false;
+	_bool			m_bPoisoning = false;
+	_float			m_fPoisoningTime = 0.f;
+	_uint			m_iPosingingCount = 0;
 public:
 	static CPlayer*		Create(LPDIRECT3DDEVICE9 pGraphicDev);
 

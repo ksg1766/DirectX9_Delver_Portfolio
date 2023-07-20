@@ -103,7 +103,7 @@ void CBox_Cube::OnCollisionStay(CCollider* _pOther)
 		m_fHitCool = 0.f;
 		m_bHit = true;
 		m_bShake = true;
-		//--m_iHP;
+		--m_iHP;
 		return;
 	}
 }

@@ -89,6 +89,7 @@ _int CShield::Update_Object(const _float& fTimeDelta)
 					20.f);
 				m_pTransform->Rotate(ROT_Z, 2.f);
 				m_pTransform->Translate(m_vDir * 5.f * fTimeDelta);
+				pPlayer->Set_Parrying(true);//Msh
 			}
 			else
 			{
@@ -98,6 +99,7 @@ _int CShield::Update_Object(const _float& fTimeDelta)
 					-20.f);
 				m_pTransform->Rotate(ROT_X, 10.f);
 				m_pTransform->Translate(m_vDir * -5.f * fTimeDelta);
+				pPlayer->Set_Parrying(false);//Msh
 			}
 
 			--m_iAttackTick;

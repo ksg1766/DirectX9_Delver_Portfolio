@@ -30,6 +30,9 @@ private:
     ID3DXFont* m_pFontconfig[2];
     CGameObject* m_pGameObject;
 
+    _uint      m_iSpeech;
+    _bool       m_bQuest;
+    
 public:
     static CUIspeech_OldMan* Create(LPDIRECT3DDEVICE9 pGraphicDev);
 

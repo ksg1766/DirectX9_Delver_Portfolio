@@ -1,6 +1,6 @@
 #include "UISpeech_OldMan.h"
 #include "Export_Function.h"
-
+#include "Npc_OldMan.h"
 CUIspeech_OldMan::CUIspeech_OldMan(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CTempUI(pGraphicDev)
 {
@@ -25,18 +25,20 @@ HRESULT CUIspeech_OldMan::Ready_Object()
 	WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);
 
 
-	m_pFontconfig[0] = dynamic_cast<CFont*>(m_pFont)->Create_3DXFont(32, 13.f, 1000.f, false, TEXT("맑은고딕"), m_pFontconfig[0]);
+	m_pFontconfig[0] = dynamic_cast<CFont*>(m_pFont)->Create_3DXFont(32, 13.f, 1000.f, false, TEXT("맑은 고딕"), m_pFontconfig[0]);
 	dynamic_cast<CFont*>(m_pFont)->Set_pFont(m_pFontconfig[0]);
 	dynamic_cast<CFont*>(m_pFont)->Set_FontColor(_uint(0xffffffff));
 	dynamic_cast<CFont*>(m_pFont)->Set_Rect(RECT{ 0, 520, WINCX, WINCY });
 	dynamic_cast<CFont*>(m_pFont)->Set_Anchor(DT_CENTER | DT_NOCLIP);
 
-	m_pFontconfig[1] = dynamic_cast<CFont*>(m_pFont)->Create_3DXFont(32, 15.f, 1000.f, false, TEXT("맑은고딕"), m_pFontconfig[1]);
+	m_pFontconfig[1] = dynamic_cast<CFont*>(m_pFont)->Create_3DXFont(32, 15.f, 1000.f, false, TEXT("맑은 고딕"), m_pFontconfig[1]);
 	dynamic_cast<CFont*>(m_pFont)->Set_pFont(m_pFontconfig[1]);
 	dynamic_cast<CFont*>(m_pFont)->Set_FontColor(_uint(0xffffffff));
 	dynamic_cast<CFont*>(m_pFont)->Set_Rect(RECT{ 0, 520, WINCX, WINCY });
 	dynamic_cast<CFont*>(m_pFont)->Set_Anchor(DT_CENTER | DT_NOCLIP);
 
+	m_iSpeech = 0;
+	m_bQuest = false;
 	return S_OK;
 }
 
@@ -69,20 +71,31 @@ void CUIspeech_OldMan::Render_Object()
 	m_pBufferCom->Render_Buffer();
 
 	srand(_uint(time(nullptr)));
-	switch (rand() % 3)
+
+	/*dynamic_cast<CFont*>(m_pFont)->Set_pFont(m_pFontconfig[1]);
+	m_pFont->DrawText(L"");*/
+	m_pGameObject = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::NPC).front();
+	if (!dynamic_cast<CNpc_OldMan*>(m_pGameObject)->Get_Quest())
 	{
-	case 0:
 		dynamic_cast<CFont*>(m_pFont)->Set_pFont(m_pFontconfig[1]);
-		m_pFont->DrawText(L"잠시 내 말좀 들어보게");
-		break;
-	case 1:
-		dynamic_cast<CFont*>(m_pFont)->Set_pFont(m_pFontconfig[0]);
-		m_pFont->DrawText(L"이거 만드는데 얼마나 시간이 많이 걸렸는지 아는가, 자네");
-		break;
-	case 2:
-		dynamic_cast<CFont*>(m_pFont)->Set_pFont(m_pFontconfig[1]);
-		m_pFont->DrawText(L"진짜 시간 낭비 개 심했다네");
-		break;
+		m_pFont->DrawText(L"나무좀 고쳐주게잉");
+	}
+	else
+	{
+		switch (dynamic_cast<CNpc_OldMan*>(m_pGameObject)->Get_Speech())
+		{
+		case 0:
+			dynamic_cast<CFont*>(m_pFont)->Set_pFont(m_pFontconfig[1]);
+			m_pFont->DrawText(L"빨리 가서 해줘잉");
+			break;
+		case 1:	dynamic_cast<CFont*>(m_pFont)->Set_pFont(m_pFontconfig[1]);
+			m_pFont->DrawText(L"여기서 뭘 하고 있나");
+			break;
+		case 2:
+			dynamic_cast<CFont*>(m_pFont)->Set_pFont(m_pFontconfig[1]);
+			m_pFont->DrawText(L"에잇 빨리 꺼져잉");
+			break;
+		}
 	}
 }
 

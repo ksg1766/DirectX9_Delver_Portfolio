@@ -208,7 +208,9 @@
     <ClInclude Include="..\Header\Boss_Sturn.h" />
     <ClInclude Include="..\Header\Bow.h" />
     <ClInclude Include="..\Header\Charge.h" />
-    <ClInclude Include="..\Header\Chease.h" />
+    <ClInclude Include="..\Header\Chease.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="..\Header\CrawlPattern.h" />
     <ClInclude Include="..\Header\EffectBlood.h" />
     <ClInclude Include="..\Header\EffectBrokenbox.h" />
@@ -235,6 +237,7 @@
     <ClInclude Include="..\Header\Ghost_Bullet.h" />
     <ClInclude Include="..\Header\Ghost_IDLE.h" />
     <ClInclude Include="..\Header\Top.h" />
+    <ClInclude Include="..\Header\UIBuff.h" />
     <ClInclude Include="..\Header\UISpeech.h" />
     <ClInclude Include="..\Header\Dead_BossSkeleton.h" />
     <ClInclude Include="..\Header\Dog_Idle.h" />
@@ -320,6 +323,7 @@
     <ClInclude Include="..\Header\UIOptionsButton.h" />
     <ClInclude Include="..\Header\UIplayerhp.h" />
     <ClInclude Include="..\Header\UIResumeButton.h" />
+    <ClInclude Include="..\Header\UISpeech_Bard.h" />
     <ClInclude Include="..\Header\UISpeech_OldMan.h" />
     <ClInclude Include="..\Header\WakeUp_BossSkeleton.h" />
     <ClInclude Include="..\Header\Worm.h" />
@@ -342,6 +346,7 @@
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="Torch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\Alchemist_Idle.cpp" />
@@ -384,7 +389,9 @@
     <ClCompile Include="..\Code\Bow.cpp" />
     <ClCompile Include="..\Code\Box_Cube.cpp" />
     <ClCompile Include="..\Code\Charge.cpp" />
-    <ClCompile Include="..\Code\Chease.cpp" />
+    <ClCompile Include="..\Code\Chease.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\Code\CrawlPattern.cpp" />
     <ClCompile Include="..\Code\EffectBlood.cpp" />
     <ClCompile Include="..\Code\EffectBrokenbox.cpp" />
@@ -411,6 +418,7 @@
     <ClCompile Include="..\Code\Ghost_Bullet.cpp" />
     <ClCompile Include="..\Code\Ghost_IDLE.cpp" />
     <ClCompile Include="..\Code\Top.cpp" />
+    <ClCompile Include="..\Code\UIBuff.cpp" />
     <ClCompile Include="..\Code\UISpeech.cpp" />
     <ClCompile Include="..\Code\Dead_BossSkeleton.cpp" />
     <ClCompile Include="..\Code\Dog_Idle.cpp" />
@@ -496,6 +504,7 @@
     <ClCompile Include="..\Code\UIOptionsButton.cpp" />
     <ClCompile Include="..\Code\UIplayerhp.cpp" />
     <ClCompile Include="..\Code\UIResumeButton.cpp" />
+    <ClCompile Include="..\Code\UISpeech_Bard.cpp" />
     <ClCompile Include="..\Code\UISpeech_OldMan.cpp" />
     <ClCompile Include="..\Code\WakeUp_BossSkeleton.cpp" />
     <ClCompile Include="..\Code\Worm.cpp" />
@@ -519,6 +528,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Torch.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc" />

@@ -29,7 +29,7 @@ HRESULT CFont::Ready_Font()
 	return S_OK;
 }
 
-ID3DXFont* CFont::Create_3DXFont(_int _Height, _uint _Width, _uint _Weight, _bool _Italic, const wchar_t _wchar[], ID3DXFont* _pFont)
+ID3DXFont* CFont::Create_3DXFont(_int _Height, _uint _Width, _uint _Weight, _bool _Italic, WCHAR _wchar[], ID3DXFont* _pFont)
 {
 	D3DXFONT_DESC	lf;
 	ZeroMemory(&lf, sizeof(D3DXFONT_DESC));

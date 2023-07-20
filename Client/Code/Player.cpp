@@ -111,7 +111,6 @@ Engine::_int CPlayer::Update_Object(const _float& fTimeDelta)
 	m_pRigidBody->Update_RigidBody(fTimeDelta);
 
 	_int iExit = __super::Update_Object(fTimeDelta);
-
 	m_pStateMachine->Update_StateMachine(fTimeDelta);
 
 #pragma region ksg
@@ -165,8 +164,7 @@ Engine::_int CPlayer::Update_Object(const _float& fTimeDelta)
 
 		m_bEquipStat = false;
 	}
-
-
+		PoisonDamage(fTimeDelta);
 	return iExit;
 }
 
@@ -598,6 +596,26 @@ void CPlayer::Use_SlotItem(INVENKEYSLOT _SlotNum)
 
 			// 아이템 소멸
 		}
+	}
+}
+
+void CPlayer::PoisonDamage(const _float& fTimeDelta)
+{
+	if (!m_bPoisoning) { return; }
+	m_fPoisoningTime += fTimeDelta;
+	if (1.5f < m_fPoisoningTime)
+	{
+		m_fPoisoningTime = 0.f;
+		m_pStat->Get_Stat()->fHP -= 1.f;
+		m_fPoisoningTime = 0.f;
+		++m_iPosingingCount;
+		cout << "독뎀" << endl;
+	}
+	if (4 < m_iPosingingCount)
+	{
+		m_iPosingingCount = 0;
+		m_bPoisoning = false;
+		cout << "독 풀림" << endl;
 	}
 }
 

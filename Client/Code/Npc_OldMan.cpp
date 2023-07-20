@@ -2,7 +2,7 @@
 #include "Export_Function.h"
 #include "OldMan_Idle.h"
 #include "DynamicCamera.h"
-
+#include "UIspeech_OldMan.h"
 CNpc_OldMan::CNpc_OldMan(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CNpc(pGraphicDev)
 {
@@ -37,7 +37,8 @@ HRESULT CNpc_OldMan::Ready_Object()
 
 	m_bTalkButton = false;
 	m_bTalkingBox = false;
-
+	m_bQuest =		false;
+	m_bSpeech = false;
 	m_pFontconfig = dynamic_cast<CFont*>(m_pFont)->Create_3DXFont(35, 28.f, 1000.f, false, L"Times New Roman", m_pFontconfig);
 	dynamic_cast<CFont*>(m_pFont)->Set_pFont(m_pFontconfig);
 	dynamic_cast<CFont*>(m_pFont)->Set_FontColor(_uint(0xffffffff));
@@ -73,6 +74,12 @@ _int CNpc_OldMan::Update_Object(const _float& fTimeDelta)
 			{
 				//static_cast<CDynamicCamera*>(m_pGameObject)->Set_Fix(true);
 				m_bTalkingBox = true;
+				if (!m_bSpeech)
+				{
+					srand(_uint(time(NULL)));
+					m_iSpeech = rand() % 3;
+					m_bSpeech = true;
+				}
 			}
 			else
 			{
@@ -80,6 +87,8 @@ _int CNpc_OldMan::Update_Object(const _float& fTimeDelta)
 				Engine::UIManager()->Hide_PopupUI(UIPOPUPLAYER::POPUP_SPEECH);
 				SceneManager()->Set_GameStop(false);
 				m_bTalkingBox = false;
+				m_bQuest = true;
+				m_bSpeech = false;
 			}
 
 		}
