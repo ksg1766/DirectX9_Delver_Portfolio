@@ -38,7 +38,7 @@ void CPoolManager::Ready_Pool()
 	m_pPool = new ObjectPool;
 }
 
-void CPoolManager::Create_Monster(MONSTERTAG _eMonsterTag, _vec3 _vSpawnPos) // 특정 위치에 소환
+CMonster* CPoolManager::Create_Monster(MONSTERTAG _eMonsterTag, _vec3 _vSpawnPos) // 특정 위치에 소환
 {
 	CGameObject* pGameObject = m_pPool->GetMonsterPool(_eMonsterTag).front();
 	pGameObject->Set_Dead(false);
@@ -46,7 +46,7 @@ void CPoolManager::Create_Monster(MONSTERTAG _eMonsterTag, _vec3 _vSpawnPos) // 
 	EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 
 	m_pPool->GetMonsterPool(_eMonsterTag).pop();
-	m_pPool->GetMonsterPool(_eMonsterTag).push(dynamic_cast<CMonster*>(pGameObject));
+	return static_cast<CMonster*>(pGameObject);
 }
 
 void CPoolManager::Create_Effect(EFFECTTAG _eEffectTag, _vec3 _vSpawnPos)
@@ -57,7 +57,6 @@ void CPoolManager::Create_Effect(EFFECTTAG _eEffectTag, _vec3 _vSpawnPos)
 	EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
  
 	m_pPool->GetEffectPool(_eEffectTag).pop();
-	m_pPool->GetEffectPool(_eEffectTag).push(dynamic_cast<CTempEffect*>(pGameObject));
 }
 
 void CPoolManager::Delete_Object(CGameObject* _pGameObject)
@@ -65,9 +64,10 @@ void CPoolManager::Delete_Object(CGameObject* _pGameObject)
 	switch (_pGameObject->Get_ObjectTag())
 	{
 	case OBJECTTAG::MONSTER:
+		_pGameObject->Set_Dead(true);
 		static_cast<CMonster*>(_pGameObject)->Init_Stat();
 		m_pPool->GetMonsterPool(static_cast<CMonster*>(_pGameObject)->Get_MonsterTag()).push(static_cast<CMonster*>(_pGameObject));
-		EventManager()->DeleteObject(_pGameObject);
+		//EventManager()->DeleteObject(_pGameObject);
 		break;
 
 	case OBJECTTAG::EFFECT:

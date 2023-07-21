@@ -49,9 +49,8 @@ HRESULT CSpawningPool::Ready_Object()
     }
     m_pBuffer->m_pIB->Unlock();
 
-    m_pTransform->Scale(_vec3(m_fSpawnRadius, 8.f, m_fSpawnRadius));
-    m_pTransform->Translate(_vec3(0.f, 10.f, 0.f));
-
+    m_pTransform->Scale(_vec3(m_fSpawnRadius, 1.f, m_fSpawnRadius));
+   
     return S_OK;
 }
 
@@ -112,46 +111,48 @@ void CSpawningPool::ReserveSpawn()
 
     CMonster* pMonster = nullptr;
    
-    switch (m_eMonsterTag)
-    {
-    case MONSTERTAG::SPIDER:
-        pMonster = CDungeonSpider::Create(m_pGraphicDev);
-        break;
-    case MONSTERTAG::WARRIOR:
-        pMonster = CDungeonWarrior::Create(m_pGraphicDev);
-        break;
-    case MONSTERTAG::BAT:
-        pMonster = CBat::Create(m_pGraphicDev);
-        break;
-    case MONSTERTAG::WIZARD:
-        pMonster = CWizard::Create(m_pGraphicDev);
-        break;
-    case MONSTERTAG::ALIEN:
-        pMonster = CAlien::Create(m_pGraphicDev);
-        break;
-    case MONSTERTAG::SLIME:
-        pMonster = CSlime::Create(m_pGraphicDev);
-        break;
-    case MONSTERTAG::SKELETON:
-        pMonster = CSkeleton::Create(m_pGraphicDev);
-        break;
-    case MONSTERTAG::SKULLGHOST:
-        pMonster = CSkullGhost::Create(m_pGraphicDev);
-        break;
-    case MONSTERTAG::WORM:
-        pMonster = CWorm::Create(m_pGraphicDev);
-        break;
-    //case MONSTERTAG::MONK:
+    //switch (m_eMonsterTag)
+    //{
+    //case MONSTERTAG::SPIDER:
+    //    pMonster = CDungeonSpider::Create(m_pGraphicDev);
+    //    CPoolManager::GetInstance()->Create_Monster();
+    //    break;
+    //case MONSTERTAG::WARRIOR:
+    //    pMonster = CDungeonWarrior::Create(m_pGraphicDev);
+    //    break;
+    //case MONSTERTAG::BAT:
+    //    pMonster = CBat::Create(m_pGraphicDev);
+    //    break;
+    //case MONSTERTAG::WIZARD:
+    //    pMonster = CWizard::Create(m_pGraphicDev);
+    //    break;
+    //case MONSTERTAG::ALIEN:
+    //    pMonster = CAlien::Create(m_pGraphicDev);
+    //    break;
+    //case MONSTERTAG::SLIME:
+    //    pMonster = CSlime::Create(m_pGraphicDev);
+    //    break;
+    //case MONSTERTAG::SKELETON:
     //    pMonster = CSkeleton::Create(m_pGraphicDev);
     //    break;
-    }
+    //case MONSTERTAG::SKULLGHOST:
+    //    pMonster = CSkullGhost::Create(m_pGraphicDev);
+    //    break;
+    //case MONSTERTAG::WORM:
+    //    pMonster = CWorm::Create(m_pGraphicDev);
+    //    break;
+    ////case MONSTERTAG::MONK:
+    ////    pMonster = CSkeleton::Create(m_pGraphicDev);
+    ////    break;
+    //}
 
-    NULL_CHECK_RETURN(pMonster);
+    //NULL_CHECK_RETURN(pMonster);
     _float fX = generator();
     _float fZ = generator();
     /*pMonster->m_pTransform->Translate(m_pTransform->m_vInfo[INFO_POS] + _vec3(fX, -2.f, fZ));
     EventManager()->CreateObject(pMonster, LAYERTAG::GAMELOGIC);*/
-    CPoolManager::GetInstance()->Create_Monster(m_eMonsterTag, m_pTransform->m_vInfo[INFO_POS] + _vec3(fX, -2.f, fZ));
+    //pMonster = CPoolManager::GetInstance()->Create_Monster(m_eMonsterTag, m_pTransform->m_vInfo[INFO_POS] + _vec3(fX, 10.f, fZ));
+    pMonster = CPoolManager::GetInstance()->Create_Monster(m_eMonsterTag, m_pTransform->m_vInfo[INFO_POS] + _vec3(fX, 0.f, fZ));
 
     m_MonsterList.push_back(pMonster);
 
@@ -160,7 +161,7 @@ void CSpawningPool::ReserveSpawn()
 
 void CSpawningPool::Set_SpawnRadius(_float _fRadius)
 {
-    m_fSpawnRadius = _fRadius; m_pTransform->Scale(_vec3(m_fSpawnRadius, 8.f, m_fSpawnRadius));
+    m_fSpawnRadius = _fRadius; m_pTransform->Scale(_vec3(m_fSpawnRadius, 1.f, m_fSpawnRadius));
 }
 
 HRESULT CSpawningPool::Add_Component()

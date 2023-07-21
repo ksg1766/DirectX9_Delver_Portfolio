@@ -54,6 +54,8 @@ HRESULT CPlayer::Ready_Object(void)
 	m_fAddictionTime = 0.f;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
+
+	m_pTransform->Scale(_vec3(0.9f, 0.9f, 0.9f));
 	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
 
 	m_pTransform->Translate(_vec3(0.f, 10.f, 0.f));
@@ -764,7 +766,6 @@ void CPlayer::OnCollisionStay(CCollider* _pOther)
 				m_pTransform->Translate(_vec3(-fRadiusX, 0.f, 0.f));
 		}
 	}
-	
 }
 
 void CPlayer::OnCollisionExit(CCollider* _pOther)
@@ -822,8 +823,6 @@ void CPlayer::IsAddiction(const _float& fTimeDelta)
 			m_iAddictionCount = 0;
 			m_bIsAddiction = false;
 		}
-
-
 	}
 }
 

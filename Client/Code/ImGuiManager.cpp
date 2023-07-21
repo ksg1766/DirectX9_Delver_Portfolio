@@ -194,87 +194,6 @@ _vec3 CImGuiManager::PickingBlock()
     }
 #pragma endregion Cube Picking
 
-#pragma region Terrain Picking
-
-    //if(!IsPicked)
-    //{
-    //    if (2 == m_iPickingMode)
-    //        return _vec3(0.f, -10.f, 0.f);
-
-    //    _vec3 vRayPosWorld = vRayPos;
-    //    _vec3 vRayDirWorld = vRayDir;
-
-    //    // 월드 스페이스 -> 로컬 스페이스
-    //    _matrix		matWorld;
-    //    matWorld = pTerrain->m_pTransform->WorldMatrix();
-    //    D3DXMatrixInverse(&matWorld, 0, &matWorld);
-    //    D3DXVec3TransformCoord(&vRayPosWorld, &vRayPosWorld, &matWorld);
-    //    D3DXVec3TransformNormal(&vRayDirWorld, &vRayDirWorld, &matWorld);
-
-    //    const vector<_vec3>& pTerrainVtxPos = pTerrain->LoadTerrainVertex();
-    //    
-    //    _float	fU = 0.f, fV = 0.f, fDist = 0.f;
-    //    //
-    //    _ulong		dwVtxIdx[3]{};
-
-    //    for (_ulong i = 0; i < VTXCNTZ - 1; ++i)
-    //    {
-    //        for (_ulong j = 0; j < VTXCNTX - 1; ++j)
-    //        {
-    //            _ulong	dwIndex = i * VTXCNTX + j;
-
-    //            // 오른쪽 위
-    //            dwVtxIdx[0] = dwIndex + VTXCNTX;
-    //            dwVtxIdx[1] = dwIndex + VTXCNTX + 1;
-    //            dwVtxIdx[2] = dwIndex + 1;
-
-    //            if (D3DXIntersectTri(&pTerrainVtxPos[dwVtxIdx[1]],
-    //                &pTerrainVtxPos[dwVtxIdx[0]],
-    //                &pTerrainVtxPos[dwVtxIdx[2]],
-    //                &vRayPos, &vRayDir, &fU, &fV, &fDist))
-    //            {
-    //                // V0 + U(V1 - V0) + V(V2 - V0)
-    //                _vec3 vFinalPos = _vec3(pTerrainVtxPos[dwVtxIdx[1]].x,
-    //                    1.f,    // 1.f 는 Cube Radius
-    //                    pTerrainVtxPos[dwVtxIdx[1]].z);
-
-    //                //if ((int)pTerrainVtxPos[dwVtxIdx[1]].x % 2)
-    //                 //   vFinalPos.x += 1.f;
-
-    //                //if ((int)pTerrainVtxPos[dwVtxIdx[1]].z % 2)
-    //                 //   vFinalPos.z += 1.f;
-
-    //                return vFinalPos;
-    //            }
-
-    //            // 왼쪽 아래
-    //            dwVtxIdx[0] = dwIndex + VTXCNTX;
-    //            dwVtxIdx[1] = dwIndex + 1;
-    //            dwVtxIdx[2] = dwIndex;
-
-    //            if (D3DXIntersectTri(&pTerrainVtxPos[dwVtxIdx[1]],
-    //                &pTerrainVtxPos[dwVtxIdx[0]],
-    //                &pTerrainVtxPos[dwVtxIdx[2]],
-    //                &vRayPos, &vRayDir, &fU, &fV, &fDist))
-    //            {
-    //                _vec3 vFinalPos = _vec3(pTerrainVtxPos[dwVtxIdx[1]].x,
-    //                    1.f,    // 1.f 는 Cube Radius
-    //                    pTerrainVtxPos[dwVtxIdx[1]].z);
-
-    //                //if ((int)pTerrainVtxPos[dwVtxIdx[1]].x % 2)
-    //                //    vFinalPos.x += 1.f;
-
-    //                //if ((int)pTerrainVtxPos[dwVtxIdx[1]].z % 2)
-    //                 //   vFinalPos.z += 1.f;
-
-    //                return vFinalPos;
-    //            }
-    //        }
-    //    }
-    //}
-
-#pragma endregion Terrain Picking
-
     // 한 번 더 최종 큐브 피킹 평면 검출하는 구간인데, 비효율적으로 됐지만 우선 놔둠...
 
     if (pq.empty() && !IsPicked) // 피킹된 큐브가 없다면
@@ -635,7 +554,7 @@ HRESULT CImGuiManager::OnSaveData()
 {
     CScene* pScene = SceneManager()->Get_Scene();
 
-    HANDLE hFile = CreateFile(L"../Bin/Data/TempData.dat", GENERIC_WRITE, 0, 0,
+    HANDLE hFile = CreateFile(L"../Bin/Data/Sewer.dat", GENERIC_WRITE, 0, 0,
         CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0);
 
     if (INVALID_HANDLE_VALUE == hFile)
@@ -695,6 +614,7 @@ HRESULT CImGuiManager::OnSaveData()
 
                 WriteFile(hFile, &eTag, sizeof(OBJECTTAG), &dwByte, nullptr);
                 WriteFile(hFile, &(iter->m_pTransform->m_vInfo[INFO_POS].x), sizeof(_float), &dwByte, nullptr);
+                WriteFile(hFile, &(iter->m_pTransform->m_vInfo[INFO_POS].y), sizeof(_float), &dwByte, nullptr);
                 WriteFile(hFile, &(iter->m_pTransform->m_vInfo[INFO_POS].z), sizeof(_float), &dwByte, nullptr);
 
                 WriteFile(hFile, &m_eMonsterTag, sizeof(MONSTERTAG), &dwByte, nullptr);
