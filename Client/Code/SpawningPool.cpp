@@ -107,46 +107,8 @@ void CSpawningPool::ReserveSpawn()
     uniform_int_distribution<__int64> distribution(-m_fSpawnRadius, m_fSpawnRadius); // 생성 범위
     auto generator = bind(distribution, engine);
 
-    //++m_iReservedCount;
-
     CMonster* pMonster = nullptr;
-   
-    //switch (m_eMonsterTag)
-    //{
-    //case MONSTERTAG::SPIDER:
-    //    pMonster = CDungeonSpider::Create(m_pGraphicDev);
-    //    CPoolManager::GetInstance()->Create_Monster();
-    //    break;
-    //case MONSTERTAG::WARRIOR:
-    //    pMonster = CDungeonWarrior::Create(m_pGraphicDev);
-    //    break;
-    //case MONSTERTAG::BAT:
-    //    pMonster = CBat::Create(m_pGraphicDev);
-    //    break;
-    //case MONSTERTAG::WIZARD:
-    //    pMonster = CWizard::Create(m_pGraphicDev);
-    //    break;
-    //case MONSTERTAG::ALIEN:
-    //    pMonster = CAlien::Create(m_pGraphicDev);
-    //    break;
-    //case MONSTERTAG::SLIME:
-    //    pMonster = CSlime::Create(m_pGraphicDev);
-    //    break;
-    //case MONSTERTAG::SKELETON:
-    //    pMonster = CSkeleton::Create(m_pGraphicDev);
-    //    break;
-    //case MONSTERTAG::SKULLGHOST:
-    //    pMonster = CSkullGhost::Create(m_pGraphicDev);
-    //    break;
-    //case MONSTERTAG::WORM:
-    //    pMonster = CWorm::Create(m_pGraphicDev);
-    //    break;
-    ////case MONSTERTAG::MONK:
-    ////    pMonster = CSkeleton::Create(m_pGraphicDev);
-    ////    break;
-    //}
 
-    //NULL_CHECK_RETURN(pMonster);
     _float fX = generator();
     _float fZ = generator();
     /*pMonster->m_pTransform->Translate(m_pTransform->m_vInfo[INFO_POS] + _vec3(fX, -2.f, fZ));
@@ -155,8 +117,6 @@ void CSpawningPool::ReserveSpawn()
     pMonster = CPoolManager::GetInstance()->Create_Monster(m_eMonsterTag, m_pTransform->m_vInfo[INFO_POS] + _vec3(fX, 0.f, fZ));
 
     m_MonsterList.push_back(pMonster);
-
-    CLayer* pLayer = SceneManager()->Get_Layer(LAYERTAG::GAMELOGIC);
 }
 
 void CSpawningPool::Set_SpawnRadius(_float _fRadius)

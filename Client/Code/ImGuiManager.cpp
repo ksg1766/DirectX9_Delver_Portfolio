@@ -62,12 +62,12 @@ void CImGuiManager::Key_Input(const _float& fTimeDelta)
         {
             pGameObject = CSpawningPool::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
             NULL_CHECK_RETURN(pGameObject);
-            pGameObject->m_pTransform->Translate(vOut);
             dynamic_cast<CSpawningPool*>(pGameObject)->Set_SpawnTime(m_fSpawnTime);
             dynamic_cast<CSpawningPool*>(pGameObject)->Set_MonsterTag(m_eSpawnerTag);
             dynamic_cast<CSpawningPool*>(pGameObject)->Set_PoolCapacity(m_iSpawnCapacity);
             dynamic_cast<CSpawningPool*>(pGameObject)->Set_SpawnRadius(m_fSpawnRadius);
-            EventManager()->CreateObject(pGameObject, LAYERTAG::ENVIRONMENT);
+            pGameObject->m_pTransform->Translate(vOut);
+            EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
         }
     }
 
@@ -310,7 +310,7 @@ _vec3 CImGuiManager::PickingSpawner()
         }
         else if (2 == m_iPickingMode)
         {
-            vector<CGameObject*> vecSpawningPool = SceneManager()->Get_ObjectList(LAYERTAG::ENVIRONMENT, OBJECTTAG::SPAWNINGPOOL);
+            vector<CGameObject*> vecSpawningPool = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::SPAWNINGPOOL);
             
             for (auto& iter : vecSpawningPool)
             {
@@ -568,9 +568,6 @@ HRESULT CImGuiManager::OnSaveData()
 
     for (int i = 0; i < (UINT)OBJECTTAG::OBJECT_END; ++i)
     {
-        if (OBJECTTAG::TERRAIN == (OBJECTTAG)i)
-            continue;
-
         if (OBJECTTAG::BLOCK == (OBJECTTAG)i)
         {
             vector<CGameObject*>& vecObjList = pScene->Get_ObjectList(LAYERTAG::GAMELOGIC, (OBJECTTAG)i);
@@ -596,16 +593,19 @@ HRESULT CImGuiManager::OnSaveData()
                 }
             }
         }
-        if (OBJECTTAG::SPAWNINGPOOL == (OBJECTTAG)i)
+        else if (OBJECTTAG::SPAWNINGPOOL == (OBJECTTAG)i)
         {
             MONSTERTAG      m_eMonsterTag = MONSTERTAG::MONSTER_END;  //
             _int            m_iPoolCapacity = 5;
             _float          m_fSpawnRadius = 10.0f;
             _float          m_fSpawnTime = 10.0f;
 
-            vector<CGameObject*>& vecObjList = pScene->Get_ObjectList(LAYERTAG::ENVIRONMENT, (OBJECTTAG)i);
+            vector<CGameObject*>& vecObjList = pScene->Get_ObjectList(LAYERTAG::GAMELOGIC, (OBJECTTAG)i);
             for (auto& iter : vecObjList)
             {
+                if (iter->m_pTransform->m_vInfo[INFO_POS].y < 0.f)
+                    continue;
+
                 eTag = iter->Get_ObjectTag();
                 m_eMonsterTag = dynamic_cast<CSpawningPool*>(iter)->Get_MonsterTag();
                 m_iPoolCapacity = dynamic_cast<CSpawningPool*>(iter)->Get_PoolCapacity();
@@ -651,7 +651,7 @@ HRESULT CImGuiManager::OnLoadData()
     OBJECTTAG eTag = OBJECTTAG::OBJECT_END;
 
     DWORD	dwByte = 0;
-    _float  fX, fY, fZ;
+    _float  fX = 0.f, fY = 0.f, fZ = 0.f;
     _ubyte  byTextureNumber = 0;
 
     MONSTERTAG      eSpawnerTag = MONSTERTAG::MONSTER_END;  //
@@ -672,29 +672,29 @@ HRESULT CImGuiManager::OnLoadData()
         {
             ReadFile(hFile, &fX, sizeof(_float), &dwByte, nullptr);
             ReadFile(hFile, &fY, sizeof(_float), &dwByte, nullptr);
-            
             ReadFile(hFile, &fZ, sizeof(_float), &dwByte, nullptr);
 
             ReadFile(hFile, &byTextureNumber, sizeof(_ubyte), &dwByte, nullptr);
             
+            if (0 == dwByte)
+                break;
+
             if (fY < 0.f)
                 continue;
             // value값 저장
-
-            if (0 == dwByte)
-                break;
 
             CGameObject* pGameObject = CCubeBlock::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
             NULL_CHECK_RETURN(pGameObject, E_FAIL);
             dynamic_cast<CCubeBlock*>(pGameObject)->Set_TextureNumber(byTextureNumber);
             pGameObject->m_pTransform->Translate(_vec3(fX, fY, fZ));
-            EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
-            //pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+            pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+            //EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
         }
         else if (OBJECTTAG::SPAWNINGPOOL == eTag)
         {
             // value값 저장
             ReadFile(hFile, &fX, sizeof(_float), &dwByte, nullptr);
+            ReadFile(hFile, &fY, sizeof(_float), &dwByte, nullptr);
             ReadFile(hFile, &fZ, sizeof(_float), &dwByte, nullptr);
 
             ReadFile(hFile, &eSpawnerTag, sizeof(MONSTERTAG), &dwByte, nullptr);
@@ -711,8 +711,9 @@ HRESULT CImGuiManager::OnLoadData()
             dynamic_cast<CSpawningPool*>(pGameObject)->Set_PoolCapacity(iPoolCapacity);
             dynamic_cast<CSpawningPool*>(pGameObject)->Set_SpawnRadius(fSpawnRadius);
             dynamic_cast<CSpawningPool*>(pGameObject)->Set_SpawnTime(fSpawnTime);
-            pGameObject->m_pTransform->Translate(_vec3(fX, 0.f, fZ));
-            EventManager()->CreateObject(pGameObject, LAYERTAG::ENVIRONMENT);
+            pGameObject->m_pTransform->Translate(_vec3(fX, fY, fZ));
+            pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+            //EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
         }
     }
 

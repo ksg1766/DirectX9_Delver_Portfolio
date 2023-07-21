@@ -32,7 +32,7 @@ HRESULT CAlien::Ready_Object()
 	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT],
 		m_pTransform->LocalScale());
 
-	m_pTransform->Translate(_vec3(5.f, 5.f, 10.f));
+	//m_pTransform->Translate(_vec3(5.f, 5.f, 10.f));
 
 	CState* pState = CMonster_Fly::Create(m_pGraphicDev, m_pStateMachine);
 	m_pStateMachine->Add_State(STATE::ROMIMG, pState);

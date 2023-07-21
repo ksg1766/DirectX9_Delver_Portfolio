@@ -49,7 +49,7 @@ CMonster* CPoolManager::Create_Monster(MONSTERTAG _eMonsterTag, _vec3 _vSpawnPos
 	return static_cast<CMonster*>(pGameObject);
 }
 
-void CPoolManager::Create_Effect(EFFECTTAG _eEffectTag, _vec3 _vSpawnPos)
+CTempEffect* CPoolManager::Create_Effect(EFFECTTAG _eEffectTag, _vec3 _vSpawnPos)
 {
 	CGameObject* pGameObject = m_pPool->GetEffectPool(_eEffectTag).front();
 	pGameObject->Set_Dead(false);
@@ -57,6 +57,7 @@ void CPoolManager::Create_Effect(EFFECTTAG _eEffectTag, _vec3 _vSpawnPos)
 	EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
  
 	m_pPool->GetEffectPool(_eEffectTag).pop();
+	return static_cast<CTempEffect*>(pGameObject);
 }
 
 void CPoolManager::Delete_Object(CGameObject* _pGameObject)
@@ -71,10 +72,10 @@ void CPoolManager::Delete_Object(CGameObject* _pGameObject)
 		break;
 
 	case OBJECTTAG::EFFECT:
+		_pGameObject->Set_Dead(true);
 		//static_cast<CTempEffect*>(_pGameObject)->Init_Data(); // CTempEffect에 virtual PURE로 순수가상함수 하나 만들어서
 		//														// 자식 클래스에 오버라이딩하시면 됩니다
-		//m_pPool->GetEffectPool(static_cast<CEffect*>(_pGameObject)->Get_EffectTag()).push(static_cast<CEffect*>(_pGameObject));
-		EventManager()->DeleteObject(_pGameObject);
+		m_pPool->GetEffectPool(static_cast<CTempEffect*>(_pGameObject)->Get_EffectTag()).push(static_cast<CTempEffect*>(_pGameObject));
 		break;
 	}
 }

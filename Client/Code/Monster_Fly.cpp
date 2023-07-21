@@ -94,8 +94,8 @@ void CMonster_Fly::Render_State()
 void CMonster_Fly::Fly(const _float& fTimeDelta)
 {
 	//srand((unsigned)time(NULL));
-	const _float fMinDistance = 2.f;
-	const _float fMaxDistance = 8.f;
+	const _float fMinDistance = 10.f;
+	const _float fMaxDistance = 30.f;
 	const _float fAmplitude = 8.f;
 
 	_float fRandX = 1 + rand() % 250;

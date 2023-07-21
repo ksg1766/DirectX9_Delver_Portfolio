@@ -531,7 +531,6 @@ HRESULT CStage::Load_Data()
 	_int		iPoolCapacity = 5;
 	_float		fSpawnRadius = 10.0f;
 	_float		fSpawnTime = 10.0f;
-	CGameObject* pGameObject = nullptr;
 
 	while (true)
 	{
@@ -554,12 +553,12 @@ HRESULT CStage::Load_Data()
 			if (0 == dwByte)
 				break;
 
-			pGameObject = CCubeBlock::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+			CGameObject* pGameObject = CCubeBlock::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
 			NULL_CHECK_RETURN(pGameObject, E_FAIL);
 			dynamic_cast<CCubeBlock*>(pGameObject)->Set_TextureNumber(byTextureNumber);
 			pGameObject->m_pTransform->Translate(_vec3(fX, fY + 1.f, fZ));
-			//EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 			pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+			//EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 		}
 		else if (OBJECTTAG::SPAWNINGPOOL == eTag)
 		{
@@ -576,16 +575,15 @@ HRESULT CStage::Load_Data()
 			if (0 == dwByte)
 				break;
 
-			pGameObject = CSpawningPool::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+			CGameObject* pGameObject = CSpawningPool::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
 			NULL_CHECK_RETURN(pGameObject, E_FAIL);
 			dynamic_cast<CSpawningPool*>(pGameObject)->Set_MonsterTag(eSpawnerTag);
 			dynamic_cast<CSpawningPool*>(pGameObject)->Set_PoolCapacity(iPoolCapacity);
 			dynamic_cast<CSpawningPool*>(pGameObject)->Set_SpawnRadius(fSpawnRadius);
 			dynamic_cast<CSpawningPool*>(pGameObject)->Set_SpawnTime(fSpawnTime);
-			pGameObject->m_pTransform->Translate(_vec3(fX, fY, fZ));
-			EventManager()->CreateObject(pGameObject, LAYERTAG::ENVIRONMENT);
-
-
+			pGameObject->m_pTransform->Translate(_vec3(fX, fY + 1.f, fZ));
+			pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+			//EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 		}
 	}
 	CloseHandle(hFile);

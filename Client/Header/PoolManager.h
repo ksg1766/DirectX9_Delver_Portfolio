@@ -23,8 +23,8 @@ private:
 public:
 	void	Ready_Pool();
 
-	CMonster*	Create_Monster(MONSTERTAG _eMonsterTag, _vec3 _vSpawnPos);
-	void	Create_Effect(EFFECTTAG _eMonsterTag, _vec3 _vSpawnPos);
+	CMonster*		Create_Monster(MONSTERTAG _eMonsterTag, _vec3 _vSpawnPos);
+	CTempEffect*	Create_Effect(EFFECTTAG _eMonsterTag, _vec3 _vSpawnPos);
 
 	void	Delete_Object(CGameObject* _pGameObject);
 
