@@ -183,6 +183,7 @@
     <ClInclude Include="..\Header\Blade_Trap_Blade.h" />
     <ClInclude Include="..\Header\Blade_Trap_Idle.h" />
     <ClInclude Include="..\Header\Box_Cube.h" />
+    <ClInclude Include="..\Header\DynamicCubeBlock.h" />
     <ClInclude Include="..\Header\EffectPastTrace.h" />
     <ClInclude Include="..\Header\Bread.h" />
     <ClInclude Include="..\Header\Cheese.h" />
@@ -368,6 +369,7 @@
     <ClCompile Include="..\Code\Blade_Trap_Attack.cpp" />
     <ClCompile Include="..\Code\Blade_Trap_Blade.cpp" />
     <ClCompile Include="..\Code\Blade_Trap_Idle.cpp" />
+    <ClCompile Include="..\Code\DynamicCubeBlock.cpp" />
     <ClCompile Include="..\Code\EffectPastTrace.cpp" />
     <ClCompile Include="..\Code\Bread.cpp" />
     <ClCompile Include="..\Code\Cheese.cpp" />

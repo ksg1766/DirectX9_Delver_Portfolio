@@ -3,7 +3,7 @@
 
 BEGIN(Engine)
 
-class ENGINE_DLL CPlayerBf :	public CVIBuffer
+class ENGINE_DLL CPlayerBf : public CVIBuffer
 {
 public:
 	explicit CPlayerBf();

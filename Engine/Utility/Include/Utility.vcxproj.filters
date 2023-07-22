@@ -187,6 +187,9 @@
     <Filter Include="04. Component\16. Material">
       <UniqueIdentifier>{f42eddbe-3bc4-4dc8-93ce-889ad2e9feea}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04. Component\01. VIBuffer\06. DynamicBf">
+      <UniqueIdentifier>{125f1a40-7836-4e35-910e-ff7f85b69cd6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Header\Scene.h">
@@ -342,6 +345,9 @@
     <ClInclude Include="..\..\Header\Material.h">
       <Filter>04. Component\16. Material</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Header\DynamicBf.h">
+      <Filter>04. Component\01. VIBuffer\06. DynamicBf</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\Scene.cpp">
@@ -493,6 +499,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\Material.cpp">
       <Filter>04. Component\16. Material</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\DynamicBf.cpp">
+      <Filter>04. Component\01. VIBuffer\06. DynamicBf</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

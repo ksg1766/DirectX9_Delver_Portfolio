@@ -6,6 +6,7 @@
 #include "Player.h"
 #include "FootRay.h"
 #include "CubeBlock.h"
+#include "DynamicCubeBlock.h"
 
 #include "UIplayerhp.h"
 #include "UIplayerstat.h"

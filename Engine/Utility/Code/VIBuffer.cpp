@@ -79,8 +79,6 @@ void CVIBuffer::Render_Buffer(void)
 	// 1. 삼각형을 그리는 방식
 	// 2. 몇 번째 버텍스부터 그릴 것인가
 	// 3. 그리려는 삼각형 개수
-
-
 }
 
 void CVIBuffer::Free(void)

@@ -12,7 +12,7 @@ END
 
 class CCubeBlock : public Engine::CGameObject
 {
-private:
+protected:
 	explicit CCubeBlock(LPDIRECT3DDEVICE9 pGraphicDev);
 	explicit CCubeBlock(const CCubeBlock& rhs);
 	virtual ~CCubeBlock();
@@ -39,18 +39,19 @@ public:
 private:
 	HRESULT				Add_Component(void);
 
-private:
-	CCubeBf*	m_pBuffer = nullptr;
+protected:
 	CTexture*	m_pTexture = nullptr;
 	_ubyte		m_byTextureNumber;
 
 	vector<_vec3>	m_vecCubeVertex;
 	vector<INDEX32>	m_vecCubeIndex;
 
+private:
+	CCubeBf*	m_pBuffer = nullptr;
+
 public:
 	static CCubeBlock* Create(LPDIRECT3DDEVICE9 pGraphicDev);
 
-private:
+protected:
 	virtual void Free() override;
-
 };

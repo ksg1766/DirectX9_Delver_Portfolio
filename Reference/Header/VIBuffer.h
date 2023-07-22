@@ -17,8 +17,8 @@ public:
 	virtual void			Render_Buffer(void);
 
 //protected: // Terrain을 Utility로 옮긴후에 다시 protected
-	LPDIRECT3DVERTEXBUFFER9			m_pVB;
-	LPDIRECT3DINDEXBUFFER9			m_pIB;
+	LPDIRECT3DVERTEXBUFFER9	m_pVB;
+	LPDIRECT3DINDEXBUFFER9	m_pIB;
 
 	_ulong					m_dwVtxCnt;
 	_ulong					m_dwVtxSize;

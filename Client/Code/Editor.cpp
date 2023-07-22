@@ -121,6 +121,26 @@ HRESULT CEditor::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	pGameObject->m_pTransform->Translate(_vec3(-127.f, 1.f, -127.f));
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
+	pGameObject = CCubeBlock::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	pGameObject->m_pTransform->Translate(_vec3(127.f, 255.f, -127.f));
+	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+
+	pGameObject = CCubeBlock::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	pGameObject->m_pTransform->Translate(_vec3(127.f, 255.f, 127.f));
+	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+
+	pGameObject = CCubeBlock::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	pGameObject->m_pTransform->Translate(_vec3(-127.f, 255.f, 127.f));
+	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+
+	pGameObject = CCubeBlock::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	pGameObject->m_pTransform->Translate(_vec3(-127.f, 255.f, -127.f));
+	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+
 	return S_OK;
 }
 

@@ -23,7 +23,7 @@ HRESULT CCubeBlock::Ready_Object(void)
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 #ifdef _DEBUG
-	//if (SCENETAG::EDITOR == SceneManager()->Get_Scene()->Get_SceneTag())
+	if (SCENETAG::EDITOR == SceneManager()->Get_Scene()->Get_SceneTag())
 	{
 		void* pVertices = nullptr;
 		m_pBuffer->m_pVB->Lock(0, m_pBuffer->m_dwVtxCnt * m_pBuffer->m_dwVtxSize, &pVertices, 0);
@@ -43,7 +43,6 @@ HRESULT CCubeBlock::Ready_Object(void)
 	}
 #endif _DEBUG
 
-	//m_pTransform->Scale(_vec3(2.f, 2.f, 2.f));
 	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
 
 	//m_pTransform->Translate(_vec3(0.f, 2.f, 0.f));
@@ -141,10 +140,6 @@ HRESULT CCubeBlock::Add_Component(void)
 	pComponent = m_pCollider = dynamic_cast<CCollider*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Collider"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::COLLIDER, pComponent);
-
-	/*pComponent = dynamic_cast<CBillBoard*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BillBoard"));
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::BILLBOARD, pComponent);*/
 
 	for (int i = 0; i < ID_END; ++i)
 		for (auto& iter : m_mapComponent[i])

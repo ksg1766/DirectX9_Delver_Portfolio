@@ -17,6 +17,7 @@
 #include "CubeBf.h"
 #include "CubeColBf.h"
 #include "BossBf.h"
+#include "DynamicBf.h"
 
 #include "Transform.h"
 #include "Texture.h"
