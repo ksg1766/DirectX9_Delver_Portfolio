@@ -10,7 +10,6 @@ class CStateMachine;
 class CAnimator;
 
 END
-class CTerrain;
 
 class CSkeletonKing:public Engine::CMonster
 {
@@ -31,11 +30,12 @@ public:
 	void			ReSet_Sturn() { m_iHitCount = 0; }
 	virtual _float	Get_Frame() { return m_fFrame; }
 	CStateMachine*	Get_StatMachine() { return m_pStateMachine; }
+	_bool			Get_Sturn() { return m_bSturn; }
 
 	virtual void	OnCollisionEnter(CCollider* _pOther);
 	virtual void	OnCollisionStay(CCollider* _pOther);
 	virtual void	OnCollisionExit(CCollider* _pOther);
-
+	void			Set_Sturn(_bool _sturn) { m_bSturn = _sturn; }
 private:
 	HRESULT		Add_Component(void);
 	void		Key_Input();
@@ -51,6 +51,7 @@ private:
 	_float		m_fFrame = 0;
 	_float		m_fHitCool;
 	_uint		m_iHitCount;
+	_bool		m_bSturn;
 public:
 	static CSkeletonKing* Create(LPDIRECT3DDEVICE9 pGraphicDev);
 

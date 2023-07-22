@@ -27,7 +27,7 @@ STATE CBoss_Idle::Update_State(const _float& fTimeDelta)
     {
         m_fSkillCool = 0.f;
         //return STATE::BOSS_ATTACK;
-        return STATE::BOSS_FIRE;
+        return STATE::BOSS_IDLE;
     }
     return STATE::BOSS_IDLE;
 }

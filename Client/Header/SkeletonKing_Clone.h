@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GameObject.h"
+#include "Monster.h"
 BEGIN(Engine)
 
 class CRcTex;
@@ -9,7 +9,7 @@ class CBillBoard;
 class CBossAI;
 END
 
-class CSkeletonKing_Clone:public Engine::CGameObject
+class CSkeletonKing_Clone : public Engine::CMonster
 {
 private:
 	explicit	CSkeletonKing_Clone(LPDIRECT3DDEVICE9	pGraphicDev);
@@ -26,19 +26,19 @@ public:
 private:
 	CRcTex* m_pBuffer = nullptr;
 	CTexture* m_pTexture = nullptr;
-	CBillBoard* m_pBillBoard = nullptr;
-	CBossAI* m_pBossAI = nullptr;
 	_float	m_fFrame = 0;
 	_float	m_fSkillCool = 0;
 	_bool	m_bSkill;
 private:
 	HRESULT		Add_Component(void);
-	void		Clone_Pattern();
 
 public:
 	static CSkeletonKing_Clone* Create(LPDIRECT3DDEVICE9 pGraphicDev);
 
 private:
 	virtual void Free() override;
+
+	// CMonster을(를) 통해 상속됨
+	virtual void Init_Stat() override;
 };
 

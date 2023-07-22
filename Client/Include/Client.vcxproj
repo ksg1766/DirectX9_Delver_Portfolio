@@ -189,16 +189,27 @@
     <ClInclude Include="..\Header\Blade_Trap_Attack.h" />
     <ClInclude Include="..\Header\Blade_Trap_Blade.h" />
     <ClInclude Include="..\Header\Blade_Trap_Idle.h" />
+    <ClInclude Include="..\Header\BossFireWall.h" />
+    <ClInclude Include="..\Header\BossFireWave.h" />
+    <ClInclude Include="..\Header\Boss_Meteor1Ph.h" />
     <ClInclude Include="..\Header\Box_Cube.h" />
     <ClInclude Include="..\Header\DynamicCubeBlock.h" />
+    <ClInclude Include="..\Header\Clone_Pattern.h" />
+    <ClInclude Include="..\Header\CrossPattern.h" />
     <ClInclude Include="..\Header\EffectPastTrace.h" />
     <ClInclude Include="..\Header\Bread.h" />
     <ClInclude Include="..\Header\Cheese.h" />
+    <ClInclude Include="..\Header\FireWallPttern.h" />
+    <ClInclude Include="..\Header\FireWavePattern.h" />
+    <ClInclude Include="..\Header\GrapPattern.h" />
     <ClInclude Include="..\Header\HolyWater.h" />
     <ClInclude Include="..\Header\HpPotion.h" />
+    <ClInclude Include="..\Header\Jump_Plate.h" />
     <ClInclude Include="..\Header\Lamp.h" />
+    <ClInclude Include="..\Header\Boss_LostSoul.h" />
     <ClInclude Include="..\Header\Meat.h" />
     <ClInclude Include="..\Header\Moon.h" />
+    <ClInclude Include="..\Header\MeteorPh2.h" />
     <ClInclude Include="..\Header\Necklace.h" />
     <ClInclude Include="..\Header\Pants.h" />
     <ClInclude Include="..\Header\RandomPotion.h" />
@@ -254,6 +265,7 @@
     <ClInclude Include="..\Header\Ghost_IDLE.h" />
     <ClInclude Include="..\Header\Top.h" />
     <ClInclude Include="..\Header\Tree.h" />
+    <ClInclude Include="..\Header\Torch.h" />
     <ClInclude Include="..\Header\UIBuff.h" />
     <ClInclude Include="..\Header\UIShop.h" />
     <ClInclude Include="..\Header\UISpeech.h" />
@@ -366,7 +378,6 @@
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="Torch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\Alchemist_Idle.cpp" />
@@ -385,14 +396,25 @@
     <ClCompile Include="..\Code\Blade_Trap_Blade.cpp" />
     <ClCompile Include="..\Code\Blade_Trap_Idle.cpp" />
     <ClCompile Include="..\Code\DynamicCubeBlock.cpp" />
+    <ClCompile Include="..\Code\BossFireWall.cpp" />
+    <ClCompile Include="..\Code\BossFireWave.cpp" />
+    <ClCompile Include="..\Code\Boss_Meteor1Ph.cpp" />
+    <ClCompile Include="..\Code\Clone_Pattern.cpp" />
+    <ClCompile Include="..\Code\CrossPattern.cpp" />
     <ClCompile Include="..\Code\EffectPastTrace.cpp" />
     <ClCompile Include="..\Code\Bread.cpp" />
     <ClCompile Include="..\Code\Cheese.cpp" />
+    <ClCompile Include="..\Code\FireWallPttern.cpp" />
+    <ClCompile Include="..\Code\FireWavePattern.cpp" />
+    <ClCompile Include="..\Code\GrapPattern.cpp" />
     <ClCompile Include="..\Code\HolyWater.cpp" />
     <ClCompile Include="..\Code\HpPotion.cpp" />
+    <ClCompile Include="..\Code\Jump_Plate.cpp" />
     <ClCompile Include="..\Code\Lamp.cpp" />
+    <ClCompile Include="..\Code\Boss_LostSoul.cpp" />
     <ClCompile Include="..\Code\Meat.cpp" />
     <ClCompile Include="..\Code\Moon.cpp" />
+    <ClCompile Include="..\Code\MeteorPh2.cpp" />
     <ClCompile Include="..\Code\Necklace.cpp" />
     <ClCompile Include="..\Code\Pants.cpp" />
     <ClCompile Include="..\Code\RandomPotion.cpp" />
@@ -448,6 +470,7 @@
     <ClCompile Include="..\Code\Ghost_IDLE.cpp" />
     <ClCompile Include="..\Code\Top.cpp" />
     <ClCompile Include="..\Code\Tree.cpp" />
+    <ClCompile Include="..\Code\Torch.cpp" />
     <ClCompile Include="..\Code\UIBuff.cpp" />
     <ClCompile Include="..\Code\UIShop.cpp" />
     <ClCompile Include="..\Code\UISpeech.cpp" />
@@ -561,7 +584,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Torch.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc" />

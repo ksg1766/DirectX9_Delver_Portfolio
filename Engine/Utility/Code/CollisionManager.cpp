@@ -18,6 +18,7 @@ CCollisionManager::CCollisionManager()
 	CheckGroup(OBJECTTAG::ITEM, OBJECTTAG::FRAGILE);
 	CheckGroup(OBJECTTAG::PLAYERBULLET, OBJECTTAG::FRAGILE);
 	CheckGroup(OBJECTTAG::PLAYER, OBJECTTAG::FRAGILE);
+	CheckGroup(OBJECTTAG::PLAYER, OBJECTTAG::IMMORTAL);
 }
 
 CCollisionManager::~CCollisionManager()

@@ -32,13 +32,15 @@ public:
 public:
 	virtual void	Set_StartPos(_vec3 _vec);
 	virtual void	Set_StartPosY(float _fY);
-
+	void			Set_Scale(_float _fSclae);
 private:
 	CRcTex*		m_pBuffer = nullptr;
 	CTexture*	m_pTexture = nullptr;
 	CBillBoard* m_pBillBoard = nullptr;
 	_float		m_fFrame;
+	_float		m_fSclae;
 	_uint		m_iCount;
+	_bool		m_bHit;
 private:
 	HRESULT		Add_Component(void);
 

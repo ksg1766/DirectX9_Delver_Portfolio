@@ -20,6 +20,7 @@ HRESULT CExplosionPattern::Ready_State(CStateMachine* pOwner)
 {
 	m_pOwner = pOwner;
     m_fDelay = 0.f;
+    m_fPatternDelay = 0.f;
     m_iSkillCount = 0;
     m_bPattern = false;
 
@@ -39,7 +40,7 @@ STATE CExplosionPattern::Update_State(const _float& fTimeDelta)
 {
     Engine::CGameObject* pGameObject = nullptr;
     m_fDelay += fTimeDelta;
-
+    m_fPatternDelay += fTimeDelta;
     if (!m_bPattern)
     {
         if (0.5f < m_fDelay)
@@ -47,43 +48,35 @@ STATE CExplosionPattern::Update_State(const _float& fTimeDelta)
             for (int i = 0; i < 4; ++i)
             {
                 pGameObject = CBossExplosion::Create(m_pGraphicDev);
-                dynamic_cast<CBossExplosion*>(pGameObject)->Set_StartPos(m_pOwner->Get_Transform()->m_vInfo[INFO_POS] + (m_vExplosionin1[i] * m_iSkillCount));
+                dynamic_cast<CBossExplosion*>(pGameObject)->Set_StartPos(m_pOwner->Get_Transform()->m_vInfo[INFO_POS] + (m_vExplosionin1[i] * m_iSkillCount*4.f));
+                dynamic_cast<CBossExplosion*>(pGameObject)->Set_StartPosY(-0.5f);
+                dynamic_cast<CBossExplosion*>(pGameObject)->Set_Scale(m_iSkillCount * 2.5f);
                 Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
-                //dynamic_cast<CBossExplosion*>(pGameObject)->Set_StartPosY(-2.f);
+
+                pGameObject = CBossExplosion::Create(m_pGraphicDev);
+                dynamic_cast<CBossExplosion*>(pGameObject)->Set_StartPos(m_pOwner->Get_Transform()->m_vInfo[INFO_POS] + (m_vExplosionin2[i] * m_iSkillCount * 4.f));
+                dynamic_cast<CBossExplosion*>(pGameObject)->Set_StartPosY(-0.5f);
+                dynamic_cast<CBossExplosion*>(pGameObject)->Set_Scale(m_iSkillCount *2.5f);
+                Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
             }
             ++m_iSkillCount;
             m_fDelay = 0.f;
         }
         if (3 < m_iSkillCount)
         {
+            if (2.f < m_fPatternDelay)
+            {
+                m_bPattern = false;
+                m_fPatternDelay = 0.f;
+                return STATE::BOSS_PH1SKILL3;
+            }
             m_fDelay = 0.f;
             m_iSkillCount = 0.f;
             m_bPattern = true;
         }
+
     }
-    else if (m_bPattern)
-    {
-        if (0.5f < m_fDelay)
-        {
-            for (int i = 0; i < 4; ++i)
-            {
-                pGameObject = CBossExplosion::Create(m_pGraphicDev);
-                dynamic_cast<CBossExplosion*>(pGameObject)->Set_StartPos(m_pOwner->Get_Transform()->m_vInfo[INFO_POS] + (m_vExplosionin2[i] * m_iSkillCount));
-                Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
-                //dynamic_cast<CBossExplosion*>(pGameObject)->Set_StartPosY(-2.f);
-            }
-            ++m_iSkillCount;
-            m_fDelay = 0.f;
-        }
-        if (3 < m_iSkillCount)
-        {
-            m_fDelay = 0.f;
-            m_iSkillCount = 0.f;
-            m_bPattern = false;
-            //return STATE::BOSS_IDLE;
-            return STATE::BOSS_SPWANMONSTER;
-        }
-    }
+   
 }
 
 void CExplosionPattern::LateUpdate_State()

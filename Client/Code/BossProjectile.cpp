@@ -22,9 +22,11 @@ HRESULT CBossProjectile::Ready_Object(void)
 	m_eObjectTag = OBJECTTAG::MONSTERBULLET;
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
-
+	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale()*1.2f);
 	m_pBasicStat->Get_Stat()->fAttack = 5.f;
 	m_fTime = 0.f;
+	m_fSpeed = 20.f;
+	m_bHit = false;
 	return S_OK;
 }
 
@@ -43,7 +45,7 @@ _int CBossProjectile::Update_Object(const _float& fTimeDelta)
 		}
 		else
 		{
-			m_pTransform->Translate(m_vDir * fTimeDelta);
+			m_pTransform->Translate(m_vDir* m_fSpeed * fTimeDelta);
 			m_fFrame += 8.f * fTimeDelta * 2;
 
 			if (8.f < m_fFrame)
@@ -81,26 +83,26 @@ void CBossProjectile::Set_Target(_vec3 _vPos)
 	m_pTransform->Translate(_vec3(1.f, 3.f, 0.f));
 	m_vTargetPos = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform->m_vInfo[INFO_POS];
 	m_vDir = m_vTargetPos - m_pTransform->m_vInfo[INFO_POS];
+	D3DXVec3Normalize(&m_vDir, &m_vDir);
 }
 
 void CBossProjectile::OnCollisionEnter(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
+}
 
+void CBossProjectile::OnCollisionStay(CCollider* _pOther)
+{
+	if (SceneManager()->Get_GameStop()) { return; }
+	if (m_bHit) { return; }
 	if (_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::PLAYER)
 	{
 		CPlayerStat& PlayerState = *(dynamic_cast<CPlayer*>(_pOther->GetHost())->Get_Stat());
 		PlayerState.Take_Damage(this->Get_BasicStat()->Get_Stat()->fAttack);
 		this->Set_AttackTick(true);
-
+		m_bHit = false;
 		Engine::EventManager()->DeleteObject(this);
 	}
-
-}
-
-void CBossProjectile::OnCollisionStay(CCollider* _pOther)
-{
-
 
 }
 
