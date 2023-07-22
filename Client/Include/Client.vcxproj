@@ -123,7 +123,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>../../Reference/Library;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>d3d9.lib;d3dx9.lib;dxguid.lib;System.lib;Utility.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d9.lib;d3dx9.lib;dxguid.lib;System.lib;Utility.lib;fmodex64_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -167,6 +167,13 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\fmode\inc\fmod.h" />
+    <ClInclude Include="..\fmode\inc\fmod.hpp" />
+    <ClInclude Include="..\fmode\inc\fmod_codec.h" />
+    <ClInclude Include="..\fmode\inc\fmod_dsp.h" />
+    <ClInclude Include="..\fmode\inc\fmod_errors.h" />
+    <ClInclude Include="..\fmode\inc\fmod_memoryinfo.h" />
+    <ClInclude Include="..\fmode\inc\fmod_output.h" />
     <ClInclude Include="..\Header\Alchemist_Idle.h" />
     <ClInclude Include="..\Header\Alien.h" />
     <ClInclude Include="..\Header\Apple.h" />
@@ -190,6 +197,7 @@
     <ClInclude Include="..\Header\HpPotion.h" />
     <ClInclude Include="..\Header\Lamp.h" />
     <ClInclude Include="..\Header\Meat.h" />
+    <ClInclude Include="..\Header\Moon.h" />
     <ClInclude Include="..\Header\Necklace.h" />
     <ClInclude Include="..\Header\Pants.h" />
     <ClInclude Include="..\Header\RandomPotion.h" />
@@ -236,11 +244,14 @@
     <ClInclude Include="..\Header\Projectile_Trap_Arrow.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="..\Header\SkyBoxVillage.h" />
+    <ClInclude Include="..\Header\SoundManager.h" />
     <ClInclude Include="..\Header\StrikeDown_Trap_Body.h" />
     <ClInclude Include="..\Header\Ghost_Attack.h" />
     <ClInclude Include="..\Header\Ghost_Bullet.h" />
     <ClInclude Include="..\Header\Ghost_IDLE.h" />
     <ClInclude Include="..\Header\Top.h" />
+    <ClInclude Include="..\Header\Tree.h" />
     <ClInclude Include="..\Header\UIBuff.h" />
     <ClInclude Include="..\Header\UISpeech.h" />
     <ClInclude Include="..\Header\Dead_BossSkeleton.h" />
@@ -329,6 +340,7 @@
     <ClInclude Include="..\Header\UIResumeButton.h" />
     <ClInclude Include="..\Header\UISpeech_Bard.h" />
     <ClInclude Include="..\Header\UISpeech_OldMan.h" />
+    <ClInclude Include="..\Header\Village.h" />
     <ClInclude Include="..\Header\WakeUp_BossSkeleton.h" />
     <ClInclude Include="..\Header\Worm.h" />
     <ClInclude Include="..\Header\Warrior_Attack.h" />
@@ -375,6 +387,7 @@
     <ClCompile Include="..\Code\HpPotion.cpp" />
     <ClCompile Include="..\Code\Lamp.cpp" />
     <ClCompile Include="..\Code\Meat.cpp" />
+    <ClCompile Include="..\Code\Moon.cpp" />
     <ClCompile Include="..\Code\Necklace.cpp" />
     <ClCompile Include="..\Code\Pants.cpp" />
     <ClCompile Include="..\Code\RandomPotion.cpp" />
@@ -421,11 +434,14 @@
     <ClCompile Include="..\Code\Projectile_Trap_Arrow.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="..\Code\SkyBoxVillage.cpp" />
+    <ClCompile Include="..\Code\SoundManager.cpp" />
     <ClCompile Include="..\Code\StrikeDown_Trap_Body.cpp" />
     <ClCompile Include="..\Code\Ghost_Attack.cpp" />
     <ClCompile Include="..\Code\Ghost_Bullet.cpp" />
     <ClCompile Include="..\Code\Ghost_IDLE.cpp" />
     <ClCompile Include="..\Code\Top.cpp" />
+    <ClCompile Include="..\Code\Tree.cpp" />
     <ClCompile Include="..\Code\UIBuff.cpp" />
     <ClCompile Include="..\Code\UISpeech.cpp" />
     <ClCompile Include="..\Code\Dead_BossSkeleton.cpp" />
@@ -514,6 +530,7 @@
     <ClCompile Include="..\Code\UIResumeButton.cpp" />
     <ClCompile Include="..\Code\UISpeech_Bard.cpp" />
     <ClCompile Include="..\Code\UISpeech_OldMan.cpp" />
+    <ClCompile Include="..\Code\Village.cpp" />
     <ClCompile Include="..\Code\WakeUp_BossSkeleton.cpp" />
     <ClCompile Include="..\Code\Worm.cpp" />
     <ClCompile Include="..\Code\Warrior_Attack.cpp" />

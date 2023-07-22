@@ -69,20 +69,34 @@ void CRenderer::Clear_RenderGroup()
 
 void CRenderer::Render_Priority(LPDIRECT3DDEVICE9& pGraphicDev)
 {
-	//if (SCENETAG::STAGE == SceneManager()->Get_Scene()->Get_SceneTag())
-	//{// 안개 사용
-	//	pGraphicDev->SetRenderState(D3DRS_FOGENABLE, TRUE);
-	//	// Z버퍼 기준으로 안개 적용
-	//	pGraphicDev->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_LINEAR);
-	//	// 안개 색상 설정
-	//	//pGraphicDev->SetRenderState(D3DRS_FOGCOLOR, D3DCOLOR_ARGB(1, 100, 155, 180));
-	//	pGraphicDev->SetRenderState(D3DRS_FOGCOLOR, D3DCOLOR_ARGB(1, 40, 140, 150));
-	//	float fNear = 1.f;
-	//	//float fFar = 140.0f;
-	//	float fFar = 100.0f;
-	//	pGraphicDev->SetRenderState(D3DRS_FOGSTART, *(DWORD*)&fNear);
-	//	pGraphicDev->SetRenderState(D3DRS_FOGEND, *(DWORD*)&fFar);
-	//}
+	SCENETAG CurrentScene = SceneManager()->Get_Scene()->Get_SceneTag();
+
+	if (SCENETAG::VILLAGE == CurrentScene)
+	{
+		float fNear = 1.f;
+		float fFar  = 130.0f;
+
+		pGraphicDev->SetRenderState(D3DRS_FOGENABLE, TRUE);
+		pGraphicDev->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_LINEAR);
+		// 안개 색상 설정
+		pGraphicDev->SetRenderState(D3DRS_FOGCOLOR, D3DCOLOR_ARGB(100, 60, 10, 55));
+
+		pGraphicDev->SetRenderState(D3DRS_FOGSTART, *(DWORD*)&fNear);
+		pGraphicDev->SetRenderState(D3DRS_FOGEND, *(DWORD*)&fFar);
+	}
+	else if (SCENETAG::STAGE == CurrentScene)
+	{
+		pGraphicDev->SetRenderState(D3DRS_FOGENABLE, TRUE);
+		pGraphicDev->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_LINEAR);
+		// 안개 색상 설정
+		//pGraphicDev->SetRenderState(D3DRS_FOGCOLOR, D3DCOLOR_ARGB(1, 100, 155, 180));
+		pGraphicDev->SetRenderState(D3DRS_FOGCOLOR, D3DCOLOR_ARGB(1, 40, 140, 150));
+		float fNear = 1.f;
+		//float fFar = 140.0f;
+		float fFar = 100.0f;
+		pGraphicDev->SetRenderState(D3DRS_FOGSTART, *(DWORD*)&fNear);
+		pGraphicDev->SetRenderState(D3DRS_FOGEND, *(DWORD*)&fFar);
+	}
 
 	for (auto iter : m_RenderGroup[RENDER_PRIORITY])
 		iter->Render_Object();

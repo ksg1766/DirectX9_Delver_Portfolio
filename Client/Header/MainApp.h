@@ -2,6 +2,7 @@
 
 #include "Base.h"
 #include "Engine_Define.h"
+#include "SoundManager.h"
 
 BEGIN(Engine)
 
@@ -28,6 +29,7 @@ private:
 private:
 	CGraphicDev*			m_pDeviceClass;
 	CSceneManager*			m_pSceneManager;
+	CSoundManager*          m_pSoundManager;
 
 	LPDIRECT3DDEVICE9		m_pGraphicDev;
 

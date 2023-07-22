@@ -613,6 +613,27 @@
     <Filter Include="03. GameObject\03. UI\15. UIBuff">
       <UniqueIdentifier>{90fbb872-2391-4238-93e2-f6951a0d9204}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Managers\02. SoundManager">
+      <UniqueIdentifier>{c2bdc8f7-7c35-443c-9cd6-7bd289c3a95b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Managers\02. SoundManager\fmode">
+      <UniqueIdentifier>{1b5777de-7772-4e88-8648-15c4262fb03f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Scene\05. Village">
+      <UniqueIdentifier>{cdb9d315-6627-4acc-8612-173ceac1078f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\02. Village">
+      <UniqueIdentifier>{250dc713-2cce-4d17-94aa-9611cfff6b13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\02. Village\01. Moon">
+      <UniqueIdentifier>{87ea4c1c-37ba-407c-a3e1-4ed5e09a08dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\02. Village\02. Tree">
+      <UniqueIdentifier>{76cfa8a8-9572-45ce-bbfe-614b18b884f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\02. Village\00. SkyboxVillage">
+      <UniqueIdentifier>{b4be95d0-f6df-4729-b217-27de1472c7dd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -1083,9 +1104,6 @@
     <ClInclude Include="..\Header\SkeletonKing.h">
       <Filter>99. Etc\헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\Pot.h">
-      <Filter>02. GameObject\01. Stage\06. Fragile\01. Pot</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\Chease.h">
       <Filter>99. Etc\헤더 파일</Filter>
     </ClInclude>
@@ -1196,6 +1214,45 @@
     </ClInclude>
     <ClInclude Include="..\Header\UISpeech_Bard.h">
       <Filter>03. GameObject\03. UI\14. UISpeech\01. NPC\01. Bard</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Pot.h">
+      <Filter>99. Etc\헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\SoundManager.h">
+      <Filter>01. Managers\02. SoundManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\fmode\inc\fmod.h">
+      <Filter>01. Managers\02. SoundManager\fmode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\fmode\inc\fmod.hpp">
+      <Filter>01. Managers\02. SoundManager\fmode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\fmode\inc\fmod_codec.h">
+      <Filter>01. Managers\02. SoundManager\fmode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\fmode\inc\fmod_dsp.h">
+      <Filter>01. Managers\02. SoundManager\fmode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\fmode\inc\fmod_errors.h">
+      <Filter>01. Managers\02. SoundManager\fmode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\fmode\inc\fmod_memoryinfo.h">
+      <Filter>01. Managers\02. SoundManager\fmode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\fmode\inc\fmod_output.h">
+      <Filter>01. Managers\02. SoundManager\fmode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Village.h">
+      <Filter>02. Scene\05. Village</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Moon.h">
+      <Filter>03. GameObject\02. Village\01. Moon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\SkyBoxVillage.h">
+      <Filter>03. GameObject\02. Village\00. SkyboxVillage</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Tree.h">
+      <Filter>03. GameObject\02. Village\02. Tree</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1658,9 +1715,6 @@
     <ClCompile Include="..\Code\SkeletonKing.cpp">
       <Filter>99. Etc\소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\Pot.cpp">
-      <Filter>02. GameObject\01. Stage\06. Fragile\01. Pot</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\Chease.cpp">
       <Filter>99. Etc\소스 파일</Filter>
     </ClCompile>
@@ -1765,6 +1819,24 @@
     </ClCompile>
     <ClCompile Include="..\Code\UISpeech_Bard.cpp">
       <Filter>03. GameObject\03. UI\14. UISpeech\01. NPC\01. Bard</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Pot.cpp">
+      <Filter>99. Etc\소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\SoundManager.cpp">
+      <Filter>01. Managers\02. SoundManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Village.cpp">
+      <Filter>02. Scene\05. Village</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Moon.cpp">
+      <Filter>03. GameObject\02. Village\01. Moon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\SkyBoxVillage.cpp">
+      <Filter>03. GameObject\02. Village\00. SkyboxVillage</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Tree.cpp">
+      <Filter>03. GameObject\02. Village\02. Tree</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

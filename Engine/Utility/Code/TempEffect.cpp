@@ -51,6 +51,7 @@ _int CTempEffect::Update_Object(const _float & fTimeDelta)
 	m_fTime += 1.f * fTimeDelta;
 
 	if (m_fTime > m_fLife || m_fFrame == m_fFinal && m_bAnimation && !m_bLoop) {
+		m_IsDead = true;
 		Engine::EventManager()->DeleteObject(this);
 	}
 

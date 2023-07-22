@@ -2,13 +2,14 @@
 #include "..\Header\StageLoading.h"
 
 #include "Export_Function.h"
-#include "Stage.h"
+#include "Village.h"
 #include "Editor.h"
 
 #include "LoadingBackGround.h"
 #include "ProgressBar.h"
 #include "LoadingPont.h"
 #include "BlackIn.h"
+#include "Stage.h"
 
 CStageLoading::CStageLoading(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)

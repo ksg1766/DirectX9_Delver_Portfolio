@@ -54,7 +54,7 @@ void CSceneManager::Render_Scene(LPDIRECT3DDEVICE9 pGraphicDev)
 	//if(SCENETAG::STAGE == m_pScene->Get_SceneTag())	Octree()->Render_Octree(pGraphicDev);
 #endif
 
-	if (SCENETAG::STAGE == m_pScene->Get_SceneTag())
+	if (SCENETAG::VILLAGE == m_pScene->Get_SceneTag() || SCENETAG::STAGE == m_pScene->Get_SceneTag())
 		Octree()->Render_Octree(pGraphicDev);
 
 	Renderer()->Render_GameObject(pGraphicDev);

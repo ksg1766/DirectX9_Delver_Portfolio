@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "Loading.h"
 #include "Export_Function.h"
+#include "SoundManager.h"
+
 CLoading::CLoading(LPDIRECT3DDEVICE9 pGraphicDev)
 	: m_pGraphicDev(pGraphicDev)
 	, m_bFinish(false)
@@ -134,8 +136,8 @@ _uint CLoading::Loading_ForStage()
 
 #pragma region Cube
 		//FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Terrain", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Terrain/Grass_%d.tga", 2)), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Tile", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Tile/Stage/tile%d.png", 51)), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Cube", CTexture::Create(m_pGraphicDev, TEX_CUBE, L"../Bin/SRSource/Cube/Stage/cube%d.dds", 51)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Tile", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Tile/Stage/tile%d.png", 52)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Cube", CTexture::Create(m_pGraphicDev, TEX_CUBE, L"../Bin/SRSource/Cube/Stage/cube%d.dds", 52)), E_FAIL);
 		//FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_SkyBox", CTexture::Create(m_pGraphicDev, TEX_CUBE, L"../Bin/Resource/Texture/SkyBox/burger%d.dds", 4)), E_FAIL);
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_SkyBox", CTexture::Create(m_pGraphicDev, TEX_CUBE, L"../Bin/SRSource/SkyBox/NightSky%d.dds", 2)), E_FAIL);
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_BladeTrapBody", CTexture::Create(m_pGraphicDev, TEX_CUBE, L"../Bin/SRSource/Entities/Trap/Blade_Trap_Body.dds")), E_FAIL); //Æ®·¦¿ë
@@ -250,6 +252,17 @@ _uint CLoading::Loading_ForStage()
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_BladeTrapBlade", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Entities/Trap/Trap_Blade.png")), E_FAIL); //Æ®·¦¿ë
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Torch", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Immortal/Torch/Torch%d.png",8)), E_FAIL);
 
+#pragma region SOUND
+		// Å×½ºÆ®¿ë
+		//FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSound/01_Title_Screen.wav", "01_Title_Screen"), E_FAIL);
+		//FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSound/03_StartVillage.wav", "03_StartVillage"), E_FAIL);
+#pragma endregion SOUND
+
+#pragma region VILLAGE
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_VillageSkyBox", CTexture::Create(m_pGraphicDev, TEX_CUBE, L"../Bin/SRSource/Village/Sky/VillageSky.dds", 1)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Moon", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Village/Sky/Moon.png", 1)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Tree", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Village/Tree/Tree%d.png", 24)), E_FAIL);
+#pragma endregion VILLAGE
 		break;
 #pragma endregion Stage
 
@@ -262,10 +275,10 @@ _uint CLoading::Loading_ForStage()
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Camera", CCamera::Create(m_pGraphicDev)), E_FAIL);
 
 		// Temp : ÀÓ½Ã ÄÄÆ÷³ÍÆ® -> ???
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Tile", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Tile/Stage/tile%d.png", 51)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Tile", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Tile/Stage/tile%d.png", 52)), E_FAIL);
 		//FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_SkyBox", CTexture::Create(m_pGraphicDev, TEX_CUBE, L"../Bin/Resource/Texture/SkyBox/burger%d.dds", 4)), E_FAIL);
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_SkyBox", CTexture::Create(m_pGraphicDev, TEX_CUBE, L"../Bin/SRSource/SkyBox/NightSky%d.dds", 2)), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Cube", CTexture::Create(m_pGraphicDev, TEX_CUBE, L"../Bin/SRSource/Cube/Stage/cube%d.dds", 51)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Cube", CTexture::Create(m_pGraphicDev, TEX_CUBE, L"../Bin/SRSource/Cube/Stage/cube%d.dds", 52)), E_FAIL);
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_CubeColBf", CCubeColBf::Create(m_pGraphicDev)), E_FAIL);
 
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Collider", CCollider::Create(m_pGraphicDev)), E_FAIL);
