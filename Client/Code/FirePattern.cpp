@@ -22,28 +22,48 @@ HRESULT CFirePattern::Ready_State(CStateMachine* pOwner)
 	m_pOwner = pOwner;
     m_fDelay = 0.f;
     m_iSkillCount = 0;
+    m_fPatternDelay = 0.f;
+    m_iFireCount = 0;
+    m_bCool = false;
 	return S_OK;
 }
 
 STATE CFirePattern::Update_State(const _float& fTimeDelta)
 {
-   // m_fDelay += fTimeDelta;
     Engine::CGameObject* pGameObject = nullptr;
 
         m_fDelay += fTimeDelta;
-        if (0.3f < m_fDelay)
+        m_fPatternDelay += fTimeDelta;
+        if ((m_bCool)&&(1.f < m_fDelay))
+        {
+            m_bCool = false;
+        }
+        if ((!m_bCool)&&(0.3f < m_fDelay))
         {
             pGameObject = CBossProjectile::Create(m_pGraphicDev);
             Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
             dynamic_cast<CBossProjectile*>(pGameObject)->Set_Target(m_pOwner->Get_Transform()->m_vInfo[INFO_POS]);
-            ++m_iSkillCount;
             m_fDelay = 0.f;
+            ++m_iFireCount;
         }
-        if (2 < m_iSkillCount)
+
+        if ((2 < m_iSkillCount))
         {
-            m_iSkillCount = 0;
-            //return STATE::BOSS_IDLE;
-            return STATE::BOSS_EXPLOSION;
+            if ((2.f < m_fPatternDelay))
+            {
+                m_fPatternDelay = 0.f;
+                m_iSkillCount = 0;
+                m_bCool = false;
+                return STATE::BOSS_PH1SKILL2;
+            }
+        }
+        else if ((2 < m_iFireCount))
+        {
+            m_fPatternDelay = 0.f;
+            m_iFireCount = 0;
+            m_bCool = true;
+            m_fDelay = 0.f;
+            ++m_iSkillCount;
         }
 }
 

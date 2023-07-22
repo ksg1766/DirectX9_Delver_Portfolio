@@ -2,8 +2,9 @@
 #include "Export_Function.h"
 #include "SkeletonKing.h"
 #include "Player.h"
-#include "Boss_Skeleton.h"
-
+#include "Skeleton.h"
+#include "SkullGhost.h"
+#include "Alien.h"
 CBoss_SkeletonSpawnPattern::CBoss_SkeletonSpawnPattern()
 {
 }
@@ -22,10 +23,10 @@ HRESULT CBoss_SkeletonSpawnPattern::Ready_State(CStateMachine* pOwner)
     m_pOwner = pOwner;
     m_bSkill = false;
     m_fSkillCool = 0.f;
-    m_vSpawnPos[0] = _vec3(8.f, 0.f, 0.f);
-    m_vSpawnPos[1] = _vec3(-8.f, 0.f, 8.f);
-    m_vSpawnPos[2] = _vec3(0.f, 0.f, -8.f);
-    m_vSpawnPos[3] = _vec3(0.f, 0.f, 8.f);
+    m_vSpawnPos1[0] = _vec3(-10.f, 0.f, 10.f);//보스 우측상단
+    m_vSpawnPos1[1] = _vec3(-10.f, 0.f, -10.f);//보스 좌측상단
+    m_vSpawnPos2[0] = _vec3(10.f, 0.f, 10.f);//보스 우측하단
+    m_vSpawnPos2[1] = _vec3(10.f, 0.f, -10.f);//보스 좌측하단
     return S_OK;
 }
 
@@ -42,7 +43,7 @@ STATE CBoss_SkeletonSpawnPattern::Update_State(const _float& fTimeDelta)
     {
         m_bSkill = false;
         m_fSkillCool = 0.f;
-        return STATE::BOSS_TELEPORT;
+        return STATE::BOSS_PH1SKILL4;
     }
 }
 
@@ -57,12 +58,19 @@ void CBoss_SkeletonSpawnPattern::Render_State()
 void CBoss_SkeletonSpawnPattern::Spawn_Skeleton()
 {
     Engine::CGameObject* pGameObject = nullptr;
+    for (int i = 0; i < 2; ++i)
+    {
+        //pGameObject = CAlien::Create(m_pGraphicDev);
+        //dynamic_cast<CAlien*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = m_pOwner->Get_Transform()->m_vInfo[INFO_POS] + m_vSpawnPos1[i];
+        //Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+        pGameObject = CSkeleton::Create(m_pGraphicDev);
+        dynamic_cast<CSkeleton*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = m_pOwner->Get_Transform()->m_vInfo[INFO_POS] + m_vSpawnPos2[i];
+        Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+        pGameObject = CSkeleton::Create(m_pGraphicDev);
+        dynamic_cast<CSkeleton*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = m_pOwner->Get_Transform()->m_vInfo[INFO_POS] + m_vSpawnPos1[i];
+        Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+    }
  
-        pGameObject = CBoss_Skeleton::Create(m_pGraphicDev);
-        Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
-        dynamic_cast<CBoss_Skeleton*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] =
-            (Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front()->m_pTransform->m_vInfo[INFO_POS]);
-        Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 }
 
 CBoss_SkeletonSpawnPattern* CBoss_SkeletonSpawnPattern::Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner)

@@ -26,6 +26,9 @@ HRESULT CBossExplosion::Ready_Object(void)
 	m_fFrame = 0.f;
 	m_iCount = 0.f;
 	m_pBasicStat->Get_Stat()->fAttack = 8.0;
+	m_fSclae = 1.f;
+	m_pTransform->Scale(_vec3(m_fSclae, m_fSclae, m_fSclae));
+	m_bHit = false;
 	return S_OK;
 }
 
@@ -54,14 +57,12 @@ void CBossExplosion::LateUpdate_Object(void)
 
 	m_pBillBoard->LateUpdate_Component();
 	__super::LateUpdate_Object();
-	__super::Compute_ViewZ(&m_pTransform->m_vInfo[INFO_POS]);
+	m_pTransform->Scale(_vec3(m_fSclae, m_fSclae, m_fSclae));
 }
 
 void CBossExplosion::Render_Object(void)
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
-	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 
 	m_pTexture->Render_Texture((_uint)m_fFrame);
 	m_pBuffer->Render_Buffer();
@@ -69,8 +70,6 @@ void CBossExplosion::Render_Object(void)
 #if _DEBUG
 	m_pCollider->Render_Collider();
 #endif
-	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
-	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
 
 void CBossExplosion::Init_Stat()
@@ -80,7 +79,12 @@ void CBossExplosion::Init_Stat()
 void CBossExplosion::OnCollisionEnter(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
+}
 
+void CBossExplosion::OnCollisionStay(CCollider* _pOther)
+{
+	if (SceneManager()->Get_GameStop()) { return; }
+	if (m_bHit) { return; }
 	if (_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::PLAYER)
 	{
 		CPlayerStat& PlayerState = *(dynamic_cast<CPlayer*>(_pOther->GetHost())->Get_Stat());
@@ -90,17 +94,8 @@ void CBossExplosion::OnCollisionEnter(CCollider* _pOther)
 		(dynamic_cast<CPlayer*>(_pOther->GetHost())->Get_RigidBody()->Add_Force(_vec3(0.f, 1.1f * 15.f, 0.f)));
 		(dynamic_cast<CPlayer*>(_pOther->GetHost())->Get_RigidBody()->UseGravity(true));
 		(dynamic_cast<CPlayer*>(_pOther->GetHost())->Set_JumpState(true));
-
-		/*m_pRigidBody->Add_Force(_vec3(0.f, 1.1f * m_fSpeed, 0.f));
-		m_pRigidBody->UseGravity(true);*/
-		//Engine::EventManager()->DeleteObject(this);
+		m_bHit = true;
 	}
-}
-
-void CBossExplosion::OnCollisionStay(CCollider* _pOther)
-{
-	if (SceneManager()->Get_GameStop()) { return; }
-
 }
 
 void CBossExplosion::OnCollisionExit(CCollider* _pOther)
@@ -116,6 +111,13 @@ void CBossExplosion::Set_StartPos(_vec3 _vec)
 void CBossExplosion::Set_StartPosY(float _fY)
 {
 	m_pTransform->m_vInfo[INFO_POS].y += _fY;
+}
+
+void CBossExplosion::Set_Scale(_float _fSclae)
+{
+	m_fSclae = _fSclae;
+	m_pTransform->Scale(_vec3(m_fSclae, m_fSclae, m_fSclae));
+	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
 }
 
 HRESULT CBossExplosion::Add_Component(void)

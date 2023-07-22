@@ -39,8 +39,10 @@ private:
 	CBillBoard*		m_pBillBoard = nullptr;
 	_float			m_fFrame;
 	_float			m_fTime;
+	_float			m_fSpeed;
 	_vec3			m_vTargetPos;
 	_vec3			m_vDir;
+	_bool			m_bHit;
 private:
 	HRESULT		Add_Component(void);
 

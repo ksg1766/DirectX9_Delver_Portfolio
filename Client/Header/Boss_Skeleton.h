@@ -7,6 +7,7 @@ class CRcTex;
 class CTexture;
 class CBillBoard;
 class CAnimator;
+class CRigidBody;
 END
 
 class CBoss_Skeleton :
@@ -39,6 +40,7 @@ private:
     CTexture* m_pTexture[static_cast<_uint>(STATE::STATE_END)] = {};
     CAnimator* m_pAnimator = nullptr;
     CBillBoard* m_pBillBoard = nullptr;
+    CRigidBody* m_pRigidBody = nullptr;
 
     _bool        m_bOnObb;
     _bool        m_bAttackTick;

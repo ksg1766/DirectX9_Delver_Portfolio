@@ -51,16 +51,16 @@ STATE CBoss_Attack::BossSkill(const _float& fTimeDelta)
     switch (rand() % 3)
     {
     case 0:
-        return STATE::BOSS_FIRE;
+        return STATE::BOSS_IDLE;
         break;
     case 1:
-        return STATE::BOSS_EXPLOSION;
+        return STATE::BOSS_IDLE;
         break;
     case 2:
         if (5.f < m_TeleportCool)
         {
             m_TeleportCool = 0.f;
-            return STATE::BOSS_TELEPORT;
+            return STATE::BOSS_IDLE;
         }
         break;
     }

@@ -62,7 +62,7 @@ _int CBoss_MeteorCube::Update_Object(const _float& fTimeDelta)
 	else
 		m_bChanneling_Start = true;
 
-	if (4.f > m_fScale)
+	if (10.f > m_fScale)
 	{
 		m_pTransform->Scale(_vec3(m_fScale, m_fScale, m_fScale));
 	}
@@ -79,15 +79,12 @@ void CBoss_MeteorCube::LateUpdate_Object(void)
 void CBoss_MeteorCube::Render_Object(void)
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
-	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
 	m_pCubeBf->Render_Buffer();//큐브버퍼
 
 #if _DEBUG
 	m_pCollider->Render_Collider();
 #endif
-
-	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
 
 void CBoss_MeteorCube::Channeling_Begin()

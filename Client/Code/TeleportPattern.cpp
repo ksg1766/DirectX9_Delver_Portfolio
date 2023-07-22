@@ -29,30 +29,31 @@ HRESULT CTeleportPattern::Ready_State(CStateMachine* pOwner)
 
 STATE CTeleportPattern::Update_State(const _float& fTimeDelta)
 {
-    m_fDelay += fTimeDelta;
-    if (4.f < m_fDelay)
-    {
-        m_bSkillCount = false;
-        m_fDelay = 0.f;
-        return STATE::BOSS_IDLE;
-    }
+    //m_fDelay += fTimeDelta;
+    //if (4.f < m_fDelay)
+    //{
+    //    m_bSkillCount = false;
+    //    m_fDelay = 0.f;
+    //    return STATE::BOSS_IDLE;
+    //}
 
-    else if (2.f < m_fDelay)
-    {
-        _vec3   vDestination;
-        vDestination.x = 5 * cosf((_float)rand() / D3DXToRadian(15));// *fA;
-        vDestination.y = 0.f;
-        vDestination.z = 5 * -sinf((_float)rand() / D3DXToRadian(15));// *fA;
+    //else if (2.f < m_fDelay)
+    //{
+    //    _vec3   vDestination;
+    //    vDestination.x = 5 * cosf((_float)rand() / D3DXToRadian(15));// *fA;
+    //    vDestination.y = 0.f;
+    //    vDestination.z = 5 * -sinf((_float)rand() / D3DXToRadian(15));// *fA;
 
-        m_fDestination = (Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform->m_vInfo[INFO_POS]) + vDestination;
-        m_pOwner->Get_Transform()->m_vInfo[INFO_POS] = m_fDestination;
-    }
-    else
-    {
-        Make_BatSwarm(fTimeDelta);
-        m_pOwner->Get_Transform()->m_vInfo[INFO_POS].y = -99.f;
-    }
-    return STATE::BOSS_TELEPORT;
+    //    m_fDestination = (Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform->m_vInfo[INFO_POS]) + vDestination;
+    //    m_pOwner->Get_Transform()->m_vInfo[INFO_POS] = m_fDestination;
+    //}
+    //else
+    //{
+    //    Make_BatSwarm(fTimeDelta);
+    //    m_pOwner->Get_Transform()->m_vInfo[INFO_POS].y = -99.f;
+    //}
+    //return STATE::BOSS_TELEPORT;
+    return STATE::BOSS_IDLE;
 }
 
 void CTeleportPattern::LateUpdate_State()

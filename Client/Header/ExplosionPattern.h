@@ -24,6 +24,7 @@ private:
 private:
     //클래스 내에서만 쓸 함수
     _float m_fDelay;
+    _float m_fPatternDelay;
     _int    m_iSkillCount;
 
     _bool   m_bPattern;
