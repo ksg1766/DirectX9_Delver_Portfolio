@@ -19,7 +19,7 @@ CTree::~CTree()
 
 HRESULT CTree::Ready_Object(void)
 {
-	m_eObjectTag = OBJECTTAG::ENVIRONMENTAL;
+	m_eObjectTag = OBJECTTAG::IMMORTAL;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	m_pTransformCom->Scale(_vec3(10.f, 10.f, 10.f));

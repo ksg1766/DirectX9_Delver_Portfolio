@@ -16,7 +16,7 @@ CImGuiManager::CImGuiManager()
 
 CImGuiManager::~CImGuiManager()
 {
-
+    
 }
 
 void CImGuiManager::Key_Input(const _float& fTimeDelta)
@@ -634,9 +634,6 @@ HRESULT CImGuiManager::OnLoadData()
     CLayer* pLayer = pScene->Get_Layer(LAYERTAG::GAMELOGIC);
     for (int i = 0; i < (UINT)OBJECTTAG::OBJECT_END; ++i)
     {
-        if (OBJECTTAG::TERRAIN == (OBJECTTAG)i)
-            continue;
-
         vector<CGameObject*>& refObjectList = pLayer->Get_ObjectList((OBJECTTAG)i);
         for_each(refObjectList.begin(), refObjectList.end(), [&](CGameObject* pObj) { EventManager()->DeleteObject(pObj); });
         refObjectList.clear();

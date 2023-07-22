@@ -122,7 +122,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>../../Reference/Library;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../../Reference/Library;C:\Users\star1\Desktop\jusin\5th_SR_Team3Project\Client\fmode\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>d3d9.lib;d3dx9.lib;dxguid.lib;System.lib;Utility.lib;fmodex64_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -204,10 +204,12 @@
     <ClInclude Include="..\Header\GrapPattern.h" />
     <ClInclude Include="..\Header\HolyWater.h" />
     <ClInclude Include="..\Header\HpPotion.h" />
+    <ClInclude Include="..\Header\Itemgroup.h" />
     <ClInclude Include="..\Header\Jump_Plate.h" />
     <ClInclude Include="..\Header\Lamp.h" />
     <ClInclude Include="..\Header\Boss_LostSoul.h" />
     <ClInclude Include="..\Header\Meat.h" />
+    <ClInclude Include="..\Header\Monstergroup.h" />
     <ClInclude Include="..\Header\Moon.h" />
     <ClInclude Include="..\Header\MeteorPh2.h" />
     <ClInclude Include="..\Header\Necklace.h" />
@@ -373,8 +375,6 @@
     <ClInclude Include="..\ImGui\imstb_truetype.h" />
     <ClInclude Include="..\Header\UIplayerstat.h" />
     <ClInclude Include="Client.h" />
-    <ClInclude Include="Itemgroup.h" />
-    <ClInclude Include="Monstergroup.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />

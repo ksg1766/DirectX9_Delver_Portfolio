@@ -259,8 +259,8 @@ _uint CLoading::Loading_ForStage()
 
 #pragma region SOUND
 		// 테스트용
-		//FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSound/01_Title_Screen.wav", "01_Title_Screen"), E_FAIL);
-		//FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSound/03_StartVillage.wav", "03_StartVillage"), E_FAIL);
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSound/01_Title_Screen.wav", "01_Title_Screen"), E_FAIL);
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSound/03_StartVillage.wav", "03_StartVillage"), E_FAIL);
 #pragma endregion SOUND
 
 #pragma region VILLAGE

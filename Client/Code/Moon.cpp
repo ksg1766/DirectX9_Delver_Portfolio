@@ -19,7 +19,7 @@ CMoon::~CMoon()
 
 HRESULT CMoon::Ready_Object(void)
 {
-	m_eObjectTag = OBJECTTAG::ENVIRONMENTAL;
+	m_eObjectTag = OBJECTTAG::IMMORTAL;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	m_pTransformCom->Translate(_vec3(-50.f, 130.f, 250.f));//m_vInfo[INFO_POS] =

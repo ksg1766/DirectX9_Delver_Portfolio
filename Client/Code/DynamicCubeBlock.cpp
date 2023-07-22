@@ -130,10 +130,10 @@ void CDynamicCubeBlock::WaterFlow()
 		_float* fU = ((_float*)&(pVertex->vTexUV) + 0);
 		_float* fV = ((_float*)&(pVertex->vTexUV) + 1);
 
-		*fU += (1.f < *fU) ? -1.999f : 0.001f;
+		*fU += (1.f < *fU) ? -0.999f : 0.001f;
 
 		//*fV += (1.f < *fV) ? -1.999f : 0.001f;
-		*fV += (-1.f > *fV) ? 1.999f : -0.001f;
+		*fV += (0.f > *fV) ? 0.999f : -0.001f;
 	}
 
 	// 버퍼 잠금 해제

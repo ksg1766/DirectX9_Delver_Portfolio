@@ -100,12 +100,12 @@ void CStage::LateUpdate_Scene()
 	if (Engine::InputDev()->Key_Down(DIK_F9))
 	{
 		CSoundManager::GetInstance()->PlaySound(L"01_Title_Screen", CHANNELID::SOUND_EFFECT, g_fSound);
-		//CSoundMgr::Get_Instance()->PlayBGM(L"11_10.Player_Die.wav", g_fSound);
+		CSoundManager::GetInstance()->PlayBGM(L"11_10.Player_Die.wav", g_fSound);
 	}
 	if (Engine::InputDev()->Key_Pressing(DIK_K))
 	{
 		CSoundManager::GetInstance()->PlaySound(L"03_StartVillage", CHANNELID::SOUND_EFFECT, g_fSound);
-		//CSoundMgr::Get_Instance()->PlayBGM(L"11_10.Player_Die.wav", g_fSound);
+		CSoundManager::GetInstance()->PlayBGM(L"11_10.Player_Die.wav", g_fSound);
 	}
 
 }
@@ -196,8 +196,8 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	pGameObject = CPlayer::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 
-	//pGameObject->m_pTransform->Translate(_vec3(-40.f, 0.f,-40.f));
-	pGameObject->m_pTransform->Translate(_vec3(0.f, 1.f, 0.f));
+	pGameObject->m_pTransform->Translate(_vec3(-40.f, 0.f,-40.f));
+	//pGameObject->m_pTransform->Translate(_vec3(0.f, 1.f, 0.f));
 	//pGameObject->m_pTransform->Translate(_vec3(100.f, 10.f,0.f));
 
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
