@@ -53,66 +53,70 @@ STATE CPlayerState_Walk::Key_Input(const _float& fTimeDelta)
 	CPlayer& pPlayer = *dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer());
 	STATE	_eState = STATE::IDLE;
 
-	if (Engine::InputDev()->GetInstance()->Key_Pressing(DIK_W))
+	if (!pPlayer.IsTalk())
 	{
-		_vec3 vFront = vLook;
-		vFront.y = 0.f;
-		m_pOwner->Get_Transform()->Translate(6.f * fTimeDelta * vFront);
-		_eState = STATE::ROMIMG;
-	}
-	if (Engine::InputDev()->GetInstance()->Key_Pressing(DIK_S))
-	{
-		_vec3 vFront = vLook;
-		vFront.y = 0.f;
-		m_pOwner->Get_Transform()->Translate(6.f * fTimeDelta * -vFront);
-		_eState = STATE::ROMIMG;
-	}
-	if (Engine::InputDev()->GetInstance()->Key_Pressing(DIK_A))
-	{
-		_vec3 vSide = vRight;
-		vSide.y = 0.f;
-		m_pOwner->Get_Transform()->Translate(6.f * fTimeDelta * -vSide);
-		_eState = STATE::ROMIMG;
-	}
-	if (Engine::InputDev()->GetInstance()->Key_Pressing(DIK_D))
-	{
-		_vec3 vSide = vRight;
-		vSide.y = 0.f;
-		m_pOwner->Get_Transform()->Translate(6.f * fTimeDelta * vSide);
-		_eState = STATE::ROMIMG;
-	}
-
-	if (pPlayer.Get_CurrentEquipRight())
-	if (Engine::InputDev()->GetInstance()->Mouse_Pressing(DIM_LB))
-	{
-		dynamic_cast<CPlayer*>(m_pOwner->Get_Host())->Set_AttackTick(true);
-		_eState = STATE::ATTACK;
-	}
-
-	if (Engine::InputDev()->GetInstance()->Mouse_Down(DIM_RB))
-	{
-		// TODO : 마우스 오른 쪽 누르면 소모류는 사용 가능하게.
-		// 스테이트 반영은 필요X
-
-		CPlayer& pPlayer = *dynamic_cast<CPlayer*>(SceneManager()->GetInstance()
-			->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
-
-		if (pPlayer.Get_CurrentEquipLeft() == nullptr)
-			return STATE::IDLE;
-
-		// 왼쪽 손에 맥주를 장착하고 있다면
-		if (dynamic_cast<CItem*>(pPlayer.Get_CurrentEquipLeft())->Get_ItemTag().eItemID == ITEMID::GENERAL_BEER)
-			if (dynamic_cast<CBeer*>(pPlayer.Get_CurrentEquipLeft())->Get_BeerCount() >= 1.f)
-				dynamic_cast<CBeer*>(pPlayer.Get_CurrentEquipLeft())->Use_Beer(1.f);
-
-		if (dynamic_cast<CItem*>(pPlayer.Get_CurrentEquipLeft())->Get_ItemTag().eItemID == ITEMID::GENERAL_SHIELD)
+		if (Engine::InputDev()->GetInstance()->Key_Pressing(DIK_W))
 		{
-			pPlayer.Set_ThrowShield(true);
+			_vec3 vFront = vLook;
+			vFront.y = 0.f;
+			m_pOwner->Get_Transform()->Translate(6.f * fTimeDelta * vFront);
+			_eState = STATE::ROMIMG;
 		}
-		
+		if (Engine::InputDev()->GetInstance()->Key_Pressing(DIK_S))
+		{
+			_vec3 vFront = vLook;
+			vFront.y = 0.f;
+			m_pOwner->Get_Transform()->Translate(6.f * fTimeDelta * -vFront);
+			_eState = STATE::ROMIMG;
+		}
+		if (Engine::InputDev()->GetInstance()->Key_Pressing(DIK_A))
+		{
+			_vec3 vSide = vRight;
+			vSide.y = 0.f;
+			m_pOwner->Get_Transform()->Translate(6.f * fTimeDelta * -vSide);
+			_eState = STATE::ROMIMG;
+		}
+		if (Engine::InputDev()->GetInstance()->Key_Pressing(DIK_D))
+		{
+			_vec3 vSide = vRight;
+			vSide.y = 0.f;
+			m_pOwner->Get_Transform()->Translate(6.f * fTimeDelta * vSide);
+			_eState = STATE::ROMIMG;
+		}
+
+		if (pPlayer.Get_CurrentEquipRight())
+			if (Engine::InputDev()->GetInstance()->Mouse_Pressing(DIM_LB))
+			{
+				dynamic_cast<CPlayer*>(m_pOwner->Get_Host())->Set_AttackTick(true);
+				_eState = STATE::ATTACK;
+			}
+
+		if (Engine::InputDev()->GetInstance()->Mouse_Down(DIM_RB))
+		{
+			// TODO : 마우스 오른 쪽 누르면 소모류는 사용 가능하게.
+			// 스테이트 반영은 필요X
+
+			CPlayer& pPlayer = *dynamic_cast<CPlayer*>(SceneManager()->GetInstance()
+				->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
+
+			if (pPlayer.Get_CurrentEquipLeft() == nullptr)
+				return STATE::IDLE;
+
+			// 왼쪽 손에 맥주를 장착하고 있다면
+			if (dynamic_cast<CItem*>(pPlayer.Get_CurrentEquipLeft())->Get_ItemTag().eItemID == ITEMID::GENERAL_BEER)
+				if (dynamic_cast<CBeer*>(pPlayer.Get_CurrentEquipLeft())->Get_BeerCount() >= 1.f)
+					dynamic_cast<CBeer*>(pPlayer.Get_CurrentEquipLeft())->Use_Beer(1.f);
+
+			if (dynamic_cast<CItem*>(pPlayer.Get_CurrentEquipLeft())->Get_ItemTag().eItemID == ITEMID::GENERAL_SHIELD)
+			{
+				pPlayer.Set_ThrowShield(true);
+			}
+
+		}
+
+		return _eState;
 	}
-
-
+	
 	return _eState;
 }
 

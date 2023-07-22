@@ -75,28 +75,54 @@ void CUIspeech_OldMan::Render_Object()
 	/*dynamic_cast<CFont*>(m_pFont)->Set_pFont(m_pFontconfig[1]);
 	m_pFont->DrawText(L"");*/
 	m_pGameObject = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::NPC).front();
-	if (!dynamic_cast<CNpc_OldMan*>(m_pGameObject)->Get_Quest())
+
+	vector<CGameObject*>& vecNpc =
+		SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::NPC);
+
+	NPCTAG eTargetTag = NPCTAG::OLD_MAN;
+	CNpc* pTargetNpc = nullptr;
+
+	auto FindNpcTag = [&eTargetTag](CGameObject* npc)
 	{
-		dynamic_cast<CFont*>(m_pFont)->Set_pFont(m_pFontconfig[1]);
-		m_pFont->DrawText(L"³ª¹«Á» °íÃÄÁÖ°ÔÀ×");
-	}
-	else
+		if (CNpc* npcCast = dynamic_cast<CNpc*>(npc))
+			return npcCast->Get_NPCTag() == eTargetTag;
+
+		return false;
+	};
+
+	auto Npciter = find_if(vecNpc.begin(), vecNpc.end(), FindNpcTag);
+
+	if (Npciter != vecNpc.end())
+		pTargetNpc = dynamic_cast<CNpc*>(*Npciter);
+
+
+	if (dynamic_cast<CNpc_OldMan*>(pTargetNpc)->IsTalk())
 	{
-		switch (dynamic_cast<CNpc_OldMan*>(m_pGameObject)->Get_Speech())
+		if (!dynamic_cast<CNpc_OldMan*>(m_pGameObject)->Get_Quest())
 		{
-		case 0:
 			dynamic_cast<CFont*>(m_pFont)->Set_pFont(m_pFontconfig[1]);
-			m_pFont->DrawText(L"»¡¸® °¡¼­ ÇØÁàÀ×");
-			break;
-		case 1:	dynamic_cast<CFont*>(m_pFont)->Set_pFont(m_pFontconfig[1]);
-			m_pFont->DrawText(L"¿©±â¼­ ¹» ÇÏ°í ÀÖ³ª");
-			break;
-		case 2:
-			dynamic_cast<CFont*>(m_pFont)->Set_pFont(m_pFontconfig[1]);
-			m_pFont->DrawText(L"¿¡ÀÕ »¡¸® ²¨Á®À×");
-			break;
+			m_pFont->DrawText(L"³ª¹«Á» °íÃÄÁÖ°ÔÀ×");
+		}
+		else
+		{
+			switch (dynamic_cast<CNpc_OldMan*>(m_pGameObject)->Get_Speech())
+			{
+			case 0:
+				dynamic_cast<CFont*>(m_pFont)->Set_pFont(m_pFontconfig[1]);
+				m_pFont->DrawText(L"»¡¸® °¡¼­ ÇØÁàÀ×");
+				break;
+			case 1:	dynamic_cast<CFont*>(m_pFont)->Set_pFont(m_pFontconfig[1]);
+				m_pFont->DrawText(L"¿©±â¼­ ¹» ÇÏ°í ÀÖ³ª");
+				break;
+			case 2:
+				dynamic_cast<CFont*>(m_pFont)->Set_pFont(m_pFontconfig[1]);
+				m_pFont->DrawText(L"¿¡ÀÕ »¡¸® ²¨Á®À×");
+				break;
+			}
 		}
 	}
+
+	
 }
 
 HRESULT CUIspeech_OldMan::Add_Component(void)

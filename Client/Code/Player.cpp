@@ -48,6 +48,7 @@ HRESULT CPlayer::Ready_Object(void)
 	m_bStartRot = true;
 	m_bThrowShield = false;
 	m_bIsAddiction = false;
+	m_bIsTalk = false;
 	m_iDrunkCount = 0.f;
 	m_iAddictionCount = 0.f;
 	m_iRootCount = 0;

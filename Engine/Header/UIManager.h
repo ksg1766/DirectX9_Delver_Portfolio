@@ -155,6 +155,41 @@ public:
 		return m_bEsc;
 	}
 
+	_bool	Set_Shop()
+	{
+		HCURSOR Cursor = nullptr;
+
+		if (m_bShop)
+		{
+			m_bShop = false;
+			Show_PopupUI(UIPOPUPLAYER::POPUP_MOUSE);
+			Hide_PopupUI(UIPOPUPLAYER::POPUP_SHOP);
+		}
+		else 
+		{
+			m_bInven = false;
+			m_bStat = false;
+			m_bMap = false;
+			m_bSpeech = false;
+			m_bEsc = false;
+			m_bShop = true;
+			Cursor = GetCursor();
+			Cursor = LoadCursor(NULL, IDC_ARROW);
+			Hide_PopupUI(UIPOPUPLAYER::POPUP_MOUSE);
+			Hide_PopupUI(UIPOPUPLAYER::POPUP_INVEN);
+			Hide_InvenItem();
+			Hide_PopupUI(UIPOPUPLAYER::POPUP_EQUIPMENT);
+			Hide_PopupUI(UIPOPUPLAYER::POPUP_STAT);
+			Hide_PopupUI(UIPOPUPLAYER::POPUP_MAP);
+			Hide_PopupUI(UIPOPUPLAYER::POPUP_SPEECH);
+			Hide_PopupUI(UIPOPUPLAYER::POPUP_ESC);
+			Show_PopupUI(UIPOPUPLAYER::POPUP_SHOP);
+		}
+
+		SetCursor(Cursor);
+		return m_bShop;
+	}
+
 	_bool Set_SpeechBubbleUse()//Speech Bubble Test
 	{
 		HCURSOR Cursor = nullptr;
@@ -237,19 +272,19 @@ public:
 	void  LateUpdate_UI();
 	void  Render_UI(LPDIRECT3DDEVICE9 pGraphicDev);
 
-private:
+public:
 	//void MakeWorldSpaceUI();
 	//void ShowSceneUI();
 	//void ShowPopupUI();
 	//void ClosePopupUI(UI_Popup* popup);
 	//void ClosePopupUI();
-
 public:
-	_bool m_bInven = false;
-	_bool m_bStat  = false;
-	_bool m_bMap   = false;
-	_bool m_bEsc   = false;
+	_bool m_bInven    = false;
+	_bool m_bStat     = false;
+	_bool m_bMap      = false;
+	_bool m_bEsc	  = false;
 	_bool m_bSpeech   = false;
+	_bool m_bShop	  = false;
 
 	_bool m_bSlotBasicCollider[5];     // UIOBJECTTTAG::UIID_SLOTBASIC
 	_bool m_bSlotEquipmentCollider[6]; // UIOBJECTTTAG::UIID_SLOTEQUIPMENT

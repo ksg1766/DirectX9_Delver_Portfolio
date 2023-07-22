@@ -616,6 +616,18 @@
     <Filter Include="03. GameObject\01. Stage\05. Cube\01. DynamicCubeBlock">
       <UniqueIdentifier>{6b1d2605-954b-46af-95a0-ffbadd198e15}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Managers\02. SoundManager">
+      <UniqueIdentifier>{9a838c8e-62af-4bb9-9334-54ef7099647c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\03. UI\14. UISpeech\01. NPC\02. Trader">
+      <UniqueIdentifier>{9cd2480d-94d8-4a98-9889-1725288c38d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\03. UI\16. UIShop">
+      <UniqueIdentifier>{bb448ea4-5014-47f7-ba80-cb59c5bb06bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\03. UI\17. UIShopItem">
+      <UniqueIdentifier>{40917384-4568-476e-bda8-543d524776b1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -1202,6 +1214,15 @@
     <ClInclude Include="..\Header\Lamp.h">
       <Filter>03. GameObject\01. Stage\02. Item\Lamp</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\UIUseShop_Trander.h">
+      <Filter>03. GameObject\03. UI\14. UISpeech\01. NPC\02. Trader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\UIShop.h">
+      <Filter>03. GameObject\03. UI\16. UIShop</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\ShopItem.h">
+      <Filter>03. GameObject\03. UI\17. UIShopItem</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -1772,6 +1793,15 @@
     </ClCompile>
     <ClCompile Include="..\Code\Lamp.cpp">
       <Filter>03. GameObject\01. Stage\02. Item\Lamp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UIUseShop_Trander.cpp">
+      <Filter>03. GameObject\03. UI\14. UISpeech\01. NPC\02. Trader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UIShop.cpp">
+      <Filter>03. GameObject\03. UI\16. UIShop</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\ShopItem.cpp">
+      <Filter>03. GameObject\03. UI\17. UIShopItem</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

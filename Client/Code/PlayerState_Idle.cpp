@@ -48,50 +48,54 @@ STATE CPlayerState_Idle::Key_Input(const _float& fTimeDelta)
 {
 	CPlayer& pPlayer = *dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer());
 
-	if (Engine::InputDev()->Key_Down(DIK_W))
-		return STATE::ROMIMG;
-	if (Engine::InputDev()->Key_Down(DIK_S))
-		return STATE::ROMIMG;
-	if (Engine::InputDev()->Key_Down(DIK_A))
-		return STATE::ROMIMG;
-	if (Engine::InputDev()->Key_Down(DIK_D))
-		return STATE::ROMIMG;
-	
-
-	if (pPlayer.Get_CurrentEquipRight())
+	if (!pPlayer.IsTalk())
 	{
-		if (Engine::InputDev()->Mouse_Pressing(DIM_LB))
+		if (Engine::InputDev()->Key_Down(DIK_W))
+			return STATE::ROMIMG;
+		if (Engine::InputDev()->Key_Down(DIK_S))
+			return STATE::ROMIMG;
+		if (Engine::InputDev()->Key_Down(DIK_A))
+			return STATE::ROMIMG;
+		if (Engine::InputDev()->Key_Down(DIK_D))
+			return STATE::ROMIMG;
+
+
+		if (pPlayer.Get_CurrentEquipRight())
 		{
-			dynamic_cast<CPlayer*>(m_pOwner->Get_Host())->Set_AttackTick(true);
-			return STATE::ATTACK;
-		}
-	}
-
-	if (Engine::InputDev()->Mouse_Down(DIM_RB))
-	{
-		// TODO : 마우스 오른 쪽 누르면 소모류는 사용 가능하게.
-		// 스테이트 반영은 필요X
-
-		CPlayer& pPlayer = *dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer());
-
-		if (pPlayer.Get_CurrentEquipLeft() == nullptr)
-			return STATE::IDLE;
-
-			// 왼쪽 손에 맥주를 장착하고 있다면
-		if (dynamic_cast<CItem*>(pPlayer.Get_CurrentEquipLeft())->Get_ItemTag().eItemID == ITEMID::GENERAL_BEER)
-		{
-			if (dynamic_cast<CBeer*>(pPlayer.Get_CurrentEquipLeft())->Get_BeerCount() >= 1.f)
+			if (Engine::InputDev()->Mouse_Pressing(DIM_LB))
 			{
-				dynamic_cast<CBeer*>(pPlayer.Get_CurrentEquipLeft())->Use_Beer(1.f);
-
-				pPlayer.Set_Drunk(true);
+				dynamic_cast<CPlayer*>(m_pOwner->Get_Host())->Set_AttackTick(true);
+				return STATE::ATTACK;
 			}
 		}
 
-		if (dynamic_cast<CItem*>(pPlayer.Get_CurrentEquipLeft())->Get_ItemTag().eItemID == ITEMID::GENERAL_SHIELD)
-			pPlayer.Set_ThrowShield(true);
+		if (Engine::InputDev()->Mouse_Down(DIM_RB))
+		{
+			// TODO : 마우스 오른 쪽 누르면 소모류는 사용 가능하게.
+			// 스테이트 반영은 필요X
+
+			CPlayer& pPlayer = *dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer());
+
+			if (pPlayer.Get_CurrentEquipLeft() == nullptr)
+				return STATE::IDLE;
+
+			// 왼쪽 손에 맥주를 장착하고 있다면
+			if (dynamic_cast<CItem*>(pPlayer.Get_CurrentEquipLeft())->Get_ItemTag().eItemID == ITEMID::GENERAL_BEER)
+			{
+				if (dynamic_cast<CBeer*>(pPlayer.Get_CurrentEquipLeft())->Get_BeerCount() >= 1.f)
+				{
+					dynamic_cast<CBeer*>(pPlayer.Get_CurrentEquipLeft())->Use_Beer(1.f);
+
+					pPlayer.Set_Drunk(true);
+				}
+			}
+
+			if (dynamic_cast<CItem*>(pPlayer.Get_CurrentEquipLeft())->Get_ItemTag().eItemID == ITEMID::GENERAL_SHIELD)
+				pPlayer.Set_ThrowShield(true);
+		}
+		pPlayer.Set_State(STATE::IDLE);
+		return STATE::IDLE;
 	}
-	pPlayer.Set_State(STATE::IDLE);
 	return STATE::IDLE;
 }
 

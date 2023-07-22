@@ -33,6 +33,8 @@ public:
 
 	_bool			Get_Quest() { return m_bQuest; }
 	_uint			Get_Speech() { return m_iSpeech; }
+
+	_bool			IsTalk()	{ return m_bSpeech; }
 private:
 	HRESULT	Add_Component();
 private:
