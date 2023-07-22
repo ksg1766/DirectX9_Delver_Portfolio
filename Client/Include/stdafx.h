@@ -35,7 +35,7 @@
 
 extern HWND g_hWnd;
 extern HINSTANCE g_hInst;
-
+extern float g_fSound;
 
 #ifdef _DEBUG
 
@@ -49,5 +49,7 @@ extern HINSTANCE g_hInst;
 
 #endif
 #endif
+
+#include <io.h>
 
 using namespace std;

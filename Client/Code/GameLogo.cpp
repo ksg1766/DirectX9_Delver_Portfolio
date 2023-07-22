@@ -12,7 +12,7 @@ CGameLogo::~CGameLogo()
 
 HRESULT CGameLogo::Ready_Object(void)
 {
-	m_eObjectTag = OBJECTTAG::BACKGROUND;
+	m_eObjectTag = OBJECTTAG::UI;
 	FAILED_CHECK_RETURN(CTempUI::Ready_Object(), E_FAIL); // √ ±‚»≠
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);

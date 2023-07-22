@@ -69,7 +69,7 @@ void CEventManager::Execute(const tagEvent & _eve)
 		//pDeadObject->Set_Dead(true);
 
 		const OBJECTTAG& eObjectTag = pDeadObject->Get_ObjectTag();
-		if (OBJECTTAG::MONSTER != eObjectTag && OBJECTTAG::EFFECT != eObjectTag)
+		if (OBJECTTAG::MONSTER != eObjectTag/* && OBJECTTAG::EFFECT != eObjectTag*/)
 			m_vecDead.push_back(pDeadObject);
 	}
 	break;

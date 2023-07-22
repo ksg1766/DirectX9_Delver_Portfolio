@@ -187,6 +187,8 @@ void CArrow::OnCollisionEnter(CCollider* _pOther)
 			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 			//////////////////////////////////////////////////////////////////////////////// ÀÌÆåÆ® 
 
+			m_IsDead = true;
+
 			Engine::EventManager()->GetInstance()->DeleteObject(this);
 		}
 

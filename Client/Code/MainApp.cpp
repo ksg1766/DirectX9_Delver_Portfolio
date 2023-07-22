@@ -6,7 +6,9 @@
 #include "Logo.h"
 #include "Stage.h"
 
-CMainApp::CMainApp() : m_pDeviceClass(nullptr), m_pSceneManager(nullptr)
+float g_fSound = 1.f;
+
+CMainApp::CMainApp() : m_pDeviceClass(nullptr), m_pSceneManager(nullptr), m_pSoundManager(nullptr)
 {
 	
 }
@@ -21,6 +23,7 @@ HRESULT CMainApp::Ready_MainApp(void)
 	FAILED_CHECK_RETURN(SetUp_DefaultSetting(&m_pGraphicDev), E_FAIL);
 
 	FAILED_CHECK_RETURN(Ready_Scene(m_pGraphicDev, &m_pSceneManager), E_FAIL);
+	FAILED_CHECK_RETURN(CSoundManager::GetInstance()->ReadySound(&m_pSoundManager), E_FAIL);
 
 	//m_pGraphicDev->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
 	//m_pGraphicDev->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
@@ -43,8 +46,6 @@ int CMainApp::Update_MainApp(const float & fTimeDelta)
 		int a = 0;
 	}
 */
-
-
 
 	return 0;
 }
@@ -86,7 +87,6 @@ HRESULT CMainApp::SetUp_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 
 	(*ppGraphicDev) = m_pDeviceClass->Get_GraphicDev();
 	(*ppGraphicDev)->AddRef();
-	
 
 	FAILED_CHECK_RETURN(Engine::InputDev()->Ready_InputDev(g_hInst, g_hWnd), E_FAIL);
 
@@ -128,6 +128,7 @@ void CMainApp::Free()
 	Safe_Release(m_pGraphicDev);
 
 	Safe_Release(m_pDeviceClass);
+	Safe_Release(m_pSoundManager);
 	Safe_Release(m_pSceneManager);
 		
 	Engine::Release_Utility();

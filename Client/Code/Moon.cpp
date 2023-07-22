@@ -1,0 +1,103 @@
+#include "stdafx.h"
+#include "..\Header\Moon.h"
+
+#include "Export_Function.h"
+
+CMoon::CMoon(LPDIRECT3DDEVICE9 pGraphicDev)
+	: CGameObject(pGraphicDev)
+{
+}
+
+CMoon::CMoon(const CMoon& rhs)
+	: CGameObject(rhs)
+{
+}
+
+CMoon::~CMoon()
+{
+}
+
+HRESULT CMoon::Ready_Object(void)
+{
+	m_eObjectTag = OBJECTTAG::ENVIRONMENTAL;
+	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
+
+	m_pTransformCom->Translate(_vec3(-50.f, 130.f, 250.f));//m_vInfo[INFO_POS] =
+
+	return S_OK;
+}
+
+_int CMoon::Update_Object(const _float& fTimeDelta)
+{
+	_int iExit = __super::Update_Object(fTimeDelta);
+
+	Engine::Renderer()->Add_RenderGroup(RENDER_ALPHA, this);
+
+	return iExit;
+}
+
+void CMoon::LateUpdate_Object(void)
+{
+	__super::LateUpdate_Object();
+
+	m_pBillBoardCom->LateUpdate_Component();
+	m_pTransformCom->Scale(_vec3(40.f, 40.f, 40.f));
+}
+
+void CMoon::Render_Object(void)
+{
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransformCom->WorldMatrix());
+
+	m_pGraphicDev->SetRenderState(D3DRS_FOGENABLE, FALSE);
+
+	m_pTextureCom->Render_Texture(0);
+	m_pBufferCom->Render_Buffer();
+
+	m_pGraphicDev->SetRenderState(D3DRS_FOGENABLE, TRUE);
+}
+
+HRESULT CMoon::Add_Component(void)
+{
+	CComponent* pComponent = nullptr;
+
+	pComponent = m_pBufferCom = dynamic_cast<CRcTex*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_RcTex"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BUFFER, pComponent);
+
+	pComponent = m_pTransformCom = dynamic_cast<CTransform*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Transform"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::TRANSFORM, pComponent);
+
+	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_Moon"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
+
+	pComponent = m_pBillBoardCom = dynamic_cast<CBillBoard*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BillBoard"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::BILLBOARD, pComponent);
+
+	for (int i = 0; i < ID_END; ++i)
+		for (auto& iter : m_mapComponent[i])
+			iter.second->Init_Property(this);
+
+	return S_OK;
+}
+
+CMoon* CMoon::Create(LPDIRECT3DDEVICE9 pGraphicDev)
+{
+	CMoon* pInstance = new CMoon(pGraphicDev);
+
+	if (FAILED(pInstance->Ready_Object()))
+	{
+		Safe_Release(pInstance);
+		MSG_BOX("CMoon Create Failed");
+		return nullptr;
+	}
+
+	return pInstance;
+}
+
+void CMoon::Free()
+{
+	__super::Free();
+}

@@ -34,7 +34,7 @@ _int CLayer::Update_Layer(const _float & fTimeDelta)
 	_int        iResult = 0;
 	SCENETAG eSceneTag = SceneManager()->Get_Scene()->Get_SceneTag();
 	// Stage
-	if (SCENETAG::STAGE == eSceneTag)
+	if (SCENETAG::VILLAGE == eSceneTag || SCENETAG::STAGE == eSceneTag)
 	{
 		for (_uint i = 0; i < (_uint)OBJECTTAG::OBJECT_END; ++i)
 		{
