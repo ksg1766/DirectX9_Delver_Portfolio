@@ -57,92 +57,97 @@ STATE CPlayer_Attack::Key_Input(const _float& fTimeDelta)
 
 	CPlayer& pPlayer = *dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer());
 
-	if (Engine::InputDev()->Key_Pressing(DIK_W))
+	if (!pPlayer.IsTalk())
 	{
-		m_pOwner->Get_Transform()->Translate(10.f * fTimeDelta * vLook);
-	}
-
-	if (Engine::InputDev()->Key_Pressing(DIK_S))
-	{
-		m_pOwner->Get_Transform()->Translate(10.f * fTimeDelta * -vLook);
-	}
-
-	if (Engine::InputDev()->Key_Pressing(DIK_A))
-	{
-		m_pOwner->Get_Transform()->Translate(10.f * fTimeDelta * -vRight);
-	}
-
-	if (Engine::InputDev()->Key_Pressing(DIK_D))
-	{
-		m_pOwner->Get_Transform()->Translate(10.f * fTimeDelta * vRight);
-	}
-
-	if (!pPlayer.Get_Attack() && pPlayer.Get_CurrentEquipRight() != nullptr
-		|| pPlayer.Get_CurrentEquipLeft() != nullptr)
-	{
-		ITEMTYPEID _eID = dynamic_cast<CItem*>(pPlayer.Get_CurrentEquipRight())->Get_ItemTag();
-		
-		switch (_eID.eItemID)
+		if (Engine::InputDev()->Key_Pressing(DIK_W))
 		{
-		case ITEMID::WEAPON_SWORD:
-			if (Engine::InputDev()->Mouse_Pressing(DIM_LB))
-			{
-				pPlayer.Set_Attack(true);
-				pPlayer.Set_AttackTick(false);
-				pPlayer.Set_State(STATE::ATTACK);
-				return STATE::ATTACK;
-			}
-			break;
-		case ITEMID::WEAPON_BOW:
-			if (Engine::InputDev()->Mouse_Pressing(DIM_LB))
-			{
-				pPlayer.Set_Attack(true);
-				pPlayer.Set_State(STATE::ATTACK);
-				m_fSpeed += 1.3f;
+			m_pOwner->Get_Transform()->Translate(10.f * fTimeDelta * vLook);
+		}
 
-				if (m_fSpeed >= 20)
-					m_fSpeed = 20.f;
+		if (Engine::InputDev()->Key_Pressing(DIK_S))
+		{
+			m_pOwner->Get_Transform()->Translate(10.f * fTimeDelta * -vLook);
+		}
 
-				_eState = STATE::ATTACK;
-			}
-			if (Engine::InputDev()->Mouse_Up(DIM_LB))
+		if (Engine::InputDev()->Key_Pressing(DIK_A))
+		{
+			m_pOwner->Get_Transform()->Translate(10.f * fTimeDelta * -vRight);
+		}
+
+		if (Engine::InputDev()->Key_Pressing(DIK_D))
+		{
+			m_pOwner->Get_Transform()->Translate(10.f * fTimeDelta * vRight);
+		}
+
+		if (!pPlayer.Get_Attack() && pPlayer.Get_CurrentEquipRight() != nullptr
+			|| pPlayer.Get_CurrentEquipLeft() != nullptr)
+		{
+			ITEMTYPEID _eID = dynamic_cast<CItem*>(pPlayer.Get_CurrentEquipRight())->Get_ItemTag();
+
+			switch (_eID.eItemID)
 			{
-				// TODO : 마우스를 놓으면 화살 날라감.(Preesing에서 누르만큼 +Speed)
-				// CreateArrow. -> 내가 보는 방향으로 날리기.
-				if (m_fSpeed >= 20.f)
+			case ITEMID::WEAPON_SWORD:
+				if (Engine::InputDev()->Mouse_Pressing(DIM_LB))
 				{
+					pPlayer.Set_Attack(true);
+					pPlayer.Set_AttackTick(false);
+					pPlayer.Set_State(STATE::ATTACK);
+					return STATE::ATTACK;
+				}
+				break;
+			case ITEMID::WEAPON_BOW:
+				if (Engine::InputDev()->Mouse_Pressing(DIM_LB))
+				{
+					pPlayer.Set_Attack(true);
+					pPlayer.Set_State(STATE::ATTACK);
+					m_fSpeed += 1.3f;
+
+					if (m_fSpeed >= 20)
+						m_fSpeed = 20.f;
+
+					_eState = STATE::ATTACK;
+				}
+				if (Engine::InputDev()->Mouse_Up(DIM_LB))
+				{
+					// TODO : 마우스를 놓으면 화살 날라감.(Preesing에서 누르만큼 +Speed)
+					// CreateArrow. -> 내가 보는 방향으로 날리기.
+					if (m_fSpeed >= 20.f)
+					{
+						CGameObject* pGameObject = nullptr;
+						pGameObject = CArrow::Create(m_pGraphicDev,
+							dynamic_cast<CBow*>(pPlayer.Get_CurrentEquipRight())->m_pTransform,
+							m_pOwner->Get_Transform(), m_fSpeed);
+
+						Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+					}
+
+					m_fSpeed = 0.f;
+
+					pPlayer.Set_State(STATE::ROMIMG);
+					_eState = STATE::ROMIMG;
+				}
+				break;
+			case ITEMID::WEAPON_WAND3:
+				if (Engine::InputDev()->Mouse_Down(DIM_LB))
+				{
+					pPlayer.Set_Attack(true);
+					pPlayer.Set_AttackTick(false);
+					pPlayer.Set_State(STATE::ATTACK);
+
 					CGameObject* pGameObject = nullptr;
-					pGameObject = CArrow::Create(m_pGraphicDev,
-						dynamic_cast<CBow*>(pPlayer.Get_CurrentEquipRight())->m_pTransform,
-						m_pOwner->Get_Transform(), m_fSpeed);
+					pGameObject = CFireBall::Create(m_pGraphicDev,
+						dynamic_cast<CFireWands*>(pPlayer.Get_CurrentEquipRight())->m_pTransform,
+						m_pOwner->Get_Transform(), 10.f);
 
 					Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+
+					_eState = STATE::ATTACK;
 				}
-
-				m_fSpeed = 0.f;
-
-				pPlayer.Set_State(STATE::ROMIMG);
-				_eState = STATE::ROMIMG;
+				break;
 			}
-			break;
-		case ITEMID::WEAPON_WAND3:
-			if (Engine::InputDev()->Mouse_Down(DIM_LB))
-			{
-				pPlayer.Set_Attack(true);
-				pPlayer.Set_AttackTick(false);
-				pPlayer.Set_State(STATE::ATTACK);
-
-				CGameObject* pGameObject = nullptr;
-				pGameObject = CFireBall::Create(m_pGraphicDev,
-					dynamic_cast<CFireWands*>(pPlayer.Get_CurrentEquipRight())->m_pTransform,
-					m_pOwner->Get_Transform(), 10.f);
-
-				Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
-
-				_eState = STATE::ATTACK;
-			}
-			break;
 		}
+
+		return _eState;
 	}
 
 	return _eState;

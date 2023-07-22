@@ -6,6 +6,9 @@
 
 #include "Monstergroup.h"
 #include "Itemgroup.h"
+#include "Npc_Trader.h"
+#include "UIUseShop_Trander.h"
+#include "UIShop.h"
 
 #include "SpawningPool.h"
 #include "Box_Cube.h"
@@ -205,125 +208,130 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	pGameObject->m_pTransform->Translate(_vec3(-55.f, 1.f, -55.f));
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
-	CItem* pItem = CTempItem::Create(m_pGraphicDev, true);
-	NULL_CHECK_RETURN(pItem, E_FAIL);
-	pItem->m_pTransform->Translate(_vec3(-40, 1.5f, 0.f));
-	dynamic_cast<CTempItem*>(pItem)->Set_WorldItem(true);
-	pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
-	
-	pItem = CBow::Create(m_pGraphicDev, true);
-	NULL_CHECK_RETURN(pItem, E_FAIL);
-	pItem->m_pTransform->Translate(_vec3(-60, 1.5f, 0.f));
-	dynamic_cast<CBow*>(pItem)->Set_WorldItem(true);
-	pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
-	
-	pItem = CFireWands::Create(m_pGraphicDev, true);
-	NULL_CHECK_RETURN(pItem, E_FAIL);
-	pItem->m_pTransform->Translate(_vec3(-80, 1.5f, 0.f));
-	dynamic_cast<CFireWands*>(pItem)->Set_WorldItem(true);
-	pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
+	pGameObject = CNpc_Trader::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	pGameObject->m_pTransform->Translate(_vec3(0.f, 1.f, 5.f));
+	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
-	pItem = CHelmet::Create(m_pGraphicDev, true);
-	NULL_CHECK_RETURN(pItem, E_FAIL);
-	pItem->m_pTransform->Translate(_vec3(-40, 3.5f, -35.f));
-	dynamic_cast<CHelmet*>(pItem)->Set_WorldItem(true);
-	pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
-
-	pItem = CTop::Create(m_pGraphicDev, true);
-	NULL_CHECK_RETURN(pItem, E_FAIL);
-	pItem->m_pTransform->Translate(_vec3(-40, 3.5f, -30.f));
-	dynamic_cast<CTop*>(pItem)->Set_WorldItem(true);
-	pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
-
-	pItem = CPants::Create(m_pGraphicDev, true);
-	NULL_CHECK_RETURN(pItem, E_FAIL);
-	pItem->m_pTransform->Translate(_vec3(-40, 3.5f, -25.f));
-	dynamic_cast<CPants*>(pItem)->Set_WorldItem(true);
-	pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
-
-	pItem = CShield::Create(m_pGraphicDev, true);
-	NULL_CHECK_RETURN(pItem, E_FAIL);
-	pItem->m_pTransform->Translate(_vec3(-40, 3.5f, -20.f));
-	dynamic_cast<CShield*>(pItem)->Set_WorldItem(true);
-	pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
-
-	pItem = CNecklace::Create(m_pGraphicDev, true);
-	NULL_CHECK_RETURN(pItem, E_FAIL);
-	pItem->m_pTransform->Translate(_vec3(-40, 3.5f, -15.f));
-	dynamic_cast<CNecklace*>(pItem)->Set_WorldItem(true);
-	pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
-
-	pItem = CRing::Create(m_pGraphicDev, true);
-	NULL_CHECK_RETURN(pItem, E_FAIL);
-	pItem->m_pTransform->Translate(_vec3(-40, 3.5f, -10.f));
-	dynamic_cast<CRing*>(pItem)->Set_WorldItem(true);
-	pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
-
-	pItem = CBread::Create(m_pGraphicDev, true);
-	NULL_CHECK_RETURN(pItem, E_FAIL);
-	pItem->m_pTransform->Translate(_vec3(-40, 3.5f, -5.f));
-	dynamic_cast<CBread*>(pItem)->Set_WorldItem(true);
-	pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
+	//CItem* pItem = CTempItem::Create(m_pGraphicDev, true);
+	//NULL_CHECK_RETURN(pItem, E_FAIL);
+	//pItem->m_pTransform->Translate(_vec3(-40, 1.5f, 0.f));
+	//dynamic_cast<CTempItem*>(pItem)->Set_WorldItem(true);
+	//pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
+	//
+	//pItem = CBow::Create(m_pGraphicDev, true);
+	//NULL_CHECK_RETURN(pItem, E_FAIL);
+	//pItem->m_pTransform->Translate(_vec3(-60, 1.5f, 0.f));
+	//dynamic_cast<CBow*>(pItem)->Set_WorldItem(true);
+	//pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
+	//
+	//pItem = CFireWands::Create(m_pGraphicDev, true);
+	//NULL_CHECK_RETURN(pItem, E_FAIL);
+	//pItem->m_pTransform->Translate(_vec3(-80, 1.5f, 0.f));
+	//dynamic_cast<CFireWands*>(pItem)->Set_WorldItem(true);
+	//pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
+	//
+	//pItem = CHelmet::Create(m_pGraphicDev, true);
+	//NULL_CHECK_RETURN(pItem, E_FAIL);
+	//pItem->m_pTransform->Translate(_vec3(-40, 3.5f, -35.f));
+	//dynamic_cast<CHelmet*>(pItem)->Set_WorldItem(true);
+	//pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
+	//
+	//pItem = CTop::Create(m_pGraphicDev, true);
+	//NULL_CHECK_RETURN(pItem, E_FAIL);
+	//pItem->m_pTransform->Translate(_vec3(-40, 3.5f, -30.f));
+	//dynamic_cast<CTop*>(pItem)->Set_WorldItem(true);
+	//pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
+	//
+	//pItem = CPants::Create(m_pGraphicDev, true);
+	//NULL_CHECK_RETURN(pItem, E_FAIL);
+	//pItem->m_pTransform->Translate(_vec3(-40, 3.5f, -25.f));
+	//dynamic_cast<CPants*>(pItem)->Set_WorldItem(true);
+	//pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
+	//
+	//pItem = CShield::Create(m_pGraphicDev, true);
+	//NULL_CHECK_RETURN(pItem, E_FAIL);
+	//pItem->m_pTransform->Translate(_vec3(-40, 3.5f, -20.f));
+	//dynamic_cast<CShield*>(pItem)->Set_WorldItem(true);
+	//pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
+	//
+	//pItem = CNecklace::Create(m_pGraphicDev, true);
+	//NULL_CHECK_RETURN(pItem, E_FAIL);
+	//pItem->m_pTransform->Translate(_vec3(-40, 3.5f, -15.f));
+	//dynamic_cast<CNecklace*>(pItem)->Set_WorldItem(true);
+	//pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
+	//
+	//pItem = CRing::Create(m_pGraphicDev, true);
+	//NULL_CHECK_RETURN(pItem, E_FAIL);
+	//pItem->m_pTransform->Translate(_vec3(-40, 3.5f, -10.f));
+	//dynamic_cast<CRing*>(pItem)->Set_WorldItem(true);
+	//pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
+	//
+	//pItem = CBread::Create(m_pGraphicDev, true);
+	//NULL_CHECK_RETURN(pItem, E_FAIL);
+	//pItem->m_pTransform->Translate(_vec3(-40, 3.5f, -5.f));
+	//dynamic_cast<CBread*>(pItem)->Set_WorldItem(true);
+	//pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
 
 	//pGameObject = CWorm::Create(m_pGraphicDev);
 	//pGameObject->m_pTransform->Translate(_vec3(-30.f, 3.f, -40.f));
 	//pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
-	pItem = CApple::Create(m_pGraphicDev, true);
-	NULL_CHECK_RETURN(pItem, E_FAIL);
-	pItem->m_pTransform->Translate(_vec3(-40, 3.5f, 0.f));
-	dynamic_cast<CApple*>(pItem)->Set_WorldItem(true);
-	pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
+	//pItem = CApple::Create(m_pGraphicDev, true);
+	//NULL_CHECK_RETURN(pItem, E_FAIL);
+	//pItem->m_pTransform->Translate(_vec3(-40, 3.5f, 0.f));
+	//dynamic_cast<CApple*>(pItem)->Set_WorldItem(true);
+	//pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
+	//
+	//pItem = CCheese::Create(m_pGraphicDev, true);
+	//NULL_CHECK_RETURN(pItem, E_FAIL);
+	//pItem->m_pTransform->Translate(_vec3(-40, 3.5f, 5.f));
+	//dynamic_cast<CCheese*>(pItem)->Set_WorldItem(true);
+	//pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
+	//
+	//pGameObject = CBox_Cube::Create(m_pGraphicDev);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//pGameObject->m_pTransform->Translate(_vec3(-30.f, 3.5f, -30.f));
+	//pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+	//
+	//pItem = CMeat::Create(m_pGraphicDev, true);
+	//NULL_CHECK_RETURN(pItem, E_FAIL);
+	//pItem->m_pTransform->Translate(_vec3(-40, 3.5f, 10.f));
+	//dynamic_cast<CMeat*>(pItem)->Set_WorldItem(true);
+	//pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
+	//
+	//pItem = CRoastmeat::Create(m_pGraphicDev, true);
+	//NULL_CHECK_RETURN(pItem, E_FAIL);
+	//pItem->m_pTransform->Translate(_vec3(-40, 3.5f, 15.f));
+	//dynamic_cast<CRoastmeat*>(pItem)->Set_WorldItem(true);
+	//pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
+	//
+	//pItem = CHolyWater::Create(m_pGraphicDev, true);
+	//NULL_CHECK_RETURN(pItem, E_FAIL);
+	//pItem->m_pTransform->Translate(_vec3(-45, 3.5f, -35.f));
+	//dynamic_cast<CHolyWater*>(pItem)->Set_WorldItem(true);
+	//pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
+	//
+	//pItem = CHpPotion::Create(m_pGraphicDev, true);
+	//NULL_CHECK_RETURN(pItem, E_FAIL);
+	//pItem->m_pTransform->Translate(_vec3(-45, 3.5f, -30.f));
+	//dynamic_cast<CHpPotion*>(pItem)->Set_WorldItem(true);
+	//pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
+	//
+	//pItem = CLamp::Create(m_pGraphicDev, true);
+	//NULL_CHECK_RETURN(pItem, E_FAIL);
+	//pItem->m_pTransform->Translate(_vec3(-50, 3.5f, -30.f));
+	//dynamic_cast<CLamp*>(pItem)->Set_WorldItem(true);
+	//pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
 
-	pItem = CCheese::Create(m_pGraphicDev, true);
-	NULL_CHECK_RETURN(pItem, E_FAIL);
-	pItem->m_pTransform->Translate(_vec3(-40, 3.5f, 5.f));
-	dynamic_cast<CCheese*>(pItem)->Set_WorldItem(true);
-	pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
-
-	pGameObject = CBox_Cube::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pGameObject->m_pTransform->Translate(_vec3(-30.f, 3.5f, -30.f));
-	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-
-	pItem = CMeat::Create(m_pGraphicDev, true);
-	NULL_CHECK_RETURN(pItem, E_FAIL);
-	pItem->m_pTransform->Translate(_vec3(-40, 3.5f, 10.f));
-	dynamic_cast<CMeat*>(pItem)->Set_WorldItem(true);
-	pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
-
-	pItem = CRoastmeat::Create(m_pGraphicDev, true);
-	NULL_CHECK_RETURN(pItem, E_FAIL);
-	pItem->m_pTransform->Translate(_vec3(-40, 3.5f, 15.f));
-	dynamic_cast<CRoastmeat*>(pItem)->Set_WorldItem(true);
-	pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
-
-	pItem = CHolyWater::Create(m_pGraphicDev, true);
-	NULL_CHECK_RETURN(pItem, E_FAIL);
-	pItem->m_pTransform->Translate(_vec3(-45, 3.5f, -35.f));
-	dynamic_cast<CHolyWater*>(pItem)->Set_WorldItem(true);
-	pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
-
-	pItem = CHpPotion::Create(m_pGraphicDev, true);
-	NULL_CHECK_RETURN(pItem, E_FAIL);
-	pItem->m_pTransform->Translate(_vec3(-45, 3.5f, -30.f));
-	dynamic_cast<CHpPotion*>(pItem)->Set_WorldItem(true);
-	pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
-
-	pItem = CLamp::Create(m_pGraphicDev, true);
-	NULL_CHECK_RETURN(pItem, E_FAIL);
-	pItem->m_pTransform->Translate(_vec3(-50, 3.5f, -30.f));
-	dynamic_cast<CLamp*>(pItem)->Set_WorldItem(true);
-	pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
-
-	for(_int i = 0; i < 5; ++i)
-	{
-		pItem = CRandomPotion::Create(m_pGraphicDev, true);
-		NULL_CHECK_RETURN(pItem, E_FAIL);
-		pItem->m_pTransform->Translate(_vec3(-45, 3.5f, -25.f + (i*5)));
-		dynamic_cast<CRandomPotion*>(pItem)->Set_WorldItem(true);
-		pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
-	}
+	//for(_int i = 0; i < 5; ++i)
+	//{
+	//	pItem = CRandomPotion::Create(m_pGraphicDev, true);
+	//	NULL_CHECK_RETURN(pItem, E_FAIL);
+	//	pItem->m_pTransform->Translate(_vec3(-45, 3.5f, -25.f + (i*5)));
+	//	dynamic_cast<CRandomPotion*>(pItem)->Set_WorldItem(true);
+	//	pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
+	//}
 
 
 	//pGameObject = CBlade_Trap::Create(m_pGraphicDev);
@@ -483,8 +491,18 @@ HRESULT CStage::Ready_Layer_UI(LAYERTAG _eLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	Engine::UIManager()->AddPopupGameobject_UI(Engine::UIPOPUPLAYER::POPUP_ESC, Engine::UILAYER::UI_DOWN, pGameObject);
 
+	// Shop
+	pGameObject = CUIShop::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	Engine::UIManager()->AddPopupGameobject_UI(Engine::UIPOPUPLAYER::POPUP_SHOP, Engine::UILAYER::UI_DOWN, pGameObject);
+
+
 	// Speech Bubble Test
 	pGameObject = CUIspeech_OldMan::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	Engine::UIManager()->AddPopupGameobject_UI(Engine::UIPOPUPLAYER::POPUP_SPEECH, Engine::UILAYER::UI_DOWN, pGameObject);
+
+	pGameObject = CUIUseShop_Trander::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	Engine::UIManager()->AddPopupGameobject_UI(Engine::UIPOPUPLAYER::POPUP_SPEECH, Engine::UILAYER::UI_DOWN, pGameObject);
 
@@ -494,6 +512,7 @@ HRESULT CStage::Ready_Layer_UI(LAYERTAG _eLayerTag)
 	Engine::UIManager()->Hide_PopupUI(Engine::UIPOPUPLAYER::POPUP_MAP);
 	Engine::UIManager()->Hide_PopupUI(Engine::UIPOPUPLAYER::POPUP_ESC);
 	Engine::UIManager()->Hide_PopupUI(Engine::UIPOPUPLAYER::POPUP_SPEECH);	// Speech Bubble Test
+	Engine::UIManager()->Hide_PopupUI(Engine::UIPOPUPLAYER::POPUP_SHOP);	// Speech Bubble Test
 
 	m_mapLayer.insert({ _eLayerTag, pLayer });
 
@@ -513,8 +532,8 @@ HRESULT CStage::Load_Data()
 		for_each(refObjectList.begin(), refObjectList.end(), [&](CGameObject* pObj) { EventManager()->DeleteObject(pObj); });
 		refObjectList.clear();
 	}
-	HANDLE hFile = CreateFile(L"../Bin/Data/Sewer.dat", GENERIC_READ, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
-	//HANDLE hFile = CreateFile(L"../Bin/Data/TempData.dat", GENERIC_READ, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
+	//HANDLE hFile = CreateFile(L"../Bin/Data/Sewer.dat", GENERIC_READ, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
+	HANDLE hFile = CreateFile(L"../Bin/Data/Terrain.dat", GENERIC_READ, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
 	//HANDLE hFile = CreateFile(L"../Bin/Data/TerrainGiantTree8.dat", GENERIC_READ,	0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
 	//HANDLE hFile = CreateFile(L"../Bin/Data/BossStage_3rd.dat", GENERIC_READ, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
 

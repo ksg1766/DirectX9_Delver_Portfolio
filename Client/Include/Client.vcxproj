@@ -196,6 +196,7 @@
     <ClInclude Include="..\Header\Ring.h" />
     <ClInclude Include="..\Header\Roastmeat.h" />
     <ClInclude Include="..\Header\Shield.h" />
+    <ClInclude Include="..\Header\ShopItem.h" />
     <ClInclude Include="..\Header\SkullGhost.h" />
     <ClInclude Include="..\Header\BossExplosion.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
@@ -242,6 +243,7 @@
     <ClInclude Include="..\Header\Ghost_IDLE.h" />
     <ClInclude Include="..\Header\Top.h" />
     <ClInclude Include="..\Header\UIBuff.h" />
+    <ClInclude Include="..\Header\UIShop.h" />
     <ClInclude Include="..\Header\UISpeech.h" />
     <ClInclude Include="..\Header\Dead_BossSkeleton.h" />
     <ClInclude Include="..\Header\Dog_Idle.h" />
@@ -329,6 +331,7 @@
     <ClInclude Include="..\Header\UIResumeButton.h" />
     <ClInclude Include="..\Header\UISpeech_Bard.h" />
     <ClInclude Include="..\Header\UISpeech_OldMan.h" />
+    <ClInclude Include="..\Header\UIUseShop_Trander.h" />
     <ClInclude Include="..\Header\WakeUp_BossSkeleton.h" />
     <ClInclude Include="..\Header\Worm.h" />
     <ClInclude Include="..\Header\Warrior_Attack.h" />
@@ -381,6 +384,7 @@
     <ClCompile Include="..\Code\Ring.cpp" />
     <ClCompile Include="..\Code\Roastmeat.cpp" />
     <ClCompile Include="..\Code\Shield.cpp" />
+    <ClCompile Include="..\Code\ShopItem.cpp" />
     <ClCompile Include="..\Code\SkullGhost.cpp" />
     <ClCompile Include="..\Code\BossExplosion.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
@@ -427,6 +431,7 @@
     <ClCompile Include="..\Code\Ghost_IDLE.cpp" />
     <ClCompile Include="..\Code\Top.cpp" />
     <ClCompile Include="..\Code\UIBuff.cpp" />
+    <ClCompile Include="..\Code\UIShop.cpp" />
     <ClCompile Include="..\Code\UISpeech.cpp" />
     <ClCompile Include="..\Code\Dead_BossSkeleton.cpp" />
     <ClCompile Include="..\Code\Dog_Idle.cpp" />
@@ -514,6 +519,7 @@
     <ClCompile Include="..\Code\UIResumeButton.cpp" />
     <ClCompile Include="..\Code\UISpeech_Bard.cpp" />
     <ClCompile Include="..\Code\UISpeech_OldMan.cpp" />
+    <ClCompile Include="..\Code\UIUseShop_Trander.cpp" />
     <ClCompile Include="..\Code\WakeUp_BossSkeleton.cpp" />
     <ClCompile Include="..\Code\Worm.cpp" />
     <ClCompile Include="..\Code\Warrior_Attack.cpp" />

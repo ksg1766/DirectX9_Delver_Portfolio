@@ -92,6 +92,7 @@ void CUIitem::Render_Object()
 	{
 		_matrix      matWorld;
 
+	
 		D3DXMatrixIdentity(&matWorld);
 		matWorld._11 = 44.f;
 		matWorld._22 = 24.f;

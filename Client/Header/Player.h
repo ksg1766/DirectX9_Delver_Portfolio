@@ -55,6 +55,7 @@ public:
 	CRigidBody*		Get_RigidBody()			{ return m_pRigidBody; }
 
 	_bool			IsThrowShield()			{ return m_bThrowShield; }
+	_bool			IsTalk()				{ return m_bIsTalk; }
 	virtual void	OnCollisionEnter(CCollider* _pOther);
 	virtual void	OnCollisionStay(CCollider* _pOther);
 	virtual void	OnCollisionExit(CCollider* _pOther);
@@ -81,6 +82,8 @@ public:
 	//Msh
 	void			Set_Poisoning(_bool	_bPoisoning)				{ m_bPoisoning = _bPoisoning; }
 	void			Set_Parrying(_bool	_bParrying)					{ m_bParrying = _bParrying; }
+	void			Set_Talk(_bool _talk)							{ m_bIsTalk = _talk; }
+
 	_bool			Get_Parrying()									{ return m_bParrying; }
 
 public:
@@ -119,6 +122,7 @@ private:
 	_bool			m_bEquipStat;
 	_bool			m_bThrowShield;
 	_bool			m_bIsAddiction;
+	_bool			m_bIsTalk;
 
 	_int			m_iDrunkCount;
 	_int			m_iAddictionCount;

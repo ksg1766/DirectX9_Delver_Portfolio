@@ -3,6 +3,7 @@
 #include "OldMan_Idle.h"
 #include "DynamicCamera.h"
 #include "UIspeech_OldMan.h"
+#include "Player.h"
 CNpc_OldMan::CNpc_OldMan(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CNpc(pGraphicDev)
 {
@@ -20,7 +21,7 @@ CNpc_OldMan::~CNpc_OldMan()
 HRESULT CNpc_OldMan::Ready_Object()
 {
 	m_eObjectTag = OBJECTTAG::NPC;
-	m_eNPCTag = NPCTAG::TRADER;
+	m_eNPCTag = NPCTAG::OLD_MAN;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	m_pTransform->Translate(_vec3(0.f, 3.f, 0.f));
@@ -59,20 +60,28 @@ _int CNpc_OldMan::Update_Object(const _float& fTimeDelta)
 	m_fFontTime += fTimeDelta;
 	m_pStateMachine->Update_StateMachine(fTimeDelta);
 
-	m_vPlayerPos = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform->m_vInfo[INFO_POS];
+	CPlayer& rPlayer = *dynamic_cast<CPlayer*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
+
+	m_vPlayerPos = rPlayer.m_pTransform->m_vInfo[INFO_POS];
 	m_vDir = m_vPlayerPos - m_pTransform->m_vInfo[INFO_POS];
 	m_fDistance = D3DXVec3LengthSq(&m_vDir);
 
-	if (m_fDistance < pow(3, 2))
+
+	if (m_fDistance < 3.f)
 	{
 		m_bTalkButton = true;
-
+	
 		if (Engine::InputDev()->Key_Down(DIK_F))
 		{
 			m_pGameObject = SceneManager()->Get_ObjectList(LAYERTAG::ENVIRONMENT, OBJECTTAG::CAMERA).front();
+		
+			//if ((!m_bTalkingBox) && (m_bTalkButton))
+
 			if (Engine::UIManager()->Set_SpeechBubbleUse())
 			{
 				//static_cast<CDynamicCamera*>(m_pGameObject)->Set_Fix(true);
+				rPlayer.Set_Talk(true);
+
 				m_bTalkingBox = true;
 				if (!m_bSpeech)
 				{
@@ -80,27 +89,34 @@ _int CNpc_OldMan::Update_Object(const _float& fTimeDelta)
 					m_iSpeech = rand() % 3;
 					m_bSpeech = true;
 				}
+
+				
 			}
 			else
 			{
 				//static_cast<CDynamicCamera*>(m_pGameObject)->Set_Fix(false);
 				Engine::UIManager()->Hide_PopupUI(UIPOPUPLAYER::POPUP_SPEECH);
 				SceneManager()->Set_GameStop(false);
-				m_bTalkingBox = false;
 				m_bQuest = true;
 				m_bSpeech = false;
+				m_bTalkingBox = false;
+				rPlayer.Set_Talk(false);
 			}
-
 		}
 	}
 	else
 	{
-		m_pGameObject = SceneManager()->Get_ObjectList(LAYERTAG::ENVIRONMENT, OBJECTTAG::CAMERA).front();
-		//static_cast<CDynamicCamera*>(m_pGameObject)->Set_Fix(false);
-		Engine::UIManager()->Hide_PopupUI(UIPOPUPLAYER::POPUP_SPEECH);
 		m_bTalkButton = false;
 		m_bTalkingBox = false;
 	}
+	//else
+	//{
+	//	m_pGameObject = SceneManager()->Get_ObjectList(LAYERTAG::ENVIRONMENT, OBJECTTAG::CAMERA).front();
+	//	//static_cast<CDynamicCamera*>(m_pGameObject)->Set_Fix(false);
+	//	Engine::UIManager()->Hide_PopupUI(UIPOPUPLAYER::POPUP_SPEECH);
+	//	m_bTalkButton = false;
+	//	m_bTalkingBox = false;
+	//}
 
 	return iExit;
 }

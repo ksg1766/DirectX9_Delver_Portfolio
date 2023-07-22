@@ -20,7 +20,7 @@ CNpc_Bard::~CNpc_Bard()
 HRESULT CNpc_Bard::Ready_Object()
 {
 	m_eObjectTag = OBJECTTAG::NPC;
-	m_eNPCTag = NPCTAG::TRADER;
+	m_eNPCTag = NPCTAG::BARD;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	m_pTransform->Translate(_vec3(0.f, 3.f, 0.f));

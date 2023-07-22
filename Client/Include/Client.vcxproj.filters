@@ -613,6 +613,18 @@
     <Filter Include="03. GameObject\03. UI\15. UIBuff">
       <UniqueIdentifier>{90fbb872-2391-4238-93e2-f6951a0d9204}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Managers\02. SoundManager">
+      <UniqueIdentifier>{9a838c8e-62af-4bb9-9334-54ef7099647c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\03. UI\14. UISpeech\01. NPC\02. Trader">
+      <UniqueIdentifier>{9cd2480d-94d8-4a98-9889-1725288c38d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\03. UI\16. UIShop">
+      <UniqueIdentifier>{bb448ea4-5014-47f7-ba80-cb59c5bb06bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\03. UI\17. UIShopItem">
+      <UniqueIdentifier>{40917384-4568-476e-bda8-543d524776b1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -1083,9 +1095,6 @@
     <ClInclude Include="..\Header\SkeletonKing.h">
       <Filter>99. Etc\헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\Pot.h">
-      <Filter>02. GameObject\01. Stage\06. Fragile\01. Pot</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\Chease.h">
       <Filter>99. Etc\헤더 파일</Filter>
     </ClInclude>
@@ -1196,6 +1205,18 @@
     </ClInclude>
     <ClInclude Include="..\Header\UISpeech_Bard.h">
       <Filter>03. GameObject\03. UI\14. UISpeech\01. NPC\01. Bard</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Pot.h">
+      <Filter>99. Etc\헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\UIUseShop_Trander.h">
+      <Filter>03. GameObject\03. UI\14. UISpeech\01. NPC\02. Trader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\UIShop.h">
+      <Filter>03. GameObject\03. UI\16. UIShop</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\ShopItem.h">
+      <Filter>03. GameObject\03. UI\17. UIShopItem</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1658,9 +1679,6 @@
     <ClCompile Include="..\Code\SkeletonKing.cpp">
       <Filter>99. Etc\소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\Pot.cpp">
-      <Filter>02. GameObject\01. Stage\06. Fragile\01. Pot</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\Chease.cpp">
       <Filter>99. Etc\소스 파일</Filter>
     </ClCompile>
@@ -1765,6 +1783,18 @@
     </ClCompile>
     <ClCompile Include="..\Code\UISpeech_Bard.cpp">
       <Filter>03. GameObject\03. UI\14. UISpeech\01. NPC\01. Bard</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Pot.cpp">
+      <Filter>99. Etc\소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UIUseShop_Trander.cpp">
+      <Filter>03. GameObject\03. UI\14. UISpeech\01. NPC\02. Trader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UIShop.cpp">
+      <Filter>03. GameObject\03. UI\16. UIShop</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\ShopItem.cpp">
+      <Filter>03. GameObject\03. UI\17. UIShopItem</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
