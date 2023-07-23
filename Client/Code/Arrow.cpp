@@ -174,6 +174,7 @@ void CArrow::OnCollisionEnter(CCollider* _pOther)
 		dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_StateMachine()->Get_State() != STATE::DEAD)
 	{
 		pPlayer.IsAttack(dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_BasicStat());
+	
 
 		if (++g_iCount == 2)
 		{
@@ -197,6 +198,7 @@ void CArrow::OnCollisionEnter(CCollider* _pOther)
 		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 		//////////////////////////////////////////////////////////////////////////////// ÀÌÆåÆ® 
 
+		Set_State(STATE::DEAD);
 		Engine::EventManager()->DeleteObject(this);
 	}
 

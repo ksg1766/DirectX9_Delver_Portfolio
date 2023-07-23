@@ -1,6 +1,9 @@
 #include "Npc_Wizard.h"
 #include "Export_Function.h"
 #include "NPC_Wizard_Idle.h"
+#include "Player.h"
+#include "DynamicCamera.h"
+
 CNpc_Wizard::CNpc_Wizard(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CNpc(pGraphicDev)
 {
@@ -18,7 +21,7 @@ CNpc_Wizard::~CNpc_Wizard()
 HRESULT CNpc_Wizard::Ready_Object()
 {
 	m_eObjectTag = OBJECTTAG::NPC;
-	m_eNPCTag = NPCTAG::TRADER;
+	m_eNPCTag = NPCTAG::WIZARD;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	m_pTransform->Translate(_vec3(0.f, 3.f, 0.f));
@@ -32,6 +35,16 @@ HRESULT CNpc_Wizard::Ready_Object()
 
 	m_pStateMachine->Set_Animator(m_pAnimator);
 	m_pStateMachine->Set_State(STATE::IDLE);
+
+	m_bTalkButton = false;
+	m_bTalkBoX = false;
+	m_bTalking = false;
+	m_pFontconfig = dynamic_cast<CFont*>(m_pFont)->Create_3DXFont(35, 28.f, 1000.f, false, L"Times New Roman", m_pFontconfig);
+	dynamic_cast<CFont*>(m_pFont)->Set_pFont(m_pFontconfig);
+	dynamic_cast<CFont*>(m_pFont)->Set_FontColor(_uint(0xffffffff));
+	dynamic_cast<CFont*>(m_pFont)->Set_Rect(RECT{ 0, 350, WINCX, 650 });
+	dynamic_cast<CFont*>(m_pFont)->Set_Anchor(DT_CENTER | DT_NOCLIP);
+
 	return S_OK;
 }
 
@@ -44,6 +57,45 @@ _int CNpc_Wizard::Update_Object(const _float& fTimeDelta)
 	_uint iExit = __super::Update_Object(fTimeDelta);
 
 	m_pStateMachine->Update_StateMachine(fTimeDelta);
+
+	CPlayer& rPlayer = *dynamic_cast<CPlayer*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
+
+	_vec3 vDir = rPlayer.m_pTransform->m_vInfo[INFO_POS] - m_pTransform->m_vInfo[INFO_POS];
+	_float fDistance = D3DXVec3Length(&vDir);
+
+	CGameObject* pGameObject = SceneManager()->
+		Get_ObjectList(LAYERTAG::ENVIRONMENT, OBJECTTAG::CAMERA).front();
+
+	if (fDistance < 3.f)
+	{
+		m_bTalkButton = true;
+
+		if (Engine::InputDev()->Key_Down(DIK_F))
+		{
+			if (Engine::UIManager()->Set_SpeechBubbleUse())
+			{
+				m_bTalkBoX = true;
+
+				rPlayer.Set_Talk(true);
+				if (!m_bTalking)
+					m_bTalking = true;
+
+				static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(true);
+			}
+			else
+			{
+				Engine::UIManager()->Hide_PopupUI(UIPOPUPLAYER::POPUP_SPEECH);
+				SceneManager()->Set_GameStop(false);
+				m_bTalkBoX = false;
+				m_bTalking = false;
+				rPlayer.Set_Talk(false);
+	
+				static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(false);
+			}
+		}
+	}
+
+
 	return iExit;
 }
 
@@ -64,7 +116,14 @@ void CNpc_Wizard::Render_Object()
 #if _DEBUG
 	m_pCollider->Render_Collider();
 #endif
-
+	if (!SceneManager()->Get_GameStop())
+	{
+		if ((!m_bTalkBoX) && (m_bTalkButton))
+		{
+			dynamic_cast<CFont*>(m_pFont)->Set_pFont(m_pFontconfig);
+			m_pFont->DrawText(L"F : TALK");
+		}
+	}
 }
 
 void CNpc_Wizard::OnCollisionEnter(CCollider* _pOther)
@@ -124,6 +183,10 @@ HRESULT CNpc_Wizard::Add_Component()
 	pComponent = m_pBasicStat = dynamic_cast<CBasicStat*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BasicStat"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BASICSTAT, pComponent);
+
+	pComponent = m_pFont = dynamic_cast<CFont*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Font"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::FONT, pComponent);
 
 	for (_uint i = 0; i < ID_END; ++i)
 		for (auto& iter : m_mapComponent[i])

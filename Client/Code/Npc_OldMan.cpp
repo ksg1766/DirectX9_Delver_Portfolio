@@ -109,14 +109,6 @@ _int CNpc_OldMan::Update_Object(const _float& fTimeDelta)
 		m_bTalkButton = false;
 		m_bTalkingBox = false;
 	}
-	//else
-	//{
-	//	m_pGameObject = SceneManager()->Get_ObjectList(LAYERTAG::ENVIRONMENT, OBJECTTAG::CAMERA).front();
-	//	//static_cast<CDynamicCamera*>(m_pGameObject)->Set_Fix(false);
-	//	Engine::UIManager()->Hide_PopupUI(UIPOPUPLAYER::POPUP_SPEECH);
-	//	m_bTalkButton = false;
-	//	m_bTalkingBox = false;
-	//}
 
 	return iExit;
 }
