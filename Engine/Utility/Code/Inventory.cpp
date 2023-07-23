@@ -42,29 +42,25 @@ void CInventory::Add_ItemObject(CGameObject* pGameObject)
 			if (SlotItemType.eItemID == ItemType.eItemID)
 			{
 				dynamic_cast<CItem*>(iter.second)->Add_ItemCount(ItemType.iCount);
-				
+				dynamic_cast<CItem*>(pGameObject)->m_pTransform;
+
 				CTransform* pPlayerTransform = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform;
 				vector<CTransform*>& ChildTransform = pPlayerTransform->Get_Child();
 
-				for (auto& iter = ChildTransform.begin(); iter != ChildTransform.end();)
-				{
-					if (dynamic_cast<CItem*>((*iter)->Get_Host())->Get_ItemTag().eItemID == SlotItemType.eItemID)
-						iter = ChildTransform.erase(iter);
-					else
-						++iter;
-				}
+				ChildTransform.erase(remove_if(ChildTransform.begin(), ChildTransform.end(),
+					[&](CTransform* pTramsform)
+					{
+						if (pTramsform == dynamic_cast<CItem*>(pGameObject)->m_pTransform)
+							return true;
+
+						return false;
+					}
+				),
+					ChildTransform.end());
+
+				dynamic_cast<CItem*>(pGameObject)->m_pTransform = nullptr;
 
 				EventManager()->DeleteObject(pGameObject);
-	/*			for (auto& iter = m_mapKeySlot.begin(); iter != m_mapKeySlot.end();)
-				{
-					if (dynamic_cast<CItem*>(iter->second)->Get_ItemTag().eItemID == SlotItemType.eItemID)
-					{
-						m_vDead.push_back(iter->second);
-						iter = m_mapKeySlot.erase(iter);
-					}
-					else
-						++iter;
-				}*/
 
 				return;
 			}
@@ -76,32 +72,28 @@ void CInventory::Add_ItemObject(CGameObject* pGameObject)
 		if (iter.second != nullptr) {
 			ITEMTYPEID SlotItemType = dynamic_cast<CItem*>(iter.second)->Get_ItemTag();
 
-			if (SlotItemType.eItemType == ItemType.eItemType)
+			if (SlotItemType.eItemID == ItemType.eItemID)
 			{
-				// 같은 아이템이 존재할 시 해당 개수만큼 카운트 증가 후 들어온 아이템 삭제
 				dynamic_cast<CItem*>(iter.second)->Add_ItemCount(ItemType.iCount);
-				/*Safe_Release<CGameObject*>(pGameObject);*/
+				dynamic_cast<CItem*>(pGameObject)->m_pTransform;
+
 				CTransform* pPlayerTransform = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform;
 				vector<CTransform*>& ChildTransform = pPlayerTransform->Get_Child();
 
-				for (auto& iter = ChildTransform.begin(); iter != ChildTransform.end();)
-				{
-					if (dynamic_cast<CItem*>((*iter)->Get_Host())->Get_ItemTag().eItemID == SlotItemType.eItemID)
-						iter = ChildTransform.erase(iter);
-					else
-						++iter;
-				}
-
-	/*			for (auto& iter = m_mapKeySlot.begin(); iter != m_mapKeySlot.end();)
-				{
-					if (dynamic_cast<CItem*>(iter->second)->Get_ItemTag().eItemID == SlotItemType.eItemID)
+				ChildTransform.erase(remove_if(ChildTransform.begin(), ChildTransform.end(),
+					[&](CTransform* pTramsform)
 					{
-						m_vDead.push_back(iter->second);
-						iter = m_mapKeySlot.erase(iter);
+						if (pTramsform == dynamic_cast<CItem*>(pGameObject)->m_pTransform)
+							return true;
+
+						return false;
 					}
-					else
-						++iter;
-				}*/
+				),
+					ChildTransform.end());
+
+				dynamic_cast<CItem*>(pGameObject)->m_pTransform = nullptr;
+
+				EventManager()->DeleteObject(pGameObject);
 
 				return;
 			}
@@ -115,9 +107,27 @@ void CInventory::Add_ItemObject(CGameObject* pGameObject)
 
 			if (SlotItemType.eItemID == ItemType.eItemID)
 			{
-				// 같은 아이템이 존재할 시 해당 개수만큼 카운트 증가 후 들어온 아이템 삭제
 				dynamic_cast<CItem*>(*iter)->Add_ItemCount(ItemType.iCount);
+				dynamic_cast<CItem*>(pGameObject)->m_pTransform;
+
+				CTransform* pPlayerTransform = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform;
+				vector<CTransform*>& ChildTransform = pPlayerTransform->Get_Child();
+
+				ChildTransform.erase(remove_if(ChildTransform.begin(), ChildTransform.end(),
+					[&](CTransform* pTramsform)
+					{
+						if (pTramsform == dynamic_cast<CItem*>(pGameObject)->m_pTransform)
+							return true;
+
+						return false;
+					}
+				),
+					ChildTransform.end());
+
+				dynamic_cast<CItem*>(pGameObject)->m_pTransform = nullptr;
+
 				EventManager()->DeleteObject(pGameObject);
+
 				return;
 			}
 			else
@@ -191,6 +201,7 @@ void CInventory::delete_FindItem(ITEMTYPEID _itemId)
 					else
 						++iter;
 				}
+
 
 				for (auto& iter = m_mapKeySlot.begin(); iter != m_mapKeySlot.end();)
 					if (iter->second != nullptr)

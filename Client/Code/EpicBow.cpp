@@ -1,28 +1,28 @@
 #include "stdafx.h"
 #include "..\Header\Player.h"
 
-#include "..\Header\Bow.h"
+#include "..\Header\EpicBow.h"
 #include "Export_Function.h"
 #include "EffectDamage.h"
 
 static _int iCount = 0;
 
-CBow::CBow(LPDIRECT3DDEVICE9 pGraphicDev)
+CEpicBow::CEpicBow(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CItem(pGraphicDev)
 {
 }
 
-CBow::CBow(const CBow& rhs)
+CEpicBow::CEpicBow(const CEpicBow& rhs)
 	: Engine::CItem(rhs)
 {
 }
 
-CBow::~CBow()
+CEpicBow::~CEpicBow()
 {
 	Free();
 }
 
-HRESULT CBow::Ready_Object(_bool _Item)
+HRESULT CEpicBow::Ready_Object(_bool _Item)
 {
 	m_eObjectTag = OBJECTTAG::ITEM;
 	m_bWorldItem = _Item;
@@ -58,15 +58,14 @@ HRESULT CBow::Ready_Object(_bool _Item)
 		m_fChase2 = 0.f;
 		m_fAngle = 0.f;
 
-
 		CAnimation* pAnimation = CAnimation::Create(m_pGraphicDev,
 			m_pTexture[_uint(STATE::IDLE)], STATE::IDLE, 0.5f, TRUE);
 		m_pAnimator->Add_Animation(STATE::IDLE, pAnimation);
 		pAnimation = CAnimation::Create(m_pGraphicDev,
-			m_pTexture[_uint(STATE::ROMIMG)], STATE::ROMIMG, 3.f, TRUE);
+			m_pTexture[_uint(STATE::ROMIMG)], STATE::ROMIMG, 2.f, TRUE);
 		m_pAnimator->Add_Animation(STATE::ROMIMG, pAnimation);
 		pAnimation = CAnimation::Create(m_pGraphicDev,
-			m_pTexture[_uint(STATE::ATTACK)], STATE::ATTACK, 1.f, TRUE);
+			m_pTexture[_uint(STATE::ATTACK)], STATE::ATTACK, 5.f, TRUE);
 		m_pAnimator->Add_Animation(STATE::ATTACK, pAnimation);
 
 		m_pAnimator->Set_Animation(STATE::IDLE);
@@ -86,22 +85,22 @@ HRESULT CBow::Ready_Object(_bool _Item)
 
 	// 타입 및 아이디 지정
 	m_ItemID.eItemType = ITEMTYPE::ITEMTYPE_WEAPONITEM;
-	m_ItemID.eItemID = WEAPON_BOW;
+	m_ItemID.eItemID = WEAPON_EPICBOW;
 	m_ItemID.iCount = 1;
 
 
-#pragma region Bow
-	m_pBasicStat->Get_Stat()->iDamageMax = 2.f;
-	m_pBasicStat->Get_Stat()->iDamageMin = 1.f;
+#pragma region EpicBow
+	m_pBasicStat->Get_Stat()->iDamageMax = 6.f;
+	m_pBasicStat->Get_Stat()->iDamageMin = 4.f;
 #pragma endregion
 
 	return S_OK;
 }
 
-_int CBow::Update_Object(const _float& fTimeDelta)
+_int CEpicBow::Update_Object(const _float& fTimeDelta)
 {
 	Engine::Renderer()->Add_RenderGroup(RENDER_ALPHA, this);
-	
+
 	if (SceneManager()->Get_GameStop()) { return 0; }
 
 	_int iExit = __super::Update_Object(fTimeDelta);
@@ -113,7 +112,7 @@ _int CBow::Update_Object(const _float& fTimeDelta)
 	if (ItemType != nullptr)
 		ItemID = ItemType->Get_ItemTag();
 
-	if (ItemID.eItemID != ITEMID::WEAPON_BOW || !pPlayer->Get_ItemEquipRight())
+	if (ItemID.eItemID != ITEMID::WEAPON_EPICBOW || !pPlayer->Get_ItemEquipRight())
 		return iExit;
 
 	if (!Get_WorldItem())
@@ -127,6 +126,8 @@ _int CBow::Update_Object(const _float& fTimeDelta)
 
 		if (pPlayer->Get_Attack())
 		{
+			m_pAnimator->Get_Animation()->Set_Loop(true);
+
 			if (m_iCount < 24.f)
 			{
 				++m_iCount;
@@ -166,6 +167,7 @@ _int CBow::Update_Object(const _float& fTimeDelta)
 		}
 
 		m_pAnimator->Update_Animator(fTimeDelta);
+
 		return iExit;
 	}
 	else
@@ -176,7 +178,7 @@ _int CBow::Update_Object(const _float& fTimeDelta)
 
 }
 
-void CBow::LateUpdate_Object(void)
+void CEpicBow::LateUpdate_Object(void)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 
@@ -184,7 +186,7 @@ void CBow::LateUpdate_Object(void)
 	m_pTransform->Scale(_vec3(0.3f, 0.3f, 0.3f));
 }
 
-void CBow::Render_Object(void)
+void CEpicBow::Render_Object(void)
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
 
@@ -199,10 +201,12 @@ void CBow::Render_Object(void)
 		if (ItemType != nullptr)
 			ItemID = ItemType->Get_ItemTag();
 
-		if (ItemID.eItemID == ITEMID::WEAPON_BOW && pPlayer->Get_ItemEquipRight())
+		if (ItemID.eItemID == ITEMID::WEAPON_EPICBOW && pPlayer->Get_ItemEquipRight())
 		{
 			m_pAnimator->Render_Animator();
+			//m_pTexture->Render_Texture();
 			m_pBuffer->Render_Buffer();
+
 		}
 	}
 	else
@@ -218,7 +222,7 @@ void CBow::Render_Object(void)
 
 }
 
-HRESULT CBow::Add_Component(void)
+HRESULT CEpicBow::Add_Component(void)
 {
 	CComponent* pComponent = nullptr;
 
@@ -230,14 +234,13 @@ HRESULT CBow::Add_Component(void)
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::TRANSFORM, pComponent);
 
-
-	pComponent = m_pTexture[(_uint)STATE::IDLE] = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_BowIdle"));
+	pComponent = m_pTexture[(_uint)STATE::IDLE] = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_EpicBowIdle"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
-	pComponent = m_pTexture[(_uint)STATE::ROMIMG] = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_BowRoming"));
+	pComponent = m_pTexture[(_uint)STATE::ROMIMG] = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_EpicBowRoming"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
-	pComponent = m_pTexture[(_uint)STATE::ATTACK] = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_BowAttack"));
+	pComponent = m_pTexture[(_uint)STATE::ATTACK] = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_EpicBowAttack"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
 
@@ -252,6 +255,7 @@ HRESULT CBow::Add_Component(void)
 	pComponent = m_pAnimator = dynamic_cast<CAnimator*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Animator"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::ANIMATOR, pComponent);
+	
 
 	//pComponent = dynamic_cast<CBillBoard*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BillBoard"));
 	//NULL_CHECK_RETURN(pComponent, E_FAIL);
@@ -282,7 +286,7 @@ HRESULT CBow::Add_Component(void)
 	return S_OK;
 }
 
-void CBow::OnCollisionEnter(CCollider* _pOther)
+void CEpicBow::OnCollisionEnter(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 
@@ -292,19 +296,19 @@ void CBow::OnCollisionEnter(CCollider* _pOther)
 	// 몬스터거나 플레이어면 밀어내지않는다.
 }
 
-void CBow::OnCollisionStay(CCollider* _pOther)
+void CEpicBow::OnCollisionStay(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 }
 
-void CBow::OnCollisionExit(CCollider* _pOther)
+void CEpicBow::OnCollisionExit(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 }
 
-CBow* CBow::Create(LPDIRECT3DDEVICE9 pGraphicDev, _bool _Item)
+CEpicBow* CEpicBow::Create(LPDIRECT3DDEVICE9 pGraphicDev, _bool _Item)
 {
-	CBow* pInstance = new CBow(pGraphicDev);
+	CEpicBow* pInstance = new CEpicBow(pGraphicDev);
 
 	if (FAILED(pInstance->Ready_Object(_Item)))
 	{
@@ -317,7 +321,7 @@ CBow* CBow::Create(LPDIRECT3DDEVICE9 pGraphicDev, _bool _Item)
 	return pInstance;
 }
 
-void CBow::Free()
+void CEpicBow::Free()
 {
 	__super::Free();
 }

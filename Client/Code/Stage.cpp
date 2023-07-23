@@ -224,7 +224,7 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	// Npc Test
 	pGameObject = CNpc_OldMan::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pGameObject->m_pTransform->Translate(_vec3(-40.f, 1.f, -40.f));
+	pGameObject->m_pTransform->Translate(_vec3(-45.f, 1.f, -40.f));
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
 	pGameObject = CNpc_Bard::Create(m_pGraphicDev);
@@ -234,7 +234,7 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 
 	pGameObject = CNpc_Trader::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pGameObject->m_pTransform->Translate(_vec3(0.f, 1.f, 5.f));
+	pGameObject->m_pTransform->Translate(_vec3(-40.f, 1.f, -35.f));
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
 	CItem* pItem = CTempItem::Create(m_pGraphicDev, true);
@@ -242,16 +242,22 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	pItem->m_pTransform->Translate(_vec3(-40, 1.5f, 0.f));
 	dynamic_cast<CTempItem*>(pItem)->Set_WorldItem(true);
 	pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
+
+	pItem = CEpicBow::Create(m_pGraphicDev, true);
+	NULL_CHECK_RETURN(pItem, E_FAIL);
+	pItem->m_pTransform->Translate(_vec3(-45, 1.5f, -35.f));
+	dynamic_cast<CEpicBow*>(pItem)->Set_WorldItem(true);
+	pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
 	
 	pItem = CBow::Create(m_pGraphicDev, true);
 	NULL_CHECK_RETURN(pItem, E_FAIL);
-	pItem->m_pTransform->Translate(_vec3(-40.f, 1.5f, -40.f));
+	pItem->m_pTransform->Translate(_vec3(-40.f, 1.5f, 5.f));
 	dynamic_cast<CBow*>(pItem)->Set_WorldItem(true);
 	pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
 	
 	pItem = CFireWands::Create(m_pGraphicDev, true);
 	NULL_CHECK_RETURN(pItem, E_FAIL);
-	pItem->m_pTransform->Translate(_vec3(-40.f, 1.5f, -40.f));
+	pItem->m_pTransform->Translate(_vec3(-40.f, 1.5f, 10.f));
 	dynamic_cast<CFireWands*>(pItem)->Set_WorldItem(true);
 	pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
 

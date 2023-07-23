@@ -76,7 +76,7 @@ void CUIUseShop_Trander::Render_Object()
 	if (dynamic_cast<CNpc_Trader*>(eTargetNpc)->IsTalk())
 	{
 		dynamic_cast<CFont*>(m_pFont)->Set_pFont(m_pFontconfig);
-		m_pFont->DrawText(L"무기를 지원해드리겠습니다.");
+		m_pFont->DrawText(L"장비를 1개씩 지원해드리겠습니다.");
 	}
 
 

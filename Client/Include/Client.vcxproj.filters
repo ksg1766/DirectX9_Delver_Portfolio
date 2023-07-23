@@ -709,6 +709,12 @@
     <Filter Include="03. GameObject\01. Stage\08. Trap\02. Plate_Trap">
       <UniqueIdentifier>{7cd0334d-2420-4a05-888e-7a525bd2e474}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. GameObject\01. Stage\02. Item\Weapon\Epic">
+      <UniqueIdentifier>{87c051fc-2fa4-4abf-8092-623e4839a797}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\01. Stage\02. Item\Weapon\Epic\EpicBow">
+      <UniqueIdentifier>{9dcd3e1c-7b5d-4636-83ab-5421386f7ca1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -1373,6 +1379,9 @@
     <ClInclude Include="..\Header\Itemgroup.h">
       <Filter>03. GameObject\01. Stage\02. Item</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\EpicBow.h">
+      <Filter>03. GameObject\01. Stage\02. Item\Weapon\Epic\EpicBow</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -2000,6 +2009,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\Boss_LostSoul.cpp">
       <Filter>03. GameObject\01. Stage\999. Boss\01. AttackEff\07. LostSoul</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\EpicBow.cpp">
+      <Filter>03. GameObject\01. Stage\02. Item\Weapon\Epic\EpicBow</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -13,6 +13,7 @@
 #include "Arrow.h"
 #include "TempItem.h"
 #include "Bow.h"
+#include "EpicBow.h"
 
 #include "Bread.h"
 #include "Apple.h"

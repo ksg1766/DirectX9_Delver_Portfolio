@@ -185,11 +185,13 @@ void CTempItem::Render_Object(void)
 	{
 		m_pTexture->Render_Texture();
 		m_pBuffer->Render_Buffer();
-	}
 
 #if _DEBUG
-	m_pCollider->Render_Collider();
+		m_pCollider->Render_Collider();
 #endif
+	}
+
+
 }
 
 HRESULT CTempItem::Add_Component(void)

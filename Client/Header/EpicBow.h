@@ -6,15 +6,17 @@ BEGIN(Engine)
 
 class CRcTex;
 class CTexture;
+class CStateMachine;
 class CAnimator;
+
 END
 
-class CBow : public Engine::CItem
+class CEpicBow : public Engine::CItem
 {
 private:
-	explicit CBow(LPDIRECT3DDEVICE9 pGraphicDev);
-	explicit CBow(const CBow& rhs);
-	virtual ~CBow();
+	explicit CEpicBow(LPDIRECT3DDEVICE9 pGraphicDev);
+	explicit CEpicBow(const CEpicBow& rhs);
+	virtual ~CEpicBow();
 
 public:
 	virtual HRESULT Ready_Object(_bool _Item);
@@ -33,9 +35,10 @@ public:
 private:
 
 private:
-	CRcTex*		m_pBuffer = nullptr;
-	CTexture*	m_pTexture[(_uint)STATE::STATE_END] = {};
-	CAnimator*	m_pAnimator = nullptr;
+	CRcTex* m_pBuffer = nullptr;
+	CTexture* m_pTexture[(_uint)STATE::STATE_END] = {};
+	CAnimator* m_pAnimator = nullptr;
+
 
 	_int		m_iAttackTick;
 	_float		m_fChase2;
@@ -47,7 +50,7 @@ private:
 	MYATTACKINFO m_AttackInfo;
 
 public:
-	static CBow* Create(LPDIRECT3DDEVICE9 pGraphicDev, _bool _Item);
+	static CEpicBow* Create(LPDIRECT3DDEVICE9 pGraphicDev, _bool _Item);
 
 private:
 	virtual void Free() override;

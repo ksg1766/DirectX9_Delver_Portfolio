@@ -23,9 +23,19 @@ public:
 	void		LateUpdate_Object(void);
 	void		Render_Object();
 
+	void        Set_FindSlot(_bool bFind)
+	{
+		m_bEquip = bFind;
+		if (m_bEquip)
+			m_fCurrentImage = 20;
+	}
+
 private:
 	HRESULT		Add_Component(void);
 	void	    Key_Input(void);
+
+private:
+	_bool     m_bEquip = false;
 
 public:
 	static CUIemptyslot*	Create(LPDIRECT3DDEVICE9 pGraphicDev);

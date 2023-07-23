@@ -2,10 +2,8 @@
 #include "Export_Function.h"
 #include "Player.h"
 #include "Item.h"
-#include "Arrow.h"
-#include "Bow.h"
+#include "Itemgroup.h"
 #include "FireBall.h"
-#include "FireWands.h"
 #include "EffectProjectileTrace.h"
 
 CPlayer_Attack::CPlayer_Attack()
@@ -142,6 +140,38 @@ STATE CPlayer_Attack::Key_Input(const _float& fTimeDelta)
 					Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 
 					_eState = STATE::ATTACK;
+				}
+				break;
+			case ITEMID::WEAPON_EPICBOW:
+				if (Engine::InputDev()->Mouse_Pressing(DIM_LB))
+				{
+					pPlayer.Set_Attack(true);
+					pPlayer.Set_State(STATE::ATTACK);
+					m_fSpeed += 1.3f;
+
+					if (m_fSpeed >= 20)
+						m_fSpeed = 20.f;
+
+					_eState = STATE::ATTACK;
+				}
+				if (Engine::InputDev()->Mouse_Up(DIM_LB))
+				{
+					// TODO : 마우스를 놓으면 화살 날라감.(Preesing에서 누르만큼 +Speed)
+					// CreateArrow. -> 내가 보는 방향으로 날리기.
+					if (m_fSpeed >= 20.f)
+					{
+						CGameObject* pGameObject = nullptr;
+						pGameObject = CArrow::Create(m_pGraphicDev,
+							dynamic_cast<CEpicBow*>(pPlayer.Get_CurrentEquipRight())->m_pTransform,
+							m_pOwner->Get_Transform(), m_fSpeed);
+
+						Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+					}
+
+					m_fSpeed = 0.f;
+
+					pPlayer.Set_State(STATE::ROMIMG);
+					_eState = STATE::ROMIMG;
 				}
 				break;
 			}

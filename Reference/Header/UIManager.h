@@ -26,7 +26,7 @@ public:
 			m_bInven = false;
 			Show_PopupUI(UIPOPUPLAYER::POPUP_MOUSE);
 			Hide_PopupUI(UIPOPUPLAYER::POPUP_INVEN);
-			Hide_InvenItem();
+			Hide_InvenItem(0);
 			Hide_PopupUI(UIPOPUPLAYER::POPUP_EQUIPMENT);
 			CGameObject* Obj = Get_PopupObject(Engine::UIPOPUPLAYER::POPUP_EQUIPMENT, Engine::UILAYER::UI_DOWN, UIOBJECTTTAG::UIID_INVENBUTTON, 0);
 			dynamic_cast<CTempUI*>(Obj)->Set_UIImage(1);
@@ -45,7 +45,7 @@ public:
 			Hide_PopupUI(UIPOPUPLAYER::POPUP_ESC);
 
 			Show_PopupUI(UIPOPUPLAYER::POPUP_INVEN);
-			Show_InvenItem();
+			Show_InvenItem(0);
 			Show_PopupUI(UIPOPUPLAYER::POPUP_EQUIPMENT);
 			CGameObject* Obj = Get_PopupObject(Engine::UIPOPUPLAYER::POPUP_EQUIPMENT, Engine::UILAYER::UI_DOWN, UIOBJECTTTAG::UIID_INVENBUTTON, 0);
 			dynamic_cast<CTempUI*>(Obj)->Set_UIImage(0);
@@ -80,6 +80,8 @@ public:
 			Hide_PopupUI(UIPOPUPLAYER::POPUP_INVEN);
 			Hide_PopupUI(UIPOPUPLAYER::POPUP_MAP);
 			Hide_PopupUI(UIPOPUPLAYER::POPUP_ESC);
+			Hide_PopupUI(UIPOPUPLAYER::POPUP_SPEECH);
+			Hide_PopupUI(UIPOPUPLAYER::POPUP_SHOP);
 
 			Show_PopupUI(UIPOPUPLAYER::POPUP_STAT);
 			Show_PopupUI(UIPOPUPLAYER::POPUP_EQUIPMENT);
@@ -112,10 +114,12 @@ public:
 			Cursor = LoadCursor(NULL, IDC_ARROW);
 			Hide_PopupUI(UIPOPUPLAYER::POPUP_MOUSE);
 			Hide_PopupUI(UIPOPUPLAYER::POPUP_INVEN);
-			Hide_InvenItem();
+			Hide_InvenItem(0);
             Hide_PopupUI(UIPOPUPLAYER::POPUP_EQUIPMENT);
             Hide_PopupUI(UIPOPUPLAYER::POPUP_STAT);
 			Hide_PopupUI(UIPOPUPLAYER::POPUP_ESC);
+			Hide_PopupUI(UIPOPUPLAYER::POPUP_SPEECH);
+			Hide_PopupUI(UIPOPUPLAYER::POPUP_SHOP);
 
 			Show_PopupUI(UIPOPUPLAYER::POPUP_MAP);
 		}
@@ -143,11 +147,12 @@ public:
 			Cursor = LoadCursor(NULL, IDC_ARROW);
 			Hide_PopupUI(UIPOPUPLAYER::POPUP_MOUSE);
 			Hide_PopupUI(UIPOPUPLAYER::POPUP_INVEN);
-			Hide_InvenItem();
+			Hide_InvenItem(0);
 			Hide_PopupUI(UIPOPUPLAYER::POPUP_EQUIPMENT);
 			Hide_PopupUI(UIPOPUPLAYER::POPUP_STAT);
 			Hide_PopupUI(UIPOPUPLAYER::POPUP_MAP);
 			Hide_PopupUI(UIPOPUPLAYER::POPUP_SPEECH);
+			Hide_PopupUI(UIPOPUPLAYER::POPUP_SHOP);
 			Show_PopupUI(UIPOPUPLAYER::POPUP_ESC);
 		}
 		
@@ -177,7 +182,7 @@ public:
 			Cursor = LoadCursor(NULL, IDC_ARROW);
 			Hide_PopupUI(UIPOPUPLAYER::POPUP_MOUSE);
 			Hide_PopupUI(UIPOPUPLAYER::POPUP_INVEN);
-			Hide_InvenItem();
+			Hide_InvenItem(0);
 			Hide_PopupUI(UIPOPUPLAYER::POPUP_EQUIPMENT);
 			Hide_PopupUI(UIPOPUPLAYER::POPUP_STAT);
 			Hide_PopupUI(UIPOPUPLAYER::POPUP_MAP);
@@ -209,9 +214,12 @@ public:
 			Cursor = LoadCursor(NULL, IDC_ARROW);
 			Hide_PopupUI(UIPOPUPLAYER::POPUP_MOUSE);
 			Hide_PopupUI(UIPOPUPLAYER::POPUP_INVEN);
+			Hide_InvenItem(0);
 			Hide_PopupUI(UIPOPUPLAYER::POPUP_EQUIPMENT);
 			Hide_PopupUI(UIPOPUPLAYER::POPUP_STAT);
+			Hide_PopupUI(UIPOPUPLAYER::POPUP_MAP);
 			Hide_PopupUI(UIPOPUPLAYER::POPUP_ESC);
+			Hide_PopupUI(UIPOPUPLAYER::POPUP_SHOP);
 
 			Show_PopupUI(UIPOPUPLAYER::POPUP_SPEECH);
 		}
@@ -226,8 +234,8 @@ public:
 	void  Delete_BasicObject(UILAYER eType);
 	void  Delete_FindItemUI(ITEMTYPEID _itemId);
 
-	void  Show_InvenItem();
-	void  Hide_InvenItem();
+	void  Show_InvenItem(_uint iType);
+	void  Hide_InvenItem(_uint iType);
 
 public:
 	void  AddBasicGameobject_UI(UILAYER eType, CGameObject* pGameObject);
