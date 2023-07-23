@@ -52,7 +52,7 @@ void CRenderer::Render_GameObject(LPDIRECT3DDEVICE9& pGraphicDev)
 
 	Render_Nonalpha(pGraphicDev);
 	Render_Alpha(pGraphicDev);
-	//pGraphicDev->SetRenderState(D3DRS_LIGHTING, FALSE);
+	pGraphicDev->SetRenderState(D3DRS_LIGHTING, FALSE);
 	Render_UI(pGraphicDev);
 
 	Clear_RenderGroup();

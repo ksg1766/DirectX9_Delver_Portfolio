@@ -727,11 +727,15 @@
     <Filter Include="03. GameObject\02. Village\04. StageTrigger">
       <UniqueIdentifier>{f64aa339-c586-4e01-b9f2-1b964d95e544}</UniqueIdentifier>
     </Filter>
+
     <Filter Include="03. GameObject\03. UI\14. UISpeech\01. NPC\03. Dog">
       <UniqueIdentifier>{f34c8855-6dd9-41b7-ac37-987d280aa3c5}</UniqueIdentifier>
     </Filter>
     <Filter Include="03. GameObject\03. UI\14. UISpeech\01. NPC\04. Wizard">
       <UniqueIdentifier>{b9e589f5-6197-49dc-9b61-e7e0b8d438c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\07. Effect\21. EffectBonfire">
+      <UniqueIdentifier>{74930c55-f1d8-49d0-a8d0-0beb4251c0b2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1421,6 +1425,9 @@
     <ClInclude Include="..\Header\UISpeech_Wizard.h">
       <Filter>03. GameObject\03. UI\14. UISpeech\01. NPC\04. Wizard</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\EffectBonfire.h">
+      <Filter>03. GameObject\07. Effect\21. EffectBonfire</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -2069,6 +2076,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\UISpeech_Wizard.cpp">
       <Filter>03. GameObject\03. UI\14. UISpeech\01. NPC\04. Wizard</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\EffectBonfire.cpp">
+      <Filter>03. GameObject\07. Effect\21. EffectBonfire</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

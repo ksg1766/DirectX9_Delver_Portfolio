@@ -51,6 +51,7 @@ Engine::_int CStageLoading::Update_Scene(const _float& fTimeDelta)
 
 		//CScene*		pScene = CVillage::Create(m_pGraphicDev);
 		CScene* pScene = CStage::Create(m_pGraphicDev);
+
 		NULL_CHECK_RETURN(pScene, -1);
 
 		Engine::CGameObject*  pGameObject = CBlackIn::Create(m_pGraphicDev);

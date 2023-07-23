@@ -270,9 +270,12 @@ _uint CLoading::Loading_ForStage()
 
 #pragma region VILLAGE
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_VillageSkyBox", CTexture::Create(m_pGraphicDev, TEX_CUBE, L"../Bin/SRSource/Village/Sky/VillageSky.dds", 1)), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Moon", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Village/Sky/Moon.png", 1)), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Tree", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Village/Tree/Tree%d.png", 24)), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Star", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Village/Sky/Star%d.png", 2)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Moon",          CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Village/Sky/Moon.png", 1)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Tree",          CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Village/Tree/Tree%d.png", 24)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Star",          CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Village/Sky/Star%d.png", 2)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Bonfire",       CTexture::Create(m_pGraphicDev, TEX_CUBE, L"../Bin/SRSource/Village/Bonfire/BonfireCube%d.dds", 2)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Tomb",          CTexture::Create(m_pGraphicDev, TEX_CUBE, L"../Bin/SRSource/Village/Tomb/TombCube.dds", 1)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_FireEffect",    CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Effect/Square_effect/Square_effect_Yellow2.png", 1)), E_FAIL);
 #pragma endregion VILLAGE
 		break;
 #pragma endregion Stage
