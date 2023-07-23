@@ -27,7 +27,6 @@ HRESULT CBlade_Trap_Attack::Ready_State(CStateMachine* pOwner)
 STATE CBlade_Trap_Attack::Update_State(const _float& fTimeDelta)
 {
 	//해당 상태일 때 업데이트 할 것들
-	m_fTrapHeight = dynamic_cast<CBlade_Trap*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::MONSTER).front())->m_pTransform->m_vInfo[INFO_POS].y;
 	m_fCool += fTimeDelta;
 	if (!m_bAttack)
 	{

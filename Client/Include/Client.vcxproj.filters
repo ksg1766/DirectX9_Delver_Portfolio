@@ -715,6 +715,9 @@
     <Filter Include="03. GameObject\01. Stage\02. Item\Weapon\Epic\EpicBow">
       <UniqueIdentifier>{9dcd3e1c-7b5d-4636-83ab-5421386f7ca1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. GameObject\01. Stage\999. Boss\01. AttackEff\05. BatSwarm\GrabBat">
+      <UniqueIdentifier>{f53476e3-e82a-4795-8fa8-05998f6645d1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -1173,9 +1176,6 @@
     <ClInclude Include="..\Header\DungeonWarrior.h">
       <Filter>99. Etc\헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\FirePattern.h">
-      <Filter>99. Etc\헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\SkeletonKing.h">
       <Filter>99. Etc\헤더 파일</Filter>
     </ClInclude>
@@ -1381,6 +1381,15 @@
     </ClInclude>
     <ClInclude Include="..\Header\EpicBow.h">
       <Filter>03. GameObject\01. Stage\02. Item\Weapon\Epic\EpicBow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\LostSoulPattern.h">
+      <Filter>03. GameObject\01. Stage\999. Boss\02. State\03. Attack\01. 2Phase\05. LostSoul_Spawn</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Boss_GrabBat.h">
+      <Filter>03. GameObject\01. Stage\999. Boss\01. AttackEff\05. BatSwarm\GrabBat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\FirePattern.h">
+      <Filter>03. GameObject\01. Stage\999. Boss\02. State\03. Attack\00. 1Phase\01. FirePattern</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1831,9 +1840,6 @@
     <ClCompile Include="..\Code\DungeonWarrior.cpp">
       <Filter>99. Etc\소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\FirePattern.cpp">
-      <Filter>99. Etc\소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\SkeletonKing.cpp">
       <Filter>99. Etc\소스 파일</Filter>
     </ClCompile>
@@ -2012,6 +2018,15 @@
     </ClCompile>
     <ClCompile Include="..\Code\EpicBow.cpp">
       <Filter>03. GameObject\01. Stage\02. Item\Weapon\Epic\EpicBow</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\LostSoulPattern.cpp">
+      <Filter>03. GameObject\01. Stage\999. Boss\02. State\03. Attack\01. 2Phase\05. LostSoul_Spawn</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Boss_GrabBat.cpp">
+      <Filter>03. GameObject\01. Stage\999. Boss\01. AttackEff\05. BatSwarm\GrabBat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\FirePattern.cpp">
+      <Filter>03. GameObject\01. Stage\999. Boss\02. State\03. Attack\00. 1Phase\01. FirePattern</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

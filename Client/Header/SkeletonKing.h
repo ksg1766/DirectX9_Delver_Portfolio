@@ -36,6 +36,7 @@ public:
 	virtual void	OnCollisionStay(CCollider* _pOther);
 	virtual void	OnCollisionExit(CCollider* _pOther);
 	void			Set_Sturn(_bool _sturn) { m_bSturn = _sturn; }
+	void			Add_HitCount();
 private:
 	HRESULT		Add_Component(void);
 	void		Key_Input();

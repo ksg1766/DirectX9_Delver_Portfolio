@@ -33,10 +33,9 @@ HRESULT CBoss_BatSwarm::Ready_Object(void)
 _int CBoss_BatSwarm::Update_Object(const _float& fTimeDelta)
 {
 	Engine::Renderer()->Add_RenderGroup(RENDER_ALPHA, this);
-
 	if (SceneManager()->Get_GameStop()) { return 0; }
-
 	_uint iExit = __super::Update_Object(fTimeDelta);
+
 	m_fFrame += 2.f * fTimeDelta * 2;
 	m_fRallyTime += fTimeDelta;
 	if (2.f < m_fFrame)
@@ -60,21 +59,16 @@ void CBoss_BatSwarm::LateUpdate_Object(void)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 
-	m_pBillBoard->LateUpdate_Component();
-	__super::Compute_ViewZ(&m_pTransform->m_vInfo[INFO_POS]);
+	__super::LateUpdate_Object();
+	
 }
 
 void CBoss_BatSwarm::Render_Object(void)
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
-	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 
 	m_pTexture->Render_Texture(_uint(m_fFrame));
 	m_pBuffer->Render_Buffer();
-
-	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE); 
-	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
 
 void CBoss_BatSwarm::Init_Stat()
@@ -140,9 +134,9 @@ HRESULT CBoss_BatSwarm::Add_Component(void)
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
 
-	pComponent = m_pBillBoard = dynamic_cast<CBillBoard*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BillBoard"));
+	pComponent = dynamic_cast<CBillBoard*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BillBoard"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BILLBOARD, pComponent);
+	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::BILLBOARD, pComponent);
 
 	for (_uint i = 0; i < ID_END; ++i)
 		for (auto& iter : m_mapComponent[i])

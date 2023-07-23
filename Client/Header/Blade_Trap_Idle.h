@@ -15,15 +15,15 @@ public:
     virtual  void		LateUpdate_State();
     virtual  void		Render_State();
 
+    void		Set_TrapCenter(_vec3 _vCenter) { m_vTrapCenter = _vCenter; }
 public:
     virtual STATE	Key_Input(const _float& fTimeDelta) { return STATE(); }
-
 private:
     //클래스 내에서만 쓸 함수
     //STATE 
 private:
     //변수
-
+    _vec3			m_vTrapCenter;
 public:
     static CBlade_Trap_Idle* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
 

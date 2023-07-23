@@ -16,6 +16,9 @@
 #include "FireWallPttern.h"
 #include "FireWavePattern.h"
 #include "Clone_Pattern.h"
+#include "LostSoulPattern.h"
+#include "GrapPattern.h"
+#include "MeteorPh2.h"
 #include "Player.h"
 CSkeletonKing::CSkeletonKing(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CMonster(pGraphicDev)
@@ -77,6 +80,15 @@ HRESULT CSkeletonKing::Ready_Object(void)
 
 	pState = CFireWavePattern::Create(m_pGraphicDev, m_pStateMachine);
 	m_pStateMachine->Add_State(STATE::BOSS_PH2SKILL3, pState);
+
+	//pState = CGrapPattern::Create(m_pGraphicDev, m_pStateMachine);
+	//m_pStateMachine->Add_State(STATE::BOSS_PH2SKILL4, pState);//일단 보류
+
+	pState = CLostSoulPattern::Create(m_pGraphicDev, m_pStateMachine);
+	m_pStateMachine->Add_State(STATE::BOSS_PH2SKILL4, pState);
+
+	pState = CBoss_Meteor2Ph::Create(m_pGraphicDev, m_pStateMachine);
+	m_pStateMachine->Add_State(STATE::BOSS_PH2SKILL5, pState);
 
 	pState = CCrawlPattern::Create(m_pGraphicDev, m_pStateMachine);
 	m_pStateMachine->Add_State(STATE::BOSS_CRAWL, pState);
@@ -140,6 +152,18 @@ HRESULT CSkeletonKing::Ready_Object(void)
 	pAnimation = CAnimation::Create(m_pGraphicDev,
 		m_pTexture[(_uint)STATE::BOSS_ATTACK], STATE::BOSS_PH2SKILL3, 15.f, TRUE);
 	m_pAnimator->Add_Animation(STATE::BOSS_PH2SKILL3, pAnimation);
+	
+	/*pAnimation = CAnimation::Create(m_pGraphicDev,
+		m_pTexture[(_uint)STATE::BOSS_ATTACK], STATE::BOSS_PH2SKILL4, 15.f, TRUE);
+	m_pAnimator->Add_Animation(STATE::BOSS_PH2SKILL4, pAnimation);*/
+
+		pAnimation = CAnimation::Create(m_pGraphicDev,
+		m_pTexture[(_uint)STATE::BOSS_METEORREADY], STATE::BOSS_PH2SKILL4, 15.f, TRUE);
+	m_pAnimator->Add_Animation(STATE::BOSS_PH2SKILL4, pAnimation);
+
+	pAnimation = CAnimation::Create(m_pGraphicDev,
+		m_pTexture[(_uint)STATE::BOSS_METEORREADY], STATE::BOSS_PH2SKILL5, 15.f, TRUE);
+	m_pAnimator->Add_Animation(STATE::BOSS_PH2SKILL5, pAnimation);
 	
 	pAnimation = CAnimation::Create(m_pGraphicDev,
 		m_pTexture[(_uint)STATE::BOSS_CRAWL], STATE::BOSS_CRAWL, 20.f, TRUE);
@@ -226,13 +250,25 @@ void CSkeletonKing::OnCollisionEnter(CCollider* _pOther)
 void CSkeletonKing::OnCollisionStay(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
-	__super::OnCollisionStay(_pOther);
+
 }
 
 void CSkeletonKing::OnCollisionExit(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 	__super::OnCollisionExit(_pOther);
+}
+
+void CSkeletonKing::Add_HitCount()
+{
+	if (m_eState == STATE::BOSS_STURN)
+		return;
+	++m_iHitCount;
+	if (3 <= m_iHitCount)
+	{
+		m_iHitCount = 0.f;
+		m_bSturn = true;
+	}
 }
 
 HRESULT CSkeletonKing::Add_Component(void)
@@ -322,7 +358,7 @@ void CSkeletonKing::Key_Input()
 {
 	if (Engine::InputDev()->Key_Down(DIK_J))
 	{
-		m_pStateMachine->Set_State(STATE::BOSS_PH2SKILL1);
+		m_pStateMachine->Set_State(STATE::BOSS_PH2SKILL4);
 	}
 	//if (Engine::InputDev()->Key_Down(DIK_K))
 	//{

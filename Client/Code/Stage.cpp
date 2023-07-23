@@ -196,9 +196,11 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	pGameObject = CPlayer::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 
+
 	//pGameObject->m_pTransform->Translate(_vec3(-40.f, 1.f,-40.f));
-	pGameObject->m_pTransform->Translate(_vec3(0.f, 1.f, 0.f));
-	//pGameObject->m_pTransform->Translate(_vec3(100.f, 10.f,0.f));
+	//pGameObject->m_pTransform->Translate(_vec3(0.f, 1.f, 0.f));
+	pGameObject->m_pTransform->Translate(_vec3(100.f, 10.f,0.f));
+
 
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 	m_pPlayer = dynamic_cast<CPlayer*>(pGameObject);
@@ -218,7 +220,7 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 
 	pGameObject = CJump_Plate::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pGameObject->m_pTransform->Translate(_vec3(-75.f, 34.5f, 25.f));
+	pGameObject->m_pTransform->Translate(_vec3(-73.f, 34.5f, 25.f));
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
 	// Npc Test
@@ -281,7 +283,8 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 
 	pItem = CShield::Create(m_pGraphicDev, true);
 	NULL_CHECK_RETURN(pItem, E_FAIL);
-	pItem->m_pTransform->Translate(_vec3(-40, 3.5f, -20.f));
+	//pItem->m_pTransform->Translate(_vec3(-40, 3.5f, -20.f));
+	pItem->m_pTransform->Translate(_vec3(100.f, 20.f, 0.f));
 	dynamic_cast<CShield*>(pItem)->Set_WorldItem(true);
 	pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
 

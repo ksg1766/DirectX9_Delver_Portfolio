@@ -66,7 +66,7 @@ CFireWavePattern* CFireWavePattern::Create(LPDIRECT3DDEVICE9 pGraphicDev, CState
 	{
 		Safe_Release<CFireWavePattern*>(pState);
 
-		MSG_BOX("Fire State Failed");
+		MSG_BOX("FireWave State Failed");
 	}
 	return pState;
 }
