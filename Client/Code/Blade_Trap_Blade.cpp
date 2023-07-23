@@ -23,11 +23,11 @@ HRESULT CBlade_Trap_Blade::Ready_Object(void)
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	CState* pState = CBlade_Trap_Idle::Create(m_pGraphicDev, m_pStateMachine);
-	dynamic_cast<CBlade_Trap_Idle*>(m_pStateMachine)->Set_TrapCenter(m_vTrapCenter);
+	dynamic_cast<CBlade_Trap_Idle*>(pState)->Set_TrapCenter(m_vTrapCenter);
 	m_pStateMachine->Add_State(STATE::IDLE, pState);
 
 	pState = CBlade_Trap_Attack::Create(m_pGraphicDev, m_pStateMachine);
-	dynamic_cast<CBlade_Trap_Attack*>(m_pStateMachine)->Set_TrapHeight(m_vTrapCenter.y);
+	dynamic_cast<CBlade_Trap_Attack*>(pState)->Set_TrapHeight(m_vTrapCenter.y);
 	m_pStateMachine->Add_State(STATE::ATTACK, pState);
 	
 	CAnimation* pAnimation = CAnimation::Create(m_pGraphicDev,
@@ -81,10 +81,44 @@ void CBlade_Trap_Blade::Render_Object(void)
 #endif
 }
 
+HRESULT CBlade_Trap_Blade::Render_Object2(_vec3 vCenterPos)
+{
+	m_eObjectTag = OBJECTTAG::MONSTER;
+	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
+
+	CState* pState = CBlade_Trap_Idle::Create(m_pGraphicDev, m_pStateMachine);
+	dynamic_cast<CBlade_Trap_Idle*>(pState)->Set_TrapCenter(vCenterPos);
+	m_pStateMachine->Add_State(STATE::IDLE, pState);
+
+	pState = CBlade_Trap_Attack::Create(m_pGraphicDev, m_pStateMachine);
+	dynamic_cast<CBlade_Trap_Attack*>(pState)->Set_TrapHeight(vCenterPos.y);
+	m_pStateMachine->Add_State(STATE::ATTACK, pState);
+
+	CAnimation* pAnimation = CAnimation::Create(m_pGraphicDev,
+		m_pTexture[(_uint)STATE::IDLE], STATE::IDLE, 8.f, FALSE);
+	m_pAnimator->Add_Animation(STATE::IDLE, pAnimation);
+
+	m_pStateMachine->Set_Animator(m_pAnimator);
+	m_pStateMachine->Set_State(STATE::IDLE);
+
+	m_pTransform->Scale(_vec3(0.7f, 1.f, 0.7f));
+	m_bHit = false;
+	m_bCollider = false;
+	m_fHitTime = 0.f;
+	return S_OK;
+}
+
 void CBlade_Trap_Blade::Set_Collider()
 {
 	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale()*0.5f);
 	m_bCollider = true;
+}
+
+void CBlade_Trap_Blade::Set_TrapCenter(_vec3 _vCenter)
+{ 
+	m_vTrapCenter = _vCenter; 
+
+
 }
 
 void CBlade_Trap_Blade::OnCollisionEnter(CCollider* _pOther)
@@ -149,6 +183,21 @@ CBlade_Trap_Blade* CBlade_Trap_Blade::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 	CBlade_Trap_Blade* pInstance = new CBlade_Trap_Blade(pGraphicDev);
 
 	if (FAILED(pInstance->Ready_Object()))
+	{
+		Safe_Release(pInstance);
+
+		MSG_BOX("Blade_Trap_Blade Create Failed");
+		return nullptr;
+	}
+
+	return pInstance;
+}
+
+CBlade_Trap_Blade* CBlade_Trap_Blade::Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 vCenterPos)
+{
+	CBlade_Trap_Blade* pInstance = new CBlade_Trap_Blade(pGraphicDev);
+
+	if (FAILED(pInstance->Render_Object2(vCenterPos)))
 	{
 		Safe_Release(pInstance);
 

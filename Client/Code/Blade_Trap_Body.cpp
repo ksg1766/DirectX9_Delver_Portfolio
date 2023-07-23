@@ -73,14 +73,13 @@ void CBlade_Trap::Create_Blade()
 	Engine::CGameObject* pGameObject = nullptr;
 	for (int i = 0; i < 9; ++i)
 	{
-		pGameObject = m_pTrapBlade = CBlade_Trap_Blade::Create(m_pGraphicDev);
+		pGameObject = m_pTrapBlade = CBlade_Trap_Blade::Create(m_pGraphicDev, m_pTransform->m_vInfo[INFO_POS]);
 		dynamic_cast<CBlade_Trap_Blade*>(m_pTrapBlade)->m_pTransform->m_vInfo[INFO_POS] = m_pTransform->m_vInfo[INFO_POS];
 		dynamic_cast<CBlade_Trap_Blade*>(m_pTrapBlade)->m_pTransform->Translate(m_vBladePos[i]);
 		if (i == 6)
 			dynamic_cast<CBlade_Trap_Blade*>(m_pTrapBlade)->Set_Collider();
 		if(i < 7)
 			dynamic_cast<CBlade_Trap_Blade*>(m_pTrapBlade)->m_pTransform->Rotate(m_vBladeDir[i]);
-		dynamic_cast<CBlade_Trap_Blade*>(m_pTrapBlade)->Set_TrapCenter(m_pTransform->m_vInfo[INFO_POS]);
 		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 	}
 }

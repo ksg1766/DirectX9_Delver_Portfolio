@@ -21,9 +21,10 @@ public:
 	virtual _int Update_Object(const _float& fTimeDelta) override;
 	virtual void LateUpdate_Object(void) override;
 	virtual void Render_Object(void) override;
+	virtual HRESULT Render_Object2(_vec3 vCenterPos);
 
 	void		Set_Collider();
-	void		Set_TrapCenter(_vec3 _vCenter) { m_vTrapCenter = _vCenter; }
+	void		Set_TrapCenter(_vec3 _vCenter);
 	_vec3		Get_TrapCenter() { return m_vTrapCenter; }
 public:
 	virtual void		OnCollisionEnter(CCollider* _pOther);
@@ -47,7 +48,7 @@ private:
 	HRESULT		Add_Component(void);
 public:
 	static CBlade_Trap_Blade* Create(LPDIRECT3DDEVICE9 pGraphicDev);
-
+	static CBlade_Trap_Blade* Create(LPDIRECT3DDEVICE9 pGraphicDev,_vec3 vCenterPos);
 private:
 	virtual void Free() override;
 
