@@ -365,11 +365,12 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 	dynamic_cast<CBlade_Trap*>(pGameObject)->Create_Blade();
 
-	//pGameObject = CStrikeDown_Trap::Create(m_pGraphicDev);
-	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//pGameObject->m_pTransform->Translate(_vec3(-35.f, 16.f, -40.f));
-	//dynamic_cast<CStrikeDown_Trap*>(pGameObject)->Set_InitailHeight(15.f);
-	//pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+	pGameObject = CStrikeDown_Trap::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	pGameObject->m_pTransform->Translate(_vec3(95.f, 25.f, 0.f));
+	dynamic_cast<CStrikeDown_Trap*>(pGameObject)->Set_InitailHeight(10.f);
+	dynamic_cast<CStrikeDown_Trap*>(pGameObject)->Set_MinHeight(0.f);
+	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
 	//pGameObject = CPlate_Trap::Create(m_pGraphicDev);
 	//NULL_CHECK_RETURN(pGameObject, E_FAIL);

@@ -161,8 +161,9 @@ void CBossLostSoul::OnCollisionStay(CCollider* _pOther)
 			pGameObject = CEffectExplosion::Create(m_pGraphicDev);
 			dynamic_cast<CEffectExplosion*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = m_pTransform->m_vInfo[INFO_POS];
 			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
-			dynamic_cast<CSkeletonKing*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Set_Sturn(true);
-			//보스데미지주기
+			//dynamic_cast<CSkeletonKing*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Set_Sturn(true);
+			pGameObject = Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front();//보스데미지주기
+			dynamic_cast<CSkeletonKing*>(pGameObject)->Add_HitCount();
 			Engine::EventManager()->DeleteObject(this);
 		}
 	}

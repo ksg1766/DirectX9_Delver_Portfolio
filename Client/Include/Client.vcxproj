@@ -203,6 +203,7 @@
     <ClInclude Include="..\Header\Bread.h" />
     <ClInclude Include="..\Header\Cheese.h" />
     <ClInclude Include="..\Header\FireWallPttern.h" />
+    <ClInclude Include="..\Header\FIreWave2.h" />
     <ClInclude Include="..\Header\FireWavePattern.h" />
     <ClInclude Include="..\Header\GrapPattern.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
@@ -414,6 +415,7 @@
     <ClCompile Include="..\Code\Bread.cpp" />
     <ClCompile Include="..\Code\Cheese.cpp" />
     <ClCompile Include="..\Code\FireWallPttern.cpp" />
+    <ClCompile Include="..\Code\FIreWave2.cpp" />
     <ClCompile Include="..\Code\FireWavePattern.cpp" />
     <ClCompile Include="..\Code\GrapPattern.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>

@@ -3,7 +3,7 @@
 #include "Export_Function.h"
 #include "BossProjectile.h"
 #include "BossExplosion.h"
-
+#include "SkeletonKing.h"
 CSkeletonKing_Clone::CSkeletonKing_Clone(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CMonster(pGraphicDev)
 {
@@ -41,7 +41,7 @@ _int CSkeletonKing_Clone::Update_Object(const _float& fTimeDelta)
 	if (8.f < m_fFrame)
 		m_fFrame = 0.f;
 
-	if (2.5f < m_fSkillCool)
+	if (3.f < m_fSkillCool)
 	{
 		Engine::CGameObject* pGameObject = nullptr;
 		pGameObject = CBossProjectile::Create(m_pGraphicDev);
@@ -49,6 +49,8 @@ _int CSkeletonKing_Clone::Update_Object(const _float& fTimeDelta)
 		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 		m_fSkillCool = 0.f;
 	}
+	if (STATE::BOSS_STURN == dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_StatMachine()->Get_State())
+		Engine::EventManager()->DeleteObject(this);
 	return iExit;
 }
 
