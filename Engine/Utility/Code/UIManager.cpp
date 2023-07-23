@@ -49,7 +49,7 @@ void CUIManager::Hide_PopupUI(UIPOPUPLAYER _PopupID)
 void CUIManager::Delete_BasicObject(UILAYER eType)
 {
 	for (auto& obj : m_vecUIbasic[eType]){
-		m_vecDead.push_back(obj); 
+		m_vecDead.push_back(obj);
 	}
 	m_vecUIbasic[eType].clear();
 }
@@ -73,7 +73,7 @@ void CUIManager::Delete_FindItemUI(ITEMTYPEID _itemId)
 				else
 				{
 					dynamic_cast<CTempUI*>(dynamic_cast<CUIitem*>(*iter)->Get_Parent())->Set_EmptyBool(true);
-					m_vecDead.push_back(*iter);
+					m_vecItemDead.push_back(*iter);
 					iter = m_mapPpopupUI[POPUP_ITEM][UI_DOWN].erase(iter);
 					return;
 				}
@@ -408,14 +408,16 @@ void CUIManager::Render_UI(LPDIRECT3DDEVICE9 pGraphicDev)
 	D3DXMatrixPerspectiveFovLH(&m_matProj, D3DXToRadian(60.f), (_float)WINCX / WINCY, 0.1f, 1000.f);
 	pGraphicDev->SetTransform(D3DTS_PROJECTION, &m_matProj);    // UI 전체 출력 후 다시 원근투영 행렬 적용.
 
-
 	pGraphicDev->SetViewport(&m_BackupViewPort);                // UI 전체 출력 후 백업해둔 이전 뷰포트로 되돌림.
+
+	for_each(m_vecDead.begin(), m_vecDead.end(), CDeleteObj());
+	m_vecDead.clear();
 }
 
 void CUIManager::Free()
 {
-	for_each(m_vecDead.begin(), m_vecDead.end(), CDeleteObj());
-	m_vecDead.clear();
+	for_each(m_vecItemDead.begin(), m_vecItemDead.end(), CDeleteObj());
+	m_vecItemDead.clear();
 
 	for (size_t i = 0; i < UILAYER::UI_END; ++i)
 	{

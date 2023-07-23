@@ -8,6 +8,7 @@ CBackGround::CBackGround(LPDIRECT3DDEVICE9 pGraphicDev)
 
 CBackGround::~CBackGround()
 {
+	Free();
 }
 
 HRESULT CBackGround::Ready_Object(void)

@@ -712,6 +712,15 @@
     <Filter Include="03. GameObject\01. Stage\999. Boss\02. State\03. Attack\01. 2Phase\06. MeteorPh2">
       <UniqueIdentifier>{89989c8c-15af-46fc-9415-6dcdda03023f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. GameObject\07. Effect\20. EffectStar">
+      <UniqueIdentifier>{6e2f8bbd-b1c7-48c0-a993-e9e0a1efe54f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\02. Village\03. Bonfire">
+      <UniqueIdentifier>{dfa372ff-2873-496f-8c4d-3075cec429cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\02. Village\04. StageTrigger">
+      <UniqueIdentifier>{f64aa339-c586-4e01-b9f2-1b964d95e544}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -1379,6 +1388,12 @@
     <ClInclude Include="..\Header\Itemgroup.h">
       <Filter>03. GameObject\01. Stage\02. Item</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\EffectStar.h">
+      <Filter>03. GameObject\07. Effect\20. EffectStar</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Bonfire.h">
+      <Filter>03. GameObject\02. Village\03. Bonfire</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -2009,6 +2024,12 @@
     </ClCompile>
     <ClCompile Include="..\Code\Boss_LostSoul.cpp">
       <Filter>03. GameObject\01. Stage\999. Boss\01. AttackEff\07. LostSoul</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\EffectStar.cpp">
+      <Filter>03. GameObject\07. Effect\20. EffectStar</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Bonfire.cpp">
+      <Filter>03. GameObject\02. Village\03. Bonfire</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
