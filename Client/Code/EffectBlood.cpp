@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "..\Header\EffectBlood.h"
+#include "PoolManager.h"
 
 CEffectBlood::CEffectBlood(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CTempEffect(pGraphicDev)
@@ -139,6 +140,11 @@ Engine::_int CEffectBlood::Update_Object(const _float& fTimeDelta)
 	}
 
 	Engine::Renderer()->Add_RenderGroup(RENDER_ALPHA, this);
+
+	if (m_fTime > m_fLife || m_fFrame == m_fFinal && m_bAnimation && !m_bLoop)
+	{
+		CPoolManager::GetInstance()->Delete_Object(this);
+	}
 
 	_int iExit = CTempEffect::Update_Object(fTimeDelta);
 

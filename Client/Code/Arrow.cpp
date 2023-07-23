@@ -37,21 +37,17 @@ HRESULT CArrow::Ready_Object(CTransform* Weapon, CTransform* pOwner, _float _fSp
 
 	//m_pTransform->Set_Parent(pOwner);
 
-	
 	if (Weapon != nullptr && pOwner != nullptr)
 	{
 		m_pTransform->Copy_RUL(pOwner->Get_Transform()->m_vInfo);
 		m_pTransform->Scale(_vec3(0.3f, 0.3f, 0.3f));
+		m_pTransform->Rotate(ROT_Y, -30.f);
+
+		m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
 		m_pTransform->m_vInfo[INFO_POS] = Weapon->m_vInfo[INFO_POS];
-
-
-		m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT],
-			m_pTransform->LocalScale());
 
 		m_vDir = pOwner->Get_Transform()->m_vInfo[INFO_LOOK];
 		D3DXVec3Normalize(&m_vDir, &m_vDir);
-
-		m_pTransform->Rotate(ROT_Y, -30.f);
 	}
 
 	BASICSTAT* pOwnerStat = dynamic_cast<CBow*>(Weapon->Get_Host())->Get_ItemStat()->Get_Stat();
@@ -61,7 +57,6 @@ HRESULT CArrow::Ready_Object(CTransform* Weapon, CTransform* pOwner, _float _fSp
 		m_pBasicStat->Get_Stat()->iDamageMin = pOwnerStat->iDamageMin;
 		m_pBasicStat->Get_Stat()->iDamageMax = pOwnerStat->iDamageMax;
 	}
-
 
 	m_bIsAttack = false;
 	m_vPrevPos = _vec3(0.f, 0.f, 0.f);
@@ -82,8 +77,7 @@ _int CArrow::Update_Object(const _float& fTimeDelta)
 
 	_int iExit = __super::Update_Object(fTimeDelta);
 
-	CPlayer& pPlayer = *dynamic_cast<CPlayer*>(SceneManager()->GetInstance()->
-		Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
+	CPlayer& pPlayer = *dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer());
 
 	if (!m_bIsAttack)
 	{
@@ -106,7 +100,7 @@ void CArrow::LateUpdate_Object(void)
 	if (SceneManager()->Get_GameStop()) { return; }
 
 	__super::LateUpdate_Object();
-	__super::Compute_ViewZ(&m_pTransform->m_vInfo[INFO_POS]);
+	//__super::Compute_ViewZ(&m_pTransform->m_vInfo[INFO_POS]);
 }
 
 void CArrow::Render_Object(void)
@@ -170,7 +164,6 @@ void CArrow::OnCollisionEnter(CCollider* _pOther)
 		->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
 	// 플레이어의 정보를 레퍼런스로 얻어옴.
 
-
 	if (_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::MONSTER &&
 		dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_StateMachine()->Get_State() != STATE::DEAD)
 	{
@@ -187,9 +180,7 @@ void CArrow::OnCollisionEnter(CCollider* _pOther)
 			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 			//////////////////////////////////////////////////////////////////////////////// 이펙트 
 
-			m_IsDead = true;
-
-			Engine::EventManager()->GetInstance()->DeleteObject(this);
+			Engine::EventManager()->DeleteObject(this);
 		}
 
 		//////////////////////////////////////////////////////////////////////////////// 이펙트 
@@ -200,9 +191,8 @@ void CArrow::OnCollisionEnter(CCollider* _pOther)
 		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 		//////////////////////////////////////////////////////////////////////////////// 이펙트 
 
-		Engine::EventManager()->GetInstance()->DeleteObject(this);
+		Engine::EventManager()->DeleteObject(this);
 	}
-
 
 	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BLOCK)
 		EventManager()->DeleteObject(this);

@@ -19,7 +19,11 @@
 #include "EffectBlood.h"
 #include "EffectWand.h"
 #include "EffectExplosion.h"
+#include "EffectExplosionChild.h"
+#include "EffectTrace.h"
 #include "EffectProjectileTrace.h"
+#include "EffectTwinkle.h"
+#include "EffectPastTrace.h"
 
 IMPLEMENT_SINGLETON(CPoolManager)
 
@@ -98,7 +102,7 @@ CPoolManager::ObjectPool::~ObjectPool()
 
 void CPoolManager::ObjectPool::Ready_Pool()
 {
-	CMonster* pGameObject = nullptr;
+	CMonster* pMonster = nullptr;
 	LPDIRECT3DDEVICE9 pGraphicDev = CGraphicDev::GetInstance()->Get_GraphicDev();
 
 	for (_uint i = 0; i < (_uint)MONSTERTAG::MONSTER_END; ++i)
@@ -109,81 +113,88 @@ void CPoolManager::ObjectPool::Ready_Pool()
 			switch ((MONSTERTAG)i)
 			{
 			case MONSTERTAG::SPIDER:
-				pGameObject = CDungeonSpider::Create(pGraphicDev);
+				pMonster = CDungeonSpider::Create(pGraphicDev);
 				break;
 			case MONSTERTAG::WARRIOR:
-				pGameObject = CDungeonWarrior::Create(pGraphicDev);
+				pMonster = CDungeonWarrior::Create(pGraphicDev);
 				break;
 			case MONSTERTAG::BAT:
-				pGameObject = CBat::Create(pGraphicDev);
+				pMonster = CBat::Create(pGraphicDev);
 				break;
 			case MONSTERTAG::WIZARD:
-				pGameObject = CWizard::Create(pGraphicDev);
+				pMonster = CWizard::Create(pGraphicDev);
 				break;
 			case MONSTERTAG::ALIEN:
-				pGameObject = CAlien::Create(pGraphicDev);
+				pMonster = CAlien::Create(pGraphicDev);
 				break;
 			case MONSTERTAG::SLIME:
-				pGameObject = CSlime::Create(pGraphicDev);
+				pMonster = CSlime::Create(pGraphicDev);
 				break;
 			case MONSTERTAG::SKELETON:
-				pGameObject = CSkeleton::Create(pGraphicDev);
+				pMonster = CSkeleton::Create(pGraphicDev);
 				break;
 			case MONSTERTAG::SKULLGHOST:
-				pGameObject = CSkullGhost::Create(pGraphicDev);
+				pMonster = CSkullGhost::Create(pGraphicDev);
 				break;
 			case MONSTERTAG::WORM:
-				pGameObject = CWorm::Create(pGraphicDev);
+				pMonster = CWorm::Create(pGraphicDev);
 				break;
 			//case MONSTERTAG::MONK:
 			//	pGameObject = CMonk::Create(pGraphicDev);
 			//	break;
 			}
-			m_MonsterPool[i].push(pGameObject);
+			m_MonsterPool[i].push(pMonster);
 		}
 	}
 
-	//for (_uint i = 0; i < (_uint)EFFECTTAG::EFFECT_END; ++i)
-	//{
-	//	// 가상함수 및 템플릿으로 구현하면 더 좋음...
-	//	for (_uint j = 0; j < iMaxEffect; ++j)
-	//	{
-	//		switch ((EFFECTTAG)i)
-	//		{
-	//		case EFFECTTAG:::
-	//			pGameObject = CDungeonSpider::Create(pGraphicDev);
-	//			break;
-	//		case EFFECTTAG:::
-	//			pGameObject = CDungeonWarrior::Create(pGraphicDev);
-	//			break;
-	//		case EFFECTTAG:::
-	//			pGameObject = CBat::Create(pGraphicDev);
-	//			break;
-	//		case EFFECTTAG:::
-	//			pGameObject = CWizard::Create(pGraphicDev);
-	//			break;
-	//		case EFFECTTAG:::
-	//			pGameObject = CAlien::Create(pGraphicDev);
-	//			break;
-	//		case EFFECTTAG:::
-	//			pGameObject = CSlime::Create(pGraphicDev);
-	//			break;
-	//		case EFFECTTAG:::
-	//			pGameObject = CSkeleton::Create(pGraphicDev);
-	//			break;
-	//		case EFFECTTAG:::
-	//			pGameObject = CSkullGhost::Create(pGraphicDev);
-	//			break;
-	//		case EFFECTTAG:::
-	//			pGameObject = CWorm::Create(pGraphicDev);
-	//			break;
-	//		//case EFFECTTAG:::
-	//		//	pGameObject = CMonk::Create(pGraphicDev);
-	//		//	break;
-	//		}
-	//		m_EffectPool[i].push(pGameObject);
-	//	}
-	//}
+	CTempEffect* pEffect = nullptr;
+	for (_uint i = 0; i < EFFECTTAG::EFFECT_END; ++i)
+	{
+		// 가상함수 및 템플릿으로 구현하면 더 좋음...
+		for (_uint j = 0; j < iMaxEffect; ++j)
+		{
+			switch ((EFFECTTAG)i)
+			{
+			case EFFECTTAG::EFFECT_BUBBLE:
+				pEffect = CEffectBubble::Create(pGraphicDev);
+				break;
+			case EFFECTTAG::EFFECT_BROKENBOX:
+				pEffect = CEffectBrokenbox::Create(pGraphicDev);
+				break;
+			case EFFECTTAG::EFFECT_DAMAGE:
+				pEffect = CEffectDamage::Create(pGraphicDev);
+				break;
+			case EFFECTTAG::EFFECT_DAMAGESTAR:
+				pEffect = CEffectDamageStar::Create(pGraphicDev);
+				break;
+			case EFFECTTAG::EFFECT_BLOOD:
+				pEffect = CEffectBlood::Create(pGraphicDev);
+				break;
+			case EFFECTTAG::EFFECT_WAND:
+				pEffect = CEffectWand::Create(pGraphicDev);
+				break;
+			case EFFECTTAG::EFFECT_EXPLOSION:
+				pEffect = CEffectExplosion::Create(pGraphicDev);
+				break;
+			case EFFECTTAG::EFFECT_EXPLOSIONCHILD:
+				pEffect = CEffectExplosionChild::Create(pGraphicDev);
+				break;
+			case EFFECTTAG::EFFECT_PROJECTILETRACE:
+				pEffect = CEffectProjectileTrace::Create(pGraphicDev);
+				break;
+			case EFFECTTAG::EFFECT_TRACE:
+				pEffect = CEffectTrace::Create(pGraphicDev);
+				break;
+			case EFFECTTAG::EFFECT_TWINKLE:
+				pEffect = CEffectTwinkle::Create(pGraphicDev);
+				break;
+			case EFFECTTAG::EFFECT_PASTTRACE:
+				pEffect = CEffectPastTrace::Create(pGraphicDev);
+				break;
+			}
+			m_EffectPool[i].push(pEffect);
+		}
+	}
 }
 
 void CPoolManager::ObjectPool::Free()
@@ -205,11 +216,12 @@ void CPoolManager::ObjectPool::Free()
 	}
 	int a = 0;		
 
-	/*for (_uint i = 0; i < (_uint)EFFECTTAG::EFFECT_END; ++i)
+	for (_uint i = 0; i < EFFECTTAG::EFFECT_END; ++i)
 	{
-		CMonster*& iter = m_EffectPool[i].front();
 		while (!m_EffectPool[i].empty())
 		{
+			CTempEffect*& iter = m_EffectPool[i].front();
+
 			_ulong dwRefCnt = 0;
 			dwRefCnt = iter->Release();
 
@@ -217,9 +229,8 @@ void CPoolManager::ObjectPool::Free()
 				iter = NULL;
 
 			m_EffectPool[i].pop();
-			iter = m_EffectPool[i].front();
 		}
-	}*/
+	}
 
 
 }

@@ -65,12 +65,17 @@ void CDynamicCubeBlock::LateUpdate_Object(void)
 
 void CDynamicCubeBlock::Render_Object(void)
 {
-	WaterFlow();
+	//WaterFlow();
 
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
 
 	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	//m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+	/*if (31 == m_byTextureNumber)
+		++m_byTextureNumber;
+	else
+		--m_byTextureNumber;*/
+
 	m_pTexture->Render_Texture(m_byTextureNumber);
 	m_pBuffer->Render_Buffer();
 }
@@ -124,16 +129,11 @@ void CDynamicCubeBlock::WaterFlow()
 	// 예시: UV 좌표를 시간에 따라 변화시킵니다.
 	for (UINT i = 0; i < 8; ++i)
 	{
-		VTXNTX* pVertex = reinterpret_cast<VTXNTX*>(static_cast<BYTE*>(pVertices) + i * sizeof(VTXNTX));
+		VTXNTX* pVertex = reinterpret_cast<VTXNTX*>(static_cast<_ubyte*>(pVertices) + i * sizeof(VTXNTX));
 		//pVertex->u = fmodf(pVertex->u + time * speedU, 1.0f); // U 좌표 수정
 
 		_float* fU = ((_float*)&(pVertex->vTexUV) + 0);
-		_float* fV = ((_float*)&(pVertex->vTexUV) + 1);
-
-		*fU += (1.f < *fU) ? -0.999f : 0.001f;
-
-		//*fV += (1.f < *fV) ? -1.999f : 0.001f;
-		*fV += (0.f > *fV) ? 0.999f : -0.001f;
+		*fU += (1.f < *fU ? -1.999f : 0.001f);
 	}
 
 	// 버퍼 잠금 해제

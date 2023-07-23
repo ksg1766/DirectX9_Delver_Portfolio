@@ -41,7 +41,7 @@ private:
 		void Ready_Pool();
 
 		queue<CMonster*>& GetMonsterPool(MONSTERTAG _eMonsterTag) { return m_MonsterPool[(_uint)_eMonsterTag]; }
-		queue<CTempEffect*>& GetEffectPool(EFFECTTAG _eEffectTag) { return m_EffectPool[(_uint)_eEffectTag]; }
+		queue<CTempEffect*>& GetEffectPool(EFFECTTAG _eEffectTag) { return m_EffectPool[_eEffectTag]; }
 		
 		virtual void Free() override;
 
@@ -49,7 +49,7 @@ private:
 		static const _uint iMaxMonster = 64;
 		static const _uint iMaxEffect = 128;
 		queue<CMonster*> m_MonsterPool[(_uint)MONSTERTAG::MONSTER_END];
-		queue<CTempEffect*> m_EffectPool[(_uint)EFFECTTAG::EFFECT_END];
+		queue<CTempEffect*> m_EffectPool[EFFECTTAG::EFFECT_END];
 	};
 
 private:

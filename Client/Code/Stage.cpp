@@ -599,24 +599,24 @@ HRESULT CStage::Load_Data()
 
 			CGameObject* pGameObject = nullptr;
 
-			//if (31 == byTextureNumber || 32 == byTextureNumber)
-			//{
-			//	pGameObject = CDynamicCubeBlock::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
-			//	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-			//	dynamic_cast<CDynamicCubeBlock*>(pGameObject)->Set_TextureNumber(byTextureNumber);
-			//	pGameObject->m_pTransform->Translate(_vec3(fX, fY + 1.f, fZ));
-			//	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-			//	//EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
-			//}
-			//else
-			//{
+			if (31 == byTextureNumber || 32 == byTextureNumber)
+			{
+				pGameObject = CDynamicCubeBlock::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+				NULL_CHECK_RETURN(pGameObject, E_FAIL);
+				dynamic_cast<CDynamicCubeBlock*>(pGameObject)->Set_TextureNumber(byTextureNumber);
+				pGameObject->m_pTransform->Translate(_vec3(fX, fY + 1.f, fZ));
+				pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+				//EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+			}
+			else
+			{
 				pGameObject = CCubeBlock::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
 				NULL_CHECK_RETURN(pGameObject, E_FAIL);
 				dynamic_cast<CCubeBlock*>(pGameObject)->Set_TextureNumber(byTextureNumber);
 				pGameObject->m_pTransform->Translate(_vec3(fX, fY + 1.f, fZ));
 				pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 				//EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
-			//}
+			}
 		}
 		else if (OBJECTTAG::SPAWNINGPOOL == eTag)
 		{

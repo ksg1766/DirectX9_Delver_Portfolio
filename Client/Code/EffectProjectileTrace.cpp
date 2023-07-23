@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "..\Header\EffectProjectileTrace.h"
 #include "EffectTrace.h"
+#include "PoolManager.h"
 #include "Player.h"
 
 CEffectProjectileTrace::CEffectProjectileTrace(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -23,7 +24,7 @@ HRESULT CEffectProjectileTrace::Ready_Object(void)
 	m_fLife  = 50.f;
 	m_fSpeed = 24.f;
 
-	CPlayer* pPlayer = dynamic_cast<CPlayer*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
+	CPlayer* pPlayer = dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer());
 	if (pPlayer != nullptr)
 	{
 		m_vecDir = pPlayer->m_pTransform->m_vInfo[INFO_LOOK];
@@ -57,6 +58,11 @@ Engine::_int CEffectProjectileTrace::Update_Object(const _float& fTimeDelta)
 	}
 
 	m_pTransform->m_vInfo[INFO_POS] += m_vecDir * fTimeDelta * m_fSpeed;
+
+	if (m_fTime > m_fLife || m_fFrame == m_fFinal && m_bAnimation && !m_bLoop)
+	{
+		CPoolManager::GetInstance()->Delete_Object(this);
+	}
 
 	_int iExit = CTempEffect::Update_Object(fTimeDelta);
 

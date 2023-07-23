@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "..\Header\EffectTrace.h"
+#include "PoolManager.h"
 
 CEffectTrace::CEffectTrace(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CTempEffect(pGraphicDev)
@@ -79,6 +80,11 @@ Engine::_int CEffectTrace::Update_Object(const _float& fTimeDelta)
 
 	if (m_fEffectScale > 0.f) {
 		m_fEffectScale -= 0.02f * fTimeDelta * (m_fTraceNum / 20);
+	}
+
+	if (m_fTime > m_fLife || m_fFrame == m_fFinal && m_bAnimation && !m_bLoop)
+	{
+		CPoolManager::GetInstance()->Delete_Object(this);
 	}
 
 	_int iExit = CTempEffect::Update_Object(fTimeDelta);

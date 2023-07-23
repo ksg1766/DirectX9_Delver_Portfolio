@@ -66,11 +66,13 @@ void CEventManager::Execute(const tagEvent & _eve)
 	case EVENT_TYPE::DELETE_OBJECT:
 	{
 		CGameObject*	pDeadObject = (CGameObject*)_eve.lParam;
-		//pDeadObject->Set_Dead(true);
 
 		const OBJECTTAG& eObjectTag = pDeadObject->Get_ObjectTag();
-		if (OBJECTTAG::MONSTER != eObjectTag/* && OBJECTTAG::EFFECT != eObjectTag*/)
+		if (OBJECTTAG::MONSTER != eObjectTag && OBJECTTAG::EFFECT != eObjectTag)
+		{
+			pDeadObject->Set_Dead(true);
 			m_vecDead.push_back(pDeadObject);
+		}
 	}
 	break;
 	case EVENT_TYPE::SCENE_CHANGE:

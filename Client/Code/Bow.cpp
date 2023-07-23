@@ -156,13 +156,11 @@ void CBow::LateUpdate_Object(void)
 	m_pTransform->Scale(_vec3(0.3f, 0.3f, 0.3f));
 }
 
-
 void CBow::Render_Object(void)
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
 
-	CPlayer* pPlayer = dynamic_cast<CPlayer*>(SceneManager()->GetInstance()->
-		Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
+	CPlayer* pPlayer = dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer());
 
 	if (!Get_WorldItem() && pPlayer != nullptr)
 	{
@@ -218,16 +216,12 @@ HRESULT CBow::Add_Component(void)
 	//NULL_CHECK_RETURN(pComponent, E_FAIL);
 	//m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::BILLBOARD, pComponent);
 
-
-
 	if (!Get_WorldItem())
 	{
-		CPlayer* pPlayer = dynamic_cast<CPlayer*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
+		CTransform* pTransform = dynamic_cast<CTransform*>(SceneManager()->Get_Scene()->Get_MainPlayer()->m_pTransform);
 
-
-		m_pTransform->Set_Parent(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform);
-		m_pTransform->Copy_RUL(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform->m_vInfo);
-
+		m_pTransform->Set_Parent(pTransform);
+		m_pTransform->Copy_RUL(m_pTransform->m_vInfo);
 
 		for (int i = 0; i < ID_END; ++i)
 			for (auto& iter : m_mapComponent[i])
@@ -243,8 +237,6 @@ HRESULT CBow::Add_Component(void)
 			for (auto& iter : m_mapComponent[i])
 				iter.second->Init_Property(this);
 	}
-
-
 
 	return S_OK;
 }
