@@ -135,7 +135,7 @@ HRESULT CLogo::Ready_Layer_Environment(LAYERTAG _eLayerTag)
 	//m_mapLayer.insert({ _eLayerTag, pLayer });
 
 	Engine::CGameObject*		pGameObject = nullptr;
-
+	
 	// BackGround
 	pGameObject = CBackGround::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);

@@ -190,6 +190,7 @@
     <ClInclude Include="..\Header\Blade_Trap_Attack.h" />
     <ClInclude Include="..\Header\Blade_Trap_Blade.h" />
     <ClInclude Include="..\Header\Blade_Trap_Idle.h" />
+    <ClInclude Include="..\Header\Bonfire.h" />
     <ClInclude Include="..\Header\BossFireWall.h" />
     <ClInclude Include="..\Header\BossFireWave.h" />
     <ClInclude Include="..\Header\Boss_GrabBat.h">
@@ -204,6 +205,7 @@
     <ClInclude Include="..\Header\Bread.h" />
     <ClInclude Include="..\Header\Cheese.h" />
     <ClInclude Include="..\Header\EpicBow.h" />
+    <ClInclude Include="..\Header\EffectStar.h" />
     <ClInclude Include="..\Header\FireWallPttern.h" />
     <ClInclude Include="..\Header\FireWavePattern.h" />
     <ClInclude Include="..\Header\GrapPattern.h">
@@ -403,6 +405,7 @@
     <ClCompile Include="..\Code\Boss_GrabBat.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="..\Code\Bonfire.cpp" />
     <ClCompile Include="..\Code\DynamicCubeBlock.cpp" />
     <ClCompile Include="..\Code\BossFireWall.cpp" />
     <ClCompile Include="..\Code\BossFireWave.cpp" />
@@ -413,6 +416,7 @@
     <ClCompile Include="..\Code\Bread.cpp" />
     <ClCompile Include="..\Code\Cheese.cpp" />
     <ClCompile Include="..\Code\EpicBow.cpp" />
+    <ClCompile Include="..\Code\EffectStar.cpp" />
     <ClCompile Include="..\Code\FireWallPttern.cpp" />
     <ClCompile Include="..\Code\FireWavePattern.cpp" />
     <ClCompile Include="..\Code\GrapPattern.cpp">

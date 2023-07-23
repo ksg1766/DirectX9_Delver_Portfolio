@@ -718,6 +718,15 @@
     <Filter Include="03. GameObject\01. Stage\999. Boss\01. AttackEff\05. BatSwarm\GrabBat">
       <UniqueIdentifier>{f53476e3-e82a-4795-8fa8-05998f6645d1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. GameObject\07. Effect\20. EffectStar">
+      <UniqueIdentifier>{6e2f8bbd-b1c7-48c0-a993-e9e0a1efe54f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\02. Village\03. Bonfire">
+      <UniqueIdentifier>{dfa372ff-2873-496f-8c4d-3075cec429cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\02. Village\04. StageTrigger">
+      <UniqueIdentifier>{f64aa339-c586-4e01-b9f2-1b964d95e544}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -1391,6 +1400,12 @@
     <ClInclude Include="..\Header\FirePattern.h">
       <Filter>03. GameObject\01. Stage\999. Boss\02. State\03. Attack\00. 1Phase\01. FirePattern</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\EffectStar.h">
+      <Filter>03. GameObject\07. Effect\20. EffectStar</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Bonfire.h">
+      <Filter>03. GameObject\02. Village\03. Bonfire</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -2027,6 +2042,12 @@
     </ClCompile>
     <ClCompile Include="..\Code\FirePattern.cpp">
       <Filter>03. GameObject\01. Stage\999. Boss\02. State\03. Attack\00. 1Phase\01. FirePattern</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\EffectStar.cpp">
+      <Filter>03. GameObject\07. Effect\20. EffectStar</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Bonfire.cpp">
+      <Filter>03. GameObject\02. Village\03. Bonfire</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

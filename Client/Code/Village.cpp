@@ -18,6 +18,7 @@
 #include "SkyBoxVillage.h"
 #include "Moon.h"
 #include "Tree.h"
+#include "EffectStar.h"
 
 CVillage::CVillage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
@@ -67,6 +68,8 @@ HRESULT CVillage::Ready_Layer_Environment(LAYERTAG _eLayerTag)
 	Engine::CLayer*		pLayer = Engine::CLayer::Create(_eLayerTag);
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
 
+	m_mapLayer.insert({ _eLayerTag, pLayer });
+
 	Engine::CGameObject*		pGameObject = nullptr;
 
 	// DynamicCamera
@@ -91,15 +94,81 @@ HRESULT CVillage::Ready_Layer_Environment(LAYERTAG _eLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
+	// Star
+	for (_uint i = 0; i < 100; ++i)
+	{
+		pGameObject = CEffectStar::Create(m_pGraphicDev);
+		NULL_CHECK_RETURN(pGameObject, E_FAIL);
+		pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+	}
+
 #pragma region TREE
 	// Tree
+	// 시작 시 왼쪽 그룹
 	pGameObject = CTree::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//pGameObject->m_pTransform->Translate(_vec3(0.f, 0.f, 50.f));
+	dynamic_cast<CTree*>(pGameObject)->Set_TreeType(0, 0);
+	pGameObject->m_pTransform->Scale(_vec3(9.f, 9.f, 9.f));
+	pGameObject->m_pTransform->Translate(_vec3(-8.f, 12.f, -62.f));
+	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+
+	pGameObject = CTree::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	dynamic_cast<CTree*>(pGameObject)->Set_TreeType(1, 1);
+	pGameObject->m_pTransform->Scale(_vec3(8.f, 8.f, 8.f));
+	pGameObject->m_pTransform->Translate(_vec3(-12.5f, 11.f, -66.f));
+	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+
+	pGameObject = CTree::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	dynamic_cast<CTree*>(pGameObject)->Set_TreeType(2, 3);
+	pGameObject->m_pTransform->Scale(_vec3(3.f, 3.f, 3.f));
+	pGameObject->m_pTransform->Translate(_vec3(-7.f, 5.f, -65.f));
+	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+
+	pGameObject = CTree::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	dynamic_cast<CTree*>(pGameObject)->Set_TreeType(0, 3);
+	pGameObject->m_pTransform->Scale(_vec3(2.f, 2.f, 2.f));
+	pGameObject->m_pTransform->Translate(_vec3(-6.f, 4.f, -67.f));
+	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+
+	pGameObject = CTree::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	dynamic_cast<CTree*>(pGameObject)->Set_TreeType(0, 3);
+	pGameObject->m_pTransform->Scale(_vec3(2.5f, 2.5f, 2.5f));
+	pGameObject->m_pTransform->Translate(_vec3(-16.f, 4.5f, -68.f));
+	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+
+	// 시작 시 오른쪽 그룹
+	pGameObject = CTree::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	dynamic_cast<CTree*>(pGameObject)->Set_TreeType(1, 1);
+	pGameObject->m_pTransform->Scale(_vec3(7.f, 7.f, 7.f));
+	pGameObject->m_pTransform->Translate(_vec3(10.f, 10.f, -64.f));
+	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+
+	pGameObject = CTree::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	dynamic_cast<CTree*>(pGameObject)->Set_TreeType(0, 0);
+	pGameObject->m_pTransform->Scale(_vec3(8.f, 8.f, 8.f));
+	pGameObject->m_pTransform->Translate(_vec3(15.f, 11.f, -67.5f));
+	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+
+	pGameObject = CTree::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	dynamic_cast<CTree*>(pGameObject)->Set_TreeType(0, 3);
+	pGameObject->m_pTransform->Scale(_vec3(5.f, 5.f, 5.f));
+	pGameObject->m_pTransform->Translate(_vec3(21.f, 6.f, -65.f));
+	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+
+	pGameObject = CTree::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	dynamic_cast<CTree*>(pGameObject)->Set_TreeType(2, 3);
+	pGameObject->m_pTransform->Scale(_vec3(3.f, 3.f, 3.f));
+	pGameObject->m_pTransform->Translate(_vec3(28.f, 5.f, -62.f));
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 #pragma endregion TREE
-
-	m_mapLayer.insert({ _eLayerTag, pLayer });
 
 	return S_OK;
 }
@@ -128,6 +197,8 @@ HRESULT CVillage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 	dynamic_cast<CFootRay*>(pGameObject)->Set_Host(m_pPlayer);
 	//pGameObject->m_pTransform->Translate(m_pPlayer->m_pTransform->m_vInfo[INFO_POS] + _vec3(0.f, -1.25f, 0.f));
+
+
 
 	pGameObject = CBox_Cube::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
