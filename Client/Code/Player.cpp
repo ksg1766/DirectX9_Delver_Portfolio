@@ -14,6 +14,7 @@
 
 #include "UIitem.h"
 #include <UIbasicslot.h>
+#include <UIemptyslot.h>
 
 // 임시 몬스터 삭제용
 #include "PoolManager.h"
@@ -314,174 +315,147 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 		D3DXVec3TransformCoord(&m_vLeftOffset, &m_vLeftOffset, &matRotY);
 	}
 
-	if (Engine::InputDev()->Key_Down(DIK_SPACE))
+	if (!IsTalk())
 	{
-		if (!m_IsJump)
+		if (Engine::InputDev()->Key_Down(DIK_SPACE))
 		{
-			m_pRigidBody->Add_Force(_vec3(0.f, 1.1f * m_fSpeed, 0.f));
-			m_pRigidBody->UseGravity(true);
-			//m_IsJump = true;
-		}
-	}
-
-	// UI 단축키 추가
-	if (Engine::InputDev()->Key_Down(DIK_I))
-	{
-		if (Engine::UIManager()->Set_InvenUse())
-		{
-			static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(true);
-			SceneManager()->Set_GameStop(false);
-			Set_UseUI(true);
-			// 사용자 마우스 못 받게.
-		}
-		else
-		{
-			static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(false);
-			Set_UseUI(false);
-		}
-	}
-	else if (Engine::InputDev()->Key_Down(DIK_C))
-	{
-		if (Engine::UIManager()->Set_StatUse())
-		{
-			static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(true);
-			SceneManager()->Set_GameStop(false);
-			Set_UseUI(true);
-		}
-		else
-		{
-			static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(false);
-			Set_UseUI(false);
-		}
-		
-	}
-	else if (Engine::InputDev()->Key_Down(DIK_M))
-	{
-		if (Engine::UIManager()->Set_MapUse()) {
-			static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(true);
-			SceneManager()->Set_GameStop(true);
-			Set_UseUI(true);
-		}
-		else {
-			static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(false);
-			SceneManager()->Set_GameStop(false);
-			Set_UseUI(false);
-		}
-	}
-	else if (Engine::InputDev()->Key_Down(DIK_ESCAPE))
-	{
-		if (Engine::UIManager()->Set_EscUse()) {
-			static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(true);
-			SceneManager()->Set_GameStop(true);
-			Set_UseUI(true);
-		}
-		else
-		{
-			static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(false);
-			SceneManager()->Set_GameStop(false);
-			Set_UseUI(false);
-		}
-	}
-
-	// 아이템 줍기 및 버리기
-	//if (Engine::InputDev()->Key_Down(DIK_E))
-	//{
-	//	//  바라보고 있는 아이템 줍기 / E 키로 앞에 있는 아이템 획득을 테스트 용으로 임시 생성
-	//	Engine::CGameObject* pGameObjectItem = CBeer::Create(m_pGraphicDev, false);
-	//	//Engine::CGameObject* pGameObjectItem = CTempItem::Create(m_pGraphicDev, false);
-	//	// 획득한 아이템 타입 및 개수를 받아옴.
-	//	ITEMTYPEID ItemType = dynamic_cast<CItem*>(pGameObjectItem)->Get_ItemTag();
-
-	//	// 획득한 아이템을 인벤토리에 넣는다.	
-	//	m_pInventory->Add_ItemObject(pGameObjectItem);
-
-	//	//// ITEM UI 객체 생성 후 들어온 아이템 타입 및 아이디로 값 셋팅.
-	//	Engine::CGameObject* pGameObjectUI = CUIitem::Create(m_pGraphicDev);
-	//	dynamic_cast<CUIitem*>(pGameObjectUI)->Set_ItemTag(ItemType.eItemType, ItemType.eItemID, ItemType.iCount);
-	//	// 셋팅 후 UI 매니저에 아이템UI 추가.
-	//	Engine::UIManager()->AddItemGameobject_UI(pGameObjectUI);
-
-	//	// 장착하는 아이템 타입이고 아이템을 장착하고 있지 않다면 장착(생성)
-	//	if (ItemType.eItemType == ITEMTYPE::ITEMTYPE_GENERALITEM && !m_bItemEquipLeft) // 오른손 장착 아이템 타입
-	//	{
-	//		m_bItemEquipLeft = true;
-	//		Set_CurrentEquipLeft(pGameObjectItem);
-	//		Set_PrevEquipLeft(pGameObjectItem);
-	//		Engine::EventManager()->CreateObject(pGameObjectItem, LAYERTAG::GAMELOGIC);
-
-	//		// 장착 상태 // 해당 아이템 찾아서 해당 슬롯 장착 상태 표시
-	//		Engine::CGameObject* FindSlotObj = Engine::UIManager()->Get_PopupObjectBasicSlot(ItemType);
-	//		dynamic_cast<CUIbasicslot*>(dynamic_cast<CTempUI*>(FindSlotObj))->Set_FindSlot(true);
-	//	}
-	//}
-	if (Engine::InputDev()->Key_Down(DIK_Q))
-	{
-		// 오른손에 들고 있는 아이템만 Q키로 버리기 가능
-
-		if (m_bItemEquipRight == true) // 오른손에 아이템을 장착하고 있는 상태일 시 
-		{
-			// 오른손에 장착하고 있는 아이템 타입을 가져옴.
-			ITEMTYPEID ItemType = dynamic_cast<CItem*>(m_pCurrentEquipItemRight)->Get_ItemTag();
-
-			// 해당 아이템의 개수가 1개일시와 그 이상일 시를 나눔 : 1개면 아이템을 버리면서 오른 손에 장착하고 있던 정보 초기화, 1개 이상이면 해당 아이템 카운트 1감소(장착 유지)
-			if (ItemType.iCount == 1)
+			if (!m_IsJump)
 			{
-				// 인벤토리 내에서 해당 아이템을 찾아 삭제.
-				m_pInventory->delete_FindItem(ItemType);
-
-				// 장착 상태 해제
-				Engine::CGameObject* FindSlotObj = Engine::UIManager()->Get_PopupObjectBasicSlot(ItemType);
-				dynamic_cast<CUIbasicslot*>(dynamic_cast<CTempUI*>(FindSlotObj))->Set_FindSlot(false);
-
-				// 아이템 UI 내부에서도 해당 아이템 UI를 찾아 삭제.
-				Engine::UIManager()->Delete_FindItemUI(ItemType);
-
-				// 1개만 가지고 있었기에 버림으로 인해 보유 X, 다음 아이템을 들기 위한 초기화
-				m_pCurrentEquipItemRight = nullptr;
-				m_pPrevEquipItemRight = nullptr;
-				m_bItemEquipRight = false;
-			}
-			else if (ItemType.iCount > 1)
-			{
-				ItemType.iCount = 1; // 여러개를 보유하고 있기에 손에 들고있는 1개씩 버린다.
-
-				// 인벤토리 내에서 해당 아이템을 찾아 삭제.
-				m_pInventory->delete_FindItem(ItemType);
-
-				//아이템 UI 내부에서도 해당 아이템을 찾아 삭제.
-				Engine::UIManager()->Delete_FindItemUI(ItemType);
+				m_pRigidBody->Add_Force(_vec3(0.f, 1.1f * m_fSpeed, 0.f));
+				m_pRigidBody->UseGravity(true);
+				//m_IsJump = true;
 			}
 		}
+
+		// UI 단축키 추가
+		if (Engine::InputDev()->Key_Down(DIK_I))
+		{
+			if (Engine::UIManager()->Set_InvenUse())
+			{
+				static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(true);
+				SceneManager()->Set_GameStop(false);
+				Set_UseUI(true);
+				// 사용자 마우스 못 받게.
+			}
+			else
+			{
+				static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(false);
+				Set_UseUI(false);
+			}
+		}
+		else if (Engine::InputDev()->Key_Down(DIK_C))
+		{
+			if (Engine::UIManager()->Set_StatUse())
+			{
+				static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(true);
+				SceneManager()->Set_GameStop(false);
+				Set_UseUI(true);
+			}
+			else
+			{
+				static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(false);
+				Set_UseUI(false);
+			}
+
+		}
+		else if (Engine::InputDev()->Key_Down(DIK_M))
+		{
+			if (Engine::UIManager()->Set_MapUse()) {
+				static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(true);
+				SceneManager()->Set_GameStop(true);
+				Set_UseUI(true);
+			}
+			else {
+				static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(false);
+				SceneManager()->Set_GameStop(false);
+				Set_UseUI(false);
+			}
+		}
+		else if (Engine::InputDev()->Key_Down(DIK_ESCAPE))
+		{
+			if (Engine::UIManager()->Set_EscUse()) {
+				static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(true);
+				SceneManager()->Set_GameStop(true);
+				Set_UseUI(true);
+			}
+			else
+			{
+				static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(false);
+				SceneManager()->Set_GameStop(false);
+				Set_UseUI(false);
+			}
+		}
+
+		if (Engine::InputDev()->Key_Down(DIK_Q))
+		{
+			// 오른손에 들고 있는 아이템만 Q키로 버리기 가능
+
+			if (m_bItemEquipRight == true) // 오른손에 아이템을 장착하고 있는 상태일 시 
+			{
+				// 오른손에 장착하고 있는 아이템 타입을 가져옴.
+				ITEMTYPEID ItemType = dynamic_cast<CItem*>(m_pCurrentEquipItemRight)->Get_ItemTag();
+
+				// 해당 아이템의 개수가 1개일시와 그 이상일 시를 나눔 : 1개면 아이템을 버리면서 오른 손에 장착하고 있던 정보 초기화, 1개 이상이면 해당 아이템 카운트 1감소(장착 유지)
+				if (ItemType.iCount == 1)
+				{
+					// 인벤토리 내에서 해당 아이템을 찾아 삭제.
+					m_pInventory->delete_FindItem(ItemType);
+
+					// 장착 상태 해제
+					Engine::CGameObject* FindSlotObj = Engine::UIManager()->Get_PopupObjectBasicSlot(ItemType);
+					dynamic_cast<CUIbasicslot*>(dynamic_cast<CTempUI*>(FindSlotObj))->Set_FindSlot(false);
+
+					// 아이템 UI 내부에서도 해당 아이템 UI를 찾아 삭제.
+					Engine::UIManager()->Delete_FindItemUI(ItemType);
+
+					// 1개만 가지고 있었기에 버림으로 인해 보유 X, 다음 아이템을 들기 위한 초기화
+					m_pCurrentEquipItemRight = nullptr;
+					m_pPrevEquipItemRight = nullptr;
+					m_bItemEquipRight = false;
+				}
+				else if (ItemType.iCount > 1)
+				{
+					ItemType.iCount = 1; // 여러개를 보유하고 있기에 손에 들고있는 1개씩 버린다.
+
+					// 인벤토리 내에서 해당 아이템을 찾아 삭제.
+					m_pInventory->delete_FindItem(ItemType);
+
+					//아이템 UI 내부에서도 해당 아이템을 찾아 삭제.
+					Engine::UIManager()->Delete_FindItemUI(ItemType);
+				}
+			}
+		}
+
+		// 1 2 3 4 5 슬롯에 있는 아이템 사용(소멸 되는 것) 및 장착 + 해제하기
+		if (Engine::InputDev()->Key_Down(DIK_F1))
+		{
+			Use_SlotItem(KEYSLOT_ONE);
+		}
+		else if (Engine::InputDev()->Key_Down(DIK_F2))
+		{
+			Use_SlotItem(KEYSLOT_TWO);
+		}
+		else if (Engine::InputDev()->Key_Down(DIK_F3))
+		{
+			Use_SlotItem(KEYSLOT_THREE);
+		}
+		else if (Engine::InputDev()->Key_Down(DIK_F4))
+		{
+			Use_SlotItem(KEYSLOT_FOUR);
+		}
+		else if (Engine::InputDev()->Key_Down(DIK_F5))
+		{
+			Use_SlotItem(KEYSLOT_FIVE);
+		}
+
+		if (Engine::InputDev()->Key_Down(DIK_DELETE))
+		{
+			vector<CGameObject*>& vecMonsterList = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::MONSTER);
+			if (!vecMonsterList.empty())
+				CPoolManager::GetInstance()->Delete_Object(vecMonsterList.back());
+		}
 	}
 
-	// 1 2 3 4 5 슬롯에 있는 아이템 사용(소멸 되는 것) 및 장착 + 해제하기
-	if (Engine::InputDev()->Key_Down(DIK_F1))
-	{
-		Use_SlotItem(KEYSLOT_ONE);
-	}
-	else if (Engine::InputDev()->Key_Down(DIK_F2))
-	{
-		Use_SlotItem(KEYSLOT_TWO);
-	}
-	else if (Engine::InputDev()->Key_Down(DIK_F3))
-	{
-		Use_SlotItem(KEYSLOT_THREE);
-	}
-	else if (Engine::InputDev()->Key_Down(DIK_F4))
-	{
-		Use_SlotItem(KEYSLOT_FOUR);
-	}
-	else if (Engine::InputDev()->Key_Down(DIK_F5))
-	{
-		Use_SlotItem(KEYSLOT_FIVE);
-	}
-
-	if (Engine::InputDev()->Key_Down(DIK_DELETE))
-	{
-		vector<CGameObject*>& vecMonsterList = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::MONSTER);
-		if (!vecMonsterList.empty())
-			CPoolManager::GetInstance()->Delete_Object(vecMonsterList.back());
-	}
 }
 
 void CPlayer::Use_SlotItem(INVENKEYSLOT _SlotNum)
@@ -562,7 +536,7 @@ void CPlayer::Use_SlotItem(INVENKEYSLOT _SlotNum)
 				{
 					// 장착하려는 타입과 다른 타입을 들고 있을 시 기존 아이템 장착 해제 및 해당 아이템으로 재 장착 + UI 슬롯 밝은 색상으로 변경
 					m_bItemEquipLeft = true;
-					Set_CurrentEquipRight(SlotItemObj);
+					Set_CurrentEquipLeft(SlotItemObj);
 					ITEMTYPEID PrevItemType = dynamic_cast<CItem*>(Get_PrevEquipLeft())->Get_ItemTag(); // 이전 무기의 아이템 태그갖고옴.
 					Engine::CGameObject* PrevFindSlotObj = Engine::UIManager()->Get_PopupObjectBasicSlot(PrevItemType);
 					dynamic_cast<CUIbasicslot*>(dynamic_cast<CTempUI*>(PrevFindSlotObj))->Set_FindSlot(false);
@@ -897,6 +871,9 @@ void CPlayer::Create_Item(CCollider* _pOther)
 	case ITEMID::GENERAL_LAMP:
 		pItem = CLamp::Create(m_pGraphicDev, false);
 		break;
+	case ITEMID::WEAPON_EPICBOW:
+		pItem = CEpicBow::Create(m_pGraphicDev, false);
+		break;
 	}
 
 
@@ -915,7 +892,16 @@ void CPlayer::Create_Item(CCollider* _pOther)
 		Set_PrevEquipRight(pItem);
 		Engine::EventManager()->CreateObject(pItem, LAYERTAG::GAMELOGIC);
 		Engine::CGameObject* FindSlotObj = Engine::UIManager()->Get_PopupObjectBasicSlot(ItemType);
-		dynamic_cast<CUIbasicslot*>(dynamic_cast<CTempUI*>(FindSlotObj))->Set_FindSlot(true);
+
+		UIOBJECTTTAG _UIObjID;
+		_uint _UINumber;
+
+		dynamic_cast<CTempUI*>(FindSlotObj)->Get_UIObjID(_UIObjID, _UINumber);
+
+		if(_UIObjID == UIID_SLOTBASIC)
+			dynamic_cast<CUIbasicslot*>(dynamic_cast<CTempUI*>(FindSlotObj))->Set_FindSlot(true);
+		else if(_UIObjID == UIID_SLOTEMPTY)
+			dynamic_cast<CUIemptyslot*>(dynamic_cast<CTempUI*>(FindSlotObj))->Set_FindSlot(true);
 	}
 	else
 		Engine::EventManager()->CreateObject(pItem, LAYERTAG::GAMELOGIC);
@@ -930,7 +916,16 @@ void CPlayer::Create_Item(CCollider* _pOther)
 
 		// 장착 상태 // 해당 아이템 찾아서 해당 슬롯 장착 상태 표시
 		Engine::CGameObject* FindSlotObj = Engine::UIManager()->Get_PopupObjectBasicSlot(ItemType);
-		dynamic_cast<CUIbasicslot*>(dynamic_cast<CTempUI*>(FindSlotObj))->Set_FindSlot(true);
+		
+		UIOBJECTTTAG _UIObjID;
+		_uint _UINumber;
+
+		dynamic_cast<CTempUI*>(FindSlotObj)->Get_UIObjID(_UIObjID, _UINumber);
+
+		if (_UIObjID == UIID_SLOTBASIC)
+			dynamic_cast<CUIbasicslot*>(dynamic_cast<CTempUI*>(FindSlotObj))->Set_FindSlot(true);
+		else if (_UIObjID == UIID_SLOTEMPTY)
+			dynamic_cast<CUIemptyslot*>(dynamic_cast<CTempUI*>(FindSlotObj))->Set_FindSlot(true);
 	}
 	// 아이템 줍기 및 버리기
 

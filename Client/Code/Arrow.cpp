@@ -2,7 +2,7 @@
 #include "Export_Function.h"
 #include "Player.h"
 
-#include "Bow.h"
+#include "Itemgroup.h"
 
 #include "EffectSquare.h"
 #include "EffectDamageStar.h"
@@ -50,7 +50,13 @@ HRESULT CArrow::Ready_Object(CTransform* Weapon, CTransform* pOwner, _float _fSp
 		D3DXVec3Normalize(&m_vDir, &m_vDir);
 	}
 
-	BASICSTAT* pOwnerStat = dynamic_cast<CBow*>(Weapon->Get_Host())->Get_ItemStat()->Get_Stat();
+	BASICSTAT* pOwnerStat = {};
+
+	if (dynamic_cast<CItem*>(Weapon->Get_Host())->Get_ItemTag().eItemID == ITEMID::WEAPON_BOW)
+		pOwnerStat = dynamic_cast<CBow*>(Weapon->Get_Host())->Get_ItemStat()->Get_Stat();
+	else
+		pOwnerStat = dynamic_cast<CEpicBow*>(Weapon->Get_Host())->Get_ItemStat()->Get_Stat();
+
 
 	if (pOwnerStat != nullptr)
 	{

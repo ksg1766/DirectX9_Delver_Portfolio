@@ -33,8 +33,8 @@ public:
 		case WEAPON_BOW:
 			m_fCurrentImage = 33;
 			break;
-		case WEAPON_WAND1:
-			m_fCurrentImage = 36;
+		case WEAPON_WAND3:
+			m_fCurrentImage = 38;
 			break;
 		case GENERAL_SHIELD:
 			m_fCurrentImage = 31;
@@ -73,7 +73,7 @@ public:
 			m_iCurrentFont = 3;
 			m_iCurrentFontAlpha = 2;
 			break;
-		case WEAPON_WAND1:
+		case WEAPON_WAND3:
 			m_iCurrentFont = 5;
 			m_iCurrentFontAlpha = 4;
 			break;
@@ -122,6 +122,8 @@ private:
 	_uint	  m_iCurrentFont;
 	_uint	  m_iCurrentFontAlpha;
 	_uint	  m_iCollisionNumber;
+
+	_uint	  m_iBuyCount;
 public:
 	static CShopItem* Create(LPDIRECT3DDEVICE9 pGrahpicDev);
 

@@ -122,7 +122,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>../../Reference/Library;C:\Users\star1\Desktop\jusin\5th_SR_Team3Project\Client\fmode\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../../Reference/Library;C:\Users\JunYeop\Desktop\SR_team%28Delver%29\Client\fmode\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>d3d9.lib;d3dx9.lib;dxguid.lib;System.lib;Utility.lib;fmodex64_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -199,6 +199,7 @@
     <ClInclude Include="..\Header\EffectPastTrace.h" />
     <ClInclude Include="..\Header\Bread.h" />
     <ClInclude Include="..\Header\Cheese.h" />
+    <ClInclude Include="..\Header\EpicBow.h" />
     <ClInclude Include="..\Header\FireWallPttern.h" />
     <ClInclude Include="..\Header\FireWavePattern.h" />
     <ClInclude Include="..\Header\GrapPattern.h" />
@@ -404,6 +405,7 @@
     <ClCompile Include="..\Code\EffectPastTrace.cpp" />
     <ClCompile Include="..\Code\Bread.cpp" />
     <ClCompile Include="..\Code\Cheese.cpp" />
+    <ClCompile Include="..\Code\EpicBow.cpp" />
     <ClCompile Include="..\Code\FireWallPttern.cpp" />
     <ClCompile Include="..\Code\FireWavePattern.cpp" />
     <ClCompile Include="..\Code\GrapPattern.cpp" />

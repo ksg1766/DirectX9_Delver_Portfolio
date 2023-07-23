@@ -45,7 +45,7 @@ private:
 	_bool	m_bTalkButton;
 	_bool	m_bTalkBox;
 	_bool	m_bTalking;
-
+	_bool	m_bUse;
 public:
 	static CNpc_Trader* Create(LPDIRECT3DDEVICE9 pGraphicDev);
 

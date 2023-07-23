@@ -87,7 +87,7 @@ void CUIManager::Delete_FindItemUI(ITEMTYPEID _itemId)
 #pragma endregion 인벤토리 UI 수정 
 }
 
-void CUIManager::Show_InvenItem()
+void CUIManager::Show_InvenItem(_uint iType)
 {
 	UIOBJECTTTAG _UIObjID;
 	_uint _UINumber;
@@ -98,15 +98,26 @@ void CUIManager::Show_InvenItem()
 			CGameObject* pSlotObj = dynamic_cast<CTempUI*>(iter)->Get_Parent();
 			dynamic_cast<CTempUI*>(pSlotObj)->Get_UIObjID(_UIObjID, _UINumber);
 
-			if (_UIObjID != UIID_SLOTBASIC)
+			if (iType == 0)
 			{
-				iter->Set_Dead(false);
+				if (_UIObjID != UIID_SLOTBASIC)
+				{
+					iter->Set_Dead(false);
+				}
 			}
+			else if (iType == 1)
+			{
+				if (_UIObjID != UIID_SLOTBASIC && _UIObjID != UIID_SLOTEQUIPMENT)
+				{
+					iter->Set_Dead(false);
+				}
+			}
+
 		}
 	}
 }
 
-void CUIManager::Hide_InvenItem()
+void CUIManager::Hide_InvenItem(_uint iType)
 {
 	UIOBJECTTTAG _UIObjID;
 	_uint _UINumber;
@@ -117,9 +128,19 @@ void CUIManager::Hide_InvenItem()
 			CGameObject* pSlotObj = dynamic_cast<CTempUI*>(iter)->Get_Parent();
 			dynamic_cast<CTempUI*>(pSlotObj)->Get_UIObjID(_UIObjID, _UINumber);
 
-			if (_UIObjID != UIID_SLOTBASIC)
+			if (iType == 0)
 			{
-				iter->Set_Dead(true);
+				if (_UIObjID != UIID_SLOTBASIC)
+				{
+					iter->Set_Dead(true);
+				}
+			}
+			else if (iType == 1)
+			{
+				if (_UIObjID != UIID_SLOTBASIC && _UIObjID != UIID_SLOTEQUIPMENT)
+				{
+					iter->Set_Dead(true);
+				}
 			}
 		}
 	}
@@ -153,6 +174,24 @@ CGameObject* CUIManager::Get_PopupObjectBasicSlot(ITEMTYPEID ItemType)
 			}
 		}
 	}
+
+	for (auto iter : m_mapPpopupUI[POPUP_INVEN][UI_DOWN])
+	{
+		if (iter != nullptr)
+		{
+			CGameObject* pChilidObj = dynamic_cast<CTempUI*>(iter)->Get_Child();
+
+			if (pChilidObj != nullptr)
+			{
+				ITEMTYPEID Itemid = dynamic_cast<CUIitem*>(pChilidObj)->Get_ItemTag();
+
+				if (Itemid.eItemID == ItemType.eItemID)
+					return iter;
+			}
+		}
+	}
+
+
 	return nullptr;
 }
 
@@ -236,7 +275,7 @@ void CUIManager::AddItemGameobject_UI(CGameObject* pGameObject)
 
 			//Engine::UIManager()->AddPopupGameobject_UI(Engine::UIPOPUPLAYER::POPUP_INVEN, Engine::UILAYER::UI_MIDDLE, pGameObject);
 			Engine::UIManager()->AddPopupGameobject_UI(Engine::UIPOPUPLAYER::POPUP_ITEM, Engine::UILAYER::UI_DOWN, pGameObject);
-			Hide_InvenItem();
+			Hide_InvenItem(0);
 			return;
 		}
 	}

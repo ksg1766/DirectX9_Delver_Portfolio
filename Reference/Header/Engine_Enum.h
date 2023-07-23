@@ -69,6 +69,8 @@ namespace Engine
 
 		EAT_POTION1, EAT_POTION2, EAT_POTION3, EAT_POTION4, EAT_POTION5, EAT_POTION6, EAT_POTION7,        // 포션1, 포션2, 포션3, 포션4, 포션5 : 능력 및 효과는 미정
 
+		WEAPON_EPICBOW,
+
 		ITEMID_END
 	};
 	enum class NPCTAG		{ TRADER, ALCHEMIST, BARD, OLD_MAN, DOG, WIZARD, NPC_END}; //상인, 연금술사(포션), 잡NPC, 음유시인, 노인, 개, 마법사(흑막예정)

@@ -40,6 +40,7 @@ HRESULT CNpc_Trader::Ready_Object()
 	m_bTalkBox = false;
 	m_bTalkButton = false;
 	m_bTalking = false;
+	m_bUse = false;
 	m_pFontconfig = dynamic_cast<CFont*>(m_pFont)->Create_3DXFont(35, 28.f, 1000.f, false, L"Times New Roman", m_pFontconfig);
 	dynamic_cast<CFont*>(m_pFont)->Set_pFont(m_pFontconfig);
 	dynamic_cast<CFont*>(m_pFont)->Set_FontColor(_uint(0xffffffff));
@@ -62,6 +63,9 @@ _int CNpc_Trader::Update_Object(const _float& fTimeDelta)
 
 	_vec3 vDir = rPlayer.m_pTransform->m_vInfo[INFO_POS] - m_pTransform->m_vInfo[INFO_POS];
 	_float fDistance = D3DXVec3Length(&vDir);
+
+	CGameObject* pGameObject = SceneManager()->
+		Get_ObjectList(LAYERTAG::ENVIRONMENT, OBJECTTAG::CAMERA).front();
 	
 	if (fDistance < 3.f)
 	{
@@ -69,7 +73,14 @@ _int CNpc_Trader::Update_Object(const _float& fTimeDelta)
 
 		if (Engine::InputDev()->Key_Down(DIK_F))
 		{
-			if (Engine::UIManager()->Set_SpeechBubbleUse())
+			if (m_bUse)
+			{
+				Engine::UIManager()->Set_Shop();
+				rPlayer.Set_Talk(false);
+				static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(false);
+				m_bUse = false;
+			}
+			else if (Engine::UIManager()->Set_SpeechBubbleUse())
 			{
 				m_bTalkBox = true;
 
@@ -83,15 +94,10 @@ _int CNpc_Trader::Update_Object(const _float& fTimeDelta)
 				SceneManager()->Set_GameStop(false);
 				m_bTalkBox = false;
 				m_bTalking = false;
-				rPlayer.Set_Talk(false);
-
-				CGameObject* pGameObject = SceneManager()->
-					Get_ObjectList(LAYERTAG::ENVIRONMENT, OBJECTTAG::CAMERA).front();
-
+				m_bUse = true;
+			
 				if (Engine::UIManager()->Set_Shop())
 					static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(true);
-				else
-					static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(false);
 			}
 		}
 	}
@@ -120,9 +126,11 @@ void CNpc_Trader::Render_Object()
 	m_pCollider->Render_Collider();
 #endif
 
+	CPlayer& rPlayer = *dynamic_cast<CPlayer*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
+
 	if (!SceneManager()->Get_GameStop())
 	{
-		if ((!m_bTalkBox) && (m_bTalkButton))
+		if ((!m_bTalkBox) && (m_bTalkButton) && !rPlayer.IsTalk())
 		{
 			m_pFont->Set_pFont(m_pFontconfig);
 			m_pFont->DrawText(L"F : SHOP");

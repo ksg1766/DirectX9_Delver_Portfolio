@@ -165,6 +165,9 @@ public:
 		case EAT_POTION7:
 			m_fCurrentImage = 29;
 			break;
+		case WEAPON_EPICBOW:
+			m_fCurrentImage = 41;
+			break;
 		}
 	}
 

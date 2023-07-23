@@ -57,6 +57,19 @@ HRESULT CBow::Ready_Object(_bool _Item)
 		m_fChase = 0.f;
 		m_fChase2 = 0.f;
 		m_fAngle = 0.f;
+
+
+		CAnimation* pAnimation = CAnimation::Create(m_pGraphicDev,
+			m_pTexture[_uint(STATE::IDLE)], STATE::IDLE, 0.5f, TRUE);
+		m_pAnimator->Add_Animation(STATE::IDLE, pAnimation);
+		pAnimation = CAnimation::Create(m_pGraphicDev,
+			m_pTexture[_uint(STATE::ROMIMG)], STATE::ROMIMG, 3.f, TRUE);
+		m_pAnimator->Add_Animation(STATE::ROMIMG, pAnimation);
+		pAnimation = CAnimation::Create(m_pGraphicDev,
+			m_pTexture[_uint(STATE::ATTACK)], STATE::ATTACK, 1.f, TRUE);
+		m_pAnimator->Add_Animation(STATE::ATTACK, pAnimation);
+
+		m_pAnimator->Set_Animation(STATE::IDLE);
 	}
 	else
 	{
@@ -124,7 +137,13 @@ _int CBow::Update_Object(const _float& fTimeDelta)
 				CGameObject* pGameObject = CEffectDamage::Create(m_pGraphicDev);
 				pGameObject->m_pTransform->Translate(_vec3(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vInfo[INFO_POS].z));
 				Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+
+				m_pAnimator->Set_Animation(STATE::ROMIMG);
 			}
+
+			if (m_iCount >= 24)
+				m_pAnimator->Set_Animation(STATE::ATTACK);
+
 			pPlayer->Set_Attack(false);
 		}
 		else
@@ -141,11 +160,20 @@ _int CBow::Update_Object(const _float& fTimeDelta)
 
 				_vec3 vOffSet = 0.7f * pPlayerTransform->m_vInfo[INFO_RIGHT] + 1.4f * pPlayerTransform->m_vInfo[INFO_LOOK] - 0.4f * pPlayerTransform->m_vInfo[INFO_UP];
 				m_pTransform->m_vInfo[INFO_POS] = (pPlayerTransform->m_vInfo[INFO_POS] + vOffSet);
+
+				m_pAnimator->Set_Animation(STATE::IDLE);
 			}
 		}
+
+		m_pAnimator->Update_Animator(fTimeDelta);
+		return iExit;
+	}
+	else
+	{
+		m_pAnimator->Set_Animation(STATE::IDLE);
+		return iExit;
 	}
 
-	return iExit;
 }
 
 void CBow::LateUpdate_Object(void)
@@ -173,19 +201,21 @@ void CBow::Render_Object(void)
 
 		if (ItemID.eItemID == ITEMID::WEAPON_BOW && pPlayer->Get_ItemEquipRight())
 		{
-			m_pTexture->Render_Texture();
+			m_pAnimator->Render_Animator();
 			m_pBuffer->Render_Buffer();
 		}
 	}
 	else
 	{
-		m_pTexture->Render_Texture();
+		m_pTexture[(_uint)STATE::IDLE]->Render_Texture();
 		m_pBuffer->Render_Buffer();
-	}
 
 #if _DEBUG
-	m_pCollider->Render_Collider();
+		m_pCollider->Render_Collider();
 #endif
+	}
+
+
 }
 
 HRESULT CBow::Add_Component(void)
@@ -200,7 +230,14 @@ HRESULT CBow::Add_Component(void)
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::TRANSFORM, pComponent);
 
-	pComponent = m_pTexture = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_Bow"));
+
+	pComponent = m_pTexture[(_uint)STATE::IDLE] = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_BowIdle"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
+	pComponent = m_pTexture[(_uint)STATE::ROMIMG] = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_BowRoming"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
+	pComponent = m_pTexture[(_uint)STATE::ATTACK] = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_BowAttack"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
 
@@ -211,6 +248,10 @@ HRESULT CBow::Add_Component(void)
 	pComponent = m_pBasicStat = dynamic_cast<CBasicStat*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BasicStat"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BASICSTAT, pComponent);
+
+	pComponent = m_pAnimator = dynamic_cast<CAnimator*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Animator"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::ANIMATOR, pComponent);
 
 	//pComponent = dynamic_cast<CBillBoard*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BillBoard"));
 	//NULL_CHECK_RETURN(pComponent, E_FAIL);

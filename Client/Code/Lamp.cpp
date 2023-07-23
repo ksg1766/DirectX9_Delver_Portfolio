@@ -94,12 +94,35 @@ void CLamp::Render_Object(void)
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
 
-	m_pTexture->Render_Texture();
-	m_pBuffer->Render_Buffer();
+	CPlayer* pPlayer = dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer());
+
+	if (!Get_WorldItem() && pPlayer != nullptr)
+	{
+		CItem* ItemType = dynamic_cast<CItem*>(pPlayer->Get_CurrentEquipLeft());
+
+		ITEMTYPEID ItemID = {};
+
+		if (ItemType != nullptr)
+			ItemID = ItemType->Get_ItemTag();
+
+		if (ItemID.eItemID == ITEMID::GENERAL_LAMP && pPlayer->Get_ItemEquipLeft())
+		{
+			m_pTexture->Render_Texture();
+			m_pBuffer->Render_Buffer();
+		}
+	}
+	else
+	{
+		m_pTexture->Render_Texture();
+		m_pBuffer->Render_Buffer();
 
 #if _DEBUG
-	m_pCollider->Render_Collider();
+		m_pCollider->Render_Collider();
 #endif // _DEBUG
+	}
+
+
+
 
 }
 

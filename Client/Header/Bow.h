@@ -6,7 +6,7 @@ BEGIN(Engine)
 
 class CRcTex;
 class CTexture;
-
+class CAnimator;
 END
 
 class CBow : public Engine::CItem
@@ -34,7 +34,8 @@ private:
 
 private:
 	CRcTex*		m_pBuffer = nullptr;
-	CTexture*	m_pTexture = nullptr;
+	CTexture*	m_pTexture[(_uint)STATE::STATE_END] = {};
+	CAnimator*	m_pAnimator = nullptr;
 
 	_int		m_iAttackTick;
 	_float		m_fChase2;
