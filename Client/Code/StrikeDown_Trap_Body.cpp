@@ -21,7 +21,7 @@ HRESULT CStrikeDown_Trap::Ready_Object(void)
 	m_eTrapTag = TRAPTAG::STRIKEDOWN;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pTransform->Scale(_vec3(2.f, 2.5f, 2.f));
+	m_pTransform->Scale(_vec3(2.f, 2.f, 2.f));
 	m_fTime = 0.f;
 	m_bAttack = false;
 	m_bCollisonBlock = false;
@@ -59,17 +59,18 @@ void CStrikeDown_Trap::Render_Object(void)
 
 	m_pTexture->Render_Texture();
 	m_pCubeBf->Render_Buffer();
+#if _DEBUG
+	m_pCollider->Render_Collider();
+#endif
 }
 
 void CStrikeDown_Trap::Ground_Pounding(const _float& fTimeDelta)
 {
-	if ((!m_bAttack) && (5.f < m_fTime)) // 공격상태가 아니고 5초 이상 경과면 하강
-	{
+	if ((!m_bAttack) && (5.f < m_fTime))
 		m_pTransform->Translate(_vec3(0.f, -0.3f, 0.f));
-		m_bPlayerHit = true;
-	}
 	else if (m_bCollisonBlock)
 	{
+		m_bPlayerHit = true;
 		m_pTransform->Translate(_vec3(0.f, (2.5f * fTimeDelta), 0.f));
 	}
 	if (m_fInitialHeight < m_pTransform->m_vInfo[INFO_POS].y)
@@ -82,25 +83,28 @@ void CStrikeDown_Trap::Ground_Pounding(const _float& fTimeDelta)
 	}
 }
 
+void CStrikeDown_Trap::Set_InitailHeight(_float _Height)
+{
+	m_fInitialHeight = _Height + m_pTransform->m_vInfo[INFO_POS].y;
+}
+
+void CStrikeDown_Trap::Set_MinHeight(_float _Height)
+{
+	m_fMinHeight = m_pTransform->m_vInfo[INFO_POS].y - _Height;
+}
+
 void CStrikeDown_Trap::OnCollisionEnter(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 	if (m_bCollisonBlock) { return; }
 	m_pOtherObj = _pOther->GetHost();
-	if (OBJECTTAG::BLOCK == m_pOtherObj->Get_ObjectTag())
-	{
-		m_pTransform->m_vInfo[INFO_POS].y = m_pOtherObj->m_pTransform->m_vInfo[INFO_POS].y + 1.f;
-		m_bAttack = true;
-		m_bCollisonBlock = true;
-		m_bPlayerHit = false;
-	}
+
 	if (OBJECTTAG::PLAYER == m_pOtherObj->Get_ObjectTag())
 	{
 		if (!m_bPlayerHit) {return;}
 		CPlayerStat& PlayerState = *static_cast<CPlayer*>(_pOther->GetHost())->Get_Stat();
 		PlayerState.Take_Damage(10.f);
 		m_bPlayerHit = false;
-		cout << "아야!" << endl;
 
 		_vec3	vDir = _pOther->GetHost()->m_pTransform->m_vInfo[INFO_POS] - m_pTransform->m_vInfo[INFO_POS];
 		(dynamic_cast<CPlayer*>(_pOther->GetHost())->Get_RigidBody()->Add_Force(_vec3(vDir.x, 1.1f * 5.f, vDir.z)));
@@ -112,6 +116,7 @@ void CStrikeDown_Trap::OnCollisionEnter(CCollider* _pOther)
 void CStrikeDown_Trap::OnCollisionStay(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
+	//__super::OnCollisionStay(_pOther);
 }
 
 void CStrikeDown_Trap::OnCollisionExit(CCollider* _pOther)

@@ -2,6 +2,7 @@
 #include "Export_Function.h"
 #include "SkeletonKing.h"
 #include "Player.h"
+#include "BossExplosion.h"
 CBoss_MeteorCube::CBoss_MeteorCube(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CMonster(pGraphicDev)
 {
@@ -23,11 +24,14 @@ HRESULT CBoss_MeteorCube::Ready_Object()
 	FAILED_CHECK_RETURN(Add_Component(),E_FAIL);
 	m_bChanneling_Start = false;
 	m_bChanneling_End = false;
+	m_bTargetSet = false;
+	m_bHit = false;
 	m_bMaxHeight = 12.f;
 	m_fScale = 0;
 	m_fEndTime = 0.f;
-	m_pBasicStat->Get_Stat()->fAttack = 15.0;
+	m_fAttack = 15.f;
 	m_pTransform->Scale(_vec3(0.6f, 0.6f, 0.6f));
+	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
 	Channeling_Begin();
 	return S_OK;
 }
@@ -43,11 +47,11 @@ _int CBoss_MeteorCube::Update_Object(const _float& fTimeDelta)
 		m_bChanneling_Start = false;
 		m_bChanneling_End = false;
 		m_fEndTime = 0.f;
-		m_pBasicStat->Get_Stat()->fAttack = 15.0;
+		m_fAttack = 15.0;
 		m_pTransform->Scale(_vec3(0.6f, 0.6f, 0.6f));
 		Engine::EventManager()->DeleteObject(this);
 	}
-	m_fScale += fTimeDelta/4.f;
+	m_fScale += fTimeDelta/2.f;
 	m_fEndTime += fTimeDelta;
 	if ((m_bChanneling_Start) && (10.f <= m_fEndTime))
 	{
@@ -73,13 +77,13 @@ void CBoss_MeteorCube::LateUpdate_Object(void)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 	__super::LateUpdate_Object();
-	__super::Compute_ViewZ(&m_pTransform->m_vInfo[INFO_POS]);
 }
 
 void CBoss_MeteorCube::Render_Object(void)
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
 
+	m_pTexture->Render_Texture();
 	m_pCubeBf->Render_Buffer();//큐브버퍼
 
 #if _DEBUG
@@ -96,50 +100,55 @@ void CBoss_MeteorCube::Channeling_Begin()
 
 void CBoss_MeteorCube::Channeling_Now(const _float& fTimeDelta)
 {
-
 		m_pTransform->Translate(_vec3(0.f, 1.f * fTimeDelta, 0.f));
 		m_pTransform->Rotate(_vec3(0.f, 0.f, 3.f));
 		m_pTransform->RotateAround(m_vCenter, _vec3(0.f, 3.f, 0.f), 3.f * fTimeDelta/2.f);
-		m_pBasicStat->Get_Stat()->fAttack *= m_fScale;
+		m_fAttack *= 1.5;
 }
 
 void CBoss_MeteorCube::Channeling_End(const _float& fTimeDelta)
 {
-	Set_PlayerPos();
+	if(!m_bTargetSet)
+		Set_PlayerPos();
 	m_pTransform->Translate(m_vDir * fTimeDelta);
-	if (2.f > m_pTransform->m_vInfo[INFO_POS].y)
-	{
-		m_bChanneling_Start = false;
-		m_bChanneling_End = false;
-		m_fEndTime = 0.f;
-		m_pBasicStat->Get_Stat()->fAttack = 15.0;
-		m_pTransform->Scale(_vec3(0.6f, 0.6f, 0.6f));
-		Engine::EventManager()->DeleteObject(this);
-	}
+
 }
 
 void CBoss_MeteorCube::Set_PlayerPos()
 {
 	_vec3 vTargetPos = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform->m_vInfo[INFO_POS];
 	m_vDir = vTargetPos - m_pTransform->m_vInfo[INFO_POS];
+	m_bTargetSet = true;
 }
 
 void CBoss_MeteorCube::OnCollisionEnter(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
-
-	if (_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::PLAYER)
-	{
-		CPlayerStat& PlayerState = *(dynamic_cast<CPlayer*>(_pOther->GetHost())->Get_Stat());
-		PlayerState.Take_Damage(this->Get_BasicStat()->Get_Stat()->fAttack);
-		this->Set_AttackTick(true);
-	}
 }
 
 void CBoss_MeteorCube::OnCollisionStay(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
+	if (m_bHit) { return; }
+	if (OBJECTTAG::PLAYER == _pOther->Get_Host()->Get_ObjectTag())
+	{
+		m_bHit = true;
+		CPlayerStat& PlayerState = *(dynamic_cast<CPlayer*>(_pOther->GetHost())->Get_Stat());
+		PlayerState.Take_Damage(m_fAttack);
+		this->Set_AttackTick(true);
 
+		m_bChanneling_Start = false;
+		m_bChanneling_End = false;
+		m_fEndTime = 0.f;
+		m_pBasicStat->Get_Stat()->fAttack = 15.0;
+		m_pTransform->Scale(_vec3(0.6f, 0.6f, 0.6f));
+		Engine::CGameObject* pGameObject = nullptr;
+		pGameObject = CBossExplosion::Create(m_pGraphicDev);
+		dynamic_cast<CBossExplosion*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = m_vDir;
+		dynamic_cast<CBossExplosion*>(pGameObject)->Set_Scale(20.f);
+		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+		Engine::EventManager()->DeleteObject(this);
+	}
 }
 
 void CBoss_MeteorCube::OnCollisionExit(CCollider* _pOther)
@@ -175,6 +184,10 @@ HRESULT CBoss_MeteorCube::Add_Component()
 	pComponent = m_pBasicStat = dynamic_cast<CBasicStat*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BasicStat"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BASICSTAT, pComponent);
+
+	pComponent = m_pTexture = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_Meteor"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::ANIMATOR, pComponent);
 
 	for (_uint i = 0; i < ID_END; ++i)
 		for (auto& iter : m_mapComponent[i])

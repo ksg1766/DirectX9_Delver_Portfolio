@@ -31,10 +31,11 @@ STATE CBoss_Sturn::Update_State(const _float& fTimeDelta)
     {
         Engine::CGameObject* pGameObject = nullptr;
         pGameObject = CBoss_SturnEffect::Create(m_pGraphicDev);
+        dynamic_cast<CBoss_SturnEffect*>(pGameObject)->m_pTransform->Translate(_vec3(3.f,0.f,0.f));
         Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
         m_bStar = true;
     }
-    if (3.f < m_fCount)
+    if (10.f < m_fCount)
     {
         dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->ReSet_Sturn();
         m_bStar = false;

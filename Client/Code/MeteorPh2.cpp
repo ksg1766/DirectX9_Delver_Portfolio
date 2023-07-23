@@ -43,7 +43,7 @@ STATE CBoss_Meteor2Ph::Update_State(const _float& fTimeDelta)
 	Engine::CGameObject* pGameObject = nullptr;
 	if (!m_bSkillStart)
 	{
-        Make_Clone();
+       Make_Clone();
 		pGameObject = m_pGameObject = CBoss_MeteorCube::Create(m_pGraphicDev);
 		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 		dynamic_cast<CBoss_MeteorCube*>(pGameObject)->Set_Center(m_pOwner->Get_Transform()->m_vInfo[INFO_POS]);
@@ -56,7 +56,7 @@ STATE CBoss_Meteor2Ph::Update_State(const _float& fTimeDelta)
         m_fDelay = 0.f;
 		m_bSkillStart = false;
 		m_fChannel_Count = 0.f;
-		return STATE::BOSS_PH2SKILL1;
+		return STATE::BOSS_IDLE;
 	}
 	else if (m_bSkillStart)
 	{
@@ -65,7 +65,7 @@ STATE CBoss_Meteor2Ph::Update_State(const _float& fTimeDelta)
     if (2.f < m_fDelay)
     {
         m_fDelay = 0.f;
-        Make_LostSoul();
+       Make_LostSoul();
     }
 }
 

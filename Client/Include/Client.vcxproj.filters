@@ -1428,6 +1428,12 @@
     <ClInclude Include="..\Header\EffectBonfire.h">
       <Filter>03. GameObject\07. Effect\21. EffectBonfire</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\FirePattern.h">
+      <Filter>99. Etc\헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\FIreWave2.h">
+      <Filter>03. GameObject\01. Stage\999. Boss\02. State\03. Attack\02. 3Phase\01. FireWave</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -2079,6 +2085,12 @@
     </ClCompile>
     <ClCompile Include="..\Code\EffectBonfire.cpp">
       <Filter>03. GameObject\07. Effect\21. EffectBonfire</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\FirePattern.cpp">
+      <Filter>99. Etc\소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\FIreWave2.cpp">
+      <Filter>03. GameObject\01. Stage\999. Boss\02. State\03. Attack\02. 3Phase\01. FireWave</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

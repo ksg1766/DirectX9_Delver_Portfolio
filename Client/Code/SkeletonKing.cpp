@@ -264,10 +264,11 @@ void CSkeletonKing::Add_HitCount()
 	if (m_eState == STATE::BOSS_STURN)
 		return;
 	++m_iHitCount;
-	if (3 <= m_iHitCount)
+	if (2 <= m_iHitCount)
 	{
 		m_iHitCount = 0.f;
-		m_bSturn = true;
+		m_pStateMachine->Set_State(STATE::BOSS_STURN);
+		//m_bSturn = true;
 	}
 }
 

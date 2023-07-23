@@ -50,8 +50,11 @@ private:
 
     _bool   m_bChanneling_Start;
     _bool   m_bChanneling_End;
+    _bool   m_bTargetSet;
+    _bool   m_bHit;
+    _vec3    m_vCenter;
+    _float m_fAttack;
 
-    _vec3 m_vCenter;
 public:
     HRESULT		Add_Component();
 public:

@@ -26,7 +26,9 @@ public:
 	virtual void Render_Object(void) override;
 
 	void		Ground_Pounding(const _float& fTimeDelta);
-	void		Set_InitailHeight(_float _Height) { m_fInitialHeight = _Height; }
+
+	void		Set_InitailHeight(_float _Height);
+	void		Set_MinHeight(_float _Height);
 
 public:
 	virtual void		OnCollisionEnter(CCollider* _pOther);
@@ -38,10 +40,12 @@ private:
 	CTexture*		m_pTexture = nullptr;
 	CGameObject*	m_pOtherObj = nullptr;
 	_float			m_fInitialHeight;
+	_float			m_fMinHeight;
 	_float			m_fTime;
-	_bool			m_bAttack;
-	_bool			m_bCollisonBlock;
-	_bool			m_bPlayerHit;
+
+	_bool			m_bAttack;//내려갈땐키고 올라갈땐 끔
+	_bool			m_bCollisonBlock;//최저높이 확인용
+	_bool			m_bPlayerHit;//플레이어 
 
 private:
 	HRESULT		Add_Component(void);
