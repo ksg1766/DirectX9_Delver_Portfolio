@@ -52,7 +52,7 @@ void CRenderer::Render_GameObject(LPDIRECT3DDEVICE9& pGraphicDev)
 
 	Render_Nonalpha(pGraphicDev);
 	Render_Alpha(pGraphicDev);
-	//pGraphicDev->SetRenderState(D3DRS_LIGHTING, FALSE);
+	pGraphicDev->SetRenderState(D3DRS_LIGHTING, FALSE);
 	Render_UI(pGraphicDev);
 
 	Clear_RenderGroup();
@@ -76,13 +76,13 @@ void CRenderer::Render_Priority(LPDIRECT3DDEVICE9& pGraphicDev)
 		float fNear = 1.f;
 		float fFar  = 130.0f;
 
-		//pGraphicDev->SetRenderState(D3DRS_FOGENABLE, TRUE);
-		//pGraphicDev->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_LINEAR);
-		//// 안개 색상 설정
-		//pGraphicDev->SetRenderState(D3DRS_FOGCOLOR, D3DCOLOR_ARGB(100, 60, 10, 55));
+		pGraphicDev->SetRenderState(D3DRS_FOGENABLE, TRUE);
+		pGraphicDev->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_LINEAR);
+		// 안개 색상 설정
+		pGraphicDev->SetRenderState(D3DRS_FOGCOLOR, D3DCOLOR_ARGB(100, 60, 10, 55));
 
-		//pGraphicDev->SetRenderState(D3DRS_FOGSTART, *(DWORD*)&fNear);
-		//pGraphicDev->SetRenderState(D3DRS_FOGEND, *(DWORD*)&fFar);
+		pGraphicDev->SetRenderState(D3DRS_FOGSTART, *(DWORD*)&fNear);
+		pGraphicDev->SetRenderState(D3DRS_FOGEND, *(DWORD*)&fFar);
 	}
 	else if (SCENETAG::STAGE == CurrentScene)
 	{

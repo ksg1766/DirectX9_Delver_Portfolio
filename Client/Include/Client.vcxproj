@@ -201,6 +201,7 @@
     <ClInclude Include="..\Header\DynamicCubeBlock.h" />
     <ClInclude Include="..\Header\Clone_Pattern.h" />
     <ClInclude Include="..\Header\CrossPattern.h" />
+    <ClInclude Include="..\Header\EffectBonfire.h" />
     <ClInclude Include="..\Header\EffectPastTrace.h" />
     <ClInclude Include="..\Header\Bread.h" />
     <ClInclude Include="..\Header\Cheese.h" />
@@ -412,6 +413,7 @@
     <ClCompile Include="..\Code\Boss_Meteor1Ph.cpp" />
     <ClCompile Include="..\Code\Clone_Pattern.cpp" />
     <ClCompile Include="..\Code\CrossPattern.cpp" />
+    <ClCompile Include="..\Code\EffectBonfire.cpp" />
     <ClCompile Include="..\Code\EffectPastTrace.cpp" />
     <ClCompile Include="..\Code\Bread.cpp" />
     <ClCompile Include="..\Code\Cheese.cpp" />

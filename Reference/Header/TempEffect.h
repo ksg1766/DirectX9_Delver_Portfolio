@@ -21,9 +21,8 @@ public:
 	void        Set_EffectColor(EFFECTCOLOR _Color) { m_EffectColor = _Color; }
 	void        Set_RandomSet(_bool _RandomSetbool) { m_RandomSet = _RandomSetbool; }
 	void        Set_CreateSet(_bool _CreateSetbool) { m_bCreateSet = _CreateSetbool; }
-	void        Set_Parent(_bool _Parent)       { m_bParent = _Parent; }
-	void        Set_Child(_bool _Child)         { m_bChild = _Child; }
-	void        Set_EffectScale(_float _fScale) { m_fEffectScale = _fScale; }
+	void        Set_Parent(_bool _Parent) { m_bParent = _Parent; }
+	void        Set_Child(_bool _Child) { m_bChild = _Child; }
 
 public:
 	HRESULT		Ready_Object();
