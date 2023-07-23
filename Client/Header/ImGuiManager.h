@@ -24,6 +24,8 @@ public:
 	void	Key_Input(const _float& fTimeDelta);
 	_vec3	PickingBlock();
 	_vec3	PickingSpawner();
+	_vec3	PickingTrap();
+	//_vec3	PickingEnvironmental();
 
 public:
 	HRESULT	SetUp_ImGui();
@@ -39,8 +41,8 @@ public:
 private:
 	_bool	bUI_OnOff;
 
-	enum TOOLMODE { MAP, SPAWNER, TOOL_END };
-	_uint								m_eToolMode = TOOL_END;
+	enum TOOLMODE { MAP, SPAWNER, TRAP, TOOL_END };
+	TOOLMODE							m_eToolMode = TOOL_END;
 
 	// Map Tool
 	vector<IDirect3DBaseTexture9*>		m_pCubeTexture;
@@ -55,6 +57,15 @@ private:
 	_int								m_iSpawnCapacity;
 	_float								m_fSpawnRadius;
 	MONSTERTAG							m_eSpawnerTag;
+
+	_bool								m_bDisposable;
+
+	// Monster Tool
+
+	// Trap Tool
+	_uint								m_iSelected_index = 0;
+
+	// Environmanet Tool
 
 public:
 	virtual void		Free();

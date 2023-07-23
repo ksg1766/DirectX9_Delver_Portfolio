@@ -4,12 +4,12 @@
 #include "Blade_Trap_Attack.h"
 #include "Player.h"
 CBlade_Trap_Blade::CBlade_Trap_Blade(LPDIRECT3DDEVICE9 pGraphicDev)
-	: Engine::CGameObject(pGraphicDev)
+	: Engine::CTrap(pGraphicDev)
 {
 }
 
 CBlade_Trap_Blade::CBlade_Trap_Blade(const CBlade_Trap_Blade& rhs)
-	: Engine::CGameObject(rhs)
+	: Engine::CTrap(rhs)
 {
 }
 
@@ -20,6 +20,7 @@ CBlade_Trap_Blade::~CBlade_Trap_Blade()
 HRESULT CBlade_Trap_Blade::Ready_Object(void)
 {
 	m_eObjectTag = OBJECTTAG::MONSTER;
+	m_eTrapTag = TRAPTAG::TRAP_END;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	CState* pState = CBlade_Trap_Idle::Create(m_pGraphicDev, m_pStateMachine);
@@ -45,8 +46,12 @@ HRESULT CBlade_Trap_Blade::Ready_Object(void)
 _int CBlade_Trap_Blade::Update_Object(const _float& fTimeDelta)
 {
 	Engine::Renderer()->Add_RenderGroup(RENDER_ALPHA, this);
+	_uint iExit = 0;
+	if (SCENETAG::EDITOR == SceneManager()->Get_Scene()->Get_SceneTag())
+		return iExit;
+
 	if (SceneManager()->Get_GameStop()) { return 0; }
-	_uint iExit = __super::Update_Object(fTimeDelta);
+	iExit = __super::Update_Object(fTimeDelta);
 	m_pStateMachine->Update_StateMachine(fTimeDelta);
 	m_fHitTime += fTimeDelta;
 	if ((m_bHit)&&(1.5f < m_fHitTime))

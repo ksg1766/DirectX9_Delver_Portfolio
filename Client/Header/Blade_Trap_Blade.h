@@ -1,15 +1,17 @@
 #pragma once
-#include "GameObject.h"
+#include "Trap.h"
 
 BEGIN(Engine)
+
 class CRcTex;
 class CTexture;
 class CStateMachine;
 class CAnimator;
+
 END
 
 class CBlade_Trap_Blade :
-    public CGameObject
+    public CTrap
 {
 private:
 	explicit	CBlade_Trap_Blade(LPDIRECT3DDEVICE9	pGraphicDev);
@@ -25,15 +27,17 @@ public:
 	void		Set_Collider();
 	void		Set_TrapCenter(_vec3 _vCenter) { m_vTrapCenter = _vCenter; }
 	_vec3		Get_TrapCenter() { return m_vTrapCenter; }
+
 public:
-	virtual void		OnCollisionEnter(CCollider* _pOther);
-	virtual void		OnCollisionStay(CCollider* _pOther);
-	virtual void		OnCollisionExit(CCollider* _pOther);
+	virtual void	OnCollisionEnter(CCollider* _pOther);
+	virtual void	OnCollisionStay(CCollider* _pOther);
+	virtual void	OnCollisionExit(CCollider* _pOther);
+
 private:
-	CRcTex* m_pBuffer = nullptr;
-	CTexture* m_pTexture[(_uint)STATE::STATE_END] = {};
-	CStateMachine* m_pStateMachine = nullptr;
-	CAnimator* m_pAnimator = nullptr;
+	CRcTex*			m_pBuffer = nullptr;
+	CTexture*		m_pTexture[(_uint)STATE::STATE_END] = {};
+	CStateMachine*	m_pStateMachine = nullptr;
+	CAnimator*		m_pAnimator = nullptr;
 	CGameObject*	m_pOtherObj = nullptr;
 	_vec3			m_vPlayerPos;
 	_vec3			m_vDir;
@@ -43,6 +47,7 @@ private:
 	_float			m_fHitTime;
 	_bool			m_bHit;
 	_bool			m_bCollider;
+
 private:
 	HRESULT		Add_Component(void);
 

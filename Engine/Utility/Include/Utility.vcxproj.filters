@@ -157,14 +157,8 @@
     <Filter Include="04. Component\01. VIBuffer\04. CubeBf\00. CubeColBf">
       <UniqueIdentifier>{30cfb3e9-9adf-4b38-a7ea-b2a43f671f0a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. GameObject\08. TempParticle">
-      <UniqueIdentifier>{b2c99087-7617-4998-babc-babeb393dc45}</UniqueIdentifier>
-    </Filter>
     <Filter Include="04. Component\15. Font">
       <UniqueIdentifier>{4d0a9887-64b4-43b0-9602-3c267433c73d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. GameObject\09. TempEffect">
-      <UniqueIdentifier>{2899eed3-4d96-4afa-a6a2-c7f5779f9867}</UniqueIdentifier>
     </Filter>
     <Filter Include="00. Managers\09. Octree">
       <UniqueIdentifier>{2370993b-41c7-4b5d-a6dd-e0fa4f223fba}</UniqueIdentifier>
@@ -189,6 +183,15 @@
     </Filter>
     <Filter Include="04. Component\01. VIBuffer\06. DynamicBf">
       <UniqueIdentifier>{125f1a40-7836-4e35-910e-ff7f85b69cd6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\09. TempParticle">
+      <UniqueIdentifier>{b2c99087-7617-4998-babc-babeb393dc45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\10. TempEffect">
+      <UniqueIdentifier>{2899eed3-4d96-4afa-a6a2-c7f5779f9867}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\11. Trap">
+      <UniqueIdentifier>{68fc3bbb-1788-4acb-8e9a-2638024c0049}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -331,7 +334,7 @@
       <Filter>03. GameObject\08. NPC</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Header\TempParticle.h">
-      <Filter>03. GameObject\08. TempParticle</Filter>
+      <Filter>03. GameObject\09. TempParticle</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Header\Frustum.h">
       <Filter>00. Managers\09. Octree\02. Frustum</Filter>
@@ -340,13 +343,16 @@
       <Filter>04. Component\15. Font</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Header\TempEffect.h">
-      <Filter>03. GameObject\09. TempEffect</Filter>
+      <Filter>03. GameObject\10. TempEffect</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Header\Material.h">
       <Filter>04. Component\16. Material</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Header\DynamicBf.h">
       <Filter>04. Component\01. VIBuffer\06. DynamicBf</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Header\Trap.h">
+      <Filter>03. GameObject\11. Trap</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -486,7 +492,7 @@
       <Filter>03. GameObject\08. NPC</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\TempParticle.cpp">
-      <Filter>03. GameObject\08. TempParticle</Filter>
+      <Filter>03. GameObject\09. TempParticle</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Font.cpp">
       <Filter>04. Component\15. Font</Filter>
@@ -495,13 +501,16 @@
       <Filter>00. Managers\09. Octree\02. Frustum</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\TempEffect.cpp">
-      <Filter>03. GameObject\09. TempEffect</Filter>
+      <Filter>03. GameObject\10. TempEffect</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Material.cpp">
       <Filter>04. Component\16. Material</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\DynamicBf.cpp">
       <Filter>04. Component\01. VIBuffer\06. DynamicBf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Trap.cpp">
+      <Filter>03. GameObject\11. Trap</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

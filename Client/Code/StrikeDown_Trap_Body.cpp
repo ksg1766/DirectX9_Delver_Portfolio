@@ -2,12 +2,12 @@
 #include "Export_Function.h"
 #include "Player.h"
 CStrikeDown_Trap::CStrikeDown_Trap(LPDIRECT3DDEVICE9 pGraphicDev)
-	: Engine::CGameObject(pGraphicDev)
+	: Engine::CTrap(pGraphicDev)
 {
 }
 
 CStrikeDown_Trap::CStrikeDown_Trap(const CStrikeDown_Trap& rhs)
-	:Engine::CGameObject(rhs)
+	:Engine::CTrap(rhs)
 {
 }
 
@@ -18,6 +18,7 @@ CStrikeDown_Trap::~CStrikeDown_Trap()
 HRESULT CStrikeDown_Trap::Ready_Object(void)
 {
 	m_eObjectTag = OBJECTTAG::MONSTER;
+	m_eTrapTag = TRAPTAG::STRIKEDOWN;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	m_pTransform->Scale(_vec3(2.f, 2.5f, 2.f));
@@ -27,14 +28,20 @@ HRESULT CStrikeDown_Trap::Ready_Object(void)
 	m_fInitialHeight = false;
 	m_bPlayerHit = false;
 	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale() * 0.9f);
+	m_pTransform->Translate(_vec3(0.f, 1.5f, 0.f));
+
 	return S_OK;
 }
 
 _int CStrikeDown_Trap::Update_Object(const _float& fTimeDelta)
 {
 	Engine::Renderer()->Add_RenderGroup(RENDER_NONALPHA, this);
+	_uint iExit = 0;
+	if (SCENETAG::EDITOR == SceneManager()->Get_Scene()->Get_SceneTag())
+		return iExit;
+
 	if (SceneManager()->Get_GameStop()) { return 0; }
-	_uint iExit = __super::Update_Object(fTimeDelta);
+	iExit = __super::Update_Object(fTimeDelta);
 	m_fTime += fTimeDelta;
 	Ground_Pounding(fTimeDelta);
 	return iExit;
@@ -128,7 +135,6 @@ HRESULT CStrikeDown_Trap::Add_Component(void)
 	pComponent = m_pCollider = dynamic_cast<CCollider*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Collider"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::COLLIDER, pComponent);
-
 
 	pComponent = dynamic_cast<CRigidBody*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_RigidBody"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);

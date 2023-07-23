@@ -3,12 +3,12 @@
 #include "Blade_Trap_Blade.h"
 
 CBlade_Trap::CBlade_Trap(LPDIRECT3DDEVICE9 pGraphicDev)
-	: Engine::CGameObject(pGraphicDev)
+	: Engine::CTrap(pGraphicDev)
 {
 }
 
 CBlade_Trap::CBlade_Trap(const CBlade_Trap& rhs)
-	:Engine::CGameObject(rhs)
+	:Engine::CTrap(rhs)
 {
 }
 
@@ -19,6 +19,7 @@ CBlade_Trap::~CBlade_Trap()
 HRESULT CBlade_Trap::Ready_Object(void)
 {
 	m_eObjectTag = OBJECTTAG::MONSTER;
+	m_eTrapTag = TRAPTAG::BLADE;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	m_pTransform->Scale(_vec3(1.f, 0.2f, 1.f));
@@ -41,6 +42,8 @@ HRESULT CBlade_Trap::Ready_Object(void)
 	m_vBladeDir[5] = _vec3(0.f, 30.f, 0.f);//¿ÞÂÊ
 	m_vBladeDir[6] = _vec3(0.f, 30.f, 0.f);//°¡¿îµ¥
 
+	m_pTransform->Translate(_vec3(0.f, -0.8f, 0.f));
+
 	m_bSpawnBlade = false;
 
 	return S_OK;
@@ -49,8 +52,14 @@ HRESULT CBlade_Trap::Ready_Object(void)
 _int CBlade_Trap::Update_Object(const _float& fTimeDelta)
 {
 	Engine::Renderer()->Add_RenderGroup(RENDER_NONALPHA, this);
+	_uint iExit = 0;
+	if (SCENETAG::EDITOR == SceneManager()->Get_Scene()->Get_SceneTag())
+		return iExit;
+
 	if (SceneManager()->Get_GameStop()) { return 0; }
-	_uint iExit = __super::Update_Object(fTimeDelta);
+
+	iExit = __super::Update_Object(fTimeDelta);
+
 	return iExit;
 }
 

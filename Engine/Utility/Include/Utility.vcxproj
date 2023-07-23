@@ -234,6 +234,7 @@ call CopyUtility.bat</Command>
     <ClInclude Include="..\..\Header\TerrainTex.h" />
     <ClInclude Include="..\..\Header\Texture.h" />
     <ClInclude Include="..\..\Header\Transform.h" />
+    <ClInclude Include="..\..\Header\Trap.h" />
     <ClInclude Include="..\..\Header\UIManager.h" />
     <ClInclude Include="..\..\Header\VIBuffer.h" />
     <ClInclude Include="..\..\Header\WarriorAI.h" />
@@ -293,6 +294,7 @@ call CopyUtility.bat</Command>
     <ClCompile Include="..\Code\TerrainTex.cpp" />
     <ClCompile Include="..\Code\Texture.cpp" />
     <ClCompile Include="..\Code\Transform.cpp" />
+    <ClCompile Include="..\Code\Trap.cpp" />
     <ClCompile Include="..\Code\UIManager.cpp" />
     <ClCompile Include="..\Code\VIBuffer.cpp" />
     <ClCompile Include="..\Code\WarriorAI.cpp" />

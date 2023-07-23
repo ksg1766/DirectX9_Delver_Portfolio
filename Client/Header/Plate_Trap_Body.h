@@ -1,15 +1,18 @@
 #pragma once
-#include "GameObject.h"
+#include "Trap.h"
+#include "Engine_Define.h"
 
 BEGIN(Engine)
+
 class CCubeBf;
 class CTexture;
 class CStateMachine;
 class CTempEffect;
+
 END
 
 class CPlate_Trap :
-    public CGameObject
+    public CTrap
 {
 private:
 	explicit	CPlate_Trap(LPDIRECT3DDEVICE9	pGraphicDev);

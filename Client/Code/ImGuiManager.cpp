@@ -5,6 +5,9 @@
 #include "FlyingCamera.h"
 #include "CubeBlock.h"
 #include "SpawningPool.h"
+#include "StrikeDown_Trap_Body.h"
+#include "Blade_Trap_Body.h"
+#include "Plate_Trap_Body.h"
 
 IMPLEMENT_SINGLETON(CImGuiManager)
 
@@ -29,7 +32,7 @@ void CImGuiManager::Key_Input(const _float& fTimeDelta)
 
         if (!ImGui::GetIO().WantCaptureMouse)
         {
-            if (MAP == m_eToolMode)
+            if (MAP == m_eToolMode || TRAP == m_eToolMode)
                 vOut = PickingBlock();
             else if (SPAWNER == m_eToolMode)
             {
@@ -66,6 +69,29 @@ void CImGuiManager::Key_Input(const _float& fTimeDelta)
             dynamic_cast<CSpawningPool*>(pGameObject)->Set_MonsterTag(m_eSpawnerTag);
             dynamic_cast<CSpawningPool*>(pGameObject)->Set_PoolCapacity(m_iSpawnCapacity);
             dynamic_cast<CSpawningPool*>(pGameObject)->Set_SpawnRadius(m_fSpawnRadius);
+            pGameObject->m_pTransform->Translate(vOut);
+            EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+        }
+        else if (TRAP == m_eToolMode)
+        {
+            switch (m_iSelected_index)
+            {
+            case 0:
+                pGameObject = CBlade_Trap::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+                dynamic_cast<CBlade_Trap*>(pGameObject)->Create_Blade();
+                break;
+
+            case 1:
+                pGameObject = CStrikeDown_Trap::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+                dynamic_cast<CStrikeDown_Trap*>(pGameObject)->Set_InitailHeight(15.f);
+                break;
+
+            case 2:
+                pGameObject = CPlate_Trap::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+                break;
+            }
+
+            NULL_CHECK_RETURN(pGameObject);
             pGameObject->m_pTransform->Translate(vOut);
             EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
         }
@@ -268,8 +294,6 @@ _vec3 CImGuiManager::PickingSpawner()
         return vFinalPos;
     else
     {
-        //CTerrain* pTerrain = dynamic_cast<CTerrain*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::TERRAIN).front());
-
         POINT		ptMouse{};
         GetCursorPos(&ptMouse);
         ScreenToClient(g_hWnd, &ptMouse);
@@ -347,6 +371,11 @@ _vec3 CImGuiManager::PickingSpawner()
     return vFinalPos;
 }
 
+_vec3 CImGuiManager::PickingTrap()
+{
+    return _vec3();
+}
+
 HRESULT CImGuiManager::SetUp_ImGui()
 {
 	IMGUI_CHECKVERSION();
@@ -360,7 +389,7 @@ HRESULT CImGuiManager::SetUp_ImGui()
 
 	ImGui_ImplWin32_Init(g_hWnd);
 	ImGui_ImplDX9_Init(Engine::CGraphicDev::GetInstance()->Get_GraphicDev());
-   
+
     // resources
     CTexture* pCubeTexture = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_Tile"));
     m_pCubeTexture = pCubeTexture->Get_TextureList();
@@ -391,46 +420,46 @@ void CImGuiManager::LateUpdate_ImGui()
     ImGui::NewFrame();
 
     // demo
-#pragma region demo
-
-    // 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
-    if (show_demo_window)
-        ImGui::ShowDemoWindow(&show_demo_window);
-
-    // 2. Show a simple window that we create ourselves. We use a Begin/End pair to create a named window.
-    {
-        static float f = 0.0f;
-        static int counter = 0;
-
-        ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
-
-        ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
-        ImGui::Checkbox("Demo Window", &show_demo_window);      // Edit bools storing our window open/close state
-        ImGui::Checkbox("Another Window", &show_another_window);
-
-        ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
-        ImGui::ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats representing a color
-
-        if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
-            counter++;
-        ImGui::SameLine();
-        ImGui::Text("counter = %d", counter);
-
-        ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-        ImGui::End();
-    }
-
-    // 3. Show another simple window.
-    if (show_another_window)
-    {
-        ImGui::Begin("Another Window", &show_another_window);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
-        ImGui::Text("Hello from another window!");
-        if (ImGui::Button("Close Me"))
-            show_another_window = false;
-        ImGui::End();
-    }
-    
-#pragma endregion demo
+//#pragma region demo
+//
+//    // 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
+//    if (show_demo_window)
+//        ImGui::ShowDemoWindow(&show_demo_window);
+//
+//    // 2. Show a simple window that we create ourselves. We use a Begin/End pair to create a named window.
+//    {
+//        static float f = 0.0f;
+//        static int counter = 0;
+//
+//        ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
+//
+//        ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
+//        ImGui::Checkbox("Demo Window", &show_demo_window);      // Edit bools storing our window open/close state
+//        ImGui::Checkbox("Another Window", &show_another_window);
+//
+//        ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
+//        ImGui::ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats representing a color
+//
+//        if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
+//            counter++;
+//        ImGui::SameLine();
+//        ImGui::Text("counter = %d", counter);
+//
+//        ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+//        ImGui::End();
+//    }
+//
+//    // 3. Show another simple window.
+//    if (show_another_window)
+//    {
+//        ImGui::Begin("Another Window", &show_another_window);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
+//        ImGui::Text("Hello from another window!");
+//        if (ImGui::Button("Close Me"))
+//            show_another_window = false;
+//        ImGui::End();
+//    }
+//    
+//#pragma endregion demo
 
     _bool map_tool_window = true;
 
@@ -503,6 +532,7 @@ void CImGuiManager::LateUpdate_ImGui()
 
                     ImGui::EndTabItem();
                 }
+
                 if (ImGui::BeginTabItem("Spawner"))
                 {
                     m_eToolMode = SPAWNER;
@@ -518,6 +548,33 @@ void CImGuiManager::LateUpdate_ImGui()
                     ImGui::SliderFloat("Spawner Timer", &m_fSpawnTime, 1.f, 40.f, "%0.1f");
                     ImGui::SliderFloat("Spawner Radius", &m_fSpawnRadius, 1.f, 50.f, "%0.1f");
                     ImGui::SliderInt("Spawner Capacity", &m_iSpawnCapacity, 1, 20, "%d", ImGuiSliderFlags_Logarithmic);
+
+                    ImGui::NewLine();
+
+                    if (ImGui::Button("Mode"))
+                        ++m_iPickingMode %= 3;
+
+                    if (0 == m_iPickingMode)
+                        ImGui::Text("None");
+                    else if (1 == m_iPickingMode)
+                        ImGui::Text("Place");
+                    else
+                        ImGui::Text("Erase");
+
+                    ImGui::EndTabItem();
+                }
+
+                if (ImGui::BeginTabItem("Trap"))
+                {
+                    m_eToolMode = TRAP;
+                    //m_iPickingMode = 0;
+                    ImGuiIO& io = ImGui::GetIO();
+
+                    const char* items[] = { "Blade", "StrikeDown", "Plate"};
+                    static _int item_current = 1;
+                    ImGui::ListBox("MonsterList", &item_current, items, IM_ARRAYSIZE(items), 3);
+
+                    m_iSelected_index = item_current;
 
                     ImGui::NewLine();
 
@@ -554,7 +611,7 @@ HRESULT CImGuiManager::OnSaveData()
 {
     CScene* pScene = SceneManager()->Get_Scene();
 
-    HANDLE hFile = CreateFile(L"../Bin/Data/TerrainGiantTree10.dat", GENERIC_WRITE, 0, 0, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0);
+    HANDLE hFile = CreateFile(L"../Bin/Data/Sewer_TrapTest.dat", GENERIC_WRITE, 0, 0, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0);
 
     if (INVALID_HANDLE_VALUE == hFile)
         return E_FAIL;
@@ -622,6 +679,26 @@ HRESULT CImGuiManager::OnSaveData()
                 WriteFile(hFile, &m_fSpawnTime, sizeof(_float), &dwByte, nullptr);
             }
         }
+        else if (OBJECTTAG::MONSTER == (OBJECTTAG)i) // Æ®·¦¸¸
+        {
+            vector<CGameObject*>& vecObjList = pScene->Get_ObjectList(LAYERTAG::GAMELOGIC, (OBJECTTAG)i);
+            for (auto& iter : vecObjList)
+            {
+                if (iter->m_pTransform->m_vInfo[INFO_POS].y < -10000.f)
+                    continue;
+
+                eTag = iter->Get_ObjectTag();
+                TRAPTAG eTrapTag = dynamic_cast<CTrap*>(iter)->Get_TrapTag();
+                if (TRAPTAG::TRAP_END == eTrapTag)
+                    continue;
+
+                WriteFile(hFile, &eTag, sizeof(OBJECTTAG), &dwByte, nullptr);
+                WriteFile(hFile, &(iter->m_pTransform->m_vInfo[INFO_POS].x), sizeof(_float), &dwByte, nullptr);
+                WriteFile(hFile, &(iter->m_pTransform->m_vInfo[INFO_POS].y), sizeof(_float), &dwByte, nullptr);
+                WriteFile(hFile, &(iter->m_pTransform->m_vInfo[INFO_POS].z), sizeof(_float), &dwByte, nullptr);
+                WriteFile(hFile, &eTrapTag, sizeof(TRAPTAG), &dwByte, nullptr);
+            }
+        }
     }
 
     CloseHandle(hFile);
@@ -639,7 +716,7 @@ HRESULT CImGuiManager::OnLoadData()
         refObjectList.clear();
     }
 
-    HANDLE hFile = CreateFile(L"../Bin/Data/TerrainGiantTree10.dat", GENERIC_READ, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
+    HANDLE hFile = CreateFile(L"../Bin/Data/Sewer_TrapTest.dat", GENERIC_READ, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
 
     if (INVALID_HANDLE_VALUE == hFile)
         return E_FAIL;
@@ -708,6 +785,45 @@ HRESULT CImGuiManager::OnLoadData()
             dynamic_cast<CSpawningPool*>(pGameObject)->Set_SpawnRadius(fSpawnRadius);
             dynamic_cast<CSpawningPool*>(pGameObject)->Set_SpawnTime(fSpawnTime);
             pGameObject->m_pTransform->Translate(_vec3(fX, fY, fZ));
+            pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+            //EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+        }
+        else if (OBJECTTAG::MONSTER == eTag) //Æ®·¦
+        {
+            // value°ª ÀúÀå
+            ReadFile(hFile, &fX, sizeof(_float), &dwByte, nullptr);
+            ReadFile(hFile, &fY, sizeof(_float), &dwByte, nullptr);
+            ReadFile(hFile, &fZ, sizeof(_float), &dwByte, nullptr);
+
+            TRAPTAG eTrapTag;
+            ReadFile(hFile, &eTrapTag, sizeof(TRAPTAG), &dwByte, nullptr);
+
+            if (0 == dwByte)
+                break;
+
+            CGameObject* pGameObject = nullptr;
+
+            switch(eTrapTag)
+            {
+            case TRAPTAG::BLADE:
+                pGameObject = CBlade_Trap::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+                dynamic_cast<CBlade_Trap*>(pGameObject)->Create_Blade();
+                NULL_CHECK_RETURN(pGameObject, E_FAIL);
+                break;
+
+            case TRAPTAG::STRIKEDOWN:
+                pGameObject = CStrikeDown_Trap::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+                dynamic_cast<CStrikeDown_Trap*>(pGameObject)->Set_InitailHeight(15.f);
+                NULL_CHECK_RETURN(pGameObject, E_FAIL);
+                break;
+
+            case TRAPTAG::PLATE:
+                pGameObject = CPlate_Trap::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+                NULL_CHECK_RETURN(pGameObject, E_FAIL);
+                break;
+            }
+            pGameObject->m_pTransform->m_vInfo[INFO_POS] = _vec3(fX, fY, fZ);
+            //pGameObject->m_pTransform->Translate(_vec3(fX, fY, fZ));
             pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
             //EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
         }

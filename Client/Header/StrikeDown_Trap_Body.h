@@ -1,15 +1,18 @@
 #pragma once
-#include "GameObject.h"
+#include "Trap.h"
 
 BEGIN(Engine)
+
 class CCubeBf;
 class CTexture;
 class CStateMachine;
+
 END
+
 class CStrikeDown_Trap_Blade;
 
 class CStrikeDown_Trap :
-    public CGameObject
+	public CTrap
 {
 private:
 	explicit	CStrikeDown_Trap(LPDIRECT3DDEVICE9	pGraphicDev);
@@ -24,6 +27,7 @@ public:
 
 	void		Ground_Pounding(const _float& fTimeDelta);
 	void		Set_InitailHeight(_float _Height) { m_fInitialHeight = _Height; }
+
 public:
 	virtual void		OnCollisionEnter(CCollider* _pOther);
 	virtual void		OnCollisionStay(CCollider* _pOther);
@@ -38,6 +42,7 @@ private:
 	_bool			m_bAttack;
 	_bool			m_bCollisonBlock;
 	_bool			m_bPlayerHit;
+
 private:
 	HRESULT		Add_Component(void);
 

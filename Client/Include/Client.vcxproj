@@ -256,9 +256,6 @@
     <ClInclude Include="..\Header\PoolManager.h" />
     <ClInclude Include="..\Header\Plate_Trap_Body.h" />
     <ClInclude Include="..\Header\Pot.h" />
-    <ClInclude Include="..\Header\Projectile_Trap_Arrow.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClInclude>
     <ClInclude Include="..\Header\SkyBoxVillage.h" />
     <ClInclude Include="..\Header\SoundManager.h" />
     <ClInclude Include="..\Header\StrikeDown_Trap_Body.h" />
@@ -459,9 +456,6 @@
     <ClCompile Include="..\Code\PoolManager.cpp" />
     <ClCompile Include="..\Code\Plate_Trap_Body.cpp" />
     <ClCompile Include="..\Code\Pot.cpp" />
-    <ClCompile Include="..\Code\Projectile_Trap_Arrow.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="..\Code\SkyBoxVillage.cpp" />
     <ClCompile Include="..\Code\SoundManager.cpp" />
     <ClCompile Include="..\Code\StrikeDown_Trap_Body.cpp" />

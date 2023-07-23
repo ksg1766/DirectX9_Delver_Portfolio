@@ -3,13 +3,14 @@
 #include "Player.h"
 #include "BossExplosion.h"
 #include "Item.h"
+
 CPlate_Trap::CPlate_Trap(LPDIRECT3DDEVICE9 pGraphicDev)
-	: Engine::CGameObject(pGraphicDev)
+	: Engine::CTrap(pGraphicDev)
 {
 }
 
 CPlate_Trap::CPlate_Trap(const CPlate_Trap& rhs)
-	:Engine::CGameObject(rhs)
+	:Engine::CTrap(rhs)
 {
 }
 
@@ -20,19 +21,28 @@ CPlate_Trap::~CPlate_Trap()
 HRESULT CPlate_Trap::Ready_Object(void)
 {
 	m_eObjectTag = OBJECTTAG::MONSTER;
+	m_eTrapTag = TRAPTAG::PLATE;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 	m_pTransform->Scale(_vec3(0.4f, 0.15f, 0.4f));
 	m_fTime = 0.f;
 	m_bAttack = false;
 	m_fInitialHeight = false;
+
+	m_pTransform->Translate(_vec3(0.0f, -0.85f, 0.0f));
+
 	return S_OK;
 }
 
 _int CPlate_Trap::Update_Object(const _float& fTimeDelta)
 {
 	Engine::Renderer()->Add_RenderGroup(RENDER_NONALPHA, this);
+
+	_uint iExit = 0;
+	if (SCENETAG::EDITOR == SceneManager()->Get_Scene()->Get_SceneTag())
+		return iExit;
+
 	if (SceneManager()->Get_GameStop()) { return 0; }
-	_uint iExit = __super::Update_Object(fTimeDelta);
+	iExit = __super::Update_Object(fTimeDelta);
 	m_fTime += fTimeDelta;
 	if (m_bAttack)
 		Trap_On();
@@ -115,10 +125,6 @@ HRESULT CPlate_Trap::Add_Component(void)
 	pComponent = m_pTransform = dynamic_cast<CTransform*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Transform"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::TRANSFORM, pComponent);
-
-	pComponent = dynamic_cast<CBillBoard*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BillBoard"));
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BILLBOARD, pComponent);
 
 	pComponent = m_pCollider = dynamic_cast<CCollider*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Collider"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);

@@ -328,33 +328,6 @@
     <Filter Include="03. GameObject\01. Stage\08. Trap">
       <UniqueIdentifier>{04e20ed8-f87f-42ff-936e-ccbf86fc9d76}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. GameObject\01. Stage\08. Trap\00. Blade_Trap">
-      <UniqueIdentifier>{5710f7e4-a69a-464b-ba9c-642b736f8881}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. GameObject\01. Stage\08. Trap\00. Blade_Trap\00. Trap_Body">
-      <UniqueIdentifier>{91ac1019-978d-42fe-8ac0-0b92b92e0707}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. GameObject\01. Stage\08. Trap\00. Blade_Trap\01. Trap_Blade">
-      <UniqueIdentifier>{b69ff1ab-c6e4-4fb1-be5e-1c63c7834fd3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. GameObject\01. Stage\08. Trap\00. Blade_Trap\01. Trap_Blade\00. State">
-      <UniqueIdentifier>{25766413-5d61-490c-baf1-cc2eaf67f7a7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. GameObject\01. Stage\08. Trap\00. Blade_Trap\01. Trap_Blade\00. State\00. Idle">
-      <UniqueIdentifier>{2404dd0a-c763-49e1-9283-44390951428a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. GameObject\01. Stage\08. Trap\00. Blade_Trap\01. Trap_Blade\00. State\01. Attack">
-      <UniqueIdentifier>{ae417934-7b96-4c8c-b275-77601d705dac}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. GameObject\01. Stage\08. Trap\01. Projectile_Trap">
-      <UniqueIdentifier>{d5e15b02-90b9-44b3-a954-84cd7644e8c4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. GameObject\01. Stage\08. Trap\01. Projectile_Trap\00. Trap_Body">
-      <UniqueIdentifier>{f094fe46-6c35-4f75-9d23-1aca8c88bf1e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. GameObject\01. Stage\08. Trap\01. Projectile_Trap\01. Trap_Arrow">
-      <UniqueIdentifier>{c4edad17-6239-450c-8368-170f49310cda}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03. GameObject\03. UI">
       <UniqueIdentifier>{1c8840b6-6cdc-4119-837e-ed3c510cef0c}</UniqueIdentifier>
     </Filter>
@@ -577,9 +550,6 @@
     <Filter Include="03. GameObject\01. Stage\02. Item\Lamp">
       <UniqueIdentifier>{ffc822e3-3e08-4480-8023-5607307e35fe}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. GameObject\01. Stage\08. Trap\02. Plate_Trap">
-      <UniqueIdentifier>{7cd0334d-2420-4a05-888e-7a525bd2e474}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03. GameObject\01. Stage\06. Fragile">
       <UniqueIdentifier>{f80da405-3d15-47cc-a679-1031547e40ef}</UniqueIdentifier>
     </Filter>
@@ -711,6 +681,33 @@
     </Filter>
     <Filter Include="03. GameObject\01. Stage\999. Boss\02. State\03. Attack\01. 2Phase\06. MeteorPh2">
       <UniqueIdentifier>{89989c8c-15af-46fc-9415-6dcdda03023f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\01. Stage\08. Trap\00. Blade_Trap">
+      <UniqueIdentifier>{5710f7e4-a69a-464b-ba9c-642b736f8881}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\01. Stage\08. Trap\00. Blade_Trap\00. Trap_Body">
+      <UniqueIdentifier>{91ac1019-978d-42fe-8ac0-0b92b92e0707}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\01. Stage\08. Trap\00. Blade_Trap\01. Trap_Blade">
+      <UniqueIdentifier>{b69ff1ab-c6e4-4fb1-be5e-1c63c7834fd3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\01. Stage\08. Trap\00. Blade_Trap\01. Trap_Blade\00. State">
+      <UniqueIdentifier>{25766413-5d61-490c-baf1-cc2eaf67f7a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\01. Stage\08. Trap\00. Blade_Trap\01. Trap_Blade\00. State\00. Idle">
+      <UniqueIdentifier>{2404dd0a-c763-49e1-9283-44390951428a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\01. Stage\08. Trap\00. Blade_Trap\01. Trap_Blade\00. State\01. Attack">
+      <UniqueIdentifier>{ae417934-7b96-4c8c-b275-77601d705dac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\01. Stage\08. Trap\01. StrikeDown_Trap">
+      <UniqueIdentifier>{d5e15b02-90b9-44b3-a954-84cd7644e8c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\01. Stage\08. Trap\01. StrikeDown_Trap\00. Trap_Body">
+      <UniqueIdentifier>{f094fe46-6c35-4f75-9d23-1aca8c88bf1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\01. Stage\08. Trap\02. Plate_Trap">
+      <UniqueIdentifier>{7cd0334d-2420-4a05-888e-7a525bd2e474}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1115,9 +1112,6 @@
     </ClInclude>
     <ClInclude Include="..\Header\FootRay.h">
       <Filter>03. GameObject\01. Stage\01. Player\02. Ray</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\Projectile_Trap_Arrow.h">
-      <Filter>03. GameObject\01. Stage\08. Trap\01. Projectile_Trap\01. Trap_Arrow</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\EffectExplosionChild.h">
       <Filter>03. GameObject\07. Effect\06. EffectExplosion\00. EffectExplosionChild</Filter>
@@ -1773,9 +1767,6 @@
     </ClCompile>
     <ClCompile Include="..\Code\FootRay.cpp">
       <Filter>03. GameObject\01. Stage\01. Player\02. Ray</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\Projectile_Trap_Arrow.cpp">
-      <Filter>03. GameObject\01. Stage\08. Trap\01. Projectile_Trap\01. Trap_Arrow</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\EffectExplosionChild.cpp">
       <Filter>03. GameObject\07. Effect\06. EffectExplosion\00. EffectExplosionChild</Filter>
