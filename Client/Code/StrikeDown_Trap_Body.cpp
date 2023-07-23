@@ -25,9 +25,9 @@ HRESULT CStrikeDown_Trap::Ready_Object(void)
 	m_fTime = 0.f;
 	m_bAttack = false;
 	m_bCollisonBlock = false;
-	m_fInitialHeight = false;
+	m_fInitialHeight = 0.f;
 	m_bPlayerHit = false;
-	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale() * 0.9f);
+	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale() * 1.1f);
 	m_pTransform->Translate(_vec3(0.f, 1.5f, 0.f));
 
 	return S_OK;
@@ -63,11 +63,13 @@ void CStrikeDown_Trap::Render_Object(void)
 
 void CStrikeDown_Trap::Ground_Pounding(const _float& fTimeDelta)
 {
-	if((!m_bAttack)&&(5.f < m_fTime))
+	if ((!m_bAttack) && (5.f < m_fTime)) // 공격상태가 아니고 5초 이상 경과면 하강
+	{
 		m_pTransform->Translate(_vec3(0.f, -0.3f, 0.f));
+		m_bPlayerHit = true;
+	}
 	else if (m_bCollisonBlock)
 	{
-		m_bPlayerHit = true;
 		m_pTransform->Translate(_vec3(0.f, (2.5f * fTimeDelta), 0.f));
 	}
 	if (m_fInitialHeight < m_pTransform->m_vInfo[INFO_POS].y)
@@ -87,7 +89,7 @@ void CStrikeDown_Trap::OnCollisionEnter(CCollider* _pOther)
 	m_pOtherObj = _pOther->GetHost();
 	if (OBJECTTAG::BLOCK == m_pOtherObj->Get_ObjectTag())
 	{
-		m_pTransform->m_vInfo[INFO_POS].y = m_pOtherObj->m_pTransform->m_vInfo[INFO_POS].y+1.f;
+		m_pTransform->m_vInfo[INFO_POS].y = m_pOtherObj->m_pTransform->m_vInfo[INFO_POS].y + 1.f;
 		m_bAttack = true;
 		m_bCollisonBlock = true;
 		m_bPlayerHit = false;

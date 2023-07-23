@@ -1119,12 +1119,6 @@
     <ClInclude Include="..\Header\Blade_Trap_Attack.h">
       <Filter>03. GameObject\01. Stage\08. Trap\00. Blade_Trap\01. Trap_Blade\00. State\01. Attack</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\Blade_Trap_Body.h">
-      <Filter>03. GameObject\01. Stage\08. Trap\00. Blade_Trap\00. Trap_Body</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\Blade_Trap_Blade.h">
-      <Filter>03. GameObject\01. Stage\08. Trap\00. Blade_Trap\01. Trap_Blade</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\HorizontalMove.h">
       <Filter>03. GameObject\01. Stage\05. Monster\00. State\Public\Move</Filter>
     </ClInclude>
@@ -1199,9 +1193,6 @@
     <ClInclude Include="..\Header\Plate_Trap_Body.h">
       <Filter>99. Etc\헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\StrikeDown_Trap_Body.h">
-      <Filter>99. Etc\헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\EffectTwinkle.h">
       <Filter>03. GameObject\07. Effect\08. EffectTwinkle</Filter>
     </ClInclude>
@@ -1259,17 +1250,11 @@
     <ClInclude Include="..\Header\RandomPotion.h">
       <Filter>03. GameObject\01. Stage\02. Item\Consumable\RandomPotion</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\FirePattern.h">
-      <Filter>03. GameObject\01. Stage\999. Boss\02. State\03. Attack\01. FirePattern</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\Chease.h">
       <Filter>03. GameObject\01. Stage\02. Item\Consumable</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\BossProjectile.h">
       <Filter>03. GameObject\01. Stage\999. Boss\01. AttackEff\01. AttackFire</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\StrikeDown_Trap_Body.h">
-      <Filter>03. GameObject\01. Stage\08. Trap\01. Projectile_Trap\00. Trap_Body</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Plate_Trap_Body.h">
       <Filter>03. GameObject\01. Stage\08. Trap\02. Plate_Trap</Filter>
@@ -1405,6 +1390,21 @@
     </ClInclude>
     <ClInclude Include="..\Header\Bonfire.h">
       <Filter>03. GameObject\02. Village\03. Bonfire</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\FirePattern.h">
+      <Filter>99. Etc\헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\StrikeDown_Trap_Body.h">
+      <Filter>03. GameObject\01. Stage\08. Trap\01. StrikeDown_Trap\00. Trap_Body</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\StrikeDown_Trap_Body.h">
+      <Filter>99. Etc\헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Blade_Trap_Body.h">
+      <Filter>03. GameObject\01. Stage\08. Trap\00. Blade_Trap\00. Trap_Body</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Blade_Trap_Blade.h">
+      <Filter>03. GameObject\01. Stage\08. Trap\00. Blade_Trap\01. Trap_Blade</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1789,12 +1789,6 @@
     <ClCompile Include="..\Code\Blade_Trap_Attack.cpp">
       <Filter>03. GameObject\01. Stage\08. Trap\00. Blade_Trap\01. Trap_Blade\00. State\01. Attack</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\Blade_Trap_Body.cpp">
-      <Filter>03. GameObject\01. Stage\08. Trap\00. Blade_Trap\00. Trap_Body</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\Blade_Trap_Blade.cpp">
-      <Filter>03. GameObject\01. Stage\08. Trap\00. Blade_Trap\01. Trap_Blade</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\HorizontalMove.cpp">
       <Filter>03. GameObject\01. Stage\05. Monster\00. State\Public\Move</Filter>
     </ClCompile>
@@ -1869,9 +1863,6 @@
     <ClCompile Include="..\Code\Plate_Trap_Body.cpp">
       <Filter>99. Etc\소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\StrikeDown_Trap_Body.cpp">
-      <Filter>99. Etc\소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\EffectTwinkle.cpp">
       <Filter>03. GameObject\07. Effect\08. EffectTwinkle</Filter>
     </ClCompile>
@@ -1929,17 +1920,11 @@
     <ClCompile Include="..\Code\RandomPotion.cpp">
       <Filter>03. GameObject\01. Stage\02. Item\Consumable\RandomPotion</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\FirePattern.cpp">
-      <Filter>03. GameObject\01. Stage\999. Boss\02. State\03. Attack\01. FirePattern</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\Chease.cpp">
       <Filter>03. GameObject\01. Stage\02. Item\Consumable</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\BossProjectile.cpp">
       <Filter>03. GameObject\01. Stage\999. Boss\01. AttackEff\01. AttackFire</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\StrikeDown_Trap_Body.cpp">
-      <Filter>03. GameObject\01. Stage\08. Trap\01. Projectile_Trap\00. Trap_Body</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Plate_Trap_Body.cpp">
       <Filter>03. GameObject\01. Stage\08. Trap\02. Plate_Trap</Filter>
@@ -2048,6 +2033,21 @@
     </ClCompile>
     <ClCompile Include="..\Code\Bonfire.cpp">
       <Filter>03. GameObject\02. Village\03. Bonfire</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\FirePattern.cpp">
+      <Filter>99. Etc\소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\StrikeDown_Trap_Body.cpp">
+      <Filter>03. GameObject\01. Stage\08. Trap\01. StrikeDown_Trap\00. Trap_Body</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\StrikeDown_Trap_Body.cpp">
+      <Filter>99. Etc\소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Blade_Trap_Body.cpp">
+      <Filter>03. GameObject\01. Stage\08. Trap\00. Blade_Trap\00. Trap_Body</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Blade_Trap_Blade.cpp">
+      <Filter>03. GameObject\01. Stage\08. Trap\00. Blade_Trap\01. Trap_Blade</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

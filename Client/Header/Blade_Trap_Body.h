@@ -1,15 +1,11 @@
 #pragma once
 #include "Trap.h"
-#include "Engine_Define.h"
 
 BEGIN(Engine)
-
 class CCubeBf;
 class CTexture;
 class CStateMachine;
-
 END
-
 class CBlade_Trap_Blade;
 
 class CBlade_Trap :
@@ -21,13 +17,12 @@ private:
 	virtual		~CBlade_Trap();
 
 public:
-	virtual HRESULT Ready_Object(void)						override;
-	virtual _int	Update_Object(const _float& fTimeDelta)	override;
-	virtual void	LateUpdate_Object(void)					override;
-	virtual void	Render_Object(void)						override;
+	virtual HRESULT Ready_Object(void) override;
+	virtual _int Update_Object(const _float& fTimeDelta) override;
+	virtual void LateUpdate_Object(void) override;
+	virtual void Render_Object(void) override;
 	
-	void			Create_Blade();
-
+	void		Create_Blade();
 private:
 	CCubeBf*		m_pCubeBf = nullptr;
 	CTexture*		m_pTexture = nullptr;
@@ -37,7 +32,6 @@ private:
 	_bool			m_bSpawnBlade;
 	_vec3			m_vBladePos[9];
 	_vec3			m_vBladeDir[7];
-
 private:
 	HRESULT		Add_Component(void);
 

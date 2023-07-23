@@ -196,11 +196,9 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	pGameObject = CPlayer::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 
-
 	//pGameObject->m_pTransform->Translate(_vec3(-40.f, 1.f,-40.f));
-	//pGameObject->m_pTransform->Translate(_vec3(0.f, 1.f, 0.f));
-	pGameObject->m_pTransform->Translate(_vec3(100.f, 10.f,0.f));
-
+	pGameObject->m_pTransform->Translate(_vec3(0.f, 1.f, 0.f));
+	//pGameObject->m_pTransform->Translate(_vec3(100.f, 10.f,0.f));
 
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 	m_pPlayer = dynamic_cast<CPlayer*>(pGameObject);
@@ -220,7 +218,19 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 
 	pGameObject = CJump_Plate::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pGameObject->m_pTransform->Translate(_vec3(-73.f, 34.5f, 25.f));
+	pGameObject->m_pTransform->Translate(_vec3(-2.f, 11.5f, -2.f));
+	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+
+	pGameObject = CBlade_Trap::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	pGameObject->m_pTransform->Translate(_vec3(-3.f, 11.5f, -3.f));
+	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+	dynamic_cast<CBlade_Trap*>(pGameObject)->Create_Blade();
+
+	pGameObject = CStrikeDown_Trap::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	pGameObject->m_pTransform->Translate(_vec3(-10.f, 30.f, 15.f));
+	dynamic_cast<CStrikeDown_Trap*>(pGameObject)->Set_InitailHeight(20.f);
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
 	// Npc Test
@@ -687,7 +697,7 @@ HRESULT CStage::Load_Data()
 				break;
 			}
 
-			pGameObject->m_pTransform->m_vInfo[INFO_POS] = _vec3(fX, fY, fZ);
+			pGameObject->m_pTransform->m_vInfo[INFO_POS] = _vec3(fX, fY + 1.f, fZ);
 			pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 			//EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 		}

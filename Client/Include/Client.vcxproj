@@ -123,7 +123,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>../../Reference/Library;C:\Users\JunYeop\Desktop\SR_team%28Delver%29\Client\fmode\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalLibraryDirectories>../../Reference/Library;C:\Users\wheta\Documents\Jusin_Sr_TeamPrj\Git_Original\Client\fmode\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../../Reference/Library;../fmode/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>d3d9.lib;d3dx9.lib;dxguid.lib;System.lib;Utility.lib;fmodex64_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -186,9 +186,9 @@
     <ClInclude Include="..\Header\Beer.h" />
     <ClInclude Include="..\Header\BlackIn.h" />
     <ClInclude Include="..\Header\BlackOutIn.h" />
-    <ClInclude Include="..\Header\Blade_Trap_Body.h" />
     <ClInclude Include="..\Header\Blade_Trap_Attack.h" />
     <ClInclude Include="..\Header\Blade_Trap_Blade.h" />
+    <ClInclude Include="..\Header\Blade_Trap_Body.h" />
     <ClInclude Include="..\Header\Blade_Trap_Idle.h" />
     <ClInclude Include="..\Header\Bonfire.h" />
     <ClInclude Include="..\Header\BossFireWall.h" />
@@ -398,9 +398,9 @@
     <ClCompile Include="..\Code\Beer.cpp" />
     <ClCompile Include="..\Code\BlackIn.cpp" />
     <ClCompile Include="..\Code\BlackOutIn.cpp" />
-    <ClCompile Include="..\Code\Blade_Trap_Body.cpp" />
     <ClCompile Include="..\Code\Blade_Trap_Attack.cpp" />
     <ClCompile Include="..\Code\Blade_Trap_Blade.cpp" />
+    <ClCompile Include="..\Code\Blade_Trap_Body.cpp" />
     <ClCompile Include="..\Code\Blade_Trap_Idle.cpp" />
     <ClCompile Include="..\Code\Boss_GrabBat.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>

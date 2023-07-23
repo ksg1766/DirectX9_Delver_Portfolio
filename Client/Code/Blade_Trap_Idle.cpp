@@ -24,7 +24,7 @@ HRESULT CBlade_Trap_Idle::Ready_State(CStateMachine* pOwner)
 
 STATE CBlade_Trap_Idle::Update_State(const _float& fTimeDelta)
 {
-	_vec3 vPlayerPos = Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform->m_vInfo[INFO_POS];
+	_vec3 vPlayerPos = Engine::SceneManager()->Get_Scene()->Get_MainPlayer()->m_pTransform->m_vInfo[INFO_POS];
 	_vec3 vDir = vPlayerPos - m_vTrapCenter;
 
 	_float fDistance = D3DXVec3LengthSq(&vDir);
