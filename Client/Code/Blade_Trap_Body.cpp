@@ -19,7 +19,7 @@ CBlade_Trap::~CBlade_Trap()
 HRESULT CBlade_Trap::Ready_Object(void)
 {
 	m_eObjectTag = OBJECTTAG::MONSTER;
-	m_eTrapTag = TRAPTAG::TRAP_END;
+	m_eTrapTag = TRAPTAG::BLADE;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	m_pTransform->Scale(_vec3(1.f, 0.2f, 1.f));
@@ -44,7 +44,7 @@ HRESULT CBlade_Trap::Ready_Object(void)
 
 	m_bSpawnBlade = false;
 
-	m_pTransform->Translate(_vec3(0.f, -0.8f, 0.f));
+	//m_pTransform->Translate(_vec3(0.f, -0.8f, 0.f));
 
 	return S_OK;
 }

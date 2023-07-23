@@ -727,7 +727,6 @@
     <Filter Include="03. GameObject\02. Village\04. StageTrigger">
       <UniqueIdentifier>{f64aa339-c586-4e01-b9f2-1b964d95e544}</UniqueIdentifier>
     </Filter>
-
     <Filter Include="03. GameObject\03. UI\14. UISpeech\01. NPC\03. Dog">
       <UniqueIdentifier>{f34c8855-6dd9-41b7-ac37-987d280aa3c5}</UniqueIdentifier>
     </Filter>
@@ -1405,9 +1404,6 @@
       <Filter>99. Etc\헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\StrikeDown_Trap_Body.h">
-      <Filter>03. GameObject\01. Stage\08. Trap\01. StrikeDown_Trap\00. Trap_Body</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\StrikeDown_Trap_Body.h">
       <Filter>99. Etc\헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Blade_Trap_Body.h">
@@ -1433,6 +1429,9 @@
     </ClInclude>
     <ClInclude Include="..\Header\FIreWave2.h">
       <Filter>03. GameObject\01. Stage\999. Boss\02. State\03. Attack\02. 3Phase\01. FireWave</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\StrikeDown_Trap_Body.h">
+      <Filter>03. GameObject\01. Stage\08. Trap\01. StrikeDown_Trap\00. Trap_Body</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -2066,9 +2065,6 @@
       <Filter>99. Etc\소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\StrikeDown_Trap_Body.cpp">
-      <Filter>03. GameObject\01. Stage\08. Trap\01. StrikeDown_Trap\00. Trap_Body</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\StrikeDown_Trap_Body.cpp">
       <Filter>99. Etc\소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Blade_Trap_Body.cpp">
@@ -2091,6 +2087,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\FIreWave2.cpp">
       <Filter>03. GameObject\01. Stage\999. Boss\02. State\03. Attack\02. 3Phase\01. FireWave</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\StrikeDown_Trap_Body.cpp">
+      <Filter>03. GameObject\01. Stage\08. Trap\01. StrikeDown_Trap\00. Trap_Body</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

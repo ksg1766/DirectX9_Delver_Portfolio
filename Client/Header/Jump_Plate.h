@@ -1,5 +1,5 @@
 #pragma once
-#include "GameObject.h"
+#include "Trap.h"
 
 BEGIN(Engine)
 class CCubeBf;
@@ -9,7 +9,7 @@ class CTempEffect;
 END
 
 class CJump_Plate :
-    public CGameObject
+    public CTrap
 {
 private:
 	explicit	CJump_Plate(LPDIRECT3DDEVICE9	pGraphicDev);

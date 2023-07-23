@@ -7,7 +7,7 @@
 #include "SpawningPool.h"
 #include "StrikeDown_Trap_Body.h"
 #include "Blade_Trap_Body.h"
-#include "Plate_Trap_Body.h"
+#include "Jump_Plate.h"
 
 IMPLEMENT_SINGLETON(CImGuiManager)
 
@@ -79,15 +79,18 @@ void CImGuiManager::Key_Input(const _float& fTimeDelta)
             case 0:
                 pGameObject = CBlade_Trap::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
                 dynamic_cast<CBlade_Trap*>(pGameObject)->Create_Blade();
+                pGameObject->m_pTransform->Translate(_vec3(0.f, -0.8f, 0.f));
                 break;
 
             case 1:
                 pGameObject = CStrikeDown_Trap::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
                 dynamic_cast<CStrikeDown_Trap*>(pGameObject)->Set_InitailHeight(15.f);
+                pGameObject->m_pTransform->Translate(_vec3(0.f, 1.f, 0.f));
                 break;
 
             case 2:
-                pGameObject = CPlate_Trap::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+                pGameObject = CJump_Plate::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+                pGameObject->m_pTransform->Translate(_vec3(0.0f, -0.85f, 0.0f));
                 break;
             }
 
@@ -817,8 +820,8 @@ HRESULT CImGuiManager::OnLoadData()
                 NULL_CHECK_RETURN(pGameObject, E_FAIL);
                 break;
 
-            case TRAPTAG::PLATE:
-                pGameObject = CPlate_Trap::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+            case TRAPTAG::JUMP:
+                pGameObject = CJump_Plate::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
                 NULL_CHECK_RETURN(pGameObject, E_FAIL);
                 break;
             }

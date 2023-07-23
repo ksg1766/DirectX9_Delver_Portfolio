@@ -24,6 +24,7 @@ HRESULT CEditor::Ready_Scene()
 
 	CImGuiManager::GetInstance()->SetUp_ImGui();
 
+	m_pGraphicDev->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
 	//Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BLOCK).reserve(50 * 50 * 50);
 	//m_pGraphicDev->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
 	//m_pGraphicDev->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);

@@ -21,14 +21,14 @@ CPlate_Trap::~CPlate_Trap()
 HRESULT CPlate_Trap::Ready_Object(void)
 {
 	m_eObjectTag = OBJECTTAG::MONSTER;
-	m_eTrapTag = TRAPTAG::PLATE;
+	//m_eTrapTag = TRAPTAG::PLATE;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 	m_pTransform->Scale(_vec3(0.4f, 0.15f, 0.4f));
 	m_fTime = 0.f;
 	m_bAttack = false;
 	m_fInitialHeight = false;
 
-	m_pTransform->Translate(_vec3(0.0f, -0.85f, 0.0f));
+	//m_pTransform->Translate(_vec3(0.0f, -0.85f, 0.0f));
 
 	return S_OK;
 }

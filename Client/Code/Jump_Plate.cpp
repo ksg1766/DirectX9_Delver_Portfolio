@@ -3,12 +3,12 @@
 #include "Player.h"
 
 CJump_Plate::CJump_Plate(LPDIRECT3DDEVICE9 pGraphicDev)
-	: Engine::CGameObject(pGraphicDev)
+	: Engine::CTrap(pGraphicDev)
 {
 }
 
 CJump_Plate::CJump_Plate(const CJump_Plate& rhs)
-	:Engine::CGameObject(rhs)
+	:Engine::CTrap(rhs)
 {
 }
 
@@ -19,6 +19,7 @@ CJump_Plate::~CJump_Plate()
 HRESULT CJump_Plate::Ready_Object(void)
 {
 	m_eObjectTag = OBJECTTAG::MONSTER;
+	m_eTrapTag = TRAPTAG::JUMP;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 	m_pTransform->Scale(_vec3(0.4f, 0.15f, 0.4f));
 	m_fTime = 0.f;
@@ -96,10 +97,6 @@ HRESULT CJump_Plate::Add_Component(void)
 	pComponent = m_pTransform = dynamic_cast<CTransform*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Transform"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::TRANSFORM, pComponent);
-
-	pComponent = dynamic_cast<CBillBoard*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BillBoard"));
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BILLBOARD, pComponent);
 
 	pComponent = m_pCollider = dynamic_cast<CCollider*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Collider"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);

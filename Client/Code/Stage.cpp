@@ -216,22 +216,22 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	pGameObject->m_pTransform->Translate(_vec3(-72.5f, 34.f, 94.5f));
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
-	pGameObject = CJump_Plate::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pGameObject->m_pTransform->Translate(_vec3(-2.f, 11.5f, -2.f));
-	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+	//pGameObject = CJump_Plate::Create(m_pGraphicDev);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//pGameObject->m_pTransform->Translate(_vec3(-2.f, 11.5f, -2.f));
+	//pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
-	pGameObject = CBlade_Trap::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pGameObject->m_pTransform->Translate(_vec3(-3.f, 11.5f, -3.f));
-	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-	dynamic_cast<CBlade_Trap*>(pGameObject)->Create_Blade();
+	//pGameObject = CBlade_Trap::Create(m_pGraphicDev);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//pGameObject->m_pTransform->Translate(_vec3(-3.f, 11.5f, -3.f));
+	//pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+	//dynamic_cast<CBlade_Trap*>(pGameObject)->Create_Blade();
 
-	pGameObject = CStrikeDown_Trap::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pGameObject->m_pTransform->Translate(_vec3(-10.f, 30.f, 15.f));
-	dynamic_cast<CStrikeDown_Trap*>(pGameObject)->Set_InitailHeight(20.f);
-	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+	//pGameObject = CStrikeDown_Trap::Create(m_pGraphicDev);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//pGameObject->m_pTransform->Translate(_vec3(-10.f, 30.f, 15.f));
+	//dynamic_cast<CStrikeDown_Trap*>(pGameObject)->Set_InitailHeight(20.f);
+	//pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
 	// Npc Test
 	pGameObject = CNpc_OldMan::Create(m_pGraphicDev);
@@ -576,10 +576,10 @@ HRESULT CStage::Load_Data()
 		for_each(refObjectList.begin(), refObjectList.end(), [&](CGameObject* pObj) { EventManager()->DeleteObject(pObj); });
 		refObjectList.clear();
 	}
-	//HANDLE hFile = CreateFile(L"../Bin/Data/Sewer_TrapTest.dat", GENERIC_READ, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
+	HANDLE hFile = CreateFile(L"../Bin/Data/Sewer_TrapTest.dat", GENERIC_READ, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
 	//HANDLE hFile = CreateFile(L"../Bin/Data/Sewer.dat", GENERIC_READ, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
 	//HANDLE hFile = CreateFile(L"../Bin/Data/TempData.dat", GENERIC_READ, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
-	HANDLE hFile = CreateFile(L"../Bin/Data/TerrainGiantTree10.dat", GENERIC_READ,	0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
+	//HANDLE hFile = CreateFile(L"../Bin/Data/TerrainGiantTree10.dat", GENERIC_READ,	0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
 	//HANDLE hFile = CreateFile(L"../Bin/Data/BossStage_3rd.dat", GENERIC_READ, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
 
 	if (INVALID_HANDLE_VALUE == hFile)
@@ -682,23 +682,25 @@ HRESULT CStage::Load_Data()
 			{
 			case TRAPTAG::BLADE:
 				pGameObject = CBlade_Trap::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+				pGameObject->m_pTransform->Translate(_vec3(fX, fY + 1.f, fZ));
 				dynamic_cast<CBlade_Trap*>(pGameObject)->Create_Blade();
 				NULL_CHECK_RETURN(pGameObject, E_FAIL);
 				break;
 
 			case TRAPTAG::STRIKEDOWN:
 				pGameObject = CStrikeDown_Trap::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+				pGameObject->m_pTransform->Translate(_vec3(fX, fY + 1.f, fZ));
 				dynamic_cast<CStrikeDown_Trap*>(pGameObject)->Set_InitailHeight(15.f);
 				NULL_CHECK_RETURN(pGameObject, E_FAIL);
 				break;
 
-			case TRAPTAG::PLATE:
-				pGameObject = CPlate_Trap::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+			case TRAPTAG::JUMP:
+				pGameObject = CJump_Plate::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+				pGameObject->m_pTransform->Translate(_vec3(fX, fY + 1.f, fZ));
 				NULL_CHECK_RETURN(pGameObject, E_FAIL);
 				break;
 			}
 
-			pGameObject->m_pTransform->m_vInfo[INFO_POS] = _vec3(fX, fY + 1.f, fZ);
 			pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 			//EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 		}
