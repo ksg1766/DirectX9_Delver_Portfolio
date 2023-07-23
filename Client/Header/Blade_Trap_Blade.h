@@ -35,17 +35,16 @@ private:
 	CStateMachine* m_pStateMachine = nullptr;
 	CAnimator* m_pAnimator = nullptr;
 	CGameObject*	m_pOtherObj = nullptr;
+	CGameObject*	m_pHostObject = nullptr;
 	_vec3			m_vPlayerPos;
 	_vec3			m_vDir;
 	_vec3			m_vTrapCenter;
-
 	_float			m_fDistance;
 	_float			m_fHitTime;
 	_bool			m_bHit;
 	_bool			m_bCollider;
 private:
 	HRESULT		Add_Component(void);
-
 public:
 	static CBlade_Trap_Blade* Create(LPDIRECT3DDEVICE9 pGraphicDev);
 

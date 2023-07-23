@@ -82,9 +82,7 @@ void CBlade_Trap::Create_Blade()
 			dynamic_cast<CBlade_Trap_Blade*>(m_pTrapBlade)->m_pTransform->Rotate(m_vBladeDir[i]);
 		dynamic_cast<CBlade_Trap_Blade*>(m_pTrapBlade)->Set_TrapCenter(m_pTransform->m_vInfo[INFO_POS]);
 		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
-
 	}
-	//m_bSpawnBlade = true;
 }
 
 HRESULT CBlade_Trap::Add_Component(void)

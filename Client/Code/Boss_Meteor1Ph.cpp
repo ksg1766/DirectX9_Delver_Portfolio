@@ -72,4 +72,5 @@ CBoss_MeteorPh1* CBoss_MeteorPh1::Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMa
 
 void CBoss_MeteorPh1::Free()
 {
+	__super::Free();
 }

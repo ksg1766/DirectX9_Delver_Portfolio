@@ -23,9 +23,11 @@ HRESULT CBlade_Trap_Blade::Ready_Object(void)
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	CState* pState = CBlade_Trap_Idle::Create(m_pGraphicDev, m_pStateMachine);
+	dynamic_cast<CBlade_Trap_Idle*>(m_pStateMachine)->Set_TrapCenter(m_vTrapCenter);
 	m_pStateMachine->Add_State(STATE::IDLE, pState);
 
 	pState = CBlade_Trap_Attack::Create(m_pGraphicDev, m_pStateMachine);
+	dynamic_cast<CBlade_Trap_Attack*>(m_pStateMachine)->Set_TrapHeight(m_vTrapCenter.y);
 	m_pStateMachine->Add_State(STATE::ATTACK, pState);
 	
 	CAnimation* pAnimation = CAnimation::Create(m_pGraphicDev,
@@ -94,7 +96,6 @@ void CBlade_Trap_Blade::OnCollisionEnter(CCollider* _pOther)
 	{
 		CPlayerStat& PlayerState = *static_cast<CPlayer*>(_pOther->GetHost())->Get_Stat();
 		PlayerState.Take_Damage(4.f);
-		cout << "¾Æ¾ß!" << endl;
 		m_bHit = true;
 	}
 }

@@ -99,7 +99,6 @@ void CBox_Cube::OnCollisionStay(CCollider* _pOther)
 		if (!dynamic_cast<CPlayer*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front())->Get_Attack())
 			return;
 		//깨지고 난 후 아이템 생성 후 삭제시킬 예정
-		cout << "박스 공격받음" << endl;
 		m_fHitCool = 0.f;
 		m_bHit = true;
 		m_bShake = true;

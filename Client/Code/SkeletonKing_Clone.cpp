@@ -41,7 +41,7 @@ _int CSkeletonKing_Clone::Update_Object(const _float& fTimeDelta)
 	if (8.f < m_fFrame)
 		m_fFrame = 0.f;
 
-	if (2.f < m_fSkillCool)
+	if (2.5f < m_fSkillCool)
 	{
 		Engine::CGameObject* pGameObject = nullptr;
 		pGameObject = CBossProjectile::Create(m_pGraphicDev);

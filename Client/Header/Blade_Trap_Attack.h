@@ -17,7 +17,7 @@ public:
 
 public:
     virtual STATE	Key_Input(const _float& fTimeDelta) { return STATE(); }
-
+    void		Set_TrapHeight(float fTrapHeight) { m_fTrapHeight = fTrapHeight; }
 private:
     //클래스 내에서만 쓸 함수
     //STATE 

@@ -11,6 +11,7 @@ END
 class CBossLostSoul :
     public CMonster
 {
+	enum SoulState { SOUL_NORMAL, SOUL_PARRY, SOUL_END };//기본, 패링당했을 때
 private:
 	explicit	CBossLostSoul(LPDIRECT3DDEVICE9	pGraphicDev);
 	explicit	CBossLostSoul(const CBossLostSoul& rhs);
@@ -44,6 +45,7 @@ private:
 	_vec3			m_vDir;
 	_bool			m_bHit;
 	_bool			m_bParry;
+	SoulState		m_eSoulState;
 private:
 	HRESULT		Add_Component(void);
 
