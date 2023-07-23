@@ -223,6 +223,7 @@
     <ClInclude Include="..\Header\Moon.h" />
     <ClInclude Include="..\Header\MeteorPh2.h" />
     <ClInclude Include="..\Header\Necklace.h" />
+    <ClInclude Include="..\Header\NpcGroup.h" />
     <ClInclude Include="..\Header\Pants.h" />
     <ClInclude Include="..\Header\RandomPotion.h" />
     <ClInclude Include="..\Header\Ring.h" />
@@ -275,6 +276,7 @@
     <ClInclude Include="..\Header\Top.h" />
     <ClInclude Include="..\Header\Tree.h" />
     <ClInclude Include="..\Header\Torch.h" />
+    <ClInclude Include="..\Header\UIBark_Dog.h" />
     <ClInclude Include="..\Header\UIBuff.h" />
     <ClInclude Include="..\Header\UIShop.h" />
     <ClInclude Include="..\Header\UISpeech.h" />
@@ -364,6 +366,7 @@
     <ClInclude Include="..\Header\UIResumeButton.h" />
     <ClInclude Include="..\Header\UISpeech_Bard.h" />
     <ClInclude Include="..\Header\UISpeech_OldMan.h" />
+    <ClInclude Include="..\Header\UISpeech_Wizard.h" />
     <ClInclude Include="..\Header\UIUseShop_Trander.h" />
     <ClInclude Include="..\Header\Village.h" />
     <ClInclude Include="..\Header\WakeUp_BossSkeleton.h" />
@@ -484,6 +487,7 @@
     <ClCompile Include="..\Code\Top.cpp" />
     <ClCompile Include="..\Code\Tree.cpp" />
     <ClCompile Include="..\Code\Torch.cpp" />
+    <ClCompile Include="..\Code\UIBark_Dog.cpp" />
     <ClCompile Include="..\Code\UIBuff.cpp" />
     <ClCompile Include="..\Code\UIShop.cpp" />
     <ClCompile Include="..\Code\UISpeech.cpp" />
@@ -573,6 +577,7 @@
     <ClCompile Include="..\Code\UIResumeButton.cpp" />
     <ClCompile Include="..\Code\UISpeech_Bard.cpp" />
     <ClCompile Include="..\Code\UISpeech_OldMan.cpp" />
+    <ClCompile Include="..\Code\UISpeech_Wizard.cpp" />
     <ClCompile Include="..\Code\UIUseShop_Trander.cpp" />
     <ClCompile Include="..\Code\Village.cpp" />
     <ClCompile Include="..\Code\WakeUp_BossSkeleton.cpp" />

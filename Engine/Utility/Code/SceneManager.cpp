@@ -67,7 +67,8 @@ HRESULT CSceneManager::Load_Data()
 {
 	if (m_pScene)
 		m_pScene->Load_Data();
-	return E_NOTIMPL;
+
+	return S_OK;
 }
 
 void CSceneManager::Free()

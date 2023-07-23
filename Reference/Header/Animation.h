@@ -34,6 +34,7 @@ public:
 	_bool	Get_Loop()					{ return m_bIsLoop; }
 	_bool	Get_End()					{ return m_bIsEnd; }
 
+	STATE	  Get_State()					   { return m_eState; }
 	CTexture* Get_CurTexture()				   { return m_pCurAnimation; }
 	CTexture* Get_PrevTexture()				   { return m_pPrevAnmation; }
 	LPDIRECT3DTEXTURE9* Get_GhostiongTexture() { return m_pGhostingRenderTarget; }
