@@ -193,6 +193,7 @@ call CopyUtility.bat</Command>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\Header\Camera.h" />
+    <ClInclude Include="..\..\Header\Environment.h" />
     <ClInclude Include="..\..\Header\CubeColBf.h" />
     <ClInclude Include="..\..\Header\DynamicBf.h" />
     <ClInclude Include="..\..\Header\Font.h" />
@@ -256,6 +257,7 @@ call CopyUtility.bat</Command>
     <ClCompile Include="..\Code\Camera.cpp" />
     <ClCompile Include="..\Code\CubeColBf.cpp" />
     <ClCompile Include="..\Code\DynamicBf.cpp" />
+    <ClCompile Include="..\Code\Environment.cpp" />
     <ClCompile Include="..\Code\Font.cpp" />
     <ClCompile Include="..\Code\Inventory.cpp" />
     <ClCompile Include="..\Code\Item.cpp" />

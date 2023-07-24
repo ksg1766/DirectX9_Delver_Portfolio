@@ -193,6 +193,9 @@
     <Filter Include="03. GameObject\11. Trap">
       <UniqueIdentifier>{68fc3bbb-1788-4acb-8e9a-2638024c0049}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. GameObject\12. Environment">
+      <UniqueIdentifier>{516d85e8-2d57-4375-aaeb-489d45b37838}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Header\Scene.h">
@@ -354,6 +357,9 @@
     <ClInclude Include="..\..\Header\Trap.h">
       <Filter>03. GameObject\11. Trap</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Header\Environment.h">
+      <Filter>03. GameObject\12. Environment</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\Scene.cpp">
@@ -511,6 +517,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\Trap.cpp">
       <Filter>03. GameObject\11. Trap</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Environment.cpp">
+      <Filter>03. GameObject\12. Environment</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

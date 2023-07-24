@@ -44,7 +44,8 @@ HRESULT CBlade_Trap::Ready_Object(void)
 
 	m_bSpawnBlade = false;
 
-	__super::Ready_Object();
+	if (SCENETAG::EDITOR == SceneManager()->Get_Scene()->Get_SceneTag())
+		__super::Ready_Object();
 
 	//m_pTransform->Translate(_vec3(0.f, -0.8f, 0.f));
 

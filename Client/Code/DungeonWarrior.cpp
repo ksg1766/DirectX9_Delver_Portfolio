@@ -156,7 +156,6 @@ void CDungeonWarrior::Init_Stat()
 	m_pBasicStat->Get_Stat()->iExp = 6.f;
 }
 
-
 void CDungeonWarrior::OnCollisionEnter(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }

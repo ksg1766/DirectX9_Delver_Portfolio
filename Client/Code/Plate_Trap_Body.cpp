@@ -28,7 +28,8 @@ HRESULT CPlate_Trap::Ready_Object(void)
 	m_bAttack = false;
 	m_fInitialHeight = false;
 
-	__super::Ready_Object();
+	if (SCENETAG::EDITOR == SceneManager()->Get_Scene()->Get_SceneTag())
+		__super::Ready_Object();
 	//m_pTransform->Translate(_vec3(0.0f, -0.85f, 0.0f));
 
 	return S_OK;

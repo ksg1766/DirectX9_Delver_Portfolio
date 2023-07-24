@@ -18,7 +18,9 @@
 #include "Blade_Trap_Body.h"
 #include "StrikeDown_Trap_Body.h"
 #include "Plate_Trap_Body.h"
+
 #include "Pot.h"
+#include "Tree.h"
 
 #include "EffectBrokenbox.h"
 #include "EffectDamage.h"
@@ -685,7 +687,8 @@ HRESULT CStage::Load_Data()
 			case TRAPTAG::STRIKEDOWN:
 				pGameObject = CStrikeDown_Trap::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
 				pGameObject->m_pTransform->Translate(_vec3(fX, fY + 1.f, fZ));
-				dynamic_cast<CStrikeDown_Trap*>(pGameObject)->Set_InitailHeight(15.f);
+				dynamic_cast<CStrikeDown_Trap*>(pGameObject)->Set_InitailHeight(10.f);
+				dynamic_cast<CStrikeDown_Trap*>(pGameObject)->Set_MinHeight(10.f);
 				NULL_CHECK_RETURN(pGameObject, E_FAIL);
 				break;
 
@@ -696,6 +699,56 @@ HRESULT CStage::Load_Data()
 				break;
 			}
 
+			pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+			//EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+		}
+		else if (OBJECTTAG::IMMORTAL == eTag)
+		{
+			// value°ª ÀúÀå
+			ReadFile(hFile, &fX, sizeof(_float), &dwByte, nullptr);
+			ReadFile(hFile, &fY, sizeof(_float), &dwByte, nullptr);
+			ReadFile(hFile, &fZ, sizeof(_float), &dwByte, nullptr);
+
+			_float  fCX = 0.f, fCY = 0.f, fCZ = 0.f;
+			ReadFile(hFile, &fCX, sizeof(_float), &dwByte, nullptr);
+			ReadFile(hFile, &fCY, sizeof(_float), &dwByte, nullptr);
+			ReadFile(hFile, &fCZ, sizeof(_float), &dwByte, nullptr);
+
+			ENVIRONMENTTAG eEnvTag;
+			ReadFile(hFile, &eEnvTag, sizeof(ENVIRONMENTTAG), &dwByte, nullptr);
+
+			if (0 == dwByte)
+				break;
+
+			CGameObject* pGameObject = nullptr;
+
+			switch (eEnvTag)
+			{
+			case ENVIRONMENTTAG::TREE:
+			{
+				_uint iTreeNumber = 0;
+
+				ReadFile(hFile, &iTreeNumber, sizeof(_uint), &dwByte, nullptr);
+
+				pGameObject = CTree::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+				dynamic_cast<CTree*>(pGameObject)->Set_TreeNumber(iTreeNumber);
+			}
+			break;
+
+			/*case ENVIRONMENTTAG::ROCK:
+				pGameObject = CRock::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+				pGameObject->m_pTransform->Translate(_vec3(0.f, 11.f, 0.f));
+				break;
+
+			case ENVIRONMENTTAG::GRASS:
+				pGameObject = CGrass::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+				pGameObject->m_pTransform->Translate(_vec3(0.0f, -0.85f, 0.0f));
+				break;*/
+			}
+			//pGameObject->m_pTransform->m_vInfo[INFO_POS] = _vec3(fX, fY, fZ);
+			NULL_CHECK_RETURN(pGameObject, E_FAIL);
+			pGameObject->m_pTransform->Scale(_vec3(fCX, fCY, fCZ));
+			pGameObject->m_pTransform->Translate(_vec3(fX, fY + 1.f, fZ));
 			pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 			//EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 		}

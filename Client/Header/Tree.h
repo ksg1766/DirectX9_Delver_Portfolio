@@ -1,5 +1,5 @@
 #pragma once
-#include "GameObject.h"
+#include "Environment.h"
 
 BEGIN(Engine)
 
@@ -10,7 +10,8 @@ class CBillBoard;
 
 END
 
-class CTree :	public Engine::CGameObject
+class CTree
+	: public CEnvironment
 {
 private:
 	explicit CTree(LPDIRECT3DDEVICE9 pGraphicDev);
@@ -18,7 +19,7 @@ private:
 	virtual ~CTree();
 
 public:
-	void    Set_TreeType(_uint _iType, _uint _iHeight)
+	void			Set_TreeType(_uint _iType, _uint _iHeight)
 	{
 		switch (_iType)
 		{
@@ -143,30 +144,30 @@ public:
 			break;
 		}
 	}
+	void			Set_TreeNumber(_uint _iNum) { m_iTreeNumber = _iNum; }
 
 public:
-	virtual HRESULT Ready_Object(void) override;
-	virtual _int Update_Object(const _float& fTimeDelta) override;
-	virtual void LateUpdate_Object(void) override;
-	virtual void Render_Object(void) override;
+	virtual HRESULT Ready_Object(void)						override;
+	virtual _int	Update_Object(const _float& fTimeDelta) override;
+	virtual void	LateUpdate_Object(void)					override;
+	virtual void	Render_Object(void)						override;
+
+public:
+	_uint			Get_TreeNumber()	{ return m_iTreeNumber; }
 
 private:
-	HRESULT		Add_Component(void);
+	HRESULT			Add_Component(void);
 
 private:
 	_uint           m_iType   = 0;
 	_uint           m_iHeight = 0;
 	_uint           m_iTreeNumber = 0;
 
-	CRcTex*		    m_pBufferCom     = nullptr;
-	CTexture*		m_pTextureCom    = nullptr;
-	CBillBoard*     m_pBillBoardCom  = nullptr;
-
 public:
 	static CTree*	Create(LPDIRECT3DDEVICE9 pGraphicDev);
 
 private:
-	virtual void Free() override;
+	virtual void	Free() override;
 
 };
 

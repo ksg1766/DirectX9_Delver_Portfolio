@@ -13,9 +13,9 @@ protected:
     virtual             ~CTrap();
 
 public:
-    virtual HRESULT     Ready_Object()      override;
+    virtual HRESULT     Ready_Object()                          override;
     virtual _int        Update_Object(const _float& fTimeDelta) override;
-    virtual void        LateUpdate_Object() override;
+    virtual void        LateUpdate_Object()                     override;
 
 public:
     TRAPTAG             Get_TrapTag()                   { return m_eTrapTag; }

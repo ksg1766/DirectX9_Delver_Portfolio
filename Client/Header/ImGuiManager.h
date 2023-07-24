@@ -25,7 +25,7 @@ public:
 	_vec3	PickingBlock();
 	_vec3	PickingSpawner();
 	_vec3	PickingTrap();
-	//_vec3	PickingEnvironmental();
+	_vec3	PickingEnvironment();
 
 public:
 	HRESULT	SetUp_ImGui();
@@ -41,7 +41,7 @@ public:
 private:
 	_bool	bUI_OnOff;
 
-	enum TOOLMODE { MAP, SPAWNER, TRAP, ENVIRONMENTAL, TOOL_END };
+	enum TOOLMODE { MAP, SPAWNER, TRAP, ENVIRONMENT, TOOL_END };
 	TOOLMODE							m_eToolMode = TOOL_END;
 
 	// Map Tool
@@ -66,6 +66,10 @@ private:
 	_uint								m_iSelected_index = 0;
 
 	// Environmanet Tool
+	_int								m_iType = 0;
+	_int								m_iHeight = 0;
+	_float								m_fScaleX = 5.f;
+	_float								m_fScaleY = 5.f;
 
 public:
 	virtual void		Free();

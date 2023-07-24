@@ -14,20 +14,22 @@ class CStrikeDown_Trap :
 	public CTrap
 {
 private:
-	explicit	CStrikeDown_Trap(LPDIRECT3DDEVICE9	pGraphicDev);
-	explicit	CStrikeDown_Trap(const CStrikeDown_Trap& rhs);
-	virtual		~CStrikeDown_Trap();
+	explicit		CStrikeDown_Trap(LPDIRECT3DDEVICE9	pGraphicDev);
+	explicit		CStrikeDown_Trap(const CStrikeDown_Trap& rhs);
+	virtual			~CStrikeDown_Trap();
 
 public:
-	virtual HRESULT Ready_Object(void) override;
-	virtual _int Update_Object(const _float& fTimeDelta) override;
-	virtual void LateUpdate_Object(void) override;
-	virtual void Render_Object(void) override;
+	virtual HRESULT Ready_Object(void)						override;
+	virtual _int	Update_Object(const _float& fTimeDelta) override;
+	virtual void	LateUpdate_Object(void)					override;
+	virtual void	Render_Object(void)						override;
 
-	void		Ground_Pounding(const _float& fTimeDelta);
+	void			Ground_Pounding(const _float& fTimeDelta);
 
-	void		Set_InitailHeight(_float _Height);
-	void		Set_MinHeight(_float _Height);
+	_float			Get_MinHeight()						{ return m_fMinHeight; }
+
+	void			Set_InitailHeight(_float _Height);
+	void			Set_MinHeight(_float _Height);
 
 public:
 	virtual void	OnCollisionEnter(CCollider* _pOther);
@@ -54,6 +56,6 @@ public:
 	static CStrikeDown_Trap* Create(LPDIRECT3DDEVICE9 pGraphicDev);
 
 private:
-	virtual void Free() override;
+	virtual void	Free() override;
 };
 

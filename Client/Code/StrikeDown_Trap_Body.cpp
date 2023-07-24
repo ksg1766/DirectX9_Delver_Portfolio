@@ -28,9 +28,10 @@ HRESULT CStrikeDown_Trap::Ready_Object(void)
 	m_bMaxHeight = false;
 	m_bPlayerHit = false;
 	m_bUp = false;
-	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale() * 1.1f);
+	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale() * 1.0f);
 
-	__super::Ready_Object();
+	if (SCENETAG::EDITOR == SceneManager()->Get_Scene()->Get_SceneTag())
+		__super::Ready_Object();
 
 	return S_OK;
 }
