@@ -21,7 +21,7 @@ HRESULT CLostSoulPattern::Ready_State(CStateMachine* pOwner)
 	m_pOwner = pOwner;
 	m_fDelay = 0.f;
 	m_fPatternDelay = 0.f;
-
+	m_iSkillCount = 0;
 
 	return S_OK;
 }
@@ -39,7 +39,9 @@ STATE CLostSoulPattern::Update_State(const _float& fTimeDelta)
 
 		m_fDelay = 0.f;
 	}
-	//return STATE::BOSS_IDLE;
+	++m_iSkillCount;
+
+
 	return STATE::BOSS_PH2SKILL5;
 }
 

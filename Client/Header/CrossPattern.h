@@ -25,6 +25,10 @@ private:
     _float m_fDelay;
     _float  m_fPatternDelay;
     _bool  m_bCool;
+
+    _vec3   m_vHeight;
+    _vec3   m_vCrossDir[4];
+    _int    m_iSkillCount;
 public:
     static CCrossPattern* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
 

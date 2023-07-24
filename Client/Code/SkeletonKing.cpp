@@ -18,7 +18,12 @@
 #include "Clone_Pattern.h"
 #include "LostSoulPattern.h"
 #include "GrapPattern.h"
+#include "CrossPattern.h"
 #include "MeteorPh2.h"
+#include "FIreWave2.h"
+#include "LostSoulPattern2.h"
+#include "LightningPattern2.h"
+#include "MeteorPh3.h"
 #include "Player.h"
 CSkeletonKing::CSkeletonKing(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CMonster(pGraphicDev)
@@ -44,66 +49,83 @@ HRESULT CSkeletonKing::Ready_Object(void)
 	m_pBasicStat->Get_Stat()->fHealth = 100.f;
 	m_iHitCount = 0;
 	m_fHitCool = 0.f;
+	m_b3phase = false;
 	m_bSturn = false;
+	m_iCloneCount = 0;
 #pragma region 상태
 
 	//상태추가
-	CState* pState = CBoss_Idle::Create(m_pGraphicDev, m_pStateMachine);
-	m_pStateMachine->Add_State(STATE::BOSS_IDLE, pState);
+	CState* m_pState = CBoss_Idle::Create(m_pGraphicDev, m_pStateMachine);
+	m_pStateMachine->Add_State(STATE::BOSS_IDLE, m_pState);
 
-	pState = CBoss_Sleep::Create(m_pGraphicDev, m_pStateMachine);
-	m_pStateMachine->Add_State(STATE::BOSS_SLEEP, pState);
+	m_pState = CBoss_Sleep::Create(m_pGraphicDev, m_pStateMachine);
+	m_pStateMachine->Add_State(STATE::BOSS_SLEEP, m_pState);
 
-	pState = CBoss_WakeUp::Create(m_pGraphicDev, m_pStateMachine);
-	m_pStateMachine->Add_State(STATE::BOSS_WAKEUP, pState);
+	m_pState = CBoss_WakeUp::Create(m_pGraphicDev, m_pStateMachine);
+	m_pStateMachine->Add_State(STATE::BOSS_WAKEUP, m_pState);
 
-	pState = CBoss_Attack::Create(m_pGraphicDev, m_pStateMachine);
-	m_pStateMachine->Add_State(STATE::BOSS_ATTACK, pState);
+	m_pState = CBoss_Attack::Create(m_pGraphicDev, m_pStateMachine);
+	m_pStateMachine->Add_State(STATE::BOSS_ATTACK, m_pState);
 	
-	pState = CFirePattern::Create(m_pGraphicDev, m_pStateMachine);
-	m_pStateMachine->Add_State(STATE::BOSS_PH1SKILL1, pState);
+	m_pState = CFirePattern::Create(m_pGraphicDev, m_pStateMachine);
+	m_pStateMachine->Add_State(STATE::BOSS_PH1SKILL1, m_pState);
 
-	pState = CExplosionPattern::Create(m_pGraphicDev, m_pStateMachine);
-	m_pStateMachine->Add_State(STATE::BOSS_PH1SKILL2, pState);
+	m_pState = CExplosionPattern::Create(m_pGraphicDev, m_pStateMachine);
+	m_pStateMachine->Add_State(STATE::BOSS_PH1SKILL2, m_pState);
 
-	pState = CBoss_SkeletonSpawnPattern::Create(m_pGraphicDev, m_pStateMachine);
-	m_pStateMachine->Add_State(STATE::BOSS_PH1SKILL3, pState);
+	m_pState = CBoss_SkeletonSpawnPattern::Create(m_pGraphicDev, m_pStateMachine);
+	m_pStateMachine->Add_State(STATE::BOSS_PH1SKILL3, m_pState);
 
-	pState = CFireWallPttern::Create(m_pGraphicDev, m_pStateMachine);
-	m_pStateMachine->Add_State(STATE::BOSS_PH1SKILL4, pState);
+	m_pState = CFireWallPttern::Create(m_pGraphicDev, m_pStateMachine);
+	m_pStateMachine->Add_State(STATE::BOSS_PH1SKILL4, m_pState);
 
-	pState = CBoss_MeteorReady::Create(m_pGraphicDev, m_pStateMachine);
-	m_pStateMachine->Add_State(STATE::BOSS_PH1SKILL5, pState);
+	m_pState = CBoss_MeteorReady::Create(m_pGraphicDev, m_pStateMachine);
+	m_pStateMachine->Add_State(STATE::BOSS_PH1SKILL5, m_pState);
 
-	pState = CClone_Pattern::Create(m_pGraphicDev, m_pStateMachine);
-	m_pStateMachine->Add_State(STATE::BOSS_PH2SKILL1, pState);
+	m_pState = CClone_Pattern::Create(m_pGraphicDev, m_pStateMachine);
+	m_pStateMachine->Add_State(STATE::BOSS_PH2SKILL1, m_pState);
 
-	pState = CFireWavePattern::Create(m_pGraphicDev, m_pStateMachine);
-	m_pStateMachine->Add_State(STATE::BOSS_PH2SKILL3, pState);
+	m_pState = CCrossPattern::Create(m_pGraphicDev, m_pStateMachine);
+	m_pStateMachine->Add_State(STATE::BOSS_PH2SKILL2, m_pState);
 
-	//pState = CGrapPattern::Create(m_pGraphicDev, m_pStateMachine);
-	//m_pStateMachine->Add_State(STATE::BOSS_PH2SKILL4, pState);//일단 보류
+	m_pState = CFireWavePattern::Create(m_pGraphicDev, m_pStateMachine);
+	m_pStateMachine->Add_State(STATE::BOSS_PH2SKILL3, m_pState);
 
-	pState = CLostSoulPattern::Create(m_pGraphicDev, m_pStateMachine);
-	m_pStateMachine->Add_State(STATE::BOSS_PH2SKILL4, pState);
+	//m_pState = CGrapPattern::Create(m_pGraphicDev, m_pStateMachine);
+	//m_pStateMachine->Add_State(STATE::BOSS_PH2SKILL4, m_pState);//일단 보류
 
-	pState = CBoss_Meteor2Ph::Create(m_pGraphicDev, m_pStateMachine);
-	m_pStateMachine->Add_State(STATE::BOSS_PH2SKILL5, pState);
+	m_pState = CLostSoulPattern::Create(m_pGraphicDev, m_pStateMachine);
+	m_pStateMachine->Add_State(STATE::BOSS_PH2SKILL4, m_pState);
 
-	pState = CCrawlPattern::Create(m_pGraphicDev, m_pStateMachine);
-	m_pStateMachine->Add_State(STATE::BOSS_CRAWL, pState);
+	m_pState = CBoss_Meteor2Ph::Create(m_pGraphicDev, m_pStateMachine);
+	m_pStateMachine->Add_State(STATE::BOSS_PH2SKILL5, m_pState);
 
-	pState = CBoss_Sturn::Create(m_pGraphicDev, m_pStateMachine);
-	m_pStateMachine->Add_State(STATE::BOSS_STURN, pState);
+	m_pState = CFIreWave2::Create(m_pGraphicDev, m_pStateMachine);
+	m_pStateMachine->Add_State(STATE::BOSS_PH3SKILL1, m_pState);
 
-	pState = CBoss_MeteorReady::Create(m_pGraphicDev, m_pStateMachine);
-	m_pStateMachine->Add_State(STATE::BOSS_METEORREADY, pState);
+	m_pState = CLostSoulPattern2::Create(m_pGraphicDev, m_pStateMachine);
+	m_pStateMachine->Add_State(STATE::BOSS_PH3SKILL2, m_pState);
 
-	pState = CBoss_Dying::Create(m_pGraphicDev, m_pStateMachine);
-	m_pStateMachine->Add_State(STATE::BOSS_DYING, pState);
+	m_pState = CLightningPattern2::Create(m_pGraphicDev, m_pStateMachine);
+	m_pStateMachine->Add_State(STATE::BOSS_PH3SKILL3, m_pState);
 
-	pState = CBoss_Dead::Create(m_pGraphicDev, m_pStateMachine);
-	m_pStateMachine->Add_State(STATE::BOSS_DEAD, pState);
+	m_pState = CMeteorPh3::Create(m_pGraphicDev, m_pStateMachine);
+	m_pStateMachine->Add_State(STATE::BOSS_PH3SKILL5, m_pState);
+
+	m_pState = CCrawlPattern::Create(m_pGraphicDev, m_pStateMachine);
+	m_pStateMachine->Add_State(STATE::BOSS_CRAWL, m_pState);
+
+	m_pState = CBoss_Sturn::Create(m_pGraphicDev, m_pStateMachine);
+	m_pStateMachine->Add_State(STATE::BOSS_STURN, m_pState);
+
+	m_pState = CBoss_MeteorReady::Create(m_pGraphicDev, m_pStateMachine);
+	m_pStateMachine->Add_State(STATE::BOSS_METEORREADY, m_pState);
+
+	m_pState = CBoss_Dying::Create(m_pGraphicDev, m_pStateMachine);
+	m_pStateMachine->Add_State(STATE::BOSS_DYING, m_pState);
+
+	m_pState = CBoss_Dead::Create(m_pGraphicDev, m_pStateMachine);
+	m_pStateMachine->Add_State(STATE::BOSS_DEAD, m_pState);
 
 #pragma endregion 상태
 
@@ -150,6 +172,10 @@ HRESULT CSkeletonKing::Ready_Object(void)
 	m_pAnimator->Add_Animation(STATE::BOSS_PH2SKILL1, pAnimation);
 
 	pAnimation = CAnimation::Create(m_pGraphicDev,
+		m_pTexture[(_uint)STATE::BOSS_ATTACK], STATE::BOSS_PH2SKILL2, 15.f, TRUE);
+	m_pAnimator->Add_Animation(STATE::BOSS_PH2SKILL2, pAnimation);
+
+	pAnimation = CAnimation::Create(m_pGraphicDev,
 		m_pTexture[(_uint)STATE::BOSS_ATTACK], STATE::BOSS_PH2SKILL3, 15.f, TRUE);
 	m_pAnimator->Add_Animation(STATE::BOSS_PH2SKILL3, pAnimation);
 	
@@ -164,6 +190,22 @@ HRESULT CSkeletonKing::Ready_Object(void)
 	pAnimation = CAnimation::Create(m_pGraphicDev,
 		m_pTexture[(_uint)STATE::BOSS_METEORREADY], STATE::BOSS_PH2SKILL5, 15.f, TRUE);
 	m_pAnimator->Add_Animation(STATE::BOSS_PH2SKILL5, pAnimation);
+
+	pAnimation = CAnimation::Create(m_pGraphicDev,
+		m_pTexture[(_uint)STATE::BOSS_ATTACK], STATE::BOSS_PH3SKILL1, 15.f, TRUE);
+	m_pAnimator->Add_Animation(STATE::BOSS_PH3SKILL1, pAnimation);
+
+	pAnimation = CAnimation::Create(m_pGraphicDev,
+		m_pTexture[(_uint)STATE::BOSS_ATTACK], STATE::BOSS_PH3SKILL2, 15.f, TRUE);
+	m_pAnimator->Add_Animation(STATE::BOSS_PH3SKILL2, pAnimation);
+
+	pAnimation = CAnimation::Create(m_pGraphicDev,
+		m_pTexture[(_uint)STATE::BOSS_METEORREADY], STATE::BOSS_PH3SKILL3, 15.f, TRUE);
+	m_pAnimator->Add_Animation(STATE::BOSS_PH3SKILL3, pAnimation);
+
+	pAnimation = CAnimation::Create(m_pGraphicDev,
+		m_pTexture[(_uint)STATE::BOSS_METEORREADY], STATE::BOSS_PH3SKILL5, 15.f, TRUE);
+	m_pAnimator->Add_Animation(STATE::BOSS_PH3SKILL5, pAnimation);
 	
 	pAnimation = CAnimation::Create(m_pGraphicDev,
 		m_pTexture[(_uint)STATE::BOSS_CRAWL], STATE::BOSS_CRAWL, 20.f, TRUE);
@@ -209,7 +251,12 @@ void CSkeletonKing::LateUpdate_Object(void)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 	__super::LateUpdate_Object();
-	m_pTransform->Scale(_vec3(3.f, 3.f, 3.f));
+	//if(!m_b3phase)
+	//	m_pTransform->Scale(_vec3(3.f, 3.f, 3.f));
+	//if(m_b3phase)
+	//	m_pTransform->Scale(_vec3(12.f, 12.f, 12.f));
+	m_pTransform->Scale(_vec3(12.f, 12.f, 12.f));
+	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale()*0.8f);
 }
 
 void CSkeletonKing::Render_Object(void)
@@ -259,12 +306,18 @@ void CSkeletonKing::OnCollisionExit(CCollider* _pOther)
 	__super::OnCollisionExit(_pOther);
 }
 
+void CSkeletonKing::Add_CloneCount(_int _Hit)
+{
+	m_iCloneCount += _Hit; 
+	if (0 >= m_iCloneCount)m_iCloneCount = 0;
+}
+
 void CSkeletonKing::Add_HitCount()
 {
 	if (m_eState == STATE::BOSS_STURN)
 		return;
 	++m_iHitCount;
-	if (2 <= m_iHitCount)
+	if (3 <= m_iHitCount)
 	{
 		m_iHitCount = 0.f;
 		m_pStateMachine->Set_State(STATE::BOSS_STURN);
@@ -359,12 +412,12 @@ void CSkeletonKing::Key_Input()
 {
 	if (Engine::InputDev()->Key_Down(DIK_J))
 	{
-		m_pStateMachine->Set_State(STATE::BOSS_PH2SKILL4);
+		m_pStateMachine->Set_State(STATE::BOSS_PH3SKILL4);
 	}
-	//if (Engine::InputDev()->Key_Down(DIK_K))
-	//{
-	//	m_pStateMachine->Set_State(STATE::BOSS_STURN);
-	//}
+	if (Engine::InputDev()->Key_Down(DIK_K))
+	{
+		m_pStateMachine->Set_State(STATE::BOSS_PH2SKILL2);
+	}
 	//if (Engine::InputDev()->Key_Down(DIK_L))
 	//{
 	//	m_pStateMachine->Set_State(STATE::BOSS_CRAWL);

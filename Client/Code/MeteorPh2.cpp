@@ -44,14 +44,14 @@ STATE CBoss_Meteor2Ph::Update_State(const _float& fTimeDelta)
 	if (!m_bSkillStart)
 	{
        Make_Clone();
-		pGameObject = m_pGameObject = CBoss_MeteorCube::Create(m_pGraphicDev);
+		pGameObject = CBoss_MeteorCube::Create(m_pGraphicDev);
 		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 		dynamic_cast<CBoss_MeteorCube*>(pGameObject)->Set_Center(m_pOwner->Get_Transform()->m_vInfo[INFO_POS]);
 		dynamic_cast<CBoss_MeteorCube*>(pGameObject)->Set_State(STATE::BOSS_PH2SKILL5);
 		dynamic_cast<CBoss_MeteorCube*>(pGameObject)->Channeling_Begin();
 		m_bSkillStart = true;
 	}
-	else if (m_bSkillStart && (10.1f < m_fChannel_Count))
+	else if (m_bSkillStart && (12.1f < m_fChannel_Count))
 	{
         m_fDelay = 0.f;
 		m_bSkillStart = false;
@@ -62,7 +62,7 @@ STATE CBoss_Meteor2Ph::Update_State(const _float& fTimeDelta)
 	{
 		m_pOwner->Get_Transform()->Translate(_vec3(0.f, 0.5f * fTimeDelta, 0.f));
 	}
-    if (2.f < m_fDelay)
+    if (1.8f < m_fDelay)
     {
         m_fDelay = 0.f;
        Make_LostSoul();
@@ -82,6 +82,8 @@ void CBoss_Meteor2Ph::Make_Clone()
     mt19937 engine((_uint)time(NULL));           // MT19937 난수 엔진
     uniform_int_distribution<__int64> distribution(0, 2); // 생성 범위
     auto generator = bind(distribution, engine);
+    dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Set_CloneCount(0);//만약 클론있다면 삭제
+    dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Set_CloneCount(2);
     switch (generator())
     {
     case 0:

@@ -32,6 +32,5 @@ public:
     static CTorch* Create(LPDIRECT3DDEVICE9 pGraphicDev);
 private:
     virtual void Free() override;
-
 };
 

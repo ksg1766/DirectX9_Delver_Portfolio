@@ -29,6 +29,7 @@
 #include "SoundManager.h"
 
 #include "Jump_Plate.h"
+#include "Boss_Lightning.h"
 CStage::CStage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
 {
@@ -198,7 +199,8 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 
 	//pGameObject->m_pTransform->Translate(_vec3(-40.f, 1.f,-40.f));
 	//pGameObject->m_pTransform->Translate(_vec3(0.f, 1.f, 0.f));
-	pGameObject->m_pTransform->Translate(_vec3(100.f, 10.f,0.f));
+	//pGameObject->m_pTransform->Translate(_vec3(100.f, 10.f,0.f));
+	pGameObject->m_pTransform->Translate( _vec3(-72.f, 35.f, -85.f));
 
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 	m_pPlayer = dynamic_cast<CPlayer*>(pGameObject);
@@ -213,7 +215,7 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	// Boss
 	pGameObject = CSkeletonKing::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pGameObject->m_pTransform->Translate(_vec3(-72.5f, 34.f, 94.5f));
+	pGameObject->m_pTransform->Translate(_vec3(-72.f, 33.f, -105.f));
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
 	pGameObject = CJump_Plate::Create(m_pGraphicDev);
@@ -295,7 +297,7 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	pItem = CShield::Create(m_pGraphicDev, true);
 	NULL_CHECK_RETURN(pItem, E_FAIL);
 	//pItem->m_pTransform->Translate(_vec3(-40, 3.5f, -20.f));
-	pItem->m_pTransform->Translate(_vec3(100.f, 20.f, 0.f));
+	pItem->m_pTransform->Translate(_vec3(-72.f, 35.f, -85.f));
 	dynamic_cast<CShield*>(pItem)->Set_WorldItem(true);
 	pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
 
@@ -383,6 +385,11 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	pGameObject->m_pTransform->Translate(_vec3(95.f, 20.f, 10.f));
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 	dynamic_cast<CBlade_Trap*>(pGameObject)->Create_Blade();
+
+	pGameObject = CBoss_Lightning::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	pGameObject->m_pTransform->Translate(_vec3(-72.5f, 35.f, 94.5f));
+	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
 
 	//pGameObject = CPlate_Trap::Create(m_pGraphicDev);

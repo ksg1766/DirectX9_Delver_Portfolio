@@ -27,7 +27,6 @@ public:
 	virtual void	Init_Stat()								override;
 
 public:
-	//테스트용충돌코드
 	void			Set_Target(_vec3 _vPos);
 
 	virtual void	OnCollisionEnter(CCollider* _pOther);

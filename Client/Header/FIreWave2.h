@@ -26,7 +26,7 @@ private:
     _float m_fDelay;
     _float  m_fPatternDelay;
     _bool  m_bSkill;
-
+    _int    m_iCount;
 
 public:
     static CFIreWave2* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);

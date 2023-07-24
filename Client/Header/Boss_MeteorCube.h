@@ -43,7 +43,9 @@ private:
     CTexture* m_pTexture;
 
     _vec3 m_vDir;
+    _vec3   m_vTargetPos;
 
+    _float  m_fMeteorExplosionTime;
     _float   m_fEndTime;
     _float   m_fScale;
     _float   m_bMaxHeight;
@@ -54,6 +56,7 @@ private:
     _bool   m_bHit;
     _vec3    m_vCenter;
     _float m_fAttack;
+    _float  m_fDistance;
 
 public:
     HRESULT		Add_Component();

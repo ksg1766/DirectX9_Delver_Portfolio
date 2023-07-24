@@ -60,14 +60,13 @@ void CBoss_SkeletonSpawnPattern::Spawn_Skeleton()
     Engine::CGameObject* pGameObject = nullptr;
     for (int i = 0; i < 2; ++i)
     {
-        //pGameObject = CAlien::Create(m_pGraphicDev);
-        //dynamic_cast<CAlien*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = m_pOwner->Get_Transform()->m_vInfo[INFO_POS] + m_vSpawnPos1[i];
-        //Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
         pGameObject = CSkeleton::Create(m_pGraphicDev);
         dynamic_cast<CSkeleton*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = m_pOwner->Get_Transform()->m_vInfo[INFO_POS] + m_vSpawnPos2[i];
+        dynamic_cast<CSkeleton*>(pGameObject)->Get_BasicStat()->Get_Stat()->fHP = 2.f;
         Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
         pGameObject = CSkeleton::Create(m_pGraphicDev);
         dynamic_cast<CSkeleton*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = m_pOwner->Get_Transform()->m_vInfo[INFO_POS] + m_vSpawnPos1[i];
+        dynamic_cast<CSkeleton*>(pGameObject)->Get_BasicStat()->Get_Stat()->fHP = 2.f;
         Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
     }
  

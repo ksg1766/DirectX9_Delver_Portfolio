@@ -168,6 +168,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Code\MiniMetorPattern.h" />
     <ClInclude Include="..\fmode\inc\fmod.h" />
     <ClInclude Include="..\fmode\inc\fmod.hpp" />
     <ClInclude Include="..\fmode\inc\fmod_codec.h" />
@@ -196,7 +197,9 @@
     <ClInclude Include="..\Header\Boss_GrabBat.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="..\Header\Boss_Lightning.h" />
     <ClInclude Include="..\Header\Boss_Meteor1Ph.h" />
+    <ClInclude Include="..\Header\Boss_MeteorCube3Ph.h" />
     <ClInclude Include="..\Header\Box_Cube.h" />
     <ClInclude Include="..\Header\DynamicCubeBlock.h" />
     <ClInclude Include="..\Header\Clone_Pattern.h" />
@@ -219,8 +222,11 @@
     <ClInclude Include="..\Header\Jump_Plate.h" />
     <ClInclude Include="..\Header\Lamp.h" />
     <ClInclude Include="..\Header\Boss_LostSoul.h" />
+    <ClInclude Include="..\Header\LightningPattern2.h" />
     <ClInclude Include="..\Header\LostSoulPattern.h" />
+    <ClInclude Include="..\Header\LostSoulPattern2.h" />
     <ClInclude Include="..\Header\Meat.h" />
+    <ClInclude Include="..\Header\MiniMeteor.h" />
     <ClInclude Include="..\Header\Monstergroup.h" />
     <ClInclude Include="..\Header\Moon.h" />
     <ClInclude Include="..\Header\MeteorPh2.h" />
@@ -271,6 +277,7 @@
     <ClInclude Include="..\Header\Pot.h" />
     <ClInclude Include="..\Header\SkyBoxVillage.h" />
     <ClInclude Include="..\Header\SoundManager.h" />
+    <ClInclude Include="..\Header\MeteorPh3.h" />
     <ClInclude Include="..\Header\StrikeDown_Trap_Body.h" />
     <ClInclude Include="..\Header\Ghost_Attack.h" />
     <ClInclude Include="..\Header\Ghost_Bullet.h" />
@@ -411,6 +418,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\Code\Bonfire.cpp" />
+    <ClCompile Include="..\Code\Boss_MeteorCube3Ph.cpp" />
     <ClCompile Include="..\Code\DynamicCubeBlock.cpp" />
     <ClCompile Include="..\Code\BossFireWall.cpp" />
     <ClCompile Include="..\Code\BossFireWave.cpp" />
@@ -434,8 +442,12 @@
     <ClCompile Include="..\Code\Jump_Plate.cpp" />
     <ClCompile Include="..\Code\Lamp.cpp" />
     <ClCompile Include="..\Code\Boss_LostSoul.cpp" />
+    <ClCompile Include="..\Code\LightningPattern2.cpp" />
     <ClCompile Include="..\Code\LostSoulPattern.cpp" />
+    <ClCompile Include="..\Code\LostSoulPattern2.cpp" />
     <ClCompile Include="..\Code\Meat.cpp" />
+    <ClCompile Include="..\Code\MiniMeteor.cpp" />
+    <ClCompile Include="..\Code\MiniMetorPattern.cpp" />
     <ClCompile Include="..\Code\Moon.cpp" />
     <ClCompile Include="..\Code\MeteorPh2.cpp" />
     <ClCompile Include="..\Code\Necklace.cpp" />
@@ -484,6 +496,7 @@
     <ClCompile Include="..\Code\Pot.cpp" />
     <ClCompile Include="..\Code\SkyBoxVillage.cpp" />
     <ClCompile Include="..\Code\SoundManager.cpp" />
+    <ClCompile Include="..\Code\MeteorPh3.cpp" />
     <ClCompile Include="..\Code\StrikeDown_Trap_Body.cpp" />
     <ClCompile Include="..\Code\Ghost_Attack.cpp" />
     <ClCompile Include="..\Code\Ghost_Bullet.cpp" />
@@ -590,6 +603,7 @@
     <ClCompile Include="..\Code\Wizard.cpp" />
     <ClCompile Include="..\Code\Wizard_Attack.cpp" />
     <ClCompile Include="..\Code\NPC_Wizard_Idle.cpp" />
+    <ClCompile Include="..\Header\Boss_Lightning.cpp" />
     <ClCompile Include="..\Header\Boss_SkeletonSpawnPattern.cpp" />
     <ClCompile Include="..\ImGui\imgui.cpp" />
     <ClCompile Include="..\ImGui\imgui_demo.cpp" />
