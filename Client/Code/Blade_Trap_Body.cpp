@@ -18,8 +18,8 @@ CBlade_Trap::~CBlade_Trap()
 
 HRESULT CBlade_Trap::Ready_Object(void)
 {
-	m_eObjectTag = OBJECTTAG::MONSTER;
-	m_eTrapTag = TRAPTAG::TRAP_END;
+	m_eObjectTag = OBJECTTAG::TRAP;
+	m_eTrapTag = TRAPTAG::BLADE;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	m_pTransform->Scale(_vec3(1.f, 0.2f, 1.f));
@@ -44,7 +44,10 @@ HRESULT CBlade_Trap::Ready_Object(void)
 
 	m_bSpawnBlade = false;
 
-	m_pTransform->Translate(_vec3(0.f, -0.8f, 0.f));
+	if (SCENETAG::EDITOR == SceneManager()->Get_Scene()->Get_SceneTag())
+		__super::Ready_Object();
+
+	//m_pTransform->Translate(_vec3(0.f, -0.8f, 0.f));
 
 	return S_OK;
 }
@@ -95,6 +98,7 @@ void CBlade_Trap::Create_Blade()
 HRESULT CBlade_Trap::Add_Component(void)
 {
 	CComponent* pComponent = nullptr;
+
 	pComponent = m_pCubeBf = dynamic_cast<CCubeBf*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_CubeBf"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BUFFER, pComponent);

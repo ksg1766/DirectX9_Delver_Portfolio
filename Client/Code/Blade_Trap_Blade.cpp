@@ -19,7 +19,7 @@ CBlade_Trap_Blade::~CBlade_Trap_Blade()
 
 HRESULT CBlade_Trap_Blade::Ready_Object(void)
 {
-	m_eObjectTag = OBJECTTAG::MONSTER;
+	m_eObjectTag = OBJECTTAG::TRAP;
 	m_eTrapTag = TRAPTAG::TRAP_END;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
@@ -42,6 +42,8 @@ HRESULT CBlade_Trap_Blade::Ready_Object(void)
 	m_bHit = false;
 	m_bCollider = false;
 	m_fHitTime = 0.f;
+
+	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale() * 1.0f);
 
 	return S_OK;
 }

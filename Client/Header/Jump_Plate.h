@@ -1,15 +1,17 @@
 #pragma once
-#include "GameObject.h"
+#include "Trap.h"
 
 BEGIN(Engine)
-class CCubeBf;
+
+class CTrap;
 class CTexture;
 class CStateMachine;
 class CTempEffect;
+
 END
 
 class CJump_Plate :
-    public CGameObject
+    public CTrap
 {
 private:
 	explicit	CJump_Plate(LPDIRECT3DDEVICE9	pGraphicDev);
@@ -28,7 +30,6 @@ public:
 	virtual void	OnCollisionExit(CCollider* _pOther);
 
 private:
-	CCubeBf*		m_pCubeBf = nullptr;
 	CTexture*		m_pTexture = nullptr;
 	CGameObject*	m_pOtherObj = nullptr;
 

@@ -7,7 +7,9 @@
 #include "SpawningPool.h"
 #include "StrikeDown_Trap_Body.h"
 #include "Blade_Trap_Body.h"
-#include "Plate_Trap_Body.h"
+#include "Jump_Plate.h"
+
+#include "Tree.h"
 
 IMPLEMENT_SINGLETON(CImGuiManager)
 
@@ -32,7 +34,7 @@ void CImGuiManager::Key_Input(const _float& fTimeDelta)
 
         if (!ImGui::GetIO().WantCaptureMouse)
         {
-            if (MAP == m_eToolMode || TRAP == m_eToolMode)
+            if (MAP == m_eToolMode)
                 vOut = PickingBlock();
             else if (SPAWNER == m_eToolMode)
             {
@@ -40,6 +42,20 @@ void CImGuiManager::Key_Input(const _float& fTimeDelta)
                     vOut = PickingBlock();
                 else if (2 == m_iPickingMode)
                     vOut = PickingSpawner();
+            }
+            else if (TRAP == m_eToolMode)
+            {
+                if (1 == m_iPickingMode)
+                    vOut = PickingBlock();
+                else if (2 == m_iPickingMode)
+                    vOut = PickingTrap();
+            }
+            else if (ENVIRONMENT == m_eToolMode)
+            {
+                if (1 == m_iPickingMode)
+                    vOut = PickingBlock();
+                else if (2 == m_iPickingMode)
+                    vOut = PickingEnvironment();
             }
 
             if (_vec3(0.f, -10.f, 0.f) == vOut)
@@ -79,21 +95,52 @@ void CImGuiManager::Key_Input(const _float& fTimeDelta)
             case 0:
                 pGameObject = CBlade_Trap::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
                 dynamic_cast<CBlade_Trap*>(pGameObject)->Create_Blade();
+                pGameObject->m_pTransform->Translate(_vec3(0.f, -0.8f, 0.f));
                 break;
 
             case 1:
                 pGameObject = CStrikeDown_Trap::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
-                dynamic_cast<CStrikeDown_Trap*>(pGameObject)->Set_InitailHeight(15.f);
+                pGameObject->m_pTransform->Translate(_vec3(0.f, 11.f, 0.f));
                 break;
 
             case 2:
-                pGameObject = CPlate_Trap::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+                pGameObject = CJump_Plate::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+                pGameObject->m_pTransform->Translate(_vec3(0.0f, -0.85f, 0.0f));
                 break;
             }
 
             NULL_CHECK_RETURN(pGameObject);
             pGameObject->m_pTransform->Translate(vOut);
             EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+        }
+        else if (ENVIRONMENT == m_eToolMode)
+        {
+            switch (m_iSelected_index)
+            {
+            case 0:
+                pGameObject = CTree::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+                dynamic_cast<CTree*>(pGameObject)->Set_TreeType(m_iType, m_iHeight);
+                pGameObject->m_pTransform->Scale(_vec3(m_fScaleX, m_fScaleY, 9.f));
+                pGameObject->m_pTransform->Translate(_vec3(0.f,m_fScaleY - 1.f, 0.f));
+                break;
+
+            /*case 1:
+                pGameObject = CRock::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+                pGameObject->m_pTransform->Translate(_vec3(0.f, 11.f, 0.f));
+                break;
+
+            case 2:
+                pGameObject = CGrass::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+                pGameObject->m_pTransform->Translate(_vec3(0.0f, -0.85f, 0.0f));
+                break;*/
+            }
+
+            //NULL_CHECK_RETURN(pGameObject);
+            if (pGameObject)
+            {
+                pGameObject->m_pTransform->Translate(vOut);
+                EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+            }
         }
     }
 
@@ -373,7 +420,176 @@ _vec3 CImGuiManager::PickingSpawner()
 
 _vec3 CImGuiManager::PickingTrap()
 {
-    return _vec3();
+    _vec3   vFinalPos(0.f, -10.f, 0.f);
+
+    _vec3	vRayPos, vRayDir;
+
+    if (0 == m_iPickingMode)
+        return vFinalPos;
+    else
+    {
+        POINT		ptMouse{};
+        GetCursorPos(&ptMouse);
+        ScreenToClient(g_hWnd, &ptMouse);
+
+        _vec3		vMousePos;
+
+        D3DVIEWPORT9		ViewPort;
+        ZeroMemory(&ViewPort, sizeof(D3DVIEWPORT9));
+        CGraphicDev::GetInstance()->Get_GraphicDev()->GetViewport(&ViewPort);
+
+        // 뷰포트 -> 투영
+        vMousePos.x = ptMouse.x / (ViewPort.Width * 0.5f) - 1.f;
+        vMousePos.y = ptMouse.y / -(ViewPort.Height * 0.5f) + 1.f;
+        vMousePos.z = 0.f;
+
+        // 투영 -> 뷰 스페이스
+        _matrix		matProj;
+        D3DXMatrixInverse(&matProj, 0, &dynamic_cast<CFlyingCamera*>(CCameraManager::GetInstance()
+            ->Get_CurrentCam())->Get_Camera()->Get_ProjMatrix());
+        D3DXVec3TransformCoord(&vMousePos, &vMousePos, &matProj);
+
+        vRayPos = _vec3(0.f, 0.f, 0.f);
+        vRayDir = vMousePos - vRayPos;
+
+        // 뷰 스페이스 -> 월드 스페이스
+        _matrix		matView;
+        D3DXMatrixInverse(&matView, 0, &dynamic_cast<CFlyingCamera*>(CCameraManager::GetInstance()
+            ->Get_CurrentCam())->Get_Camera()->Get_ViewMatrix());
+        D3DXVec3TransformCoord(&vRayPos, &vRayPos, &matView);
+        D3DXVec3TransformNormal(&vRayDir, &vRayDir, &matView);
+
+        _vec3 vRayPosWorld = vRayPos;
+        _vec3 vRayDirWorld = vRayDir;
+
+        if (1 == m_iPickingMode)
+        {
+
+        }
+        else if (2 == m_iPickingMode)
+        {
+            vector<CGameObject*> vecTrap = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::TRAP);
+
+            for (auto& iter : vecTrap)
+            {
+                _vec3 vRayPosWorld = vRayPos;
+                _vec3 vRayDirWorld = vRayDir;
+
+                _matrix		matWorld;
+                matWorld = iter->m_pTransform->WorldMatrix();
+                D3DXMatrixInverse(&matWorld, 0, &matWorld);
+                D3DXVec3TransformCoord(&vRayPosWorld, &vRayPosWorld, &matWorld);
+                D3DXVec3TransformNormal(&vRayDirWorld, &vRayDirWorld, &matWorld);
+
+                const vector<_vec3>& pTrapVtxPos = dynamic_cast<CTrap*>(iter)->LoadTrapVertex();
+                const vector<INDEX32>& pTrapIdxPos = dynamic_cast<CTrap*>(iter)->LoadTrapIndex();
+
+                _float	fU = 0.f, fV = 0.f, fDist = 0.f;
+
+                for (_ulong i = 0; i < pTrapIdxPos.size(); ++i)
+                {
+                    if (D3DXIntersectTri(&pTrapVtxPos[pTrapIdxPos[i]._2],
+                        &pTrapVtxPos[pTrapIdxPos[i]._0],
+                        &pTrapVtxPos[pTrapIdxPos[i]._1],
+                        &vRayPosWorld, &vRayDirWorld, &fU, &fV, &fDist))
+                    {
+                        EventManager()->DeleteObject(iter);
+                        return _vec3(0.f, -10.f, 0.f);
+                    }
+                }
+            }
+            return _vec3(0.f, -10.f, 0.f);
+        }
+    }
+
+    return vFinalPos;
+}
+
+_vec3 CImGuiManager::PickingEnvironment()
+{
+    _vec3   vFinalPos(0.f, -10.f, 0.f);
+
+    _vec3	vRayPos, vRayDir;
+
+    if (0 == m_iPickingMode)
+        return vFinalPos;
+    else
+    {
+        POINT		ptMouse{};
+        GetCursorPos(&ptMouse);
+        ScreenToClient(g_hWnd, &ptMouse);
+
+        _vec3		vMousePos;
+
+        D3DVIEWPORT9		ViewPort;
+        ZeroMemory(&ViewPort, sizeof(D3DVIEWPORT9));
+        CGraphicDev::GetInstance()->Get_GraphicDev()->GetViewport(&ViewPort);
+
+        // 뷰포트 -> 투영
+        vMousePos.x = ptMouse.x / (ViewPort.Width * 0.5f) - 1.f;
+        vMousePos.y = ptMouse.y / -(ViewPort.Height * 0.5f) + 1.f;
+        vMousePos.z = 0.f;
+
+        // 투영 -> 뷰 스페이스
+        _matrix		matProj;
+        D3DXMatrixInverse(&matProj, 0, &dynamic_cast<CFlyingCamera*>(CCameraManager::GetInstance()
+            ->Get_CurrentCam())->Get_Camera()->Get_ProjMatrix());
+        D3DXVec3TransformCoord(&vMousePos, &vMousePos, &matProj);
+
+        vRayPos = _vec3(0.f, 0.f, 0.f);
+        vRayDir = vMousePos - vRayPos;
+
+        // 뷰 스페이스 -> 월드 스페이스
+        _matrix		matView;
+        D3DXMatrixInverse(&matView, 0, &dynamic_cast<CFlyingCamera*>(CCameraManager::GetInstance()
+            ->Get_CurrentCam())->Get_Camera()->Get_ViewMatrix());
+        D3DXVec3TransformCoord(&vRayPos, &vRayPos, &matView);
+        D3DXVec3TransformNormal(&vRayDir, &vRayDir, &matView);
+
+        _vec3 vRayPosWorld = vRayPos;
+        _vec3 vRayDirWorld = vRayDir;
+
+        if (1 == m_iPickingMode)
+        {
+
+        }
+        else if (2 == m_iPickingMode)
+        {
+            vector<CGameObject*> vecTrap = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::IMMORTAL);
+
+            for (auto& iter : vecTrap)
+            {
+                _vec3 vRayPosWorld = vRayPos;
+                _vec3 vRayDirWorld = vRayDir;
+
+                _matrix		matWorld;
+                matWorld = iter->m_pTransform->WorldMatrix();
+                D3DXMatrixInverse(&matWorld, 0, &matWorld);
+                D3DXVec3TransformCoord(&vRayPosWorld, &vRayPosWorld, &matWorld);
+                D3DXVec3TransformNormal(&vRayDirWorld, &vRayDirWorld, &matWorld);
+
+                const vector<_vec3>& pEnvVtxPos = dynamic_cast<CEnvironment*>(iter)->LoadEnvVertex();
+                const vector<INDEX32>& pEnvIdxPos = dynamic_cast<CEnvironment*>(iter)->LoadEnvIndex();
+
+                _float	fU = 0.f, fV = 0.f, fDist = 0.f;
+
+                for (_ulong i = 0; i < pEnvIdxPos.size(); ++i)
+                {
+                    if (D3DXIntersectTri(&pEnvVtxPos[pEnvIdxPos[i]._2],
+                        &pEnvVtxPos[pEnvIdxPos[i]._0],
+                        &pEnvVtxPos[pEnvIdxPos[i]._1],
+                        &vRayPosWorld, &vRayDirWorld, &fU, &fV, &fDist))
+                    {
+                        EventManager()->DeleteObject(iter);
+                        return _vec3(0.f, -10.f, 0.f);
+                    }
+                }
+            }
+            return _vec3(0.f, -10.f, 0.f);
+        }
+    }
+
+    return vFinalPos;
 }
 
 HRESULT CImGuiManager::SetUp_ImGui()
@@ -572,7 +788,7 @@ void CImGuiManager::LateUpdate_ImGui()
 
                     const char* items[] = { "Blade", "StrikeDown", "Plate"};
                     static _int item_current = 1;
-                    ImGui::ListBox("MonsterList", &item_current, items, IM_ARRAYSIZE(items), 3);
+                    ImGui::ListBox("TrapList", &item_current, items, IM_ARRAYSIZE(items), 3);
 
                     m_iSelected_index = item_current;
 
@@ -590,6 +806,38 @@ void CImGuiManager::LateUpdate_ImGui()
 
                     ImGui::EndTabItem();
                 }
+                if (ImGui::BeginTabItem("Environment"))
+                {
+                    m_eToolMode = ENVIRONMENT;
+                    //m_iPickingMode = 0;
+                    ImGuiIO& io = ImGui::GetIO();
+
+                    const char* items[] = { "Tree", "Rock", "Grass" };
+                    static _int item_current = 1;
+                    ImGui::ListBox("EnvironmentList", &item_current, items, IM_ARRAYSIZE(items), 3);
+
+                    m_iSelected_index = item_current;
+
+                    ImGui::SliderInt("Type", &m_iType, 0, 7, "%d");
+                    ImGui::SliderInt("Height", &m_iHeight, 0, 3, "%d");
+                    ImGui::SliderFloat("ScaleX", &m_fScaleX, 1.f, 20.f, "%0.1f");
+                    ImGui::SliderFloat("ScaleY", &m_fScaleY, 1.f, 20.f, "%0.1f");
+
+                    ImGui::NewLine();
+
+                    if (ImGui::Button("Mode"))
+                        ++m_iPickingMode %= 3;
+
+                    if (0 == m_iPickingMode)
+                        ImGui::Text("None");
+                    else if (1 == m_iPickingMode)
+                        ImGui::Text("Place");
+                    else
+                        ImGui::Text("Erase");
+
+                    ImGui::EndTabItem();
+                }
+
                 ImGui::EndTabBar();
             }
             ImGui::Separator();
@@ -679,7 +927,7 @@ HRESULT CImGuiManager::OnSaveData()
                 WriteFile(hFile, &m_fSpawnTime, sizeof(_float), &dwByte, nullptr);
             }
         }
-        else if (OBJECTTAG::MONSTER == (OBJECTTAG)i) // 트랩만
+        else if (OBJECTTAG::TRAP == (OBJECTTAG)i)
         {
             vector<CGameObject*>& vecObjList = pScene->Get_ObjectList(LAYERTAG::GAMELOGIC, (OBJECTTAG)i);
             for (auto& iter : vecObjList)
@@ -696,7 +944,41 @@ HRESULT CImGuiManager::OnSaveData()
                 WriteFile(hFile, &(iter->m_pTransform->m_vInfo[INFO_POS].x), sizeof(_float), &dwByte, nullptr);
                 WriteFile(hFile, &(iter->m_pTransform->m_vInfo[INFO_POS].y), sizeof(_float), &dwByte, nullptr);
                 WriteFile(hFile, &(iter->m_pTransform->m_vInfo[INFO_POS].z), sizeof(_float), &dwByte, nullptr);
+
                 WriteFile(hFile, &eTrapTag, sizeof(TRAPTAG), &dwByte, nullptr);
+            }
+        }
+        else if (OBJECTTAG::IMMORTAL == (OBJECTTAG)i)
+        {
+            vector<CGameObject*>& vecObjList = pScene->Get_ObjectList(LAYERTAG::GAMELOGIC, (OBJECTTAG)i);
+            for (auto& iter : vecObjList)
+            {
+                if (iter->m_pTransform->m_vInfo[INFO_POS].y < -10000.f)
+                    continue;
+
+                eTag = iter->Get_ObjectTag();
+                ENVIRONMENTTAG eEnvTag = dynamic_cast<CEnvironment*>(iter)->Get_EnvTag();
+                if (ENVIRONMENTTAG::ENVIRONMENT_END == eEnvTag)
+                    continue;
+
+                WriteFile(hFile, &eTag, sizeof(OBJECTTAG), &dwByte, nullptr);
+
+                WriteFile(hFile, &(iter->m_pTransform->m_vInfo[INFO_POS].x), sizeof(_uint), &dwByte, nullptr);
+                WriteFile(hFile, &(iter->m_pTransform->m_vInfo[INFO_POS].y), sizeof(_uint), &dwByte, nullptr);
+                WriteFile(hFile, &(iter->m_pTransform->m_vInfo[INFO_POS].z), sizeof(_uint), &dwByte, nullptr);
+
+                _vec3 vLocalScale = iter->m_pTransform->LocalScale();
+                WriteFile(hFile, &(vLocalScale.x), sizeof(_float), &dwByte, nullptr);
+                WriteFile(hFile, &(vLocalScale.y), sizeof(_float), &dwByte, nullptr);
+                WriteFile(hFile, &(vLocalScale.z), sizeof(_float), &dwByte, nullptr);
+
+                WriteFile(hFile, &eEnvTag, sizeof(ENVIRONMENTTAG), &dwByte, nullptr);
+
+                if (eEnvTag == ENVIRONMENTTAG::TREE)
+                {
+                    _uint iTreeNumber = dynamic_cast<CTree*>(iter)->Get_TreeNumber();
+                    WriteFile(hFile, &iTreeNumber, sizeof(OBJECTTAG), &dwByte, nullptr);
+                }
             }
         }
     }
@@ -788,7 +1070,7 @@ HRESULT CImGuiManager::OnLoadData()
             pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
             //EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
         }
-        else if (OBJECTTAG::MONSTER == eTag) //트랩
+        else if (OBJECTTAG::TRAP == eTag)
         {
             // value값 저장
             ReadFile(hFile, &fX, sizeof(_float), &dwByte, nullptr);
@@ -808,22 +1090,69 @@ HRESULT CImGuiManager::OnLoadData()
             case TRAPTAG::BLADE:
                 pGameObject = CBlade_Trap::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
                 dynamic_cast<CBlade_Trap*>(pGameObject)->Create_Blade();
-                NULL_CHECK_RETURN(pGameObject, E_FAIL);
                 break;
 
             case TRAPTAG::STRIKEDOWN:
                 pGameObject = CStrikeDown_Trap::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
-                dynamic_cast<CStrikeDown_Trap*>(pGameObject)->Set_InitailHeight(15.f);
-                NULL_CHECK_RETURN(pGameObject, E_FAIL);
                 break;
 
-            case TRAPTAG::PLATE:
-                pGameObject = CPlate_Trap::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
-                NULL_CHECK_RETURN(pGameObject, E_FAIL);
+            case TRAPTAG::JUMP:
+                pGameObject = CJump_Plate::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
                 break;
             }
-            pGameObject->m_pTransform->m_vInfo[INFO_POS] = _vec3(fX, fY, fZ);
-            //pGameObject->m_pTransform->Translate(_vec3(fX, fY, fZ));
+            //pGameObject->m_pTransform->m_vInfo[INFO_POS] = _vec3(fX, fY, fZ);
+            NULL_CHECK_RETURN(pGameObject, E_FAIL);
+            pGameObject->m_pTransform->Translate(_vec3(fX, fY, fZ));
+            pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+            //EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+        }
+        else if (OBJECTTAG::IMMORTAL == eTag)
+        {
+            // value값 저장
+            ReadFile(hFile, &fX, sizeof(_float), &dwByte, nullptr);
+            ReadFile(hFile, &fY, sizeof(_float), &dwByte, nullptr);
+            ReadFile(hFile, &fZ, sizeof(_float), &dwByte, nullptr);
+
+            _float  fCX = 0.f, fCY = 0.f, fCZ = 0.f;
+            ReadFile(hFile, &fCX, sizeof(_float), &dwByte, nullptr);
+            ReadFile(hFile, &fCY, sizeof(_float), &dwByte, nullptr);
+            ReadFile(hFile, &fCZ, sizeof(_float), &dwByte, nullptr);
+
+            ENVIRONMENTTAG eEnvTag;
+            ReadFile(hFile, &eEnvTag, sizeof(ENVIRONMENTTAG), &dwByte, nullptr);
+
+            if (0 == dwByte)
+                break;
+
+            CGameObject* pGameObject = nullptr;
+
+            switch (eEnvTag)
+            {
+            case ENVIRONMENTTAG::TREE:
+            {
+                _uint iTreeNumber = 0;
+
+                ReadFile(hFile, &iTreeNumber, sizeof(_uint), &dwByte, nullptr);
+
+                pGameObject = CTree::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+                dynamic_cast<CTree*>(pGameObject)->Set_TreeNumber(iTreeNumber);
+            }
+                break;
+
+                /*case ENVIRONMENTTAG::ROCK:
+                    pGameObject = CRock::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+                    pGameObject->m_pTransform->Translate(_vec3(0.f, 11.f, 0.f));
+                    break;
+
+                case ENVIRONMENTTAG::GRASS:
+                    pGameObject = CGrass::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+                    pGameObject->m_pTransform->Translate(_vec3(0.0f, -0.85f, 0.0f));
+                    break;*/
+            }
+            //pGameObject->m_pTransform->m_vInfo[INFO_POS] = _vec3(fX, fY, fZ);
+            NULL_CHECK_RETURN(pGameObject, E_FAIL);
+            pGameObject->m_pTransform->Scale(_vec3(fCX, fCY, fCZ));
+            pGameObject->m_pTransform->Translate(_vec3(fX, fY, fZ));
             pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
             //EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
         }
