@@ -45,6 +45,7 @@ _int CTrap::Update_Object(const _float& fTimeDelta)
 
 void CTrap::LateUpdate_Object()
 {
+    __super::LateUpdate_Object();
 }
 
 void CTrap::Free(void)

@@ -25,6 +25,7 @@ HRESULT CJump_Plate::Ready_Object(void)
 	m_fTime = 0.f;
 	m_bAttack = false;
 	m_fInitialHeight = false;
+	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale() * 1.0f);
 
 	__super::Ready_Object();
 
@@ -54,6 +55,10 @@ void CJump_Plate::Render_Object(void)
 
 	m_pTexture->Render_Texture();
 	m_pCubeBf->Render_Buffer();
+
+#if _DEBUG
+	m_pCollider->Render_Collider();
+#endif
 }
 
 void CJump_Plate::Trap_On()

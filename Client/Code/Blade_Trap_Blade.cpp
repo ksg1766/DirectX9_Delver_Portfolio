@@ -43,6 +43,8 @@ HRESULT CBlade_Trap_Blade::Ready_Object(void)
 	m_bCollider = false;
 	m_fHitTime = 0.f;
 
+	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale() * 1.0f);
+
 	return S_OK;
 }
 
