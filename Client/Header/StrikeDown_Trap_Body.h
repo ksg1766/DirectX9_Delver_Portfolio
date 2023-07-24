@@ -39,11 +39,13 @@ private:
 	CGameObject*	m_pOtherObj = nullptr;
 	_float			m_fInitialHeight;
 	_float			m_fMinHeight;
-	_float			m_fTime;
+	_float			m_fDelayTime;
 
-	_bool			m_bAttack;//내려갈땐키고 올라갈땐 끔
-	_bool			m_bCollisonBlock;//최저높이 확인용
-	_bool			m_bPlayerHit;//플레이어 
+	_bool			m_bAttack;//충돌판정 
+	_bool			m_bMinHeight;//최저높이 확인용
+	_bool			m_bUp;		//올라가기 내려가기
+	_bool			m_bMaxHeight;//최고높이 확인용
+	_bool			m_bPlayerHit;//플레이어  맞았을 때.
 
 private:
 	HRESULT			Add_Component(void);

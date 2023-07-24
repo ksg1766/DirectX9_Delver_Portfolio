@@ -22,15 +22,15 @@ HRESULT CStrikeDown_Trap::Ready_Object(void)
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	m_pTransform->Scale(_vec3(2.f, 2.f, 2.f));
-	m_fTime = 0.f;
+	m_fDelayTime = 0.f;
 	m_bAttack = false;
-	m_bCollisonBlock = false;
-	m_fInitialHeight = 0.f;
+	m_bMinHeight = false;
+	m_bMaxHeight = false;
 	m_bPlayerHit = false;
+	m_bUp = false;
 	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale() * 1.1f);
 
 	__super::Ready_Object();
-	//m_pTransform->Translate(_vec3(0.f, 1.5f, 0.f));
 
 	return S_OK;
 }
@@ -44,10 +44,31 @@ _int CStrikeDown_Trap::Update_Object(const _float& fTimeDelta)
 
 	if (SceneManager()->Get_GameStop()) { return 0; }
 	iExit = __super::Update_Object(fTimeDelta);
-	m_fTime += fTimeDelta;
-	Ground_Pounding(fTimeDelta);
+	m_fDelayTime += fTimeDelta;
+	if(!m_bUp)
+		m_pTransform->Translate(_vec3(0.f, -0.3f, 0.f));
+	if(m_bUp)
+		m_pTransform->Translate(_vec3(0.f, 0.2f, 0.f));
+
+	if ((!m_bUp)&&(m_fMinHeight >= m_pTransform->m_vInfo[INFO_POS].y))
+	{
+		m_pTransform->m_vInfo[INFO_POS].y = m_fMinHeight;
+		m_bUp = true;
+	}
+	else if ((m_bUp) && (m_fInitialHeight <= m_pTransform->m_vInfo[INFO_POS].y))
+	{
+		m_pTransform->m_vInfo[INFO_POS].y = m_fInitialHeight;
+	}
+	if((m_bUp)&&(5.0f < m_fDelayTime))
+	{
+		m_bUp = false;
+		m_fDelayTime = 0.f;
+	}
 	return iExit;
-}
+	}
+
+
+
 
 void CStrikeDown_Trap::LateUpdate_Object(void)
 {
@@ -69,26 +90,32 @@ void CStrikeDown_Trap::Render_Object(void)
 
 void CStrikeDown_Trap::Ground_Pounding(const _float& fTimeDelta)
 {
-	if ((!m_bAttack) && (5.f < m_fTime))
+	if (!m_bUp)
 		m_pTransform->Translate(_vec3(0.f, -0.3f, 0.f));
-	else if (m_bCollisonBlock)
+	if (m_bUp)
+		m_pTransform->Translate(_vec3(0.f, 0.2f, 0.f));
+
+	if ((!m_bUp) && (m_fMinHeight >= m_pTransform->m_vInfo[INFO_POS].y))
 	{
-		m_bPlayerHit = true;
-		m_pTransform->Translate(_vec3(0.f, (2.5f * fTimeDelta), 0.f));
+		m_pTransform->m_vInfo[INFO_POS].y = m_fMinHeight;
+		m_fDelayTime = 0.f;
+		m_bUp = true;
 	}
-	if (m_fInitialHeight < m_pTransform->m_vInfo[INFO_POS].y)
+	else if ((m_bUp) && (m_fInitialHeight <= m_pTransform->m_vInfo[INFO_POS].y))
 	{
-		m_fTime = 0.f;
 		m_pTransform->m_vInfo[INFO_POS].y = m_fInitialHeight;
-		m_bCollisonBlock = false;
-		m_bAttack = false;
-		m_bPlayerHit = false;
 	}
+	if ((m_bUp) && (5.0f < m_fDelayTime))
+	{
+		m_bUp = false;
+		m_fDelayTime = 0.f;
+	}
+
 }
 
 void CStrikeDown_Trap::Set_InitailHeight(_float _Height)
 {
-	m_fInitialHeight = _Height + m_pTransform->m_vInfo[INFO_POS].y;
+	m_fInitialHeight = m_pTransform->m_vInfo[INFO_POS].y + _Height;
 }
 
 void CStrikeDown_Trap::Set_MinHeight(_float _Height)
@@ -99,9 +126,8 @@ void CStrikeDown_Trap::Set_MinHeight(_float _Height)
 void CStrikeDown_Trap::OnCollisionEnter(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
-	if (m_bCollisonBlock) { return; }
+	/*if (m_bMinHeight) { return; }
 	m_pOtherObj = _pOther->GetHost();
-
 	if (OBJECTTAG::PLAYER == m_pOtherObj->Get_ObjectTag())
 	{
 		if (!m_bPlayerHit) {return;}
@@ -113,7 +139,7 @@ void CStrikeDown_Trap::OnCollisionEnter(CCollider* _pOther)
 		(dynamic_cast<CPlayer*>(_pOther->GetHost())->Get_RigidBody()->Add_Force(_vec3(vDir.x, 1.1f * 5.f, vDir.z)));
 		(dynamic_cast<CPlayer*>(_pOther->GetHost())->Get_RigidBody()->UseGravity(true));
 		(dynamic_cast<CPlayer*>(_pOther->GetHost())->Set_JumpState(true));
-	}
+	}*/
 }
 
 void CStrikeDown_Trap::OnCollisionStay(CCollider* _pOther)
