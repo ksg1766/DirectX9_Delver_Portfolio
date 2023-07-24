@@ -37,6 +37,9 @@ HRESULT CUIUseShop_Trander::Ready_Object()
 
 _int CUIUseShop_Trander::Update_Object(const _float& fTimeDelta)
 {
+	if (m_IsDead)
+		return 0;
+
 	_int iExit = CTempUI::Update_Object(fTimeDelta);
 
 	return iExit;
@@ -44,11 +47,17 @@ _int CUIUseShop_Trander::Update_Object(const _float& fTimeDelta)
 
 void CUIUseShop_Trander::LateUpdate_Object()
 {
+	if (m_IsDead)
+		return;
+
 	CTempUI::LateUpdate_Object();
 }
 
 void CUIUseShop_Trander::Render_Object()
 {
+	if (m_IsDead)
+		return;
+
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
 
 	m_pTextureCom->Render_Texture(0);

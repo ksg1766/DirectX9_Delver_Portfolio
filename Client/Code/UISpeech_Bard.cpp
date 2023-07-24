@@ -57,6 +57,9 @@ void CUIspeech_Bard::LateUpdate_Object(void)
 
 void CUIspeech_Bard::Render_Object()
 {
+	if (m_IsDead)
+		return;
+
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
 
 	m_pTextureCom->Render_Texture(0);

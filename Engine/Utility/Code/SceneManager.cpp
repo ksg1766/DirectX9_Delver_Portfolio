@@ -90,9 +90,10 @@ void CSceneManager::Render_Scene(LPDIRECT3DDEVICE9 pGraphicDev)
 
 		if (pEnvironmentObj != nullptr && pGameLogic != nullptr)
 		{
-			CGameObject* m_pPlayer    = pGameLogic->Get_ObjectList(OBJECTTAG::PLAYER).front();
-			CGameObject* m_pCamera    = pEnvironmentObj->Get_ObjectList(OBJECTTAG::CAMERA).front();
-			CGameObject* m_pPlayerRay = pGameLogic->Get_ObjectList(OBJECTTAG::RAY).front();
+			CGameObject* m_pPlayer         = pGameLogic->Get_ObjectList(OBJECTTAG::PLAYER).front();
+			CGameObject* m_pCamera         = pEnvironmentObj->Get_ObjectList(OBJECTTAG::CAMERA).front();
+			CGameObject* m_pPlayerRay      = pGameLogic->Get_ObjectList(OBJECTTAG::RAY).front();
+			vector<CGameObject*> m_vecItem = pGameLogic->Get_ObjectList(OBJECTTAG::ITEM);
 
 			Safe_Release(m_pBeforScene);
 			Renderer()->Clear_RenderGroup();
@@ -115,6 +116,9 @@ void CSceneManager::Render_Scene(LPDIRECT3DDEVICE9 pGraphicDev)
 			Engine::EventManager()->CreateObject(m_pCamera,    LAYERTAG::ENVIRONMENT);
 			Engine::EventManager()->CreateObject(m_pPlayer,    LAYERTAG::GAMELOGIC);
 			Engine::EventManager()->CreateObject(m_pPlayerRay, LAYERTAG::GAMELOGIC);
+			for (auto& iter : m_vecItem) {
+				Engine::EventManager()->CreateObject(iter, LAYERTAG::GAMELOGIC);
+			}
 
 			Octree()->DestroyInstance();
 			Load_Data();

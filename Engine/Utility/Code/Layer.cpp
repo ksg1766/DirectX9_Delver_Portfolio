@@ -117,6 +117,7 @@ void CLayer::Free()
 				SCENETAG::BOSSSTAGE != SceneManager()->Get_Scene()->Get_SceneTag() && // 임시 : 중간에 껐을 시 메모리 해제 안될 수 있음
 				iter->Get_ObjectTag() != OBJECTTAG::CAMERA &&
 				iter->Get_ObjectTag() != OBJECTTAG::PLAYER &&
+				iter->Get_ObjectTag() != OBJECTTAG::ITEM &&
 				iter->Get_ObjectTag() != OBJECTTAG::RAY)
 			{
 				Safe_Release(iter);

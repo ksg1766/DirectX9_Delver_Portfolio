@@ -37,6 +37,9 @@ HRESULT CUISpeech_Wizard::Ready_Object()
 
 _int CUISpeech_Wizard::Update_Object(const _float& fTimeDelta)
 {
+	if (m_IsDead)
+		return 0;
+
 	_int iExit = CTempUI::Update_Object(fTimeDelta);
 
 	return iExit;
@@ -44,11 +47,17 @@ _int CUISpeech_Wizard::Update_Object(const _float& fTimeDelta)
 
 void CUISpeech_Wizard::LateUpdate_Object()
 {
+	if (m_IsDead)
+		return;
+
 	CTempUI::LateUpdate_Object();
 }
 
 void CUISpeech_Wizard::Render_Object()
 {
+	if (m_IsDead)
+		return;
+
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
 
 	m_pTextureCom->Render_Texture(0);
