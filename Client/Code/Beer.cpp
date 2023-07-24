@@ -26,13 +26,9 @@ HRESULT CBeer::Ready_Object(_bool _Item)
 	if (!Get_WorldItem())
 	{
 		m_pTransform->Scale(_vec3(-0.5f, 0.5f, 0.5f));
-
 		CGameObject* pPlayer = SceneManager()->GetInstance()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front();
-
-		m_pTransform->Copy_RUL(m_pTransform->m_pParent->m_vInfo);
-		m_pTransform->Scale(_vec3(-0.5f, 0.5f, 0.5f));
-
-		m_pTransform->Translate(m_pTransform->m_pParent->m_vInfo[INFO_POS] + *dynamic_cast<CPlayer*>(pPlayer)->Get_LeftOffset());
+		
+		m_pTransform->Translate(pPlayer->m_pTransform->m_vInfo[INFO_POS] + *dynamic_cast<CPlayer*>(pPlayer)->Get_LeftOffset());
 	}
 	else
 		m_pTransform->Scale(_vec3(-0.5f, 0.5f, 0.5f));
@@ -65,6 +61,19 @@ _int CBeer::Update_Object(const _float& fTimeDelta)
 	if (ItemID.eItemID != ITEMID::GENERAL_BEER || !pPlayer->Get_ItemEquipLeft())
 		return iExit;
 
+	if (!Get_WorldItem())
+	{
+		CTransform* pPlayerTransform = pPlayer->m_pTransform;
+
+		_vec3 vOffSet = 0.4f * -pPlayerTransform->m_vInfo[INFO_RIGHT] + 1.f * pPlayerTransform->m_vInfo[INFO_LOOK] - 0.4f * pPlayerTransform->m_vInfo[INFO_UP];
+		m_pTransform->m_vInfo[INFO_POS] = (pPlayerTransform->m_vInfo[INFO_POS] + vOffSet);
+
+		_vec3 vLocalScale = m_pTransform->LocalScale();
+
+		m_pTransform->Copy_RUL(pPlayerTransform->m_vInfo);
+		for (_int i = 0; i < INFO_POS; ++i)
+			m_pTransform->m_vInfo[i] *= *(((_float*)&vLocalScale) + i);
+	}
 
 	return iExit;
 }
@@ -74,13 +83,14 @@ void CBeer::LateUpdate_Object(void)
 	if (SceneManager()->Get_GameStop()) { return; }
 
 	__super::LateUpdate_Object();
+	m_pTransform->Scale(_vec3(-0.5f, 0.5f, 0.5f));
 //	__super::Compute_ViewZ(&m_pTransform->m_vInfo[INFO_POS]);
 }
 
 void CBeer::Render_Object(void)
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
-	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CW);
+	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CW);
 
 	//m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 
@@ -110,7 +120,7 @@ void CBeer::Render_Object(void)
 
 	//m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 
-	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
 
 void CBeer::Use_Beer(_float _use)
@@ -146,6 +156,13 @@ HRESULT CBeer::Add_Component(void)
 	pComponent = m_pBasicStat = dynamic_cast<CBasicStat*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BasicStat"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BASICSTAT, pComponent);
+
+	if (Get_WorldItem())
+	{
+		pComponent = m_pBillBoard = dynamic_cast<CBillBoard*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BillBoard"));
+		NULL_CHECK_RETURN(pComponent, E_FAIL);
+		m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::BILLBOARD, pComponent);
+	}
 
 	for (int i = 0; i < ID_END; ++i)
 		for (auto& iter : m_mapComponent[i])

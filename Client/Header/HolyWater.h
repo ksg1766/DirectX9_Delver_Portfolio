@@ -6,6 +6,7 @@ BEGIN(Engine)
 
 class CRcTex;
 class CTexture;
+class CBillBoard;
 
 END
 
@@ -38,6 +39,7 @@ public:
 private:
 	CRcTex* m_pBuffer = nullptr;
 	CTexture* m_pTexture = nullptr;
+	CBillBoard* m_pBillBoard = nullptr;
 	_bool	  m_bFullHealOn;
 
 public:

@@ -2,6 +2,7 @@
 #include "Export_Function.h"
 #include "Bard_Idle.h"
 #include "DynamicCamera.h"
+#include "Player.h"
 
 CNpc_Bard::CNpc_Bard(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CNpc(pGraphicDev)
@@ -50,18 +51,48 @@ _int CNpc_Bard::Update_Object(const _float& fTimeDelta)
 	_uint iExit = __super::Update_Object(fTimeDelta);
 	m_pStateMachine->Update_StateMachine(fTimeDelta);
 
-	m_vPlayerPos = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform->m_vInfo[INFO_POS];
-	m_vDir = m_vPlayerPos - m_pTransform->m_vInfo[INFO_POS];
-	m_fDistance = D3DXVec3LengthSq(&m_vDir);
-	if (m_fDistance < pow(3, 2))
+	CPlayer& rPlayer = *dynamic_cast<CPlayer*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
+
+	_vec3 vDir = rPlayer.m_pTransform->m_vInfo[INFO_POS] - m_pTransform->m_vInfo[INFO_POS];
+	_float fDistance = D3DXVec3Length(&vDir);
+
+	CGameObject* pGameObject = SceneManager()->
+		Get_ObjectList(LAYERTAG::ENVIRONMENT, OBJECTTAG::CAMERA).front();
+
+	if (fDistance < 3.f)
 	{
 		m_bTalkButton = true;
+
+		if (Engine::InputDev()->Key_Down(DIK_F))
+		{
+			if (Engine::UIManager()->Set_SpeechBubbleUse())
+			{
+				m_bTalkingBox = true;
+
+				rPlayer.Set_Talk(true);
+				if (!m_bTalking)
+					m_bTalking = true;
+
+				static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(true);
+			}
+			else
+			{
+				Engine::UIManager()->Hide_PopupUI(UIPOPUPLAYER::POPUP_SPEECH);
+				SceneManager()->Set_GameStop(false);
+				m_bTalkingBox = false;
+				m_bTalking = false;
+				rPlayer.Set_Talk(false);
+
+				static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(false);
+			}
+		}
 	}
 	else
 	{
 		m_bTalkButton = false;
 		m_bTalkingBox = false;
 	}
+
 	return iExit;
 }
 

@@ -49,8 +49,8 @@ Engine::_int CStageLoading::Update_Scene(const _float& fTimeDelta)
 		Engine::UIManager()->Delete_BasicObject(Engine::UILAYER::UI_DOWN);
 		Engine::UIManager()->Delete_BasicObject(Engine::UILAYER::UI_MIDDLE);
 
-		//CScene*		pScene = CVillage::Create(m_pGraphicDev);
-		CScene* pScene = CStage::Create(m_pGraphicDev);
+		CScene*		pScene = CStage::Create(m_pGraphicDev);
+		//CScene* pScene = CStage::Create(m_pGraphicDev);
 
 		NULL_CHECK_RETURN(pScene, -1);
 

@@ -25,17 +25,12 @@ HRESULT CUIspeech_Bard::Ready_Object()
 	WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);
 
 
-	m_pFontconfig[0] = dynamic_cast<CFont*>(m_pFont)->Create_3DXFont(32, 13.f, 1000.f, false, TEXT("¸¼Àº °íµñ"), m_pFontconfig[0]);
-	dynamic_cast<CFont*>(m_pFont)->Set_pFont(m_pFontconfig[0]);
+	m_pFontconfig = dynamic_cast<CFont*>(m_pFont)->Create_3DXFont(32, 13.f, 1000.f, false, TEXT("¸¼Àº °íµñ"), m_pFontconfig);
+	dynamic_cast<CFont*>(m_pFont)->Set_pFont(m_pFontconfig);
 	dynamic_cast<CFont*>(m_pFont)->Set_FontColor(_uint(0xffffffff));
 	dynamic_cast<CFont*>(m_pFont)->Set_Rect(RECT{ 0, 520, WINCX, WINCY });
 	dynamic_cast<CFont*>(m_pFont)->Set_Anchor(DT_CENTER | DT_NOCLIP);
 
-	m_pFontconfig[1] = dynamic_cast<CFont*>(m_pFont)->Create_3DXFont(32, 15.f, 1000.f, false, TEXT("¸¼Àº °íµñ"), m_pFontconfig[1]);
-	dynamic_cast<CFont*>(m_pFont)->Set_pFont(m_pFontconfig[1]);
-	dynamic_cast<CFont*>(m_pFont)->Set_FontColor(_uint(0xffffffff));
-	dynamic_cast<CFont*>(m_pFont)->Set_Rect(RECT{ 0, 520, WINCX, WINCY });
-	dynamic_cast<CFont*>(m_pFont)->Set_Anchor(DT_CENTER | DT_NOCLIP);
 
 	m_iSpeech = 0;
 	m_bQuest = false;
@@ -62,41 +57,37 @@ void CUIspeech_Bard::LateUpdate_Object(void)
 
 void CUIspeech_Bard::Render_Object()
 {
-	if (m_IsDead)
-		return;
-
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorld);
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
 
 	m_pTextureCom->Render_Texture(0);
 	m_pBufferCom->Render_Buffer();
 
-	srand(_uint(time(nullptr)));
+	vector<CGameObject*>& vecNpc =
+		SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::NPC);
 
-	/*dynamic_cast<CFont*>(m_pFont)->Set_pFont(m_pFontconfig[1]);
-	m_pFont->DrawText(L"");*/
-	m_pGameObject = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::NPC).front();
-	//if (!dynamic_cast<CNpc_Bard*>(m_pGameObject)->Get_Quest())
-	//{
-	//	dynamic_cast<CFont*>(m_pFont)->Set_pFont(m_pFontconfig[1]);
-	//	m_pFont->DrawText(L"³ª¹«Á» °íÃÄÁÖ°ÔÀ×");
-	//}
-	//else
-	//{
-	//	switch (dynamic_cast<CNpc_Bard*>(m_pGameObject)->Get_Speech())
-	//	{
-	//	case 0:
-	//		dynamic_cast<CFont*>(m_pFont)->Set_pFont(m_pFontconfig[1]);
-	//		m_pFont->DrawText(L"»¡¸® °¡¼­ ÇØÁàÀ×");
-	//		break;
-	//	case 1:	dynamic_cast<CFont*>(m_pFont)->Set_pFont(m_pFontconfig[1]);
-	//		m_pFont->DrawText(L"¿©±â¼­ ¹» ÇÏ°í ÀÖ³ª");
-	//		break;
-	//	case 2:
-	//		dynamic_cast<CFont*>(m_pFont)->Set_pFont(m_pFontconfig[1]);
-	//		m_pFont->DrawText(L"¿¡ÀÕ »¡¸® ²¨Á®À×");
-	//		break;
-	//	}
-	//}
+	NPCTAG eTargetTag = NPCTAG::BARD;
+	CNpc* eTargetNpc = nullptr;
+
+	auto FindNpcTag = [&eTargetTag](CGameObject* npc)
+	{
+		if (CNpc* npcCast = dynamic_cast<CNpc*>(npc))
+			return npcCast->Get_NPCTag() == eTargetTag;
+
+		return false;
+	};
+
+	auto Npciter = find_if(vecNpc.begin(), vecNpc.end(), FindNpcTag);
+
+	if (Npciter != vecNpc.end())
+		eTargetNpc = dynamic_cast<CNpc*>(*Npciter);
+
+	if (dynamic_cast<CNpc_Bard*>(eTargetNpc)->IsTalk())
+	{
+		dynamic_cast<CFont*>(m_pFont)->Set_pFont(m_pFontconfig);
+		m_pFont->DrawText(L"...");
+	}
+
+
 }
 
 HRESULT CUIspeech_Bard::Add_Component(void)

@@ -7,6 +7,7 @@ class CRcTex;
 class CTexture;
 class CAnimator;
 class CStateMachine;
+class CFont;
 
 END
 
@@ -28,6 +29,8 @@ public:
 	virtual void		OnCollisionStay(CCollider* _pOther);
 	virtual void		OnCollisionExit(CCollider* _pOther);
 
+public:
+	_bool		IsTalk() { return m_bTalking; }
 private:
 	HRESULT	Add_Component();
 
@@ -35,6 +38,12 @@ private:
 	CRcTex* m_pBuffer = nullptr;
 	CTexture* m_pTexture[(_uint)STATE::STATE_END] = {};
 	CAnimator* m_pAnimator = nullptr;
+	CFont* m_pFont = nullptr;
+	ID3DXFont* m_pFontconfig;
+
+	_bool			m_bTalking;
+	_bool			m_bTalkButton;
+	_bool			m_bTalkingBox;
 
 public:
 	static CNpc_Alchemist* Create(LPDIRECT3DDEVICE9 pGraphicDev);

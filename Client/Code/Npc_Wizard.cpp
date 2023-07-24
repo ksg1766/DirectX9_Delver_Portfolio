@@ -94,6 +94,11 @@ _int CNpc_Wizard::Update_Object(const _float& fTimeDelta)
 			}
 		}
 	}
+	else
+	{
+		m_bTalkButton = false;
+		m_bTalkBoX = false;
+	}
 
 
 	return iExit;

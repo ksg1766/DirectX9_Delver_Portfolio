@@ -58,6 +58,9 @@ HRESULT CGhost_Bullet::Ready_Object(CTransform* pOwner, _float _fSpeed, _vec3 _v
 
 _int CGhost_Bullet::Update_Object(const _float& fTimeDelta)
 {
+	if (IsDead())
+		return 0;
+
 	Engine::Renderer()->Add_RenderGroup(RENDER_ALPHA, this);
 
 	if (SceneManager()->Get_GameStop()) { return 0; }
@@ -86,8 +89,9 @@ _int CGhost_Bullet::Update_Object(const _float& fTimeDelta)
 
 	_float fDistance = D3DXVec3Length(&(m_pTransform->m_vInfo[INFO_POS] - m_vInit));
 
-	if (fDistance > 50.f)
+	if (fDistance > 50.f && Get_State() != STATE::DEAD)
 	{
+		Set_State(STATE::DEAD);
 		EventManager()->DeleteObject(this);
 	}
 

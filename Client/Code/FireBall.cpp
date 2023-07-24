@@ -75,6 +75,9 @@ HRESULT CFireBall::Ready_Object(CTransform* pWeapon, CTransform* pOwner, _float 
 
 _int CFireBall::Update_Object(const _float& fTimeDelta)
 {
+	if (IsDead())
+		return 0;
+
 	Engine::Renderer()->Add_RenderGroup(RENDER_ALPHA, this);
 
 	if (SceneManager()->Get_GameStop()) { return 0; }
@@ -92,8 +95,12 @@ _int CFireBall::Update_Object(const _float& fTimeDelta)
 
 	_float fDistance = D3DXVec3Length(&(m_pTransform->m_vInfo[INFO_POS] - m_vPrevPos));
 
-	if (fDistance > 60.f)
+	if (fDistance > 60.f && Get_State() != STATE::DEAD)
+	{
+		Set_State(STATE::DEAD);
 		EventManager()->DeleteObject(this);
+	}
+
 
 	m_pTransform->m_vInfo[INFO_POS] = m_pTransform->m_vInfo[INFO_POS] + m_vDir * 25.f * fTimeDelta;
 

@@ -6,6 +6,7 @@ BEGIN(Engine)
 
 class CRcTex;
 class CTexture;
+class CBillBoard;
 
 END
 
@@ -37,6 +38,7 @@ public:
 private:
 	CRcTex*	  m_pBuffer	 = nullptr;
 	CTexture* m_pTexture = nullptr;
+	CBillBoard* m_pBillBoard = nullptr;
 
 public:
 	static CBeer* Create(LPDIRECT3DDEVICE9 pGraphicDev, _bool _Item);

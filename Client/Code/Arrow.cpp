@@ -77,11 +77,15 @@ HRESULT CArrow::Ready_Object(CTransform* Weapon, CTransform* pOwner, _float _fSp
 
 _int CArrow::Update_Object(const _float& fTimeDelta)
 {
+
+	if (IsDead())
+		return 0;
+
 	Engine::Renderer()->Add_RenderGroup(RENDER_ALPHA, this);
 	
 	if (SceneManager()->Get_GameStop()) { return 0; }
 
-	_int iExit = __super::Update_Object(fTimeDelta);
+	_int iExit = __super::Update_Object(fTimeDelta);		
 
 	CPlayer& pPlayer = *dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer());
 
@@ -93,8 +97,12 @@ _int CArrow::Update_Object(const _float& fTimeDelta)
 
 	_float fDistance = D3DXVec3Length(&(m_pTransform->m_vInfo[INFO_POS] - m_vPrevPos));
 
-	if (fDistance > 60.f)
+	if (fDistance > 60.f && Get_State() != STATE::DEAD)
+	{
+		Set_State(STATE::DEAD);
 		EventManager()->DeleteObject(this);
+	}
+
 
 	m_pTransform->m_vInfo[INFO_POS] = m_pTransform->m_vInfo[INFO_POS] + m_vDir * m_fSpeed * fTimeDelta;
 
@@ -202,7 +210,7 @@ void CArrow::OnCollisionEnter(CCollider* _pOther)
 		Engine::EventManager()->DeleteObject(this);
 	}
 
-	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BLOCK)
+	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BLOCK || _pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::FRAGILE)
 		EventManager()->DeleteObject(this);
 }
 

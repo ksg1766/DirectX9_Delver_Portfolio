@@ -44,9 +44,6 @@ HRESULT CPlayer::Ready_Object(void)
 	m_bIsAttack = false;
 	m_bAttackTick = true;
 	m_bDrunk = false;
-	m_bLeftRot = false;
-	m_bRightRot = false;
-	m_bStartRot = true;
 	m_bThrowShield = false;
 	m_bIsAddiction = false;
 	m_bIsTalk = false;
@@ -74,6 +71,12 @@ HRESULT CPlayer::Ready_Object(void)
 
 	m_pStateMachine->Set_State(STATE::IDLE);
 
+	D3DXMatrixIdentity(&m_matPlayerWorld);
+	m_matPlayerWorld = m_pTransform->WorldMatrix();
+	m_fDrunkTime = 0.f;
+	m_vOriginLook = m_pTransform->m_vInfo[INFO_LOOK];
+	m_vOriginUp = m_pTransform->m_vInfo[INFO_UP];
+	m_vOriginRight = m_pTransform->m_vInfo[INFO_RIGHT];
 
 #pragma region PlayerStat
 	// 현재 상태
@@ -182,44 +185,13 @@ void CPlayer::LateUpdate_Object(void)
 	__super::LateUpdate_Object();
 
 	if (Get_Drunk())
-	{
-		if (m_bStartRot)
-		{
-			m_bStartRot = false;
-			D3DXMatrixIdentity(&m_matPlayerWorld);
-			m_matPlayerWorld = m_pTransform->WorldMatrix();
-		}
-
-		if (m_iRootCount < 4)
-		{
-			if (m_iDrunkCount < 30 && !m_bRightRot)
-			{
-				++m_iDrunkCount;
-				m_pTransform->Rotate(ROT_Z, 0.05 *  Engine::Get_TimeDelta(L"Timer_FPS60"));
-			}
-			else if (m_iDrunkCount > -30 && !m_bLeftRot)
-			{
-				--m_iDrunkCount;
-				m_pTransform->Rotate(ROT_Z, -0.05  * Engine::Get_TimeDelta(L"Timer_FPS60"));
-				m_bRightRot = true;
-			}
-			else
-			{
-				m_bRightRot = false;
-				++m_iRootCount;
-			}
-		}
-		else if (m_iDrunkCount == -20 && !m_bRightRot)
-		{
-			m_pTransform->Set_WorldMatrix(m_matPlayerWorld);
-			Set_Drunk(false);
-			m_bStartRot = true;
-			m_bLeftRot = false;
-			m_bRightRot = false;
-		}
-	}
+		IsDrunk();
 
 	m_pStateMachine->LateUpdate_StateMachine();
+
+	cout << m_pTransform->m_vInfo[INFO_POS].x << endl;
+	cout << m_pTransform->m_vInfo[INFO_POS].y << endl;
+	cout << m_pTransform->m_vInfo[INFO_POS].z << endl;
 }
 
 void CPlayer::Render_Object(void)
@@ -228,6 +200,7 @@ void CPlayer::Render_Object(void)
 	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
 	//m_pBuffer->Render_Buffer();
+
 
 #if _DEBUG
 	m_pCollider->Render_Collider();
@@ -758,6 +731,71 @@ void CPlayer::OnCollisionExit(CCollider* _pOther)
 	//}
 }
 
+void CPlayer::IsDrunk()
+{
+
+	m_fDrunkTime += Engine::Get_TimeDelta(L"Timer_FPS60");
+
+	if (m_fDrunkTime <= 0.5)
+	{
+		_matrix matRot;
+
+		_vec3 vUp = *D3DXVec3Cross(&vUp, &m_pTransform->m_vInfo[INFO_LOOK], &m_pTransform->m_vInfo[INFO_RIGHT]);
+		_vec3 vRight = *D3DXVec3Cross(&vRight, &m_pTransform->m_vInfo[INFO_UP], &m_pTransform->m_vInfo[INFO_LOOK]);
+		_vec3 vLook = m_pTransform->m_vInfo[INFO_LOOK];
+
+		D3DXMatrixRotationAxis(&matRot, &vLook, 0.1 * Engine::Get_TimeDelta(L"Timer_FPS60"));
+		D3DXVec3TransformCoord(&m_pTransform->m_vInfo[INFO_UP], &m_pTransform->m_vInfo[INFO_UP], &matRot);
+		D3DXVec3TransformCoord(&m_pTransform->m_vInfo[INFO_RIGHT], &m_pTransform->m_vInfo[INFO_RIGHT], &matRot);
+	}
+	else if(m_fDrunkTime <= 1.5)
+	{
+		_matrix matRot;
+
+
+		_vec3 vUp = *D3DXVec3Cross(&vUp, &m_pTransform->m_vInfo[INFO_LOOK], &m_pTransform->m_vInfo[INFO_RIGHT]);
+		_vec3 vRight = *D3DXVec3Cross(&vRight, &m_pTransform->m_vInfo[INFO_UP], &m_pTransform->m_vInfo[INFO_LOOK]);
+		_vec3 vLook = m_pTransform->m_vInfo[INFO_LOOK];
+
+		_vec3 vNewUp, vNewLook;
+
+		D3DXMatrixRotationAxis(&matRot, &vLook, -(0.1 * Engine::Get_TimeDelta(L"Timer_FPS60")));
+		D3DXVec3TransformCoord(&m_pTransform->m_vInfo[INFO_UP], &m_pTransform->m_vInfo[INFO_UP], &matRot);
+		D3DXVec3TransformCoord(&m_pTransform->m_vInfo[INFO_RIGHT], &m_pTransform->m_vInfo[INFO_RIGHT], &matRot);
+	}
+	else
+	{
+		_vec3 vDirUp = m_vOriginUp - m_pTransform->m_vInfo[INFO_UP];
+		_vec3 vDirRight = m_vOriginRight - m_pTransform->m_vInfo[INFO_RIGHT];
+
+		m_pTransform->m_vInfo[INFO_UP] += vDirUp * 0.5 * Engine::Get_TimeDelta(L"Timer_FPS60");
+		m_pTransform->m_vInfo[INFO_RIGHT] += vDirRight * 0.5 * Engine::Get_TimeDelta(L"Timer_FPS60");
+
+		_float fRightDistance = D3DXVec3Length(&vDirRight);
+		_float fUpDistance = D3DXVec3Length(&vDirUp);
+
+
+		if (m_iDrunkCount < 10)
+		{
+			if (fRightDistance <= 0.05f && fUpDistance <= 0.05f)
+			{
+				m_fDrunkTime = 0.f;
+				++m_iDrunkCount;
+			}
+		}
+		else
+		{
+			if (fRightDistance <= 0.0025f && fUpDistance <= 0.0025f)
+			{
+				m_fDrunkTime = 0.f;
+				m_bDrunk = false;
+			}
+		}
+
+			
+	}
+}
+
 void CPlayer::IsAttack(CBasicStat* _MonsterStat)
 {
 	_int iDamage = 1 + rand() % (m_pStat->Get_Stat()->iDamageMin +
@@ -873,6 +911,9 @@ void CPlayer::Create_Item(CCollider* _pOther)
 		break;
 	case ITEMID::WEAPON_EPICBOW:
 		pItem = CEpicBow::Create(m_pGraphicDev, false);
+		break;
+	case ITEMID::GENERAL_BEER:
+		pItem = CBeer::Create(m_pGraphicDev, false);
 		break;
 	}
 

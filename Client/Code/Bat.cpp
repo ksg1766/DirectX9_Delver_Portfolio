@@ -174,7 +174,7 @@ void CBat::OnCollisionStay(CCollider* _pOther)
 	if (this->Get_StateMachine()->Get_State() != STATE::DEAD &&
 		_pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::ITEM &&
 		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::PLAYER)
-		__super::OnCollisionEnter(_pOther);
+		__super::OnCollisionStay(_pOther);
 }
 
 void CBat::OnCollisionExit(CCollider* _pOther)

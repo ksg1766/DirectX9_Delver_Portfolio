@@ -120,10 +120,6 @@ void CLamp::Render_Object(void)
 		m_pCollider->Render_Collider();
 #endif // _DEBUG
 	}
-
-
-
-
 }
 
 HRESULT CLamp::Add_Component(void)

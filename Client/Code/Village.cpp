@@ -10,6 +10,7 @@
 
 #include "SpawningPool.h"
 #include "Box_Cube.h"
+#include "EquipBox.h"
 
 #include "Blade_Trap_Body.h"
 #include "StrikeDown_Trap_Body.h"
@@ -196,7 +197,7 @@ HRESULT CVillage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	// Player
 	pGameObject = CPlayer::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pGameObject->m_pTransform->Translate(_vec3(0.f, 0.f,-70.f));
+	pGameObject->m_pTransform->Translate(_vec3(0.f, 0.f, -70.f));
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 	m_pPlayer = dynamic_cast<CPlayer*>(pGameObject);
 
@@ -214,10 +215,24 @@ HRESULT CVillage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	dynamic_cast<CEpicBow*>(pItem)->Set_WorldItem(true);
 	pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
 
-	pGameObject = CBox_Cube::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pGameObject->m_pTransform->Translate(_vec3(-30.f, 3.5f, -30.f));
-	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+	for (_uint i = 0; i < 5; ++i)
+	{
+		pGameObject = CBox_Cube::Create(m_pGraphicDev);
+		NULL_CHECK_RETURN(pGameObject, E_FAIL);
+		_vec3 vPos = _vec3(-30.f, 3.5f, -30.f - (i * 5));
+		pGameObject->m_pTransform->Translate(vPos);
+		pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+	}
+
+	for (_uint i = 0; i < 5; ++i)
+	{
+		pGameObject = CEquipBox::Create(m_pGraphicDev);
+		NULL_CHECK_RETURN(pGameObject, E_FAIL);
+		_vec3 vPos = _vec3(-30.f, 3.5f, -30.f + (i * 5));
+		pGameObject->m_pTransform->Translate(vPos);
+		pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+	}
+
 
 	// Npc Test
 	pGameObject = CNpc_OldMan::Create(m_pGraphicDev);
@@ -392,6 +407,15 @@ HRESULT CVillage::Ready_Layer_UI(LAYERTAG _eLayerTag)
 	pGameObject = CUISpeech_Wizard::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	Engine::UIManager()->AddPopupGameobject_UI(Engine::UIPOPUPLAYER::POPUP_SPEECH, Engine::UILAYER::UI_DOWN, pGameObject);
+
+	pGameObject = CUIspeech_Bard::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	Engine::UIManager()->AddPopupGameobject_UI(Engine::UIPOPUPLAYER::POPUP_SPEECH, Engine::UILAYER::UI_DOWN, pGameObject);
+
+	pGameObject = CUISpeech_Alchemist::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	Engine::UIManager()->AddPopupGameobject_UI(Engine::UIPOPUPLAYER::POPUP_SPEECH, Engine::UILAYER::UI_DOWN, pGameObject);
+
 
 	Engine::UIManager()->Hide_PopupUI(Engine::UIPOPUPLAYER::POPUP_EQUIPMENT);
 	Engine::UIManager()->Hide_PopupUI(Engine::UIPOPUPLAYER::POPUP_INVEN);

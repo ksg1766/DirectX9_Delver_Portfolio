@@ -64,6 +64,9 @@ HRESULT CMagic_Ball::Ready_Object(CTransform* pOwner, _float _fSpeed, _vec3 _vOf
 
 _int CMagic_Ball::Update_Object(const _float& fTimeDelta)
 {
+	if (IsDead())
+		return 0;
+
 	Engine::Renderer()->Add_RenderGroup(RENDER_ALPHA, this);
 
 	if (SceneManager()->Get_GameStop()) { return 0; }
@@ -90,8 +93,12 @@ _int CMagic_Ball::Update_Object(const _float& fTimeDelta)
 	
 	_float fDistance = D3DXVec3Length(&(m_pTransform->m_vInfo[INFO_POS] - m_vInit));
 
-	if (fDistance > 60.f)
+	if (fDistance > 60.f && Get_State() != STATE::DEAD)
+	{
+		Set_State(STATE::DEAD);
 		EventManager()->DeleteObject(this);
+	}
+		
 
 	_vec3 vDir = m_vPrevPos - m_vInit;
 	D3DXVec3Normalize(&vDir, &vDir);

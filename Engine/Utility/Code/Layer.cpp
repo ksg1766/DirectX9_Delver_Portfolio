@@ -43,8 +43,9 @@ _int CLayer::Update_Layer(const _float & fTimeDelta)
 
 			for (auto& _iter = m_mapObject[(OBJECTTAG)i].begin(); _iter != m_mapObject[(OBJECTTAG)i].end();)
 			{
-				if (!(*_iter)->IsDead())
+				if (!(*_iter)->IsDead() && *_iter != nullptr)
 				{
+					if((*_iter)->Get_ObjectTag() != OBJECTTAG::BACKGROUND)
 					iResult = (*_iter)->Update_Object(fTimeDelta);
 					++_iter;
 
@@ -84,7 +85,8 @@ void CLayer::LateUpdate_Layer()
 {
 	for (auto& iter : m_mapObject)
 		for (auto& _iter : iter.second)
-			_iter->LateUpdate_Object();
+			if ((_iter)->Get_ObjectTag() != OBJECTTAG::BACKGROUND)
+				_iter->LateUpdate_Object();
 }
 
 CLayer * CLayer::Create(LAYERTAG _eLayerTag)

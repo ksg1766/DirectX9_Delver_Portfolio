@@ -27,7 +27,7 @@ private:
     HRESULT		Add_Component(void);
     void	    Key_Input(void);
     CFont*      m_pFont = nullptr;
-    ID3DXFont* m_pFontconfig[2];
+    ID3DXFont* m_pFontconfig;
     CGameObject* m_pGameObject;
 
     _uint      m_iSpeech;

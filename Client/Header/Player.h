@@ -85,6 +85,7 @@ public:
 	void			Set_Talk(_bool _talk)							{ m_bIsTalk = _talk; }
 
 	_bool			Get_Parrying()									{ return m_bParrying; }
+	void			IsDrunk();
 
 public:
 	//void			Add_Item(CGameObject* pItem, ITEMTAG _eItem) { m_pItem[(_uint)_eItem] = pItem; }
@@ -123,6 +124,7 @@ private:
 	_bool			m_bThrowShield;
 	_bool			m_bIsAddiction;
 	_bool			m_bIsTalk;
+	_float			m_fDrunkTime;
 
 	_int			m_iDrunkCount;
 	_int			m_iAddictionCount;
@@ -131,9 +133,6 @@ private:
 	_bool			m_IsJump = false;
 
 	_bool			m_OnGround = false;
-	_bool			m_bLeftRot;
-	_bool			m_bRightRot;
-	_bool			m_bStartRot;
 
 	_int			m_iRootCount;
 
@@ -152,6 +151,10 @@ private:
 	_bool			m_bPoisoning = false;
 	_float			m_fPoisoningTime = 0.f;
 	_uint			m_iPosingingCount = 0;
+
+	_vec3			m_vOriginUp;
+	_vec3			m_vOriginLook;
+	_vec3			m_vOriginRight;
 public:
 	static CPlayer*		Create(LPDIRECT3DDEVICE9 pGraphicDev);
 

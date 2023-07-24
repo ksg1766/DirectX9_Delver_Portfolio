@@ -207,6 +207,7 @@
     <ClInclude Include="..\Header\Cheese.h" />
     <ClInclude Include="..\Header\EpicBow.h" />
     <ClInclude Include="..\Header\EffectStar.h" />
+    <ClInclude Include="..\Header\EquipBox.h" />
     <ClInclude Include="..\Header\FireWallPttern.h" />
     <ClInclude Include="..\Header\FIreWave2.h" />
     <ClInclude Include="..\Header\FireWavePattern.h" />
@@ -248,9 +249,6 @@
     <ClInclude Include="..\Header\Boss_Sturn.h" />
     <ClInclude Include="..\Header\Bow.h" />
     <ClInclude Include="..\Header\Charge.h" />
-    <ClInclude Include="..\Header\Chease.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClInclude>
     <ClInclude Include="..\Header\CrawlPattern.h" />
     <ClInclude Include="..\Header\EffectBlood.h" />
     <ClInclude Include="..\Header\EffectBrokenbox.h" />
@@ -366,6 +364,7 @@
     <ClInclude Include="..\Header\UIOptionsButton.h" />
     <ClInclude Include="..\Header\UIplayerhp.h" />
     <ClInclude Include="..\Header\UIResumeButton.h" />
+    <ClInclude Include="..\Header\UISpeech_Alchemist.h" />
     <ClInclude Include="..\Header\UISpeech_Bard.h" />
     <ClInclude Include="..\Header\UISpeech_OldMan.h" />
     <ClInclude Include="..\Header\UISpeech_Wizard.h" />
@@ -423,6 +422,7 @@
     <ClCompile Include="..\Code\Cheese.cpp" />
     <ClCompile Include="..\Code\EpicBow.cpp" />
     <ClCompile Include="..\Code\EffectStar.cpp" />
+    <ClCompile Include="..\Code\EquipBox.cpp" />
     <ClCompile Include="..\Code\FireWallPttern.cpp" />
     <ClCompile Include="..\Code\FIreWave2.cpp" />
     <ClCompile Include="..\Code\FireWavePattern.cpp" />
@@ -461,9 +461,6 @@
     <ClCompile Include="..\Code\Bow.cpp" />
     <ClCompile Include="..\Code\Box_Cube.cpp" />
     <ClCompile Include="..\Code\Charge.cpp" />
-    <ClCompile Include="..\Code\Chease.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="..\Code\CrawlPattern.cpp" />
     <ClCompile Include="..\Code\EffectBlood.cpp" />
     <ClCompile Include="..\Code\EffectBrokenbox.cpp" />
@@ -579,6 +576,7 @@
     <ClCompile Include="..\Code\UIOptionsButton.cpp" />
     <ClCompile Include="..\Code\UIplayerhp.cpp" />
     <ClCompile Include="..\Code\UIResumeButton.cpp" />
+    <ClCompile Include="..\Code\UISpeech_Alchemist.cpp" />
     <ClCompile Include="..\Code\UISpeech_Bard.cpp" />
     <ClCompile Include="..\Code\UISpeech_OldMan.cpp" />
     <ClCompile Include="..\Code\UISpeech_Wizard.cpp" />

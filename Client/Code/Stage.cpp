@@ -249,6 +249,12 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	pGameObject->m_pTransform->Translate(_vec3(-40.f, 1.f, -35.f));
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
+	pGameObject = CDungeonWarrior::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	pGameObject->m_pTransform->Translate(_vec3(-36.f, 12.f, 18.f));
+	//dynamic_cast<CDungeonWarrior*>(pGameObject)->Set_CenterPos(_vec3(-30.f, 13.f, 15.f));
+	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+
 	CItem* pItem = CTempItem::Create(m_pGraphicDev, true);
 	NULL_CHECK_RETURN(pItem, E_FAIL);
 	pItem->m_pTransform->Translate(_vec3(-40, 1.5f, 0.f));
@@ -579,8 +585,9 @@ HRESULT CStage::Load_Data()
 	//HANDLE hFile = CreateFile(L"../Bin/Data/Sewer_TrapTest.dat", GENERIC_READ, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
 	//HANDLE hFile = CreateFile(L"../Bin/Data/Sewer.dat", GENERIC_READ, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
 	//HANDLE hFile = CreateFile(L"../Bin/Data/TempData.dat", GENERIC_READ, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
-	HANDLE hFile = CreateFile(L"../Bin/Data/TerrainGiantTree10.dat", GENERIC_READ,	0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
+	//HANDLE hFile = CreateFile(L"../Bin/Data/TerrainGiantTree10.dat", GENERIC_READ,	0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
 	//HANDLE hFile = CreateFile(L"../Bin/Data/BossStage_3rd.dat", GENERIC_READ, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
+	HANDLE hFile = CreateFile(L"../Bin/Data/Sewer_TrapTest.dat", GENERIC_READ, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
 
 	if (INVALID_HANDLE_VALUE == hFile)
 		return E_FAIL;
@@ -619,24 +626,24 @@ HRESULT CStage::Load_Data()
 
 			CGameObject* pGameObject = nullptr;
 
-			if (31 == byTextureNumber || 32 == byTextureNumber)
-			{
-				pGameObject = CDynamicCubeBlock::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
-				NULL_CHECK_RETURN(pGameObject, E_FAIL);
-				dynamic_cast<CDynamicCubeBlock*>(pGameObject)->Set_TextureNumber(byTextureNumber);
-				pGameObject->m_pTransform->Translate(_vec3(fX, fY + 1.f, fZ));
-				pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-				//EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
-			}
-			else
-			{
+			//if (31 == byTextureNumber || 32 == byTextureNumber)
+			//{
+			//	pGameObject = CDynamicCubeBlock::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+			//	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+			//	dynamic_cast<CDynamicCubeBlock*>(pGameObject)->Set_TextureNumber(byTextureNumber);
+			//	pGameObject->m_pTransform->Translate(_vec3(fX, fY + 1.f, fZ));
+			//	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+			//	//EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+			//}
+			//else
+			//{
 				pGameObject = CCubeBlock::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
 				NULL_CHECK_RETURN(pGameObject, E_FAIL);
 				dynamic_cast<CCubeBlock*>(pGameObject)->Set_TextureNumber(byTextureNumber);
 				pGameObject->m_pTransform->Translate(_vec3(fX, fY + 1.f, fZ));
 				pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 				//EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
-			}
+			//}
 		}
 		else if (OBJECTTAG::SPAWNINGPOOL == eTag)
 		{

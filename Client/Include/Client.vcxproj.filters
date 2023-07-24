@@ -727,7 +727,6 @@
     <Filter Include="03. GameObject\02. Village\04. StageTrigger">
       <UniqueIdentifier>{f64aa339-c586-4e01-b9f2-1b964d95e544}</UniqueIdentifier>
     </Filter>
-
     <Filter Include="03. GameObject\03. UI\14. UISpeech\01. NPC\03. Dog">
       <UniqueIdentifier>{f34c8855-6dd9-41b7-ac37-987d280aa3c5}</UniqueIdentifier>
     </Filter>
@@ -736,6 +735,15 @@
     </Filter>
     <Filter Include="03. GameObject\07. Effect\21. EffectBonfire">
       <UniqueIdentifier>{74930c55-f1d8-49d0-a8d0-0beb4251c0b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\03. UI\14. UISpeech\01. NPC\05. Alchemist">
+      <UniqueIdentifier>{6786ef35-08e3-4bea-8b28-4798eff12c9d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\01. Stage\02. Item\Armor\Epic">
+      <UniqueIdentifier>{7ffa82a7-ff41-4c66-8750-b2f28020fa67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\01. Stage\06. Fragile\02. EquipBox">
+      <UniqueIdentifier>{170e14a5-db4c-4c54-9936-eb8f21414919}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1434,6 +1442,12 @@
     <ClInclude Include="..\Header\FIreWave2.h">
       <Filter>03. GameObject\01. Stage\999. Boss\02. State\03. Attack\02. 3Phase\01. FireWave</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\UISpeech_Alchemist.h">
+      <Filter>03. GameObject\03. UI\14. UISpeech\01. NPC\05. Alchemist</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\EquipBox.h">
+      <Filter>03. GameObject\01. Stage\06. Fragile\02. EquipBox</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -2091,6 +2105,12 @@
     </ClCompile>
     <ClCompile Include="..\Code\FIreWave2.cpp">
       <Filter>03. GameObject\01. Stage\999. Boss\02. State\03. Attack\02. 3Phase\01. FireWave</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UISpeech_Alchemist.cpp">
+      <Filter>03. GameObject\03. UI\14. UISpeech\01. NPC\05. Alchemist</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\EquipBox.cpp">
+      <Filter>03. GameObject\01. Stage\06. Fragile\02. EquipBox</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

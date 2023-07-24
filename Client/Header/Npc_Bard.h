@@ -29,6 +29,9 @@ public:
 	virtual void		OnCollisionStay(CCollider* _pOther);
 	virtual void		OnCollisionExit(CCollider* _pOther);
 
+public:
+	_bool		IsTalk() { return m_bTalking; }
+
 private:
 	HRESULT	Add_Component();
 
@@ -43,9 +46,10 @@ private:
 	_vec3			m_vDir;
 	_float			m_fDistance;
 
-	_bool			m_bUseUI;
+	_bool			m_bTalking;
 	_bool			m_bTalkButton;
 	_bool			m_bTalkingBox;
+
 	_float			m_fFontTime;
 	CGameObject* m_pGameObject;
 public:

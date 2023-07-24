@@ -79,6 +79,7 @@ void CRandomPotion::LateUpdate_Object(void)
 	if (SceneManager()->Get_GameStop()) { return; }
 
 	__super::LateUpdate_Object();
+	m_pTransform->Scale(_vec3(0.3f, 0.3f, 0.3f));
 	//	__super::Compute_ViewZ(&m_pTransform->m_vInfo[INFO_POS]);
 }
 
@@ -118,6 +119,13 @@ HRESULT CRandomPotion::Add_Component(void)
 	pComponent = m_pBasicStat = dynamic_cast<CBasicStat*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BasicStat"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BASICSTAT, pComponent);
+
+	if (Get_WorldItem())
+	{
+		pComponent = m_pBillBoard = dynamic_cast<CBillBoard*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BillBoard"));
+		NULL_CHECK_RETURN(pComponent, E_FAIL);
+		m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::BILLBOARD, pComponent);
+	}
 
 	for (int i = 0; i < ID_END; ++i)
 		for (auto& iter : m_mapComponent[i])
