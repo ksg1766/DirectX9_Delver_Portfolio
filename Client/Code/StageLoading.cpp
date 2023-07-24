@@ -49,15 +49,10 @@ Engine::_int CStageLoading::Update_Scene(const _float& fTimeDelta)
 		Engine::UIManager()->Delete_BasicObject(Engine::UILAYER::UI_DOWN);
 		Engine::UIManager()->Delete_BasicObject(Engine::UILAYER::UI_MIDDLE);
 
-		CScene*		pScene = CStage::Create(m_pGraphicDev);
+		CScene*		pScene = CVillage::Create(m_pGraphicDev);
 		//CScene* pScene = CStage::Create(m_pGraphicDev);
 
 		NULL_CHECK_RETURN(pScene, -1);
-
-		Engine::CGameObject*  pGameObject = CBlackIn::Create(m_pGraphicDev);
-		NULL_CHECK_RETURN(pGameObject, E_FAIL);
-		dynamic_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_BASIC, 0);
-		Engine::UIManager()->AddBasicGameobject_UI(Engine::UILAYER::UI_UP, pGameObject);
 
 		FAILED_CHECK_RETURN(Engine::SceneManager()->Set_Scene(pScene), E_FAIL);
 		SceneManager()->Load_Data();

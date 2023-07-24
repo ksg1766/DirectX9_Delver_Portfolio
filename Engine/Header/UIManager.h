@@ -274,6 +274,8 @@ public:
 
 	void         Set_ColliderSlot(UIOBJECTTTAG _SlotTag, _uint _UINumber, _bool _Setbool);
 	CGameObject* Find_ColliderSlot();
+	void         Set_PickingItemUI(CGameObject* _pObject) { m_pPickingObject = _pObject; }
+	CGameObject* Get_PickingItemUI() { return m_pPickingObject; }
 
 public:
 	_int  Update_UI(const _float& fTimeDelta);
@@ -293,6 +295,7 @@ public:
 	_bool m_bEsc	  = false;
 	_bool m_bSpeech   = false;
 	_bool m_bShop	  = false;
+	_bool m_bMouse    = false;
 
 	_bool m_bSlotBasicCollider[5];     // UIOBJECTTTAG::UIID_SLOTBASIC
 	_bool m_bSlotEquipmentCollider[6]; // UIOBJECTTTAG::UIID_SLOTEQUIPMENT
@@ -300,11 +303,13 @@ public:
 
 private:
 	vector<CGameObject*> m_vecUIbasic[UILAYER::UI_END];
-	map<UIPOPUPLAYER, vector<CGameObject*>[UILAYER::UI_END]> m_mapPpopupUI;
+	map<UIPOPUPLAYER, list<CGameObject*>[UILAYER::UI_END]> m_mapPpopupUI;
 
 	//vector<CGameObject*> m_vecCreate;
 	vector<CGameObject*> m_vecItemDead;
 	vector<CGameObject*> m_vecDead;
+
+	CGameObject* m_pPickingObject = nullptr;
 
 	//vector<CGameObject*> m_vecBasicItem;
 

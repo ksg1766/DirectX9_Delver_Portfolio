@@ -434,10 +434,18 @@ void CUIManager::Render_UI(LPDIRECT3DDEVICE9 pGraphicDev)
 		for (size_t i = 0; i < UILAYER::UI_END; ++i)
 		{
 			for (auto iter : Mapiter.second[i])
+			{
 				if (iter != nullptr)
+				{
+					if (Mapiter.first == UIPOPUPLAYER::POPUP_ITEM && i == UILAYER::UI_DOWN && m_pPickingObject != nullptr && iter == m_pPickingObject) { continue; }
 					iter->Render_Object();
+				}
+			}	
 		}
 	}
+
+	if (m_pPickingObject != nullptr)
+		m_pPickingObject->Render_Object();
 
 	pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE); // ¾ËÆÄ·»´õ¸µ OFF
 

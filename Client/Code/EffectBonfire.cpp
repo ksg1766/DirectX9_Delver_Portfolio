@@ -21,9 +21,11 @@ HRESULT CEffectBonfire::Ready_Object(void)
 
 	m_pTransform->Translate(_vec3(0.f, 4.f, -22.f));
 
-	m_fLife = 5.f;
+	//m_fLife = 5.f;
 
-	m_fEffectScale = .2f;
+	m_fMoveSpeed    = CTempEffect::Get_RandomFloat(0.2f, 1.f);
+	m_fMoveStopTime = CTempEffect::Get_RandomFloat(0.1f, 0.3f);
+	m_fEffectScale = .1f;
 
 	return S_OK;
 }
@@ -34,33 +36,49 @@ _int CEffectBonfire::Update_Object(const _float& fTimeDelta)
 
 	m_fMoveTime += 1.f * fTimeDelta;
 
-	if (m_fTime > m_fLife)
+	if (m_pTransform->m_vInfo[INFO_POS].y > 7.f)//m_fTime > m_fLife)
 	{
-		m_fTime = 0.f;
+		//m_fTime = 0.f;
 		m_fMoveTime = 0.f;
 
-		m_fEffectScale = .2f;
+		m_fMoveSpeed    = CTempEffect::Get_RandomFloat(0.3f, 1.f);
+		m_fMoveStopTime = CTempEffect::Get_RandomFloat(0.1f, 0.3f);
+		m_fEffectScale = .1f;
+
 		m_pTransform->m_vInfo[INFO_POS].x = 0.f;
 		m_pTransform->m_vInfo[INFO_POS].y = 4.f;
 		m_pTransform->m_vInfo[INFO_POS].z = -22.f;
 		//CPoolManager::GetInstance()->Delete_Object(this);
 	}
 
-	m_pTransform->m_vInfo[INFO_POS].y += 2.f * fTimeDelta;
-	if(m_fEffectScale > 0.f)
-		m_fEffectScale -= .05f * fTimeDelta;
+	m_pTransform->m_vInfo[INFO_POS].y += m_fMoveSpeed * fTimeDelta;
 
-	if (m_fMoveTime < .5f)
+	if (m_pTransform->m_vInfo[INFO_POS].y > 3.f)
 	{
-		m_pTransform->m_vInfo[INFO_POS].x += 2.f * fTimeDelta;
+		m_fEffectScale -= .015f * fTimeDelta;
+		if (m_fEffectScale < 0.f)
+			m_fEffectScale = 0.f;
 	}
-	else if(.5f < m_fMoveTime)
+
+	if (m_fMoveTime < m_fMoveStopTime)
 	{
-		m_pTransform->m_vInfo[INFO_POS].x -= 2.f * fTimeDelta;
-		if (1.5f < m_fMoveTime)
-		{
-			m_fMoveTime = 0.f;
-		}
+		m_pTransform->m_vInfo[INFO_POS].x += m_fMoveSpeed * fTimeDelta;
+	}
+	else if (m_fMoveStopTime < m_fMoveTime && m_fMoveTime < m_fMoveStopTime * 2)
+	{
+		m_pTransform->m_vInfo[INFO_POS].x -= m_fMoveSpeed * fTimeDelta;
+	}
+	else if (m_fMoveStopTime * 2 < m_fMoveTime && m_fMoveTime < m_fMoveStopTime * 3)
+	{
+		m_pTransform->m_vInfo[INFO_POS].x -= m_fMoveSpeed * fTimeDelta;
+	}
+	else if (m_fMoveStopTime * 3 < m_fMoveTime && m_fMoveTime < m_fMoveStopTime * 4)
+	{
+		m_pTransform->m_vInfo[INFO_POS].x += m_fMoveSpeed * fTimeDelta;
+	}
+	else if (m_fMoveStopTime * 4 < m_fMoveTime)
+	{
+		m_fMoveTime = 0.f;
 	}
 
 	_int iExit = CTempEffect::Update_Object(fTimeDelta);

@@ -5,6 +5,8 @@
 #include "Export_Function.h"
 #include "Logo.h"
 #include "Stage.h"
+#include "Village.h"
+#include "BossStage.h"
 
 float g_fSound = 1.f;
 
@@ -46,6 +48,22 @@ int CMainApp::Update_MainApp(const float & fTimeDelta)
 		int a = 0;
 	}
 */
+	// 스테이지 이동 테스트
+	if (Engine::InputDev()->Key_Down(DIK_F7))
+	{
+		CScene* pScene = CVillage::Create(m_pGraphicDev);
+		Engine::SceneManager()->Change_Scene(pScene);
+	}
+	else if (Engine::InputDev()->Key_Down(DIK_F8))
+	{
+		CScene* pScene = CStage::Create(m_pGraphicDev);
+		Engine::SceneManager()->Change_Scene(pScene);
+	}
+	else if (Engine::InputDev()->Key_Down(DIK_F9))
+	{
+		CScene* pScene = CBossStage::Create(m_pGraphicDev);
+		Engine::SceneManager()->Change_Scene(pScene);
+	}
 
 	return 0;
 }

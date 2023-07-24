@@ -196,6 +196,7 @@ private:
 	_bool       m_bTooltipRender = false;
 
 	_bool       m_bMove = false;
+	_bool       m_bOnly = false;
 
 	_matrix     m_Position;
 

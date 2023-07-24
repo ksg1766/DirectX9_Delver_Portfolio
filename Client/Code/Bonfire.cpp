@@ -1,6 +1,7 @@
 #include "Bonfire.h"
 #include "Export_Function.h"
 #include "EffectBonfire.h"
+#include "Fire.h"
 
 CBonfire::CBonfire(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CGameObject(pGraphicDev)
@@ -23,9 +24,15 @@ HRESULT CBonfire::Ready_Object(void)
 
 	m_pTransform->Translate(_vec3(0.f, 3.f, -22.f));
 
-	// 불 이펙트 추가 생성
-	CGameObject* pGameObject = CEffectBonfire::Create(m_pGraphicDev);
+	CGameObject* pGameObject = CFire::Create(m_pGraphicDev);
 	Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+
+	// 불 이펙트 추가 생성
+	for (_uint i = 0; i < 4; ++i){
+		pGameObject = CEffectBonfire::Create(m_pGraphicDev);
+		pGameObject->m_pTransform->Translate(_vec3(0.f, 1.f * i, 0.f));
+		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+	}
 
 	return S_OK;
 }

@@ -31,7 +31,12 @@
 #include "SoundManager.h"
 
 #include "Jump_Plate.h"
+<<<<<<< HEAD
 #include "Boss_Lightning.h"
+=======
+#include "BlackIn.h"
+
+>>>>>>> origin/feature/hana
 CStage::CStage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
 {
@@ -43,13 +48,18 @@ CStage::~CStage()
 
 HRESULT CStage::Ready_Scene()
 {
+	Engine::CGameObject* pGameObject = CBlackIn::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	dynamic_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_BASIC, 0);
+	Engine::UIManager()->AddBasicGameobject_UI(Engine::UILAYER::UI_UP, pGameObject);
+
 	m_eSceneTag = SCENETAG::STAGE;
 
-	FAILED_CHECK_RETURN(Ready_Prototype(), E_FAIL);
+	//FAILED_CHECK_RETURN(Ready_Prototype(), E_FAIL);
 
 	FAILED_CHECK_RETURN(Ready_Layer_Environment(LAYERTAG::ENVIRONMENT), E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_GameLogic(LAYERTAG::GAMELOGIC), E_FAIL);
-	FAILED_CHECK_RETURN(Ready_Layer_UI(LAYERTAG::UI), E_FAIL);
+	//FAILED_CHECK_RETURN(Ready_Layer_UI(LAYERTAG::UI), E_FAIL);
 
 	//m_pGraphicDev->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
 	//m_pGraphicDev->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
@@ -75,39 +85,32 @@ void CStage::LateUpdate_Scene()
 	UIManager()->LateUpdate_UI();
 
 	// 테스트용입니다.
-	if (Engine::InputDev()->Key_Down(DIK_F7))
-	{
-		CGameObject* pGameObject = CEffectBubble::Create(m_pGraphicDev);
-
-		//pGameObject->m_pTransform->Translate(_vec3(-40.f, 5.f, -40.f));
-		//Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
-		CPoolManager::GetInstance()->Create_Effect(EFFECTTAG::EFFECT_BROKENBOX, _vec3(-40.f, 5.f, -40.f));
-	}
-	else if (Engine::InputDev()->Key_Down(DIK_F8))
-	{
-		CGameObject* pGameObject = CEffectBrokenbox::Create(m_pGraphicDev);
-		pGameObject->m_pTransform->Translate(_vec3(-40.f, 3.5f, -40.f));
-		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
-		//CPoolManager::GetInstance()->Create_Effect(EFFECTTAG::, TargetPos);
-	}
-	//else if (Engine::InputDev()->Key_Down(DIK_F9))
+	//if (Engine::InputDev()->Key_Down(DIK_F7))
 	//{
-	//	CGameObject* pGameObject = CEffectTwinkle::Create(m_pGraphicDev);
+	//	CGameObject* pGameObject = CEffectBubble::Create(m_pGraphicDev);
+
+	//	//pGameObject->m_pTransform->Translate(_vec3(-40.f, 5.f, -40.f));
+	//	//Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+	//	CPoolManager::GetInstance()->Create_Effect(EFFECTTAG::EFFECT_BROKENBOX, _vec3(-40.f, 5.f, -40.f));
+	//}
+	//else if (Engine::InputDev()->Key_Down(DIK_F8))
+	//{
+	//	CGameObject* pGameObject = CEffectBrokenbox::Create(m_pGraphicDev);
 	//	pGameObject->m_pTransform->Translate(_vec3(-40.f, 3.5f, -40.f));
 	//	Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 	//	//CPoolManager::GetInstance()->Create_Effect(EFFECTTAG::, TargetPos);
 	//}
 
-	if (Engine::InputDev()->Key_Down(DIK_F9))
-	{
-		CSoundManager::GetInstance()->PlaySound(L"01_Title_Screen", CHANNELID::SOUND_EFFECT, g_fSound);
-		CSoundManager::GetInstance()->PlayBGM(L"11_10.Player_Die.wav", g_fSound);
-	}
-	if (Engine::InputDev()->Key_Pressing(DIK_K))
-	{
-		CSoundManager::GetInstance()->PlaySound(L"03_StartVillage", CHANNELID::SOUND_EFFECT, g_fSound);
-		CSoundManager::GetInstance()->PlayBGM(L"11_10.Player_Die.wav", g_fSound);
-	}
+	//if (Engine::InputDev()->Key_Down(DIK_F9))
+	//{
+	//	CSoundManager::GetInstance()->PlaySound(L"01_Title_Screen", CHANNELID::SOUND_EFFECT, g_fSound);
+	//	CSoundManager::GetInstance()->PlayBGM(L"11_10.Player_Die.wav", g_fSound);
+	//}
+	//if (Engine::InputDev()->Key_Pressing(DIK_K))
+	//{
+	//	CSoundManager::GetInstance()->PlaySound(L"03_StartVillage", CHANNELID::SOUND_EFFECT, g_fSound);
+	//	CSoundManager::GetInstance()->PlayBGM(L"11_10.Player_Die.wav", g_fSound);
+	//}
 
 }
 
@@ -119,6 +122,7 @@ void CStage::Render_Scene()
 void CStage::Free()
 {
 	CPoolManager::DestroyInstance();
+
 	__super::Free();
 }
 
@@ -150,18 +154,20 @@ HRESULT CStage::Ready_Layer_Environment(LAYERTAG _eLayerTag)
 
 	Engine::CGameObject*		pGameObject = nullptr;
 
+#pragma region 첫 번째 씬에서 받아오는 오브젝트
 	// DynamicCamera
-	pGameObject = CDynamicCamera::Create(m_pGraphicDev, 
-											&_vec3(0.f, 0.f, 0.f),
-											&_vec3(0.f, 0.f, 1.f),
-											&_vec3(0.f, 1.f, 0.f),
-											D3DXToRadian(90.f), 
-											(_float)WINCX / WINCY,
-											0.1f, 
-											1000.f);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-	
+	//pGameObject = CDynamicCamera::Create(m_pGraphicDev, 
+	//										&_vec3(0.f, 0.f, 0.f),
+	//										&_vec3(0.f, 0.f, 1.f),
+	//										&_vec3(0.f, 1.f, 0.f),
+	//										D3DXToRadian(90.f), 
+	//										(_float)WINCX / WINCY,
+	//										0.1f, 
+	//										1000.f);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+#pragma endregion 첫 번째 씬에서 받아오는 오브젝트
+
 	// SkyBox
 	pGameObject = CSkyBox::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
@@ -193,23 +199,26 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 
 	Engine::CGameObject*		pGameObject = nullptr;
 
-	// Player
-	pGameObject = CPlayer::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+#pragma region 첫 번째 씬에서 받아오는 오브젝트
+	//// Player
+    //pGameObject = CPlayer::Create(m_pGraphicDev);
+    //NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    
+    ////pGameObject->m_pTransform->Translate(_vec3(-40.f, 1.f,-40.f));
+    //pGameObject->m_pTransform->Translate(_vec3(0.f, 1.f, 0.f));
+    ////pGameObject->m_pTransform->Translate(_vec3(100.f, 10.f,0.f));
+    
+    //pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+    //m_pPlayer = dynamic_cast<CPlayer*>(pGameObject);
+    
+    //// FootRay
+    //pGameObject = CFootRay::Create(m_pGraphicDev);
+    //NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    //pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+    //dynamic_cast<CFootRay*>(pGameObject)->Set_Host(m_pPlayer);
+    ////pGameObject->m_pTransform->Translate(m_pPlayer->m_pTransform->m_vInfo[INFO_POS] + _vec3(0.f, -1.25f, 0.f));
 
-	//pGameObject->m_pTransform->Translate(_vec3(-40.f, 1.f,-40.f));
-	pGameObject->m_pTransform->Translate(_vec3(0.f, 1.f, 0.f));
-	//pGameObject->m_pTransform->Translate(_vec3(100.f, 10.f,0.f));
-
-	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-	m_pPlayer = dynamic_cast<CPlayer*>(pGameObject);
-
-	// FootRay
-	pGameObject = CFootRay::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-	dynamic_cast<CFootRay*>(pGameObject)->Set_Host(m_pPlayer);
-	//pGameObject->m_pTransform->Translate(m_pPlayer->m_pTransform->m_vInfo[INFO_POS] + _vec3(0.f, -1.25f, 0.f));
+#pragma endregion 첫 번째 씬에서 받아오는 오브젝트
 
 	// Boss
 	pGameObject = CSkeletonKing::Create(m_pGraphicDev);
@@ -426,11 +435,12 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 
 HRESULT CStage::Ready_Layer_UI(LAYERTAG _eLayerTag)
 {
-	Engine::CLayer*		pLayer = Engine::CLayer::Create(_eLayerTag);
+	Engine::CLayer* pLayer = Engine::CLayer::Create(_eLayerTag);
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
 
-	Engine::CGameObject*		pGameObject = nullptr;
+	Engine::CGameObject* pGameObject = nullptr;
 
+#pragma region 첫 번째 씬에서 받아오는 오브젝트
 	// 기본 인벤토리 5칸
 	for (_uint i = 0; i < 5; ++i)
 	{
@@ -564,7 +574,8 @@ HRESULT CStage::Ready_Layer_UI(LAYERTAG _eLayerTag)
 	Engine::UIManager()->Hide_PopupUI(Engine::UIPOPUPLAYER::POPUP_ESC);
 	Engine::UIManager()->Hide_PopupUI(Engine::UIPOPUPLAYER::POPUP_SPEECH);	// Speech Bubble Test
 	Engine::UIManager()->Hide_PopupUI(Engine::UIPOPUPLAYER::POPUP_SHOP);	// Speech Bubble Test
-
+#pragma endregion 첫 번째 씬에서 받아오는 오브젝트
+	
 	m_mapLayer.insert({ _eLayerTag, pLayer });
 
 	return S_OK;

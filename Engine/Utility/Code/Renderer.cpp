@@ -52,7 +52,7 @@ void CRenderer::Render_GameObject(LPDIRECT3DDEVICE9& pGraphicDev)
 
 	Render_Nonalpha(pGraphicDev);
 	Render_Alpha(pGraphicDev);
-	pGraphicDev->SetRenderState(D3DRS_LIGHTING, FALSE);
+	//pGraphicDev->SetRenderState(D3DRS_LIGHTING, FALSE);
 	Render_UI(pGraphicDev);
 
 	Clear_RenderGroup();
@@ -78,7 +78,7 @@ void CRenderer::Render_Priority(LPDIRECT3DDEVICE9& pGraphicDev)
 
 		pGraphicDev->SetRenderState(D3DRS_FOGENABLE, TRUE);
 		pGraphicDev->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_LINEAR);
-		// 안개 색상 설정
+		
 		pGraphicDev->SetRenderState(D3DRS_FOGCOLOR, D3DCOLOR_ARGB(100, 60, 10, 55));
 
 		pGraphicDev->SetRenderState(D3DRS_FOGSTART, *(DWORD*)&fNear);
@@ -86,6 +86,8 @@ void CRenderer::Render_Priority(LPDIRECT3DDEVICE9& pGraphicDev)
 	}
 	else if (SCENETAG::STAGE == CurrentScene)
 	{
+		pGraphicDev->SetRenderState(D3DRS_FOGENABLE, FALSE);
+
 		//pGraphicDev->SetRenderState(D3DRS_FOGENABLE, TRUE);
 		//pGraphicDev->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_LINEAR);
 		//// 안개 색상 설정
@@ -145,9 +147,6 @@ void CRenderer::Remder_Effect(LPDIRECT3DDEVICE9& pGraphicDev)
 
 void CRenderer::Render_UI(LPDIRECT3DDEVICE9& pGraphicDev)
 {
-	//for (auto iter : m_RenderGroup[RENDER_UI])
-	//	iter->Render_Object();
-
 	UIManager()->Render_UI(pGraphicDev);
 }
 

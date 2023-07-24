@@ -67,12 +67,16 @@ void CUIplayerhp::LateUpdate_Object(void)
 {
 	CTempUI::LateUpdate_Object();
 
-	CPlayer& rPlayer = *dynamic_cast<CPlayer*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
+	CGameObject* pObject = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front();
+	if (pObject != nullptr)
+	{
+		CPlayer& rPlayer = *dynamic_cast<CPlayer*>(pObject);
 
-	m_iMaxHp = rPlayer.Get_Stat()->Get_Stat()->fMaxHP;
-	m_iCurrentHp = rPlayer.Get_Stat()->Get_Stat()->fHP;
+		m_iMaxHp = rPlayer.Get_Stat()->Get_Stat()->fMaxHP;
+		m_iCurrentHp = rPlayer.Get_Stat()->Get_Stat()->fHP;
 
-	Update_NumverUI();
+		Update_NumverUI();
+	}
 }
 
 void CUIplayerhp::Render_Object()

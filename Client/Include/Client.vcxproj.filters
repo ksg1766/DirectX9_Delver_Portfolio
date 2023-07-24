@@ -754,6 +754,15 @@
     <Filter Include="03. GameObject\01. Stage\999. Boss\01. AttackEff\04. Meteor_Cube\Mini">
       <UniqueIdentifier>{b9f85d20-74f3-4465-b73b-c4b171340f1f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. GameObject\02. Village\03. Bonfire\00. Fire">
+      <UniqueIdentifier>{f040a002-705d-460b-bac5-840a2f1a6f78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\02. Village\04. VillageTriger">
+      <UniqueIdentifier>{f64aa339-c586-4e01-b9f2-1b964d95e544}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Scene\06. BossStage">
+      <UniqueIdentifier>{d4af6fbb-ea68-4551-980d-acd8d9142c16}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -1481,6 +1490,15 @@
     <ClInclude Include="..\Header\MiniMeteor.h">
       <Filter>03. GameObject\01. Stage\999. Boss\01. AttackEff\04. Meteor_Cube\Mini</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\Fire.h">
+      <Filter>03. GameObject\02. Village\03. Bonfire\00. Fire</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\VillageTriger.h">
+      <Filter>03. GameObject\02. Village\04. VillageTriger</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\BossStage.h">
+      <Filter>02. Scene\06. BossStage</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -2168,6 +2186,15 @@
     </ClCompile>
     <ClCompile Include="..\Code\MiniMeteor.cpp">
       <Filter>03. GameObject\01. Stage\999. Boss\01. AttackEff\04. Meteor_Cube\Mini</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Fire.cpp">
+      <Filter>03. GameObject\02. Village\03. Bonfire\00. Fire</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\VillageTriger.cpp">
+      <Filter>03. GameObject\02. Village\04. VillageTriger</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\BossStage.cpp">
+      <Filter>02. Scene\06. BossStage</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

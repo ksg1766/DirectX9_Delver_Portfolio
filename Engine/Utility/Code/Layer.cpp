@@ -34,7 +34,7 @@ _int CLayer::Update_Layer(const _float & fTimeDelta)
 	_int        iResult = 0;
 	SCENETAG eSceneTag = SceneManager()->Get_Scene()->Get_SceneTag();
 	// Stage
-	if (SCENETAG::VILLAGE == eSceneTag || SCENETAG::STAGE == eSceneTag)
+	if (SCENETAG::VILLAGE == eSceneTag || SCENETAG::STAGE == eSceneTag || SCENETAG::BOSSSTAGE == eSceneTag)
 	{
 		for (_uint i = 0; i < (_uint)OBJECTTAG::OBJECT_END; ++i)
 		{
@@ -106,6 +106,22 @@ CLayer * CLayer::Create(LAYERTAG _eLayerTag)
 
 void CLayer::Free()
 {
-	for_each(m_mapObject.begin(), m_mapObject.end(), CDeleteVector());
-	m_mapObject.clear();
+	//for_each(m_mapObject.begin(), m_mapObject.end(), CDeleteVector());
+	//m_mapObject.clear();
+
+	for (auto& Mapiter : m_mapObject)
+	{
+		for (auto iter : Mapiter.second)
+		{
+			if (iter != nullptr &&
+				SCENETAG::BOSSSTAGE != SceneManager()->Get_Scene()->Get_SceneTag() && // 임시 : 중간에 껐을 시 메모리 해제 안될 수 있음
+				iter->Get_ObjectTag() != OBJECTTAG::CAMERA &&
+				iter->Get_ObjectTag() != OBJECTTAG::PLAYER &&
+				iter->Get_ObjectTag() != OBJECTTAG::RAY)
+			{
+				Safe_Release(iter);
+				Mapiter.second.clear();
+			}		
+		}
+	}
 }

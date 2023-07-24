@@ -53,10 +53,19 @@ private:
 	CTexture* m_pNumberTextureCom;
 
 	// 숫자들의 출력 위치값
-	_matrix   m_matAttackPowerNumberOne;
-	_matrix   m_matAttackPowerNumberTwo;
-	_matrix   m_matArmorClassNumberOne;
-	_matrix   m_matArmorClassNumberTwo;
+	_matrix   m_matAttackPowerMaxNumberOne;
+	_matrix   m_matAttackPowerMaxNumberTwo;
+	_matrix   m_matAttackPowerSlash0;
+	_matrix   m_matAttackPowerSlash1;
+	_matrix   m_matAttackPowerMinNumberOne;
+	_matrix   m_matAttackPowerMinNumberTwo;
+
+	_matrix   m_matArmorClassMaxNumberOne;
+	_matrix   m_matArmorClassMaxNumberTwo;
+	_matrix   m_matArmorClassSlash0;
+	_matrix   m_matArmorClassSlash1;
+	_matrix   m_matArmorClassMinNumberOne;
+	_matrix   m_matArmorClassMinNumberTwo;
 
 	_matrix   m_matHealthNumberOne;
 	_matrix   m_matHealthNumberTwo;
@@ -76,17 +85,23 @@ private:
 	_matrix   m_matLevelNumberTwo;
 	_matrix   m_matCurrentXPNumberOne;
 	_matrix   m_matCurrentXPNumberTwo;
-	_matrix   m_matSlash;
+	_matrix   m_matXPSlash0;
+	_matrix   m_matXPSlash1;
 	_matrix   m_matMaxXPNumberOne;
 	_matrix   m_matMaxXPNumberTwo;
 	_matrix   m_matGoldNumberOne;
 	_matrix   m_matGoldNumberTwo;
 
 	// 값에 따른 출력하는 숫자
-	_uint     m_fAttackPowerNumberOne;
-	_uint     m_fAttackPowerNumberTwo;
-	_uint     m_fArmorClassNumberOne;
-	_uint     m_fArmorClassNumberTwo;
+	_uint     m_fAttackPowerMaxNumberOne;
+	_uint     m_fAttackPowerMaxNumberTwo;
+	_uint     m_fAttackPowerMinNumberOne;
+	_uint     m_fAttackPowerMinNumberTwo;
+
+	_uint     m_fArmorClassMaxNumberOne;
+	_uint     m_fArmorClassMaxNumberTwo;
+	_uint     m_fArmorClassMinNumberOne;
+	_uint     m_fArmorClassMinNumberTwo;
 
 	_uint     m_fHealthNumberOne;
 	_uint     m_fHealthNumberTwo;

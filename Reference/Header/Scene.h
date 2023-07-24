@@ -28,6 +28,7 @@ public:
 
 public:
 	CPlayer*			Get_MainPlayer() { return m_pPlayer; }
+	void                Set_MainPlayer(CPlayer* _pPlayer) { m_pPlayer = _pPlayer; }
 
 protected:
 	LPDIRECT3DDEVICE9				m_pGraphicDev;
