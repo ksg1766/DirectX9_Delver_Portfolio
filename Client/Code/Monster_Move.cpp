@@ -35,15 +35,9 @@ HRESULT CMonster_Move::Ready_State(CStateMachine* pOwner)
 	return S_OK;
 }
 
-
 STATE CMonster_Move::Update_State(const _float& fTimeDelta)
 {
-
-	CPlayer& pPlayer =
-		*dynamic_cast<CPlayer*>
-		(SceneManager()->GetInstance()->Get_ObjectList
-		(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
-
+	CPlayer& pPlayer = *SceneManager()->Get_Scene()->Get_MainPlayer();
 
 	if (m_pOwner->Get_PrevState() == STATE::ATTACK)
 	{
@@ -51,7 +45,6 @@ STATE CMonster_Move::Update_State(const _float& fTimeDelta)
 		if (m_fAttackCool > 2.f)
 			m_bAttackCool = false;
 	}
-
 
 	_vec3 fDistance = m_pOwner->Get_Host()->m_pTransform->m_vInfo[INFO_POS] - pPlayer.m_pTransform->m_vInfo[INFO_POS];
 	_float fLength = D3DXVec3Length(&fDistance);

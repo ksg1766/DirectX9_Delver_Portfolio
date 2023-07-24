@@ -2,16 +2,7 @@
 #include "Export_Function.h"
 #include "PoolManager.h"
 
-#include "DungeonWarrior.h"
-#include "DungeonSpider.h"
-#include "Wizard.h"
-#include "Bat.h"
-#include "Alien.h"
-#include "Slime.h"
-#include "Skeleton.h"
-#include "Worm.h"
-#include "SkullGhost.h"
-//#include "Monk.h"
+#include "Monstergroup.h"
 
 CSpawningPool::CSpawningPool(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CGameObject(pGraphicDev)
@@ -66,6 +57,11 @@ _int CSpawningPool::Update_Object(const _float& fTimeDelta)
 
     _int iExit = __super::Update_Object(fTimeDelta);
 
+    if (m_iLifeCount <= 0)
+    {
+        EventManager()->DeleteObject(this);
+    }
+
     if (!m_MonsterList.empty())
     {
         for (auto& iter = m_MonsterList.begin(); iter != m_MonsterList.end();)
@@ -117,6 +113,7 @@ void CSpawningPool::ReserveSpawn()
     pMonster = CPoolManager::GetInstance()->Create_Monster(m_eMonsterTag, m_pTransform->m_vInfo[INFO_POS] + _vec3(fX, 0.f, fZ));
 
     m_MonsterList.push_back(pMonster);
+    --m_iLifeCount;
 }
 
 void CSpawningPool::Set_SpawnRadius(_float _fRadius)
@@ -157,7 +154,7 @@ CSpawningPool* CSpawningPool::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 
 void CSpawningPool::Free(void)
 {
-    for_each(m_MonsterList.begin(), m_MonsterList.end(), CDeleteObj());
+    //for_each(m_MonsterList.begin(), m_MonsterList.end(), CDeleteObj());
     m_MonsterList.clear();
 
     __super::Free();

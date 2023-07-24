@@ -81,6 +81,7 @@ void CImGuiManager::Key_Input(const _float& fTimeDelta)
         {
             pGameObject = CSpawningPool::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
             NULL_CHECK_RETURN(pGameObject);
+            dynamic_cast<CSpawningPool*>(pGameObject)->Set_LifeCount(m_iSpawnerLife);
             dynamic_cast<CSpawningPool*>(pGameObject)->Set_SpawnTime(m_fSpawnTime);
             dynamic_cast<CSpawningPool*>(pGameObject)->Set_MonsterTag(m_eSpawnerTag);
             dynamic_cast<CSpawningPool*>(pGameObject)->Set_PoolCapacity(m_iSpawnCapacity);
@@ -763,6 +764,7 @@ void CImGuiManager::LateUpdate_ImGui()
 
                     ImGui::SliderFloat("Spawner Timer", &m_fSpawnTime, 1.f, 40.f, "%0.1f");
                     ImGui::SliderFloat("Spawner Radius", &m_fSpawnRadius, 1.f, 50.f, "%0.1f");
+                    ImGui::SliderInt("Spawner LifeCount", &m_iSpawnerLife, 1, 20, "%d", ImGuiSliderFlags_Logarithmic);
                     ImGui::SliderInt("Spawner Capacity", &m_iSpawnCapacity, 1, 20, "%d", ImGuiSliderFlags_Logarithmic);
 
                     ImGui::NewLine();
@@ -899,10 +901,11 @@ HRESULT CImGuiManager::OnSaveData()
         }
         else if (OBJECTTAG::SPAWNINGPOOL == (OBJECTTAG)i)
         {
-            MONSTERTAG      m_eMonsterTag = MONSTERTAG::MONSTER_END;  //
-            _int            m_iPoolCapacity = 5;
-            _float          m_fSpawnRadius = 10.0f;
-            _float          m_fSpawnTime = 10.0f;
+            MONSTERTAG      eMonsterTag = MONSTERTAG::MONSTER_END;  //
+            _int            iSpawnerLife = 10;
+            _int            iPoolCapacity = 5;
+            _float          fSpawnRadius = 10.0f;
+            _float          fSpawnTime = 10.0f;
 
             vector<CGameObject*>& vecObjList = pScene->Get_ObjectList(LAYERTAG::GAMELOGIC, (OBJECTTAG)i);
             for (auto& iter : vecObjList)
@@ -911,20 +914,23 @@ HRESULT CImGuiManager::OnSaveData()
                     continue;
 
                 eTag = iter->Get_ObjectTag();
-                m_eMonsterTag = dynamic_cast<CSpawningPool*>(iter)->Get_MonsterTag();
-                m_iPoolCapacity = dynamic_cast<CSpawningPool*>(iter)->Get_PoolCapacity();
-                m_fSpawnRadius = dynamic_cast<CSpawningPool*>(iter)->Get_SpawnRadius();
-                m_fSpawnTime = dynamic_cast<CSpawningPool*>(iter)->Get_SpawnTime();
+                iSpawnerLife = dynamic_cast<CSpawningPool*>(iter)->Get_LifeCount();
+                eMonsterTag = dynamic_cast<CSpawningPool*>(iter)->Get_MonsterTag();
+                iPoolCapacity = dynamic_cast<CSpawningPool*>(iter)->Get_PoolCapacity();
+                fSpawnRadius = dynamic_cast<CSpawningPool*>(iter)->Get_SpawnRadius();
+                fSpawnTime = dynamic_cast<CSpawningPool*>(iter)->Get_SpawnTime();
 
                 WriteFile(hFile, &eTag, sizeof(OBJECTTAG), &dwByte, nullptr);
                 WriteFile(hFile, &(iter->m_pTransform->m_vInfo[INFO_POS].x), sizeof(_float), &dwByte, nullptr);
                 WriteFile(hFile, &(iter->m_pTransform->m_vInfo[INFO_POS].y), sizeof(_float), &dwByte, nullptr);
                 WriteFile(hFile, &(iter->m_pTransform->m_vInfo[INFO_POS].z), sizeof(_float), &dwByte, nullptr);
 
-                WriteFile(hFile, &m_eMonsterTag, sizeof(MONSTERTAG), &dwByte, nullptr);
-                WriteFile(hFile, &m_iPoolCapacity, sizeof(_int), &dwByte, nullptr);
-                WriteFile(hFile, &m_fSpawnRadius, sizeof(_float), &dwByte, nullptr);
-                WriteFile(hFile, &m_fSpawnTime, sizeof(_float), &dwByte, nullptr);
+
+                WriteFile(hFile, &eMonsterTag, sizeof(MONSTERTAG), &dwByte, nullptr);
+                WriteFile(hFile, &iSpawnerLife, sizeof(_int), &dwByte, nullptr);
+                WriteFile(hFile, &iPoolCapacity, sizeof(_int), &dwByte, nullptr);
+                WriteFile(hFile, &fSpawnRadius, sizeof(_float), &dwByte, nullptr);
+                WriteFile(hFile, &fSpawnTime, sizeof(_float), &dwByte, nullptr);
             }
         }
         else if (OBJECTTAG::TRAP == (OBJECTTAG)i)
@@ -1010,6 +1016,7 @@ HRESULT CImGuiManager::OnLoadData()
     _ubyte  byTextureNumber = 0;
 
     MONSTERTAG      eSpawnerTag = MONSTERTAG::MONSTER_END;  //
+    _int            iSpawnerLife = 10;
     _int            iPoolCapacity = 5;
     _float          fSpawnRadius = 10.0f;
     _float          fSpawnTime = 10.0f;
@@ -1053,6 +1060,7 @@ HRESULT CImGuiManager::OnLoadData()
             ReadFile(hFile, &fZ, sizeof(_float), &dwByte, nullptr);
 
             ReadFile(hFile, &eSpawnerTag, sizeof(MONSTERTAG), &dwByte, nullptr);
+            ReadFile(hFile, &iSpawnerLife, sizeof(_int), &dwByte, nullptr);
             ReadFile(hFile, &iPoolCapacity, sizeof(_int), &dwByte, nullptr);
             ReadFile(hFile, &fSpawnRadius, sizeof(_float), &dwByte, nullptr);
             ReadFile(hFile, &fSpawnTime, sizeof(_float), &dwByte, nullptr);
@@ -1063,6 +1071,7 @@ HRESULT CImGuiManager::OnLoadData()
             CGameObject* pGameObject = CSpawningPool::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
             NULL_CHECK_RETURN(pGameObject, E_FAIL);
             dynamic_cast<CSpawningPool*>(pGameObject)->Set_MonsterTag(eSpawnerTag);
+            dynamic_cast<CSpawningPool*>(pGameObject)->Set_LifeCount(iSpawnerLife);
             dynamic_cast<CSpawningPool*>(pGameObject)->Set_PoolCapacity(iPoolCapacity);
             dynamic_cast<CSpawningPool*>(pGameObject)->Set_SpawnRadius(fSpawnRadius);
             dynamic_cast<CSpawningPool*>(pGameObject)->Set_SpawnTime(fSpawnTime);

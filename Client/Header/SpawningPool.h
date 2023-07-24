@@ -25,6 +25,7 @@ public:
 
     void            ReserveSpawn();
 
+    _int            Get_LifeCount()     { return m_iLifeCount; }
     _int            Get_PoolCapacity()  { return m_iPoolCapacity; }
     _float          Get_SpawnRadius()   { return m_fSpawnRadius; }
     _float          Get_SpawnTime()     { return m_fSpawnTime; }
@@ -33,16 +34,17 @@ public:
     vector<_vec3>&  LoadSpawnerVertex() { return m_vecSpawnerVertex; }
     vector<INDEX32>&LoadSpawnerIndex()  { return m_vecSpawnerIndex; }
 
-    void            Set_PoolCapacity(_int _iCapacity) { m_iPoolCapacity = _iCapacity; }
+    void            Set_LifeCount(_int _iLifeCount)         { m_iLifeCount = _iLifeCount; }
+    void            Set_PoolCapacity(_int _iCapacity)       { m_iPoolCapacity = _iCapacity; }
     void            Set_SpawnRadius(_float _fRadius);
-    void            Set_SpawnTime(_float _fTime) { m_fSpawnTime = _fTime; }
+    void            Set_SpawnTime(_float _fTime)            { m_fSpawnTime = _fTime; }
     void            Set_MonsterTag(MONSTERTAG _eMonsterTag) { m_eMonsterTag = _eMonsterTag; }
 
 private:
     HRESULT		    Add_Component();
 
 protected:
-    //_int          m_iReservedCount = 0;
+    _int            m_iLifeCount = 10;
     _int            m_iPoolCapacity = 5;
     _float          m_fSpawnRadius = 1.0f;
     _float          m_fSpawnTime = 10.0f;

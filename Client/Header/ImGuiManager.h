@@ -53,8 +53,9 @@ private:
 	_uint								m_iPickingMode;
 
 	// Spawner Tool
-	_float								m_fSpawnTime;
+	_int								m_iSpawnerLife;
 	_int								m_iSpawnCapacity;
+	_float								m_fSpawnTime;
 	_float								m_fSpawnRadius;
 	MONSTERTAG							m_eSpawnerTag;
 
