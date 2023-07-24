@@ -49,7 +49,7 @@ STATE CMonster_Jump::Jump(const _float& fTimeDelta)
 	
 	_vec3& vMonsterPos = m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
 
-	if (!m_bIsJumping)
+	if (!dynamic_cast<CMonster*>(m_pOwner->Get_Host())->IsJump())
 	{
 		m_fChase += fTimeDelta;
 
@@ -63,12 +63,12 @@ STATE CMonster_Jump::Jump(const _float& fTimeDelta)
 			dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Set_AttackTick(false);
 			m_pOwner->Get_Animator()->Get_Animation()->Set_Loop(true);
 			m_vLastPos = pPlayerTransform->m_vInfo[INFO_POS];
-			m_bIsJumping = true;
+			dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Set_Jump(true);
 			m_fChase = 0.f;
 		}
 	}
 
-	if (m_bIsJumping)
+	if (dynamic_cast<CMonster*>(m_pOwner->Get_Host())->IsJump())
 	{
 		_vec3 vDir = m_vLastPos - vMonsterPos;
 		D3DXVec3Normalize(&vDir, &vDir);
@@ -77,7 +77,7 @@ STATE CMonster_Jump::Jump(const _float& fTimeDelta)
 		vMonsterPos += vDir * 10.f * fTimeDelta;
 		
 
-		m_fJumpVelocity -= 0.5f * fTimeDelta * fTimeDelta * 3000.f;
+		//m_fJumpVelocity -= 0.5f * fTimeDelta * fTimeDelta * 3000.f;
 	}
 
 
@@ -87,14 +87,14 @@ STATE CMonster_Jump::Jump(const _float& fTimeDelta)
 	//_float fSight = pow(15, 2);
 
 
-	if (vMonsterPos.y < 3.f)
+	if (!dynamic_cast<CMonster*>(m_pOwner->Get_Host())->IsJump())
 	{
-		vMonsterPos.y = 3.f;
 		m_fJumpVelocity = 15.f;
 		m_bJumCoolDown = true;
-		m_bIsJumping = false;
+		dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Set_Jump(false);
 		m_pOwner->Get_Animator()->Get_Animation()->Set_Frame(0.f);
 		
+
 		return STATE::ROMIMG;
 	}
 

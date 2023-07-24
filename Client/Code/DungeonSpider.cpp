@@ -30,7 +30,7 @@ HRESULT CDungeonSpider::Ready_Object()
 	Set_MonsterState(MONSTERTAG::SPIDER);
 	m_bBlockOn = false;
 	m_bWallTouch = false;
-
+	m_bIsJump = false;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	CState* pState = CMonster_Move::Create(m_pGraphicDev, m_pStateMachine);
@@ -60,7 +60,6 @@ HRESULT CDungeonSpider::Ready_Object()
 	m_pStateMachine->Set_State(STATE::ROMIMG);
 	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
 
-	m_pTransform->Translate(_vec3(2.f, 3.f, 5.f));
 
 #pragma region SpiderStat
 
@@ -174,12 +173,11 @@ void CDungeonSpider::OnCollisionEnter(CCollider* _pOther)
 			IsAttack(&PlayerStat);
 			
 			cout << "거미 공격" << endl;
+			
 		}
 
-	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BLOCK)
-	{
-		Set_WallTouch(true);
-	}
+	//if(_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BLOCK)
+		//m_bIsJump = false;
 }
 
 void CDungeonSpider::OnCollisionStay(CCollider* _pOther)
@@ -191,10 +189,7 @@ void CDungeonSpider::OnCollisionStay(CCollider* _pOther)
 		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::PLAYER)
 	__super::OnCollisionStay(_pOther);
 
-	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BLOCK)
-	{
-		Set_WallTouch(true);
-	}
+	m_bIsJump = false;
 	
 	// 충돌 밀어내기 후 이벤트 : 구현하시면 됩니다.
 }
@@ -204,7 +199,11 @@ void CDungeonSpider::OnCollisionExit(CCollider* _pOther)
 	if (SceneManager()->Get_GameStop()) { return; }
 
 	__super::OnCollisionExit(_pOther);
-	//Set_WallTouch(false);
+
+	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BLOCK)
+		m_bIsJump = true;
+
+
 }
 
 HRESULT CDungeonSpider::Add_Component()

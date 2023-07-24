@@ -23,7 +23,7 @@ HRESULT CMonster_Move::Ready_State(CStateMachine* pOwner)
 
 	m_fDistance = 30.f;
 	m_fAngle = 0.f;
-	m_fChase = 10.f;
+	m_fChase = 15.f;
 	m_fSpeed = dynamic_cast<CMonster*>(pOwner->Get_Host())->Get_BasicStat()->Get_Stat()->fSpeed;
 	m_fRandomRange = 50.f;  // 이건 변수 넣는걸로 한다치고.
 	m_vSavePos = _vec3(0.f, 0.f, 0.f);
@@ -93,9 +93,12 @@ STATE CMonster_Move::Update_State(const _float& fTimeDelta)
 		_float fReturnDistance = D3DXVec3Length(&vReturn);
 		D3DXVec3Normalize(&vReturn, &vReturn);
 
-		if (fReturnDistance >= 30.f && !m_bCheck)
+		if (fReturnDistance >= dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Get_MoveRange() 
+			&& !m_bCheck)
 		{
-			m_pOwner->Get_Transform()->m_vInfo[INFO_POS] += vReturn * m_fSpeed * fTimeDelta; // Distance가 큰 동안 무조건 Center 쪽으로 보냄. 근데 30이 됐을 땐 bool값을 TRUE로 바꿈
+			//m_pOwner->Get_Transform()->m_vInfo[INFO_POS] += vReturn * m_fSpeed * fTimeDelta; 
+			m_pOwner->Get_Transform()->Translate(_vec3(vReturn.x, 0.f, vReturn.z) * m_fSpeed * fTimeDelta);
+			// Distance가 큰 동안 무조건 Center 쪽으로 보냄. 근데 30이 됐을 땐 bool값을 TRUE로 바꿈
 			//m_bCheck = true; // 이러면 30 영역 안에 들어왔다는 것임. 여기서부터 랜덤지역을 배회시킴. 근데 센터에서 50 ~ 100 정도 벗어나면 다시 돌아가게 만든다.
 		}
 		else
@@ -103,7 +106,7 @@ STATE CMonster_Move::Update_State(const _float& fTimeDelta)
 
 		if (m_bCheck)
 		{
-			if (fReturnDistance > 50.f)
+			if (fReturnDistance > dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Get_RandomoMoveRange())
 				m_bCheck = false;
 			else
 			{
