@@ -698,8 +698,8 @@ HRESULT CBossStage::Load_Data()
 				NULL_CHECK_RETURN(pGameObject, E_FAIL);
 				break;
 
-			case TRAPTAG::PLATE:
-				pGameObject = CPlate_Trap::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+			case TRAPTAG::JUMP:
+				pGameObject = CJump_Plate::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
 				NULL_CHECK_RETURN(pGameObject, E_FAIL);
 				break;
 			}

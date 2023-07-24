@@ -31,12 +31,9 @@
 #include "SoundManager.h"
 
 #include "Jump_Plate.h"
-<<<<<<< HEAD
 #include "Boss_Lightning.h"
-=======
 #include "BlackIn.h"
 
->>>>>>> origin/feature/hana
 CStage::CStage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
 {
