@@ -21,6 +21,8 @@
 #include "Tree.h"
 #include "EffectStar.h"
 #include "Bonfire.h"
+#include "VillageTriger.h"
+#include "BlackIn.h"
 
 CVillage::CVillage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
@@ -33,13 +35,22 @@ CVillage::~CVillage()
 
 HRESULT CVillage::Ready_Scene()
 {
+	Engine::CGameObject* pGameObject = CBlackIn::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	dynamic_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_BASIC, 0);
+	Engine::UIManager()->AddBasicGameobject_UI(Engine::UILAYER::UI_UP, pGameObject);
+
 	m_eSceneTag = SCENETAG::VILLAGE;
 
 	FAILED_CHECK_RETURN(Ready_Layer_Environment(LAYERTAG::ENVIRONMENT), E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_GameLogic(LAYERTAG::GAMELOGIC), E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_UI(LAYERTAG::UI), E_FAIL);
 
-	m_pGraphicDev->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
+	//m_pGraphicDev->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+	//m_pGraphicDev->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+	//m_pGraphicDev->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
+
+	m_pGraphicDev->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_NONE);
 
 	return S_OK;
 }
@@ -76,17 +87,20 @@ HRESULT CVillage::Ready_Layer_Environment(LAYERTAG _eLayerTag)
 
 	Engine::CGameObject*		pGameObject = nullptr;
 
-	// DynamicCamera
-	pGameObject = CDynamicCamera::Create(m_pGraphicDev, 
-											&_vec3(0.f, 0.f, 0.f),
-											&_vec3(0.f, 0.f, 1.f),
-											&_vec3(0.f, 1.f, 0.f),
-											D3DXToRadian(90.f), 
-											(_float)WINCX / WINCY,
-											0.1f, 
-											1000.f);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+	if (!Engine::SceneManager()->Get_VisitScene(m_eSceneTag))
+	{
+		// DynamicCamera
+		pGameObject = CDynamicCamera::Create(m_pGraphicDev,
+			&_vec3(0.f, 0.f, 0.f),
+			&_vec3(0.f, 0.f, 1.f),
+			&_vec3(0.f, 1.f, 0.f),
+			D3DXToRadian(90.f),
+			(_float)WINCX / WINCY,
+			0.1f,
+			1000.f);
+		NULL_CHECK_RETURN(pGameObject, E_FAIL);
+		pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+	}
 	
 	// SkyBox
 	pGameObject = CSkyBoxVillage::Create(m_pGraphicDev);
@@ -111,8 +125,12 @@ HRESULT CVillage::Ready_Layer_Environment(LAYERTAG _eLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
+	// 씬 이동 트리거
+	pGameObject = CVillageTriger::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+
 #pragma region TREE
-	// Tree
 	// 시작 시 왼쪽 그룹
 	pGameObject = CTree::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
@@ -193,26 +211,29 @@ HRESULT CVillage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 
 	Engine::CGameObject*		pGameObject = nullptr;
 
-	// Player
-	pGameObject = CPlayer::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pGameObject->m_pTransform->Translate(_vec3(0.f, 0.f,-70.f));
-	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-	m_pPlayer = dynamic_cast<CPlayer*>(pGameObject);
+	if (!Engine::SceneManager()->Get_VisitScene(m_eSceneTag))
+	{
+		// Player
+		pGameObject = CPlayer::Create(m_pGraphicDev);
+		NULL_CHECK_RETURN(pGameObject, E_FAIL);
+		pGameObject->m_pTransform->Translate(_vec3(0.f, 0.f, -70.f));
+		pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+		m_pPlayer = dynamic_cast<CPlayer*>(pGameObject);
 
-	// FootRay
-	pGameObject = CFootRay::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-	dynamic_cast<CFootRay*>(pGameObject)->Set_Host(m_pPlayer);
-	//pGameObject->m_pTransform->Translate(m_pPlayer->m_pTransform->m_vInfo[INFO_POS] + _vec3(0.f, -1.25f, 0.f));
+		// FootRay
+		pGameObject = CFootRay::Create(m_pGraphicDev);
+		NULL_CHECK_RETURN(pGameObject, E_FAIL);
+		pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+		dynamic_cast<CFootRay*>(pGameObject)->Set_Host(m_pPlayer);
+		//pGameObject->m_pTransform->Translate(m_pPlayer->m_pTransform->m_vInfo[INFO_POS] + _vec3(0.f, -1.25f, 0.f));
+	}
 
 	// EpicWeapon
-	CItem* pItem = CEpicBow::Create(m_pGraphicDev, true);
-	NULL_CHECK_RETURN(pItem, E_FAIL);
-	pItem->m_pTransform->Translate(_vec3(0, 1.5f, -22.f));
-	dynamic_cast<CEpicBow*>(pItem)->Set_WorldItem(true);
-	pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
+	//CItem* pItem = CEpicBow::Create(m_pGraphicDev, true);
+	//NULL_CHECK_RETURN(pItem, E_FAIL);
+	//pItem->m_pTransform->Translate(_vec3(0, 1.5f, -22.f));
+	//dynamic_cast<CEpicBow*>(pItem)->Set_WorldItem(true);
+	//pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
 
 	pGameObject = CBox_Cube::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
@@ -260,147 +281,150 @@ HRESULT CVillage::Ready_Layer_UI(LAYERTAG _eLayerTag)
 
 	Engine::CGameObject*		pGameObject = nullptr;
 
-	// 기본 인벤토리 5칸
-	for (_uint i = 0; i < 5; ++i)
+	if (!Engine::SceneManager()->Get_VisitScene(m_eSceneTag))
 	{
-		pGameObject = CUIbasicslot::Create(m_pGraphicDev);
-		NULL_CHECK_RETURN(pGameObject, E_FAIL);
-		pGameObject->m_pTransform->m_vInfo[INFO_POS].x = 520.f + (60.f * i);
-		pGameObject->m_pTransform->m_vInfo[INFO_POS].y = WINCY - 30.f;
-		dynamic_cast<CTempUI*>(pGameObject)->WorldMatrix(pGameObject->m_pTransform->m_vInfo[INFO_POS].x, pGameObject->m_pTransform->m_vInfo[INFO_POS].y, pGameObject->m_pTransform->m_vLocalScale.x, pGameObject->m_pTransform->m_vLocalScale.y);
-		dynamic_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_SLOTBASIC, i);
-		dynamic_cast<CTempUI*>(pGameObject)->Set_Setup(true);
-		Engine::UIManager()->AddBasicGameobject_UI(Engine::UILAYER::UI_DOWN, pGameObject);
-	}
-
-	_uint Index = 0;
-	// 장비슬롯
-	for (_uint iy = 0; iy < 3; ++iy)
-	{
-		for (_uint ix = 0; ix < 2; ++ix)
+		// 기본 인벤토리 5칸
+		for (_uint i = 0; i < 5; ++i)
 		{
-
-			Index = iy * 2 + ix;
-			pGameObject = CUIequipmentslot::Create(m_pGraphicDev);
+			pGameObject = CUIbasicslot::Create(m_pGraphicDev);
 			NULL_CHECK_RETURN(pGameObject, E_FAIL);
-			pGameObject->m_pTransform->m_vInfo[INFO_POS].x = 350.f + (60.f * ix);
-			pGameObject->m_pTransform->m_vInfo[INFO_POS].y = WINCY - 135.f - (60.f * iy);
+			pGameObject->m_pTransform->m_vInfo[INFO_POS].x = 520.f + (60.f * i);
+			pGameObject->m_pTransform->m_vInfo[INFO_POS].y = WINCY - 30.f;
 			dynamic_cast<CTempUI*>(pGameObject)->WorldMatrix(pGameObject->m_pTransform->m_vInfo[INFO_POS].x, pGameObject->m_pTransform->m_vInfo[INFO_POS].y, pGameObject->m_pTransform->m_vLocalScale.x, pGameObject->m_pTransform->m_vLocalScale.y);
-			dynamic_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_SLOTEQUIPMENT, Index);
+			dynamic_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_SLOTBASIC, i);
 			dynamic_cast<CTempUI*>(pGameObject)->Set_Setup(true);
+			Engine::UIManager()->AddBasicGameobject_UI(Engine::UILAYER::UI_DOWN, pGameObject);
+		}
+
+		_uint Index = 0;
+		// 장비슬롯
+		for (_uint iy = 0; iy < 3; ++iy)
+		{
+			for (_uint ix = 0; ix < 2; ++ix)
+			{
+
+				Index = iy * 2 + ix;
+				pGameObject = CUIequipmentslot::Create(m_pGraphicDev);
+				NULL_CHECK_RETURN(pGameObject, E_FAIL);
+				pGameObject->m_pTransform->m_vInfo[INFO_POS].x = 350.f + (60.f * ix);
+				pGameObject->m_pTransform->m_vInfo[INFO_POS].y = WINCY - 135.f - (60.f * iy);
+				dynamic_cast<CTempUI*>(pGameObject)->WorldMatrix(pGameObject->m_pTransform->m_vInfo[INFO_POS].x, pGameObject->m_pTransform->m_vInfo[INFO_POS].y, pGameObject->m_pTransform->m_vLocalScale.x, pGameObject->m_pTransform->m_vLocalScale.y);
+				dynamic_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_SLOTEQUIPMENT, Index);
+				dynamic_cast<CTempUI*>(pGameObject)->Set_Setup(true);
+				Engine::UIManager()->AddPopupGameobject_UI(Engine::UIPOPUPLAYER::POPUP_EQUIPMENT, Engine::UILAYER::UI_DOWN, pGameObject);
+			}
+		}
+
+		// 메인 인벤토리
+		for (_uint iy = 0; iy < 3; ++iy)
+		{
+			for (_uint ix = 0; ix < 6; ++ix)
+			{
+
+				pGameObject = CUIemptyslot::Create(m_pGraphicDev);
+				NULL_CHECK_RETURN(pGameObject, E_FAIL);
+				pGameObject->m_pTransform->m_vInfo[INFO_POS].x = 490.f + (60.f * ix);
+				pGameObject->m_pTransform->m_vInfo[INFO_POS].y = WINCY - 135.f - (60.f * iy);
+				dynamic_cast<CTempUI*>(pGameObject)->WorldMatrix(pGameObject->m_pTransform->m_vInfo[INFO_POS].x, pGameObject->m_pTransform->m_vInfo[INFO_POS].y, pGameObject->m_pTransform->m_vLocalScale.x, pGameObject->m_pTransform->m_vLocalScale.y);
+				dynamic_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_SLOTEMPTY, iy * 6 + ix);
+				dynamic_cast<CTempUI*>(pGameObject)->Set_Setup(true);
+				Engine::UIManager()->AddPopupGameobject_UI(Engine::UIPOPUPLAYER::POPUP_INVEN, Engine::UILAYER::UI_DOWN, pGameObject);
+			}
+		}
+
+		// 인벤토리 및 스탯 버튼
+		for (_uint iy = 0; iy < 2; ++iy)
+		{
+			pGameObject = CUIbutton::Create(m_pGraphicDev);
+			NULL_CHECK_RETURN(pGameObject, E_FAIL);
+			pGameObject->m_pTransform->m_vInfo[INFO_POS].x = 850.f;
+			pGameObject->m_pTransform->m_vInfo[INFO_POS].y = 595.f - (40 * iy);
+			dynamic_cast<CTempUI*>(pGameObject)->WorldMatrix(pGameObject->m_pTransform->m_vInfo[INFO_POS].x, pGameObject->m_pTransform->m_vInfo[INFO_POS].y, pGameObject->m_pTransform->m_vLocalScale.x, pGameObject->m_pTransform->m_vLocalScale.y);
+			dynamic_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_INVENBUTTON, iy);
+			if (iy == 0)
+			{
+				dynamic_cast<CTempUI*>(pGameObject)->Set_UIImage(1);
+			}
+			else
+			{
+				dynamic_cast<CTempUI*>(pGameObject)->Set_UIImage(3);
+			}
+
 			Engine::UIManager()->AddPopupGameobject_UI(Engine::UIPOPUPLAYER::POPUP_EQUIPMENT, Engine::UILAYER::UI_DOWN, pGameObject);
 		}
-	}
 
-	// 메인 인벤토리
-	for (_uint iy = 0; iy < 3; ++iy)
-	{
-		for (_uint ix = 0; ix < 6; ++ix)
-		{
-
-			pGameObject = CUIemptyslot::Create(m_pGraphicDev);
-			NULL_CHECK_RETURN(pGameObject, E_FAIL);
-			pGameObject->m_pTransform->m_vInfo[INFO_POS].x = 490.f + (60.f * ix);
-			pGameObject->m_pTransform->m_vInfo[INFO_POS].y = WINCY - 135.f - (60.f * iy);
-			dynamic_cast<CTempUI*>(pGameObject)->WorldMatrix(pGameObject->m_pTransform->m_vInfo[INFO_POS].x, pGameObject->m_pTransform->m_vInfo[INFO_POS].y, pGameObject->m_pTransform->m_vLocalScale.x, pGameObject->m_pTransform->m_vLocalScale.y);
-			dynamic_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_SLOTEMPTY, iy * 6 + ix);
-			dynamic_cast<CTempUI*>(pGameObject)->Set_Setup(true);
-			Engine::UIManager()->AddPopupGameobject_UI(Engine::UIPOPUPLAYER::POPUP_INVEN, Engine::UILAYER::UI_DOWN, pGameObject);
-		}
-	}
-
-	// 인벤토리 및 스탯 버튼
-	for (_uint iy = 0; iy < 2; ++iy)
-	{
-		pGameObject = CUIbutton::Create(m_pGraphicDev);
+		pGameObject = CUIplayerstat::Create(m_pGraphicDev);
 		NULL_CHECK_RETURN(pGameObject, E_FAIL);
-		pGameObject->m_pTransform->m_vInfo[INFO_POS].x = 850.f;
-		pGameObject->m_pTransform->m_vInfo[INFO_POS].y = 595.f - (40 * iy);
-		dynamic_cast<CTempUI*>(pGameObject)->WorldMatrix(pGameObject->m_pTransform->m_vInfo[INFO_POS].x, pGameObject->m_pTransform->m_vInfo[INFO_POS].y, pGameObject->m_pTransform->m_vLocalScale.x, pGameObject->m_pTransform->m_vLocalScale.y);
-		dynamic_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_INVENBUTTON, iy);
-		if (iy == 0)
-		{
-			dynamic_cast<CTempUI*>(pGameObject)->Set_UIImage(1);
-		}
-		else
-		{
-			dynamic_cast<CTempUI*>(pGameObject)->Set_UIImage(3);
-		}
+		Engine::UIManager()->AddPopupGameobject_UI(Engine::UIPOPUPLAYER::POPUP_STAT, Engine::UILAYER::UI_DOWN, pGameObject);
 
-		Engine::UIManager()->AddPopupGameobject_UI(Engine::UIPOPUPLAYER::POPUP_EQUIPMENT, Engine::UILAYER::UI_DOWN, pGameObject);
+		// 조준점
+		HCURSOR Cursor = nullptr;
+		SetCursor(Cursor);
+		pGameObject = CUIaimpoint::Create(m_pGraphicDev);
+		NULL_CHECK_RETURN(pGameObject, E_FAIL);
+		Engine::UIManager()->AddPopupGameobject_UI(Engine::UIPOPUPLAYER::POPUP_MOUSE, Engine::UILAYER::UI_DOWN, pGameObject);
+
+		// 플레이어 hp bar
+		pGameObject = CUIplayerhp::Create(m_pGraphicDev);
+		NULL_CHECK_RETURN(pGameObject, E_FAIL);
+		Engine::UIManager()->AddBasicGameobject_UI(Engine::UILAYER::UI_DOWN, pGameObject);
+
+		// 큰 지도
+		pGameObject = CUIbigmap::Create(m_pGraphicDev);
+		NULL_CHECK_RETURN(pGameObject, E_FAIL);
+		Engine::UIManager()->AddPopupGameobject_UI(Engine::UIPOPUPLAYER::POPUP_MAP, Engine::UILAYER::UI_DOWN, pGameObject);
+
+		// Esc 배경
+		pGameObject = CUIEscBackground::Create(m_pGraphicDev);
+		NULL_CHECK_RETURN(pGameObject, E_FAIL);
+		Engine::UIManager()->AddPopupGameobject_UI(Engine::UIPOPUPLAYER::POPUP_ESC, Engine::UILAYER::UI_DOWN, pGameObject);
+
+		// Esc Resum 버튼
+		pGameObject = CUIResumeButton::Create(m_pGraphicDev);
+		NULL_CHECK_RETURN(pGameObject, E_FAIL);
+		Engine::UIManager()->AddPopupGameobject_UI(Engine::UIPOPUPLAYER::POPUP_ESC, Engine::UILAYER::UI_DOWN, pGameObject);
+
+		// Esc Option 버튼
+		pGameObject = CUIOptionButton::Create(m_pGraphicDev);
+		NULL_CHECK_RETURN(pGameObject, E_FAIL);
+		Engine::UIManager()->AddPopupGameobject_UI(Engine::UIPOPUPLAYER::POPUP_ESC, Engine::UILAYER::UI_DOWN, pGameObject);
+
+		// Esc Quition 버튼
+		pGameObject = CUIQuitButton::Create(m_pGraphicDev);
+		NULL_CHECK_RETURN(pGameObject, E_FAIL);
+		Engine::UIManager()->AddPopupGameobject_UI(Engine::UIPOPUPLAYER::POPUP_ESC, Engine::UILAYER::UI_DOWN, pGameObject);
+
+		pGameObject = CUIShop::Create(m_pGraphicDev);
+		NULL_CHECK_RETURN(pGameObject, E_FAIL);
+		Engine::UIManager()->AddPopupGameobject_UI(Engine::UIPOPUPLAYER::POPUP_SHOP, Engine::UILAYER::UI_DOWN, pGameObject);
+
+
+		// Speech Bubble Test
+		pGameObject = CUIspeech_OldMan::Create(m_pGraphicDev);
+		NULL_CHECK_RETURN(pGameObject, E_FAIL);
+		Engine::UIManager()->AddPopupGameobject_UI(Engine::UIPOPUPLAYER::POPUP_SPEECH, Engine::UILAYER::UI_DOWN, pGameObject);
+
+		pGameObject = CUIUseShop_Trander::Create(m_pGraphicDev);
+		NULL_CHECK_RETURN(pGameObject, E_FAIL);
+		Engine::UIManager()->AddPopupGameobject_UI(Engine::UIPOPUPLAYER::POPUP_SPEECH, Engine::UILAYER::UI_DOWN, pGameObject);
+
+		pGameObject = CUIBark_Dog::Create(m_pGraphicDev);
+		NULL_CHECK_RETURN(pGameObject, E_FAIL);
+		Engine::UIManager()->AddPopupGameobject_UI(Engine::UIPOPUPLAYER::POPUP_SPEECH, Engine::UILAYER::UI_DOWN, pGameObject);
+
+		pGameObject = CUISpeech_Wizard::Create(m_pGraphicDev);
+		NULL_CHECK_RETURN(pGameObject, E_FAIL);
+		Engine::UIManager()->AddPopupGameobject_UI(Engine::UIPOPUPLAYER::POPUP_SPEECH, Engine::UILAYER::UI_DOWN, pGameObject);
+
+		Engine::UIManager()->Hide_PopupUI(Engine::UIPOPUPLAYER::POPUP_EQUIPMENT);
+		Engine::UIManager()->Hide_PopupUI(Engine::UIPOPUPLAYER::POPUP_INVEN);
+		Engine::UIManager()->Hide_PopupUI(Engine::UIPOPUPLAYER::POPUP_STAT);
+		Engine::UIManager()->Hide_PopupUI(Engine::UIPOPUPLAYER::POPUP_MAP);
+		Engine::UIManager()->Hide_PopupUI(Engine::UIPOPUPLAYER::POPUP_ESC);
+		Engine::UIManager()->Hide_PopupUI(Engine::UIPOPUPLAYER::POPUP_SPEECH);	// Speech Bubble Test
+		Engine::UIManager()->Hide_PopupUI(Engine::UIPOPUPLAYER::POPUP_SHOP);
 	}
-
-	pGameObject = CUIplayerstat::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	Engine::UIManager()->AddPopupGameobject_UI(Engine::UIPOPUPLAYER::POPUP_STAT, Engine::UILAYER::UI_DOWN, pGameObject);
-
-	// 조준점
-	HCURSOR Cursor = nullptr;
-	SetCursor(Cursor);
-	pGameObject = CUIaimpoint::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	Engine::UIManager()->AddPopupGameobject_UI(Engine::UIPOPUPLAYER::POPUP_MOUSE, Engine::UILAYER::UI_DOWN, pGameObject);
-
-	// 플레이어 hp bar
-	pGameObject = CUIplayerhp::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	Engine::UIManager()->AddBasicGameobject_UI(Engine::UILAYER::UI_DOWN, pGameObject);
-
-	// 큰 지도
-	pGameObject = CUIbigmap::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	Engine::UIManager()->AddPopupGameobject_UI(Engine::UIPOPUPLAYER::POPUP_MAP, Engine::UILAYER::UI_DOWN, pGameObject);
-
-	// Esc 배경
-	pGameObject = CUIEscBackground::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	Engine::UIManager()->AddPopupGameobject_UI(Engine::UIPOPUPLAYER::POPUP_ESC, Engine::UILAYER::UI_DOWN, pGameObject);
-
-	// Esc Resum 버튼
-	pGameObject = CUIResumeButton::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	Engine::UIManager()->AddPopupGameobject_UI(Engine::UIPOPUPLAYER::POPUP_ESC, Engine::UILAYER::UI_DOWN, pGameObject);
-
-	// Esc Option 버튼
-	pGameObject = CUIOptionButton::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	Engine::UIManager()->AddPopupGameobject_UI(Engine::UIPOPUPLAYER::POPUP_ESC, Engine::UILAYER::UI_DOWN, pGameObject);
-
-	// Esc Quition 버튼
-	pGameObject = CUIQuitButton::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	Engine::UIManager()->AddPopupGameobject_UI(Engine::UIPOPUPLAYER::POPUP_ESC, Engine::UILAYER::UI_DOWN, pGameObject);
-
-	pGameObject = CUIShop::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	Engine::UIManager()->AddPopupGameobject_UI(Engine::UIPOPUPLAYER::POPUP_SHOP, Engine::UILAYER::UI_DOWN, pGameObject);
-
-
-	// Speech Bubble Test
-	pGameObject = CUIspeech_OldMan::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	Engine::UIManager()->AddPopupGameobject_UI(Engine::UIPOPUPLAYER::POPUP_SPEECH, Engine::UILAYER::UI_DOWN, pGameObject);
-
-	pGameObject = CUIUseShop_Trander::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	Engine::UIManager()->AddPopupGameobject_UI(Engine::UIPOPUPLAYER::POPUP_SPEECH, Engine::UILAYER::UI_DOWN, pGameObject);
-
-	pGameObject = CUIBark_Dog::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	Engine::UIManager()->AddPopupGameobject_UI(Engine::UIPOPUPLAYER::POPUP_SPEECH, Engine::UILAYER::UI_DOWN, pGameObject);
-
-	pGameObject = CUISpeech_Wizard::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	Engine::UIManager()->AddPopupGameobject_UI(Engine::UIPOPUPLAYER::POPUP_SPEECH, Engine::UILAYER::UI_DOWN, pGameObject);
-
-	Engine::UIManager()->Hide_PopupUI(Engine::UIPOPUPLAYER::POPUP_EQUIPMENT);
-	Engine::UIManager()->Hide_PopupUI(Engine::UIPOPUPLAYER::POPUP_INVEN);
-	Engine::UIManager()->Hide_PopupUI(Engine::UIPOPUPLAYER::POPUP_STAT);
-	Engine::UIManager()->Hide_PopupUI(Engine::UIPOPUPLAYER::POPUP_MAP);
-	Engine::UIManager()->Hide_PopupUI(Engine::UIPOPUPLAYER::POPUP_ESC);
-	Engine::UIManager()->Hide_PopupUI(Engine::UIPOPUPLAYER::POPUP_SPEECH);	// Speech Bubble Test
-	Engine::UIManager()->Hide_PopupUI(Engine::UIPOPUPLAYER::POPUP_SHOP);
-
+	
 	m_mapLayer.insert({ _eLayerTag, pLayer });
 
 	return S_OK;
@@ -513,7 +537,7 @@ CVillage* CVillage::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 
 void CVillage::Free()
 {
-	CPoolManager::DestroyInstance();
+	//CPoolManager::DestroyInstance();
 
 	__super::Free();
 }

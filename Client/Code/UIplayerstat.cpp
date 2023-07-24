@@ -20,10 +20,25 @@ HRESULT CUIplayerstat::Ready_Object()
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_matAttackPowerNumberOne = WorldMatrix(735.f, 560.f, 5.f, 6.f);
-	m_matAttackPowerNumberTwo = WorldMatrix(749.f, 560.f, 5.f, 6.f);
-	m_matArmorClassNumberOne = WorldMatrix(735.f, 543.f, 5.f, 6.f);
-	m_matArmorClassNumberTwo = WorldMatrix(749.f, 543.f, 5.f, 6.f);
+	m_matAttackPowerMinNumberOne = WorldMatrix(698.f, 560.f, 5.f, 6.f);
+	m_matAttackPowerMinNumberTwo = WorldMatrix(709.f, 560.f, 5.f, 6.f);
+
+	m_matAttackPowerSlash0 = WorldMatrix(727.f, 560.f, 5.f, 6.f);
+	m_matAttackPowerSlash1 = WorldMatrix(722.f, 560.f, 5.f, 6.f);
+
+	m_matAttackPowerMaxNumberOne = WorldMatrix(735.f, 560.f, 5.f, 6.f);
+	m_matAttackPowerMaxNumberTwo = WorldMatrix(749.f, 560.f, 5.f, 6.f);
+
+
+	m_matArmorClassMinNumberOne = WorldMatrix(698.f, 543.f, 5.f, 6.f);
+	m_matArmorClassMinNumberTwo = WorldMatrix(709.f, 543.f, 5.f, 6.f);
+
+	m_matArmorClassSlash0 = WorldMatrix(727.f, 543.f, 5.f, 6.f);
+	m_matArmorClassSlash1 = WorldMatrix(722.f, 543.f, 5.f, 6.f);
+
+	m_matArmorClassMaxNumberOne = WorldMatrix(735.f, 543.f, 5.f, 6.f);
+	m_matArmorClassMaxNumberTwo = WorldMatrix(749.f, 543.f, 5.f, 6.f);
+
 
 	m_matHealthNumberOne = WorldMatrix(608.f, 490.f, 5.f, 6.f);
 	m_matHealthNumberTwo = WorldMatrix(622.f, 490.f, 5.f, 6.f);
@@ -44,7 +59,8 @@ HRESULT CUIplayerstat::Ready_Object()
 
 	m_matCurrentXPNumberOne = WorldMatrix(665.f, 387.f, 5.f, 6.f);
 	m_matCurrentXPNumberTwo = WorldMatrix(679.f, 387.f, 5.f, 6.f);
-	m_matSlash          = WorldMatrix(688.f, 387.f, 5.f, 6.f);
+	m_matXPSlash0          = WorldMatrix(695.f, 387.f, 5.f, 6.f);
+	m_matXPSlash1          = WorldMatrix(690.f, 387.f, 5.f, 6.f);
 	m_matMaxXPNumberOne = WorldMatrix(702.f, 387.f, 5.f, 6.f);
 	m_matMaxXPNumberTwo = WorldMatrix(716.f, 387.f, 5.f, 6.f);
 
@@ -126,28 +142,74 @@ void CUIplayerstat::Render_Object()
 	m_pTextureCom->Render_Texture(0);
 	m_pBufferCom->Render_Buffer();
 
-	// AttackPower UI
-	if (m_fAttackPowerNumberOne != 0)
+	// AttackPower Min UI
+	if (m_fAttackPowerMinNumberOne != 0)
 	{
-		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matAttackPowerNumberOne);
-		m_pNumberTextureCom->Render_Texture(m_fAttackPowerNumberOne);
+		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matAttackPowerMinNumberOne);
+		m_pNumberTextureCom->Render_Texture(m_fAttackPowerMinNumberOne);
 		m_pBufferCom->Render_Buffer();
 	}
 
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matAttackPowerNumberTwo);
-	m_pNumberTextureCom->Render_Texture(m_fAttackPowerNumberTwo);
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matAttackPowerMinNumberTwo);
+	m_pNumberTextureCom->Render_Texture(m_fAttackPowerMinNumberTwo);
 	m_pBufferCom->Render_Buffer();
 
-	// ArmorClass UI
-	if (m_fArmorClassNumberOne != 0)
+	// Slash UI
+	if (m_fAttackPowerMaxNumberOne == 0) {
+		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matAttackPowerSlash0);
+	}
+	else {
+		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matAttackPowerSlash1);
+	}
+
+	m_pNumberTextureCom->Render_Texture(16);
+	m_pBufferCom->Render_Buffer();
+
+	// AttackPower Max UI
+	if (m_fAttackPowerMaxNumberOne != 0)
 	{
-		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matArmorClassNumberOne);
-		m_pNumberTextureCom->Render_Texture(m_fArmorClassNumberOne);
+		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matAttackPowerMaxNumberOne);
+		m_pNumberTextureCom->Render_Texture(m_fAttackPowerMaxNumberOne);
 		m_pBufferCom->Render_Buffer();
 	}
 
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matArmorClassNumberTwo);
-	m_pNumberTextureCom->Render_Texture(m_fArmorClassNumberTwo);
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matAttackPowerMaxNumberTwo);
+	m_pNumberTextureCom->Render_Texture(m_fAttackPowerMaxNumberTwo);
+	m_pBufferCom->Render_Buffer();
+
+	// ArmorClass Min UI
+	if (m_fArmorClassMinNumberOne != 0)
+	{
+		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matArmorClassMinNumberOne);
+		m_pNumberTextureCom->Render_Texture(m_fArmorClassMinNumberOne);
+		m_pBufferCom->Render_Buffer();
+	}
+
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matArmorClassMinNumberTwo);
+	m_pNumberTextureCom->Render_Texture(m_fArmorClassMinNumberTwo);
+	m_pBufferCom->Render_Buffer();
+
+	// Slash UI
+	if (m_fArmorClassMaxNumberOne == 0) {
+		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matArmorClassSlash0);
+	}
+	else {
+		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matArmorClassSlash1);
+	}
+
+	m_pNumberTextureCom->Render_Texture(16);
+	m_pBufferCom->Render_Buffer();
+
+	// ArmorClass Max UI
+	if (m_fArmorClassMaxNumberOne != 0)
+	{
+		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matArmorClassMaxNumberOne);
+		m_pNumberTextureCom->Render_Texture(m_fArmorClassMaxNumberOne);
+		m_pBufferCom->Render_Buffer();
+	}
+
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matArmorClassMaxNumberTwo);
+	m_pNumberTextureCom->Render_Texture(m_fArmorClassMaxNumberTwo);
 	m_pBufferCom->Render_Buffer();
 
 	// Health UI
@@ -247,7 +309,12 @@ void CUIplayerstat::Render_Object()
 	m_pBufferCom->Render_Buffer();
 
 	// Slash UI
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matSlash);
+	if (m_fMaxXPNumberOne == 0) {
+		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matXPSlash0);
+	}
+	else {
+		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matXPSlash1);
+	}
 	m_pNumberTextureCom->Render_Texture(10);
 	m_pBufferCom->Render_Buffer();
 
@@ -309,8 +376,10 @@ void CUIplayerstat::Key_Input(void)
 
 void CUIplayerstat::Update_NumverUI()
 {
-	Check_Number(m_fAttackPowerNumberMin, m_fAttackPowerNumberOne, m_fAttackPowerNumberTwo);
-	Check_Number(m_fArmorClassNumberMin, m_fArmorClassNumberOne, m_fArmorClassNumberTwo);
+	Check_Number(m_fAttackPowerNumberMin, m_fAttackPowerMinNumberOne, m_fAttackPowerMinNumberTwo);
+	Check_Number(m_fAttackPowerNumberMax, m_fAttackPowerMaxNumberOne, m_fAttackPowerMaxNumberTwo);
+	Check_Number(m_fArmorClassNumberMin, m_fArmorClassMinNumberOne, m_fArmorClassMinNumberTwo);
+	Check_Number(m_fArmorClassNumberMax, m_fArmorClassMaxNumberOne, m_fArmorClassMaxNumberTwo);
 	Check_Number(m_fHealthNumber, m_fHealthNumberOne, m_fHealthNumberTwo);
 	Check_Number(m_fMagicNumber, m_fMagicNumberOne, m_fMagicNumberTwo);
 	Check_Number(m_fSpeedNumber, m_fSpeedNumberOne, m_fSpeedNumberTwo);

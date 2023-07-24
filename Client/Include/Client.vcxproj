@@ -193,6 +193,7 @@
     <ClInclude Include="..\Header\Bonfire.h" />
     <ClInclude Include="..\Header\BossFireWall.h" />
     <ClInclude Include="..\Header\BossFireWave.h" />
+    <ClInclude Include="..\Header\BossStage.h" />
     <ClInclude Include="..\Header\Boss_GrabBat.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
@@ -207,6 +208,7 @@
     <ClInclude Include="..\Header\Cheese.h" />
     <ClInclude Include="..\Header\EpicBow.h" />
     <ClInclude Include="..\Header\EffectStar.h" />
+    <ClInclude Include="..\Header\Fire.h" />
     <ClInclude Include="..\Header\FireWallPttern.h" />
     <ClInclude Include="..\Header\FIreWave2.h" />
     <ClInclude Include="..\Header\FireWavePattern.h" />
@@ -230,6 +232,7 @@
     <ClInclude Include="..\Header\RandomPotion.h" />
     <ClInclude Include="..\Header\Ring.h" />
     <ClInclude Include="..\Header\Roastmeat.h" />
+    <ClInclude Include="..\Header\VillageTriger.h" />
     <ClInclude Include="..\Header\Shield.h" />
     <ClInclude Include="..\Header\ShopItem.h" />
     <ClInclude Include="..\Header\SkullGhost.h" />
@@ -407,6 +410,7 @@
     <ClCompile Include="..\Code\Blade_Trap_Blade.cpp" />
     <ClCompile Include="..\Code\Blade_Trap_Body.cpp" />
     <ClCompile Include="..\Code\Blade_Trap_Idle.cpp" />
+    <ClCompile Include="..\Code\BossStage.cpp" />
     <ClCompile Include="..\Code\Boss_GrabBat.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
@@ -423,6 +427,7 @@
     <ClCompile Include="..\Code\Cheese.cpp" />
     <ClCompile Include="..\Code\EpicBow.cpp" />
     <ClCompile Include="..\Code\EffectStar.cpp" />
+    <ClCompile Include="..\Code\Fire.cpp" />
     <ClCompile Include="..\Code\FireWallPttern.cpp" />
     <ClCompile Include="..\Code\FIreWave2.cpp" />
     <ClCompile Include="..\Code\FireWavePattern.cpp" />
@@ -443,6 +448,7 @@
     <ClCompile Include="..\Code\RandomPotion.cpp" />
     <ClCompile Include="..\Code\Ring.cpp" />
     <ClCompile Include="..\Code\Roastmeat.cpp" />
+    <ClCompile Include="..\Code\VillageTriger.cpp" />
     <ClCompile Include="..\Code\Shield.cpp" />
     <ClCompile Include="..\Code\ShopItem.cpp" />
     <ClCompile Include="..\Code\SkullGhost.cpp" />

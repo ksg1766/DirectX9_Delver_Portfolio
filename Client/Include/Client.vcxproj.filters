@@ -724,10 +724,6 @@
     <Filter Include="03. GameObject\02. Village\03. Bonfire">
       <UniqueIdentifier>{dfa372ff-2873-496f-8c4d-3075cec429cb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. GameObject\02. Village\04. StageTrigger">
-      <UniqueIdentifier>{f64aa339-c586-4e01-b9f2-1b964d95e544}</UniqueIdentifier>
-    </Filter>
-
     <Filter Include="03. GameObject\03. UI\14. UISpeech\01. NPC\03. Dog">
       <UniqueIdentifier>{f34c8855-6dd9-41b7-ac37-987d280aa3c5}</UniqueIdentifier>
     </Filter>
@@ -736,6 +732,15 @@
     </Filter>
     <Filter Include="03. GameObject\07. Effect\21. EffectBonfire">
       <UniqueIdentifier>{74930c55-f1d8-49d0-a8d0-0beb4251c0b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\02. Village\03. Bonfire\00. Fire">
+      <UniqueIdentifier>{f040a002-705d-460b-bac5-840a2f1a6f78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\02. Village\04. VillageTriger">
+      <UniqueIdentifier>{f64aa339-c586-4e01-b9f2-1b964d95e544}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Scene\06. BossStage">
+      <UniqueIdentifier>{d4af6fbb-ea68-4551-980d-acd8d9142c16}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1434,6 +1439,15 @@
     <ClInclude Include="..\Header\FIreWave2.h">
       <Filter>03. GameObject\01. Stage\999. Boss\02. State\03. Attack\02. 3Phase\01. FireWave</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\Fire.h">
+      <Filter>03. GameObject\02. Village\03. Bonfire\00. Fire</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\VillageTriger.h">
+      <Filter>03. GameObject\02. Village\04. VillageTriger</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\BossStage.h">
+      <Filter>02. Scene\06. BossStage</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -2091,6 +2105,15 @@
     </ClCompile>
     <ClCompile Include="..\Code\FIreWave2.cpp">
       <Filter>03. GameObject\01. Stage\999. Boss\02. State\03. Attack\02. 3Phase\01. FireWave</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Fire.cpp">
+      <Filter>03. GameObject\02. Village\03. Bonfire\00. Fire</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\VillageTriger.cpp">
+      <Filter>03. GameObject\02. Village\04. VillageTriger</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\BossStage.cpp">
+      <Filter>02. Scene\06. BossStage</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -143,17 +143,33 @@ void CUIitem::Key_Input(void)
 	GetCursorPos(&pt);
 	ScreenToClient(g_hWnd, &pt);
 
+	if (m_bOnly)
+	{
+		m_pTransform->m_vInfo[INFO_POS].x = pt.x;
+		m_pTransform->m_vInfo[INFO_POS].y = WINCY - pt.y;
+		WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);
+	}
+
 	if (OnCollision(pt, m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y))
 	{
 		// 아이템 UI를 눌렀다가 가져다 놨을 때 해당 마우스 위치의 슬롯이 비어있는지 판별 후 여부에 따른 처리
 		if (Engine::InputDev()->Mouse_Pressing(DIM_LB))
 		{
+			if (Engine::UIManager()->m_bMouse && !m_bOnly)
+				return;
+
+			if (!Engine::UIManager()->m_bMouse) {
+				Engine::UIManager()->m_bMouse = true;
+				Engine::UIManager()->Set_PickingItemUI(this);
+				m_bOnly = true;
+			}
+
 			m_bTooltipRender = false;
 			m_bMove = true;
 			
-			m_pTransform->m_vInfo[INFO_POS].x = pt.x;
-			m_pTransform->m_vInfo[INFO_POS].y = pt.y;
-			WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);
+			//m_pTransform->m_vInfo[INFO_POS].x = pt.x;
+			//m_pTransform->m_vInfo[INFO_POS].y = pt.y;
+			//WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);
 
 			if (m_ItemID.eItemType == ITEMTYPE_GENERALITEM || m_ItemID.eItemType == ITEMTYPE_EQUIPITEM)
 			{
@@ -177,6 +193,11 @@ void CUIitem::Key_Input(void)
 				{
 					//// 해당 아이템 버리기
 					//// 인벤토리에서 해당 아이템 아예 삭제 + 해당 개수 만큼 앞에다가 버림
+
+					m_bOnly = false;
+					Engine::UIManager()->m_bMouse = false;
+					Engine::UIManager()->Set_PickingItemUI(nullptr);
+
 					//CPlayer* pPlayer = dynamic_cast<CPlayer*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
 					//CInventory* Inventory = dynamic_cast<CInventory*>(pPlayer->Get_Component(COMPONENTTAG::INVENTORY, ID_DYNAMIC));
 
@@ -277,6 +298,10 @@ void CUIitem::Key_Input(void)
 						m_pTransform->m_vInfo[INFO_POS].y = Get_Parent()->m_pTransform->m_vInfo[INFO_POS].y;
 						WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);
 					}
+
+					m_bOnly = false;
+					Engine::UIManager()->m_bMouse = false;
+					Engine::UIManager()->Set_PickingItemUI(nullptr);
 				}
 
 				if (m_ItemID.eItemType == ITEMTYPE_GENERALITEM || m_ItemID.eItemType == ITEMTYPE_EQUIPITEM)
@@ -293,11 +318,17 @@ void CUIitem::Key_Input(void)
 
 			m_fTooltipPosX = pt.x;
 			m_fTooltipPosY = pt.y;
+
+			Engine::UIManager()->Set_PickingItemUI(this);
 		}
 	}
 	else
 	{
 		m_bTooltipRender = false;
+
+		if (Engine::UIManager()->Get_PickingItemUI() == this) {
+			Engine::UIManager()->Set_PickingItemUI(nullptr);
+		}
 	}
 }
 

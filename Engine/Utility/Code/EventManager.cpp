@@ -50,6 +50,16 @@ void CEventManager::DeleteObject(CGameObject * _pObj)
 	AddEvent(evn);
 }
 
+void CEventManager::SceneChange(CScene* _pScene, SCENETAG _eSceneTag)
+{
+	tagEvent evn = {};
+	evn.eEvent = EVENT_TYPE::SCENE_CHANGE;
+	evn.lParam = (DWORD_PTR)_pScene;
+	evn.wParam = (DWORD_PTR)_eSceneTag;
+
+	AddEvent(evn);
+}
+
 void CEventManager::Execute(const tagEvent & _eve)
 {
 	switch (_eve.eEvent)
@@ -76,8 +86,16 @@ void CEventManager::Execute(const tagEvent & _eve)
 	}
 	break;
 	case EVENT_TYPE::SCENE_CHANGE:
-		//
-		break;
+	{
+		CScene*		pNewScene = (CScene*)_eve.lParam;
+		SCENETAG	eSceneTag = (SCENETAG)_eve.wParam;
+
+		// 여기서 씬매니저 씬 전환 불 값 바꿔주고
+		// Load_Data() 하면 블록이 전부 DeleteObject로 넘어가는데 원래 씬의 벡터는 다음 프레임에 IsDead가 True인 애들을 삭제할 것임.
+		// (그리고 아마 그 다음 프레임에 객체들도 삭제 될 것.)
+		// 벡터 초기화 이후에 씬이 넘어가야하니까 
+	}
+	break;
 	}
 }
 

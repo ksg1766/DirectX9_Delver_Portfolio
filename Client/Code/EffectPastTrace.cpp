@@ -88,7 +88,7 @@ Engine::_int CEffectPastTrace::Update_Object(const _float& fTimeDelta)
 
 	if (m_fTime > m_fLife || m_fFrame == m_fFinal && m_bAnimation && !m_bLoop)
 	{
-		CPoolManager::GetInstance()->Delete_Object(this);
+		//CPoolManager::GetInstance()->Delete_Object(this);
 	}
 
 	_int iExit = CTempEffect::Update_Object(fTimeDelta);

@@ -20,6 +20,8 @@ CCollisionManager::CCollisionManager()
 	CheckGroup(OBJECTTAG::PLAYER, OBJECTTAG::FRAGILE);
 	CheckGroup(OBJECTTAG::PLAYER, OBJECTTAG::IMMORTAL);
 	CheckGroup(OBJECTTAG::ITEM, OBJECTTAG::MONSTERBULLET);
+
+	//CheckGroup(OBJECTTAG::PLAYER, OBJECTTAG::TRIGERBLOCK);
 }
 
 CCollisionManager::~CCollisionManager()

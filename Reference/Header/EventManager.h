@@ -20,6 +20,7 @@ public:
 
 	void CreateObject(CGameObject* _pObj, LAYERTAG _eLayer);
 	void DeleteObject(CGameObject* _pObj);
+	void SceneChange(CScene* _pScene, SCENETAG _eSceneTag);
 
 private:
 	void Execute(const tagEvent& _eve);

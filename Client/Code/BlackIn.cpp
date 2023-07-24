@@ -8,6 +8,7 @@ CBlackIn::CBlackIn(LPDIRECT3DDEVICE9 pGraphicDev)
 
 CBlackIn::~CBlackIn()
 {
+	Free();
 }
 
 HRESULT CBlackIn::Ready_Object(void)
@@ -16,6 +17,8 @@ HRESULT CBlackIn::Ready_Object(void)
 	FAILED_CHECK_RETURN(CTempUI::Ready_Object(), E_FAIL); // ÃÊ±âÈ­
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
+
+	Engine::UIManager()->Hide_PopupUI(POPUP_MOUSE);
 
 	m_pTransform->m_vInfo[INFO_POS].x = WINCX / 2;
 	m_pTransform->m_vInfo[INFO_POS].y = WINCY / 2;
@@ -36,6 +39,7 @@ Engine::_int CBlackIn::Update_Object(const _float& fTimeDelta)
 	if (0.f >= m_fFrame)
 	{
 		m_fFrame = 0.f;
+		Engine::UIManager()->Show_PopupUI(POPUP_MOUSE);
 		Engine::UIManager()->Delete_BasicObject(Engine::UILAYER::UI_UP);
 	}
 

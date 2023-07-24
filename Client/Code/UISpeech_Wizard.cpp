@@ -73,7 +73,7 @@ void CUISpeech_Wizard::Render_Object()
 	if (Npciter != vecNpc.end())
 		eTargetNpc = dynamic_cast<CNpc*>(*Npciter);
 
-	if (dynamic_cast<CNpc_Wizard*>(eTargetNpc)->IsTalk())
+	if (eTargetNpc != nullptr && dynamic_cast<CNpc_Wizard*>(eTargetNpc)->IsTalk())
 	{
 		dynamic_cast<CFont*>(m_pFont)->Set_pFont(m_pFontconfig);
 		m_pFont->DrawText(L"ÆÄÀÌÆÃ");

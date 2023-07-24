@@ -19,7 +19,9 @@ private:
 	HRESULT		Add_Component(void);
 
 private:
-	_float      m_fMoveTime = 0.f;
+	_float      m_fMoveTime  = 0.f;
+	_float      m_fMoveStopTime = 0.f;
+	_float      m_fMoveSpeed = 0.f;
 
 public:
 	static CEffectBonfire* Create(LPDIRECT3DDEVICE9 pGraphicDev);
