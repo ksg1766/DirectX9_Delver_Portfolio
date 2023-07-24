@@ -37,6 +37,9 @@ public: //Getter
     _bool               Get_WallTouch()                      { return m_bWallTouch; }
     _vec3               Get_CenterPos()                      { return m_vCenterPos; }
     _bool               IsKnockBack()                        { return m_bKnockback; }
+    _float              Get_MoveRange()                      { return m_fMoveReturnRange; }
+    _float              Get_RandomoMoveRange()               { return m_fRandomMoveRange; }
+    _bool	            IsJump()                             { return m_bIsJump; }
 
 public: // Setter
     void                Set_Speed(_float _fSpeed)            { m_fSpeed = _fSpeed; }
@@ -47,8 +50,10 @@ public: // Setter
     void                Set_BlockOn(_bool _block)            { m_bBlockOn = _block; }
 	void                Set_WallTouch(_bool _Touch)			 { m_bWallTouch = _Touch; }
     void                Set_CenterPos(_vec3 _vPos)           { m_vCenterPos = _vPos; }
-    void                Set_KnockBack(_bool _KnockBack)        { m_bKnockback = _KnockBack; }
-
+    void                Set_KnockBack(_bool _KnockBack)      { m_bKnockback = _KnockBack; }
+    void                Set_MoveRange(_float _fRange)        { m_fMoveReturnRange = _fRange; }
+    void                Set_RandomMoveRange(_float _fRandom) { m_fRandomMoveRange = _fRandom; }
+    void                Set_Jump(_bool _Jump)                { m_bIsJump = _Jump; }
 public:
     void                IsAttack(CBasicStat* _PlayerStat);
 
@@ -62,8 +67,13 @@ protected:
     _bool		        m_bBlockOn;
     _bool               m_bWallTouch;
     _bool               m_bKnockback;
+    _bool		        m_bIsJump;
 
     _vec3               m_vCenterPos;
+    _float              m_fMoveReturnRange;
+    _float              m_fRandomMoveRange;
+
+
     _float              m_fSpeed;
  
     _bool                               m_bDieEffect = false;

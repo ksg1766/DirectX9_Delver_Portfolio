@@ -23,6 +23,7 @@ HRESULT CWarror_Attack::Ready_State(CStateMachine* pOwner)
 	m_vPrevPos = _vec3(0.f, 0.f, 0.f);
 	m_bIsAttack = false;
 	m_fSpeed = 10.f;
+	m_fTime = 0.f;
 
 	m_bAttackTick  = false;
 
@@ -36,6 +37,14 @@ STATE CWarror_Attack::Update_State(const _float& fTimeDelta)
 		(SceneManager()->GetInstance()->Get_ObjectList
 		(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
 	
+	m_fTime += fTimeDelta;
+
+	if (m_fTime >= 3.f)
+	{
+		m_fTime = 0.f;
+		return STATE::ROMIMG;
+	}
+
 
 	if (!m_bIsAttack)
 	{		
@@ -61,8 +70,12 @@ STATE CWarror_Attack::Update_State(const _float& fTimeDelta)
 		_vec3 vDir = m_vPrevPos - m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
 		D3DXVec3Normalize(&vDir, &vDir);
 
-		m_pOwner->Get_Transform()->m_vInfo[INFO_POS] =
-			m_pOwner->Get_Transform()->m_vInfo[INFO_POS] + vDir * 10 * fTimeDelta;
+		//m_pOwner->Get_Transform()->m_vInfo[INFO_POS] =
+		//	m_pOwner->Get_Transform()->m_vInfo[INFO_POS] + vDir * 10 * fTimeDelta;
+
+		m_pOwner->Get_Transform()->Translate(_vec3(vDir.x, 0.f, vDir.z) * 10 * fTimeDelta);
+
+
 	}
 
 
@@ -70,6 +83,7 @@ STATE CWarror_Attack::Update_State(const _float& fTimeDelta)
 		&& m_pOwner->Get_Animator()->Get_Animation()->Get_Frame() > 4.8f)
 	{
 		m_bIsAttack = false;
+		m_fTime = 0.f;
 		return STATE::ROMIMG;
 	}
 }

@@ -25,6 +25,7 @@ private:
 	_vec3	m_vPrevPos;
 	_bool	m_bIsAttack;
 	_float	m_fSpeed;
+	_float	m_fTime;
 
 	_bool	m_bAttackTick;
 	_bool	m_bAttackTick2;

@@ -35,7 +35,7 @@ HRESULT CDungeonWarrior::Ready_Object()
 
 	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
 
-	m_pTransform->Translate(_vec3(1.f, 3.f, 3.f));
+	//m_pTransform->Translate(_vec3(1.f, 3.f, 3.f));
 
 	CState* pState = CMonster_Move::Create(m_pGraphicDev, m_pStateMachine);
 	m_pStateMachine->Add_State(STATE::ROMIMG, pState);
@@ -62,6 +62,10 @@ HRESULT CDungeonWarrior::Ready_Object()
 
 	m_pStateMachine->Set_Animator(m_pAnimator);
 	m_pStateMachine->Set_State(STATE::ROMIMG);
+
+	Set_CenterPos(_vec3(25, 12, -40));
+	Set_MoveRange(2.f);
+	Set_RandomMoveRange(5.f);
 
 #pragma region WarriorStat
 
