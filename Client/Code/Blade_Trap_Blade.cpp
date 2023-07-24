@@ -19,7 +19,7 @@ CBlade_Trap_Blade::~CBlade_Trap_Blade()
 
 HRESULT CBlade_Trap_Blade::Ready_Object(void)
 {
-	m_eObjectTag = OBJECTTAG::MONSTER;
+	m_eObjectTag = OBJECTTAG::TRAP;
 	m_eTrapTag = TRAPTAG::TRAP_END;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 

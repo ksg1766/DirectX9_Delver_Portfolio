@@ -663,7 +663,7 @@ HRESULT CStage::Load_Data()
 			pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 			//EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 		}
-		else if (OBJECTTAG::MONSTER == eTag)
+		else if (OBJECTTAG::TRAP == eTag)
 		{
 			// value°ª ÀúÀå
 			ReadFile(hFile, &fX, sizeof(_float), &dwByte, nullptr);

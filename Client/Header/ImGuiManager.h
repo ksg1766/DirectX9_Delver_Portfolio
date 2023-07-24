@@ -41,7 +41,7 @@ public:
 private:
 	_bool	bUI_OnOff;
 
-	enum TOOLMODE { MAP, SPAWNER, TRAP, TOOL_END };
+	enum TOOLMODE { MAP, SPAWNER, TRAP, ENVIRONMENTAL, TOOL_END };
 	TOOLMODE							m_eToolMode = TOOL_END;
 
 	// Map Tool

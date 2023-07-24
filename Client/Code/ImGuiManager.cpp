@@ -32,7 +32,7 @@ void CImGuiManager::Key_Input(const _float& fTimeDelta)
 
         if (!ImGui::GetIO().WantCaptureMouse)
         {
-            if (MAP == m_eToolMode || TRAP == m_eToolMode)
+            if (MAP == m_eToolMode)
                 vOut = PickingBlock();
             else if (SPAWNER == m_eToolMode)
             {
@@ -40,6 +40,13 @@ void CImGuiManager::Key_Input(const _float& fTimeDelta)
                     vOut = PickingBlock();
                 else if (2 == m_iPickingMode)
                     vOut = PickingSpawner();
+            }
+            else if (TRAP == m_eToolMode)
+            {
+                if (1 == m_iPickingMode)
+                    vOut = PickingBlock();
+                else if (2 == m_iPickingMode)
+                    vOut = PickingTrap();
             }
 
             if (_vec3(0.f, -10.f, 0.f) == vOut)
@@ -376,7 +383,89 @@ _vec3 CImGuiManager::PickingSpawner()
 
 _vec3 CImGuiManager::PickingTrap()
 {
-    return _vec3();
+    _vec3   vFinalPos(0.f, -10.f, 0.f);
+
+    _vec3	vRayPos, vRayDir;
+
+    if (0 == m_iPickingMode)
+        return vFinalPos;
+    else
+    {
+        POINT		ptMouse{};
+        GetCursorPos(&ptMouse);
+        ScreenToClient(g_hWnd, &ptMouse);
+
+        _vec3		vMousePos;
+
+        D3DVIEWPORT9		ViewPort;
+        ZeroMemory(&ViewPort, sizeof(D3DVIEWPORT9));
+        CGraphicDev::GetInstance()->Get_GraphicDev()->GetViewport(&ViewPort);
+
+        // 뷰포트 -> 투영
+        vMousePos.x = ptMouse.x / (ViewPort.Width * 0.5f) - 1.f;
+        vMousePos.y = ptMouse.y / -(ViewPort.Height * 0.5f) + 1.f;
+        vMousePos.z = 0.f;
+
+        // 투영 -> 뷰 스페이스
+        _matrix		matProj;
+        D3DXMatrixInverse(&matProj, 0, &dynamic_cast<CFlyingCamera*>(CCameraManager::GetInstance()
+            ->Get_CurrentCam())->Get_Camera()->Get_ProjMatrix());
+        D3DXVec3TransformCoord(&vMousePos, &vMousePos, &matProj);
+
+        vRayPos = _vec3(0.f, 0.f, 0.f);
+        vRayDir = vMousePos - vRayPos;
+
+        // 뷰 스페이스 -> 월드 스페이스
+        _matrix		matView;
+        D3DXMatrixInverse(&matView, 0, &dynamic_cast<CFlyingCamera*>(CCameraManager::GetInstance()
+            ->Get_CurrentCam())->Get_Camera()->Get_ViewMatrix());
+        D3DXVec3TransformCoord(&vRayPos, &vRayPos, &matView);
+        D3DXVec3TransformNormal(&vRayDir, &vRayDir, &matView);
+
+        _vec3 vRayPosWorld = vRayPos;
+        _vec3 vRayDirWorld = vRayDir;
+
+        if (1 == m_iPickingMode)
+        {
+
+        }
+        else if (2 == m_iPickingMode)
+        {
+            vector<CGameObject*> vecTrap = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::TRAP);
+
+            for (auto& iter : vecTrap)
+            {
+                _vec3 vRayPosWorld = vRayPos;
+                _vec3 vRayDirWorld = vRayDir;
+
+                _matrix		matWorld;
+                matWorld = iter->m_pTransform->WorldMatrix();
+                D3DXMatrixInverse(&matWorld, 0, &matWorld);
+                D3DXVec3TransformCoord(&vRayPosWorld, &vRayPosWorld, &matWorld);
+                D3DXVec3TransformNormal(&vRayDirWorld, &vRayDirWorld, &matWorld);
+
+                const vector<_vec3>& pTrapVtxPos = dynamic_cast<CTrap*>(iter)->LoadTrapVertex();
+                const vector<INDEX32>& pTrapIdxPos = dynamic_cast<CTrap*>(iter)->LoadTrapIndex();
+
+                _float	fU = 0.f, fV = 0.f, fDist = 0.f;
+
+                for (_ulong i = 0; i < pTrapIdxPos.size(); ++i)
+                {
+                    if (D3DXIntersectTri(&pTrapVtxPos[pTrapIdxPos[i]._2],
+                        &pTrapVtxPos[pTrapIdxPos[i]._0],
+                        &pTrapVtxPos[pTrapIdxPos[i]._1],
+                        &vRayPosWorld, &vRayDirWorld, &fU, &fV, &fDist))
+                    {
+                        EventManager()->DeleteObject(iter);
+                        return _vec3(0.f, -10.f, 0.f);
+                    }
+                }
+            }
+            return _vec3(0.f, -10.f, 0.f);
+        }
+    }
+
+    return vFinalPos;
 }
 
 HRESULT CImGuiManager::SetUp_ImGui()
@@ -575,7 +664,7 @@ void CImGuiManager::LateUpdate_ImGui()
 
                     const char* items[] = { "Blade", "StrikeDown", "Plate"};
                     static _int item_current = 1;
-                    ImGui::ListBox("MonsterList", &item_current, items, IM_ARRAYSIZE(items), 3);
+                    ImGui::ListBox("TrapList", &item_current, items, IM_ARRAYSIZE(items), 3);
 
                     m_iSelected_index = item_current;
 
@@ -593,6 +682,33 @@ void CImGuiManager::LateUpdate_ImGui()
 
                     ImGui::EndTabItem();
                 }
+                if (ImGui::BeginTabItem("Environmental"))
+                {
+                    m_eToolMode = ENVIRONMENTAL;
+                    //m_iPickingMode = 0;
+                    ImGuiIO& io = ImGui::GetIO();
+
+                    const char* items[] = { "Blade", "StrikeDown", "Plate" };
+                    static _int item_current = 1;
+                    ImGui::ListBox("Object List", &item_current, items, IM_ARRAYSIZE(items), 3);
+
+                    m_iSelected_index = item_current;
+
+                    ImGui::NewLine();
+
+                    if (ImGui::Button("Mode"))
+                        ++m_iPickingMode %= 3;
+
+                    if (0 == m_iPickingMode)
+                        ImGui::Text("None");
+                    else if (1 == m_iPickingMode)
+                        ImGui::Text("Place");
+                    else
+                        ImGui::Text("Erase");
+
+                    ImGui::EndTabItem();
+                }
+
                 ImGui::EndTabBar();
             }
             ImGui::Separator();
@@ -682,7 +798,7 @@ HRESULT CImGuiManager::OnSaveData()
                 WriteFile(hFile, &m_fSpawnTime, sizeof(_float), &dwByte, nullptr);
             }
         }
-        else if (OBJECTTAG::MONSTER == (OBJECTTAG)i) // 트랩만
+        else if (OBJECTTAG::TRAP == (OBJECTTAG)i)
         {
             vector<CGameObject*>& vecObjList = pScene->Get_ObjectList(LAYERTAG::GAMELOGIC, (OBJECTTAG)i);
             for (auto& iter : vecObjList)
@@ -791,7 +907,7 @@ HRESULT CImGuiManager::OnLoadData()
             pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
             //EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
         }
-        else if (OBJECTTAG::MONSTER == eTag) //트랩
+        else if (OBJECTTAG::TRAP == eTag)
         {
             // value값 저장
             ReadFile(hFile, &fX, sizeof(_float), &dwByte, nullptr);

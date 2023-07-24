@@ -17,7 +17,7 @@ CStrikeDown_Trap::~CStrikeDown_Trap()
 
 HRESULT CStrikeDown_Trap::Ready_Object(void)
 {
-	m_eObjectTag = OBJECTTAG::MONSTER;
+	m_eObjectTag = OBJECTTAG::TRAP;
 	m_eTrapTag = TRAPTAG::STRIKEDOWN;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
@@ -28,6 +28,8 @@ HRESULT CStrikeDown_Trap::Ready_Object(void)
 	m_fInitialHeight = 0.f;
 	m_bPlayerHit = false;
 	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale() * 1.1f);
+
+	__super::Ready_Object();
 	//m_pTransform->Translate(_vec3(0.f, 1.5f, 0.f));
 
 	return S_OK;

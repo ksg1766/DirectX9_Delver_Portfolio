@@ -2,10 +2,12 @@
 #include "Trap.h"
 
 BEGIN(Engine)
-class CCubeBf;
+
+class CTrap;
 class CTexture;
 class CStateMachine;
 class CTempEffect;
+
 END
 
 class CJump_Plate :
@@ -28,7 +30,6 @@ public:
 	virtual void	OnCollisionExit(CCollider* _pOther);
 
 private:
-	CCubeBf*		m_pCubeBf = nullptr;
 	CTexture*		m_pTexture = nullptr;
 	CGameObject*	m_pOtherObj = nullptr;
 

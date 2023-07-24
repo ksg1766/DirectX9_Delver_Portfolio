@@ -3,7 +3,6 @@
 
 BEGIN(Engine)
 
-class CCubeBf;
 class CTexture;
 class CStateMachine;
 
@@ -31,12 +30,11 @@ public:
 	void		Set_MinHeight(_float _Height);
 
 public:
-	virtual void		OnCollisionEnter(CCollider* _pOther);
-	virtual void		OnCollisionStay(CCollider* _pOther);
-	virtual void		OnCollisionExit(CCollider* _pOther);
+	virtual void	OnCollisionEnter(CCollider* _pOther);
+	virtual void	OnCollisionStay(CCollider* _pOther);
+	virtual void	OnCollisionExit(CCollider* _pOther);
 
 private:
-	CCubeBf*		m_pCubeBf = nullptr;
 	CTexture*		m_pTexture = nullptr;
 	CGameObject*	m_pOtherObj = nullptr;
 	_float			m_fInitialHeight;
@@ -48,7 +46,7 @@ private:
 	_bool			m_bPlayerHit;//플레이어 
 
 private:
-	HRESULT		Add_Component(void);
+	HRESULT			Add_Component(void);
 
 public:
 	static CStrikeDown_Trap* Create(LPDIRECT3DDEVICE9 pGraphicDev);

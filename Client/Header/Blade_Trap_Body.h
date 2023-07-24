@@ -2,9 +2,10 @@
 #include "Trap.h"
 
 BEGIN(Engine)
-class CCubeBf;
+
 class CTexture;
 class CStateMachine;
+
 END
 class CBlade_Trap_Blade;
 
@@ -23,8 +24,8 @@ public:
 	virtual void Render_Object(void) override;
 	
 	void		Create_Blade();
+
 private:
-	CCubeBf*		m_pCubeBf = nullptr;
 	CTexture*		m_pTexture = nullptr;
 
 	CBlade_Trap_Blade* m_pTrapBlade;
@@ -32,6 +33,7 @@ private:
 	_bool			m_bSpawnBlade;
 	_vec3			m_vBladePos[9];
 	_vec3			m_vBladeDir[7];
+
 private:
 	HRESULT		Add_Component(void);
 

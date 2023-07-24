@@ -18,7 +18,7 @@ CBlade_Trap::~CBlade_Trap()
 
 HRESULT CBlade_Trap::Ready_Object(void)
 {
-	m_eObjectTag = OBJECTTAG::MONSTER;
+	m_eObjectTag = OBJECTTAG::TRAP;
 	m_eTrapTag = TRAPTAG::BLADE;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
@@ -43,6 +43,8 @@ HRESULT CBlade_Trap::Ready_Object(void)
 	m_vBladeDir[6] = _vec3(0.f, 30.f, 0.f);//°¡¿îµ¥
 
 	m_bSpawnBlade = false;
+
+	__super::Ready_Object();
 
 	//m_pTransform->Translate(_vec3(0.f, -0.8f, 0.f));
 
@@ -95,6 +97,7 @@ void CBlade_Trap::Create_Blade()
 HRESULT CBlade_Trap::Add_Component(void)
 {
 	CComponent* pComponent = nullptr;
+
 	pComponent = m_pCubeBf = dynamic_cast<CCubeBf*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_CubeBf"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BUFFER, pComponent);

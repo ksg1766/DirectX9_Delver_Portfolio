@@ -18,13 +18,16 @@ CJump_Plate::~CJump_Plate()
 
 HRESULT CJump_Plate::Ready_Object(void)
 {
-	m_eObjectTag = OBJECTTAG::MONSTER;
+	m_eObjectTag = OBJECTTAG::TRAP;
 	m_eTrapTag = TRAPTAG::JUMP;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 	m_pTransform->Scale(_vec3(0.4f, 0.15f, 0.4f));
 	m_fTime = 0.f;
 	m_bAttack = false;
 	m_fInitialHeight = false;
+
+	__super::Ready_Object();
+
 	return S_OK;
 }
 
