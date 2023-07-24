@@ -31,7 +31,6 @@ private:
     _float  m_fPatternDelay;
     _bool  m_bCool;
     _bool  m_bSkill;
-    CBoss_MeteorCube* m_pGameObject = nullptr;
     _float m_fChannel_Count;
     _bool   m_bSkillStart;
 

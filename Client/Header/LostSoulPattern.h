@@ -3,10 +3,10 @@
 class CLostSoulPattern :
     public CState
 {
+private:
     explicit CLostSoulPattern();
     explicit CLostSoulPattern(LPDIRECT3DDEVICE9 pGraphicDev);
     virtual ~CLostSoulPattern();
-
 
 public:
     virtual HRESULT	    Ready_State(CStateMachine* pOwner);
@@ -24,7 +24,7 @@ private:
     //클래스 내에서만 쓸 함수
     _float m_fDelay;
     _float  m_fPatternDelay;
-
+    _int    m_iSkillCount;
 private:
     virtual void Free();
 };

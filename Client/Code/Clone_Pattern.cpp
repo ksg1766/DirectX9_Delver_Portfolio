@@ -31,54 +31,58 @@ HRESULT CClone_Pattern::Ready_State(CStateMachine* pOwner)
 
 STATE CClone_Pattern::Update_State(const _float& fTimeDelta)
 {
-    mt19937 engine((_uint)time(NULL));           // MT19937 난수 엔진
-    uniform_int_distribution<__int64> distribution(0, 2); // 생성 범위
-    auto generator = bind(distribution, engine);
-    switch (generator())
+    if (0 >= dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_CloneCount())
     {
-    case 0:
-        if (!m_bSkill)
+        mt19937 engine((_uint)time(NULL));           // MT19937 난수 엔진
+        uniform_int_distribution<__int64> distribution(0, 2); // 생성 범위
+        auto generator = bind(distribution, engine);
+        dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Set_CloneCount(2);
+        switch (generator())
         {
-            m_pOwner->Get_Transform()->m_vInfo[INFO_POS] = (m_vPillarPos[0]);
-            Engine::CGameObject* pGameObject = nullptr;
-            pGameObject = CSkeletonKing_Clone::Create(m_pGraphicDev);
-            dynamic_cast<CSkeletonKing_Clone*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = (m_vPillarPos[1]);
-            Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
-            pGameObject = CSkeletonKing_Clone::Create(m_pGraphicDev);
-            dynamic_cast<CSkeletonKing_Clone*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = (m_vPillarPos[2]);
-            Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
-
+        case 0:
+            if (!m_bSkill)
+            {
+                m_pOwner->Get_Transform()->m_vInfo[INFO_POS] = (m_vPillarPos[0]);
+                Engine::CGameObject* pGameObject = nullptr;
+                pGameObject = CSkeletonKing_Clone::Create(m_pGraphicDev);
+                dynamic_cast<CSkeletonKing_Clone*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = (m_vPillarPos[1]);
+                Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+                pGameObject = CSkeletonKing_Clone::Create(m_pGraphicDev);
+                dynamic_cast<CSkeletonKing_Clone*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = (m_vPillarPos[2]);
+                Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+            }
+            break;
+        case 1:
+            if (!m_bSkill)
+            {
+                m_pOwner->Get_Transform()->m_vInfo[INFO_POS] = (m_vPillarPos[1]);
+                Engine::CGameObject* pGameObject = nullptr;
+                pGameObject = CSkeletonKing_Clone::Create(m_pGraphicDev);
+                dynamic_cast<CSkeletonKing_Clone*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = (m_vPillarPos[0]);
+                Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+                pGameObject = CSkeletonKing_Clone::Create(m_pGraphicDev);
+                dynamic_cast<CSkeletonKing_Clone*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = (m_vPillarPos[2]);
+                Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+            }
+            break;
+        case 2:
+            if (!m_bSkill)
+            {
+                m_pOwner->Get_Transform()->m_vInfo[INFO_POS] = (m_vPillarPos[2]);
+                Engine::CGameObject* pGameObject = nullptr;
+                pGameObject = CSkeletonKing_Clone::Create(m_pGraphicDev);
+                dynamic_cast<CSkeletonKing_Clone*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = (m_vPillarPos[1]);
+                Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+                pGameObject = CSkeletonKing_Clone::Create(m_pGraphicDev);
+                dynamic_cast<CSkeletonKing_Clone*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = (m_vPillarPos[0]);
+                Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+            }
+            break;
         }
-        break;
-    case 1:
-        if (!m_bSkill)
-        {
-            m_pOwner->Get_Transform()->m_vInfo[INFO_POS] = (m_vPillarPos[1]);
-            Engine::CGameObject* pGameObject = nullptr;
-            pGameObject = CSkeletonKing_Clone::Create(m_pGraphicDev);
-            dynamic_cast<CSkeletonKing_Clone*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = (m_vPillarPos[0]);
-            Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
-            pGameObject = CSkeletonKing_Clone::Create(m_pGraphicDev);
-            dynamic_cast<CSkeletonKing_Clone*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = (m_vPillarPos[2]);
-            Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
-        }
-        break;
-    case 2:
-        if (!m_bSkill)
-        {
-            m_pOwner->Get_Transform()->m_vInfo[INFO_POS] = (m_vPillarPos[2]);
-            Engine::CGameObject* pGameObject = nullptr;
-            pGameObject = CSkeletonKing_Clone::Create(m_pGraphicDev);
-            dynamic_cast<CSkeletonKing_Clone*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = (m_vPillarPos[1]);
-            Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
-            pGameObject = CSkeletonKing_Clone::Create(m_pGraphicDev);
-            dynamic_cast<CSkeletonKing_Clone*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = (m_vPillarPos[0]);
-            Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
-        }
-        break;
+        return STATE::BOSS_PH2SKILL2;
     }
-
-	return STATE::BOSS_IDLE;
+    else 
+        return STATE::BOSS_PH2SKILL2;
 }
 
 void CClone_Pattern::LateUpdate_State()

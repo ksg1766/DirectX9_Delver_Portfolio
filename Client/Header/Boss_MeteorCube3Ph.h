@@ -6,13 +6,13 @@ class CCubeBf;
 class CTexture;
 class CState;
 END
-class CBoss_MeteorCube :
+class CBoss_MeteorCube3Ph :
     public CMonster
 {
 private:
-    explicit CBoss_MeteorCube(LPDIRECT3DDEVICE9 pGraphicDev );
-    explicit	CBoss_MeteorCube(const CBoss_MeteorCube& rhs);
-    virtual ~CBoss_MeteorCube();
+    explicit CBoss_MeteorCube3Ph(LPDIRECT3DDEVICE9 pGraphicDev );
+    explicit	CBoss_MeteorCube3Ph(const CBoss_MeteorCube3Ph& rhs);
+    virtual ~CBoss_MeteorCube3Ph();
 
 public:
     virtual HRESULT Ready_Object()                          override;
@@ -61,7 +61,7 @@ private:
 public:
     HRESULT		Add_Component();
 public:
-    static CBoss_MeteorCube* Create(LPDIRECT3DDEVICE9 pGraphicDev);
+    static CBoss_MeteorCube3Ph* Create(LPDIRECT3DDEVICE9 pGraphicDev);
 private:
     virtual void Free();
 };

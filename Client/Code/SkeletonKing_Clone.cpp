@@ -4,6 +4,7 @@
 #include "BossProjectile.h"
 #include "BossExplosion.h"
 #include "SkeletonKing.h"
+#include "Player.h"
 CSkeletonKing_Clone::CSkeletonKing_Clone(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CMonster(pGraphicDev)
 {
@@ -22,9 +23,10 @@ CSkeletonKing_Clone::~CSkeletonKing_Clone()
 
 HRESULT CSkeletonKing_Clone::Ready_Object(void)
 {
-	m_eObjectTag = OBJECTTAG::BOSS;
+	m_eObjectTag = OBJECTTAG::MONSTER;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 	m_pTransform->Scale(_vec3(3.f, 3.f, 3.f));
+	m_bHp = 2;
 	return S_OK;
 }
 
@@ -35,7 +37,6 @@ _int CSkeletonKing_Clone::Update_Object(const _float& fTimeDelta)
 	if (SceneManager()->Get_GameStop()) { return 0; }
 
 	_int iExit = __super::Update_Object(fTimeDelta);
-	
 	m_fFrame += 8.f * fTimeDelta;
 	m_fSkillCool += fTimeDelta;
 	if (8.f < m_fFrame)
@@ -50,7 +51,18 @@ _int CSkeletonKing_Clone::Update_Object(const _float& fTimeDelta)
 		m_fSkillCool = 0.f;
 	}
 	if (STATE::BOSS_STURN == dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_StatMachine()->Get_State())
+	{
+		dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Add_CloneCount(-1);
 		Engine::EventManager()->DeleteObject(this);
+	}
+	else if (0 >= m_bHp)
+	{
+		dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Add_CloneCount(-1);
+		Engine::EventManager()->DeleteObject(this);
+	}
+	else if(0 >= dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_CloneCount())
+		Engine::EventManager()->DeleteObject(this);
+		
 	return iExit;
 }
 
@@ -67,6 +79,32 @@ void CSkeletonKing_Clone::Render_Object(void)
 
 	m_pTexture->Render_Texture((_uint)m_fFrame);
 	m_pBuffer->Render_Buffer();
+}
+
+void CSkeletonKing_Clone::OnCollisionEnter(CCollider* _pOther)
+{
+	if (SceneManager()->Get_GameStop()) { return; }
+}
+
+void CSkeletonKing_Clone::OnCollisionStay(CCollider* _pOther)
+{
+	if (SceneManager()->Get_GameStop()) { return; }
+	if (m_bHit) { return; }
+	if (OBJECTTAG::PLAYERBULLET == _pOther->Get_ObjectTag()||(OBJECTTAG::ITEM == _pOther->Get_ObjectTag()))
+	{
+		if (OBJECTTAG::ITEM == _pOther->Get_ObjectTag())
+		{
+			if (!dynamic_cast<CPlayer*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front())->Get_Attack())
+				return;
+			--m_bHp;
+			m_bHit = true;
+		}
+	}
+}
+
+void CSkeletonKing_Clone::OnCollisionExit(CCollider* _pOther)
+{
+	if (SceneManager()->Get_GameStop()) { return; }
 }
 
 HRESULT CSkeletonKing_Clone::Add_Component(void)
@@ -92,6 +130,10 @@ HRESULT CSkeletonKing_Clone::Add_Component(void)
 	pComponent = dynamic_cast<CBillBoard*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BillBoard"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::BILLBOARD, pComponent);
+
+	pComponent = m_pCollider = dynamic_cast<CCollider*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Collider"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::COLLIDER, pComponent);
 
 	for (_uint i = 0; i < ID_END; ++i)
 		for (auto& iter : m_mapComponent[i])

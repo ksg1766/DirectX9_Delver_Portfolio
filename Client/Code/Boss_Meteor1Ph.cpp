@@ -37,7 +37,7 @@ STATE CBoss_MeteorPh1::Update_State(const _float& fTimeDelta)
 		dynamic_cast<CBoss_MeteorCube*>(pGameObject)->Channeling_Begin();
 		m_bSkillStart = true;
 	}
-	else if (m_bSkillStart && (10.1f < m_fChannel_Count))
+	else if (m_bSkillStart && (12.1f < m_fChannel_Count))
 	{
 		m_bSkillStart = false;
 		m_fChannel_Count = 0.f;

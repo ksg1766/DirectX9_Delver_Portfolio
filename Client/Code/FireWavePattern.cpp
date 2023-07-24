@@ -37,7 +37,7 @@ STATE CFireWavePattern::Update_State(const _float& fTimeDelta)
 		for (int i = 0; i < 16; ++i)
 		{
 			pGameObject = CBossFireWave::Create(m_pGraphicDev);
-			dynamic_cast<CBossFireWave*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = m_pOwner->Get_Transform()->m_vInfo[INFO_POS] + (_vec3(-30 + (i * 4), -2.f, 0.f));
+			dynamic_cast<CBossFireWave*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = _vec3(-72.5f, 36.f, 94.5f) + (_vec3(-30 + (i * 4), -2.f, 0.f));
 			dynamic_cast<CBossFireWave*>(pGameObject)->Set_Dir(_vec3(0.f, 0.f, -1.f));
 			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 		}
@@ -47,7 +47,7 @@ STATE CFireWavePattern::Update_State(const _float& fTimeDelta)
 	if (3 < m_iCount)
 	{
 		m_iCount = 0;
-		return STATE::BOSS_IDLE;
+		return STATE::BOSS_PH2SKILL4;
 	}
 }
 

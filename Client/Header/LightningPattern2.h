@@ -1,16 +1,16 @@
 #pragma once
 #include "State.h"
-class CFIreWave2 :
+class CLightningPattern2 :
     public CState
 {
 private:
-    explicit CFIreWave2();
-    explicit CFIreWave2(LPDIRECT3DDEVICE9 pGraphicDev);
-    virtual ~CFIreWave2();
+    explicit CLightningPattern2();
+    explicit CLightningPattern2(LPDIRECT3DDEVICE9 pGraphicDev);
+    virtual ~CLightningPattern2();
 
 
 public:
-    virtual HRESULT	    Ready_State(CStateMachine* pOwner);
+    virtual HRESULT	Ready_State(CStateMachine* pOwner);
     virtual STATE		Update_State(const _float& fTimeDelta);
     virtual  void		LateUpdate_State();
     virtual  void		Render_State();
@@ -20,16 +20,17 @@ public:
 
 private:
     //클래스 내에서만 쓸 함수
-    void    Create_Clone(_int _iNum);
 private:
     //클래스 내에서만 쓸 함수
     _float m_fDelay;
     _float  m_fPatternDelay;
-    _bool  m_bSkill;
-    _int    m_iCount;
+    _bool  m_bCool;
 
+    _vec3   m_vPlayerPos;
+    _vec3   m_vCrossDir[4];
+    _int    m_iSkillCount;
 public:
-    static CFIreWave2* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
+    static CLightningPattern2* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
 
 private:
     virtual void Free();

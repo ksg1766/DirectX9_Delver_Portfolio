@@ -23,11 +23,9 @@ CBossLostSoul::~CBossLostSoul()
 
 HRESULT CBossLostSoul::Ready_Object(void)
 {
-	//m_eObjectTag = OBJECTTAG::MONSTERBULLET;
 	m_eObjectTag = OBJECTTAG::MONSTERBULLET;
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
-	//_vec3(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y-0.5f, m_pTransform->m_vInfo[INFO_POS].z)
 	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS]
 		, &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale()*0.3f);
 	m_pBasicStat->Get_Stat()->fAttack = 5.f;
@@ -49,7 +47,7 @@ _int CBossLostSoul::Update_Object(const _float& fTimeDelta)
 	m_fTime += fTimeDelta;
 		if (!m_bParry)//(5.f < m_fTime)
 		{
-			if ((5.f < m_fTime))
+			if ((m_eSoulState == SOUL_NORMAL) &&(5.f < m_fTime))
 			{
 				m_fTime = 0.f;
 				Engine::CGameObject* pGameObject = nullptr;
@@ -85,10 +83,7 @@ _int CBossLostSoul::Update_Object(const _float& fTimeDelta)
 void CBossLostSoul::LateUpdate_Object(void)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
-
-	m_pBillBoard->LateUpdate_Component();
 	__super::LateUpdate_Object();
-	__super::Compute_ViewZ(&m_pTransform->m_vInfo[INFO_POS]);
 }
 
 void CBossLostSoul::Render_Object(void)
@@ -192,7 +187,7 @@ HRESULT CBossLostSoul::Add_Component(void)
 
 	pComponent = m_pBillBoard = dynamic_cast<CBillBoard*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BillBoard"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BILLBOARD, pComponent);
+	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::BILLBOARD, pComponent);
 
 	pComponent = m_pCollider = dynamic_cast<CCollider*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Collider"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);

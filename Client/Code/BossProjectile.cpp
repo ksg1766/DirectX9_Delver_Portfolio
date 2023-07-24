@@ -38,7 +38,7 @@ _int CBossProjectile::Update_Object(const _float& fTimeDelta)
 
 	_int iExit = __super::Update_Object(fTimeDelta);
 	m_fTime += fTimeDelta;
-		if (5.f < m_fTime)
+		if ((!m_bHit)&&(5.f < m_fTime))
 		{
 			m_fTime = 0.f;
 			Engine::EventManager()->DeleteObject(this);

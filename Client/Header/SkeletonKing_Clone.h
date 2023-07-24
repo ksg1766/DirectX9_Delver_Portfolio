@@ -22,13 +22,18 @@ public:
 	virtual void LateUpdate_Object(void) override;
 	virtual void Render_Object(void) override;
 public:
-
+	virtual void	OnCollisionEnter(CCollider* _pOther);
+	virtual void	OnCollisionStay(CCollider* _pOther);
+	virtual void	OnCollisionExit(CCollider* _pOther);
 private:
 	CRcTex* m_pBuffer = nullptr;
 	CTexture* m_pTexture = nullptr;
 	_float	m_fFrame = 0;
 	_float	m_fSkillCool = 0;
 	_bool	m_bSkill;
+	_bool	m_bHit;
+	_int	m_bHp;
+	
 private:
 	HRESULT		Add_Component(void);
 

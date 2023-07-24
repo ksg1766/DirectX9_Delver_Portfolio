@@ -44,7 +44,7 @@ _int CBossFireWave::Update_Object(const _float& fTimeDelta)
 	if (8.f < m_fFrame)
 		m_fFrame = 0.f;
 	m_pTransform->Translate(m_vDir* fTimeDelta);
-	if (5.f < m_fDuration)
+	if (3.f < m_fDuration)
 		EventManager()->DeleteObject(this);
 	return iExit;
 }
