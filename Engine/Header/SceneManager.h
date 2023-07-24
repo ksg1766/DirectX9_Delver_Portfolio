@@ -27,9 +27,7 @@ public:
 	HRESULT			Set_Scene(CScene* pScene);
 	HRESULT			Change_Scene(CScene* pScene);
 
-	_bool           Get_VisitScene(SCENETAG _SceneTag){
-		return  m_bStageVisit[(unsigned long long)_SceneTag];
-	}
+	_bool           Get_VisitScene(SCENETAG _SceneTag) { return  m_bStageVisit[(unsigned long long)_SceneTag]; }
 
 	_int			Update_Scene(const _float& fTimeDelta);
 	void			LateUpdate_Scene();
