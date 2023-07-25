@@ -270,8 +270,25 @@ _uint CLoading::Loading_ForStage()
 
 #pragma region SOUND
 		// 테스트용
-		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSound/01_Title_Screen.wav", "01_Title_Screen"), E_FAIL);
-		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSound/03_StartVillage.wav", "03_StartVillage"), E_FAIL);
+
+		//PLAYER
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/steps.mp3", "steps.mp3"), E_FAIL);
+
+
+		//WEAPON
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/bow.wav", "bow.wav"), E_FAIL);
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/whoosh1.mp3", "whoosh1.mp3"), E_FAIL);
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/explode.mp3", "explode.mp3"), E_FAIL);
+
+		// Break
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/break_wood_01.mp3", "break_wood_01.mp3"), E_FAIL);
+
+		// SceneBGM
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/campfire-guitar.mp3", "campfire-guitar.mp3"), E_FAIL);
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/chase_sewers.mp3", "chase_sewers.mp3"), E_FAIL);
+
+
+
 #pragma endregion SOUND
 
 #pragma region VILLAGE
@@ -364,10 +381,12 @@ CLoading * CLoading::Create(LPDIRECT3DDEVICE9 pGraphicDev, LOADINGID eID)
 
 void CLoading::Free()
 {
+
 	WaitForSingleObject(m_hThread, INFINITE);
 	CloseHandle(m_hThread);
 	DeleteCriticalSection(&m_Crt);
 
 	Safe_Release(m_pGraphicDev);
+	
 }
 

@@ -1,7 +1,6 @@
 #pragma once
 #include "State.h"
 
-
 BEGIN(Engine)
 
 END

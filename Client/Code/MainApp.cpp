@@ -24,8 +24,8 @@ HRESULT CMainApp::Ready_MainApp(void)
 {
 	FAILED_CHECK_RETURN(SetUp_DefaultSetting(&m_pGraphicDev), E_FAIL);
 
-	FAILED_CHECK_RETURN(Ready_Scene(m_pGraphicDev, &m_pSceneManager), E_FAIL);
 	FAILED_CHECK_RETURN(CSoundManager::GetInstance()->ReadySound(&m_pSoundManager), E_FAIL);
+	FAILED_CHECK_RETURN(Ready_Scene(m_pGraphicDev, &m_pSceneManager), E_FAIL);
 
 	//m_pGraphicDev->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
 	//m_pGraphicDev->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);

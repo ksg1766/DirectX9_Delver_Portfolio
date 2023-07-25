@@ -5,6 +5,7 @@
 #include "EffectBrokenbox.h"
 #include "EffectSquare.h"
 #include "Itemgroup.h"
+#include "SoundManager.h"
 
 CBox_Cube::CBox_Cube(LPDIRECT3DDEVICE9 pGraphicDev)
     : CGameObject(pGraphicDev)
@@ -165,6 +166,9 @@ void CBox_Cube::OnCollisionEnter(CCollider* _pOther)
 				EventManager()->DeleteObject(this);
 			}
 			m_bHit = true;
+
+			CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_EFFECT);
+			CSoundManager::GetInstance()->PlaySound(L"break_wood_01.mp3", CHANNELID::SOUND_EFFECT, 1.f);
 	}
 }
 
@@ -190,6 +194,8 @@ void CBox_Cube::OnCollisionStay(CCollider* _pOther)
 				EventManager()->DeleteObject(this);
 			}
 		
+			CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_EFFECT);
+			CSoundManager::GetInstance()->PlaySound(L"break_wood_01.mp3", CHANNELID::SOUND_EFFECT, 1.f);
 
 			m_bHit = true;
 		}
