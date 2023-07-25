@@ -3,6 +3,7 @@
 #include "SkeletonKing.h"
 #include "SkeletonKing_Clone.h"
 #include "Boss_Lightning.h"
+#include "Boss_CautionEff.h"
 CCrossPattern::CCrossPattern()
 {
 }
@@ -20,8 +21,10 @@ HRESULT CCrossPattern::Ready_State(CStateMachine* pOwner)
 {
 	m_pOwner = pOwner;
 	m_iSkillCount = 0;
+	m_iCautionCount = 0;
 	m_fDelay = 0.f;
 	m_fPatternDelay = 0.f;
+	m_fCautionDelay = 0.f;
 	m_bCool = false;
 	m_vHeight = _vec3(0.f, 10.f, 0.f);
 	m_vCrossDir[0] = _vec3(-2.f, 0.f, 0.f);
@@ -34,26 +37,49 @@ HRESULT CCrossPattern::Ready_State(CStateMachine* pOwner)
 STATE CCrossPattern::Update_State(const _float& fTimeDelta)
 {
 	Engine::CGameObject* pGameObject = nullptr;
+
+	m_fCautionDelay += fTimeDelta;
 	m_fDelay += fTimeDelta;
-	if (0.1f< m_fDelay)
+	if ((0.1f < m_fCautionDelay)&&(!m_bCool))
 	{
 		for (int i = 0; i < 10; ++i)
 		{
 			for (int j = 0; j < 4; ++j)
 			{
-				pGameObject = CBoss_Lightning::Create(m_pGraphicDev);
-				dynamic_cast<CBoss_Lightning*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = (_vec3(-72.5f, 35.f + (i * 2), 94.5f) + (m_vCrossDir[j] * (m_iSkillCount)));
+				pGameObject = CBoss_CautionEff::Create(m_pGraphicDev);
+				dynamic_cast<CBoss_CautionEff*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = (_vec3(-72.5f, 35.f + (i * 2), 94.5f) + (m_vCrossDir[j] * (m_iCautionCount)));
 				Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 			}
 		}
+		m_fCautionDelay = 0.f;
+		++m_iCautionCount;
+		if ((10 <= m_iCautionCount)&&(!m_bCool))
+		{
+			m_iCautionCount = 0.f;
+			m_fCautionDelay = 0.f;
+			m_bCool = true;
+		}
+		}
+	if ((0.1f < m_fDelay) && (m_bCool))
+		{
+			for (int i = 0; i < 10; ++i)
+			{
+				for (int j = 0; j < 4; ++j)
+				{
+					pGameObject = CBoss_Lightning::Create(m_pGraphicDev);
+					dynamic_cast<CBoss_Lightning*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = (_vec3(-72.5f, 35.f + (i * 2), 94.5f) + (m_vCrossDir[j] * (m_iSkillCount)));
+					Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+				}
+			}
 		m_fDelay = 0.f;
 		++m_iSkillCount;
-	}
-	if (10 < m_iSkillCount)
-	{
-		m_iSkillCount = 0.f;
-		//return STATE::BOSS_IDLE;
-		return STATE::BOSS_PH2SKILL3;
+		if ((10 < m_iSkillCount) && (m_bCool))
+		{
+			m_bCool = false;
+			m_iSkillCount = 0.f;
+			m_fCautionDelay = 0.f;
+			return STATE::BOSS_PH2SKILL2;
+		}
 	}
 }
 

@@ -201,12 +201,16 @@
     <ClInclude Include="..\Header\BossFireWall.h" />
     <ClInclude Include="..\Header\BossFireWave.h" />
     <ClInclude Include="..\Header\BossStage.h" />
+    <ClInclude Include="..\Header\Boss_CautionEff.h" />
     <ClInclude Include="..\Header\Boss_GrabBat.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\Header\Boss_Lightning.h" />
     <ClInclude Include="..\Header\Boss_Meteor1Ph.h" />
     <ClInclude Include="..\Header\Boss_MeteorCube3Ph.h" />
+    <ClInclude Include="..\Header\Boss_Phase2.h" />
+    <ClInclude Include="..\Header\Boss_Phase3.h" />
+    <ClInclude Include="..\Header\Boss_WarningEff.h" />
     <ClInclude Include="..\Header\Box_Cube.h" />
     <ClInclude Include="..\Header\DynamicCubeBlock.h" />
     <ClInclude Include="..\Header\Clone_Pattern.h" />
@@ -323,7 +327,7 @@
     <ClInclude Include="..\Header\SpawningPool.h" />
     <ClInclude Include="..\Header\TeleportPattern.h" />
     <ClInclude Include="..\Header\CameraManager.h" />
-    <ClInclude Include="..\Header\Boss_Attack.h" />
+    <ClInclude Include="..\Header\Boss_Phase1.h" />
     <ClInclude Include="..\Header\Boss_Idle.h" />
     <ClInclude Include="..\Header\Boss_Sleep.h" />
     <ClInclude Include="..\Header\Boss_WakeUp.h" />
@@ -423,11 +427,15 @@
     <ClCompile Include="..\Code\Blade_Trap_Body.cpp" />
     <ClCompile Include="..\Code\Blade_Trap_Idle.cpp" />
     <ClCompile Include="..\Code\BossStage.cpp" />
+    <ClCompile Include="..\Code\Boss_CautionEff.cpp" />
     <ClCompile Include="..\Code\Boss_GrabBat.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\Code\Bonfire.cpp" />
     <ClCompile Include="..\Code\Boss_MeteorCube3Ph.cpp" />
+    <ClCompile Include="..\Code\Boss_Phase2.cpp" />
+    <ClCompile Include="..\Code\Boss_Phase3.cpp" />
+    <ClCompile Include="..\Code\Boss_WarningEff.cpp" />
     <ClCompile Include="..\Code\DynamicCubeBlock.cpp" />
     <ClCompile Include="..\Code\BossFireWall.cpp" />
     <ClCompile Include="..\Code\BossFireWave.cpp" />
@@ -544,7 +552,7 @@
     <ClCompile Include="..\Code\SpawningPool.cpp" />
     <ClCompile Include="..\Code\TeleportPattern.cpp" />
     <ClCompile Include="..\Code\CameraManager.cpp" />
-    <ClCompile Include="..\Code\Boss_Attack.cpp" />
+    <ClCompile Include="..\Code\Boss_Phase1.cpp" />
     <ClCompile Include="..\Code\Boss_Idle.cpp" />
     <ClCompile Include="..\Code\Boss_Sleep.cpp" />
     <ClCompile Include="..\Code\Boss_WakeUp.cpp" />

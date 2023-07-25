@@ -244,7 +244,7 @@ void CTempItem::OnCollisionEnter(CCollider* _pOther)
 	if (SceneManager()->Get_GameStop()) { return; }
 
 	if (!(_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::MONSTER) &&
-		!(_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::PLAYER))
+		!(_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::PLAYER)&& !(_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::BOSS))
 		__super::OnCollisionEnter(_pOther);
 
 	// 몬스터거나 플레이어면 밀어내지않는다.
@@ -252,7 +252,7 @@ void CTempItem::OnCollisionEnter(CCollider* _pOther)
 	CPlayer& pPlayer = *dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer());
 	// 플레이어의 정보를 레퍼런스로 얻어옴.
 
-	if (_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::MONSTER)
+	if ((_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::MONSTER)||(_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BOSS))
 		// 무기 콜리전에 들어온 타입이 몬스터이면서, 플레이어의 스테이트가 공격이라면
 	{
 		if (!pPlayer.Get_AttackTick() &&

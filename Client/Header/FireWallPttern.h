@@ -24,7 +24,9 @@ private:
     //클래스 내에서만 쓸 함수
     _vec3   m_vCenterDistance[4];
     _bool   m_bCool;
+    _bool   m_bWarning;
     _float  m_fDuration;
+    _float  m_fCool;
 public:
     static CFireWallPttern* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
 

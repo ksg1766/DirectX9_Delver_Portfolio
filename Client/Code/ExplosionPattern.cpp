@@ -2,7 +2,7 @@
 #include "Export_Function.h"
 #include "BossExplosion.h"
 #include "SkeletonKing.h"
-
+#include "Boss_WarningEff.h"
 CExplosionPattern::CExplosionPattern()
 {
 }
@@ -43,6 +43,15 @@ STATE CExplosionPattern::Update_State(const _float& fTimeDelta)
     m_fPatternDelay += fTimeDelta;
     if (!m_bPattern)
     {
+        if (0.2f < m_fDelay)
+        {
+            for (int i = 0; i < 4; ++i)
+            {
+                pGameObject = CBoss_WarningEff::Create(m_pGraphicDev);
+                dynamic_cast<CBoss_WarningEff*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = _vec3(m_pOwner->Get_Transform()->m_vInfo[INFO_POS] + (m_vExplosionin1[i] * m_iSkillCount * 4.f));
+                Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+            }
+        }
         if (0.5f < m_fDelay)
         {
             for (int i = 0; i < 4; ++i)
@@ -64,12 +73,10 @@ STATE CExplosionPattern::Update_State(const _float& fTimeDelta)
         }
         if (3 < m_iSkillCount)
         {
-            if (2.f < m_fPatternDelay)
-            {
                 m_bPattern = false;
                 m_fPatternDelay = 0.f;
-                return STATE::BOSS_PH1SKILL3;
-            }
+                return STATE::BOSS_IDLE;
+
             m_fDelay = 0.f;
             m_iSkillCount = 0.f;
             m_bPattern = true;

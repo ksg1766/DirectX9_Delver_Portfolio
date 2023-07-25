@@ -170,7 +170,7 @@ void CArrow::OnCollisionEnter(CCollider* _pOther)
 
 	if (_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::MONSTER &&
 		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::PLAYER &&
-		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::ITEM)
+		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::ITEM&& _pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::BOSS)
 		__super::OnCollisionEnter(_pOther);
 	// 몬스터거나 플레이어면 밀어내지않는다.
 
@@ -178,8 +178,8 @@ void CArrow::OnCollisionEnter(CCollider* _pOther)
 		->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
 	// 플레이어의 정보를 레퍼런스로 얻어옴.
 
-	if (_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::MONSTER &&
-		dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_StateMachine()->Get_State() != STATE::DEAD)
+	if ((_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::MONSTER &&
+		dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_StateMachine()->Get_State() != STATE::DEAD)|| (_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::BOSS))
 	{
 		pPlayer.IsAttack(dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_BasicStat());
 	

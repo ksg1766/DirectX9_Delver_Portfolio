@@ -1,4 +1,5 @@
 #include "Boss_Idle.h"
+#include "SkeletonKing.h"
 #include "Export_Function.h"
 CBoss_Idle::CBoss_Idle()
 {
@@ -22,14 +23,18 @@ HRESULT CBoss_Idle::Ready_State(CStateMachine* pOwner)
 
 STATE CBoss_Idle::Update_State(const _float& fTimeDelta)
 {
-    m_fSkillCool += fTimeDelta;
-    if (3.f < m_fSkillCool)
+    switch(dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_Phase())
     {
-        m_fSkillCool = 0.f;
-        //return STATE::BOSS_ATTACK;
-        return STATE::BOSS_IDLE;
+    case BOSSPHASE::PHASE1:
+        return STATE::BOSS_ATTACK1;
+        break;
+    case BOSSPHASE::PHASE2:
+        return STATE::BOSS_ATTACK2;
+        break;
+    case BOSSPHASE::PHASE3:
+        return STATE::BOSS_ATTACK3;
+        break;
     }
-    return STATE::BOSS_IDLE;
 }
 
 void CBoss_Idle::LateUpdate_State()

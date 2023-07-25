@@ -41,6 +41,7 @@ void CMonster::OnCollisionEnter(CCollider* _pOther)
 	_vec3	vThisPos = m_pCollider->GetCenterPos();
 	_float* fThisAxis = m_pCollider->GetAxisLen();
 
+
 	// OBJECTTAG에 따른 예외 처리 가능성
 	_float fWidth = fabs(vOtherPos.x - vThisPos.x);
 	_float fHeight = fabs(vOtherPos.y - vThisPos.y);

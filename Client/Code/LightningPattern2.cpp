@@ -1,8 +1,8 @@
 #include "LightningPattern2.h"
 #include "Export_Function.h"
 #include "Boss_Lightning.h"
+#include "Boss_CautionEff.h"
 #include "SkeletonKing.h"
-#include "Warning.h"
 CLightningPattern2::CLightningPattern2()
 {
 }
@@ -30,10 +30,16 @@ STATE CLightningPattern2::Update_State(const _float& fTimeDelta)
 {
 	Engine::CGameObject* pGameObject = nullptr;
 	m_fDelay += fTimeDelta;
-	if ((0.5f > m_fDelay)&&(!m_bCool))
+	if ((0.5f > m_fDelay) && (!m_bCool))
 	{
 		m_bCool = true;
 		m_vPlayerPos = Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform->m_vInfo[INFO_POS];
+		pGameObject = CBoss_CautionEff::Create(m_pGraphicDev);
+		for (int i = 0; i < 10; ++i)
+		{
+			dynamic_cast<CBoss_CautionEff*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = _vec3(m_vPlayerPos.x, 35.f + (i * 2), m_vPlayerPos.z);
+			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+		}
 	}
 	else if (0.5f < m_fDelay)
 	{

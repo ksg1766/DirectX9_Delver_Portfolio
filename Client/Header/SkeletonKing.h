@@ -1,8 +1,7 @@
 #pragma once
-
 #include "Monster.h"
+#include "Engine_Enum.h"
 BEGIN(Engine)
-
 class CRcTex;
 class CTexture;
 class CBillBoard;
@@ -33,18 +32,20 @@ public:
 	_bool			Get_Sturn() { return m_bSturn; }
 	_uint			Get_CloneCount() { return m_iCloneCount; }
 	_bool			Get_3Phase() { return m_b3phase; }
+	BOSSPHASE		Get_Phase() { return m_ePhase; }
 
 	virtual void	OnCollisionEnter(CCollider* _pOther);
 	virtual void	OnCollisionStay(CCollider* _pOther);
 	virtual void	OnCollisionExit(CCollider* _pOther);
 	void			Set_Sturn(_bool _sturn) { m_bSturn = _sturn; }
 	void			Set_CloneCount(_int _Hit) { m_bSturn = _Hit; }
-	void			Set_3Phase(_bool _b) { m_b3phase = _b; }
+	void			Set_Phase(BOSSPHASE _PHASE) { m_ePhase = _PHASE; }
 
 	void			Add_CloneCount(_int _Hit);
 	void			Add_HitCount();
 private:
 	HRESULT		Add_Component(void);
+	void		Change_Phase();
 	void		Key_Input();
 
 private:
@@ -60,6 +61,7 @@ private:
 	_bool		m_bSturn;
 	_uint		m_iCloneCount;
 	_bool		m_b3phase;
+	BOSSPHASE	m_ePhase;
 public:
 	static CSkeletonKing* Create(LPDIRECT3DDEVICE9 pGraphicDev);
 

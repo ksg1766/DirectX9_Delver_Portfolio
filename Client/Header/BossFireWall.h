@@ -39,10 +39,12 @@ private:
 	CTexture*		m_pTexture = nullptr;
 	CBillBoard*		m_pBillBoard = nullptr;
 	_vec3			m_vCenter;
+	_float			m_fHitCool;
 	_float			m_fFrame;
 	_float			m_fDuration;
 	_float			m_fSpeed;
 	_float			m_fAngle;
+	_bool			m_bHit;
 private:
 	HRESULT		Add_Component(void);
 

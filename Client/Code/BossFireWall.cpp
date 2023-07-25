@@ -23,11 +23,12 @@ HRESULT CBossFireWall::Ready_Object(void)
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 	m_pTransform->Scale(_vec3(2.f, 2.f, 2.f));
-	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale()*0.6f);
-	m_pBasicStat->Get_Stat()->fAttack = 5.f;
+	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale()*0.5f);
+	m_pBasicStat->Get_Stat()->fAttack = 2.f;
 	m_fDuration = 0.f;
 	m_fSpeed = 20.f;
 	m_fAngle = 0.f;
+	m_fHitCool = 0.f;
 	m_fDuration = 0.f;
 	return S_OK;
 }
@@ -39,6 +40,9 @@ _int CBossFireWall::Update_Object(const _float& fTimeDelta)
 	if (SceneManager()->Get_GameStop()) { return 0; }
 
 	_int iExit = __super::Update_Object(fTimeDelta);
+	if ((1.f < m_fHitCool)&&(m_bHit))
+		m_bHit = false;
+
 	m_fDuration += fTimeDelta;
 	m_fFrame += 8.f * fTimeDelta * 2;
 	m_pTransform->RotateAround(m_vCenter, _vec3(0.f, 1.f, 0.f),1.f* fTimeDelta);
@@ -80,11 +84,13 @@ void CBossFireWall::OnCollisionEnter(CCollider* _pOther)
 void CBossFireWall::OnCollisionStay(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
+	if (m_bHit) { return; }
 	if (_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::PLAYER)
 	{
 		CPlayerStat& PlayerState = *(dynamic_cast<CPlayer*>(_pOther->GetHost())->Get_Stat());
 		PlayerState.Take_Damage(this->Get_BasicStat()->Get_Stat()->fAttack);
 		this->Set_AttackTick(true);
+		m_bHit = true;
 		//Engine::EventManager()->DeleteObject(this);
 	}
 }

@@ -23,7 +23,7 @@ private:
 private:
     //클래스 내에서만 쓸 함수
     _float m_fDelay;
-    _float  m_fPatternDelay;
+    _float m_fPatternDelay;
     _bool  m_bCool;
     _int    m_iFireCount;//3연발 = 1스킬
     _int    m_iSkillCount;//3스킬 = 다음패턴

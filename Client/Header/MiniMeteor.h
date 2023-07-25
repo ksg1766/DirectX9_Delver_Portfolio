@@ -26,12 +26,19 @@ public:
     virtual void		OnCollisionEnter(CCollider* _pOther);
     virtual void		OnCollisionStay(CCollider* _pOther);
     virtual void		OnCollisionExit(CCollider* _pOther);
+    void                  Set_Dir(_vec3 _Dir);
 private:
     //함수
 private:
     //변수
-    CCubeBf* m_pCubeBf;
-    CTexture* m_pTexture;
+    CCubeBf*    m_pCubeBf;
+    CTexture*   m_pTexture;
+    _vec3       m_vCenter;
+    _vec3       m_vDir;
+    _float      m_fScale;
+    _float      m_fDuration;
+    _bool       m_bHit;
+
 public:
     HRESULT		Add_Component();
 public:

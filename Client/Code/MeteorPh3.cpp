@@ -52,6 +52,7 @@ STATE CMeteorPh3::Update_State(const _float& fTimeDelta)
 		m_bSkillStart = false;
 
 		m_fChannel_Count = 0.f;
+		dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Set_Phase(BOSSPHASE::LASTPHASE);
 		return STATE::BOSS_IDLE;
 	}
 	else if (m_bSkillStart)
