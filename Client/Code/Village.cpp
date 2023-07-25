@@ -24,10 +24,11 @@
 #include "Bonfire.h"
 #include "VillageTriger.h"
 #include "BlackIn.h"
-#include <Rock.h>
-#include <Grass.h>
-#include <Mushroom.h>
-#include <Pumpkin.h>
+#include "Rock.h"
+#include "Grass.h"
+#include "Mushroom.h"
+#include "Pumpkin.h"
+#include "ImmortalSprite.h"
 
 CVillage::CVillage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
@@ -628,6 +629,18 @@ HRESULT CVillage::Load_Data()
 				dynamic_cast<CPumpkin*>(pGameObject)->Set_PumpkinNumber(iPumpkinNumber);
 				break;
 			}
+
+			case ENVIRONMENTTAG::ETC:
+			{
+				_uint iSpriteNumber = 0;
+
+				ReadFile(hFile, &iSpriteNumber, sizeof(_uint), &dwByte, nullptr);
+
+				pGameObject = CImmortalSprite::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+				dynamic_cast<CImmortalSprite*>(pGameObject)->Set_SpriteNumber(iSpriteNumber);
+				break;
+			}
+
 			}
 			//pGameObject->m_pTransform->m_vInfo[INFO_POS] = _vec3(fX, fY, fZ);
 			NULL_CHECK_RETURN(pGameObject, E_FAIL);
