@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "..\Header\DynamicCamera.h"
+#include "Player.h"
 
 CDynamicCamera::CDynamicCamera(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CTempCamera(pGraphicDev)
@@ -43,7 +44,6 @@ _int CDynamicCamera::Update_Object(const _float& fTimeDelta)
 {
 	Key_Input(fTimeDelta);
 
-	_int iExit = CTempCamera::Update_Object(fTimeDelta);
 
 	if (false == m_bFix)
 	{
@@ -79,6 +79,8 @@ _int CDynamicCamera::Update_Object(const _float& fTimeDelta)
 			m_bShaking = false;
 		}
 	}
+
+	_int iExit = CTempCamera::Update_Object(fTimeDelta);
 
 	return iExit;
 }
@@ -163,18 +165,18 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 	else
 		m_bCheck = false;
 
-	if (Engine::InputDev()->Key_Pressing(DIK_5))
+	if (Engine::InputDev()->Key_Pressing(DIK_F5))
 	{
 		Shake_Camera();
 	}
 
-	if (Engine::InputDev()->Key_Pressing(DIK_2))
+	if (Engine::InputDev()->Key_Pressing(DIK_F2))
 	{
 		m_eCamera_Mode = CAMERA_MODE::CAMERA_FIRST;
 		m_bCameraCheck = false;
 	}
 
-	if (Engine::InputDev()->Key_Pressing(DIK_3))
+	if (Engine::InputDev()->Key_Pressing(DIK_F3))
 	{
 		m_eCamera_Mode = CAMERA_MODE::CAMERA_THIRD;
 		m_bCameraCheck = true;
@@ -230,7 +232,7 @@ void CDynamicCamera::Mouse_Fix()
 
 void CDynamicCamera::First_Camera()
 {
-	CComponent* pComponent = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->Get_Component(COMPONENTTAG::TRANSFORM, COMPONENTID::ID_DYNAMIC);
+	CComponent* pComponent = SceneManager()->Get_Scene()->Get_MainPlayer()->m_pTransform;
 
 	_matrix matPlayerWorld = dynamic_cast<CTransform*>(pComponent)->WorldMatrix();
 
@@ -265,9 +267,7 @@ void CDynamicCamera::Third_Camera()
 
 void CDynamicCamera::Shake_Camera()
 {
-	CComponent* pComponent = SceneManager()->GetInstance()
-		->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()
-		->Get_Component(COMPONENTTAG::TRANSFORM, COMPONENTID::ID_DYNAMIC);
+	CComponent* pComponent = SceneManager()->Get_Scene()->Get_MainPlayer()->m_pTransform;
 
 	_vec3	vPlayerPos = dynamic_cast<CTransform*>(pComponent)->m_vInfo[INFO_POS];
 
@@ -278,17 +278,13 @@ void CDynamicCamera::Shake_Camera()
 
 void CDynamicCamera::Drunk_Camera()
 {
-	CComponent* pComponent = SceneManager()->GetInstance()
-		->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()
-		->Get_Component(COMPONENTTAG::TRANSFORM, COMPONENTID::ID_DYNAMIC);
+	CComponent* pComponent = SceneManager()->Get_Scene()->Get_MainPlayer()->m_pTransform;
 
 	_vec3	vPlayerPos = dynamic_cast<CTransform*>(pComponent)->m_vInfo[INFO_POS];
 
 	m_fShakeElipsedTime = 0.f;
 	m_vOriginPos = vPlayerPos;
-
 }
-
 
 CDynamicCamera* CDynamicCamera::Create(LPDIRECT3DDEVICE9 pGraphicDev,
 	const _vec3* pEye, const _vec3* pAt, const _vec3* pUp,

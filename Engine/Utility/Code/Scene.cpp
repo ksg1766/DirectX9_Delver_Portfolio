@@ -33,6 +33,16 @@ _int CScene::Update_Scene(const _float & fTimeDelta)
 			return iResult;
 	}
 
+	if (SCENETAG::VILLAGE == m_eSceneTag || SCENETAG::STAGE == m_eSceneTag || SCENETAG::BOSSSTAGE == m_eSceneTag)
+	{
+		vector<CGameObject*>& vecCamera = m_mapLayer[LAYERTAG::ENVIRONMENT]->Get_ObjectList(OBJECTTAG::CAMERA);
+		if (!vecCamera.empty())
+			iResult = vecCamera.front()->Update_Object(fTimeDelta);
+
+		if (iResult & 0x80000000)
+			return iResult;
+	}
+
 	return iResult;
 }
 

@@ -38,7 +38,7 @@ _int CLayer::Update_Layer(const _float & fTimeDelta)
 	{
 		for (_uint i = 0; i < (_uint)OBJECTTAG::OBJECT_END; ++i)
 		{
-			if (i == (_uint)OBJECTTAG::BLOCK || i == (_uint)OBJECTTAG::BACKGROUND)
+			if (i == (_uint)OBJECTTAG::BLOCK || i == (_uint)OBJECTTAG::BACKGROUND || i == (_uint)OBJECTTAG::CAMERA)
 				continue;
 
 			for (auto& _iter = m_mapObject[(OBJECTTAG)i].begin(); _iter != m_mapObject[(OBJECTTAG)i].end();)
