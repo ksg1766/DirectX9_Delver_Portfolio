@@ -763,6 +763,21 @@
     <Filter Include="02. Scene\06. BossStage">
       <UniqueIdentifier>{d4af6fbb-ea68-4551-980d-acd8d9142c16}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. GameObject\02. Village\05. Rock">
+      <UniqueIdentifier>{6234ccbb-e2d0-43e3-abb7-14376af6318c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\02. Village\06. Grass">
+      <UniqueIdentifier>{c8c4b161-ac7d-4297-99d6-ead1d7839f70}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\02. Village\07. Mushroom">
+      <UniqueIdentifier>{5bf355ff-ae36-4dc1-a840-eb1bd4fc8a1d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\02. Village\08. Pumpkin">
+      <UniqueIdentifier>{f7553f8a-f7a1-4a69-9bc7-a7e27db3a0d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\01. Stage\09. Immortal\02. ImmortalSprite">
+      <UniqueIdentifier>{d58b7039-ca76-4e86-a766-0304f7914948}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -1218,9 +1233,6 @@
     <ClInclude Include="..\Header\SkeletonKing.h">
       <Filter>99. Etc\헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\Chease.h">
-      <Filter>99. Etc\헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\Helmet.h">
     </ClInclude>
     <ClInclude Include="..\Header\EffectTwinkle.h">
@@ -1459,7 +1471,7 @@
     </ClInclude>
     <ClInclude Include="..\Header\EquipBox.h">
       <Filter>03. GameObject\01. Stage\06. Fragile\02. EquipBox</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="..\Header\StrikeDown_Trap_Body.h">
       <Filter>03. GameObject\01. Stage\08. Trap\01. StrikeDown_Trap\00. Trap_Body</Filter>
     </ClInclude>
@@ -1498,6 +1510,21 @@
     </ClInclude>
     <ClInclude Include="..\Header\BossStage.h">
       <Filter>02. Scene\06. BossStage</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Rock.h">
+      <Filter>03. GameObject\02. Village\05. Rock</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Grass.h">
+      <Filter>03. GameObject\02. Village\06. Grass</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Mushroom.h">
+      <Filter>03. GameObject\02. Village\07. Mushroom</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Pumpkin.h">
+      <Filter>03. GameObject\02. Village\08. Pumpkin</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\ImmortalSprite.h">
+      <Filter>03. GameObject\01. Stage\09. Immortal\02. ImmortalSprite</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1945,9 +1972,6 @@
     <ClCompile Include="..\Code\SkeletonKing.cpp">
       <Filter>99. Etc\소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\Chease.cpp">
-      <Filter>99. Etc\소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\Helmet.cpp">
     </ClCompile>
     <ClCompile Include="..\Code\EffectTwinkle.cpp">
@@ -2156,7 +2180,7 @@
     </ClCompile>
     <ClCompile Include="..\Code\EquipBox.cpp">
       <Filter>03. GameObject\01. Stage\06. Fragile\02. EquipBox</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="..\Code\StrikeDown_Trap_Body.cpp">
       <Filter>03. GameObject\01. Stage\08. Trap\01. StrikeDown_Trap\00. Trap_Body</Filter>
     </ClCompile>
@@ -2195,6 +2219,21 @@
     </ClCompile>
     <ClCompile Include="..\Code\BossStage.cpp">
       <Filter>02. Scene\06. BossStage</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Rock.cpp">
+      <Filter>03. GameObject\02. Village\05. Rock</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Grass.cpp">
+      <Filter>03. GameObject\02. Village\06. Grass</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Mushroom.cpp">
+      <Filter>03. GameObject\02. Village\07. Mushroom</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Pumpkin.cpp">
+      <Filter>03. GameObject\02. Village\08. Pumpkin</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\ImmortalSprite.cpp">
+      <Filter>03. GameObject\01. Stage\09. Immortal\02. ImmortalSprite</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

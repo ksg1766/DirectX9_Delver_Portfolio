@@ -10,6 +10,11 @@
 #include "Jump_Plate.h"
 
 #include "Tree.h"
+#include "Rock.h"
+#include "Grass.h"
+#include "Mushroom.h"
+#include "Pumpkin.h"
+#include "ImmortalSprite.h"
 
 IMPLEMENT_SINGLETON(CImGuiManager)
 
@@ -125,15 +130,39 @@ void CImGuiManager::Key_Input(const _float& fTimeDelta)
                 pGameObject->m_pTransform->Translate(_vec3(0.f,m_fScaleY - 1.f, 0.f));
                 break;
 
-            /*case 1:
+            case 1:
                 pGameObject = CRock::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
-                pGameObject->m_pTransform->Translate(_vec3(0.f, 11.f, 0.f));
+                dynamic_cast<CRock*>(pGameObject)->Set_RockNumber(m_iType);
+                pGameObject->m_pTransform->Scale(_vec3(m_fScaleX, m_fScaleY, 9.f));
+                pGameObject->m_pTransform->Translate(_vec3(0.f, m_fScaleY - 1.f, 0.f));
                 break;
 
             case 2:
                 pGameObject = CGrass::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
-                pGameObject->m_pTransform->Translate(_vec3(0.0f, -0.85f, 0.0f));
-                break;*/
+                dynamic_cast<CGrass*>(pGameObject)->Set_GrassNumber(m_iType);
+                pGameObject->m_pTransform->Scale(_vec3(m_fScaleX, m_fScaleY, 9.f));
+                pGameObject->m_pTransform->Translate(_vec3(0.f, m_fScaleY - 1.f, 0.f));
+                break;
+
+            case 3:
+                pGameObject = CMushroom::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+                dynamic_cast<CMushroom*>(pGameObject)->Set_MushroomNumber(m_iType);
+                pGameObject->m_pTransform->Scale(_vec3(m_fScaleX, m_fScaleY, 9.f));
+                pGameObject->m_pTransform->Translate(_vec3(0.f, m_fScaleY - 1.f, 0.f));
+                break;
+
+            case 4:
+                pGameObject = CPumpkin::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+                dynamic_cast<CPumpkin*>(pGameObject)->Set_PumpkinNumber(m_iType);
+                pGameObject->m_pTransform->Scale(_vec3(m_fScaleX, m_fScaleY, 9.f));
+                pGameObject->m_pTransform->Translate(_vec3(0.f, m_fScaleY - 1.f, 0.f));
+                break;
+            case 5:
+                pGameObject = CImmortalSprite::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+                dynamic_cast<CImmortalSprite*>(pGameObject)->Set_SpriteNumber(m_iType);
+                pGameObject->m_pTransform->Scale(_vec3(m_fScaleX, m_fScaleY, 9.f));
+                pGameObject->m_pTransform->Translate(_vec3(0.f, m_fScaleY - 1.f, 0.f));
+                break;
             }
 
             //NULL_CHECK_RETURN(pGameObject);
@@ -814,13 +843,13 @@ void CImGuiManager::LateUpdate_ImGui()
                     //m_iPickingMode = 0;
                     ImGuiIO& io = ImGui::GetIO();
 
-                    const char* items[] = { "Tree", "Rock", "Grass" };
+                    const char* items[] = { "Tree", "Rock", "Grass", "Mushroom", "Pumpkin", "Etc"};
                     static _int item_current = 1;
                     ImGui::ListBox("EnvironmentList", &item_current, items, IM_ARRAYSIZE(items), 3);
 
                     m_iSelected_index = item_current;
 
-                    ImGui::SliderInt("Type", &m_iType, 0, 7, "%d");
+                    ImGui::SliderInt("Type", &m_iType, 0, 19, "%d");
                     ImGui::SliderInt("Height", &m_iHeight, 0, 3, "%d");
                     ImGui::SliderFloat("ScaleX", &m_fScaleX, 1.f, 20.f, "%0.1f");
                     ImGui::SliderFloat("ScaleY", &m_fScaleY, 1.f, 20.f, "%0.1f");
@@ -861,7 +890,7 @@ HRESULT CImGuiManager::OnSaveData()
 {
     CScene* pScene = SceneManager()->Get_Scene();
 
-    HANDLE hFile = CreateFile(L"../Bin/Data/Sewer_TrapTest.dat", GENERIC_WRITE, 0, 0, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0);
+    HANDLE hFile = CreateFile(L"../Bin/Data/TerrainGiantTree11.dat", GENERIC_WRITE, 0, 0, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0);
 
     if (INVALID_HANDLE_VALUE == hFile)
         return E_FAIL;
@@ -985,6 +1014,31 @@ HRESULT CImGuiManager::OnSaveData()
                     _uint iTreeNumber = dynamic_cast<CTree*>(iter)->Get_TreeNumber();
                     WriteFile(hFile, &iTreeNumber, sizeof(OBJECTTAG), &dwByte, nullptr);
                 }
+                else if (eEnvTag == ENVIRONMENTTAG::ROCK)
+                {
+                    _uint iRockNumber = dynamic_cast<CRock*>(iter)->Get_RockNumber();
+                    WriteFile(hFile, &iRockNumber, sizeof(OBJECTTAG), &dwByte, nullptr);
+                }
+                else if (eEnvTag == ENVIRONMENTTAG::GRASS)
+                {
+                    _uint iGrassNumber = dynamic_cast<CGrass*>(iter)->Get_GrassNumber();
+                    WriteFile(hFile, &iGrassNumber, sizeof(OBJECTTAG), &dwByte, nullptr);
+                }
+                else if (eEnvTag == ENVIRONMENTTAG::MUSHROOM)
+                {
+                    _uint iMushroomNumber = dynamic_cast<CMushroom*>(iter)->Get_MushroomNumber();
+                    WriteFile(hFile, &iMushroomNumber, sizeof(OBJECTTAG), &dwByte, nullptr);
+                }
+                else if (eEnvTag == ENVIRONMENTTAG::PUMPKIN)
+                {
+                    _uint iPumpkinNumber = dynamic_cast<CPumpkin*>(iter)->Get_PumpkinNumber();
+                    WriteFile(hFile, &iPumpkinNumber, sizeof(OBJECTTAG), &dwByte, nullptr);
+                }
+                else if (eEnvTag == ENVIRONMENTTAG::ETC)
+                {
+                    _uint iSpriteNumber = dynamic_cast<CImmortalSprite*>(iter)->Get_SpriteNumber();
+                    WriteFile(hFile, &iSpriteNumber, sizeof(OBJECTTAG), &dwByte, nullptr);
+                }
             }
         }
     }
@@ -1004,7 +1058,7 @@ HRESULT CImGuiManager::OnLoadData()
         refObjectList.clear();
     }
 
-    HANDLE hFile = CreateFile(L"../Bin/Data/Sewer_TrapTest.dat", GENERIC_READ, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
+    HANDLE hFile = CreateFile(L"../Bin/Data/TerrainGiantTree11.dat", GENERIC_READ, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
 
     if (INVALID_HANDLE_VALUE == hFile)
         return E_FAIL;
@@ -1145,18 +1199,63 @@ HRESULT CImGuiManager::OnLoadData()
 
                 pGameObject = CTree::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
                 dynamic_cast<CTree*>(pGameObject)->Set_TreeNumber(iTreeNumber);
-            }
                 break;
+            }
 
-                /*case ENVIRONMENTTAG::ROCK:
-                    pGameObject = CRock::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
-                    pGameObject->m_pTransform->Translate(_vec3(0.f, 11.f, 0.f));
-                    break;
+            case ENVIRONMENTTAG::ROCK:
+            {
+                _uint iRockNumber = 0;
 
-                case ENVIRONMENTTAG::GRASS:
-                    pGameObject = CGrass::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
-                    pGameObject->m_pTransform->Translate(_vec3(0.0f, -0.85f, 0.0f));
-                    break;*/
+                ReadFile(hFile, &iRockNumber, sizeof(_uint), &dwByte, nullptr);
+
+                pGameObject = CRock::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+                dynamic_cast<CRock*>(pGameObject)->Set_RockNumber(iRockNumber);
+                break;
+            }   
+
+            case ENVIRONMENTTAG::GRASS:
+            {
+                _uint iGrassNumber = 0;
+
+                ReadFile(hFile, &iGrassNumber, sizeof(_uint), &dwByte, nullptr);
+
+                pGameObject = CGrass::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+                dynamic_cast<CGrass*>(pGameObject)->Set_GrassNumber(iGrassNumber);
+                break;
+            }
+
+            case ENVIRONMENTTAG::MUSHROOM:
+            {
+                _uint iMushroomNumber = 0;
+
+                ReadFile(hFile, &iMushroomNumber, sizeof(_uint), &dwByte, nullptr);
+
+                pGameObject = CMushroom::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+                dynamic_cast<CMushroom*>(pGameObject)->Set_MushroomNumber(iMushroomNumber);
+                break;
+            }
+
+            case ENVIRONMENTTAG::PUMPKIN:
+            {
+                _uint iPumpkinNumber = 0;
+
+                ReadFile(hFile, &iPumpkinNumber, sizeof(_uint), &dwByte, nullptr);
+
+                pGameObject = CPumpkin::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+                dynamic_cast<CPumpkin*>(pGameObject)->Set_PumpkinNumber(iPumpkinNumber);
+                break;
+            }
+
+            case ENVIRONMENTTAG::ETC:
+            {
+                _uint iSpriteNumber = 0;
+
+                ReadFile(hFile, &iSpriteNumber, sizeof(_uint), &dwByte, nullptr);
+
+                pGameObject = CImmortalSprite::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+                dynamic_cast<CImmortalSprite*>(pGameObject)->Set_SpriteNumber(iSpriteNumber);
+                break;
+            }
             }
             //pGameObject->m_pTransform->m_vInfo[INFO_POS] = _vec3(fX, fY, fZ);
             NULL_CHECK_RETURN(pGameObject, E_FAIL);
