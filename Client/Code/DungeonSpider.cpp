@@ -111,14 +111,19 @@ _int CDungeonSpider::Update_Object(const _float& fTimeDelta)
 
 	m_pStateMachine->Update_StateMachine(fTimeDelta);
 
+
 	//if (m_pStateMachine->Get_State() != STATE::ATTACK)
 		//ForceHeight(m_pTransform->m_vInfo[INFO_POS]);
 	
-	// ksg
+	if (m_pStateMachine->Get_State() != STATE::ATTACK)
+		m_pRigidBody->UseGravity(false);
+
+
 	//if (m_pStateMachine->Get_State() == STATE::ATTACK)
 	//	m_pRigidBody->UseGravity(true);
 	//else
 	//	m_pRigidBody->UseGravity(false);
+
 
 	return iExit;
 }
@@ -176,9 +181,6 @@ void CDungeonSpider::OnCollisionEnter(CCollider* _pOther)
 			//cout << "거미 공격" << endl;
 			
 		}
-
-	if(_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BLOCK)
-		m_bIsJump = false;
 }
 
 void CDungeonSpider::OnCollisionStay(CCollider* _pOther)
@@ -202,10 +204,7 @@ void CDungeonSpider::OnCollisionExit(CCollider* _pOther)
 
 	__super::OnCollisionExit(_pOther);
 
-	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BLOCK)
-		m_bIsJump = true;
-
-
+	
 }
 
 HRESULT CDungeonSpider::Add_Component()

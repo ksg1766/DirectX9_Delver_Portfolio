@@ -37,7 +37,7 @@ public:
 	virtual void		OnCollisionExit(CCollider* _pOther);
 
 public:
-	CRigidBody* Get_RigidBody() { return m_pRigidBody; }
+
 private:
 	HRESULT		Add_Component();
 

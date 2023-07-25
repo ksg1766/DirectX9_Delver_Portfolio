@@ -23,7 +23,7 @@ HRESULT CSpiderRay::Ready_Object(void)
 	m_eObjectTag = OBJECTTAG::RAY;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pTransform->Scale(_vec3(0.00001f, 0.3f, 0.00001f));
+	m_pTransform->Scale(_vec3(0.00001f, 0.31f, 0.00001f));
 	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
 
 	return S_OK;
@@ -35,7 +35,7 @@ _int CSpiderRay::Update_Object(const _float& fTimeDelta)
 
 	_int iExit = __super::Update_Object(fTimeDelta);
 
-	m_pTransform->m_vInfo[INFO_POS] = m_pHost->m_pTransform->m_vInfo[INFO_POS] + _vec3(0.f, -2.f, 0.f);
+	m_pTransform->m_vInfo[INFO_POS] = m_pHost->m_pTransform->m_vInfo[INFO_POS] + _vec3(0.f, -0.65f, 0.f);
 
 	return iExit;
 }

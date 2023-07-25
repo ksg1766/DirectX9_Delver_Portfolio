@@ -61,8 +61,6 @@ HRESULT CWorm::Ready_Object()
 	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
 
 
-	m_pTransform->Translate(_vec3(2.f, 3.f, 5.f));
-
 	Init_Stat();
 
 	return S_OK;
@@ -115,11 +113,8 @@ _int CWorm::Update_Object(const _float& fTimeDelta)
 	//if (m_pStateMachine->Get_State() != STATE::ATTACK)
 		//ForceHeight(m_pTransform->m_vInfo[INFO_POS]);
 
-	// ksg
-	if (m_pStateMachine->Get_State() == STATE::ATTACK)
+	if (m_pStateMachine->Get_State() != STATE::ATTACK)
 		m_pRigidBody->UseGravity(false);
-	else
-		m_pRigidBody->UseGravity(true);
 
 	return iExit;
 }

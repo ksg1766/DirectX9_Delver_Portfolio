@@ -4,6 +4,7 @@
 
 class CPlayer;
 class CDungeonSpider;
+class CWorm;
 
 BEGIN(Engine)
 
@@ -38,6 +39,7 @@ protected:
 
 	CPlayer*						m_pPlayer;
 	CDungeonSpider*					m_pSpider;
+	CWorm*							m_pWorm;
 
 public:
 	virtual void	Free();
