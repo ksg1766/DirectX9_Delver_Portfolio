@@ -39,7 +39,9 @@ public: //Getter
     _bool               IsKnockBack()                        { return m_bKnockback; }
     _float              Get_MoveRange()                      { return m_fMoveReturnRange; }
     _float              Get_RandomoMoveRange()               { return m_fRandomMoveRange; }
+    CRigidBody*         Get_RigidBody()                      { return m_pRigidBody; }
     _bool	            IsJump()                             { return m_bIsJump; }
+    _float              Get_JumpVelocity()                   { return m_fJumpVelocity; }
 
 public: // Setter
     void                Set_Speed(_float _fSpeed)            { m_fSpeed = _fSpeed; }
@@ -54,8 +56,10 @@ public: // Setter
     void                Set_MoveRange(_float _fRange)        { m_fMoveReturnRange = _fRange; }
     void                Set_RandomMoveRange(_float _fRandom) { m_fRandomMoveRange = _fRandom; }
     void                Set_Jump(_bool _Jump)                { m_bIsJump = _Jump; }
+    void                Set_JumpVelocity(_float _Velocity)   { m_fJumpVelocity = _Velocity; }
 public:
     void                IsAttack(CBasicStat* _PlayerStat);
+    void                Add_JumpVelocity(_float _Velocity)   { m_fJumpVelocity += _Velocity; }
 
 protected:
     CRigidBody*         m_pRigidBody = nullptr;
@@ -72,7 +76,7 @@ protected:
     _vec3               m_vCenterPos;
     _float              m_fMoveReturnRange;
     _float              m_fRandomMoveRange;
-
+    _float              m_fJumpVelocity;
 
     _float              m_fSpeed;
  

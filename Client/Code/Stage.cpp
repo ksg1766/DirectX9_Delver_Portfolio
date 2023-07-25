@@ -154,16 +154,16 @@ HRESULT CStage::Ready_Layer_Environment(LAYERTAG _eLayerTag)
 
 #pragma region 첫 번째 씬에서 받아오는 오브젝트
 	// DynamicCamera
-	pGameObject = CDynamicCamera::Create(m_pGraphicDev, 
-											&_vec3(0.f, 0.f, 0.f),
-											&_vec3(0.f, 0.f, 1.f),
-											&_vec3(0.f, 1.f, 0.f),
-											D3DXToRadian(90.f), 
-											(_float)WINCX / WINCY,
-											0.1f, 
-											1000.f);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+	//pGameObject = CDynamicCamera::Create(m_pGraphicDev, 
+	//										&_vec3(0.f, 0.f, 0.f),
+	//										&_vec3(0.f, 0.f, 1.f),
+	//										&_vec3(0.f, 1.f, 0.f),
+	//										D3DXToRadian(90.f), 
+	//										(_float)WINCX / WINCY,
+	//										0.1f, 
+	//										1000.f);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 #pragma endregion 첫 번째 씬에서 받아오는 오브젝트
 
 	// SkyBox
@@ -257,6 +257,22 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	//pGameObject->m_pTransform->Translate(_vec3(-40.f, 1.f, -35.f));
 	//pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+
+
+	pGameObject =  CWorm::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	pGameObject->m_pTransform->Translate(_vec3(-62.f, 14.f, 39.f));
+	dynamic_cast<CWorm*>(pGameObject)->Set_CenterPos(_vec3(-62.f, 14.f, 39.f));
+	dynamic_cast<CWorm*>(pGameObject)->Set_MoveRange(2.f);
+	dynamic_cast<CWorm*>(pGameObject)->Set_RandomMoveRange(5.f);
+	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+
+	m_pWorm = dynamic_cast<CWorm*>(pGameObject);
+	
+	pGameObject = CSpiderRay::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+	dynamic_cast<CSpiderRay*>(pGameObject)->Set_Host(m_pWorm);
 
 
 	pGameObject = CDungeonSpider::Create(m_pGraphicDev);

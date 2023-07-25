@@ -27,7 +27,10 @@ private:
 private:
 	_vec3	m_vLastPos;
 	_vec3	m_vSavePos;
+
+
 	_bool	m_bIsJumping;
+	_bool	m_bStartJumpPos;
 	_float	m_fJumpVelocity;
 
 	_bool	m_bJumCoolDown;
