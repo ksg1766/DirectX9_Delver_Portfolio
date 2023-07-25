@@ -589,13 +589,11 @@ void CPlayer::PoisonDamage(const _float& fTimeDelta)
 		m_pStat->Get_Stat()->fHP -= 1.f;
 		m_fPoisoningTime = 0.f;
 		++m_iPosingingCount;
-		cout << "독뎀" << endl;
 	}
 	if (4 < m_iPosingingCount)
 	{
 		m_iPosingingCount = 0;
 		m_bPoisoning = false;
-		cout << "독 풀림" << endl;
 	}
 }
 
@@ -808,7 +806,7 @@ void CPlayer::IsAttack(CBasicStat* _MonsterStat)
 	if (iResultDamage <= 0)
 		iResultDamage = 1;
 
-	cout << iResultDamage << " 데미지" << endl;
+	//cout << iResultDamage << " 데미지" << endl;
 
 	Set_AttackTick(true);
 	_MonsterStat->Take_Damage(iResultDamage);

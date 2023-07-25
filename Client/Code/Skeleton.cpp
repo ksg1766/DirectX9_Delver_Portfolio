@@ -168,7 +168,7 @@ void CSkeleton::OnCollisionEnter(CCollider* _pOther)
 			this->Set_AttackTick(true);
 			IsAttack(&PlayerStat);
 
-			cout << "½ºÄÌ·¹Åæ °ø°Ý" << endl;
+			//cout << "½ºÄÌ·¹Åæ °ø°Ý" << endl;
 		}
 }
 

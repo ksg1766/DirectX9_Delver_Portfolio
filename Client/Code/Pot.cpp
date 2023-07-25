@@ -74,7 +74,7 @@ void CPot::OnCollisionStay(CCollider* _pOther)
 		if (!dynamic_cast<CPlayer*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front())->Get_Attack())
 			return;
 		//깨지고 난 후 아이템 생성 후 삭제시킬 예정
-		cout << "항아리 공격받음" << endl;
+		//cout << "항아리 공격받음" << endl;
 		m_bHit = true;
 		m_bCrash = true;
 		return;

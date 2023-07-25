@@ -151,7 +151,7 @@ void CMagic_Ball::OnCollisionEnter(CCollider* _pOther)
 		this->Set_AttackTick(true);
 		IsAttack(&PlayerStat);
 
-		cout << "付过备 面倒" << endl;
+		//cout << "付过备 面倒" << endl;
 
 		Set_State(STATE::DEAD);
 		m_pAnimator->Set_Animation(STATE::DEAD);

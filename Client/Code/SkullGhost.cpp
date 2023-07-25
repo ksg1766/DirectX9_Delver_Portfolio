@@ -154,7 +154,7 @@ void CSkullGhost::OnCollisionEnter(CCollider* _pOther)
 			PlayerState.Take_Damage(this->Get_BasicStat()->Get_Stat()->fAttack);
 			this->Set_AttackTick(true);
 
-			cout << "ÇØ°ñ °ø°Ý" << endl;
+			//cout << "ÇØ°ñ °ø°Ý" << endl;
 		}
 
 	}

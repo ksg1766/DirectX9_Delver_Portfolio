@@ -788,7 +788,7 @@ void CImGuiManager::LateUpdate_ImGui()
                     //m_iPickingMode = 0;
                     ImGuiIO& io = ImGui::GetIO();
 
-                    const char* items[] = { "Blade", "StrikeDown", "Plate"};
+                    const char* items[] = { "Blade", "StrikeDown", "Jump"};
                     static _int item_current = 1;
                     ImGui::ListBox("TrapList", &item_current, items, IM_ARRAYSIZE(items), 3);
 

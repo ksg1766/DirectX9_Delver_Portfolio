@@ -283,7 +283,7 @@ void CTempItem::OnCollisionEnter(CCollider* _pOther)
 			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 			//////////////////////////////////////////////////////////////////////////////// 이펙트 
 
-			cout << "데미지" << endl;
+			//cout << "데미지" << endl;
 		}
 	}
 }

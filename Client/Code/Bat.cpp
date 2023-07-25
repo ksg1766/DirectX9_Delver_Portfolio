@@ -163,7 +163,7 @@ void CBat::OnCollisionEnter(CCollider* _pOther)
 			this->Set_AttackTick(true);
 			IsAttack(&PlayerStat);
 
-			cout << "¹ÚÁã °ø°Ý" << endl;
+			//cout << "¹ÚÁã °ø°Ý" << endl;
 		}
 }
 

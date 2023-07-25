@@ -178,7 +178,7 @@ void CWorm::OnCollisionEnter(CCollider* _pOther)
 			this->Set_AttackTick(true);
 			IsAttack(&PlayerStat);
 
-			cout << "¹ú·¹ °ø°Ý" << endl;
+			//cout << "¹ú·¹ °ø°Ý" << endl;
 		}
 
 	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BLOCK)

@@ -172,7 +172,7 @@ void CSlime::OnCollisionEnter(CCollider* _pOther)
 			this->Set_AttackTick(true);
 			IsAttack(&PlayerStat);
 
-			cout << "슬라임 공격" << endl;
+			//cout << "슬라임 공격" << endl;
 		}
 }
 

@@ -218,10 +218,10 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 #pragma endregion 첫 번째 씬에서 받아오는 오브젝트
 
 	// Boss
-	pGameObject = CSkeletonKing::Create(m_pGraphicDev);
+	/*pGameObject = CSkeletonKing::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	pGameObject->m_pTransform->Translate(_vec3(-72.f, 33.f, -105.f));
-	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);*/
 
 	//pGameObject = CJump_Plate::Create(m_pGraphicDev);
 	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
@@ -234,112 +234,112 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	//pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 	//dynamic_cast<CBlade_Trap*>(pGameObject)->Create_Blade();
 
-	pGameObject = CStrikeDown_Trap::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pGameObject->m_pTransform->Translate(_vec3(-20.f, 50.f, 30.f));
-	dynamic_cast<CStrikeDown_Trap*>(pGameObject)->Set_InitailHeight(10.f);
-	dynamic_cast<CStrikeDown_Trap*>(pGameObject)->Set_MinHeight(10.f);
-	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+	//pGameObject = CStrikeDown_Trap::Create(m_pGraphicDev);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//pGameObject->m_pTransform->Translate(_vec3(-20.f, 50.f, 30.f));
+	//dynamic_cast<CStrikeDown_Trap*>(pGameObject)->Set_InitailHeight(10.f);
+	//dynamic_cast<CStrikeDown_Trap*>(pGameObject)->Set_MinHeight(10.f);
+	//pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
-	// Npc Test
-	pGameObject = CNpc_OldMan::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pGameObject->m_pTransform->Translate(_vec3(-45.f, 1.f, -40.f));
-	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+	//// Npc Test
+	//pGameObject = CNpc_OldMan::Create(m_pGraphicDev);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//pGameObject->m_pTransform->Translate(_vec3(-45.f, 1.f, -40.f));
+	//pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
-	pGameObject = CNpc_Bard::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pGameObject->m_pTransform->Translate(_vec3(-55.f, 1.f, -55.f));
-	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+	//pGameObject = CNpc_Bard::Create(m_pGraphicDev);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//pGameObject->m_pTransform->Translate(_vec3(-55.f, 1.f, -55.f));
+	//pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
-	pGameObject = CNpc_Trader::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pGameObject->m_pTransform->Translate(_vec3(-40.f, 1.f, -35.f));
-	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+	//pGameObject = CNpc_Trader::Create(m_pGraphicDev);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//pGameObject->m_pTransform->Translate(_vec3(-40.f, 1.f, -35.f));
+	//pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
-	pGameObject = CDungeonSpider::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pGameObject->m_pTransform->Translate(_vec3(25.f, 12.f, -40.f));
-	dynamic_cast<CDungeonSpider*>(pGameObject)->Set_CenterPos(_vec3(25.f, 12.f, -40.f));
-	dynamic_cast<CDungeonSpider*>(pGameObject)->Set_MoveRange(2.f);
-	dynamic_cast<CDungeonSpider*>(pGameObject)->Set_RandomMoveRange(5.f);
-	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+	//pGameObject = CDungeonSpider::Create(m_pGraphicDev);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//pGameObject->m_pTransform->Translate(_vec3(25.f, 12.f, -40.f));
+	//dynamic_cast<CDungeonSpider*>(pGameObject)->Set_CenterPos(_vec3(25.f, 12.f, -40.f));
+	//dynamic_cast<CDungeonSpider*>(pGameObject)->Set_MoveRange(2.f);
+	//dynamic_cast<CDungeonSpider*>(pGameObject)->Set_RandomMoveRange(5.f);
+	//pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
-	pGameObject = CDungeonSpider::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pGameObject->m_pTransform->Translate(_vec3(0.f, 12.f, 0.f));
-	dynamic_cast<CDungeonSpider*>(pGameObject)->Set_CenterPos(_vec3(0, 12.f, 0.f));
-	dynamic_cast<CDungeonSpider*>(pGameObject)->Set_MoveRange(2.f);
-	dynamic_cast<CDungeonSpider*>(pGameObject)->Set_RandomMoveRange(5.f);
-	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+	//pGameObject = CDungeonSpider::Create(m_pGraphicDev);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//pGameObject->m_pTransform->Translate(_vec3(0.f, 12.f, 0.f));
+	//dynamic_cast<CDungeonSpider*>(pGameObject)->Set_CenterPos(_vec3(0, 12.f, 0.f));
+	//dynamic_cast<CDungeonSpider*>(pGameObject)->Set_MoveRange(2.f);
+	//dynamic_cast<CDungeonSpider*>(pGameObject)->Set_RandomMoveRange(5.f);
+	//pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
 
-	CItem* pItem = CTempItem::Create(m_pGraphicDev, true);
-	NULL_CHECK_RETURN(pItem, E_FAIL);
-	pItem->m_pTransform->Translate(_vec3(-40, 1.5f, 0.f));
-	dynamic_cast<CTempItem*>(pItem)->Set_WorldItem(true);
-	pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
+	//CItem* pItem = CTempItem::Create(m_pGraphicDev, true);
+	//NULL_CHECK_RETURN(pItem, E_FAIL);
+	//pItem->m_pTransform->Translate(_vec3(-40, 1.5f, 0.f));
+	//dynamic_cast<CTempItem*>(pItem)->Set_WorldItem(true);
+	//pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
 
-	pItem = CEpicBow::Create(m_pGraphicDev, true);
-	NULL_CHECK_RETURN(pItem, E_FAIL);
-	pItem->m_pTransform->Translate(_vec3(-45, 1.5f, -35.f));
-	dynamic_cast<CEpicBow*>(pItem)->Set_WorldItem(true);
-	pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
-	
-	pItem = CBow::Create(m_pGraphicDev, true);
-	NULL_CHECK_RETURN(pItem, E_FAIL);
-	pItem->m_pTransform->Translate(_vec3(-40.f, 1.5f, 5.f));
-	dynamic_cast<CBow*>(pItem)->Set_WorldItem(true);
-	pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
-	
-	pItem = CFireWands::Create(m_pGraphicDev, true);
-	NULL_CHECK_RETURN(pItem, E_FAIL);
-	pItem->m_pTransform->Translate(_vec3(-40.f, 1.5f, 10.f));
-	dynamic_cast<CFireWands*>(pItem)->Set_WorldItem(true);
-	pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
+	//pItem = CEpicBow::Create(m_pGraphicDev, true);
+	//NULL_CHECK_RETURN(pItem, E_FAIL);
+	//pItem->m_pTransform->Translate(_vec3(-45, 1.5f, -35.f));
+	//dynamic_cast<CEpicBow*>(pItem)->Set_WorldItem(true);
+	//pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
+	//
+	//pItem = CBow::Create(m_pGraphicDev, true);
+	//NULL_CHECK_RETURN(pItem, E_FAIL);
+	//pItem->m_pTransform->Translate(_vec3(-40.f, 1.5f, 5.f));
+	//dynamic_cast<CBow*>(pItem)->Set_WorldItem(true);
+	//pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
+	//
+	//pItem = CFireWands::Create(m_pGraphicDev, true);
+	//NULL_CHECK_RETURN(pItem, E_FAIL);
+	//pItem->m_pTransform->Translate(_vec3(-40.f, 1.5f, 10.f));
+	//dynamic_cast<CFireWands*>(pItem)->Set_WorldItem(true);
+	//pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
 
-	pItem = CHelmet::Create(m_pGraphicDev, true);
-	NULL_CHECK_RETURN(pItem, E_FAIL);
-	pItem->m_pTransform->Translate(_vec3(-40, 3.5f, -35.f));
-	dynamic_cast<CHelmet*>(pItem)->Set_WorldItem(true);
-	pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
+	//pItem = CHelmet::Create(m_pGraphicDev, true);
+	//NULL_CHECK_RETURN(pItem, E_FAIL);
+	//pItem->m_pTransform->Translate(_vec3(-40, 3.5f, -35.f));
+	//dynamic_cast<CHelmet*>(pItem)->Set_WorldItem(true);
+	//pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
 
-	pItem = CTop::Create(m_pGraphicDev, true);
-	NULL_CHECK_RETURN(pItem, E_FAIL);
-	pItem->m_pTransform->Translate(_vec3(-40, 3.5f, -30.f));
-	dynamic_cast<CTop*>(pItem)->Set_WorldItem(true);
-	pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
+	//pItem = CTop::Create(m_pGraphicDev, true);
+	//NULL_CHECK_RETURN(pItem, E_FAIL);
+	//pItem->m_pTransform->Translate(_vec3(-40, 3.5f, -30.f));
+	//dynamic_cast<CTop*>(pItem)->Set_WorldItem(true);
+	//pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
 
-	pItem = CPants::Create(m_pGraphicDev, true);
-	NULL_CHECK_RETURN(pItem, E_FAIL);
-	pItem->m_pTransform->Translate(_vec3(-40, 3.5f, -25.f));
-	dynamic_cast<CPants*>(pItem)->Set_WorldItem(true);
-	pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
+	//pItem = CPants::Create(m_pGraphicDev, true);
+	//NULL_CHECK_RETURN(pItem, E_FAIL);
+	//pItem->m_pTransform->Translate(_vec3(-40, 3.5f, -25.f));
+	//dynamic_cast<CPants*>(pItem)->Set_WorldItem(true);
+	//pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
 
-	pItem = CShield::Create(m_pGraphicDev, true);
-	NULL_CHECK_RETURN(pItem, E_FAIL);
-	//pItem->m_pTransform->Translate(_vec3(-40, 3.5f, -20.f));
-	pItem->m_pTransform->Translate(_vec3(-72.f, 35.f, -85.f));
-	dynamic_cast<CShield*>(pItem)->Set_WorldItem(true);
-	pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
+	//pItem = CShield::Create(m_pGraphicDev, true);
+	//NULL_CHECK_RETURN(pItem, E_FAIL);
+	////pItem->m_pTransform->Translate(_vec3(-40, 3.5f, -20.f));
+	//pItem->m_pTransform->Translate(_vec3(-72.f, 35.f, -85.f));
+	//dynamic_cast<CShield*>(pItem)->Set_WorldItem(true);
+	//pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
 
-	pItem = CNecklace::Create(m_pGraphicDev, true);
-	NULL_CHECK_RETURN(pItem, E_FAIL);
-	pItem->m_pTransform->Translate(_vec3(-40, 3.5f, -15.f));
-	dynamic_cast<CNecklace*>(pItem)->Set_WorldItem(true);
-	pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
+	//pItem = CNecklace::Create(m_pGraphicDev, true);
+	//NULL_CHECK_RETURN(pItem, E_FAIL);
+	//pItem->m_pTransform->Translate(_vec3(-40, 3.5f, -15.f));
+	//dynamic_cast<CNecklace*>(pItem)->Set_WorldItem(true);
+	//pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
 
-	pItem = CRing::Create(m_pGraphicDev, true);
-	NULL_CHECK_RETURN(pItem, E_FAIL);
-	pItem->m_pTransform->Translate(_vec3(-40, 3.5f, -10.f));
-	dynamic_cast<CRing*>(pItem)->Set_WorldItem(true);
-	pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
+	//pItem = CRing::Create(m_pGraphicDev, true);
+	//NULL_CHECK_RETURN(pItem, E_FAIL);
+	//pItem->m_pTransform->Translate(_vec3(-40, 3.5f, -10.f));
+	//dynamic_cast<CRing*>(pItem)->Set_WorldItem(true);
+	//pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
 
-	pItem = CBread::Create(m_pGraphicDev, true);
-	NULL_CHECK_RETURN(pItem, E_FAIL);
-	pItem->m_pTransform->Translate(_vec3(-40, 3.5f, -5.f));
-	dynamic_cast<CBread*>(pItem)->Set_WorldItem(true);
-	pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
+	//pItem = CBread::Create(m_pGraphicDev, true);
+	//NULL_CHECK_RETURN(pItem, E_FAIL);
+	//pItem->m_pTransform->Translate(_vec3(-40, 3.5f, -5.f));
+	//dynamic_cast<CBread*>(pItem)->Set_WorldItem(true);
+	//pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
 
 	//pGameObject = CWorm::Create(m_pGraphicDev);
 	//pGameObject->m_pTransform->Translate(_vec3(-30.f, 3.f, -40.f));
@@ -402,7 +402,7 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	//}
 
 
-	pGameObject = CBlade_Trap::Create(m_pGraphicDev);
+	/*pGameObject = CBlade_Trap::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	pGameObject->m_pTransform->Translate(_vec3(95.f, 20.f, 10.f));
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
@@ -411,7 +411,7 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	pGameObject = CBoss_Lightning::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	pGameObject->m_pTransform->Translate(_vec3(-72.5f, 35.f, 94.5f));
-	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);*/
 
 
 	//pGameObject = CPlate_Trap::Create(m_pGraphicDev);
@@ -602,8 +602,8 @@ HRESULT CStage::Load_Data()
 		for_each(refObjectList.begin(), refObjectList.end(), [&](CGameObject* pObj) { EventManager()->DeleteObject(pObj); });
 		refObjectList.clear();
 	}
-	//HANDLE hFile = CreateFile(L"../Bin/Data/Sewer_TrapTest.dat", GENERIC_READ, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
-	HANDLE hFile = CreateFile(L"../Bin/Data/Sewer.dat", GENERIC_READ, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
+	HANDLE hFile = CreateFile(L"../Bin/Data/Sewer_TrapTest.dat", GENERIC_READ, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
+	//HANDLE hFile = CreateFile(L"../Bin/Data/Sewer.dat", GENERIC_READ, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
 	//HANDLE hFile = CreateFile(L"../Bin/Data/TempData.dat", GENERIC_READ, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
 	//HANDLE hFile = CreateFile(L"../Bin/Data/TerrainGiantTree10.dat", GENERIC_READ,	0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
 	//HANDLE hFile = CreateFile(L"../Bin/Data/BossStage_3rd.dat", GENERIC_READ, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);

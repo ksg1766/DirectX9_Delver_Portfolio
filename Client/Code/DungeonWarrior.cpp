@@ -180,7 +180,7 @@ void CDungeonWarrior::OnCollisionEnter(CCollider* _pOther)
 			this->Set_AttackTick(true);
 			IsAttack(&PlayerStat);
 
-			cout << "워리어 공격" << endl;
+			//cout << "워리어 공격" << endl;
 		}
 }
 
