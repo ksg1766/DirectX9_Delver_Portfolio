@@ -54,9 +54,10 @@ private:
     _bool   m_bChanneling_End;
     _bool   m_bTargetSet;
     _bool   m_bHit;
-    _vec3    m_vCenter;
-    _float m_fAttack;
+    _vec3   m_vCenter;
+    _float  m_fAttack;
     _float  m_fDistance;
+    _float  m_fExplosionTime;
 
 public:
     HRESULT		Add_Component();

@@ -43,7 +43,7 @@ STATE CBoss_SkeletonSpawnPattern::Update_State(const _float& fTimeDelta)
     {
         m_bSkill = false;
         m_fSkillCool = 0.f;
-        return STATE::BOSS_PH1SKILL4;
+        return STATE::BOSS_IDLE;
     }
 }
 
@@ -86,4 +86,5 @@ CBoss_SkeletonSpawnPattern* CBoss_SkeletonSpawnPattern::Create(LPDIRECT3DDEVICE9
 
 void CBoss_SkeletonSpawnPattern::Free()
 {
+    __super::Free();
 }

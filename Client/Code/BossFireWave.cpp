@@ -24,7 +24,7 @@ HRESULT CBossFireWave::Ready_Object(void)
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 	m_pTransform->Scale(_vec3(2.f, 2.f, 2.f));
 	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale()*0.5f);
-	m_pBasicStat->Get_Stat()->fAttack = 5.f;
+	m_pBasicStat->Get_Stat()->fAttack = 2.f;
 	m_fDuration = 0.f;
 	m_fSpeed = 20.f;
 	m_fAngle = 0.f;

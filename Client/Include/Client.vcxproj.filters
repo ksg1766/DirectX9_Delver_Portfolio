@@ -784,6 +784,15 @@
     <Filter Include="03. GameObject\07. Effect\23. EffectFirefly">
       <UniqueIdentifier>{084b351c-5601-4c22-85da-910fb4e34b87}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. GameObject\01. Stage\999. Boss\01. AttackEff\99.Etc">
+      <UniqueIdentifier>{93e91c58-892e-44ef-a000-b0aaf721a8e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\01. Stage\999. Boss\01. AttackEff\99.Etc\Warning">
+      <UniqueIdentifier>{735217e7-273f-4032-b37a-c7dac628dacf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\01. Stage\999. Boss\01. AttackEff\99.Etc\Caution">
+      <UniqueIdentifier>{0627297c-4c2f-4031-ad39-2507ed97c2a7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -929,9 +938,6 @@
     </ClInclude>
     <ClInclude Include="..\Header\Boss_Idle.h">
       <Filter>03. GameObject\01. Stage\999. Boss\02. State\02. Idle</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\Boss_Attack.h">
-      <Filter>03. GameObject\01. Stage\999. Boss\02. State\03. Attack</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\GameLogo.h">
       <Filter>03. GameObject\00. Logo\01. GameLogo</Filter>
@@ -1541,6 +1547,21 @@
     <ClInclude Include="..\Header\EffectFirefly.h">
       <Filter>03. GameObject\07. Effect\23. EffectFirefly</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\Boss_WarningEff.h">
+      <Filter>03. GameObject\01. Stage\999. Boss\01. AttackEff\99.Etc\Warning</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Boss_CautionEff.h">
+      <Filter>03. GameObject\01. Stage\999. Boss\01. AttackEff\99.Etc\Caution</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Boss_Phase1.h">
+      <Filter>03. GameObject\01. Stage\999. Boss\02. State\03. Attack\00. 1Phase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Boss_Phase2.h">
+      <Filter>03. GameObject\01. Stage\999. Boss\02. State\03. Attack\01. 2Phase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Boss_Phase3.h">
+      <Filter>03. GameObject\01. Stage\999. Boss\02. State\03. Attack\02. 3Phase</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -1680,9 +1701,6 @@
     </ClCompile>
     <ClCompile Include="..\Code\Boss_Idle.cpp">
       <Filter>03. GameObject\01. Stage\999. Boss\02. State\02. Idle</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\Boss_Attack.cpp">
-      <Filter>03. GameObject\01. Stage\999. Boss\02. State\03. Attack</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\GameLogo.cpp">
       <Filter>03. GameObject\00. Logo\01. GameLogo</Filter>
@@ -2258,6 +2276,21 @@
     </ClCompile>
     <ClCompile Include="..\Code\EffectFirefly.cpp">
       <Filter>03. GameObject\07. Effect\23. EffectFirefly</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Boss_WarningEff.cpp">
+      <Filter>03. GameObject\01. Stage\999. Boss\01. AttackEff\99.Etc\Warning</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Boss_CautionEff.cpp">
+      <Filter>03. GameObject\01. Stage\999. Boss\01. AttackEff\99.Etc\Caution</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Boss_Phase1.cpp">
+      <Filter>03. GameObject\01. Stage\999. Boss\02. State\03. Attack\00. 1Phase</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Boss_Phase2.cpp">
+      <Filter>03. GameObject\01. Stage\999. Boss\02. State\03. Attack\01. 2Phase</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Boss_Phase3.cpp">
+      <Filter>03. GameObject\01. Stage\999. Boss\02. State\03. Attack\02. 3Phase</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -25,7 +25,7 @@ HRESULT CBossExplosion::Ready_Object(void)
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 	m_fFrame = 0.f;
 	m_iCount = 0.f;
-	m_pBasicStat->Get_Stat()->fAttack = 8.0;
+	m_pBasicStat->Get_Stat()->fAttack = 3.0;
 	m_fSclae = 1.f;
 	m_pTransform->Scale(_vec3(m_fSclae, m_fSclae, m_fSclae));
 	m_bHit = false;

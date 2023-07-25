@@ -41,6 +41,8 @@ STATE CBoss_Sturn::Update_State(const _float& fTimeDelta)
         dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Set_Sturn(false);
         m_bStar = false;
         m_fCount = 0.f;
+
+        
         return STATE::BOSS_IDLE;
     }
     dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Set_Sturn(true);

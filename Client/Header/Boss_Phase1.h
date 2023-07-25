@@ -1,12 +1,12 @@
 #pragma once
 #include "State.h"
-class CBoss_Attack :
+class CBoss_Phase1 :
     public CState
 {
 private: 
-    explicit CBoss_Attack();
-    explicit CBoss_Attack(LPDIRECT3DDEVICE9 pGraphicDev);
-    virtual ~CBoss_Attack();
+    explicit CBoss_Phase1();
+    explicit CBoss_Phase1(LPDIRECT3DDEVICE9 pGraphicDev);
+    virtual ~CBoss_Phase1();
 
 public:
     virtual HRESULT	Ready_State(CStateMachine* pOwner);
@@ -22,16 +22,11 @@ private:
     STATE   BossSkill(const _float& fTimeDelta);
 private:
     //º¯¼ö
-    _int iTime = 0;
-    _vec3 m_vShotGunDir[3];
+    _float  m_fDelay = 0;
+    _uint   m_iSkillCount;
 
-    _bool   m_bExplosion;
-    _vec3 m_vExplosionin1[4];
-    _vec3 m_vExplosionin2[4];
-
-    _float  m_TeleportCool;
 public:
-    static CBoss_Attack* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
+    static CBoss_Phase1* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
 
 private:
     virtual void Free();

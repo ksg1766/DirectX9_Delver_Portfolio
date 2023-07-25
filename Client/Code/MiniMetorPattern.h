@@ -20,6 +20,11 @@ private:
     //클래스 내에서만 쓸 함수
 private:
     //클래스 내에서만 쓸 함수
+    _float m_fDelay;
+    _int    m_iSkillCount;
+    _bool  m_CautionCool;
+    _bool  m_bCool;
+    _int   m_iSpawnX;
 public:
     static CMiniMetorPattern* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
 

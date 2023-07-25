@@ -147,7 +147,7 @@ void CFireBall::OnCollisionEnter(CCollider* _pOther)
 	
 	if (_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::MONSTER &&
 		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::PLAYER &&
-		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::ITEM)
+		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::ITEM&& _pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::BOSS)
 		__super::OnCollisionEnter(_pOther);
 	
 	CGameObject* pGameObject = CEffectExplosion::Create(m_pGraphicDev);
@@ -161,8 +161,8 @@ void CFireBall::OnCollisionEnter(CCollider* _pOther)
 	CPlayer& pPlayer = *dynamic_cast<CPlayer*>(SceneManager()->GetInstance()
 		->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
 
-	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::MONSTER &&
-		dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_StateMachine()->Get_State() != STATE::DEAD)
+	if ((_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::MONSTER &&
+		dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_StateMachine()->Get_State() != STATE::DEAD)||(_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BOSS))
 	{
 		pPlayer.IsAttack(dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_BasicStat());
 

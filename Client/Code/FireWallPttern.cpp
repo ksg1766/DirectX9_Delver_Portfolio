@@ -2,7 +2,7 @@
 #include "Export_Function.h"
 #include "BossFireWall.h"
 #include "SkeletonKing.h"
-
+#include "Boss_WarningEff.h"
 CFireWallPttern::CFireWallPttern()
 {
 }
@@ -24,15 +24,47 @@ HRESULT CFireWallPttern::Ready_State(CStateMachine* pOwner)
     m_vCenterDistance[2] = _vec3(3.f, 0.f, 0.f);
     m_vCenterDistance[3] = _vec3(-3.f, 0.f, 0.f);
     m_bCool = false;
+    m_bWarning = false;
     m_fDuration = 0.f;
+    m_fCool = 0.f;
 	return S_OK;
 }
 
 STATE CFireWallPttern::Update_State(const _float& fTimeDelta)
 {
     m_fDuration += fTimeDelta;
+    m_fCool += fTimeDelta;
     Engine::CGameObject* pGameObject = nullptr;
-    if (!m_bCool)
+    if (!m_bWarning)
+    {
+        for (int i = 0; i < 5; ++i)
+        {
+          pGameObject = CBoss_WarningEff::Create(m_pGraphicDev);
+          dynamic_cast<CBoss_WarningEff*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = (m_pOwner->Get_Transform()->m_vInfo[INFO_POS] + _vec3(0.f, 0.f, 3.f)) + (m_vCenterDistance[0] * (i * 2));
+          Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+        }
+        for (int i = 0; i < 5; ++i)
+        {
+            pGameObject = CBoss_WarningEff::Create(m_pGraphicDev);
+            dynamic_cast<CBoss_WarningEff*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = (m_pOwner->Get_Transform()->m_vInfo[INFO_POS] + _vec3(0.f, 0.f, 3.f)) + (m_vCenterDistance[1] * (i * 2));
+            Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+        }
+        for (int i = 0; i < 5; ++i)
+        {
+            pGameObject = CBoss_WarningEff::Create(m_pGraphicDev);
+            dynamic_cast<CBoss_WarningEff*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = (m_pOwner->Get_Transform()->m_vInfo[INFO_POS] + _vec3(0.f, 0.f, 3.f)) + (m_vCenterDistance[2] * (i * 2));
+            Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+        }
+        for (int i = 0; i < 5; ++i)
+        {
+            pGameObject = CBoss_WarningEff::Create(m_pGraphicDev);
+            dynamic_cast<CBoss_WarningEff*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = (m_pOwner->Get_Transform()->m_vInfo[INFO_POS] + _vec3(0.f, 0.f, 3.f)) + (m_vCenterDistance[3] * (i * 2));
+            Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+        }
+        m_bWarning = true;
+    }
+
+    if ((1.f < m_fCool)&&(m_bWarning)&&(!m_bCool))
     {
         for (int i = 0; i < 5; ++i)
         {
@@ -69,14 +101,13 @@ STATE CFireWallPttern::Update_State(const _float& fTimeDelta)
         }
         m_bCool = true;
     }
-    if (20.f < m_fDuration)
-    {
-        m_bCool = false;
-        m_fDuration = 0.f;
-    }
     else if (10.f < m_fDuration)
     {
-        return STATE::BOSS_PH1SKILL5;
+        m_fCool = 0.f;
+        m_bCool = false;
+        m_bWarning = false;
+        m_fDuration = 0.f;
+        return STATE::BOSS_IDLE;
     }      
 }
 

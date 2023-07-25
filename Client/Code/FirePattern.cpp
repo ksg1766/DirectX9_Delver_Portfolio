@@ -46,24 +46,21 @@ STATE CFirePattern::Update_State(const _float& fTimeDelta)
             m_fDelay = 0.f;
             ++m_iFireCount;
         }
-
-        if ((2 < m_iSkillCount))
-        {
-            if ((2.f < m_fPatternDelay))
-            {
-                m_fPatternDelay = 0.f;
-                m_iSkillCount = 0;
-                m_bCool = false;
-                return STATE::BOSS_PH1SKILL2;
-            }
-        }
-        else if ((2 < m_iFireCount))
+        if ((2 < m_iFireCount))
         {
             m_fPatternDelay = 0.f;
             m_iFireCount = 0;
             m_bCool = true;
             m_fDelay = 0.f;
             ++m_iSkillCount;
+        }
+
+        if ((2 < m_iSkillCount))
+        {
+            m_fPatternDelay = 0.f;
+            m_iSkillCount = 0;
+            m_bCool = false;
+            return STATE::BOSS_IDLE;
         }
 }
 

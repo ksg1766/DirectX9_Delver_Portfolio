@@ -1,13 +1,12 @@
 #pragma once
 #include "State.h"
-
-class CFireWallPttern :
+class CBoss_Phase2 :
     public CState
 {
-private:
-    explicit CFireWallPttern();
-    explicit CFireWallPttern(LPDIRECT3DDEVICE9 pGraphicDev);
-    virtual ~CFireWallPttern();
+private: 
+    explicit CBoss_Phase2();
+    explicit CBoss_Phase2(LPDIRECT3DDEVICE9 pGraphicDev);
+    virtual ~CBoss_Phase2();
 
 public:
     virtual HRESULT	Ready_State(CStateMachine* pOwner);
@@ -20,17 +19,17 @@ public:
 
 private:
     //클래스 내에서만 쓸 함수
+    STATE   BossSkill(const _float& fTimeDelta);
 private:
-    //클래스 내에서만 쓸 함수
-    _vec3   m_vCenterDistance[4];
-    _bool   m_bCool;
-    _bool   m_bWarning;
-    _float  m_fDuration;
-    _float  m_fCool;
+    //변수
+    _float  m_fDelay = 0;
+    _uint   m_iSkillCount;
+
 public:
-    static CFireWallPttern* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
+    static CBoss_Phase2* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
 
 private:
     virtual void Free();
+
 };
 

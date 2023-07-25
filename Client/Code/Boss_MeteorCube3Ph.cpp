@@ -78,7 +78,6 @@ void CBoss_MeteorCube3Ph::LateUpdate_Object(void)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 	__super::LateUpdate_Object();
-	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
 }
 
 void CBoss_MeteorCube3Ph::Render_Object(void)
@@ -110,33 +109,10 @@ void CBoss_MeteorCube3Ph::Channeling_Now(const _float& fTimeDelta)
 
 void CBoss_MeteorCube3Ph::Channeling_End(const _float& fTimeDelta)
 {
+	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
 	m_vTargetPos = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform->m_vInfo[INFO_POS];
 	m_vDir = m_vTargetPos - m_pTransform->m_vInfo[INFO_POS];
 	m_pTransform->Translate(m_vDir * fTimeDelta);
-	/*m_fMeteorExplosionTime += fTimeDelta;
-	m_vDir = m_vTargetPos - m_pTransform->m_vInfo[INFO_POS];
-	m_fDistance = D3DXVec3LengthSq(&m_vDir);
-	if ((m_fDistance <= pow(12, 2)) && (!m_bHit))
-	{
-		m_fMeteorExplosionTime = 0.f;
-		m_bHit = true;
-		CPlayerStat& PlayerState = *dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer())->Get_Stat();
-		PlayerState.Take_Damage(m_fAttack);
-		this->Set_AttackTick(true);
-
-		m_bChanneling_Start = false;
-		m_bChanneling_End = false;
-		m_fEndTime = 0.f;
-		m_pBasicStat->Get_Stat()->fAttack = 15.0;
-		m_pTransform->Scale(_vec3(0.6f, 0.6f, 0.6f));
-		Engine::CGameObject* pGameObject = nullptr;
-		pGameObject = CBossExplosion::Create(m_pGraphicDev);
-		dynamic_cast<CBossExplosion*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = m_vDir;
-		dynamic_cast<CBossExplosion*>(pGameObject)->Set_Scale(300.f);
-		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
-		Engine::EventManager()->DeleteObject(this);
-	}*/
-
 }
 
 void CBoss_MeteorCube3Ph::Set_PlayerPos()
@@ -165,7 +141,9 @@ void CBoss_MeteorCube3Ph::OnCollisionEnter(CCollider* _pOther)
 			m_pTransform->Scale(_vec3(0.6f, 0.6f, 0.6f));
 			Engine::CGameObject* pGameObject = nullptr;
 			pGameObject = CBossExplosion::Create(m_pGraphicDev);
-			dynamic_cast<CBossExplosion*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = m_vDir;
+			m_vTargetPos = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform->m_vInfo[INFO_POS];
+			_vec3 m_vDis = (dynamic_cast<CPlayer*>(_pOther->GetHost())->m_pTransform->m_vInfo[INFO_LOOK] * 0.2f);
+			dynamic_cast<CBossExplosion*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = _vec3(m_vTargetPos.x + m_vDis.x, m_pTransform->m_vInfo[INFO_POS].y, m_vTargetPos.z + m_vDis.z);
 			dynamic_cast<CBossExplosion*>(pGameObject)->Set_Scale(300.f);
 			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 			Engine::EventManager()->DeleteObject(this);

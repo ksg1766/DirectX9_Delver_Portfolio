@@ -20,37 +20,31 @@ CBossProjectile::~CBossProjectile()
 HRESULT CBossProjectile::Ready_Object(void)
 {
 	m_eObjectTag = OBJECTTAG::MONSTERBULLET;
-
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
-	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale()*1.2f);
-	m_pBasicStat->Get_Stat()->fAttack = 5.f;
+	m_pBasicStat->Get_Stat()->fAttack = 2.f;
 	m_fTime = 0.f;
 	m_fSpeed = 20.f;
 	m_bHit = false;
+	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale()*0.8f);
 	return S_OK;
 }
 
 _int CBossProjectile::Update_Object(const _float& fTimeDelta)
 {
 	Engine::Renderer()->Add_RenderGroup(RENDER_ALPHA, this);
-
 	if (SceneManager()->Get_GameStop()) { return 0; }
-
 	_int iExit = __super::Update_Object(fTimeDelta);
 	m_fTime += fTimeDelta;
 		if ((!m_bHit)&&(5.f < m_fTime))
 		{
 			m_fTime = 0.f;
-			Engine::EventManager()->DeleteObject(this);
+			m_IsDead = true;
 		}
-		else
-		{
-			m_pTransform->Translate(m_vDir* m_fSpeed * fTimeDelta);
-			m_fFrame += 8.f * fTimeDelta * 2;
-
-			if (8.f < m_fFrame)
+		m_pTransform->Translate(m_vDir* m_fSpeed * fTimeDelta);
+		m_fFrame += 8.f * fTimeDelta * 2;
+		if (8.f < m_fFrame)
 				m_fFrame = 0.f;
-		}
+
 	return iExit;
 }
 
