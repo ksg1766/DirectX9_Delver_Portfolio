@@ -763,6 +763,9 @@
     <Filter Include="02. Scene\06. BossStage">
       <UniqueIdentifier>{d4af6fbb-ea68-4551-980d-acd8d9142c16}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. GameObject\01. Stage\05. Monster\02. Spider\00.Ray">
+      <UniqueIdentifier>{62fb0ef7-05ba-4d07-babe-6a83492a94ac}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -1218,9 +1221,6 @@
     <ClInclude Include="..\Header\SkeletonKing.h">
       <Filter>99. Etc\헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\Chease.h">
-      <Filter>99. Etc\헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\Helmet.h">
     </ClInclude>
     <ClInclude Include="..\Header\EffectTwinkle.h">
@@ -1459,7 +1459,7 @@
     </ClInclude>
     <ClInclude Include="..\Header\EquipBox.h">
       <Filter>03. GameObject\01. Stage\06. Fragile\02. EquipBox</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="..\Header\StrikeDown_Trap_Body.h">
       <Filter>03. GameObject\01. Stage\08. Trap\01. StrikeDown_Trap\00. Trap_Body</Filter>
     </ClInclude>
@@ -1498,6 +1498,9 @@
     </ClInclude>
     <ClInclude Include="..\Header\BossStage.h">
       <Filter>02. Scene\06. BossStage</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\SpiderRay.h">
+      <Filter>03. GameObject\01. Stage\05. Monster\02. Spider\00.Ray</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1945,9 +1948,6 @@
     <ClCompile Include="..\Code\SkeletonKing.cpp">
       <Filter>99. Etc\소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\Chease.cpp">
-      <Filter>99. Etc\소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\Helmet.cpp">
     </ClCompile>
     <ClCompile Include="..\Code\EffectTwinkle.cpp">
@@ -2156,7 +2156,7 @@
     </ClCompile>
     <ClCompile Include="..\Code\EquipBox.cpp">
       <Filter>03. GameObject\01. Stage\06. Fragile\02. EquipBox</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="..\Code\StrikeDown_Trap_Body.cpp">
       <Filter>03. GameObject\01. Stage\08. Trap\01. StrikeDown_Trap\00. Trap_Body</Filter>
     </ClCompile>
@@ -2195,6 +2195,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\BossStage.cpp">
       <Filter>02. Scene\06. BossStage</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\SpiderRay.cpp">
+      <Filter>03. GameObject\01. Stage\05. Monster\02. Spider\00.Ray</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -5,6 +5,7 @@
 #include "PoolManager.h"
 
 #include "Monstergroup.h"
+#include "SpiderRay.h"
 #include "Itemgroup.h"
 #include "Npc_Trader.h"
 #include "UIUseShop_Trander.h"
@@ -265,6 +266,13 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	dynamic_cast<CDungeonSpider*>(pGameObject)->Set_MoveRange(2.f);
 	dynamic_cast<CDungeonSpider*>(pGameObject)->Set_RandomMoveRange(5.f);
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+
+	m_pSpider = dynamic_cast<CDungeonSpider*>(pGameObject);
+
+	pGameObject = CSpiderRay::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+	dynamic_cast<CSpiderRay*>(pGameObject)->Set_Host(m_pSpider);
 
 	//pGameObject = CDungeonWarrior::Create(m_pGraphicDev);
 	//NULL_CHECK_RETURN(pGameObject, E_FAIL);

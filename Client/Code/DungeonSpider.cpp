@@ -59,8 +59,8 @@ HRESULT CDungeonSpider::Ready_Object()
 	m_pStateMachine->Set_Animator(m_pAnimator);
 	m_pStateMachine->Set_State(STATE::ROMIMG);
 
-	m_pTransform->Scale(_vec3(1, 1, 1));
-	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale() * 0.5);
+	//m_pTransform->Scale(_vec3(0.5, 0.5, 0.5));
+	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
 
 #pragma region SpiderStat
 

@@ -71,6 +71,13 @@ _int CSkullGhost::Update_Object(const _float& fTimeDelta)
 
 	_int iExit = __super::Update_Object(fTimeDelta);
 
+	if (IsKnockBack())
+	{
+		m_pStateMachine->Set_State(STATE::HIT);
+		Set_KnockBack(false);
+	}
+
+
 	if (m_pBasicStat->Get_Stat()->fHealth <= 0)
 	{
 		m_pStateMachine->Set_State(STATE::DEAD);
@@ -146,18 +153,14 @@ void CSkullGhost::OnCollisionEnter(CCollider* _pOther)
 
 	if (_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::PLAYER
 		&& this->Get_StateMachine()->Get_State() == STATE::ATTACK)
-	{
-		CPlayerStat& PlayerState = *static_cast<CPlayer*>(_pOther->GetHost())->Get_Stat();
-
 		if (!this->Get_AttackTick())
 		{
-			PlayerState.Take_Damage(this->Get_BasicStat()->Get_Stat()->fAttack);
+			CPlayerStat& PlayerStat = *static_cast<CPlayer*>(_pOther->GetHost())->Get_Stat();
 			this->Set_AttackTick(true);
+			IsAttack(&PlayerStat);
 
-			//cout << "ÇØ°ñ °ø°Ý" << endl;
+			//cout << "½ºÄÌ·¹Åæ °ø°Ý" << endl;
 		}
-
-	}
 }
 
 void CSkullGhost::OnCollisionStay(CCollider* _pOther)

@@ -245,6 +245,7 @@
     <ClInclude Include="..\Header\RandomPotion.h" />
     <ClInclude Include="..\Header\Ring.h" />
     <ClInclude Include="..\Header\Roastmeat.h" />
+    <ClInclude Include="..\Header\SpiderRay.h" />
     <ClInclude Include="..\Header\VillageTriger.h" />
     <ClInclude Include="..\Header\Shield.h" />
     <ClInclude Include="..\Header\ShopItem.h" />
@@ -466,6 +467,7 @@
     <ClCompile Include="..\Code\RandomPotion.cpp" />
     <ClCompile Include="..\Code\Ring.cpp" />
     <ClCompile Include="..\Code\Roastmeat.cpp" />
+    <ClCompile Include="..\Code\SpiderRay.cpp" />
     <ClCompile Include="..\Code\VillageTriger.cpp" />
     <ClCompile Include="..\Code\Shield.cpp" />
     <ClCompile Include="..\Code\ShopItem.cpp" />

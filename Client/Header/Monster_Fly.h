@@ -33,7 +33,7 @@ private:
 
 	_bool	m_bAttackCoolDown;
 	_bool	m_bFirstCool;
-	
+	_bool	m_bCheck;
 
 
 public:
