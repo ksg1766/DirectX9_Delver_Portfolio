@@ -3,6 +3,7 @@
 #include "Layer.h"
 
 class CPlayer;
+class CDungeonSpider;
 
 BEGIN(Engine)
 
@@ -36,6 +37,7 @@ protected:
 	SCENETAG						m_eSceneTag;
 
 	CPlayer*						m_pPlayer;
+	CDungeonSpider*					m_pSpider;
 
 public:
 	virtual void	Free();

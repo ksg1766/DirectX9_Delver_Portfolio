@@ -58,8 +58,9 @@ HRESULT CDungeonSpider::Ready_Object()
 
 	m_pStateMachine->Set_Animator(m_pAnimator);
 	m_pStateMachine->Set_State(STATE::ROMIMG);
-	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
 
+	//m_pTransform->Scale(_vec3(0.5, 0.5, 0.5));
+	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
 
 #pragma region SpiderStat
 
@@ -114,10 +115,10 @@ _int CDungeonSpider::Update_Object(const _float& fTimeDelta)
 		//ForceHeight(m_pTransform->m_vInfo[INFO_POS]);
 	
 	// ksg
-	if (m_pStateMachine->Get_State() == STATE::ATTACK)
-		m_pRigidBody->UseGravity(false);
-	else
-		m_pRigidBody->UseGravity(true);
+	//if (m_pStateMachine->Get_State() == STATE::ATTACK)
+	//	m_pRigidBody->UseGravity(true);
+	//else
+	//	m_pRigidBody->UseGravity(false);
 
 	return iExit;
 }
@@ -176,8 +177,8 @@ void CDungeonSpider::OnCollisionEnter(CCollider* _pOther)
 			
 		}
 
-	//if(_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BLOCK)
-		//m_bIsJump = false;
+	if(_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BLOCK)
+		m_bIsJump = false;
 }
 
 void CDungeonSpider::OnCollisionStay(CCollider* _pOther)
@@ -189,8 +190,9 @@ void CDungeonSpider::OnCollisionStay(CCollider* _pOther)
 		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::PLAYER)
 	__super::OnCollisionStay(_pOther);
 
-	m_bIsJump = false;
-	
+	//if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BLOCK)
+	//	m_bIsJump = false;
+	//
 	// 충돌 밀어내기 후 이벤트 : 구현하시면 됩니다.
 }
 

@@ -114,6 +114,7 @@ void CSpawningPool::ReserveSpawn()
     pMonster->Set_CenterPos(m_pTransform->m_vInfo[INFO_POS]);
     pMonster->Set_MoveRange(m_fSpawnRadius);
     pMonster->Set_RandomMoveRange(m_fSpawnRadius + 0.5f);
+
     m_MonsterList.push_back(pMonster);
     --m_iLifeCount;
 }

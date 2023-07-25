@@ -175,11 +175,18 @@ void CBat::OnCollisionStay(CCollider* _pOther)
 		_pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::ITEM &&
 		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::PLAYER)
 		__super::OnCollisionStay(_pOther);
+
+	if (_pOther->Get_ObjectTag() == OBJECTTAG::BLOCK)
+		m_bBlockOn = true;
 }
 
 void CBat::OnCollisionExit(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
+
+
+	if (_pOther->Get_ObjectTag() == OBJECTTAG::BLOCK)
+		m_bBlockOn = false;
 }
 
 HRESULT CBat::Add_Component(void)

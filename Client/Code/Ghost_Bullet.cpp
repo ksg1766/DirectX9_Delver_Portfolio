@@ -52,6 +52,7 @@ HRESULT CGhost_Bullet::Ready_Object(CTransform* pOwner, _float _fSpeed, _vec3 _v
 
 	m_pBasicStat->Get_Stat()->iDamageMax = 5.f;
 	m_pBasicStat->Get_Stat()->iDamageMin = 2.f;
+	m_pBasicStat->Get_Stat()->fHP = 10.f;
 
 	return S_OK;
 }
@@ -95,6 +96,7 @@ _int CGhost_Bullet::Update_Object(const _float& fTimeDelta)
 		EventManager()->DeleteObject(this);
 	}
 
+
 	_vec3 vDir = m_vPrevPos - m_vInit;
 	D3DXVec3Normalize(&vDir, &vDir);
 
@@ -137,8 +139,8 @@ void CGhost_Bullet::OnCollisionEnter(CCollider* _pOther)
 		&& _pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::MONSTER)
 		__super::OnCollisionEnter(_pOther);
 
-	if (_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::PLAYER && this->Get_State() != STATE::DEAD
-		&& _pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BLOCK)
+	if ((_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BLOCK || _pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::PLAYER)
+		&& this->Get_State() != STATE::DEAD)
 	{
 		CPlayerStat& PlayerStat = *static_cast<CPlayer*>(_pOther->GetHost())->Get_Stat();
 		this->Set_AttackTick(true);

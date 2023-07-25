@@ -35,13 +35,15 @@ public:
 	virtual void		OnCollisionStay(CCollider* _pOther);
 	virtual void		OnCollisionExit(CCollider* _pOther);
 
+public:
+
 private:
 	CRcTex*			m_pBuffer = nullptr;
 	CTexture*		m_pTexture[(_uint)STATE::STATE_END] = {};
 	CAnimator*		m_pAnimator = nullptr;
 
 	_float m_fFrame;
-	
+
 private:
 	HRESULT		Add_Component(void);
 
