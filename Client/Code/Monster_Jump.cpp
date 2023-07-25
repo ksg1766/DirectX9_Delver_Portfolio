@@ -1,6 +1,7 @@
 #include "..\Header\Monster_Jump.h"
 #include "Export_Function.h"
 #include "DungeonSpider.h"
+#include "Worm.h"
 
 CMonster_Jump::CMonster_Jump()
 {
@@ -18,7 +19,7 @@ CMonster_Jump::~CMonster_Jump()
 HRESULT CMonster_Jump::Ready_State(CStateMachine* pOwner)
 {
 	m_pOwner = pOwner;
-	m_fJumpVelocity = 15.f;
+	m_fJumpVelocity = 10.f;
 	m_bJumCoolDown = false;
 	m_bIsJumping = false;
 	m_fJumpCoolDuration = 2.f;
@@ -49,7 +50,12 @@ STATE CMonster_Jump::Jump(const _float& fTimeDelta)
 	
 	_vec3& vMonsterPos = m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
 
-	if (!dynamic_cast<CMonster*>(m_pOwner->Get_Host())->IsJump())
+	CRigidBody* pRigidBody = nullptr;
+
+	if (dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Get_MonsterTag() == MONSTERTAG::SPIDER)
+		pRigidBody = dynamic_cast<CDungeonSpider*>(m_pOwner->Get_Host())->Get_RigidBody();
+
+	if (!m_bIsJumping)
 	{
 		m_fChase += fTimeDelta;
 
@@ -63,19 +69,21 @@ STATE CMonster_Jump::Jump(const _float& fTimeDelta)
 			dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Set_AttackTick(false);
 			m_pOwner->Get_Animator()->Get_Animation()->Set_Loop(true);
 			m_vLastPos = pPlayerTransform->m_vInfo[INFO_POS];
-			dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Set_Jump(true);
+			m_bIsJumping = true;
+			pRigidBody->Set_Force(_vec3(0.f,3.f,0.f));
+			//pRigidBody->UseGravity(true);
 			m_fChase = 0.f;
 		}
 	}
 
-	if (dynamic_cast<CMonster*>(m_pOwner->Get_Host())->IsJump())
+	if (m_bIsJumping)
 	{
 		_vec3 vDir = m_vLastPos - vMonsterPos;
 		D3DXVec3Normalize(&vDir, &vDir);
 
 		vMonsterPos.y += m_fJumpVelocity * fTimeDelta;
-		vMonsterPos += vDir * 10.f * fTimeDelta;
-		
+		//vMonsterPos += vDir * 10.f * fTimeDelta;
+		m_pOwner->Get_Host()->m_pTransform->Translate(_vec3(vDir.x, 0.f, vDir.z) * 10.f * fTimeDelta);
 
 		//m_fJumpVelocity -= 0.5f * fTimeDelta * fTimeDelta * 3000.f;
 	}
@@ -89,8 +97,9 @@ STATE CMonster_Jump::Jump(const _float& fTimeDelta)
 
 	if (!dynamic_cast<CMonster*>(m_pOwner->Get_Host())->IsJump())
 	{
-		m_fJumpVelocity = 15.f;
+		m_fJumpVelocity = 10.f;
 		m_bJumCoolDown = true;
+		m_bIsJumping = false;
 		dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Set_Jump(false);
 		m_pOwner->Get_Animator()->Get_Animation()->Set_Frame(0.f);
 		

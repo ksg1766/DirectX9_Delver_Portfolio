@@ -36,6 +36,8 @@ public:
 	virtual void		OnCollisionStay(CCollider* _pOther);
 	virtual void		OnCollisionExit(CCollider* _pOther);
 
+public:
+	CRigidBody* Get_RigidBody() { return m_pRigidBody; }
 private:
 	HRESULT		Add_Component();
 
@@ -43,7 +45,7 @@ private:
 	CRcTex*			m_pBuffer = nullptr;
 	CTexture*		m_pTexture[static_cast<_uint>(STATE::STATE_END)] = {};
 	CAnimator*		m_pAnimator = nullptr;
-
+	
 
 	_bool		m_bAttackTick;
 	_float		m_fFrame;
