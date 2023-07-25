@@ -54,38 +54,18 @@ STATE CMonster_Move::Update_State(const _float& fTimeDelta)
 		_vec3 fChaseDir = pPlayer.m_pTransform->m_vInfo[INFO_POS] - m_pOwner->Get_Host()->m_pTransform->m_vInfo[INFO_POS];
 		D3DXVec3Normalize(&fChaseDir, &fChaseDir);
 
-		
-		if (dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Get_MonsterTag() == MONSTERTAG::SPIDER ||
-			dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Get_MonsterTag() == MONSTERTAG::WORM)
+		if (!Get_AttackCool())
 		{
-			if (!Get_AttackCool())
-			{
-				m_fAttackCool = 0.f;
-				m_bAttackCool = true;
-				dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Set_AttackTick(false);
-				return STATE::ATTACK;
-			}
-			else
-			{
-				Move_RandomPos(fTimeDelta);
-			}
+			m_fAttackCool = 0.f;
+			m_bAttackCool = true;
+			dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Set_AttackTick(false);
+			return STATE::ATTACK;
 		}
 		else
 		{
-			//m_pOwner->Get_Host()->m_pTransform->m_vInfo[INFO_POS] += fChaseDir * m_fSpeed * fTimeDelta;
-
-			if (!Get_AttackCool())
-			{
-				m_fAttackCool = 0.f;
-				m_bAttackCool = true;
-				dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Set_AttackTick(false);
-				return STATE::ATTACK;
-			}
-			else
-			{
-				Move_RandomPos(fTimeDelta);
-			}
+			Move_RandomPos(fTimeDelta);
 		}
+		
 	}
 	else
 	{
@@ -247,7 +227,7 @@ void CMonster_Move::Move_RandomPos(const _float& fTimeDelta)
 	//_vec3 vTerrainCenter = _vec3((VTXCNTX * 32) / 2.f, 0.f, (VTXCNTZ * 32) / 2.f);
 
 	_float	fMinDistance = 10.f;
-	_float	fMaxDistance = 40.f;
+	_float	fMaxDistance = 20.f;
 
 	_float fDistance = fMinDistance + (rand() / (_float)RAND_MAX) * (fMaxDistance - fMinDistance);
 
@@ -265,14 +245,8 @@ _vec3 CMonster_Move::Get_RandomDir(const _float& fTimeDelta)
 {
 	_float distance = 15.f;
 
-	if (dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Get_BlockOn())
-	{
-		distance *= -1.f;
-		dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Set_BlockOn(false);
-	}
-
-	_float X = m_vSavePos.x + (distance * cosf((_float)rand() / RAND_MAX * 2.f * D3DX_PI)) / 100.f;
-	_float Z = m_vSavePos.z + (distance * -sinf((_float)rand() / RAND_MAX * 2.f * D3DX_PI)) / 100.f;
+	_float X = m_vSavePos.x + (distance * cosf((_float)rand() / RAND_MAX * 2.f * D3DX_PI)) / 50.f;
+	_float Z = m_vSavePos.z + (distance * -sinf((_float)rand() / RAND_MAX * 2.f * D3DX_PI)) / 50.f;
 
 	_vec3 vDir = _vec3(X, 0.f, Z);
 
