@@ -225,8 +225,10 @@
     <ClInclude Include="..\Header\GrapPattern.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="..\Header\Grass.h" />
     <ClInclude Include="..\Header\HolyWater.h" />
     <ClInclude Include="..\Header\HpPotion.h" />
+    <ClInclude Include="..\Header\ImmortalSprite.h" />
     <ClInclude Include="..\Header\Itemgroup.h" />
     <ClInclude Include="..\Header\Jump_Plate.h" />
     <ClInclude Include="..\Header\Lamp.h" />
@@ -239,13 +241,16 @@
     <ClInclude Include="..\Header\Monstergroup.h" />
     <ClInclude Include="..\Header\Moon.h" />
     <ClInclude Include="..\Header\MeteorPh2.h" />
+    <ClInclude Include="..\Header\Mushroom.h" />
     <ClInclude Include="..\Header\Necklace.h" />
     <ClInclude Include="..\Header\NpcGroup.h" />
     <ClInclude Include="..\Header\Pants.h" />
+    <ClInclude Include="..\Header\Pumpkin.h" />
     <ClInclude Include="..\Header\RandomPotion.h" />
     <ClInclude Include="..\Header\Ring.h" />
     <ClInclude Include="..\Header\Roastmeat.h" />
     <ClInclude Include="..\Header\SpiderRay.h" />
+    <ClInclude Include="..\Header\Rock.h" />
     <ClInclude Include="..\Header\VillageTriger.h" />
     <ClInclude Include="..\Header\Shield.h" />
     <ClInclude Include="..\Header\ShopItem.h" />
@@ -449,8 +454,10 @@
     <ClCompile Include="..\Code\GrapPattern.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="..\Code\Grass.cpp" />
     <ClCompile Include="..\Code\HolyWater.cpp" />
     <ClCompile Include="..\Code\HpPotion.cpp" />
+    <ClCompile Include="..\Code\ImmortalSprite.cpp" />
     <ClCompile Include="..\Code\Jump_Plate.cpp" />
     <ClCompile Include="..\Code\Lamp.cpp" />
     <ClCompile Include="..\Code\Boss_LostSoul.cpp" />
@@ -462,12 +469,15 @@
     <ClCompile Include="..\Code\MiniMetorPattern.cpp" />
     <ClCompile Include="..\Code\Moon.cpp" />
     <ClCompile Include="..\Code\MeteorPh2.cpp" />
+    <ClCompile Include="..\Code\Mushroom.cpp" />
     <ClCompile Include="..\Code\Necklace.cpp" />
     <ClCompile Include="..\Code\Pants.cpp" />
+    <ClCompile Include="..\Code\Pumpkin.cpp" />
     <ClCompile Include="..\Code\RandomPotion.cpp" />
     <ClCompile Include="..\Code\Ring.cpp" />
     <ClCompile Include="..\Code\Roastmeat.cpp" />
     <ClCompile Include="..\Code\SpiderRay.cpp" />
+    <ClCompile Include="..\Code\Rock.cpp" />
     <ClCompile Include="..\Code\VillageTriger.cpp" />
     <ClCompile Include="..\Code\Shield.cpp" />
     <ClCompile Include="..\Code\ShopItem.cpp" />

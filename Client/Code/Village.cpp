@@ -24,6 +24,10 @@
 #include "Bonfire.h"
 #include "VillageTriger.h"
 #include "BlackIn.h"
+#include <Rock.h>
+#include <Grass.h>
+#include <Mushroom.h>
+#include <Pumpkin.h>
 
 CVillage::CVillage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
@@ -478,7 +482,7 @@ HRESULT CVillage::Load_Data()
 	}
 	//HANDLE hFile = CreateFile(L"../Bin/Data/Sewer.dat", GENERIC_READ, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
 	//HANDLE hFile = CreateFile(L"../Bin/Data/TempData.dat", GENERIC_READ, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
-	HANDLE hFile = CreateFile(L"../Bin/Data/TerrainGiantTree10.dat", GENERIC_READ,	0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
+	HANDLE hFile = CreateFile(L"../Bin/Data/TerrainGiantTree11.dat", GENERIC_READ,	0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
 	//HANDLE hFile = CreateFile(L"../Bin/Data/BossStage_3rd.dat", GENERIC_READ, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
 
 	if (INVALID_HANDLE_VALUE == hFile)
@@ -545,6 +549,90 @@ HRESULT CVillage::Load_Data()
 			dynamic_cast<CSpawningPool*>(pGameObject)->Set_SpawnRadius(fSpawnRadius);
 			dynamic_cast<CSpawningPool*>(pGameObject)->Set_SpawnTime(fSpawnTime);
 			pGameObject->m_pTransform->Translate(_vec3(fX, fY + 1.f, fZ));
+			pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+			//EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+		}
+		else if (OBJECTTAG::IMMORTAL == eTag)
+		{
+			// value°ª ÀúÀå
+			ReadFile(hFile, &fX, sizeof(_float), &dwByte, nullptr);
+			ReadFile(hFile, &fY, sizeof(_float), &dwByte, nullptr);
+			ReadFile(hFile, &fZ, sizeof(_float), &dwByte, nullptr);
+
+			_float  fCX = 0.f, fCY = 0.f, fCZ = 0.f;
+			ReadFile(hFile, &fCX, sizeof(_float), &dwByte, nullptr);
+			ReadFile(hFile, &fCY, sizeof(_float), &dwByte, nullptr);
+			ReadFile(hFile, &fCZ, sizeof(_float), &dwByte, nullptr);
+
+			ENVIRONMENTTAG eEnvTag;
+			ReadFile(hFile, &eEnvTag, sizeof(ENVIRONMENTTAG), &dwByte, nullptr);
+
+			if (0 == dwByte)
+				break;
+
+			CGameObject* pGameObject = nullptr;
+
+			switch (eEnvTag)
+			{
+			case ENVIRONMENTTAG::TREE:
+			{
+				_uint iTreeNumber = 0;
+
+				ReadFile(hFile, &iTreeNumber, sizeof(_uint), &dwByte, nullptr);
+
+				pGameObject = CTree::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+				dynamic_cast<CTree*>(pGameObject)->Set_TreeNumber(iTreeNumber);
+				break;
+			}
+
+			case ENVIRONMENTTAG::ROCK:
+			{
+				_uint iRockNumber = 0;
+
+				ReadFile(hFile, &iRockNumber, sizeof(_uint), &dwByte, nullptr);
+
+				pGameObject = CRock::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+				dynamic_cast<CRock*>(pGameObject)->Set_RockNumber(iRockNumber);
+				break;
+			}
+
+			case ENVIRONMENTTAG::GRASS:
+			{
+				_uint iGrassNumber = 0;
+
+				ReadFile(hFile, &iGrassNumber, sizeof(_uint), &dwByte, nullptr);
+
+				pGameObject = CGrass::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+				dynamic_cast<CGrass*>(pGameObject)->Set_GrassNumber(iGrassNumber);
+				break;
+			}
+
+			case ENVIRONMENTTAG::MUSHROOM:
+			{
+				_uint iMushroomNumber = 0;
+
+				ReadFile(hFile, &iMushroomNumber, sizeof(_uint), &dwByte, nullptr);
+
+				pGameObject = CMushroom::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+				dynamic_cast<CMushroom*>(pGameObject)->Set_MushroomNumber(iMushroomNumber);
+				break;
+			}
+
+			case ENVIRONMENTTAG::PUMPKIN:
+			{
+				_uint iPumpkinNumber = 0;
+
+				ReadFile(hFile, &iPumpkinNumber, sizeof(_uint), &dwByte, nullptr);
+
+				pGameObject = CPumpkin::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+				dynamic_cast<CPumpkin*>(pGameObject)->Set_PumpkinNumber(iPumpkinNumber);
+				break;
+			}
+			}
+			//pGameObject->m_pTransform->m_vInfo[INFO_POS] = _vec3(fX, fY, fZ);
+			NULL_CHECK_RETURN(pGameObject, E_FAIL);
+			pGameObject->m_pTransform->Scale(_vec3(fCX, fCY, fCZ));
+			pGameObject->m_pTransform->Translate(_vec3(fX, fY + 1, fZ));
 			pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 			//EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 		}
