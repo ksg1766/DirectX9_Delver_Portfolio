@@ -29,6 +29,8 @@
 #include "Mushroom.h"
 #include "Pumpkin.h"
 #include "ImmortalSprite.h"
+#include "EffectFallingleaves.h"
+#include "EffectFirefly.h"
 
 CVillage::CVillage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
@@ -135,6 +137,19 @@ HRESULT CVillage::Ready_Layer_Environment(LAYERTAG _eLayerTag)
 	pGameObject = CVillageTriger::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+
+	// ³ª¹µÀÙ ÀÌÆåÆ®
+	pGameObject = CEffectFallingleaves::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+
+	// ¹İµ÷ºÒÀÌ ÀÌÆåÆ®
+	for (_uint i = 0; i < 100; ++i)
+	{
+		pGameObject = CEffectFirefly::Create(m_pGraphicDev);
+		NULL_CHECK_RETURN(pGameObject, E_FAIL);
+		pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+	}
 
 #pragma region TREE
 	// ½ÃÀÛ ½Ã ¿ŞÂÊ ±×·ì

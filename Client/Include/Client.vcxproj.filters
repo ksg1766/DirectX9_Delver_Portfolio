@@ -781,6 +781,15 @@
     <Filter Include="03. GameObject\01. Stage\09. Immortal\02. ImmortalSprite">
       <UniqueIdentifier>{d58b7039-ca76-4e86-a766-0304f7914948}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. GameObject\07. Effect\22. EffectFallingleaves">
+      <UniqueIdentifier>{cf0f0d94-afe6-4990-98be-1b75d7b696cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\07. Effect\22. EffectFallingleaves\00. Effectleaf">
+      <UniqueIdentifier>{35ffb3f0-5570-4cfd-8f08-90e276e9e1ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\07. Effect\23. EffectFirefly">
+      <UniqueIdentifier>{084b351c-5601-4c22-85da-910fb4e34b87}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -1301,9 +1310,6 @@
     <ClInclude Include="..\Header\RandomPotion.h">
       <Filter>03. GameObject\01. Stage\02. Item\Consumable\RandomPotion</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\Chease.h">
-      <Filter>03. GameObject\01. Stage\02. Item\Consumable</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\BossProjectile.h">
       <Filter>03. GameObject\01. Stage\999. Boss\01. AttackEff\01. AttackFire</Filter>
     </ClInclude>
@@ -1531,6 +1537,15 @@
     </ClInclude>
     <ClInclude Include="..\Header\ImmortalSprite.h">
       <Filter>03. GameObject\01. Stage\09. Immortal\02. ImmortalSprite</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\EffectFallingleaves.h">
+      <Filter>03. GameObject\07. Effect\22. EffectFallingleaves</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Effectleaf.h">
+      <Filter>03. GameObject\07. Effect\22. EffectFallingleaves\00. Effectleaf</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\EffectFirefly.h">
+      <Filter>03. GameObject\07. Effect\23. EffectFirefly</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -2043,9 +2058,6 @@
     <ClCompile Include="..\Code\RandomPotion.cpp">
       <Filter>03. GameObject\01. Stage\02. Item\Consumable\RandomPotion</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\Chease.cpp">
-      <Filter>03. GameObject\01. Stage\02. Item\Consumable</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\BossProjectile.cpp">
       <Filter>03. GameObject\01. Stage\999. Boss\01. AttackEff\01. AttackFire</Filter>
     </ClCompile>
@@ -2243,6 +2255,15 @@
     </ClCompile>
     <ClCompile Include="..\Code\ImmortalSprite.cpp">
       <Filter>03. GameObject\01. Stage\09. Immortal\02. ImmortalSprite</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Effectleaf.cpp">
+      <Filter>03. GameObject\07. Effect\22. EffectFallingleaves\00. Effectleaf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\EffectFallingleaves.cpp">
+      <Filter>03. GameObject\07. Effect\22. EffectFallingleaves</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\EffectFirefly.cpp">
+      <Filter>03. GameObject\07. Effect\23. EffectFirefly</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
