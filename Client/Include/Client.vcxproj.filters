@@ -1286,9 +1286,6 @@
     <ClInclude Include="..\Header\RandomPotion.h">
       <Filter>03. GameObject\01. Stage\02. Item\Consumable\RandomPotion</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\Chease.h">
-      <Filter>03. GameObject\01. Stage\02. Item\Consumable</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\BossProjectile.h">
       <Filter>03. GameObject\01. Stage\999. Boss\01. AttackEff\01. AttackFire</Filter>
     </ClInclude>
@@ -2012,9 +2009,6 @@
     </ClCompile>
     <ClCompile Include="..\Code\RandomPotion.cpp">
       <Filter>03. GameObject\01. Stage\02. Item\Consumable\RandomPotion</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\Chease.cpp">
-      <Filter>03. GameObject\01. Stage\02. Item\Consumable</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\BossProjectile.cpp">
       <Filter>03. GameObject\01. Stage\999. Boss\01. AttackEff\01. AttackFire</Filter>

@@ -1,3 +1,5 @@
+#include "stdafx.h"
+#include "SoundManager.h"
 #include "..\Header\PlayerState_Idle.h"
 #include "Export_Function.h"
 #include "DynamicCamera.h"
@@ -47,6 +49,8 @@ void CPlayerState_Idle::Render_State()
 STATE CPlayerState_Idle::Key_Input(const _float& fTimeDelta)
 {
 	CPlayer& pPlayer = *dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer());
+
+	CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_PLAYER);
 
 	if (!pPlayer.IsTalk())
 	{

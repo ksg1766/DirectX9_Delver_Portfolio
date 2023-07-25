@@ -7,6 +7,7 @@
 #include "Monstergroup.h"
 #include "Itemgroup.h"
 #include "NpcGroup.h"
+#include "SoundManager.h"
 
 #include "SpawningPool.h"
 #include "Box_Cube.h"
@@ -51,6 +52,10 @@ HRESULT CVillage::Ready_Scene()
 	//m_pGraphicDev->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
 	//m_pGraphicDev->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
 
+	CSoundManager::GetInstance()->StopAll();
+	CSoundManager::GetInstance()->PlayBGM(L"campfire-guitar.mp3", 1.f);
+
+
 	m_pGraphicDev->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_NONE);
 
 	return S_OK;
@@ -59,6 +64,8 @@ HRESULT CVillage::Ready_Scene()
 Engine::_int CVillage::Update_Scene(const _float& fTimeDelta)
 {
 	__super::Update_Scene(fTimeDelta);
+
+
 
 	UIManager()->Update_UI(fTimeDelta);
 
@@ -571,6 +578,5 @@ CVillage* CVillage::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 void CVillage::Free()
 {
 	//CPoolManager::DestroyInstance();
-
 	__super::Free();
 }

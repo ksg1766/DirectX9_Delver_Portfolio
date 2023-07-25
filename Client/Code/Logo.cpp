@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "..\Header\Logo.h"
-
+#include "SoundManager.h"
 #include "Export_Function.h"
 //#include "Stage.h"
 //#include "Editor.h"
@@ -30,6 +30,8 @@ HRESULT CLogo::Ready_Scene()
 	HCURSOR Cursor = GetCursor();
 	Cursor = LoadCursor(NULL, IDC_ARROW);
 	SetCursor(Cursor);
+
+	CSoundManager::GetInstance()->PlayBGM(L"title.mp3", 1.f);
 
 	return S_OK;
 }
@@ -98,7 +100,7 @@ void CLogo::Render_Scene()
 void CLogo::Free()
 {
 	//Safe_Release(m_pLoading);
-
+	CSoundManager::GetInstance()->StopAll();
 	__super::Free();
 }
 
@@ -125,6 +127,8 @@ HRESULT CLogo::Ready_Prototype()
 	FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Logo", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/Startscreen/Startscreen%d.png",11)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_FadeIn", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/BlackIn/black%d.png", 20)), E_FAIL);
     FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_FadeOut", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/BlackOutIn/black%d.png", 38)), E_FAIL);
+	FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/title.mp3", "title.mp3"), E_FAIL);
+	
 	return S_OK;
 }
 
@@ -155,6 +159,8 @@ HRESULT CLogo::Ready_Layer_Environment(LAYERTAG _eLayerTag)
 	dynamic_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_BASIC, 0);
 	Engine::UIManager()->AddBasicGameobject_UI(Engine::UILAYER::UI_UP, pGameObject);
 	//Engine::EventManager()->CreateObject(pGameObject, _eLayerTag);
+
+
 
 	return S_OK;
 }

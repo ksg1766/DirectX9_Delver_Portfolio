@@ -1,5 +1,7 @@
+#include "stdafx.h"
 #include "..\Header\Player_Attack.h"
 #include "Export_Function.h"
+#include "SoundManager.h"
 #include "Player.h"
 #include "Item.h"
 #include "Itemgroup.h"
@@ -90,6 +92,11 @@ STATE CPlayer_Attack::Key_Input(const _float& fTimeDelta)
 					pPlayer.Set_Attack(true);
 					pPlayer.Set_AttackTick(false);
 					pPlayer.Set_State(STATE::ATTACK);
+
+
+					CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_WEAPON);
+					CSoundManager::GetInstance()->PlaySound(L"whoosh1.mp3", CHANNELID::SOUND_WEAPON, 1.f);
+
 					return STATE::ATTACK;
 				}
 				break;
@@ -117,12 +124,18 @@ STATE CPlayer_Attack::Key_Input(const _float& fTimeDelta)
 							m_pOwner->Get_Transform(), m_fSpeed);
 
 						Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+
+
 					}
 
+
+					CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_WEAPON);
+					CSoundManager::GetInstance()->PlaySound(L"bow.wav", CHANNELID::SOUND_WEAPON, 1.f);
 					m_fSpeed = 0.f;
 
 					pPlayer.Set_State(STATE::ROMIMG);
 					_eState = STATE::ROMIMG;
+;
 				}
 				break;
 			case ITEMID::WEAPON_WAND3:
@@ -138,6 +151,9 @@ STATE CPlayer_Attack::Key_Input(const _float& fTimeDelta)
 						m_pOwner->Get_Transform(), 10.f);
 
 					Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+
+					CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_WEAPON);
+					CSoundManager::GetInstance()->PlaySound(L"explode.mp3", CHANNELID::SOUND_WEAPON, 1.f);
 
 					_eState = STATE::ATTACK;
 				}
@@ -166,6 +182,10 @@ STATE CPlayer_Attack::Key_Input(const _float& fTimeDelta)
 							m_pOwner->Get_Transform(), m_fSpeed);
 
 						Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+
+
+						CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_WEAPON);
+						CSoundManager::GetInstance()->PlaySound(L"explode.mp3", CHANNELID::SOUND_EFFECT, 1.f);
 					}
 
 					m_fSpeed = 0.f;

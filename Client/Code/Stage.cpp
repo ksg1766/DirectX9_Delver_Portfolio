@@ -10,6 +10,7 @@
 #include "Npc_Trader.h"
 #include "UIUseShop_Trander.h"
 #include "UIShop.h"
+#include "SoundManager.h"
 
 #include "SpawningPool.h"
 #include "Box_Cube.h"
@@ -63,6 +64,9 @@ HRESULT CStage::Ready_Scene()
 	//m_pGraphicDev->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
 	m_pGraphicDev->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
 
+	CSoundManager::GetInstance()->StopAll();
+	CSoundManager::GetInstance()->PlayBGM(L"chase_sewers.mp3", 1.f);
+
 	return S_OK;
 }
 
@@ -110,6 +114,7 @@ void CStage::LateUpdate_Scene()
 	//	CSoundManager::GetInstance()->PlayBGM(L"11_10.Player_Die.wav", g_fSound);
 	//}
 
+
 }
 
 void CStage::Render_Scene()
@@ -119,8 +124,9 @@ void CStage::Render_Scene()
 
 void CStage::Free()
 {
-	CPoolManager::DestroyInstance();
 
+	CSoundManager::GetInstance()->StopAll();
+	CPoolManager::DestroyInstance();
 	__super::Free();
 }
 
@@ -182,6 +188,8 @@ HRESULT CStage::Ready_Layer_Environment(LAYERTAG _eLayerTag)
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);*/
 
 	m_mapLayer.insert({ _eLayerTag, pLayer });
+
+
 
 	return S_OK;
 }

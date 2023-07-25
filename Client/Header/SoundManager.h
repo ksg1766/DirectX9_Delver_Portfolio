@@ -24,7 +24,7 @@ public:
 
 private:
 	FMOD_SYSTEM*  m_pSystem = nullptr;
-	FMOD_CHANNEL* m_pChannelArr[CHANNELID::MAXCHANNEL];
+	FMOD_CHANNEL* m_pChannelArr[CHANNELID::SOUND_MAXCHANNEL];
 	map<TCHAR*, FMOD_SOUND*> m_mapSound;
 
 private:

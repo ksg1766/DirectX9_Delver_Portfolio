@@ -5,6 +5,7 @@
 #include "EffectBrokenbox.h"
 #include "EffectSquare.h"
 #include "Itemgroup.h"
+#include "SoundManager.h"
 
 CEquipBox::CEquipBox(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev)
@@ -147,6 +148,9 @@ void CEquipBox::OnCollisionEnter(CCollider* _pOther)
 			EventManager()->DeleteObject(this);
 		}
 		m_bHit = true;
+
+		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_EFFECT);
+		CSoundManager::GetInstance()->PlaySound(L"break_wood_01.mp3", CHANNELID::SOUND_EFFECT, 1.f);
 	}
 }
 
@@ -172,6 +176,8 @@ void CEquipBox::OnCollisionStay(CCollider* _pOther)
 				EventManager()->DeleteObject(this);
 			}
 
+			CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_EFFECT);
+			CSoundManager::GetInstance()->PlaySound(L"break_wood_01.mp3", CHANNELID::SOUND_EFFECT, 1.f);
 
 			m_bHit = true;
 		}
