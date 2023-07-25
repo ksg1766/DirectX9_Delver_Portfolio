@@ -109,12 +109,6 @@
     <Filter Include="03. GameObject\01. Stage\02. Item">
       <UniqueIdentifier>{d0be1c89-cbb5-4efa-9e0c-f85e9c85026a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. GameObject\01. Stage\02. Item\Wands">
-      <UniqueIdentifier>{fde1bedd-59b4-439d-9d7a-ed25a65b4744}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. GameObject\01. Stage\02. Item\Wands\FireBall">
-      <UniqueIdentifier>{57c21c47-1026-4302-83d6-6de16b12107b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03. GameObject\01. Stage\02. Item\Consumable">
       <UniqueIdentifier>{88c06c96-bd70-4c1a-a4b0-2d97688e64b5}</UniqueIdentifier>
     </Filter>
@@ -1301,9 +1295,6 @@
     <ClInclude Include="..\Header\RandomPotion.h">
       <Filter>03. GameObject\01. Stage\02. Item\Consumable\RandomPotion</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\Chease.h">
-      <Filter>03. GameObject\01. Stage\02. Item\Consumable</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\BossProjectile.h">
       <Filter>03. GameObject\01. Stage\999. Boss\01. AttackEff\01. AttackFire</Filter>
     </ClInclude>
@@ -2042,9 +2033,6 @@
     </ClCompile>
     <ClCompile Include="..\Code\RandomPotion.cpp">
       <Filter>03. GameObject\01. Stage\02. Item\Consumable\RandomPotion</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\Chease.cpp">
-      <Filter>03. GameObject\01. Stage\02. Item\Consumable</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\BossProjectile.cpp">
       <Filter>03. GameObject\01. Stage\999. Boss\01. AttackEff\01. AttackFire</Filter>

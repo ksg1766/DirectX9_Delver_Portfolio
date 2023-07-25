@@ -102,13 +102,13 @@ void CSceneManager::Render_Scene(LPDIRECT3DDEVICE9 pGraphicDev)
 			switch (m_pCurrentScene->Get_SceneTag())
 			{
 			case SCENETAG::VILLAGE:
-				m_pPlayer->m_pTransform->m_vInfo[INFO_POS] = _vec3(0.f, 0.f, -70.f);
+				m_pPlayer->m_pTransform->m_vInfo[INFO_POS] = _vec3(0.f, 1.f, -70.f);
 				break;
 			case SCENETAG::STAGE:
 				m_pPlayer->m_pTransform->m_vInfo[INFO_POS] = _vec3(0.f, 11.f, 0.f);  // 시작 위치 지정해주세요
 				break;
 			case SCENETAG::BOSSSTAGE:
-				m_pPlayer->m_pTransform->m_vInfo[INFO_POS] = _vec3(100.f, 20.f, 0.f); // 시작 위치 지정해주세요
+				m_pPlayer->m_pTransform->m_vInfo[INFO_POS] = _vec3(100.f, 21.f, 0.f); // 시작 위치 지정해주세요
 				break;
 			}
 

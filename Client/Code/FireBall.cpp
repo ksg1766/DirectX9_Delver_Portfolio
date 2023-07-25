@@ -34,7 +34,7 @@ HRESULT CFireBall::Ready_Object(CTransform* pWeapon, CTransform* pOwner, _float 
 
 	m_pCollider->InitOBB(
 		m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT],
-		m_pTransform->LocalScale());
+		0.5f * m_pTransform->LocalScale());
 
 	if (pWeapon != nullptr && pOwner != nullptr)
 	{

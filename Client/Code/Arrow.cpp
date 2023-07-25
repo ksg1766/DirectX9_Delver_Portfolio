@@ -43,7 +43,7 @@ HRESULT CArrow::Ready_Object(CTransform* Weapon, CTransform* pOwner, _float _fSp
 		m_pTransform->Scale(_vec3(0.3f, 0.3f, 0.3f));
 		m_pTransform->Rotate(ROT_Y, -30.f);
 
-		m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
+		m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], 0.5f * m_pTransform->LocalScale());
 		m_pTransform->m_vInfo[INFO_POS] = Weapon->m_vInfo[INFO_POS];
 
 		m_vDir = pOwner->Get_Transform()->m_vInfo[INFO_LOOK];
