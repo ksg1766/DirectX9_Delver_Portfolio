@@ -260,6 +260,7 @@ _uint CLoading::Loading_ForStage()
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_EffectTrace",       CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Effect/Trace/Trace%d.png", 11)), E_FAIL);
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_EffectDebuff",      CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Effect/Debuff/Debuff%d.png", 4)), E_FAIL);
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_EffectPastTrace",   CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Effect/Arrow.png", 1)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_EffectGreenleaves", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Effect/Green_leaves/Green_leaves%d.png", 3)), E_FAIL);
 #pragma endregion EFFECT
 
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_BladeTrapBlade", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Entities/Trap/Trap_Blade.png")), E_FAIL); //Æ®·¦¿ë
@@ -286,6 +287,7 @@ _uint CLoading::Loading_ForStage()
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_VillageGrass",    CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Village/Grass/Grass%d.png", 7)), E_FAIL);
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_VillageMushroom", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Village/Mushroom/Mushroom%d.png", 2)), E_FAIL);
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_VillagePumpkin",  CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Village/Pumpkin/Pumpkin0.png", 1)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Firefly",         CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Village/Firefly.png", 1)), E_FAIL);
 #pragma endregion VILLAGE
 
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_ImmortalSprite", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Immortal/Tile/Tile%d.png", 20)), E_FAIL);
