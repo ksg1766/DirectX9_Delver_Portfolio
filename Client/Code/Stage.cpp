@@ -199,21 +199,21 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 
 #pragma region 첫 번째 씬에서 받아오는 오브젝트
 	// Player
-    pGameObject = CPlayer::Create(m_pGraphicDev);
-    NULL_CHECK_RETURN(pGameObject, E_FAIL);
-    
-    //pGameObject->m_pTransform->Translate(_vec3(-40.f, 1.f,-40.f));
-    pGameObject->m_pTransform->Translate(_vec3(0.f, 1.f, 0.f));
-    //pGameObject->m_pTransform->Translate(_vec3(100.f, 10.f,0.f));
-    
-    pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-    m_pPlayer = dynamic_cast<CPlayer*>(pGameObject);
-    
-    // FootRay
-    pGameObject = CFootRay::Create(m_pGraphicDev);
-    NULL_CHECK_RETURN(pGameObject, E_FAIL);
-    pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-    dynamic_cast<CFootRay*>(pGameObject)->Set_Host(m_pPlayer);
+    //pGameObject = CPlayer::Create(m_pGraphicDev);
+    //NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    //
+    ////pGameObject->m_pTransform->Translate(_vec3(-40.f, 1.f,-40.f));
+    //pGameObject->m_pTransform->Translate(_vec3(0.f, 1.f, 0.f));
+    ////pGameObject->m_pTransform->Translate(_vec3(100.f, 10.f,0.f));
+    //
+    //pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+    //m_pPlayer = dynamic_cast<CPlayer*>(pGameObject);
+    //
+    //// FootRay
+    //pGameObject = CFootRay::Create(m_pGraphicDev);
+    //NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    //pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+    //dynamic_cast<CFootRay*>(pGameObject)->Set_Host(m_pPlayer);
     //pGameObject->m_pTransform->Translate(m_pPlayer->m_pTransform->m_vInfo[INFO_POS] + _vec3(0.f, -1.25f, 0.f));
 
 #pragma endregion 첫 번째 씬에서 받아오는 오브젝트

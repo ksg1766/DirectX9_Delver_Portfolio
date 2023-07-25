@@ -400,33 +400,33 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 		}
 
 		// 1 2 3 4 5 슬롯에 있는 아이템 사용(소멸 되는 것) 및 장착 + 해제하기
-		if (Engine::InputDev()->Key_Down(DIK_F1))
+		if (Engine::InputDev()->Key_Down(DIK_1))
 		{
 			Use_SlotItem(KEYSLOT_ONE);
 		}
-		else if (Engine::InputDev()->Key_Down(DIK_F2))
+		else if (Engine::InputDev()->Key_Down(DIK_2))
 		{
 			Use_SlotItem(KEYSLOT_TWO);
 		}
-		else if (Engine::InputDev()->Key_Down(DIK_F3))
+		else if (Engine::InputDev()->Key_Down(DIK_3))
 		{
 			Use_SlotItem(KEYSLOT_THREE);
 		}
-		else if (Engine::InputDev()->Key_Down(DIK_F4))
+		else if (Engine::InputDev()->Key_Down(DIK_4))
 		{
 			Use_SlotItem(KEYSLOT_FOUR);
 		}
-		else if (Engine::InputDev()->Key_Down(DIK_F5))
+		else if (Engine::InputDev()->Key_Down(DIK_5))
 		{
 			Use_SlotItem(KEYSLOT_FIVE);
 		}
 
-		if (Engine::InputDev()->Key_Down(DIK_DELETE))
+		/*if (Engine::InputDev()->Key_Down(DIK_DELETE))
 		{
 			vector<CGameObject*>& vecMonsterList = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::MONSTER);
 			if (!vecMonsterList.empty())
 				CPoolManager::GetInstance()->Delete_Object(vecMonsterList.back());
-		}
+		}*/
 	}
 
 }
