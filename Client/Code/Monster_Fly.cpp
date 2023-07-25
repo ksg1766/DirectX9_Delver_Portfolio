@@ -117,7 +117,7 @@ void CMonster_Fly::Fly(const _float& fTimeDelta)
 
 	_vec3 vTargetPos;
 	//_vec3 vPlayerTaget = vPlayerPos - m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
-	_vec3	vTarget = _vec3(0.f, 0.f, 0.f) - m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
+	_vec3	vTarget = dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Get_CenterPos() - m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
 
 	D3DXVec3Normalize(&vTarget, &vTarget);
 

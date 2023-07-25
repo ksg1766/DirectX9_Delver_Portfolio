@@ -92,10 +92,10 @@ void CRenderer::Render_Priority(LPDIRECT3DDEVICE9& pGraphicDev)
 		pGraphicDev->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_LINEAR);
 		// 안개 색상 설정
 		//pGraphicDev->SetRenderState(D3DRS_FOGCOLOR, D3DCOLOR_ARGB(1, 100, 155, 180));
-		pGraphicDev->SetRenderState(D3DRS_FOGCOLOR, D3DCOLOR_ARGB(1, 40, 180, 190));
+		pGraphicDev->SetRenderState(D3DRS_FOGCOLOR, D3DCOLOR_ARGB(1, 40, 170, 180));
 		float fNear = 1.f;
 		//float fFar = 140.0f;
-		float fFar = 100.0f;
+		float fFar = 110.0f;
 		pGraphicDev->SetRenderState(D3DRS_FOGSTART, *(DWORD*)&fNear);
 		pGraphicDev->SetRenderState(D3DRS_FOGEND, *(DWORD*)&fFar);
 	}
