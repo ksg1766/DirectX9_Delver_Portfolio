@@ -8,7 +8,6 @@ private:
     explicit CFireWavePattern(LPDIRECT3DDEVICE9 pGraphicDev);
     virtual ~CFireWavePattern();
 
-
 public:
     virtual HRESULT	    Ready_State(CStateMachine* pOwner);
     virtual STATE		Update_State(const _float& fTimeDelta);

@@ -1,4 +1,4 @@
-#include "..\Header\SkeletonKing.h"
+#include "SkeletonKing.h"
 #include "Export_Function.h"
 #include "Boss_Sleep.h"
 #include "Boss_WakeUp.h"
@@ -12,6 +12,7 @@
 #include "Boss_SkeletonSpawnPattern.h"
 #include "CrawlPattern.h"
 #include "Boss_Sturn.h"
+#include "Boss_Meteor1Ph.h"
 #include "Boss_MeteorReady.h"
 #include "Boss_Dying.h"
 #include "Boss_Dead.h"
@@ -47,9 +48,9 @@ HRESULT CSkeletonKing::Ready_Object(void)
 {
 	m_eObjectTag = OBJECTTAG::BOSS;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
-	m_ePhase = BOSSPHASE::PHASE1;
 	m_pTransform->Scale(_vec3(3.f, 3.f, 3.f));
 	m_pBasicStat->Get_Stat()->fHP = 100.f;
+	m_ePhase = BOSSPHASE::PHASE1;
 	m_iHitCount = 0;
 	m_fHitCool = 0.f;
 	m_bSturn = false;
@@ -81,7 +82,7 @@ HRESULT CSkeletonKing::Ready_Object(void)
 	m_pState = CFireWallPttern::Create(m_pGraphicDev, m_pStateMachine);
 	m_pStateMachine->Add_State(STATE::BOSS_PH1SKILL4, m_pState);
 
-	m_pState = CBoss_MeteorReady::Create(m_pGraphicDev, m_pStateMachine);
+	m_pState = CBoss_MeteorPh1::Create(m_pGraphicDev, m_pStateMachine);
 	m_pStateMachine->Add_State(STATE::BOSS_PH1SKILL5, m_pState);
 #pragma endregion 1페
 
@@ -125,6 +126,9 @@ HRESULT CSkeletonKing::Ready_Object(void)
 	m_pStateMachine->Add_State(STATE::BOSS_PH3SKILL5, m_pState);
 #pragma endregion 3페
 
+	m_pState = CTeleportPattern::Create(m_pGraphicDev, m_pStateMachine);
+	m_pStateMachine->Add_State(STATE::BOSS_TELEPORT, m_pState);
+
 	m_pState = CCrawlPattern::Create(m_pGraphicDev, m_pStateMachine);
 	m_pStateMachine->Add_State(STATE::BOSS_CRAWL, m_pState);
 
@@ -145,7 +149,7 @@ HRESULT CSkeletonKing::Ready_Object(void)
 #pragma region 애니메이션
 
 	CAnimation* pAnimation = CAnimation::Create(m_pGraphicDev,
-		m_pTexture[(_uint)STATE::BOSS_IDLE], STATE::BOSS_IDLE, 16.f, TRUE);
+		m_pTexture[(_uint)STATE::BOSS_IDLE], STATE::BOSS_IDLE, 12.f, TRUE);
 	m_pAnimator->Add_Animation(STATE::BOSS_IDLE, pAnimation);
 
 	pAnimation = CAnimation::Create(m_pGraphicDev,
@@ -157,15 +161,15 @@ HRESULT CSkeletonKing::Ready_Object(void)
 	m_pAnimator->Add_Animation(STATE::BOSS_WAKEUP, pAnimation);
 
 	pAnimation = CAnimation::Create(m_pGraphicDev,
-		m_pTexture[(_uint)STATE::BOSS_IDLE], STATE::BOSS_ATTACK1, 16.f, TRUE);
+		m_pTexture[(_uint)STATE::BOSS_IDLE], STATE::BOSS_ATTACK1, 12.f, TRUE);
 	m_pAnimator->Add_Animation(STATE::BOSS_ATTACK1, pAnimation);
 
 	pAnimation = CAnimation::Create(m_pGraphicDev,
-		m_pTexture[(_uint)STATE::BOSS_IDLE], STATE::BOSS_ATTACK2, 16.f, TRUE);
+		m_pTexture[(_uint)STATE::BOSS_IDLE], STATE::BOSS_ATTACK2, 12.f, TRUE);
 	m_pAnimator->Add_Animation(STATE::BOSS_ATTACK2, pAnimation);
 
 	pAnimation = CAnimation::Create(m_pGraphicDev,
-		m_pTexture[(_uint)STATE::BOSS_IDLE], STATE::BOSS_ATTACK3, 16.f, TRUE);
+		m_pTexture[(_uint)STATE::BOSS_IDLE], STATE::BOSS_ATTACK3, 12.f, TRUE);
 	m_pAnimator->Add_Animation(STATE::BOSS_ATTACK3, pAnimation);
 
 	pAnimation = CAnimation::Create(m_pGraphicDev,
@@ -189,15 +193,15 @@ HRESULT CSkeletonKing::Ready_Object(void)
 	m_pAnimator->Add_Animation(STATE::BOSS_PH1SKILL5, pAnimation);
 	
 	pAnimation = CAnimation::Create(m_pGraphicDev,
-		m_pTexture[(_uint)STATE::BOSS_ATTACK], STATE::BOSS_PH2SKILL1, 15.f, TRUE);
+		m_pTexture[(_uint)STATE::BOSS_ATTACK], STATE::BOSS_PH2SKILL1, 10.f, TRUE);
 	m_pAnimator->Add_Animation(STATE::BOSS_PH2SKILL1, pAnimation);
 
 	pAnimation = CAnimation::Create(m_pGraphicDev,
-		m_pTexture[(_uint)STATE::BOSS_ATTACK], STATE::BOSS_PH2SKILL2, 15.f, TRUE);
+		m_pTexture[(_uint)STATE::BOSS_ATTACK], STATE::BOSS_PH2SKILL2, 10.f, TRUE);
 	m_pAnimator->Add_Animation(STATE::BOSS_PH2SKILL2, pAnimation);
 
 	pAnimation = CAnimation::Create(m_pGraphicDev,
-		m_pTexture[(_uint)STATE::BOSS_ATTACK], STATE::BOSS_PH2SKILL3, 15.f, TRUE);
+		m_pTexture[(_uint)STATE::BOSS_ATTACK], STATE::BOSS_PH2SKILL3, 10.f, TRUE);
 	m_pAnimator->Add_Animation(STATE::BOSS_PH2SKILL3, pAnimation);
 
 		pAnimation = CAnimation::Create(m_pGraphicDev,
@@ -209,11 +213,11 @@ HRESULT CSkeletonKing::Ready_Object(void)
 	m_pAnimator->Add_Animation(STATE::BOSS_PH2SKILL5, pAnimation);
 
 	pAnimation = CAnimation::Create(m_pGraphicDev,
-		m_pTexture[(_uint)STATE::BOSS_ATTACK], STATE::BOSS_PH3SKILL1, 15.f, TRUE);
+		m_pTexture[(_uint)STATE::BOSS_ATTACK], STATE::BOSS_PH3SKILL1, 10.f, TRUE);
 	m_pAnimator->Add_Animation(STATE::BOSS_PH3SKILL1, pAnimation);
 
 	pAnimation = CAnimation::Create(m_pGraphicDev,
-		m_pTexture[(_uint)STATE::BOSS_ATTACK], STATE::BOSS_PH3SKILL2, 15.f, TRUE);
+		m_pTexture[(_uint)STATE::BOSS_ATTACK], STATE::BOSS_PH3SKILL2, 10.f, TRUE);
 	m_pAnimator->Add_Animation(STATE::BOSS_PH3SKILL2, pAnimation);
 
 	pAnimation = CAnimation::Create(m_pGraphicDev,
@@ -228,6 +232,10 @@ HRESULT CSkeletonKing::Ready_Object(void)
 		m_pTexture[(_uint)STATE::BOSS_METEORREADY], STATE::BOSS_PH3SKILL5, 15.f, TRUE);
 	m_pAnimator->Add_Animation(STATE::BOSS_PH3SKILL5, pAnimation);
 	
+	pAnimation = CAnimation::Create(m_pGraphicDev,
+		m_pTexture[(_uint)STATE::BOSS_ATTACK], STATE::BOSS_TELEPORT, 10.f, TRUE);
+	m_pAnimator->Add_Animation(STATE::BOSS_TELEPORT, pAnimation);
+
 	pAnimation = CAnimation::Create(m_pGraphicDev,
 		m_pTexture[(_uint)STATE::BOSS_CRAWL], STATE::BOSS_CRAWL, 20.f, TRUE);
 	m_pAnimator->Add_Animation(STATE::BOSS_CRAWL, pAnimation);
@@ -282,6 +290,8 @@ void CSkeletonKing::LateUpdate_Object(void)
 
 void CSkeletonKing::Render_Object(void)
 {
+	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
 	/*if (STATE::BOSS_TELEPORT != m_pStateMachine->Get_State())
 	{
@@ -290,6 +300,7 @@ void CSkeletonKing::Render_Object(void)
 	}*/
 	m_pStateMachine->Render_StateMachine();
 	m_pBuffer->Render_Buffer();
+	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 #if _DEBUG
 	m_pCollider->Render_Collider();
 #endif
@@ -314,6 +325,8 @@ void CSkeletonKing::OnCollisionEnter(CCollider* _pOther)
 void CSkeletonKing::OnCollisionStay(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
+	if (OBJECTTAG::PLAYERBULLET != _pOther->Get_Host()->Get_ObjectTag())
+		__super::OnCollisionEnter(_pOther);
 }
 
 void CSkeletonKing::OnCollisionExit(CCollider* _pOther)
@@ -357,9 +370,9 @@ HRESULT CSkeletonKing::Add_Component(void)
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::COLLIDER, pComponent);
 
-	/*pComponent = m_pRigidBody = dynamic_cast<CRigidBody*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_RigidBody"));
+	pComponent = m_pRigidBody = dynamic_cast<CRigidBody*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_RigidBody"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::RIGIDBODY, pComponent);*/
+	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::RIGIDBODY, pComponent);
 
 #pragma region 텍스쳐 컴포넌트
 
@@ -440,21 +453,12 @@ void CSkeletonKing::Key_Input()
 {
 	if (Engine::InputDev()->Key_Down(DIK_J))
 	{
-		m_pStateMachine->Set_State(STATE::BOSS_PH3SKILL4);
+		m_pStateMachine->Set_State(STATE::BOSS_TELEPORT);
 	}
 	if (Engine::InputDev()->Key_Down(DIK_K))
 	{
 		m_pStateMachine->Set_State(STATE::BOSS_PH1SKILL1);
 	}
-	//if (Engine::InputDev()->Key_Down(DIK_L))
-	//{
-	//	m_pStateMachine->Set_State(STATE::BOSS_CRAWL);
-	//}
-	//if (Engine::InputDev()->Key_Down(DIK_P))
-	//{
-	//	m_pStateMachine->Set_State(STATE::BOSS_IDLE);
-	//}
-
 }
 
 

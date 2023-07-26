@@ -22,13 +22,14 @@ HRESULT CBossFireWave::Ready_Object(void)
 	m_eObjectTag = OBJECTTAG::MONSTERBULLET;
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
-	m_pTransform->Scale(_vec3(2.f, 2.f, 2.f));
-	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale()*0.5f);
-	m_pBasicStat->Get_Stat()->fAttack = 2.f;
+	m_pBasicStat->Get_Stat()->fAttack = 1.5f;
 	m_fDuration = 0.f;
 	m_fSpeed = 20.f;
 	m_fAngle = 0.f;
 	m_fDuration = 0.f;
+	m_fScale = 2.f;
+	m_pTransform->Scale(_vec3(m_fScale, m_fScale, m_fScale));
+	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale()*0.4f);
 	return S_OK;
 }
 
@@ -52,10 +53,8 @@ _int CBossFireWave::Update_Object(const _float& fTimeDelta)
 void CBossFireWave::LateUpdate_Object(void)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
-
-	m_pBillBoard->LateUpdate_Component();
 	__super::LateUpdate_Object();
-	m_pTransform->Scale(_vec3(2.f, 2.f, 2.f));
+	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale() * 0.4f);
 }
 
 void CBossFireWave::Render_Object(void)
@@ -117,9 +116,9 @@ HRESULT CBossFireWave::Add_Component(void)
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
 
-	pComponent = m_pBillBoard = dynamic_cast<CBillBoard*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BillBoard"));
+	pComponent = dynamic_cast<CBillBoard*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BillBoard"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BILLBOARD, pComponent);
+	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::BILLBOARD, pComponent);
 
 	pComponent = m_pCollider = dynamic_cast<CCollider*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Collider"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);

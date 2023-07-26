@@ -23,7 +23,6 @@ private:
     //STATE 
 private:
     //º¯¼ö
-
 public:
     static CBoss_Sleep* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
 

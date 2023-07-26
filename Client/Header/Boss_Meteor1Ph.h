@@ -27,6 +27,7 @@ private:
     //º¯¼ö
     CBoss_MeteorCube* m_pGameObject = nullptr;
     _float m_fChannel_Count;
+    _float  m_fDelay;
     _bool   m_bSkillStart;
 public:
     static CBoss_MeteorPh1* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);

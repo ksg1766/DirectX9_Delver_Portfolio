@@ -31,6 +31,7 @@ HRESULT CCrossPattern::Ready_State(CStateMachine* pOwner)
 	m_vCrossDir[1] = _vec3(0.f, 0.f, -2.f);
 	m_vCrossDir[2] = _vec3(2.f, 0.f, 0.f);
 	m_vCrossDir[3] = _vec3(0.f, 0.f, 2.f);
+
 	return S_OK;
 }
 
@@ -47,19 +48,19 @@ STATE CCrossPattern::Update_State(const _float& fTimeDelta)
 			for (int j = 0; j < 4; ++j)
 			{
 				pGameObject = CBoss_CautionEff::Create(m_pGraphicDev);
-				dynamic_cast<CBoss_CautionEff*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = (_vec3(-72.5f, 35.f + (i * 2), 94.5f) + (m_vCrossDir[j] * (m_iCautionCount)));
+				dynamic_cast<CBoss_CautionEff*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = (_vec3(-72.5f, 35.f + (i * 2), 94.5f) + (m_vCrossDir[j] * (m_iCautionCount+1.f)));
 				Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 			}
 		}
 		m_fCautionDelay = 0.f;
 		++m_iCautionCount;
-		if ((10 <= m_iCautionCount)&&(!m_bCool))
+		if ((14 <= m_iCautionCount)&&(!m_bCool))
 		{
 			m_iCautionCount = 0.f;
 			m_fCautionDelay = 0.f;
 			m_bCool = true;
 		}
-		}
+	}
 	if ((0.1f < m_fDelay) && (m_bCool))
 		{
 			for (int i = 0; i < 10; ++i)
@@ -67,18 +68,18 @@ STATE CCrossPattern::Update_State(const _float& fTimeDelta)
 				for (int j = 0; j < 4; ++j)
 				{
 					pGameObject = CBoss_Lightning::Create(m_pGraphicDev);
-					dynamic_cast<CBoss_Lightning*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = (_vec3(-72.5f, 35.f + (i * 2), 94.5f) + (m_vCrossDir[j] * (m_iSkillCount)));
+					dynamic_cast<CBoss_Lightning*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = (_vec3(-72.5f, 35.f + (i * 2), 94.5f) + (m_vCrossDir[j] * (m_iSkillCount+1.f)));
 					Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 				}
 			}
 		m_fDelay = 0.f;
 		++m_iSkillCount;
-		if ((10 < m_iSkillCount) && (m_bCool))
+		if ((14 < m_iSkillCount) && (m_bCool))
 		{
 			m_bCool = false;
 			m_iSkillCount = 0.f;
 			m_fCautionDelay = 0.f;
-			return STATE::BOSS_PH2SKILL2;
+			return STATE::BOSS_IDLE;
 		}
 	}
 }

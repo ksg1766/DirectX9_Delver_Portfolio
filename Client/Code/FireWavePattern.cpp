@@ -36,21 +36,21 @@ STATE CFireWavePattern::Update_State(const _float& fTimeDelta)
 	m_fDelay += fTimeDelta;
 	if (!m_bWarning)
 	{
-		for (int i = 0; i < 16; ++i)
+		for (int i = 0; i < 18; ++i)
 		{
 			pGameObject = CBoss_WarningEff::Create(m_pGraphicDev);
-			dynamic_cast<CBossFireWave*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = _vec3(-72.5f, 36.f, 94.5f) + (_vec3(-30 + (i * 4), -2.f, 0.f));
+			dynamic_cast<CBoss_WarningEff*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = _vec3(-72.5f, 36.f, 94.5f) + (_vec3(-30 + (i * 3), -1.f, 0.f));
 			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 		}
 		m_bWarning = true;
 	}
 	if (1.5f < m_fDelay)
 	{
-		for (int i = 0; i < 16; ++i)
+		for (int i = 0; i < 18; ++i)
 		{
 			pGameObject = CBossFireWave::Create(m_pGraphicDev);
-			dynamic_cast<CBossFireWave*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = _vec3(-72.5f, 36.f, 94.5f) + (_vec3(-30 + (i * 4), -2.f, 0.f));
-			dynamic_cast<CBossFireWave*>(pGameObject)->Set_Dir(_vec3(0.f, 0.f, -1.f));
+			dynamic_cast<CBossFireWave*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = _vec3(-72.5f, 36.f, 94.5f) + (_vec3(-30 + (i * 3), -1.f, 0.f));
+			dynamic_cast<CBossFireWave*>(pGameObject)->Set_Dir(_vec3(0.f, 0.f, -0.5f));
 			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 		}
 		m_fDelay = 0.f;

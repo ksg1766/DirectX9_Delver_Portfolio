@@ -25,17 +25,17 @@ HRESULT CClone_Pattern::Ready_State(CStateMachine* pOwner)
     m_vPillarPos[0] = _vec3(-72.5f, 49.f, 124.f);//위
     m_vPillarPos[1] = _vec3(-104.f, 49.f, 94.5f);//좌
     m_vPillarPos[2] = _vec3(-38.f, 49.f, 94.5f);//우
-
+    
     return S_OK;
 }
 
 STATE CClone_Pattern::Update_State(const _float& fTimeDelta)
 {
-    if (0 >= dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_CloneCount())
-    {
+
         mt19937 engine((_uint)time(NULL));           // MT19937 난수 엔진
         uniform_int_distribution<__int64> distribution(0, 2); // 생성 범위
         auto generator = bind(distribution, engine);
+        dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Set_CloneCount(0);
         dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Set_CloneCount(2);
         switch (generator())
         {
@@ -79,10 +79,8 @@ STATE CClone_Pattern::Update_State(const _float& fTimeDelta)
             }
             break;
         }
-        return STATE::BOSS_PH2SKILL2;
-    }
-    else 
-        return STATE::BOSS_PH2SKILL2;
+        return STATE::BOSS_IDLE;
+
 }
 
 void CClone_Pattern::LateUpdate_State()

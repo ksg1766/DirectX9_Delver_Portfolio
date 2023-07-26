@@ -21,6 +21,7 @@ CCollisionManager::CCollisionManager()
 	CheckGroup(OBJECTTAG::ITEM, OBJECTTAG::FRAGILE);
 	CheckGroup(OBJECTTAG::ITEM, OBJECTTAG::MONSTERBULLET);
 	CheckGroup(OBJECTTAG::FRAGILE, OBJECTTAG::PLAYERBULLET);
+	CheckGroup(OBJECTTAG::ITEM, OBJECTTAG::LOSTSOUL);
 }
 
 CCollisionManager::~CCollisionManager()

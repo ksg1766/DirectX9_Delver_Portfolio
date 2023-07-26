@@ -67,19 +67,8 @@ STATE CBoss_Phase2::BossSkill(const _float& fTimeDelta)
         return STATE::BOSS_PH2SKILL4;
         break;
     case 4:
-        if ((45.f < dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_BasicStat()->Get_Stat()->fHP)
-            && (70.f > dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_BasicStat()->Get_Stat()->fHP))
-        {
-            m_iSkillCount = 0;
-            return STATE::BOSS_PH2SKILL5;
-            break;
-        }
-        else
-        {
-            m_iSkillCount = 0;
-            return STATE::BOSS_PH2SKILL1;
-            break;
-        }
+        m_iSkillCount = 0;
+        return STATE::BOSS_PH2SKILL5;
         break;
     }
 

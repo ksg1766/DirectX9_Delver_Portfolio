@@ -2,6 +2,7 @@
 #include "Export_Function.h"
 #include "SkeletonKing.h"
 #include "Boss_MeteorCube.h"
+#include "Boss_LostSoul.h"
 
 CBoss_MeteorPh1::CBoss_MeteorPh1()
 {
@@ -20,6 +21,7 @@ HRESULT CBoss_MeteorPh1::Ready_State(CStateMachine* pOwner)
 {
 	m_pOwner = pOwner;
 	m_fChannel_Count = 0.f;
+	m_fDelay = 0.f;
 	m_bSkillStart = false;
 	return S_OK;
 }
@@ -27,6 +29,7 @@ HRESULT CBoss_MeteorPh1::Ready_State(CStateMachine* pOwner)
 STATE CBoss_MeteorPh1::Update_State(const _float& fTimeDelta)
 {
 	m_fChannel_Count += fTimeDelta;
+	m_fDelay += fTimeDelta;
 	Engine::CGameObject* pGameObject = nullptr;
 	if (!m_bSkillStart)
 	{
@@ -43,12 +46,20 @@ STATE CBoss_MeteorPh1::Update_State(const _float& fTimeDelta)
 		m_fChannel_Count = 0.f;
 		m_pOwner->Get_Transform()->m_vInfo[INFO_POS].y = 35.f;
 		dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Set_Phase(BOSSPHASE::PHASE2);
-		return STATE::BOSS_IDLE;
+		return STATE::BOSS_TELEPORT;
 	}
 	else if(m_bSkillStart)
 	{
 		m_pOwner->Get_Transform()->Translate(_vec3(0.f, 0.5f * fTimeDelta, 0.f));
 
+	}
+	if (2.f < m_fDelay)
+	{
+		pGameObject = CBossLostSoul::Create(m_pGraphicDev);
+		dynamic_cast<CBossLostSoul*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
+		dynamic_cast<CBossLostSoul*>(pGameObject)->Set_Target(m_pOwner->Get_Transform()->m_vInfo[INFO_POS]);
+		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+		m_fDelay = 0.f;
 	}
 }
 

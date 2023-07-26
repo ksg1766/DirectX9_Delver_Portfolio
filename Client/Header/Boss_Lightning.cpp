@@ -26,7 +26,7 @@ HRESULT CBoss_Lightning::Ready_Object(void)
 	m_fTime = 0.f;
 	m_bHit = false;
 	m_fScale = 1.;
-	m_pBasicStat->Get_Stat()->fAttack = 3.f;
+	m_pBasicStat->Get_Stat()->fAttack = 1.2f;
 	return S_OK;
 
 }
@@ -92,8 +92,8 @@ void CBoss_Lightning::OnCollisionStay(CCollider* _pOther)
 		PlayerState.Take_Damage(this->Get_BasicStat()->Get_Stat()->fAttack);
 		this->Set_AttackTick(true);
 
-		_vec3 m_fDis = (dynamic_cast<CPlayer*>(_pOther->GetHost())->m_pTransform->m_vInfo[INFO_LOOK] * 2.f);
-		(dynamic_cast<CPlayer*>(_pOther->GetHost())->Get_RigidBody()->Add_Force(_vec3(-m_fDis.x, 3.f, -m_fDis.z)));
+		_vec3 m_fDis = (dynamic_cast<CPlayer*>(_pOther->GetHost())->m_pTransform->m_vInfo[INFO_LOOK] * 1.1f);
+		(dynamic_cast<CPlayer*>(_pOther->GetHost())->Get_RigidBody()->Add_Force(_vec3(-m_fDis.x, 1.1f, -m_fDis.z)));
 		(dynamic_cast<CPlayer*>(_pOther->GetHost())->Get_RigidBody()->UseGravity(true));
 		(dynamic_cast<CPlayer*>(_pOther->GetHost())->Set_JumpState(true));
 		m_bHit = true;

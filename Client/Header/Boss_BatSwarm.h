@@ -32,24 +32,24 @@ public:
 	virtual void	OnCollisionExit(CCollider* _pOther);
 
 public:
-	void	Move_to_NewPos(_vec3 _vPos, const _float& fTimeDelta);
-	void	Move_to_Random(const _float& fTimeDelta);
-	void	Set_StartPos(_vec3 vStartPos);
-	void	Set_MovePos(_vec3 vtPos);
-	void	Set_Bool(_bool _b) { m_bTest = _b; }
-	void	Add_Angle(int _iAngle) { m_fAngle = (_float)_iAngle;}
+	void	Set_TargetPos(_vec3 vTargetPos);//목표의 위치벡터.
+	void	Set_InitialDir(_vec3 vInitialDir);//초기에 퍼져나갈 방향벡터구함
 private:
 	CRcTex*		m_pBuffer = nullptr;
 	CTexture*	m_pTexture = nullptr;
 	CBillBoard* m_pBillBoard = nullptr;
-	_vec3		m_vTargetPos;
-	_vec3		m_vDir;
-	_vec3		m_vMovePos;
 
-	_float		m_fAngle;
+	_vec3		m_vTargetPos;//목표지점
+	_vec3		m_vDir;//목표로의 방향벡터
+	_vec3		m_vInitialDir;//처음 퍼져나갈 방향벡터
 	_float		m_fFrame;
-	_float		m_fRallyTime;
 
+	_float		m_fMoveSpeed;//처음 나아갈 벡터로의 속도
+	_float		m_fDirSpeed;//목표로 나아갈 벡터로의 속도
+	_float		m_fTime;
+	_float		m_fLength;
+
+	_float		m_fMaxSpeed;//최대속도
 	_bool		m_bTest;
 private:
 	HRESULT		Add_Component(void);

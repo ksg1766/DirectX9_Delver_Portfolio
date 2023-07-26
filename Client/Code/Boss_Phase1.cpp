@@ -22,6 +22,7 @@ HRESULT CBoss_Phase1::Ready_State(CStateMachine* pOwner)
     m_pOwner = pOwner;
     m_fDelay = 0.f;
     m_iSkillCount = 0;
+    m_bMeteor = false;
     return S_OK;
 }
 
@@ -48,40 +49,43 @@ void CBoss_Phase1::Render_State()
 
 STATE CBoss_Phase1::BossSkill(const _float& fTimeDelta)
 {
+    if (m_bMeteor)
+    {
+        dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Set_Phase(BOSSPHASE::PHASE2);
+        return STATE::BOSS_TELEPORT;
+    }
+
     switch(m_iSkillCount)
     {
     case 0 :
-        ++m_iSkillCount;
+        m_iSkillCount = 1;
         return STATE::BOSS_PH1SKILL1;
         break;
     case 1:
-        ++m_iSkillCount;
+        m_iSkillCount = 2;
         return STATE::BOSS_PH1SKILL2;
         break;
     case 2:
-        ++m_iSkillCount;
+        m_iSkillCount = 3;
         return STATE::BOSS_PH1SKILL3;
         break;
     case 3:
-        ++m_iSkillCount;
+        m_iSkillCount = 4;
         return STATE::BOSS_PH1SKILL4;
         break;
     case 4:
         if ((70.f >= dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_BasicStat()->Get_Stat()->fHP))
         {
             m_iSkillCount = 0;
-            return STATE::BOSS_PH1SKILL5;
+            if (!m_bMeteor)
+            {
+                m_bMeteor = true;
+                return STATE::BOSS_PH1SKILL5;
+            }
             break;
-        }
-        else
-        {
-            m_iSkillCount = 0;
-            return STATE::BOSS_IDLE;
         }
         break;
     }
-
-
 }
 
 CBoss_Phase1* CBoss_Phase1::Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner)

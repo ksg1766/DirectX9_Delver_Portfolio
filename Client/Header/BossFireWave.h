@@ -29,6 +29,7 @@ public:
 	//테스트용충돌코드
 	void			Set_Dir(_vec3 _vDir);
 	void			Set_Angle(_float _vAngle) { m_fAngle = _vAngle; }
+	void			Set_Scale(_float _fScale) {	m_fScale = _fScale; }
 
 	virtual void	OnCollisionEnter(CCollider* _pOther);
 	virtual void	OnCollisionStay(CCollider* _pOther);
@@ -43,6 +44,7 @@ private:
 	_float			m_fDuration;
 	_float			m_fSpeed;
 	_float			m_fAngle;
+	_float			m_fScale;
 private:
 	HRESULT		Add_Component(void);
 

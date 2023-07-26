@@ -21,12 +21,13 @@ public:
 
 private:
     //클래스 내에서만 쓸 함수
-    void    Make_BossClone();
     void    Make_BatSwarm(const _float& fTimeDelta);
 private:
     //클래스 내에서만 쓸 함수
     _vec3   m_fDestination;
-    _vec3   m_fBatMovePos;
+    _vec3   m_fBatMovePos[8];
+    _float  m_fSpawnHeight;
+    _float  m_fSpawnWeight;
     _float m_fDelay;
     _bool    m_bSkillCount;
 public:

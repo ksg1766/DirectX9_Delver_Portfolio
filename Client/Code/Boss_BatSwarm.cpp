@@ -24,9 +24,11 @@ HRESULT CBoss_BatSwarm::Ready_Object(void)
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	m_fFrame = 0.f;
-	m_fRallyTime = 0.f;
-	m_fAngle = 0.f;
 	m_bTest = false;
+
+	m_fDirSpeed = 1.f;
+	m_fMoveSpeed = 5.f;
+	m_fMaxSpeed = 30.f;
 	return S_OK;
 }
 
@@ -36,21 +38,14 @@ _int CBoss_BatSwarm::Update_Object(const _float& fTimeDelta)
 	if (SceneManager()->Get_GameStop()) { return 0; }
 	_uint iExit = __super::Update_Object(fTimeDelta);
 
-	m_fFrame += 2.f * fTimeDelta * 2;
-	m_fRallyTime += fTimeDelta;
+	m_fTime += fTimeDelta*5;
+	m_fFrame += 2.f * fTimeDelta * 5;
 	if (2.f < m_fFrame)
 		m_fFrame = 0.f;
-	if((3.f < m_fRallyTime)|| (m_vDir == m_pTransform->m_vInfo[INFO_POS]))
-		Engine::EventManager()->DeleteObject(this);
-	if (2.f < m_fRallyTime)
-	{
-		m_vDir = Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front()->m_pTransform->m_vInfo[INFO_POS] - m_pTransform->m_vInfo[INFO_POS];
-		m_vDir.y = 0.5f - m_pTransform->m_vInfo[INFO_POS].y;
-		D3DXVec3Normalize(&m_vDir,&m_vDir);
-		m_pTransform->Translate((m_vDir*50.f)* fTimeDelta);
-	}
-	else if(2.f >= m_fRallyTime)
-		Move_to_Random(fTimeDelta);
+	if (m_fMaxSpeed >= m_fDirSpeed)
+		m_fDirSpeed*= m_fTime;
+	m_pTransform->Translate(-m_vInitialDir * m_fMoveSpeed * fTimeDelta);
+	m_pTransform->Translate(m_vDir * m_fDirSpeed * fTimeDelta);
 
 	return iExit;
 }
@@ -69,6 +64,19 @@ void CBoss_BatSwarm::Render_Object(void)
 
 	m_pTexture->Render_Texture(_uint(m_fFrame));
 	m_pBuffer->Render_Buffer();
+}
+
+void CBoss_BatSwarm::Set_TargetPos(_vec3 vTargetPos)
+{
+	m_vTargetPos = vTargetPos;
+	m_vDir = m_vTargetPos - m_pTransform->m_vInfo[INFO_POS];
+	D3DXVec3Normalize(&m_vDir, &m_vDir);
+}
+
+void CBoss_BatSwarm::Set_InitialDir(_vec3 vInitialPos)
+{
+	m_vInitialDir = vInitialPos - m_pTransform->m_vInfo[INFO_POS];
+	D3DXVec3Normalize(&m_vInitialDir, &m_vInitialDir);
 }
 
 void CBoss_BatSwarm::Init_Stat()
@@ -92,32 +100,6 @@ void CBoss_BatSwarm::OnCollisionExit(CCollider* _pOther)
 
 }
 
-void CBoss_BatSwarm::Move_to_NewPos(_vec3 _vPos,const _float& fTimeDelta)
-{
-	m_vDir = _vPos - m_pTransform->m_vInfo[INFO_POS];
-}
-
-void CBoss_BatSwarm::Move_to_Random(const _float& fTimeDelta)
-{
-	_float X = (m_fAngle * cosf((_float)rand() / RAND_MAX * 2.f * D3DX_PI));
-	_float Y = (m_fAngle * sinf((_float)rand() / RAND_MAX * 2.f * D3DX_PI));
-	_float Z = (m_fAngle * sinf((_float)rand() / RAND_MAX * 2.f * D3DX_PI));
-	_vec3 vDir = _vec3(X, Y, Z);
-	m_pTransform->m_vInfo[INFO_LOOK] = vDir - m_pTransform->m_vInfo[INFO_POS];
-	D3DXVec3Normalize(&vDir, &vDir);
-	m_pTransform->Translate((vDir* m_fAngle)* fTimeDelta);
-}
-
-void CBoss_BatSwarm::Set_StartPos(_vec3 vStartPos)
-{
-	m_pTransform->m_vInfo[INFO_POS] = vStartPos;
-}
-
-void CBoss_BatSwarm::Set_MovePos(_vec3 vMovetPos)
-{
-	m_vMovePos = vMovetPos;
-}
-
 HRESULT CBoss_BatSwarm::Add_Component(void)
 {
 	Engine::CComponent* pComponent = nullptr;
@@ -137,6 +119,10 @@ HRESULT CBoss_BatSwarm::Add_Component(void)
 	pComponent = dynamic_cast<CBillBoard*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BillBoard"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::BILLBOARD, pComponent);
+
+	//pComponent = m_pRigidBody = dynamic_cast<CRigidBody*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_RigidBody"));
+	//NULL_CHECK_RETURN(pComponent, E_FAIL);
+	//m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::RIGIDBODY, pComponent);
 
 	for (_uint i = 0; i < ID_END; ++i)
 		for (auto& iter : m_mapComponent[i])

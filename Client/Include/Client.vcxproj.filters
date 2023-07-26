@@ -793,6 +793,15 @@
     <Filter Include="03. GameObject\01. Stage\999. Boss\01. AttackEff\99.Etc\Caution">
       <UniqueIdentifier>{0627297c-4c2f-4031-ad39-2507ed97c2a7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. GameObject\01. Stage\999. Boss\01. AttackEff\03. Create_Clone\State">
+      <UniqueIdentifier>{1c7f051e-1cee-45c9-a31e-5471a139c2ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\01. Stage\999. Boss\01. AttackEff\03. Create_Clone\State\IDLE">
+      <UniqueIdentifier>{187fb6a3-b3ac-40f8-abea-b0a813dd033f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\01. Stage\999. Boss\01. AttackEff\03. Create_Clone\State\DEAD">
+      <UniqueIdentifier>{0eb46c6d-791c-491e-868c-0cb057012fc6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -1562,6 +1571,12 @@
     <ClInclude Include="..\Header\Boss_Phase3.h">
       <Filter>03. GameObject\01. Stage\999. Boss\02. State\03. Attack\02. 3Phase</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\Boss_CloneState.h">
+      <Filter>03. GameObject\01. Stage\999. Boss\01. AttackEff\03. Create_Clone\State\IDLE</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Boss_CloneDead.h">
+      <Filter>03. GameObject\01. Stage\999. Boss\01. AttackEff\03. Create_Clone\State\DEAD</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -2291,6 +2306,12 @@
     </ClCompile>
     <ClCompile Include="..\Code\Boss_Phase3.cpp">
       <Filter>03. GameObject\01. Stage\999. Boss\02. State\03. Attack\02. 3Phase</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Boss_CloneState.cpp">
+      <Filter>03. GameObject\01. Stage\999. Boss\01. AttackEff\03. Create_Clone\State\IDLE</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Boss_CloneDead.cpp">
+      <Filter>03. GameObject\01. Stage\999. Boss\01. AttackEff\03. Create_Clone\State\DEAD</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

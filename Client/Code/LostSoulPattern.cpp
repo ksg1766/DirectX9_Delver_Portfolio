@@ -38,11 +38,14 @@ STATE CLostSoulPattern::Update_State(const _float& fTimeDelta)
 		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 
 		m_fDelay = 0.f;
-	}
 	++m_iSkillCount;
+	}
 
-
-	return STATE::BOSS_PH2SKILL5;
+	if (3 <= m_iSkillCount)
+	{
+		m_iSkillCount = 0.f;
+		return STATE::BOSS_IDLE;
+	}
 }
 
 void CLostSoulPattern::LateUpdate_State()

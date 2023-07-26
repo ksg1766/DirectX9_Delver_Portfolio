@@ -22,38 +22,42 @@ HRESULT CTeleportPattern::Ready_State(CStateMachine* pOwner)
 	m_pOwner = pOwner;
     m_fDelay = 0.f;
     m_bSkillCount = false;
-    m_fBatMovePos = _vec3(-10.f, 0.f , -10.f);
+    m_fSpawnHeight = 0.f;
+    m_fSpawnWeight = 0.4f;
+    m_fBatMovePos[0]=_vec3(0.5f, 0.f, 0.5f);
+    m_fBatMovePos[1]=_vec3(0.5f, 0.f, -0.5f);
+    m_fBatMovePos[2]=_vec3(-0.5f, 0.f, 0.5f);
+    m_fBatMovePos[3]=_vec3(-0.5f, 0.f, -0.5f);
+
+    m_fBatMovePos[4] = _vec3(0.5f, 0.f, 0.f);
+    m_fBatMovePos[5] = _vec3(-0.5f, 0.f, 0.f);
+    m_fBatMovePos[6] = _vec3(0.f, 0.f, 0.5f);
+    m_fBatMovePos[7] = _vec3(0.f, 0.f, -0.5f);
 
 	return S_OK;
 }
 
 STATE CTeleportPattern::Update_State(const _float& fTimeDelta)
 {
-    //m_fDelay += fTimeDelta;
-    //if (4.f < m_fDelay)
-    //{
-    //    m_bSkillCount = false;
-    //    m_fDelay = 0.f;
-    //    return STATE::BOSS_IDLE;
-    //}
+    m_fDelay += fTimeDelta;
+  
 
-    //else if (2.f < m_fDelay)
-    //{
-    //    _vec3   vDestination;
-    //    vDestination.x = 5 * cosf((_float)rand() / D3DXToRadian(15));// *fA;
-    //    vDestination.y = 0.f;
-    //    vDestination.z = 5 * -sinf((_float)rand() / D3DXToRadian(15));// *fA;
-
-    //    m_fDestination = (Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform->m_vInfo[INFO_POS]) + vDestination;
-    //    m_pOwner->Get_Transform()->m_vInfo[INFO_POS] = m_fDestination;
-    //}
-    //else
-    //{
-    //    Make_BatSwarm(fTimeDelta);
-    //    m_pOwner->Get_Transform()->m_vInfo[INFO_POS].y = -99.f;
-    //}
-    //return STATE::BOSS_TELEPORT;
-    return STATE::BOSS_IDLE;
+        if (BOSSPHASE::PHASE2 == dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_Phase())
+        {
+            _vec3 vDir = _vec3(-72.5f, 36.f, 94.5f) - m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
+            D3DXVec3Normalize(&vDir, &vDir);
+            m_pOwner->Get_Transform()->Translate(vDir);
+            m_fDelay = 0.f;
+            return STATE::BOSS_SLEEP;
+        }
+        else  if (BOSSPHASE::PHASE3 == dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_Phase())
+        {
+            _vec3 vDir = _vec3(-72.f, 33.f, -105.f) - m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
+            D3DXVec3Normalize(&vDir, &vDir);
+            m_pOwner->Get_Transform()->Translate(vDir);
+            m_fDelay = 0.f;
+            return STATE::BOSS_SLEEP;
+        }
 }
 
 void CTeleportPattern::LateUpdate_State()
@@ -65,30 +69,12 @@ void CTeleportPattern::Render_State()
 {
 }
 
-void CTeleportPattern::Make_BossClone()
-{
-    if (m_bSkillCount)
-        return;
-        
-        Engine::CGameObject* pGameObject = nullptr;
-        pGameObject = CSkeletonKing_Clone::Create(m_pGraphicDev);
-        Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
-        dynamic_cast<CSkeletonKing_Clone*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
-        m_bSkillCount = true;
-
-}
-
 void CTeleportPattern::Make_BatSwarm(const _float& fTimeDelta)
 {
 
-   Engine::CGameObject* pGameObject = nullptr;
-   for (int i = 3; i < 7; ++i)
-   {
-     pGameObject =  CBoss_BatSwarm::Create(m_pGraphicDev);
-     Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
-     dynamic_cast<CBoss_BatSwarm*>(pGameObject)->Set_StartPos(m_pOwner->Get_Transform()->m_vInfo[INFO_POS]);
-     dynamic_cast<CBoss_BatSwarm*>(pGameObject)->Add_Angle(i*10);
-   }
+ 
+
+ 
 }
 
 CTeleportPattern* CTeleportPattern::Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner)

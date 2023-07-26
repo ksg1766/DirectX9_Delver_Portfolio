@@ -7,6 +7,7 @@ class CRcTex;
 class CTexture;
 class CBillBoard;
 class CBossAI;
+class CAnimator;
 END
 
 class CSkeletonKing_Clone : public Engine::CMonster
@@ -27,13 +28,14 @@ public:
 	virtual void	OnCollisionExit(CCollider* _pOther);
 private:
 	CRcTex* m_pBuffer = nullptr;
-	CTexture* m_pTexture = nullptr;
+	CTexture* m_pTexture[(_uint)STATE::STATE_END] = {};
+	CAnimator*	m_pAnimator;
 	_float	m_fFrame = 0;
 	_float	m_fSkillCool = 0;
-	_bool	m_bSkill;
+	_float	m_fDelay;
+	_float	m_fDeleteDelay;
 	_bool	m_bHit;
-	_int	m_bHp;
-	
+
 private:
 	HRESULT		Add_Component(void);
 

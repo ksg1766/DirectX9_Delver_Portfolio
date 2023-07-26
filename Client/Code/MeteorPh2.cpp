@@ -53,11 +53,13 @@ STATE CBoss_Meteor2Ph::Update_State(const _float& fTimeDelta)
 	}
 	else if (m_bSkillStart && (12.1f < m_fChannel_Count))
 	{
+        m_pOwner->Get_Transform()->m_vInfo[INFO_POS].y = 49.f;
         m_fDelay = 0.f;
 		m_bSkillStart = false;
 		m_fChannel_Count = 0.f;
-        dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Set_Phase(BOSSPHASE::PHASE3);
-		return STATE::BOSS_IDLE;
+        if(45 >= dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_BasicStat()->Get_Stat()->fHP)
+            dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Set_Phase(BOSSPHASE::PHASE3);
+        return STATE::BOSS_TELEPORT;
 	}
 	else if (m_bSkillStart)
 	{

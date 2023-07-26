@@ -27,7 +27,7 @@ STATE CBoss_Sleep::Update_State(const _float& fTimeDelta)
 	_vec3 vBossPos = m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
 	_vec3 vDir = vPlayerPos - vBossPos;
 	_float fDistance = D3DXVec3LengthSq(&vDir);
-	if (fDistance < pow(10, 2))
+	if (fDistance < pow(20, 2))
 	{
 		return STATE::BOSS_WAKEUP;
 	}
