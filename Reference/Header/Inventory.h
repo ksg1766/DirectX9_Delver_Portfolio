@@ -21,29 +21,28 @@ public:
 	ITEMTYPEID      Get_KeySlotObjID(INVENKEYSLOT _key)  { return dynamic_cast<CItem*>(m_mapKeySlot[_key])->Get_ItemTag(); }
 
 
-	CGameObject*	Get_ItemSlot(INVENITEMSLOT _Key)		 { return m_mapItemSlot[_Key]; }
+	CGameObject*	Get_ItemSlot(INVENITEMSLOT _Key)	 { return m_mapItemSlot[_Key]; }
 	CGameObject*	Get_IDItem(ITEMID _eID);
 
-	void            Switch_InvenItem(ITEMTYPEID _itemId, UIOBJECTTTAG _slotId, _uint _UINumber); // 아이템 아이디와 옮길려는 슬롯 위치 아이디
+	void            Switch_InvenItem(ITEMTYPEID  _ItemID, UIOBJECTTTAG _StartslotId, _uint _StartUINumber, UIOBJECTTTAG _EndslotId, _uint _EndUINumber);
 
 public:
 	HRESULT			Ready_Inventory();
-	virtual void	LateUpdate_Component() override;
 
 private:
-	void            Switch_Keyslot(INVENKEYSLOT _key, ITEMTYPEID _itemId, UIOBJECTTTAG _slotId, _uint _UINumber);
-	void            Switch_Itemslot(INVENITEMSLOT _key, ITEMTYPEID _itemId, UIOBJECTTTAG _slotId, _uint _UINumber);
+	CGameObject*    Find_KeySlotItem(_uint _StartUINumber);
+	CGameObject*    Find_ItemSlotItem(_uint _StartUINumber);
+	CGameObject*    Find_InvenSlotItem(ITEMTYPEID  _ItemID);
 
 private:
-	map<INVENKEYSLOT, CGameObject*>  m_mapKeySlot;       // 키 슬롯 5칸
+	map<INVENKEYSLOT,  CGameObject*> m_mapKeySlot;       // 키 슬롯 5칸
 	map<INVENITEMSLOT, CGameObject*> m_mapItemSlot;      // 아이템 장착 슬롯 6칸
 	vector<CGameObject*>             m_vecInventory;     // 내부 인벤토리 18칸
+
 	vector<CGameObject*>			 m_vDead;
 
 	_bool                            m_bKeySlotEmpty[KEYSLOT_END];  // 키 슬롯 아이템 보유 여부
 	_bool                            m_bItemSlotEmpty[ITEMSLOT_END];// 아이템 슬롯 아이템 보유 여부
-
-	_bool                            m_bSwitch;
 
 public:
 	static	CInventory* Create(LPDIRECT3DDEVICE9 pGraphicDev);

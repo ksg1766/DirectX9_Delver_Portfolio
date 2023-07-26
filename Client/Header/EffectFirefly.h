@@ -21,7 +21,10 @@ private:
 	HRESULT	Add_Component(void);
 
 private:
-	_float m_bMoveSpeed = 0.f;
+	_float m_fLifeTime   = 0.f;
+	_float m_fMoveTime   = 0.f;
+	_float m_fChangeTime = 0.f;
+	_float m_fMoveSpeed  = 0.f;
 	_vec3  m_vecMoveDir;
 
 public:

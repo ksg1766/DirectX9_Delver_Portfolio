@@ -184,8 +184,8 @@ void CUIitem::Key_Input(void)
 			{
 				m_bMove = false;
 
-				UIOBJECTTTAG UIObjID;
-				_uint        UINumber;
+				UIOBJECTTTAG UIColliderObjID;
+				_uint        UIColliderNumber;
 
 				CGameObject* ColliderSlotObj = Engine::UIManager()->Find_ColliderSlot();
 
@@ -233,9 +233,9 @@ void CUIitem::Key_Input(void)
 				{
 					_bool bSucess = false;
 
-					dynamic_cast<CTempUI*>(ColliderSlotObj)->Get_UIObjID(UIObjID, UINumber);
+					dynamic_cast<CTempUI*>(ColliderSlotObj)->Get_UIObjID(UIColliderObjID, UIColliderNumber);
 
-					switch (UIObjID)
+					switch (UIColliderObjID)
 					{
 					case Engine::UIID_SLOTBASIC:
 						bSucess = true;
@@ -244,7 +244,7 @@ void CUIitem::Key_Input(void)
 						bSucess = true;
 						break;
 					case Engine::UIID_SLOTEQUIPMENT:
-						if (m_UINumber == UINumber) {
+						if (m_UINumber == UIColliderNumber) {
 							bSucess = true;
 						}
 						else {
@@ -260,7 +260,17 @@ void CUIitem::Key_Input(void)
 
 					if (bSucess)
 					{
+						UIOBJECTTTAG UIStartObjID;
+						_uint        UIStartNumber;
+						dynamic_cast<CTempUI*>(Get_Parent())->Get_UIObjID(UIStartObjID, UIStartNumber);
 						dynamic_cast<CTempUI*>(Get_Parent())->Set_EmptyBool(true);
+
+						// 장착 성공 시 해당 정보 인벤토리에 업데이트
+						CPlayer* pPlayer = dynamic_cast<CPlayer*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
+						if (pPlayer) { // 위치 이동 및 이전 위치에는 정보 초기화 (해제 X)
+							CInventory* Inventory = dynamic_cast<CInventory*>(pPlayer->Get_Component(COMPONENTTAG::INVENTORY, ID_DYNAMIC));
+							Inventory->Switch_InvenItem(m_ItemID, UIStartObjID, UIStartNumber, UIColliderObjID, UIColliderNumber); // : 이동한 아이템 아이디, 이동할 슬롯 타입 및 번호
+						}
 
 						m_pTransform->m_vInfo[INFO_POS].x = ColliderSlotObj->m_pTransform->m_vInfo[INFO_POS].x;
 						m_pTransform->m_vInfo[INFO_POS].y = ColliderSlotObj->m_pTransform->m_vInfo[INFO_POS].y;
@@ -270,18 +280,10 @@ void CUIitem::Key_Input(void)
 						dynamic_cast<CTempUI*>(Get_Parent())->Set_Child(this);
 						dynamic_cast<CTempUI*>(Get_Parent())->Set_EmptyBool(false);
 
-
-						// 장착 성공 시 해당 정보 인벤토리에 업데이트
-						CPlayer* pPlayer = dynamic_cast<CPlayer*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
-						if (pPlayer) { // 위치 이동 및 이전 위치에는 정보 초기화 (해제 X)
-							CInventory* Inventory = dynamic_cast<CInventory*>(pPlayer->Get_Component(COMPONENTTAG::INVENTORY, ID_DYNAMIC));
-							Inventory->Switch_InvenItem(m_ItemID, UIObjID, UINumber); // : 이동한 아이템 아이디, 이동할 슬롯 타입 및 번호
-						}
-
-						if (UIObjID == Engine::UIID_SLOTEQUIPMENT)
+						if (UIColliderObjID == Engine::UIID_SLOTEQUIPMENT)
 						{
 							CInventory* Inventory = dynamic_cast<CInventory*>(pPlayer->Get_Component(COMPONENTTAG::INVENTORY, ID_DYNAMIC));
-							CGameObject* pGameObject = dynamic_cast<CGameObject*>(Inventory->Get_ItemSlot((INVENITEMSLOT)UINumber));
+							CGameObject* pGameObject = dynamic_cast<CGameObject*>(Inventory->Get_ItemSlot((INVENITEMSLOT)UIColliderNumber));
 							
 							if (pGameObject != nullptr)
 							{

@@ -28,7 +28,7 @@ HRESULT CUIequipmentslot::Ready_Object()
 	m_pTransform->m_vLocalScale.y = 30.f;
 
 	WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);
-
+	m_bEmpty = true;
 	return S_OK;
 }
 

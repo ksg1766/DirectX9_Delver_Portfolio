@@ -550,11 +550,11 @@ void CShopItem::Key_Input()
 	{
 		m_iCollisionNumber = 1;
 
-		CGameObject* pItem = nullptr;
-		CPlayer& rPlayer = *dynamic_cast<CPlayer*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
-
 		if (Engine::InputDev()->Mouse_Down(DIM_LB) && m_iBuyCount != 0)
 		{
+			CGameObject* pItem = nullptr;
+			CPlayer& rPlayer = *dynamic_cast<CPlayer*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
+
 			switch (m_ItemID.eItemID)
 			{
 			case WEAPON_SWORD:
@@ -606,8 +606,6 @@ void CShopItem::Key_Input()
 			Engine::CGameObject* pGameObjectUI = CUIitem::Create(m_pGraphicDev);
 			dynamic_cast<CUIitem*>(pGameObjectUI)->Set_ItemTag(ItemType.eItemType, ItemType.eItemID, ItemType.iCount);
 
-			Engine::UIManager()->AddItemGameobject_UI(pGameObjectUI);
-
 			if (ItemType.eItemType == ITEMTYPE_WEAPONITEM && !rPlayer.Get_ItemEquipRight())
 			{
 				rPlayer.Set_ItemEquipRight(true);
@@ -615,43 +613,99 @@ void CShopItem::Key_Input()
 				rPlayer.Set_CurrentEquipRight(pItem);
 				rPlayer.Set_PrevEquipRight(pItem);
 				Engine::EventManager()->CreateObject(pItem, LAYERTAG::GAMELOGIC);
+
+				Engine::UIManager()->AddItemGameobject_UI(pGameObjectUI);
+
 				Engine::CGameObject* FindSlotObj = Engine::UIManager()->Get_PopupObjectBasicSlot(ItemType);
-
-				UIOBJECTTTAG _UIObjID;
-				_uint _UINumber;
-
-				dynamic_cast<CTempUI*>(FindSlotObj)->Get_UIObjID(_UIObjID, _UINumber);
-
-				if (_UIObjID == UIID_SLOTBASIC)
-					dynamic_cast<CUIbasicslot*>(dynamic_cast<CTempUI*>(FindSlotObj))->Set_FindSlot(true);
-				else if (_UIObjID == UIID_SLOTEMPTY)
-					dynamic_cast<CUIemptyslot*>(dynamic_cast<CTempUI*>(FindSlotObj))->Set_FindSlot(true);
+				dynamic_cast<CUIbasicslot*>(dynamic_cast<CTempUI*>(FindSlotObj))->Set_FindSlot(true);
 			}
-			else
-				Engine::EventManager()->CreateObject(pItem, LAYERTAG::GAMELOGIC);
-
-
-			if (ItemType.eItemType == ITEMTYPE::ITEMTYPE_GENERALITEM && !rPlayer.Get_ItemEquipLeft())
+			else if (ItemType.eItemType == ITEMTYPE::ITEMTYPE_GENERALITEM && !rPlayer.Get_ItemEquipLeft())
 			{
 				rPlayer.Set_ItemEquipLeft(true);
 
 				rPlayer.Set_CurrentEquipLeft(pItem);
 				rPlayer.Set_PrevEquipLeft(pItem);
-
 				Engine::EventManager()->CreateObject(pItem, LAYERTAG::GAMELOGIC);
 
-				// 장착 상태 // 해당 아이템 찾아서 해당 슬롯 장착 상태 표시
-				Engine::CGameObject* FindSlotObj = Engine::UIManager()->Get_PopupObjectBasicSlot(ItemType);
+#pragma region 해당 슬롯을 찾아서 비었을 시 해당 슬롯에 할당 및 스왑
+				_uint ItemSlotNumber = 0;
+				switch (ItemType.eItemID)
+				{
+				case GENERAL_SHIELD:
+					ItemSlotNumber = 1;
+					break;
+				case GENERAL_LAMP:
+					ItemSlotNumber = 1;
+					break;
+				case GENERAL_BEER:
+					ItemSlotNumber = 1;
+					break;
+				case EQUIP_OLDHELMET:
+					ItemSlotNumber = 0;
+					break;
+				case EQUIP_OLDARMOR:
+					ItemSlotNumber = 2;
+					break;
+				case EQUIP_OLDTROUSERS:
+					ItemSlotNumber = 4;
+					break;
+				case EQUIP_IRONHELMET:
+					ItemSlotNumber = 0;
+					break;
+				case EQUIP_IRONARMOR:
+					ItemSlotNumber = 2;
+					break;
+				case EQUIP_IRONTROUSERS:
+					ItemSlotNumber = 4;
+					break;
+				case EQUIP_SMALLSILVERRING:
+					ItemSlotNumber = 3;
+					break;
+				case EQUIP_BIGSILVERRING:
+					ItemSlotNumber = 3;
+					break;
+				case EQUIP_SILVERNECKLACE:
+					ItemSlotNumber = 5;
+					break;
+				case EQUIP_SMALLGOLDRING:
+					ItemSlotNumber = 3;
+					break;
+				case EQUIP_BIGGOLDRING:
+					ItemSlotNumber = 3;
+					break;
+				case EQUIP_GOLDNECKLACE:
+					ItemSlotNumber = 5;
+					break;
+				}
 
-				UIOBJECTTTAG _UIObjID;
-				_uint _UINumber;
+				CGameObject* SlotObject = Engine::UIManager()->Get_PopupObject(Engine::UIPOPUPLAYER::POPUP_EQUIPMENT, Engine::UILAYER::UI_DOWN, UIID_SLOTEQUIPMENT, ItemSlotNumber);
 
-				dynamic_cast<CTempUI*>(FindSlotObj)->Get_UIObjID(_UIObjID, _UINumber);
+				if (dynamic_cast<CTempUI*>(SlotObject)->Get_EmptyBool()) // 해당 슬롯이 비어있으면
+				{
+					// 들어온 아이템 ui 포지션을 비어있는 해당 슬롯 포지션 값으로 대입 후 월드 행렬 셋팅
+					pGameObjectUI->m_pTransform->m_vInfo[INFO_POS].x = SlotObject->m_pTransform->m_vInfo[INFO_POS].x;
+					pGameObjectUI->m_pTransform->m_vInfo[INFO_POS].y = SlotObject->m_pTransform->m_vInfo[INFO_POS].y;
+					dynamic_cast<CTempUI*>(pGameObjectUI)->WorldMatrix(pGameObjectUI->m_pTransform->m_vInfo[INFO_POS].x, pGameObjectUI->m_pTransform->m_vInfo[INFO_POS].y, pGameObjectUI->m_pTransform->m_vLocalScale.x, pGameObjectUI->m_pTransform->m_vLocalScale.y);
 
-				if (_UIObjID == UIID_SLOTBASIC)
-					dynamic_cast<CUIbasicslot*>(dynamic_cast<CTempUI*>(FindSlotObj))->Set_FindSlot(true);
-				else if (_UIObjID == UIID_SLOTEMPTY)
-					dynamic_cast<CUIemptyslot*>(dynamic_cast<CTempUI*>(FindSlotObj))->Set_FindSlot(true);
+					// 아이템의 부모 오브젝트로 해당 슬롯 등록
+					dynamic_cast<CTempUI*>(pGameObjectUI)->Set_Parent(SlotObject);
+					// 슬롯 자식 오브젝트로 해당 아이템 등록 후 비어있지 않다는 상태로 변경
+					dynamic_cast<CTempUI*>(SlotObject)->Set_Child(pGameObjectUI);
+					dynamic_cast<CTempUI*>(SlotObject)->Set_EmptyBool(false);
+
+					Engine::UIManager()->AddPopupGameobject_UI(Engine::UIPOPUPLAYER::POPUP_ITEM, Engine::UILAYER::UI_DOWN, pGameObjectUI);
+					Engine::UIManager()->Hide_InvenItem(0);
+				}
+				else // 비어 있지 않으면 그냥 추가
+				{
+					Engine::UIManager()->AddItemGameobject_UI(pGameObjectUI);
+				}
+#pragma endregion 
+			}
+			else
+			{
+				Engine::EventManager()->CreateObject(pItem, LAYERTAG::GAMELOGIC);
+				Engine::UIManager()->AddItemGameobject_UI(pGameObjectUI);
 			}
 		}
 	}
@@ -659,7 +713,6 @@ void CShopItem::Key_Input()
 	{
 		m_iCollisionNumber = 0;
 	}
-		
 }
 
 HRESULT CShopItem::Add_Component()
