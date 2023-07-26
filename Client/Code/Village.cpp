@@ -23,6 +23,8 @@
 #include "Tree.h"
 #include "EffectStar.h"
 #include "Bonfire.h"
+#include "EffectBonfire.h"
+#include "Fire.h"
 #include "VillageTriger.h"
 #include "BlackIn.h"
 #include "Rock.h"
@@ -139,6 +141,17 @@ HRESULT CVillage::Ready_Layer_Environment(LAYERTAG _eLayerTag)
 	pGameObject = CBonfire::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+	//
+	pGameObject = CFire::Create(m_pGraphicDev);
+	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+
+	// 불 이펙트 추가 생성
+	for (_uint i = 0; i < 4; ++i) {
+		pGameObject = CEffectBonfire::Create(m_pGraphicDev);
+		pGameObject->m_pTransform->Translate(_vec3(0.f, 1.f * i, 0.f));
+		pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+	}
+	//
 
 	// 씬 이동 트리거
 	pGameObject = CVillageTriger::Create(m_pGraphicDev);
@@ -496,7 +509,7 @@ HRESULT CVillage::Load_Data()
 	for (int i = 0; i < (UINT)OBJECTTAG::OBJECT_END; ++i)
 	{
 		// 일단 블록만
-		if (OBJECTTAG::BLOCK != (OBJECTTAG)i)
+		if (OBJECTTAG::BLOCK != (OBJECTTAG)i || OBJECTTAG::TRAP != (OBJECTTAG)i || OBJECTTAG::IMMORTAL != (OBJECTTAG)i)
 			continue;
 
 		vector<CGameObject*>& refObjectList = pLayer->Get_ObjectList((OBJECTTAG)i);

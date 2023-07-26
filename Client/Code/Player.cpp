@@ -1,12 +1,11 @@
 #include "stdafx.h"
 #include "..\Header\Player.h"
-#include "SoundManager.h"
+
 #include "Export_Function.h"
 
 // 임시 아이템
 #include "DynamicCamera.h"
 #include "Itemgroup.h"
-#include "SoundManager.h"
 
 // State
 #include "PlayerState_Walk.h"
@@ -81,25 +80,25 @@ HRESULT CPlayer::Ready_Object(void)
 
 #pragma region PlayerStat
 	// 현재 상태
-	m_pStat->Get_Stat()->fMaxHP			= 12.f;
-	m_pStat->Get_Stat()->fHP			= 12.f;
-	m_pStat->Get_Stat()->iDamageMin		= 1;
-	m_pStat->Get_Stat()->iDamageMax		= 2;
-	m_pStat->Get_Stat()->iArmorMin		= 1;
-	m_pStat->Get_Stat()->iArmorMax		= 2;
+	m_pStat->Get_Stat()->fMaxHP = 12.f;
+	m_pStat->Get_Stat()->fHP = 12.f;
+	m_pStat->Get_Stat()->iDamageMin = 1;
+	m_pStat->Get_Stat()->iDamageMax = 2;
+	m_pStat->Get_Stat()->iArmorMin = 1;
+	m_pStat->Get_Stat()->iArmorMax = 2;
 
 	// 스텟
-	m_pStat->Get_Stat()->fSpeed			= 4.f;
-	m_pStat->Get_Stat()->fAgility		= 4.f;
-	m_pStat->Get_Stat()->fDeffense		= 4.f;
-	m_pStat->Get_Stat()->fMagic			= 4.f;
-	m_pStat->Get_Stat()->fAttack		= 4.f;
+	m_pStat->Get_Stat()->fSpeed = 4.f;
+	m_pStat->Get_Stat()->fAgility = 4.f;
+	m_pStat->Get_Stat()->fDeffense = 4.f;
+	m_pStat->Get_Stat()->fMagic = 4.f;
+	m_pStat->Get_Stat()->fAttack = 4.f;
 
-	m_pStat->Get_Stat()->fHealth		= 4.f;
-	m_pStat->Get_Stat()->iExp			= 0.f;
-	m_pStat->Get_Stat()->iExpMax		= 8.f;
-	m_pStat->Get_Stat()->iGold			= 100;
-	m_pStat->Get_Stat()->iLevel			= 1;
+	m_pStat->Get_Stat()->fHealth = 4.f;
+	m_pStat->Get_Stat()->iExp = 0.f;
+	m_pStat->Get_Stat()->iExpMax = 8.f;
+	m_pStat->Get_Stat()->iGold = 100;
+	m_pStat->Get_Stat()->iLevel = 1;
 
 	iDefalutDamageMax = 0;
 	iDefalutDamageMin = 0;
@@ -123,10 +122,6 @@ Engine::_int CPlayer::Update_Object(const _float& fTimeDelta)
 
 	_int iExit = __super::Update_Object(fTimeDelta);
 	m_pStateMachine->Update_StateMachine(fTimeDelta);
-
-	//if (m_IsJump)
-	//	CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_PLAYER);
-
 
 #pragma region ksg
 
@@ -179,7 +174,7 @@ Engine::_int CPlayer::Update_Object(const _float& fTimeDelta)
 
 		m_bEquipStat = false;
 	}
-		PoisonDamage(fTimeDelta);
+	PoisonDamage(fTimeDelta);
 	return iExit;
 }
 
@@ -308,9 +303,6 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 		// UI 단축키 추가
 		if (Engine::InputDev()->Key_Down(DIK_I))
 		{
-			CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_INVENTORY);
-			CSoundManager::GetInstance()->PlaySound(L"open_inventory.mp3", CHANNELID::SOUND_INVENTORY, 1.f);
-
 			if (Engine::UIManager()->Set_InvenUse())
 			{
 				static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(true);
@@ -326,9 +318,6 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 		}
 		else if (Engine::InputDev()->Key_Down(DIK_C))
 		{
-			CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_INVENTORY);
-			CSoundManager::GetInstance()->PlaySound(L"open_inventory.mp3", CHANNELID::SOUND_INVENTORY, 1.f);
-
 			if (Engine::UIManager()->Set_StatUse())
 			{
 				static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(true);
@@ -454,11 +443,8 @@ void CPlayer::Use_SlotItem(INVENKEYSLOT _SlotNum)
 			if (!m_bItemEquipRight) // 오른 손에 장착하고 있는 상태가 아닐 시 
 			{
 				// 오른손에 장착 및 해당 위치 슬롯 UI 배경 밝은 색상으로 변겅
-				CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_INVENTORY);
-				CSoundManager::GetInstance()->PlaySound(L"ui_equip_weapon.mp3", CHANNELID::SOUND_INVENTORY, 1.f);
-
 				m_bItemEquipRight = true;
-				
+
 				Set_CurrentEquipRight(SlotItemObj);
 				Set_PrevEquipRight(SlotItemObj);
 
@@ -470,9 +456,6 @@ void CPlayer::Use_SlotItem(INVENKEYSLOT _SlotNum)
 				if (dynamic_cast<CItem*>(m_pCurrentEquipItemRight)->Get_ItemTag().eItemID == ItemType.eItemID)
 				{
 					// 장착하려는 타입과 같은 타입을 들고 있을 시 장착 해제 및 슬롯 UI 원래 색상으로 변경
-					CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_INVENTORY);
-					CSoundManager::GetInstance()->PlaySound(L"ui_equip_weapon.mp3", CHANNELID::SOUND_INVENTORY, 1.f);
-
 					m_bItemEquipRight = false;
 					Set_CurrentEquipRight(nullptr);
 					Set_PrevEquipRight(SlotItemObj);
@@ -482,10 +465,6 @@ void CPlayer::Use_SlotItem(INVENKEYSLOT _SlotNum)
 				else
 				{
 					// 장착하려는 타입과 다른 타입을 들고 있을 시 기존 아이템 장착 해제 및 해당 아이템으로 재 장착 + UI 슬롯 밝은 색상으로 변경
-					
-					CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_INVENTORY);
-					CSoundManager::GetInstance()->PlaySound(L"ui_equip_weapon.mp3", CHANNELID::SOUND_INVENTORY, 1.f);
-					
 					m_bItemEquipRight = true;
 					Set_CurrentEquipRight(SlotItemObj);
 
@@ -507,9 +486,6 @@ void CPlayer::Use_SlotItem(INVENKEYSLOT _SlotNum)
 			if (!m_bItemEquipLeft) // 왼 손에 장착하고 있는 상태가 아닐 시 
 			{
 				// 왼손에 장착 및 해당 위치 슬롯으로 위치 이동
-				CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_INVENTORY);
-				CSoundManager::GetInstance()->PlaySound(L"ui_equip_item.mp3", CHANNELID::SOUND_INVENTORY, 1.f);
-
 				m_bItemEquipLeft = true;
 
 				Set_CurrentEquipLeft(SlotItemObj);
@@ -578,18 +554,18 @@ void CPlayer::Use_SlotItem(INVENKEYSLOT _SlotNum)
 					CGameObject* pItemUIObject = Engine::UIManager()->Get_ItemUI(ItemType.eItemID);
 
 					if (pItemUIObject != nullptr) {
-					    // 들어온 아이템 ui 포지션을 비어있는 해당 슬롯 포지션 값으로 대입 후 월드 행렬 셋팅
+						// 들어온 아이템 ui 포지션을 비어있는 해당 슬롯 포지션 값으로 대입 후 월드 행렬 셋팅
 						pItemUIObject->m_pTransform->m_vInfo[INFO_POS].x = SlotObject->m_pTransform->m_vInfo[INFO_POS].x;
 						pItemUIObject->m_pTransform->m_vInfo[INFO_POS].y = SlotObject->m_pTransform->m_vInfo[INFO_POS].y;
-					    dynamic_cast<CTempUI*>(pItemUIObject)->WorldMatrix(pItemUIObject->m_pTransform->m_vInfo[INFO_POS].x, pItemUIObject->m_pTransform->m_vInfo[INFO_POS].y, pItemUIObject->m_pTransform->m_vLocalScale.x, pItemUIObject->m_pTransform->m_vLocalScale.y);
+						dynamic_cast<CTempUI*>(pItemUIObject)->WorldMatrix(pItemUIObject->m_pTransform->m_vInfo[INFO_POS].x, pItemUIObject->m_pTransform->m_vInfo[INFO_POS].y, pItemUIObject->m_pTransform->m_vLocalScale.x, pItemUIObject->m_pTransform->m_vLocalScale.y);
 
-					    // 아이템의 부모 오브젝트로 해당 슬롯 등록
-					    dynamic_cast<CTempUI*>(pItemUIObject)->Set_Parent(SlotObject);
-					    // 슬롯 자식 오브젝트로 해당 아이템 등록 후 비어있지 않다는 상태로 변경
-					dynamic_cast<CTempUI*>(SlotObject)->Set_Child(pItemUIObject);
-					dynamic_cast<CTempUI*>(SlotObject)->Set_EmptyBool(false);
+						// 아이템의 부모 오브젝트로 해당 슬롯 등록
+						dynamic_cast<CTempUI*>(pItemUIObject)->Set_Parent(SlotObject);
+						// 슬롯 자식 오브젝트로 해당 아이템 등록 후 비어있지 않다는 상태로 변경
+						dynamic_cast<CTempUI*>(SlotObject)->Set_Child(pItemUIObject);
+						dynamic_cast<CTempUI*>(SlotObject)->Set_EmptyBool(false);
 
-					Engine::UIManager()->Hide_InvenItem(0);
+						Engine::UIManager()->Hide_InvenItem(0);
 					}
 				}
 				else // 비어 있지 않으면 스위칭
@@ -621,18 +597,6 @@ void CPlayer::Use_SlotItem(INVENKEYSLOT _SlotNum)
 			// 아이템 효과 적용
 			Eating(dynamic_cast<CItem*>(SlotItemObj)->Get_ItemStat());
 
-			if (ItemType.eItemID == ITEMID::EAT_POTION2
-				|| ItemType.eItemID == ITEMID::EAT_POTION5 
-				|| ItemType.eItemID == ITEMID::EAT_POTION7)
-			{
-				CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_CONSUMABLE);
-				CSoundManager::GetInstance()->PlaySound(L"cons_drink.mp3", CHANNELID::SOUND_CONSUMABLE, 1.f);
-			}
-			else
-			{
-				CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_CONSUMABLE);
-				CSoundManager::GetInstance()->PlaySound(L"cons_food.mp3", CHANNELID::SOUND_CONSUMABLE, 1.f);
-			}
 
 			if (ItemType.iCount == 1)
 			{
@@ -648,7 +612,7 @@ void CPlayer::Use_SlotItem(INVENKEYSLOT _SlotNum)
 				//아이템 UI 내부에서도 해당 아이템을 찾아 삭제.
 				Engine::UIManager()->Delete_FindItemUI(ItemType);
 			}
-			
+
 		}
 		else if (ItemType.eItemType == ITEMTYPE_POTIONITEM) // 다양한 포션 아이템 타입
 		{
@@ -660,7 +624,7 @@ void CPlayer::Use_SlotItem(INVENKEYSLOT _SlotNum)
 			case ITEMID::EAT_POTION2:
 				dynamic_cast<CHpPotion*>(SlotItemObj)->Set_Heal(true);
 				dynamic_cast<CHpPotion*>(SlotItemObj)->Set_Use(true);
-					break;
+				break;
 			case ITEMID::EAT_POTION5:
 				dynamic_cast<CRandomPotion*>(SlotItemObj)->Set_Use(true);
 				dynamic_cast<CRandomPotion*>(SlotItemObj)->Set_RandomUse(true);
@@ -695,10 +659,9 @@ void CPlayer::PoisonDamage(const _float& fTimeDelta)
 
 void CPlayer::OnCollisionEnter(CCollider* _pOther)
 {
-	if (_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::MONSTER 
+	if (_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::MONSTER
 		&& _pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::MONSTERBULLET
-		&& _pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::ITEM
-		&& _pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::TRAP)
+		&& _pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::ITEM)
 	{
 		_vec3	vOtherPos = _pOther->GetCenterPos();
 		_float* fOtherAxis = _pOther->GetAxisLen();
@@ -753,20 +716,15 @@ void CPlayer::OnCollisionEnter(CCollider* _pOther)
 	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::ITEM)
 	{
 		if (dynamic_cast<CItem*>(_pOther->Get_Host())->Get_WorldItem())
-		{
 			Create_Item(_pOther);
-			CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_INVENTORY);
-			CSoundManager::GetInstance()->PlaySound(L"grab_item.mp3",CHANNELID::SOUND_INVENTORY,1.f);
-		}
 	}
 }
 
 void CPlayer::OnCollisionStay(CCollider* _pOther)
 {
-	if (_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::MONSTER 
+	if (_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::MONSTER
 		&& _pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::MONSTERBULLET
-		&& _pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::ITEM
-		&& _pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::TRAP)
+		&& _pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::ITEM)
 	{
 		_vec3	vOtherPos = _pOther->GetCenterPos();
 		_float* fOtherAxis = _pOther->GetAxisLen();
@@ -848,7 +806,7 @@ void CPlayer::IsDrunk()
 		D3DXVec3TransformCoord(&m_pTransform->m_vInfo[INFO_UP], &m_pTransform->m_vInfo[INFO_UP], &matRot);
 		D3DXVec3TransformCoord(&m_pTransform->m_vInfo[INFO_RIGHT], &m_pTransform->m_vInfo[INFO_RIGHT], &matRot);
 	}
-	else if(m_fDrunkTime <= 1.5)
+	else if (m_fDrunkTime <= 1.5)
 	{
 		_matrix matRot;
 
@@ -892,7 +850,7 @@ void CPlayer::IsDrunk()
 			}
 		}
 
-			
+
 	}
 }
 
@@ -1123,9 +1081,9 @@ void CPlayer::Create_Item(CCollider* _pOther)
 		Engine::EventManager()->CreateObject(pItem, LAYERTAG::GAMELOGIC);
 		Engine::UIManager()->AddItemGameobject_UI(pGameObjectUI);
 	}
-		
+
 	// 월드 아이템 지우기
-	EventManager()->GetInstance()->DeleteObject(dynamic_cast<CItem*>(_pOther->GetHost()));
+	EventManager()->GetInstance()->DeleteObject(dynamic_cast<CItem*>(_pOther->Get_Host()));
 }
 
 void CPlayer::Free()

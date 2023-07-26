@@ -30,6 +30,10 @@ HRESULT COctree::Ready_Octree()
         if(TRAPTAG::STRIKEDOWN != dynamic_cast<CTrap*>(iter)->Get_TrapTag())
             FindCurrentPosNode(iter->m_pTransform, m_pOctreeRoot);
 
+    vector<CGameObject*>& vecImmortalObjectEnv = SceneManager()->Get_ObjectList(LAYERTAG::ENVIRONMENT, OBJECTTAG::IMMORTAL);
+    for (auto& iter : vecImmortalObjectEnv)
+        FindCurrentPosNode(iter->m_pTransform, m_pOctreeRoot);
+
     vector<CGameObject*>& vecImmortalObject = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::IMMORTAL);
     for (auto& iter : vecImmortalObject)
         FindCurrentPosNode(iter->m_pTransform, m_pOctreeRoot);

@@ -30,7 +30,6 @@ private:
 private:
 	CRcTex* m_pBufferCom = nullptr;
 	CTexture* m_pTextureCom = nullptr;
-	CTransform* m_pTransformCom = nullptr;
 	CBillBoard* m_pBillBoardCom = nullptr;
 
 public:

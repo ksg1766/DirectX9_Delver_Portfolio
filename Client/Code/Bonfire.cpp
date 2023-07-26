@@ -27,15 +27,15 @@ HRESULT CBonfire::Ready_Object(void)
 
 	m_pTransform->Translate(_vec3(0.f, 3.f, -22.f));
 
-	CGameObject* pGameObject = CFire::Create(m_pGraphicDev);
-	Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
-
-	// 불 이펙트 추가 생성
-	for (_uint i = 0; i < 4; ++i){
-		pGameObject = CEffectBonfire::Create(m_pGraphicDev);
-		pGameObject->m_pTransform->Translate(_vec3(0.f, 1.f * i, 0.f));
-		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
-	}
+	//CGameObject* pGameObject = CFire::Create(m_pGraphicDev);
+	//Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+	//
+	//// 불 이펙트 추가 생성
+	//for (_uint i = 0; i < 4; ++i){
+	//	pGameObject = CEffectBonfire::Create(m_pGraphicDev);
+	//	pGameObject->m_pTransform->Translate(_vec3(0.f, 1.f * i, 0.f));
+	//	Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+	//}
 
 	m_fTime = 0.f;
 

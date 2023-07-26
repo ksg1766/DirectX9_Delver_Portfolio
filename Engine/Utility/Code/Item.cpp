@@ -49,7 +49,7 @@ void CItem::OnCollisionEnter(CCollider* _pOther)
 
 		if (fRadiusY == fMinAxis)
 		{
-			if (_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::MONSTER)
+			if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::MONSTER)
 				return;
 			if (vOtherPos.y < vThisPos.y)
 			{
@@ -102,7 +102,7 @@ void CItem::OnCollisionStay(CCollider* _pOther)
 
 		if (fRadiusY == fMinAxis)
 		{
-			if (_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::MONSTER)
+			if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::MONSTER)
 				return;
 			if (vOtherPos.y < vThisPos.y)
 			{

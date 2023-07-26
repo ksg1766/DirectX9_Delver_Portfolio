@@ -197,8 +197,10 @@ void COctreeNode::Render_OctreeNode(LPDIRECT3DDEVICE9 pGraphicDev)
 			else
 			{
 				for (auto& _iter : iter->GetObjectList())
-					_iter->Update_Object(0.f);
-				continue;
+				{
+					_iter->Update_Object(0.02f);
+				}
+				//continue;
 			}
 		}
 	}

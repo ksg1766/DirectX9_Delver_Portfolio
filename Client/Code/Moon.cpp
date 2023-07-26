@@ -22,7 +22,7 @@ HRESULT CMoon::Ready_Object(void)
 	m_eObjectTag = OBJECTTAG::IMMORTAL;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pTransformCom->Translate(_vec3(-50.f, 130.f, 250.f));//m_vInfo[INFO_POS] =
+	m_pTransform->Translate(_vec3(-25.f, 100.f, 125.f));//m_vInfo[INFO_POS] =
 
 	return S_OK;
 }
@@ -41,12 +41,12 @@ void CMoon::LateUpdate_Object(void)
 	__super::LateUpdate_Object();
 
 	m_pBillBoardCom->LateUpdate_Component();
-	m_pTransformCom->Scale(_vec3(40.f, 40.f, 40.f));
+	m_pTransform->Scale(_vec3(20.f, 20.f, 20.f));
 }
 
 void CMoon::Render_Object(void)
 {
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransformCom->WorldMatrix());
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
 
 	m_pGraphicDev->SetRenderState(D3DRS_FOGENABLE, FALSE);
 
@@ -64,7 +64,7 @@ HRESULT CMoon::Add_Component(void)
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BUFFER, pComponent);
 
-	pComponent = m_pTransformCom = dynamic_cast<CTransform*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Transform"));
+	pComponent = m_pTransform = dynamic_cast<CTransform*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Transform"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::TRANSFORM, pComponent);
 

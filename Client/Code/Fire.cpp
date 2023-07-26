@@ -20,8 +20,8 @@ HRESULT CFire::Ready_Object(void)
 	m_eObjectTag = OBJECTTAG::IMMORTAL;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pTransform->Translate(_vec3(0.f, 4.1f, -22.f));
 	m_pTransform->Scale(_vec3(.8f, .8f, .8f));
+	m_pTransform->Translate(_vec3(0.f, 4.1f, -22.f));
 
 	return S_OK;
 }
@@ -32,7 +32,8 @@ _int CFire::Update_Object(const _float& fTimeDelta)
 
 	m_fFrame += 7.f * fTimeDelta * 2.f;
 
-	if (m_fFrame > 7.f){
+	if (m_fFrame > 7.f)
+	{
 		m_fFrame = 0.f;
 	}
 
