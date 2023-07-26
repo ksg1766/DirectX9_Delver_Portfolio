@@ -94,8 +94,7 @@ void CBeer::Render_Object(void)
 
 	//m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 
-	CPlayer* pPlayer = dynamic_cast<CPlayer*>(SceneManager()->GetInstance()->
-		Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
+	CPlayer* pPlayer = dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer());
 
 	if (!Get_WorldItem() && pPlayer != nullptr)
 	{
@@ -186,8 +185,8 @@ void CBeer::OnCollisionEnter(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 
-	if (!(_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::MONSTER) &&
-		!(_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::PLAYER))
+	if (!(_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::MONSTER) &&
+		!(_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::PLAYER))
 		__super::OnCollisionEnter(_pOther);
 }
 

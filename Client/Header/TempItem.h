@@ -41,6 +41,7 @@ private:
 	CBillBoard* m_pBillBoard = nullptr;
 
 	_int		m_iAttackTick;
+	_int		m_iMoveTick;
 	_float		m_fChase;
 
 	// 공격 모션

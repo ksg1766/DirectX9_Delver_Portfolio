@@ -58,7 +58,8 @@ _int CBlade_Trap_Blade::Update_Object(const _float& fTimeDelta)
 
 	if (SceneManager()->Get_GameStop()) { return 0; }
 	iExit = __super::Update_Object(fTimeDelta);
-	m_pStateMachine->Update_StateMachine(fTimeDelta);
+
+	//m_pStateMachine->Update_StateMachine(fTimeDelta);
 	m_fHitTime += fTimeDelta;
 	if ((m_bHit)&&(1.5f < m_fHitTime))
 	{
@@ -76,21 +77,21 @@ void CBlade_Trap_Blade::LateUpdate_Object(void)
 
 void CBlade_Trap_Blade::Render_Object(void)
 {
-	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
 
 	m_pStateMachine->Render_StateMachine();
 	m_pBuffer->Render_Buffer();
 
-	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 
 #if _DEBUG
 		m_pCollider->Render_Collider();
 #endif
 }
 
-HRESULT CBlade_Trap_Blade::Render_Object2(_vec3 vCenterPos)
+HRESULT CBlade_Trap_Blade::Ready_Object2(_vec3 vCenterPos)
 {
 	m_eObjectTag = OBJECTTAG::MONSTER;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
@@ -126,8 +127,6 @@ void CBlade_Trap_Blade::Set_Collider()
 void CBlade_Trap_Blade::Set_TrapCenter(_vec3 _vCenter)
 { 
 	m_vTrapCenter = _vCenter; 
-
-
 }
 
 void CBlade_Trap_Blade::OnCollisionEnter(CCollider* _pOther)
@@ -137,7 +136,7 @@ void CBlade_Trap_Blade::OnCollisionEnter(CCollider* _pOther)
 	m_pOtherObj = _pOther->Get_Host();
 	if (OBJECTTAG::PLAYER == m_pOtherObj->Get_ObjectTag())
 	{
-		CPlayerStat& PlayerState = *static_cast<CPlayer*>(_pOther->GetHost())->Get_Stat();
+		CPlayerStat& PlayerState = *static_cast<CPlayer*>(_pOther->Get_Host())->Get_Stat();
 		PlayerState.Take_Damage(4.f);
 		m_bHit = true;
 	}
@@ -206,7 +205,7 @@ CBlade_Trap_Blade* CBlade_Trap_Blade::Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec
 {
 	CBlade_Trap_Blade* pInstance = new CBlade_Trap_Blade(pGraphicDev);
 
-	if (FAILED(pInstance->Render_Object2(vCenterPos)))
+	if (FAILED(pInstance->Ready_Object2(vCenterPos)))
 	{
 		Safe_Release(pInstance);
 

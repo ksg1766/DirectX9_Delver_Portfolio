@@ -1,4 +1,5 @@
 #include "Export_Utility.h"
+#include "Trap.h"
 
 IMPLEMENT_SINGLETON(CRenderer)
 
@@ -24,7 +25,6 @@ void CRenderer::Add_RenderGroup(RENDERID eType, CGameObject * pGameObject)
 void CRenderer::Render_GameObject(LPDIRECT3DDEVICE9& pGraphicDev)
 {
 	Remder_Effect(pGraphicDev);
-
 	Render_Priority(pGraphicDev);
 
 	/*D3DLIGHT9 light;
@@ -73,8 +73,8 @@ void CRenderer::Render_Priority(LPDIRECT3DDEVICE9& pGraphicDev)
 
 	if (SCENETAG::VILLAGE == CurrentScene)
 	{
-		float fNear = 1.f;
-		float fFar  = 130.0f;
+		_float fNear = 1.f;
+		_float fFar  = 130.0f;
 
 		pGraphicDev->SetRenderState(D3DRS_FOGENABLE, TRUE);
 		pGraphicDev->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_LINEAR);
@@ -86,16 +86,17 @@ void CRenderer::Render_Priority(LPDIRECT3DDEVICE9& pGraphicDev)
 	}
 	else if (SCENETAG::STAGE == CurrentScene)
 	{
-		pGraphicDev->SetRenderState(D3DRS_FOGENABLE, FALSE);
+		_float fNear = 1.f;
+		_float fFar = 110.0f;
+
+		//pGraphicDev->SetRenderState(D3DRS_FOGENABLE, FALSE);
 
 		pGraphicDev->SetRenderState(D3DRS_FOGENABLE, TRUE);
 		pGraphicDev->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_LINEAR);
 		// 안개 색상 설정
 		//pGraphicDev->SetRenderState(D3DRS_FOGCOLOR, D3DCOLOR_ARGB(1, 100, 155, 180));
 		pGraphicDev->SetRenderState(D3DRS_FOGCOLOR, D3DCOLOR_ARGB(1, 40, 170, 180));
-		float fNear = 1.f;
-		//float fFar = 140.0f;
-		float fFar = 110.0f;
+		//_float fFar = 140.0f;
 		pGraphicDev->SetRenderState(D3DRS_FOGSTART, *(DWORD*)&fNear);
 		pGraphicDev->SetRenderState(D3DRS_FOGEND, *(DWORD*)&fFar);
 	}
@@ -107,13 +108,19 @@ void CRenderer::Render_Priority(LPDIRECT3DDEVICE9& pGraphicDev)
 void CRenderer::Render_Nonalpha(LPDIRECT3DDEVICE9& pGraphicDev)
 {
 	for (auto iter : m_RenderGroup[RENDER_NONALPHA])
+	{
+		/*if (iter->Get_ObjectTag() == OBJECTTAG::TRAP)
+			if (TRAPTAG::STRIKEDOWN != static_cast<CTrap*>(iter)->Get_TrapTag())
+				continue;*/
+
 		iter->Render_Object();
+	}
 }
 
 void CRenderer::Render_Alpha(LPDIRECT3DDEVICE9& pGraphicDev)
 {
 	//pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-	//pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA); // 내가 그리려는 색
+	//pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA); // 내가 그리려는 색 
 	//pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA); // 백 버퍼에 이미 그려져있던 색
 	//pGraphicDev->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
 

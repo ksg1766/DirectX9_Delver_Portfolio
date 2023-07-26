@@ -47,8 +47,6 @@ void CSkyBox::LateUpdate_Object(void)
 
 	::CopyMemory(m_pTransformCom->m_vInfo[INFO_POS], matView.m[3], sizeof(_vec3));
 	//m_pTransformCom->m_vInfo[INFO_POS] = _vec3(matView._41, matView._42 + 3.f, matView._43);
-
-
 }
 
 void CSkyBox::Render_Object(void)

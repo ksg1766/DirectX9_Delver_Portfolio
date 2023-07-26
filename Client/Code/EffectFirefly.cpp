@@ -19,8 +19,14 @@ HRESULT CEffectFirefly::Ready_Object(void)
 
 	m_EffectTag = EFFECTTAG::EFFECT_FIREFLY;
 
-	CTempEffect::Get_RandomVector(&m_pTransform->m_vInfo[INFO_POS], &_vec3(-50.f, 20.f, -50.f), &_vec3(50.f, 100.f, 50.f));
-	m_fEffectScale = CTempEffect::Get_RandomFloat(0.5f, 1.f);
+	CTempEffect::Get_RandomVector(&m_pTransform->m_vInfo[INFO_POS], &_vec3(-50.f, 4.f, -50.f), &_vec3(50.f, 10.f, 50.f));
+	m_fEffectScale = CTempEffect::Get_RandomFloat(0.05f, 0.15f);
+
+	CTempEffect::Get_RandomVector(&m_vecMoveDir, &_vec3(-1.f, -1.f, -1.f), &_vec3(1.f, 1.f, 1.f));
+	m_fMoveSpeed = CTempEffect::Get_RandomFloat(2.f, 5.f);
+
+	m_fChangeTime = CTempEffect::Get_RandomFloat(5.f, 10.f);
+	m_fLifeTime = 0.f;
 
 	return S_OK;
 }
@@ -29,7 +35,31 @@ Engine::_int CEffectFirefly::Update_Object(const _float& fTimeDelta)
 {
 	Engine::Renderer()->Add_RenderGroup(RENDER_ALPHA, this);
 
-	m_pTransform->m_vInfo[INFO_POS] += m_vecMoveDir * fTimeDelta * m_bMoveSpeed;
+	m_fLifeTime += 1.f * fTimeDelta;
+	m_fMoveTime += 1.f * fTimeDelta;
+
+	if (m_fMoveTime > m_fChangeTime)
+	{
+		m_fMoveTime = 0.f;
+		m_fChangeTime = CTempEffect::Get_RandomFloat(5.f, 10.f);
+
+		CTempEffect::Get_RandomVector(&m_vecMoveDir, &_vec3(-.5f, -.5f, -.5f), &_vec3(.5f, .5f, .5f));
+		m_fMoveSpeed = CTempEffect::Get_RandomFloat(10.f, 20.f);
+	}
+
+	if (m_fLifeTime > 3.f) {
+		m_fEffectScale -= 0.05f * fTimeDelta * m_fMoveSpeed;
+		if (m_fEffectScale <= 0.f)
+		{
+			m_fLifeTime = 0.f;
+			CTempEffect::Get_RandomVector(&m_pTransform->m_vInfo[INFO_POS], &_vec3(-50.f, 4.f, -50.f), &_vec3(50.f, 10.f, 50.f));
+			m_fEffectScale = CTempEffect::Get_RandomFloat(0.05f, 0.15f);
+			CTempEffect::Get_RandomVector(&m_vecMoveDir, &_vec3(-1.f, -1.f, -1.f), &_vec3(1.f, 1.f, 1.f));
+			m_fMoveSpeed = CTempEffect::Get_RandomFloat(2.f, 5.f);
+		}
+	}
+
+	m_pTransform->m_vInfo[INFO_POS] += m_vecMoveDir * fTimeDelta * m_fMoveSpeed;
 
 	_int iExit = CTempEffect::Update_Object(fTimeDelta);
 
@@ -38,10 +68,15 @@ Engine::_int CEffectFirefly::Update_Object(const _float& fTimeDelta)
 
 void CEffectFirefly::LateUpdate_Object(void)
 {
-	if (m_pTransform->m_vInfo[INFO_POS].y <= 0.f) {
-		m_fFrame = CTempEffect::Get_RandomFloat(0.f, 2.f);
-		m_fEffectScale = CTempEffect::Get_RandomFloat(0.5f, 2.f);
-		CTempEffect::Get_RandomVector(&m_pTransform->m_vInfo[INFO_POS], &_vec3(-100.f, 90.f, -100.f), &_vec3(100.f, 100.f, 100.f));
+	if ( m_pTransform->m_vInfo[INFO_POS].x < - 100.f || m_pTransform->m_vInfo[INFO_POS].x > 100.f ||
+		m_pTransform->m_vInfo[INFO_POS].y < 3.f || m_pTransform->m_vInfo[INFO_POS].y > 20.f ||
+		m_pTransform->m_vInfo[INFO_POS].z < -100.f || m_pTransform->m_vInfo[INFO_POS].z > 100.f ) 
+	{
+		m_fLifeTime = 0.f;
+		CTempEffect::Get_RandomVector(&m_pTransform->m_vInfo[INFO_POS], &_vec3(-50.f, 4.f, -50.f), &_vec3(50.f, 10.f, 50.f));
+		m_fEffectScale = CTempEffect::Get_RandomFloat(0.05f, 0.15f);
+		CTempEffect::Get_RandomVector(&m_vecMoveDir, &_vec3(-1.f, -1.f, -1.f), &_vec3(1.f, 1.f, 1.f));
+		m_fMoveSpeed = CTempEffect::Get_RandomFloat(2.f, 5.f);
 	}
 
 	CTempEffect::LateUpdate_Object();

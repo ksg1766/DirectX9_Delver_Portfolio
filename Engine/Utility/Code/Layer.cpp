@@ -1,5 +1,6 @@
 #include "..\..\Header\Layer.h"
 #include "Export_Utility.h"
+#include "Trap.h"
 
 CLayer::CLayer():m_eLayerTag(LAYERTAG::LAYER_END)
 {
@@ -31,21 +32,29 @@ HRESULT CLayer::Ready_Layer()
 
 _int CLayer::Update_Layer(const _float & fTimeDelta)
 {
-	_int        iResult = 0;
+	_int     iResult = 0;
 	SCENETAG eSceneTag = SceneManager()->Get_Scene()->Get_SceneTag();
 	// Stage
 	if (SCENETAG::VILLAGE == eSceneTag || SCENETAG::STAGE == eSceneTag || SCENETAG::BOSSSTAGE == eSceneTag)
 	{
 		for (_uint i = 0; i < (_uint)OBJECTTAG::OBJECT_END; ++i)
 		{
-			if (i == (_uint)OBJECTTAG::BLOCK || i == (_uint)OBJECTTAG::BACKGROUND || i == (_uint)OBJECTTAG::CAMERA)
+			if (i == (_uint)OBJECTTAG::BLOCK || i == (_uint)OBJECTTAG::BACKGROUND || i == (_uint)OBJECTTAG::CAMERA || i == (_uint)OBJECTTAG::IMMORTAL)
 				continue;
 
 			for (auto& _iter = m_mapObject[(OBJECTTAG)i].begin(); _iter != m_mapObject[(OBJECTTAG)i].end();)
 			{
 				if (!(*_iter)->IsDead() && *_iter != nullptr)
 				{
-					if((*_iter)->Get_ObjectTag() != OBJECTTAG::BACKGROUND)
+					if ((OBJECTTAG)i == OBJECTTAG::TRAP)
+					{
+						if (TRAPTAG::STRIKEDOWN != static_cast<CTrap*>(*_iter)->Get_TrapTag())
+						{
+							++_iter;
+							continue;
+						}
+					}
+
 					iResult = (*_iter)->Update_Object(fTimeDelta);
 					++_iter;
 
@@ -84,9 +93,20 @@ _int CLayer::Update_Layer(const _float & fTimeDelta)
 void CLayer::LateUpdate_Layer()
 {
 	for (auto& iter : m_mapObject)
+	{	
 		for (auto& _iter : iter.second)
+		{
 			if ((_iter)->Get_ObjectTag() != OBJECTTAG::BACKGROUND)
+			{
 				_iter->LateUpdate_Object();
+				if ((_iter)->Get_ObjectTag() == OBJECTTAG::TRAP)
+				{
+					if (TRAPTAG::STRIKEDOWN != static_cast<CTrap*>(_iter)->Get_TrapTag())
+						continue;
+				}
+			}
+		}
+	}
 }
 
 CLayer * CLayer::Create(LAYERTAG _eLayerTag)

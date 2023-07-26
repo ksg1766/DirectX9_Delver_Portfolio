@@ -37,7 +37,6 @@ public:
 			break;
 		case WEAPON_BOW:
 			m_fCurrentImage = 33;
-			//m_UINumber = 0; // 테스트용
 			break;
 		case WEAPON_ARROW:
 			m_fCurrentImage = 34;

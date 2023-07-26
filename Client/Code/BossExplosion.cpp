@@ -85,15 +85,15 @@ void CBossExplosion::OnCollisionStay(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 	if (m_bHit) { return; }
-	if (_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::PLAYER)
+	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::PLAYER)
 	{
-		CPlayerStat& PlayerState = *(dynamic_cast<CPlayer*>(_pOther->GetHost())->Get_Stat());
+		CPlayerStat& PlayerState = *(dynamic_cast<CPlayer*>(_pOther->Get_Host())->Get_Stat());
 		PlayerState.Take_Damage(this->Get_BasicStat()->Get_Stat()->fAttack);
 		this->Set_AttackTick(true);
 
-		(dynamic_cast<CPlayer*>(_pOther->GetHost())->Get_RigidBody()->Add_Force(_vec3(0.f, 1.1f * 15.f, 0.f)));
-		(dynamic_cast<CPlayer*>(_pOther->GetHost())->Get_RigidBody()->UseGravity(true));
-		(dynamic_cast<CPlayer*>(_pOther->GetHost())->Set_JumpState(true));
+		(dynamic_cast<CPlayer*>(_pOther->Get_Host())->Get_RigidBody()->Add_Force(_vec3(0.f, 1.1f * 15.f, 0.f)));
+		(dynamic_cast<CPlayer*>(_pOther->Get_Host())->Get_RigidBody()->UseGravity(true));
+		(dynamic_cast<CPlayer*>(_pOther->Get_Host())->Set_JumpState(true));
 		m_bHit = true;
 	}
 }

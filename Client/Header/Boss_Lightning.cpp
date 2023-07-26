@@ -53,7 +53,6 @@ void CBoss_Lightning::LateUpdate_Object(void)
 
 void CBoss_Lightning::Render_Object(void)
 {
-	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
 	m_pTexture->Render_Texture();
 	m_pBuffer->Render_Buffer();
@@ -66,8 +65,6 @@ void CBoss_Lightning::Render_Object(void)
 
 	m_pTexture->Render_Texture();
 	m_pBuffer->Render_Buffer();
-	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
-
 #if _DEBUG
 	m_pCollider->Render_Collider();
 #endif
@@ -88,7 +85,7 @@ void CBoss_Lightning::OnCollisionStay(CCollider* _pOther)
 	if (m_bHit) { return; }
 	if (OBJECTTAG::PLAYER == _pOther->Get_Host()->Get_ObjectTag())
 	{
-		CPlayerStat& PlayerState = *(dynamic_cast<CPlayer*>(_pOther->GetHost())->Get_Stat());
+		CPlayerStat& PlayerState = *(dynamic_cast<CPlayer*>(_pOther->Get_Host())->Get_Stat());
 		PlayerState.Take_Damage(this->Get_BasicStat()->Get_Stat()->fAttack);
 		this->Set_AttackTick(true);
 
@@ -96,6 +93,7 @@ void CBoss_Lightning::OnCollisionStay(CCollider* _pOther)
 		(dynamic_cast<CPlayer*>(_pOther->GetHost())->Get_RigidBody()->Add_Force(_vec3(-m_fDis.x, 1.1f, -m_fDis.z)));
 		(dynamic_cast<CPlayer*>(_pOther->GetHost())->Get_RigidBody()->UseGravity(true));
 		(dynamic_cast<CPlayer*>(_pOther->GetHost())->Set_JumpState(true));
+
 		m_bHit = true;
 	}
 }

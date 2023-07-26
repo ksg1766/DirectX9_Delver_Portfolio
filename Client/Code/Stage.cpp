@@ -23,6 +23,11 @@
 
 #include "Pot.h"
 #include "Tree.h"
+#include "Pumpkin.h"
+#include "Rock.h"
+#include "Grass.h"
+#include "Mushroom.h"
+#include "ImmortalSprite.h"
 
 #include "EffectBrokenbox.h"
 #include "EffectDamage.h"
@@ -206,26 +211,41 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	Engine::CGameObject*		pGameObject = nullptr;
 
 #pragma region 첫 번째 씬에서 받아오는 오브젝트
-	// Player
-    //pGameObject = CPlayer::Create(m_pGraphicDev);
-    //NULL_CHECK_RETURN(pGameObject, E_FAIL);
-    //
-    ////pGameObject->m_pTransform->Translate(_vec3(-40.f, 1.f,-40.f));
-    //pGameObject->m_pTransform->Translate(_vec3(0.f, 1.f, 0.f));
-    ////pGameObject->m_pTransform->Translate(_vec3(100.f, 10.f,0.f));
-    //
-    //pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-    //m_pPlayer = dynamic_cast<CPlayer*>(pGameObject);
-    //
-    //// FootRay
-    //pGameObject = CFootRay::Create(m_pGraphicDev);
-    //NULL_CHECK_RETURN(pGameObject, E_FAIL);
-    //pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-    //dynamic_cast<CFootRay*>(pGameObject)->Set_Host(m_pPlayer);
-    //pGameObject->m_pTransform->Translate(m_pPlayer->m_pTransform->m_vInfo[INFO_POS] + _vec3(0.f, -1.25f, 0.f));
 
 #pragma endregion 첫 번째 씬에서 받아오는 오브젝트
 
+<<<<<<< HEAD
+	pGameObject =  CWorm::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	pGameObject->m_pTransform->Translate(_vec3(-62.f, 14.f, 39.f));
+	dynamic_cast<CWorm*>(pGameObject)->Set_CenterPos(_vec3(-62.f, 14.f, 39.f));
+	dynamic_cast<CWorm*>(pGameObject)->Set_MoveRange(2.f);
+	dynamic_cast<CWorm*>(pGameObject)->Set_RandomMoveRange(5.f);
+	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+
+	m_pWorm = dynamic_cast<CWorm*>(pGameObject);
+	
+	pGameObject = CSpiderRay::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+	dynamic_cast<CSpiderRay*>(pGameObject)->Set_Host(m_pWorm);
+
+
+	pGameObject = CDungeonSpider::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	pGameObject->m_pTransform->Translate(_vec3(-62.f, 14.f, 39.f));
+	dynamic_cast<CDungeonSpider*>(pGameObject)->Set_CenterPos(_vec3(-62.f, 14.f, 39.f));
+	dynamic_cast<CDungeonSpider*>(pGameObject)->Set_MoveRange(2.f);
+	dynamic_cast<CDungeonSpider*>(pGameObject)->Set_RandomMoveRange(5.f);
+	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+
+	m_pSpider = dynamic_cast<CDungeonSpider*>(pGameObject);
+
+	pGameObject = CSpiderRay::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+	dynamic_cast<CSpiderRay*>(pGameObject)->Set_Host(m_pSpider);
+=======
 	// Boss
 	/*pGameObject = CSkeletonKing::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
@@ -266,37 +286,6 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	//pGameObject->m_pTransform->Translate(_vec3(-40.f, 1.f, -35.f));
 	//pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
-
-	pGameObject =  CWorm::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pGameObject->m_pTransform->Translate(_vec3(-62.f, 14.f, 39.f));
-	dynamic_cast<CWorm*>(pGameObject)->Set_CenterPos(_vec3(-62.f, 14.f, 39.f));
-	dynamic_cast<CWorm*>(pGameObject)->Set_MoveRange(2.f);
-	dynamic_cast<CWorm*>(pGameObject)->Set_RandomMoveRange(5.f);
-	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-
-	m_pWorm = dynamic_cast<CWorm*>(pGameObject);
-	
-	pGameObject = CSpiderRay::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-	dynamic_cast<CSpiderRay*>(pGameObject)->Set_Host(m_pWorm);
-
-
-	pGameObject = CDungeonSpider::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pGameObject->m_pTransform->Translate(_vec3(-62.f, 14.f, 39.f));
-	dynamic_cast<CDungeonSpider*>(pGameObject)->Set_CenterPos(_vec3(-62.f, 14.f, 39.f));
-	dynamic_cast<CDungeonSpider*>(pGameObject)->Set_MoveRange(2.f);
-	dynamic_cast<CDungeonSpider*>(pGameObject)->Set_RandomMoveRange(5.f);
-	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-
-	m_pSpider = dynamic_cast<CDungeonSpider*>(pGameObject);
-
-	pGameObject = CSpiderRay::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-	dynamic_cast<CSpiderRay*>(pGameObject)->Set_Host(m_pSpider);
 
 	//pGameObject = CDungeonWarrior::Create(m_pGraphicDev);
 	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
@@ -470,6 +459,7 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	//pGameObject->m_pTransform->Translate(_vec3(-70.f, 1.f, -40.f));
 	//pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+>>>>>>> origin/feature/JunYeop
 
 	return S_OK;
 }
@@ -800,15 +790,56 @@ HRESULT CStage::Load_Data()
 			}
 			break;
 
-			/*case ENVIRONMENTTAG::ROCK:
-				pGameObject = CRock::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
-				pGameObject->m_pTransform->Translate(_vec3(0.f, 11.f, 0.f));
-				break;
+			case ENVIRONMENTTAG::ROCK:
+			{
+				_uint iRockNumber = 0;
 
+				ReadFile(hFile, &iRockNumber, sizeof(_uint), &dwByte, nullptr);
+
+				pGameObject = CRock::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+				dynamic_cast<CRock*>(pGameObject)->Set_RockNumber(iRockNumber);
+				break;
+			}
 			case ENVIRONMENTTAG::GRASS:
+			{
+				_uint iGrassNumber = 0;
+
+				ReadFile(hFile, &iGrassNumber, sizeof(_uint), &dwByte, nullptr);
+
 				pGameObject = CGrass::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
-				pGameObject->m_pTransform->Translate(_vec3(0.0f, -0.85f, 0.0f));
-				break;*/
+				dynamic_cast<CGrass*>(pGameObject)->Set_GrassNumber(iGrassNumber);
+				break;
+			}
+			case ENVIRONMENTTAG::MUSHROOM:
+			{
+				_uint iMushroomNumber = 0;
+
+				ReadFile(hFile, &iMushroomNumber, sizeof(_uint), &dwByte, nullptr);
+
+				pGameObject = CMushroom::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+				dynamic_cast<CMushroom*>(pGameObject)->Set_MushroomNumber(iMushroomNumber);
+				break;
+			}
+			case ENVIRONMENTTAG::PUMPKIN:
+			{
+				_uint iPumpkinNumber = 0;
+
+				ReadFile(hFile, &iPumpkinNumber, sizeof(_uint), &dwByte, nullptr);
+
+				pGameObject = CPumpkin::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+				dynamic_cast<CPumpkin*>(pGameObject)->Set_PumpkinNumber(iPumpkinNumber);
+				break;
+			}
+			case ENVIRONMENTTAG::ETC:
+			{
+				_uint iSpriteNumber = 0;
+
+				ReadFile(hFile, &iSpriteNumber, sizeof(_uint), &dwByte, nullptr);
+
+				pGameObject = CImmortalSprite::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+				dynamic_cast<CImmortalSprite*>(pGameObject)->Set_SpriteNumber(iSpriteNumber);
+				break;
+			}
 			}
 			//pGameObject->m_pTransform->m_vInfo[INFO_POS] = _vec3(fX, fY, fZ);
 			NULL_CHECK_RETURN(pGameObject, E_FAIL);

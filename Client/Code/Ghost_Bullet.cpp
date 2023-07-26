@@ -134,15 +134,15 @@ void CGhost_Bullet::OnCollisionEnter(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 
-	if (_pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::ITEM
-		&& _pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::PLAYER
-		&& _pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::MONSTER)
+	if (_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::ITEM
+		&& _pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::PLAYER
+		&& _pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::MONSTER)
 		__super::OnCollisionEnter(_pOther);
 
-	if ((_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BLOCK || _pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::PLAYER)
+	if ((_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BLOCK || _pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::PLAYER)
 		&& this->Get_State() != STATE::DEAD)
 	{
-		CPlayerStat& PlayerStat = *static_cast<CPlayer*>(_pOther->GetHost())->Get_Stat();
+		CPlayerStat& PlayerStat = *static_cast<CPlayer*>(_pOther->Get_Host())->Get_Stat();
 		this->Set_AttackTick(true);
 		IsAttack(&PlayerStat);
 
@@ -151,7 +151,7 @@ void CGhost_Bullet::OnCollisionEnter(CCollider* _pOther)
 		Set_State(STATE::DEAD);
 		m_pAnimator->Set_Animation(STATE::DEAD);
 		m_bCheck = true;
-		EventManager()->GetInstance()->DeleteObject(this);
+		EventManager()->DeleteObject(this);
 	}
 }
 
@@ -160,9 +160,9 @@ void CGhost_Bullet::OnCollisionStay(CCollider* _pOther)
 	if (SceneManager()->Get_GameStop()) { return; }
 
 
-	if (_pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::ITEM
-		&& _pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::PLAYER
-		&& _pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::MONSTER)
+	if (_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::ITEM
+		&& _pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::PLAYER
+		&& _pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::MONSTER)
 		__super::OnCollisionStay(_pOther);
 
 

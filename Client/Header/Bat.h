@@ -41,6 +41,8 @@ private:
 	CRcTex*			m_pBuffer = nullptr;
 	CTexture*		m_pTexture[(_uint)STATE::STATE_END] = {};
 	CAnimator*		m_pAnimator = nullptr;
+	_bool			m_bSearch = false;
+
 
 	_float m_fFrame;
 

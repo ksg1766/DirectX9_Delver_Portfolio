@@ -34,9 +34,10 @@ _int CSpiderRay::Update_Object(const _float& fTimeDelta)
 	if (SceneManager()->Get_GameStop()) { return 0; }
 
 	_int iExit = __super::Update_Object(fTimeDelta);
-	int ia = 0;
+	if (m_pHost->IsDead())
+		EventManager()->DeleteObject(this);
+
 	m_pTransform->m_vInfo[INFO_POS] = m_pHost->m_pTransform->m_vInfo[INFO_POS] + _vec3(0.f, -0.65f, 0.f);
-	int ib = 0;
 	return iExit;
 }
 
@@ -65,7 +66,7 @@ void CSpiderRay::Render_Object(void)
 
 void CSpiderRay::OnCollisionEnter(CCollider* _pOther)
 {
-	CGameObject* pOtherObj = _pOther->GetHost();
+	CGameObject* pOtherObj = _pOther->Get_Host();
 	
 	if (OBJECTTAG::BLOCK == pOtherObj->Get_ObjectTag())
 	{
@@ -75,7 +76,7 @@ void CSpiderRay::OnCollisionEnter(CCollider* _pOther)
 
 void CSpiderRay::OnCollisionStay(CCollider* _pOther)
 {
-	CGameObject* pOtherObj = _pOther->GetHost();
+	CGameObject* pOtherObj = _pOther->Get_Host();
 	if (OBJECTTAG::BLOCK == pOtherObj->Get_ObjectTag())
 	{
 		static_cast<CDungeonSpider*>(m_pHost)->Set_Jump(false);
@@ -85,7 +86,7 @@ void CSpiderRay::OnCollisionStay(CCollider* _pOther)
 
 void CSpiderRay::OnCollisionExit(CCollider* _pOther)
 {
-	CGameObject* pOtherObj = _pOther->GetHost();
+	CGameObject* pOtherObj = _pOther->Get_Host();
 	if (OBJECTTAG::BLOCK == pOtherObj->Get_ObjectTag())
 	{
 		m_pColTarget = nullptr;

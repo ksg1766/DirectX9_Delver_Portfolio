@@ -36,7 +36,7 @@ Engine::_int CEffectPastTrace::Update_Object(const _float& fTimeDelta)
 	if (!m_bCreateSet) {
 		m_bCreateSet = true;
 
-		CPlayer* pPlayer = dynamic_cast<CPlayer*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
+		CPlayer* pPlayer = dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer());
 		if (pPlayer != nullptr) {
 			m_pPlayerInfo = *pPlayer->m_pTransform->m_vInfo;
 
@@ -111,12 +111,12 @@ void CEffectPastTrace::Render_Object(void)
 
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
 
-	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
 	m_pTextureCom->Render_Texture((_uint)m_fFrame);
 	m_pBufferCom->Render_Buffer();
 
-	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
 
 HRESULT CEffectPastTrace::Add_Component(void)

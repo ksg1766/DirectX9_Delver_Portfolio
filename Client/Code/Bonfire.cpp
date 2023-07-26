@@ -1,7 +1,10 @@
+#include "stdafx.h"
 #include "Bonfire.h"
 #include "Export_Function.h"
 #include "EffectBonfire.h"
 #include "Fire.h"
+#include "SoundManager.h"
+#include "Player.h"
 
 CBonfire::CBonfire(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CGameObject(pGraphicDev)
@@ -34,6 +37,8 @@ HRESULT CBonfire::Ready_Object(void)
 		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 	}
 
+	m_fTime = 0.f;
+
 	return S_OK;
 }
 
@@ -42,6 +47,27 @@ _int CBonfire::Update_Object(const _float& fTimeDelta)
 	Engine::Renderer()->Add_RenderGroup(RENDER_NONALPHA, this);
 
 	_uint iExit = __super::Update_Object(fTimeDelta);
+
+	CPlayer& rPlayer = *SceneManager()->Get_Scene()->Get_MainPlayer();
+
+	_vec3 vDir = rPlayer.m_pTransform->m_vInfo[INFO_POS] - m_pTransform->m_vInfo[INFO_POS];
+	_float fDistance = D3DXVec3Length(&vDir);
+
+	if (fDistance < 5.f)
+	{
+		m_fTime += fTimeDelta;
+
+		if (m_fTime < 14.f)
+			CSoundManager::GetInstance()->PlaySound(L"torch.mp3", CHANNELID::SOUND_ENVIRONMENT, 1.f);
+		else
+			m_fTime = 0.f;
+	}
+	else
+	{
+		m_fTime = 0.f;
+		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_ENVIRONMENT);
+	}
+
 
 	return iExit;
 }

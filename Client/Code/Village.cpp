@@ -60,7 +60,7 @@ HRESULT CVillage::Ready_Scene()
 	//m_pGraphicDev->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
 
 	CSoundManager::GetInstance()->StopAll();
-	CSoundManager::GetInstance()->PlayBGM(L"campfire-guitar.mp3", 1.f);
+	CSoundManager::GetInstance()->PlayBGM(L"campfire-guitar.mp3", 0.5f);
 
 
 	m_pGraphicDev->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_NONE);

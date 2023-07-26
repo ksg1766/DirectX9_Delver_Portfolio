@@ -128,18 +128,18 @@ void CStrikeDown_Trap::OnCollisionEnter(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 	/*if (m_bMinHeight) { return; }
-	m_pOtherObj = _pOther->GetHost();
+	m_pOtherObj = _pOther->Get_Host();
 	if (OBJECTTAG::PLAYER == m_pOtherObj->Get_ObjectTag())
 	{
 		if (!m_bPlayerHit) {return;}
-		CPlayerStat& PlayerState = *static_cast<CPlayer*>(_pOther->GetHost())->Get_Stat();
+		CPlayerStat& PlayerState = *static_cast<CPlayer*>(_pOther->Get_Host())->Get_Stat();
 		PlayerState.Take_Damage(10.f);
 		m_bPlayerHit = false;
 
-		_vec3	vDir = _pOther->GetHost()->m_pTransform->m_vInfo[INFO_POS] - m_pTransform->m_vInfo[INFO_POS];
-		(dynamic_cast<CPlayer*>(_pOther->GetHost())->Get_RigidBody()->Add_Force(_vec3(vDir.x, 1.1f * 5.f, vDir.z)));
-		(dynamic_cast<CPlayer*>(_pOther->GetHost())->Get_RigidBody()->UseGravity(true));
-		(dynamic_cast<CPlayer*>(_pOther->GetHost())->Set_JumpState(true));
+		_vec3	vDir = _pOther->Get_Host()->m_pTransform->m_vInfo[INFO_POS] - m_pTransform->m_vInfo[INFO_POS];
+		(dynamic_cast<CPlayer*>(_pOther->Get_Host())->Get_RigidBody()->Add_Force(_vec3(vDir.x, 1.1f * 5.f, vDir.z)));
+		(dynamic_cast<CPlayer*>(_pOther->Get_Host())->Get_RigidBody()->UseGravity(true));
+		(dynamic_cast<CPlayer*>(_pOther->Get_Host())->Set_JumpState(true));
 	}*/
 }
 

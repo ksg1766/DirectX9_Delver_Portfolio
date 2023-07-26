@@ -1,7 +1,9 @@
+#include "stdafx.h"
 #include "..\Header\Monster_Move.h"
 #include "Export_Function.h"
 #include "DungeonSpider.h"
 #include "Player.h"
+#include "SoundManager.h"
 
 CMonster_Move::CMonster_Move()
 {
@@ -23,7 +25,7 @@ HRESULT CMonster_Move::Ready_State(CStateMachine* pOwner)
 
 	m_fDistance = 30.f;
 	m_fAngle = 0.f;
-	m_fChase = 15.f;
+	m_fChase = 10.f;
 	m_fSpeed = dynamic_cast<CMonster*>(pOwner->Get_Host())->Get_BasicStat()->Get_Stat()->fSpeed;
 	m_fRandomRange = 50.f;  // 이건 변수 넣는걸로 한다치고.
 	m_vSavePos = _vec3(0.f, 0.f, 0.f);
@@ -45,6 +47,9 @@ STATE CMonster_Move::Update_State(const _float& fTimeDelta)
 		if (m_fAttackCool > 2.f)
 			m_bAttackCool = false;
 	}
+
+	Move_Sound();
+
 
 	_vec3 fDistance = m_pOwner->Get_Host()->m_pTransform->m_vInfo[INFO_POS] - pPlayer.m_pTransform->m_vInfo[INFO_POS];
 	_float fLength = D3DXVec3Length(&fDistance);
@@ -100,128 +105,6 @@ STATE CMonster_Move::Update_State(const _float& fTimeDelta)
 }
 
 
-
-
-
-//STATE CMonster_Move::Update_State(const _float& fTimeDelta)
-//{
-//
-//
-//	if (m_pOwner->Get_PrevState() == STATE::ATTACK || m_pOwner->Get_PrevState() == STATE::HIT)
-//		m_bJumCoolDown = true;
-//
-//	CComponent* pPlayerTransform =
-//		SceneManager()->GetInstance()->
-//		Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()
-//		->Get_Component(COMPONENTTAG::TRANSFORM, COMPONENTID::ID_DYNAMIC);
-//
-//	_vec3 vPlayerPos = static_cast<CTransform*>(pPlayerTransform)->m_vInfo[INFO_POS];
-//
-//	_vec3 vDistance = vPlayerPos - m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
-//	_float fDistanceLength = D3DXVec3Length(&vDistance);
-//	_float fSight = pow(5, 2);
-//
-//
-//	//if (fDistanceLength >= fSight)
-//	//{
-//	//	if (Reached_Pos())
-//	//		Set_NewPos();
-//	//	else
-//	//		Move_RandomPos(fTimeDelta);
-//
-//	//	
-//	//	return STATE::ROMIMG;
-//	//}
-//	//
-//	//if (m_bFirstCool)
-//	//{
-//	//	m_bFirstCool = false;
-//	//	return STATE::ATTACK;
-//	//}
-//
-//	if (fDistanceLength <= 10.f)
-//	{
-//
-//		if (m_bJumCoolDown)
-//		{
-//			m_fJumpCoolTimer += fTimeDelta;
-//
-//			if (m_fJumpCoolTimer >= m_fJumpCoolDuration)
-//			{
-//				m_bJumCoolDown = false;
-//				m_fJumpCoolTimer = 0.f;
-//				dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Set_AttackTick(false);
-//				return STATE::ATTACK;
-//			}
-//			else
-//			{
-//				Move_RandomPos(fTimeDelta);
-//			}
-//		}
-//
-//		return STATE::ATTACK;
-//	}
-//	
-//	if (Reached_Pos())
-//	{
-//		Set_NewPos(fTimeDelta);
-//		return STATE::ROMIMG;
-//	}
-//	else
-//	{
-//		Move_RandomPos(fTimeDelta);
-//		return STATE::ROMIMG;
-//	}
-//
-//	
-//	m_pOwner->Set_State(STATE::ROMIMG);
-//
-//}
-//
-//void CMonster_Move::Set_NewPos(const _float& fTimeDelta)
-//{
-//
-//	_float angle = (_float)rand() / RAND_MAX * 2.f * D3DX_PI;
-//	_float distance = 1.f + (rand() % 50); // 최소 1.f부터 최대 50.f까지의 거리를 랜덤하게 선택
-//
-//	m_vRandomPos.x = distance * cosf(angle);
-//	m_vRandomPos.y = 1.f;
-//	m_vRandomPos.z = -distance * sinf(angle);
-//
-//	D3DXVec3Normalize(&m_vRandomPos, &m_vRandomPos);
-//
-//	CTransform* pPlayerTransform = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform;
-//	_vec3 vRandomDir = Get_RandomDir(fTimeDelta);
-//	D3DXVec3Normalize(&vRandomDir, &vRandomDir);
-//	_vec3 pTarget = pPlayerTransform->m_vInfo[INFO_POS] + vRandomDir * 200 * fTimeDelta;
-//
-//	MoveTo_Pos(pTarget, fTimeDelta);
-//}
-
-//void CMonster_Move::Move_NewPos(const _float& fTimeDelta)
-//{
-//	_vec3 vCurrentPos = m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
-//	_vec3 vDir = m_vRandomPos - vCurrentPos;
-//
-//	D3DXVec3Normalize(&vDir, &vDir);
-//
-//	_float fMoveSpeed = 3.f;
-//
-//	_float fMoveDistanve = fMoveSpeed * fTimeDelta;
-//
-//	vCurrentPos += vDir * fMoveDistanve;
-//
-//	m_pOwner->Get_Transform()->m_vInfo[INFO_POS] = vCurrentPos;
-//}
-
-//_bool CMonster_Move::Reached_Pos()
-//{
-//	_vec3 vCurrentPos = m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
-//	_float fDistance = D3DXVec3Length(&(vCurrentPos - m_vRandomPos));
-//
-//	return fDistance <= 70.f;
-//}
-
 void CMonster_Move::Move_RandomPos(const _float& fTimeDelta)
 {
 	//_vec3 vTerrainCenter = _vec3((VTXCNTX * 32) / 2.f, 0.f, (VTXCNTZ * 32) / 2.f);
@@ -257,6 +140,36 @@ _vec3 CMonster_Move::Get_RandomDir(const _float& fTimeDelta)
 
 }
 
+void CMonster_Move::Move_Sound()
+{
+	MONSTERTAG _eMonsterTag = dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Get_MonsterTag();
+
+	switch (_eMonsterTag)
+	{
+	case MONSTERTAG::SPIDER:
+		//if(m_pOwner->Get_PrevState() != STATE::ROMIMG)
+		//CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTER);
+		//CSoundManager::GetInstance()->PlaySound(L"spider_walk.mp3", CHANNELID::SOUND_MONSTER, 1.f);
+		break;
+	case MONSTERTAG::WARRIOR:
+		break;
+	case MONSTERTAG::BAT:
+		break;
+	case MONSTERTAG::WIZARD:
+		break;
+	case MONSTERTAG::ALIEN:
+		break;
+	case MONSTERTAG::SLIME:
+		break;
+	case MONSTERTAG::SKELETON:
+		break;
+	case MONSTERTAG::SKULLGHOST:
+		break;
+	case MONSTERTAG::WORM:
+		break;
+	}
+}
+
 void CMonster_Move::MoveTo_Pos(const _vec3& vTargetPos, const _float& fTimeDelta)
 {
 	_vec3& vMonsterPos = m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
@@ -267,7 +180,9 @@ void CMonster_Move::MoveTo_Pos(const _vec3& vTargetPos, const _float& fTimeDelta
 	_float fMoveSpeed = 3.f;
 	_float fMoveDistance = fMoveSpeed * fTimeDelta;
 
-	vMonsterPos += vDir * fMoveDistance;
+	_vec3 vZeroY = _vec3(vDir.x, 0.f, vDir.z);
+
+	vMonsterPos += vZeroY * fMoveDistance;
 }
 
 

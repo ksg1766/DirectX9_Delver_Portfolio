@@ -1,3 +1,5 @@
+#include "stdafx.h"
+#include "SoundManager.h"
 #include "..\Header\Monster_Jump.h"
 #include "Export_Function.h"
 #include "DungeonSpider.h"
@@ -52,6 +54,8 @@ STATE CMonster_Jump::Jump(const _float& fTimeDelta)
 
 	if (!m_bIsJumping)
 	{
+		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTER);
+
 		m_fChase += fTimeDelta;
 
 		if (m_fChase < 0.1f)
@@ -86,14 +90,20 @@ STATE CMonster_Jump::Jump(const _float& fTimeDelta)
 
 		if(dynamic_cast<CMonster*>(m_pOwner->Get_Host())->IsJump())
 		dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Add_JumpVelocity(-0.5f * fTimeDelta * fTimeDelta * 3000.f);
+	
 
+		_float fDistance = D3DXVec3Length(&(rPlayer.m_pTransform->m_vInfo[INFO_POS] - m_pOwner->Get_Transform()->m_vInfo[INFO_POS]));
+
+		if (fDistance < 15.f)
+			CSoundManager::GetInstance()->PlaySound(L"en_spider_attack_01.mp3", CHANNELID::SOUND_MONSTER, 1.f);
 	}
 
 	
 	if (!dynamic_cast<CMonster*>(m_pOwner->Get_Host())->IsJump())
 	{
 		m_bIsJumping = false;
-		//m_pOwner->Get_Animator()->Get_Animation()->Set_Frame(0.f);
+		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTER);
+		CSoundManager::GetInstance()->PlaySound(L"spider_walk.mp3", CHANNELID::SOUND_MONSTER, 1.f);
 		return STATE::ROMIMG;
 	}
 

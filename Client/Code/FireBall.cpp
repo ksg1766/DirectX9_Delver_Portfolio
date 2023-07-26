@@ -167,7 +167,7 @@ void CFireBall::OnCollisionEnter(CCollider* _pOther)
 		pPlayer.IsAttack(dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_BasicStat());
 
 		//////////////////////////////////////////////////////////////////////////////// ÀÌÆåÆ® 
-		_matrix      matMonsterWorld = _pOther->GetHost()->m_pTransform->WorldMatrix();
+		_matrix      matMonsterWorld = _pOther->Get_Host()->m_pTransform->WorldMatrix();
 		_vec3        vecMonsterPos   = _vec3(matMonsterWorld._41, matMonsterWorld._42 + .5f, matMonsterWorld._43);
 		CGameObject* pGameObject     = CEffectSquare::Create(m_pGraphicDev, vecMonsterPos, 50, EFFECTCOLOR::ECOLOR_NONE);
 		dynamic_cast<CEffectSquare*>(pGameObject)->Set_MonsterEffectColor(dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_MonsterTag());

@@ -155,7 +155,7 @@ void CAlien::OnCollisionEnter(CCollider* _pOther)
 
 
 	if (this->Get_StateMachine()->Get_State() != STATE::DEAD && 
-		_pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::ITEM &&
+		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::ITEM &&
 		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::PLAYER)
 		__super::OnCollisionEnter(_pOther);
 
@@ -167,7 +167,7 @@ void CAlien::OnCollisionStay(CCollider* _pOther)
 	if (SceneManager()->Get_GameStop()) { return; }
 
 	if (this->Get_StateMachine()->Get_State() != STATE::DEAD &&
-		_pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::ITEM &&
+		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::ITEM &&
 		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::PLAYER)
 		__super::OnCollisionStay(_pOther);
 

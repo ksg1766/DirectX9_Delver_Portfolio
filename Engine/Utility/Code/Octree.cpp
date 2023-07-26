@@ -1,6 +1,7 @@
 #include "Export_Utility.h"
 #include "OctreeNode.h"
 #include "Frustum.h"
+#include "Trap.h"
 
 IMPLEMENT_SINGLETON(COctree)
 
@@ -17,12 +18,21 @@ HRESULT COctree::Ready_Octree()
 {
     m_pOctreeRoot = BuildOctree(_vec3(0.f, Width * 0.5f, 0.f), Width * 0.5f, Depth_Limit);
 
+    if (!m_pOctreeRoot)
+        return E_FAIL;
+
     vector<CGameObject*>& vecStaticObject = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BLOCK);
     for(auto& iter : vecStaticObject)
         FindCurrentPosNode(iter->m_pTransform, m_pOctreeRoot);
 
-    if (!m_pOctreeRoot)
-        return E_FAIL;
+    vector<CGameObject*>& vecTrapObject = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::TRAP);
+    for (auto& iter : vecTrapObject)
+        if(TRAPTAG::STRIKEDOWN != dynamic_cast<CTrap*>(iter)->Get_TrapTag())
+            FindCurrentPosNode(iter->m_pTransform, m_pOctreeRoot);
+
+    vector<CGameObject*>& vecImmortalObject = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::IMMORTAL);
+    for (auto& iter : vecImmortalObject)
+        FindCurrentPosNode(iter->m_pTransform, m_pOctreeRoot);
 
     m_pFrustum = new CFrustum;
 

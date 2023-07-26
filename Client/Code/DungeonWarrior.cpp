@@ -1,3 +1,5 @@
+#include "stdafx.h"
+#include "SoundManager.h"
 #include "..\Header\DungeonWarrior.h"
 #include "Export_Function.h"
 #include "Warrior_Attack.h"
@@ -92,14 +94,33 @@ _int CDungeonWarrior::Update_Object(const _float& fTimeDelta)
 		
 	}
 
+	CPlayer& rPlayer = *SceneManager()->Get_Scene()->Get_MainPlayer();
+
+	_float fDistance = D3DXVec3Length(&(rPlayer.m_pTransform->m_vInfo[INFO_POS] - m_pTransform->m_vInfo[INFO_POS]));
+
+
+	if (fDistance < 15.f)
+	{
+		if (!m_bSearch)
+		{
+			m_bSearch = true;
+			CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTER);
+			CSoundManager::GetInstance()->PlaySound(L"en_melee_2_alert_02.mp3", CHANNELID::SOUND_MONSTER, 1.f);
+		}
+	}
+
 	if (m_pBasicStat->Get_Stat()->fHP <= 0)
 	{
+
+		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTER);
+		CSoundManager::GetInstance()->PlaySound(L"en_melee_2_die_02.mp3", CHANNELID::SOUND_MONSTER, 1.f);
+
+
 		if (m_pAnimator->Get_Animation()->Get_Frame() >= 1) // ? ) 확인 부탁드립니다
 			m_pAnimator->Get_Animation()->Set_Loop(FALSE);
 		{
 		m_pStateMachine->Set_State(STATE::DEAD);
 
-		
 		
 		//////////////////////////////////////////////////////////////////////////////// 이펙트 
 			if (!m_bDieEffect)
@@ -164,7 +185,7 @@ void CDungeonWarrior::OnCollisionEnter(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 
-	if (_pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::PLAYER
+	if (_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::PLAYER
 		&&this->Get_StateMachine()->Get_State() != STATE::DEAD && 
 		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::ITEM &&
 		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::PLAYERBULLET)
@@ -172,11 +193,11 @@ void CDungeonWarrior::OnCollisionEnter(CCollider* _pOther)
 
 	// 충돌 밀어내기 후 이벤트 : 구현하시면 됩니다.
 
-	if (_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::PLAYER
+	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::PLAYER
 		&& this->Get_StateMachine()->Get_State() == STATE::ATTACK)
 		if (!this->Get_AttackTick())		
 		{
-			CPlayerStat& PlayerStat = *static_cast<CPlayer*>(_pOther->GetHost())->Get_Stat();
+			CPlayerStat& PlayerStat = *static_cast<CPlayer*>(_pOther->Get_Host())->Get_Stat();
 			this->Set_AttackTick(true);
 			IsAttack(&PlayerStat);
 
@@ -188,7 +209,7 @@ void CDungeonWarrior::OnCollisionStay(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 	// 충돌 밀어내기 후 이벤트 : 구현하시면 됩니다.
-	if (_pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::PLAYER &&
+	if (_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::PLAYER &&
 		this->Get_StateMachine()->Get_State() != STATE::DEAD &&
 		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::ITEM&&
 		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::PLAYERBULLET)

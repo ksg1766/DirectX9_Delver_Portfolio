@@ -24,6 +24,11 @@ public:
     CBasicStat* Get_ItemStat()                  { return m_pBasicStat; }
 
 public:
+    virtual void		OnCollisionEnter(CCollider* _pOther);
+    virtual void		OnCollisionStay(CCollider* _pOther);
+    virtual void		OnCollisionExit(CCollider* _pOther);
+
+public:
     HRESULT     Ready_Object();
     _int        Update_Object(const _float& fTimeDelta);
 
@@ -31,7 +36,7 @@ protected:
     ITEMTYPEID  m_ItemID;
     _bool       m_bWorldItem;
     CBasicStat* m_pBasicStat = nullptr;
-
+    
     _int        m_iHitCount;
 
 #pragma region ksg

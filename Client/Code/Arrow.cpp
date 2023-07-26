@@ -121,12 +121,12 @@ void CArrow::Render_Object(void)
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
 
-	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
 	m_pTexture->Render_Texture();
 	m_pBuffer->Render_Buffer();
 
-	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 
 #if _DEBUG
 	m_pCollider->Render_Collider();
@@ -174,12 +174,11 @@ void CArrow::OnCollisionEnter(CCollider* _pOther)
 		__super::OnCollisionEnter(_pOther);
 	// 몬스터거나 플레이어면 밀어내지않는다.
 
-	CPlayer& pPlayer = *dynamic_cast<CPlayer*>(SceneManager()->GetInstance()
-		->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
+	CPlayer& pPlayer = *dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer());
 	// 플레이어의 정보를 레퍼런스로 얻어옴.
 
-	if ((_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::MONSTER &&
-		dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_StateMachine()->Get_State() != STATE::DEAD)|| (_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::BOSS))
+	if ((_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::MONSTER &&
+		dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_StateMachine()->Get_State() != STATE::DEAD)|| (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BOSS))
 	{
 		pPlayer.IsAttack(dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_BasicStat());
 	
@@ -193,13 +192,14 @@ void CArrow::OnCollisionEnter(CCollider* _pOther)
 			CGameObject* pGameObject = CEffectDamageStar::Create(m_pGraphicDev);
 			dynamic_cast<CTempEffect*>(pGameObject)->Set_TargetObject(_pOther->Get_Host());
 			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+			//CPoolManager::GetInstance()->Create_Effect(pGameObject, );
 			//////////////////////////////////////////////////////////////////////////////// 이펙트 
 
 			Engine::EventManager()->DeleteObject(this);
 		}
 
 		//////////////////////////////////////////////////////////////////////////////// 이펙트 
-		_matrix      matMonsterWorld = _pOther->GetHost()->m_pTransform->WorldMatrix();
+		_matrix      matMonsterWorld = _pOther->Get_Host()->m_pTransform->WorldMatrix();
 		_vec3        vecMonsterPos = _vec3(matMonsterWorld._41, matMonsterWorld._42 + .5f, matMonsterWorld._43);
 		CGameObject* pGameObject = CEffectSquare::Create(m_pGraphicDev, vecMonsterPos, 50, EFFECTCOLOR::ECOLOR_NONE);
 		dynamic_cast<CEffectSquare*>(pGameObject)->Set_MonsterEffectColor(dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_MonsterTag());

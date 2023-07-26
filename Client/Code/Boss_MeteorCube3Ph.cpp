@@ -142,7 +142,7 @@ void CBoss_MeteorCube3Ph::OnCollisionEnter(CCollider* _pOther)
 			Engine::CGameObject* pGameObject = nullptr;
 			pGameObject = CBossExplosion::Create(m_pGraphicDev);
 			m_vTargetPos = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform->m_vInfo[INFO_POS];
-			_vec3 m_vDis = (dynamic_cast<CPlayer*>(_pOther->GetHost())->m_pTransform->m_vInfo[INFO_LOOK] * 0.2f);
+			_vec3 m_vDis = (dynamic_cast<CPlayer*>(_pOther->Get_Host())->m_pTransform->m_vInfo[INFO_LOOK] * 0.2f);
 			dynamic_cast<CBossExplosion*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = _vec3(m_vTargetPos.x + m_vDis.x, m_pTransform->m_vInfo[INFO_POS].y, m_vTargetPos.z + m_vDis.z);
 			dynamic_cast<CBossExplosion*>(pGameObject)->Set_Scale(300.f);
 			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);

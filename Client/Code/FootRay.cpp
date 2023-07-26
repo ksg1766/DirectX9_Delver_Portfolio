@@ -76,7 +76,7 @@ void CFootRay::Render_Object(void)
 
 void CFootRay::OnCollisionEnter(CCollider* _pOther)
 {
-	CGameObject* pOtherObj = _pOther->GetHost();
+	CGameObject* pOtherObj = _pOther->Get_Host();
 	if (OBJECTTAG::BLOCK == pOtherObj->Get_ObjectTag())
 	{
 		// 새로 충돌한 지형은 타겟에 저장
@@ -86,7 +86,7 @@ void CFootRay::OnCollisionEnter(CCollider* _pOther)
 
 void CFootRay::OnCollisionStay(CCollider* _pOther)
 {
-	CGameObject* pOtherObj = _pOther->GetHost();
+	CGameObject* pOtherObj = _pOther->Get_Host();
 	if (OBJECTTAG::BLOCK == pOtherObj->Get_ObjectTag())
 	{
 		// 계속 충돌 중이라면 Host가 블럭 위에 서 있는 것. 따라서 점프 ㄱㄴ
@@ -97,7 +97,7 @@ void CFootRay::OnCollisionStay(CCollider* _pOther)
 
 void CFootRay::OnCollisionExit(CCollider* _pOther)
 {
-	CGameObject* pOtherObj = _pOther->GetHost();
+	CGameObject* pOtherObj = _pOther->Get_Host();
 	if (OBJECTTAG::BLOCK == pOtherObj->Get_ObjectTag())
 	{
 		// 충돌 해제된 대상이 타겟과 일치한다면 블럭에서 벗어남. 따라서 공중에 떠 있는 상태

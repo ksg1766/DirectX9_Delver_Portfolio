@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "..\Header\DungeonSpider.h"
 #include "Export_Function.h"
 #include "Monster_Move.h"
@@ -6,8 +7,9 @@
 #include "Monster_Dead.h"
 #include "Player.h"
 #include "EffectBlood.h"
-
+#include "SpiderRay.h"
 #include "PoolManager.h"
+#include "SoundManager.h"
 
 CDungeonSpider::CDungeonSpider(LPDIRECT3DDEVICE9 pGrapicDev)
 	: Engine::CMonster(pGrapicDev), m_fFrame(0.f), m_bAttackTick(false)
@@ -88,7 +90,9 @@ _int CDungeonSpider::Update_Object(const _float& fTimeDelta)
 	if (m_pBasicStat->Get_Stat()->fHP <= 0)
 	{
 		m_pStateMachine->Set_State(STATE::DEAD);
-
+		
+		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTER);
+		CSoundManager::GetInstance()->PlaySound(L"en_spider_die_01.mp3", CHANNELID::SOUND_MONSTER, 1.f);
 		//////////////////////////////////////////////////////////////////////////////// ÀÌÆåÆ® 
 		if (!m_bDieEffect)
 		{
@@ -109,6 +113,19 @@ _int CDungeonSpider::Update_Object(const _float& fTimeDelta)
 
 	
 
+	CPlayer& rPlayer = *SceneManager()->Get_Scene()->Get_MainPlayer();
+
+	_float fDistance = D3DXVec3Length(&(rPlayer.m_pTransform->m_vInfo[INFO_POS] - m_pTransform->m_vInfo[INFO_POS]));
+
+	if (fDistance < 15.f)
+	{
+		if (!m_bSearch)
+		{
+			m_bSearch = true;
+			CSoundManager::GetInstance()->PlaySound(L"en_spider_idle_01.mp3", CHANNELID::SOUND_MONSTER, 1.f);
+		}
+	}
+		
 	m_pStateMachine->Update_StateMachine(fTimeDelta);
 
 
@@ -166,15 +183,15 @@ void CDungeonSpider::OnCollisionEnter(CCollider* _pOther)
 	if (SceneManager()->Get_GameStop()) { return; }
 
 	if (this->Get_StateMachine()->Get_State() != STATE::DEAD &&
-		_pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::ITEM &&
+		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::ITEM &&
 		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::PLAYER)
 		__super::OnCollisionEnter(_pOther);
 
-	if (_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::PLAYER
+	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::PLAYER
 		&& this->Get_StateMachine()->Get_State() == STATE::ATTACK)
 		if (!this->Get_AttackTick())
 		{
-			CPlayerStat& PlayerStat = *static_cast<CPlayer*>(_pOther->GetHost())->Get_Stat();
+			CPlayerStat& PlayerStat = *static_cast<CPlayer*>(_pOther->Get_Host())->Get_Stat();
 			this->Set_AttackTick(true);
 			IsAttack(&PlayerStat);
 			
@@ -188,7 +205,7 @@ void CDungeonSpider::OnCollisionStay(CCollider* _pOther)
 	if (SceneManager()->Get_GameStop()) { return; }
 
 	if (this->Get_StateMachine()->Get_State() != STATE::DEAD &&
-		_pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::ITEM &&
+		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::ITEM &&
 		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::PLAYER)
 	__super::OnCollisionStay(_pOther);
 

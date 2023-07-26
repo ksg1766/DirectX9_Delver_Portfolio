@@ -102,7 +102,7 @@ _int CSkeleton::Update_Object(const _float& fTimeDelta)
 		m_fDeadCoolTime += fTimeDelta;
 
 		if (m_fDeadCoolTime > 3.f)
-		CPoolManager::GetInstance()->Delete_Object(this);
+			CPoolManager::GetInstance()->Delete_Object(this);
 	}
 
 	m_pStateMachine->Update_StateMachine(fTimeDelta);
@@ -156,15 +156,15 @@ void CSkeleton::OnCollisionEnter(CCollider* _pOther)
 	if (SceneManager()->Get_GameStop()) { return ; }
 
 	if (this->Get_StateMachine()->Get_State() != STATE::DEAD &&
-		_pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::ITEM &&
+		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::ITEM &&
 		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::PLAYER)
 		__super::OnCollisionEnter(_pOther);
 
-	if (_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::PLAYER
+	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::PLAYER
 		&& this->Get_StateMachine()->Get_State() == STATE::ATTACK)
 		if (!this->Get_AttackTick())
 		{
-			CPlayerStat& PlayerStat = *static_cast<CPlayer*>(_pOther->GetHost())->Get_Stat();
+			CPlayerStat& PlayerStat = *static_cast<CPlayer*>(_pOther->Get_Host())->Get_Stat();
 			this->Set_AttackTick(true);
 			IsAttack(&PlayerStat);
 
@@ -177,7 +177,7 @@ void CSkeleton::OnCollisionStay(CCollider* _pOther)
 	if (SceneManager()->Get_GameStop()) { return; }
 
 	if (this->Get_StateMachine()->Get_State() != STATE::DEAD &&
-		_pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::ITEM &&
+		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::ITEM &&
 		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::PLAYER)
 	__super::OnCollisionStay(_pOther);
 	// 충돌 밀어내기 후 이벤트 : 구현하시면 됩니다.
