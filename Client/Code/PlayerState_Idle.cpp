@@ -95,7 +95,11 @@ STATE CPlayerState_Idle::Key_Input(const _float& fTimeDelta)
 			}
 
 			if (dynamic_cast<CItem*>(pPlayer.Get_CurrentEquipLeft())->Get_ItemTag().eItemID == ITEMID::GENERAL_SHIELD)
+			{
 				pPlayer.Set_ThrowShield(true);
+				return STATE::ATTACK;
+			}
+				
 		}
 		pPlayer.Set_State(STATE::IDLE);
 		return STATE::IDLE;
