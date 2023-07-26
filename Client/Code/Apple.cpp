@@ -121,8 +121,8 @@ void CApple::OnCollisionEnter(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 
-	if (!(_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::MONSTER) &&
-		!(_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::PLAYER))
+	if (!(_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::MONSTER) &&
+		!(_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::PLAYER))
 		__super::OnCollisionEnter(_pOther);
 
 }
@@ -132,8 +132,8 @@ void CApple::OnCollisionStay(CCollider* _pOther)
 	if (SceneManager()->Get_GameStop()) { return; }
 
 
-	if (!(_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::MONSTER) &&
-		!(_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::PLAYER))
+	if (!(_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::MONSTER) &&
+		!(_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::PLAYER))
 		__super::OnCollisionStay(_pOther);
 }
 
@@ -142,8 +142,8 @@ void CApple::OnCollisionExit(CCollider* _pOther)
 	if (SceneManager()->Get_GameStop()) { return; }
 
 
-	if (!(_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::MONSTER) &&
-		!(_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::PLAYER))
+	if (!(_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::MONSTER) &&
+		!(_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::PLAYER))
 		__super::OnCollisionExit(_pOther);
 }
 

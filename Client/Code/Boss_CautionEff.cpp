@@ -49,7 +49,7 @@ void CBoss_CautionEff::LateUpdate_Object(void)
 
 void CBoss_CautionEff::Render_Object(void)
 {
-	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
 	m_pTexture->Render_Texture();
 	m_pBuffer->Render_Buffer();
@@ -62,7 +62,7 @@ void CBoss_CautionEff::Render_Object(void)
 
 	m_pTexture->Render_Texture();
 	m_pBuffer->Render_Buffer();
-	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
 
 HRESULT CBoss_CautionEff::Add_Component(void)

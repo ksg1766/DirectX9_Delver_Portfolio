@@ -23,7 +23,6 @@ public:
 	_vec3*			GetAxisDir() { return m_vAxisDir; }
 	float*			GetAxisLen() { return m_fAxisLen; }
 
-	CGameObject*	GetHost() { return m_pHost; }
 	UINT			GetID() { return m_iID; }
 
 public:

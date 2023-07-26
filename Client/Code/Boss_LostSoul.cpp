@@ -117,11 +117,11 @@ void CBossLostSoul::OnCollisionEnter(CCollider* _pOther)
 void CBossLostSoul::OnCollisionStay(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
-	if (_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::PLAYER)
+	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::PLAYER)
 	{
 		if (m_eSoulState == SOUL_NORMAL)
 		{
-			CPlayerStat& PlayerState = *(dynamic_cast<CPlayer*>(_pOther->GetHost())->Get_Stat());
+			CPlayerStat& PlayerState = *(dynamic_cast<CPlayer*>(_pOther->Get_Host())->Get_Stat());
 			PlayerState.Take_Damage(this->Get_BasicStat()->Get_Stat()->fAttack);
 			this->Set_AttackTick(true);
 			Engine::CGameObject* pGameObject = nullptr;
@@ -133,11 +133,11 @@ void CBossLostSoul::OnCollisionStay(CCollider* _pOther)
 		}
 	}
 
-	if (_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::ITEM)
+	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::ITEM)
 	{
 		if (m_eSoulState == SOUL_NORMAL)
 		{
-			if ((dynamic_cast<CPlayer*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front())->Get_Parrying()) && (ITEMID::GENERAL_SHIELD == dynamic_cast<CShield*>(_pOther->GetHost())->Get_ItemTag().eItemID))
+			if ((dynamic_cast<CPlayer*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front())->Get_Parrying()) && (ITEMID::GENERAL_SHIELD == dynamic_cast<CShield*>(_pOther->Get_Host())->Get_ItemTag().eItemID))
 			{
 				m_eSoulState = SOUL_PARRY;
 				m_bHit = true;
@@ -150,7 +150,7 @@ void CBossLostSoul::OnCollisionStay(CCollider* _pOther)
 	}//(m_eSoulState == SOUL_PARRY)
 	if (m_eSoulState == SOUL_PARRY)
 	{
-		if ((_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::BOSS))//((m_eObjectTag == OBJECTTAG::PLAYERBULLET))
+		if ((_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BOSS))//((m_eObjectTag == OBJECTTAG::PLAYERBULLET))
 		{
 			Engine::CGameObject* pGameObject = nullptr;
 			pGameObject = CEffectExplosion::Create(m_pGraphicDev);

@@ -68,7 +68,7 @@ void CPot::OnCollisionStay(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 	if (m_bHit) { return; }
-	m_pOtherObj = _pOther->GetHost();
+	m_pOtherObj = _pOther->Get_Host();
 	if ((OBJECTTAG::ITEM == m_pOtherObj->Get_ObjectTag()) || (OBJECTTAG::PLAYERBULLET == m_pOtherObj->Get_ObjectTag()))
 	{
 		if (!dynamic_cast<CPlayer*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front())->Get_Attack())

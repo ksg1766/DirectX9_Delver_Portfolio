@@ -77,14 +77,14 @@ void CBlade_Trap_Blade::LateUpdate_Object(void)
 
 void CBlade_Trap_Blade::Render_Object(void)
 {
-	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
 
 	m_pStateMachine->Render_StateMachine();
 	m_pBuffer->Render_Buffer();
 
-	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 
 #if _DEBUG
 		m_pCollider->Render_Collider();
@@ -136,7 +136,7 @@ void CBlade_Trap_Blade::OnCollisionEnter(CCollider* _pOther)
 	m_pOtherObj = _pOther->Get_Host();
 	if (OBJECTTAG::PLAYER == m_pOtherObj->Get_ObjectTag())
 	{
-		CPlayerStat& PlayerState = *static_cast<CPlayer*>(_pOther->GetHost())->Get_Stat();
+		CPlayerStat& PlayerState = *static_cast<CPlayer*>(_pOther->Get_Host())->Get_Stat();
 		PlayerState.Take_Damage(4.f);
 		m_bHit = true;
 	}

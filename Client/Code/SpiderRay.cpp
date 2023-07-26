@@ -65,7 +65,7 @@ void CSpiderRay::Render_Object(void)
 
 void CSpiderRay::OnCollisionEnter(CCollider* _pOther)
 {
-	CGameObject* pOtherObj = _pOther->GetHost();
+	CGameObject* pOtherObj = _pOther->Get_Host();
 	
 	if (OBJECTTAG::BLOCK == pOtherObj->Get_ObjectTag())
 	{
@@ -75,7 +75,7 @@ void CSpiderRay::OnCollisionEnter(CCollider* _pOther)
 
 void CSpiderRay::OnCollisionStay(CCollider* _pOther)
 {
-	CGameObject* pOtherObj = _pOther->GetHost();
+	CGameObject* pOtherObj = _pOther->Get_Host();
 	if (OBJECTTAG::BLOCK == pOtherObj->Get_ObjectTag())
 	{
 		static_cast<CDungeonSpider*>(m_pHost)->Set_Jump(false);
@@ -85,7 +85,7 @@ void CSpiderRay::OnCollisionStay(CCollider* _pOther)
 
 void CSpiderRay::OnCollisionExit(CCollider* _pOther)
 {
-	CGameObject* pOtherObj = _pOther->GetHost();
+	CGameObject* pOtherObj = _pOther->Get_Host();
 	if (OBJECTTAG::BLOCK == pOtherObj->Get_ObjectTag())
 	{
 		m_pColTarget = nullptr;

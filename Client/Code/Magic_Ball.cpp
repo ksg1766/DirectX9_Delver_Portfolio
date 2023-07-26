@@ -139,15 +139,15 @@ void CMagic_Ball::OnCollisionEnter(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 
-	if (_pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::ITEM
-		&& _pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::PLAYER
-		&& _pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::MONSTER)
+	if (_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::ITEM
+		&& _pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::PLAYER
+		&& _pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::MONSTER)
 		__super::OnCollisionEnter(_pOther);
 
 
-	if (_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::PLAYER && this->Get_State() != STATE::DEAD)
+	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::PLAYER && this->Get_State() != STATE::DEAD)
 	{
-		CPlayerStat& PlayerStat = *static_cast<CPlayer*>(_pOther->GetHost())->Get_Stat();
+		CPlayerStat& PlayerStat = *static_cast<CPlayer*>(_pOther->Get_Host())->Get_Stat();
 		this->Set_AttackTick(true);
 		IsAttack(&PlayerStat);
 
@@ -168,9 +168,9 @@ void CMagic_Ball::OnCollisionStay(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 
-	if (_pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::ITEM
-		&& _pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::PLAYER
-		&& _pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::MONSTER)
+	if (_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::ITEM
+		&& _pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::PLAYER
+		&& _pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::MONSTER)
 		__super::OnCollisionStay(_pOther);
 }
 

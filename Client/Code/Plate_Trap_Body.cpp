@@ -79,7 +79,7 @@ void CPlate_Trap::OnCollisionStay(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 	if (m_bAttack) { return; }
-	m_pOtherObj = _pOther->GetHost();
+	m_pOtherObj = _pOther->Get_Host();
 	if (OBJECTTAG::PLAYER == m_pOtherObj->Get_ObjectTag())
 	{
 		//µ∂«‘¡§

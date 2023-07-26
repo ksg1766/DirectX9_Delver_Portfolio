@@ -164,7 +164,7 @@ void CDungeonWarrior::OnCollisionEnter(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 
-	if (_pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::PLAYER
+	if (_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::PLAYER
 		&&this->Get_StateMachine()->Get_State() != STATE::DEAD && 
 		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::ITEM &&
 		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::PLAYERBULLET)
@@ -172,11 +172,11 @@ void CDungeonWarrior::OnCollisionEnter(CCollider* _pOther)
 
 	// 충돌 밀어내기 후 이벤트 : 구현하시면 됩니다.
 
-	if (_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::PLAYER
+	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::PLAYER
 		&& this->Get_StateMachine()->Get_State() == STATE::ATTACK)
 		if (!this->Get_AttackTick())		
 		{
-			CPlayerStat& PlayerStat = *static_cast<CPlayer*>(_pOther->GetHost())->Get_Stat();
+			CPlayerStat& PlayerStat = *static_cast<CPlayer*>(_pOther->Get_Host())->Get_Stat();
 			this->Set_AttackTick(true);
 			IsAttack(&PlayerStat);
 
@@ -188,7 +188,7 @@ void CDungeonWarrior::OnCollisionStay(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 	// 충돌 밀어내기 후 이벤트 : 구현하시면 됩니다.
-	if (_pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::PLAYER &&
+	if (_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::PLAYER &&
 		this->Get_StateMachine()->Get_State() != STATE::DEAD &&
 		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::ITEM&&
 		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::PLAYERBULLET)

@@ -95,13 +95,13 @@ void CBoss_GrabBat::OnCollisionEnter(CCollider* _pOther)
 void CBoss_GrabBat::OnCollisionStay(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
-	if (OBJECTTAG::PLAYER == _pOther->GetHost()->Get_ObjectTag())
+	if (OBJECTTAG::PLAYER == _pOther->Get_Host()->Get_ObjectTag())
 	{
 		if (m_bGrab) { return; }
 		m_bGrab = true;
 	}
 	if (m_bHit) { return; }
-	if ((OBJECTTAG::ITEM == _pOther->GetHost()->Get_ObjectTag()) || (OBJECTTAG::PLAYERBULLET == _pOther->GetHost()->Get_ObjectTag()))
+	if ((OBJECTTAG::ITEM == _pOther->Get_Host()->Get_ObjectTag()) || (OBJECTTAG::PLAYERBULLET == _pOther->Get_Host()->Get_ObjectTag()))
 	{
 		if (!dynamic_cast<CPlayer*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front())->Get_Attack())
 			return;

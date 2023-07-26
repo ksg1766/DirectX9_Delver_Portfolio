@@ -113,7 +113,7 @@ void CSkullGhost::LateUpdate_Object()
 void CSkullGhost::Render_Object()
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
-	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
 	m_pStateMachine->Render_StateMachine();
 	m_pBuffer->Render_Buffer();
@@ -122,7 +122,7 @@ void CSkullGhost::Render_Object()
 #if _DEBUG
 	m_pCollider->Render_Collider();
 #endif
-	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
 
 void CSkullGhost::Init_Stat()
@@ -144,18 +144,18 @@ void CSkullGhost::OnCollisionEnter(CCollider* _pOther)
 	if (SceneManager()->Get_GameStop()) { return; }
 
 
-	if (_pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::PLAYER
+	if (_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::PLAYER
 		&& this->Get_StateMachine()->Get_State() != STATE::DEAD &&
 		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::ITEM)
 		__super::OnCollisionEnter(_pOther);
 
 	// 충돌 밀어내기 후 이벤트 : 구현하시면 됩니다.
 
-	if (_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::PLAYER
+	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::PLAYER
 		&& this->Get_StateMachine()->Get_State() == STATE::ATTACK)
 		if (!this->Get_AttackTick())
 		{
-			CPlayerStat& PlayerStat = *static_cast<CPlayer*>(_pOther->GetHost())->Get_Stat();
+			CPlayerStat& PlayerStat = *static_cast<CPlayer*>(_pOther->Get_Host())->Get_Stat();
 			this->Set_AttackTick(true);
 			IsAttack(&PlayerStat);
 
@@ -167,7 +167,7 @@ void CSkullGhost::OnCollisionStay(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 	// 충돌 밀어내기 후 이벤트 : 구현하시면 됩니다.
-	if (_pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::PLAYER &&
+	if (_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::PLAYER &&
 		this->Get_StateMachine()->Get_State() != STATE::DEAD &&
 		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::ITEM)
 		__super::OnCollisionStay(_pOther);

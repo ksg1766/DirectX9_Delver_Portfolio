@@ -71,13 +71,13 @@ void CJump_Plate::OnCollisionEnter(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 	if (m_bAttack) { return; }
-	m_pOtherObj = _pOther->GetHost();
+	m_pOtherObj = _pOther->Get_Host();
 	if (OBJECTTAG::PLAYER == m_pOtherObj->Get_ObjectTag())
 	{
 		_vec3 JumpDir = m_pOtherObj->m_pTransform->m_vInfo[INFO_LOOK] * 20.f;//(dynamic_cast<CPlayer*>(m_pOtherObj)->Get_Speed());
-		(dynamic_cast<CPlayer*>(_pOther->GetHost())->Get_RigidBody()->Add_Force(_vec3(JumpDir.x, 1.1f * 15.f, JumpDir.z)));
-		(dynamic_cast<CPlayer*>(_pOther->GetHost())->Get_RigidBody()->UseGravity(true));
-		(dynamic_cast<CPlayer*>(_pOther->GetHost())->Set_JumpState(true));
+		(dynamic_cast<CPlayer*>(_pOther->Get_Host())->Get_RigidBody()->Add_Force(_vec3(JumpDir.x, 1.1f * 15.f, JumpDir.z)));
+		(dynamic_cast<CPlayer*>(_pOther->Get_Host())->Get_RigidBody()->UseGravity(true));
+		(dynamic_cast<CPlayer*>(_pOther->Get_Host())->Set_JumpState(true));
 	}
 }
 

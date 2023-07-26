@@ -243,8 +243,8 @@ void CTempItem::OnCollisionEnter(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 
-	if (!(_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::MONSTER) &&
-		!(_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::PLAYER)&& !(_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::BOSS))
+	if (!(_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::MONSTER) &&
+		!(_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::PLAYER)&& !(_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BOSS))
 		__super::OnCollisionEnter(_pOther);
 
 	// 몬스터거나 플레이어면 밀어내지않는다.
@@ -252,7 +252,7 @@ void CTempItem::OnCollisionEnter(CCollider* _pOther)
 	CPlayer& pPlayer = *dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer());
 	// 플레이어의 정보를 레퍼런스로 얻어옴.
 
-	if ((_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::MONSTER)||(_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BOSS))
+	if ((_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::MONSTER)||(_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BOSS))
 		// 무기 콜리전에 들어온 타입이 몬스터이면서, 플레이어의 스테이트가 공격이라면
 	{
 		if (!pPlayer.Get_AttackTick() &&
@@ -272,7 +272,7 @@ void CTempItem::OnCollisionEnter(CCollider* _pOther)
 			}
 
 			//////////////////////////////////////////////////////////////////////////////// 이펙트 
-			_matrix      matMonsterWorld  = _pOther->GetHost()->m_pTransform->WorldMatrix();
+			_matrix      matMonsterWorld  = _pOther->Get_Host()->m_pTransform->WorldMatrix();
 			_vec3        vecMonsterPos    = _vec3(matMonsterWorld._41, matMonsterWorld._42 + .5f, matMonsterWorld._43);
 			CGameObject* pGameObject = CEffectSquare::Create(m_pGraphicDev, vecMonsterPos, 50, EFFECTCOLOR::ECOLOR_NONE);
 			dynamic_cast<CEffectSquare*>(pGameObject)->Set_MonsterEffectColor(dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_MonsterTag());
@@ -293,15 +293,15 @@ void CTempItem::OnCollisionStay(CCollider* _pOther)
 	if (SceneManager()->Get_GameStop()) { return; }
 
 
-	if (!(_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::MONSTER) &&
-		!(_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::PLAYER))
+	if (!(_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::MONSTER) &&
+		!(_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::PLAYER))
 		__super::OnCollisionStay(_pOther);
 
 	CPlayer& pPlayer = *dynamic_cast<CPlayer*>(SceneManager()->GetInstance()
 		->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
 	// 플레이어의 정보를 레퍼런스로 얻어옴.
 
-	if (_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::MONSTER && !pPlayer.Get_AttackTick() &&
+	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::MONSTER && !pPlayer.Get_AttackTick() &&
 		dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_StateMachine()->Get_State() != STATE::DEAD)
 	{
 		++m_iHitCount;
@@ -314,7 +314,7 @@ void CTempItem::OnCollisionStay(CCollider* _pOther)
 		pPlayer.IsAttack(dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_BasicStat());
 
 		//////////////////////////////////////////////////////////////////////////////// 이펙트 
-		_matrix MonsterWorld     = _pOther->GetHost()->m_pTransform->WorldMatrix();
+		_matrix MonsterWorld     = _pOther->Get_Host()->m_pTransform->WorldMatrix();
 		_vec3   vecMonsterPos    = _vec3(MonsterWorld._41, MonsterWorld._42 + .5f, MonsterWorld._43);
 		CGameObject* pGameObject = CEffectSquare::Create(m_pGraphicDev, vecMonsterPos, 50, EFFECTCOLOR::ECOLOR_NONE);
 		dynamic_cast<CEffectSquare*>(pGameObject)->Set_MonsterEffectColor(dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_MonsterTag());
@@ -328,8 +328,8 @@ void CTempItem::OnCollisionExit(CCollider* _pOther)
 	if (SceneManager()->Get_GameStop()) { return; }
 
 
-	if (!(_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::MONSTER) &&
-		!(_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::PLAYER))
+	if (!(_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::MONSTER) &&
+		!(_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::PLAYER))
 		__super::OnCollisionExit(_pOther);
 }
 

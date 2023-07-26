@@ -85,14 +85,14 @@ void CMiniMeteor::OnCollisionEnter(CCollider* _pOther)
 	if (m_bHit) { return; }
 	if (OBJECTTAG::PLAYER == _pOther->Get_ObjectTag())
 	{
-	/*	CPlayerStat& PlayerState = *(dynamic_cast<CPlayer*>(_pOther->GetHost())->Get_Stat());
+	/*	CPlayerStat& PlayerState = *(dynamic_cast<CPlayer*>(_pOther->Get_Host())->Get_Stat());
 		PlayerState.Take_Damage(this->Get_BasicStat()->Get_Stat()->fAttack);
 		this->Set_AttackTick(true);*/
 
 		Engine::CGameObject* pGameObject = nullptr;
 		pGameObject = CBossExplosion::Create(m_pGraphicDev);
 		dynamic_cast<CBossExplosion*>(pGameObject)->Set_Scale(1.f);
-		_vec3 m_vDis = (dynamic_cast<CPlayer*>(_pOther->GetHost())->m_pTransform->m_vInfo[INFO_LOOK] * 0.2f);
+		_vec3 m_vDis = (dynamic_cast<CPlayer*>(_pOther->Get_Host())->m_pTransform->m_vInfo[INFO_LOOK] * 0.2f);
 		dynamic_cast<CBossExplosion*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = _vec3(m_pTransform->m_vInfo[INFO_POS].x + m_vDis.x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vInfo[INFO_POS].z+ m_vDis.z);
 		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 

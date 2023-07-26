@@ -599,10 +599,10 @@ void CPlayer::PoisonDamage(const _float& fTimeDelta)
 
 void CPlayer::OnCollisionEnter(CCollider* _pOther)
 {
-	if (_pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::MONSTER 
-		&& _pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::MONSTERBULLET
-		&& _pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::ITEM
-		&& _pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::TRAP)
+	if (_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::MONSTER 
+		&& _pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::MONSTERBULLET
+		&& _pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::ITEM
+		&& _pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::TRAP)
 	{
 		_vec3	vOtherPos = _pOther->GetCenterPos();
 		_float* fOtherAxis = _pOther->GetAxisLen();
@@ -623,7 +623,7 @@ void CPlayer::OnCollisionEnter(CCollider* _pOther)
 
 		if (fRadiusY == fMinAxis)
 		{
-			if (_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::MONSTER)
+			if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::MONSTER)
 				return;
 			if (vOtherPos.y < vThisPos.y)
 			{
@@ -654,19 +654,19 @@ void CPlayer::OnCollisionEnter(CCollider* _pOther)
 		}
 	}
 
-	if (_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::ITEM)
+	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::ITEM)
 	{
-		if (dynamic_cast<CItem*>(_pOther->GetHost())->Get_WorldItem())
+		if (dynamic_cast<CItem*>(_pOther->Get_Host())->Get_WorldItem())
 			Create_Item(_pOther);
 	}
 }
 
 void CPlayer::OnCollisionStay(CCollider* _pOther)
 {
-	if (_pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::MONSTER 
-		&& _pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::MONSTERBULLET
-		&& _pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::ITEM
-		&& _pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::TRAP)
+	if (_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::MONSTER 
+		&& _pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::MONSTERBULLET
+		&& _pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::ITEM
+		&& _pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::TRAP)
 	{
 		_vec3	vOtherPos = _pOther->GetCenterPos();
 		_float* fOtherAxis = _pOther->GetAxisLen();
@@ -687,7 +687,7 @@ void CPlayer::OnCollisionStay(CCollider* _pOther)
 
 		if (fRadiusY == fMinAxis)
 		{
-			if (_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::MONSTER)
+			if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::MONSTER)
 				return;
 			if (vOtherPos.y < vThisPos.y)
 			{
@@ -718,7 +718,7 @@ void CPlayer::OnCollisionStay(CCollider* _pOther)
 
 void CPlayer::OnCollisionExit(CCollider* _pOther)
 {
-	//if (_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::BLOCK)
+	//if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BLOCK)
 	//{
 	//	_vec3 vThisPos = m_pTransform->m_vInfo[INFO_POS];
 	//	_vec3 vOtherPos = _pOther->Get_Transform()->m_vInfo[INFO_POS];
@@ -849,7 +849,7 @@ void CPlayer::Eating(CBasicStat* _foodStat)
 
 void CPlayer::Create_Item(CCollider* _pOther)
 {
-	ITEMTYPEID ItemType = dynamic_cast<CItem*>(_pOther->GetHost())->Get_ItemTag();
+	ITEMTYPEID ItemType = dynamic_cast<CItem*>(_pOther->Get_Host())->Get_ItemTag();
 
 	CGameObject* pItem = nullptr;
 
@@ -970,7 +970,7 @@ void CPlayer::Create_Item(CCollider* _pOther)
 	}
 	// 아이템 줍기 및 버리기
 
-	EventManager()->GetInstance()->DeleteObject(dynamic_cast<CItem*>(_pOther->GetHost()));
+	EventManager()->GetInstance()->DeleteObject(dynamic_cast<CItem*>(_pOther->Get_Host()));
 }
 
 void CPlayer::Free()

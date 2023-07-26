@@ -151,15 +151,15 @@ void CBat::OnCollisionEnter(CCollider* _pOther)
 	if (SceneManager()->Get_GameStop()) { return; }
 
 	if (this->Get_StateMachine()->Get_State() != STATE::DEAD &&
-		_pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::ITEM &&
+		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::ITEM &&
 		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::PLAYER)
 		__super::OnCollisionEnter(_pOther);
 			
-	if (_pOther->GetHost()->Get_ObjectTag() == OBJECTTAG::PLAYER
+	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::PLAYER
 		&& this->Get_State() == STATE::ATTACK)
 		if (!this->Get_AttackTick())
 		{
-			CPlayerStat& PlayerStat = *static_cast<CPlayer*>(_pOther->GetHost())->Get_Stat();
+			CPlayerStat& PlayerStat = *static_cast<CPlayer*>(_pOther->Get_Host())->Get_Stat();
 			this->Set_AttackTick(true);
 			IsAttack(&PlayerStat);
 
@@ -172,7 +172,7 @@ void CBat::OnCollisionStay(CCollider* _pOther)
 	if (SceneManager()->Get_GameStop()) { return; }
 
 	if (this->Get_StateMachine()->Get_State() != STATE::DEAD &&
-		_pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::ITEM &&
+		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::ITEM &&
 		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::PLAYER)
 		__super::OnCollisionStay(_pOther);
 
