@@ -94,7 +94,7 @@ _int CShield::Update_Object(const _float& fTimeDelta)
 				m_pTransform->RotateAround(m_pTransform->m_vInfo[INFO_POS], m_pTransform->m_vInfo[INFO_UP],
 					20.f);
 				m_pTransform->Rotate(ROT_Z, 2.f);
-				m_pTransform->Translate(m_pTransform->m_vInfo[INFO_LOOK] * 5.f * fTimeDelta);
+				m_pTransform->Translate(m_pTransform->m_pParent->m_vInfo[INFO_LOOK] * 5.f * fTimeDelta);
 				pPlayer->Set_Parrying(true);//Msh
 			}
 			else
@@ -104,7 +104,7 @@ _int CShield::Update_Object(const _float& fTimeDelta)
 				m_pTransform->RotateAround(m_pTransform->m_vInfo[INFO_POS], m_pTransform->m_vInfo[INFO_UP],
 					-20.f);
 				m_pTransform->Rotate(ROT_X, 10.f);
-				m_pTransform->Translate(m_pTransform->m_vInfo[INFO_LOOK] * -5.f * fTimeDelta);
+				m_pTransform->Translate(m_pTransform->m_pParent->m_vInfo[INFO_LOOK] * -5.f * fTimeDelta);
 				pPlayer->Set_Parrying(false);//Msh
 			}
 
@@ -120,9 +120,9 @@ _int CShield::Update_Object(const _float& fTimeDelta)
 		else if (pPlayer->Get_StateMachine()->Get_State() == STATE::ROMIMG)
 		{
 			if (m_iMoveTick > 0)
-				m_pTransform->Translate(m_pTransform->m_vInfo[INFO_UP] * 0.01f);
+				m_pTransform->Translate(m_pTransform->m_pParent->m_vInfo[INFO_UP] * 0.01f);
 			else
-				m_pTransform->Translate(m_pTransform->m_vInfo[INFO_UP] * -0.01f);
+				m_pTransform->Translate(m_pTransform->m_pParent->m_vInfo[INFO_UP] * -0.01f);
 
 			--m_iMoveTick;
 
@@ -131,7 +131,6 @@ _int CShield::Update_Object(const _float& fTimeDelta)
 		}
 		else
 		{
-			pPlayer->Set_ThrowShield(false);
 
 			CTransform* pPlayerTransform = pPlayer->m_pTransform;
 
