@@ -55,6 +55,8 @@ STATE CPlayerState_Walk::Key_Input(const _float& fTimeDelta)
 	CPlayer& pPlayer = *dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer());
 	STATE	_eState = STATE::IDLE;
 
+
+
 	if (!pPlayer.IsTalk())
 	{
 		if (Engine::InputDev()->Key_Pressing(DIK_W))
@@ -63,7 +65,9 @@ STATE CPlayerState_Walk::Key_Input(const _float& fTimeDelta)
 			vFront.y = 0.f;
 			m_pOwner->Get_Transform()->Translate(6.f * fTimeDelta * vFront);
 			_eState = STATE::ROMIMG;
-			CSoundManager::GetInstance()->PlaySound(L"steps.mp3", CHANNELID::SOUND_PLAYER, 1.f);
+
+			if (!pPlayer.IsJump())
+				CSoundManager::GetInstance()->PlaySound(L"steps.mp3", CHANNELID::SOUND_PLAYER, 1.f);
 		}
 		if (Engine::InputDev()->Key_Pressing(DIK_S))
 		{
@@ -71,7 +75,9 @@ STATE CPlayerState_Walk::Key_Input(const _float& fTimeDelta)
 			vFront.y = 0.f;
 			m_pOwner->Get_Transform()->Translate(6.f * fTimeDelta * -vFront);
 			_eState = STATE::ROMIMG;
-			CSoundManager::GetInstance()->PlaySound(L"steps.mp3", CHANNELID::SOUND_PLAYER, 1.f);
+
+			if (!pPlayer.IsJump())
+				CSoundManager::GetInstance()->PlaySound(L"steps.mp3", CHANNELID::SOUND_PLAYER, 1.f);
 		}
 		if (Engine::InputDev()->Key_Pressing(DIK_A))
 		{
@@ -79,7 +85,9 @@ STATE CPlayerState_Walk::Key_Input(const _float& fTimeDelta)
 			vSide.y = 0.f;
 			m_pOwner->Get_Transform()->Translate(6.f * fTimeDelta * -vSide);
 			_eState = STATE::ROMIMG;
-			CSoundManager::GetInstance()->PlaySound(L"steps.mp3", CHANNELID::SOUND_PLAYER, 1.f);
+
+			if (!pPlayer.IsJump())
+				CSoundManager::GetInstance()->PlaySound(L"steps.mp3", CHANNELID::SOUND_PLAYER, 1.f);
 		}
 		if (Engine::InputDev()->Key_Pressing(DIK_D))
 		{
@@ -87,7 +95,9 @@ STATE CPlayerState_Walk::Key_Input(const _float& fTimeDelta)
 			vSide.y = 0.f;
 			m_pOwner->Get_Transform()->Translate(6.f * fTimeDelta * vSide);
 			_eState = STATE::ROMIMG;
-			CSoundManager::GetInstance()->PlaySound(L"steps.mp3", CHANNELID::SOUND_PLAYER, 1.f);
+
+			if (!pPlayer.IsJump())
+				CSoundManager::GetInstance()->PlaySound(L"steps.mp3", CHANNELID::SOUND_PLAYER, 1.f);
 		}
 
 		if (pPlayer.Get_CurrentEquipRight())

@@ -1,3 +1,5 @@
+#include "stdafx.h"
+#include "SoundManager.h"
 #include "Npc_Trader.h"
 #include "Export_Function.h"
 #include "Trader_Idle.h"
@@ -79,14 +81,22 @@ _int CNpc_Trader::Update_Object(const _float& fTimeDelta)
 				rPlayer.Set_Talk(false);
 				static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(false);
 				m_bUse = false;
+
+				CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_UI);
+				CSoundManager::GetInstance()->PlaySound(L"ui_dialogue_close.mp3", CHANNELID::SOUND_UI, 1.f);
 			}
 			else if (Engine::UIManager()->Set_SpeechBubbleUse())
 			{
 				m_bTalkBox = true;
 
+				CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_UI);
+				CSoundManager::GetInstance()->PlaySound(L"ui_dialogue_open.mp3", CHANNELID::SOUND_UI, 1.f);
+
 				rPlayer.Set_Talk(true);
 				if (!m_bTalking)
 					m_bTalking = true;
+
+
 			}
 			else
 			{
@@ -97,7 +107,12 @@ _int CNpc_Trader::Update_Object(const _float& fTimeDelta)
 				m_bUse = true;
 			
 				if (Engine::UIManager()->Set_Shop())
+				{
 					static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(true);
+					CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_UI);
+					CSoundManager::GetInstance()->PlaySound(L"ui_dialogue_open.mp3", CHANNELID::SOUND_UI, 1.f);
+				}
+					
 			}
 		}
 	}

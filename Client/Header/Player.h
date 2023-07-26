@@ -53,6 +53,7 @@ public:
 	_float			Get_Speed()				{ return m_fSpeed; }
 	_bool			IsJump()				{ return m_IsJump; }
 	CRigidBody*		Get_RigidBody()			{ return m_pRigidBody; }
+	CStateMachine* Get_StateMachine()		{ return m_pStateMachine; }
 
 	_bool			IsThrowShield()			{ return m_bThrowShield; }
 	_bool			IsTalk()				{ return m_bIsTalk; }
@@ -125,12 +126,14 @@ private:
 	_bool			m_bIsAddiction;
 	_bool			m_bIsTalk;
 	_float			m_fDrunkTime;
+	_float			m_fJumpVelocity = 15;
 
 	_int			m_iDrunkCount;
 	_int			m_iAddictionCount;
 	_float			m_fSpeed = 10.f;
 	_float			m_fAddictionTime;
 	_bool			m_IsJump = false;
+	_bool			m_bTestJump = false;
 
 	_bool			m_OnGround = false;
 

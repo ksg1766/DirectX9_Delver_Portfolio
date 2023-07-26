@@ -1,3 +1,5 @@
+#include "stdafx.h"
+#include "SoundManager.h"
 #include "..\Header\DungeonWarrior.h"
 #include "Export_Function.h"
 #include "Warrior_Attack.h"
@@ -92,14 +94,33 @@ _int CDungeonWarrior::Update_Object(const _float& fTimeDelta)
 		
 	}
 
+	CPlayer& rPlayer = *SceneManager()->Get_Scene()->Get_MainPlayer();
+
+	_float fDistance = D3DXVec3Length(&(rPlayer.m_pTransform->m_vInfo[INFO_POS] - m_pTransform->m_vInfo[INFO_POS]));
+
+
+	if (fDistance < 15.f)
+	{
+		if (!m_bSearch)
+		{
+			m_bSearch = true;
+			CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTER);
+			CSoundManager::GetInstance()->PlaySound(L"en_melee_2_alert_02.mp3", CHANNELID::SOUND_MONSTER, 1.f);
+		}
+	}
+
 	if (m_pBasicStat->Get_Stat()->fHP <= 0)
 	{
+
+		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTER);
+		CSoundManager::GetInstance()->PlaySound(L"en_melee_2_die_02.mp3", CHANNELID::SOUND_MONSTER, 1.f);
+
+
 		if (m_pAnimator->Get_Animation()->Get_Frame() >= 1) // ? ) 확인 부탁드립니다
 			m_pAnimator->Get_Animation()->Set_Loop(FALSE);
 		{
 		m_pStateMachine->Set_State(STATE::DEAD);
 
-		
 		
 		//////////////////////////////////////////////////////////////////////////////// 이펙트 
 			if (!m_bDieEffect)

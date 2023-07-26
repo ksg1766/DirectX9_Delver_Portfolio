@@ -6,7 +6,7 @@
 #include "Monster_Dead.h"
 #include "Player.h"
 #include "EffectBlood.h"
-
+#include "SpiderRay.h"
 #include "PoolManager.h"
 
 CWorm::CWorm(LPDIRECT3DDEVICE9 pGrapicDev)

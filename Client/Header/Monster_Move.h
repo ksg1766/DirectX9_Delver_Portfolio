@@ -26,7 +26,7 @@ private:
 	_vec3 Get_RandomDir(const _float& fTimeDelta);
 public:
 	virtual STATE	Key_Input(const _float& fTimeDelta) { return STATE(); }
-
+	void Move_Sound();
 
 public:
 	static CMonster_Move* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);

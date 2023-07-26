@@ -1,3 +1,5 @@
+#include "stdafx.h"
+#include "SoundManager.h"
 #include "..\Header\Bat_Attack.h"
 #include "Export_Function.h"
 #include "Player.h"
@@ -39,6 +41,9 @@ STATE CBat_Attack::Update_State(const _float& fTimeDelta)
 	{
 		m_vPrevPos = vPlayerPos;
 		m_bIsAttack = true;
+
+
+		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTER);
 	}
 
 	_vec3 vDir = m_vPrevPos - vMonsterPos;
@@ -53,10 +58,20 @@ STATE CBat_Attack::Update_State(const _float& fTimeDelta)
 	_float fRange = D3DXVec3LengthSq(&(vMonsterPos - m_vPrevPos));
 
 
+
+	_float fDistance = D3DXVec3Length(&(vPlayerPos - m_pOwner->Get_Transform()->m_vInfo[INFO_POS]));
+
+	if (fDistance < 15.f)
+		CSoundManager::GetInstance()->PlaySound(L"en_bat_attack_02.mp3", CHANNELID::SOUND_MONSTER, 1.f);
+
 	if (fRange <= 5.f)	
 	{
 		m_bIsAttack = false;
 		m_pOwner->Set_State(STATE::ROMIMG);
+
+		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTER);
+		CSoundManager::GetInstance()->PlaySound(L"en_bat_idle_01.mp3", CHANNELID::SOUND_MONSTER, 1.f);
+
 		return STATE::ROMIMG;
 	}
 

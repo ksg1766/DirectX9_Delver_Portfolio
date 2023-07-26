@@ -21,6 +21,7 @@ public:
 
 public:
 	virtual STATE	Key_Input(const _float& fTimeDelta) { return STATE(); }
+	void	Hit_Sound();
 
 private:
 	_bool	m_bCanHitState; 

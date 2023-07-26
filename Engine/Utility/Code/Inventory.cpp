@@ -894,7 +894,7 @@ void CInventory::Switch_Keyslot(INVENKEYSLOT _key, ITEMTYPEID _itemId, UIOBJECTT
 	// 해당 키 슬롯 아이템 태그를 가져온다.
 	ITEMTYPEID SlotItemType = dynamic_cast<CItem*>(m_mapKeySlot[_key])->Get_ItemTag();
 	// 같은 아이템을 찾았을 시 
-	if (SlotItemType.eItemType == _itemId.eItemType)
+	if (SlotItemType.eItemID == _itemId.eItemID)
 	{
 		switch (_slotId)             // 이동하려는 슬롯 타입
 		{
@@ -969,8 +969,8 @@ void CInventory::Switch_Keyslot(INVENKEYSLOT _key, ITEMTYPEID _itemId, UIOBJECTT
 		}
 
 		m_bKeySlotEmpty[_key] = false;
-	/*	m_mapKeySlot[_key] = nullptr;*/
-		m_mapKeySlot.erase(_key);
+		m_mapKeySlot[_key] = nullptr;
+		//m_mapKeySlot.erase(_key);
 		m_bSwitch = false;
 	}
 }
@@ -983,7 +983,7 @@ void CInventory::Switch_Itemslot(INVENITEMSLOT _key, ITEMTYPEID _itemId, UIOBJEC
 	// 해당 키 슬롯 아이템 태그를 가져온다.
 	ITEMTYPEID SlotItemType = dynamic_cast<CItem*>(m_mapItemSlot[_key])->Get_ItemTag();
 	// 같은 아이템을 찾았을 시 
-	if (SlotItemType.eItemType == _itemId.eItemType)
+	if (SlotItemType.eItemID == _itemId.eItemID)
 	{
 		switch (_slotId)             // 이동하려는 슬롯 타입
 		{

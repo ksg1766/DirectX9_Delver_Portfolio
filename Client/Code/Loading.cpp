@@ -271,6 +271,31 @@ _uint CLoading::Loading_ForStage()
 #pragma region SOUND
 		// 테스트용
 
+		//MONSTER
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/en_spider_idle_01.mp3", "en_spider_idle_01.mp3"), E_FAIL);
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/en_spider_attack_01.mp3", "en_spider_attack_01.mp3"), E_FAIL);
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/en_spider_die_01.mp3", "en_spider_die_01.mp3"), E_FAIL);
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/en_spider_hurt_01.mp3", "en_spider_hurt_01.mp3"), E_FAIL);
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/spider_walk.mp3", "spider_walk.mp3"), E_FAIL);
+
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/en_melee_2_alert_02.mp3", "en_melee_2_alert_02.mp3"), E_FAIL);
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/en_melee_2_attack_02.mp3", "en_melee_2_attack_02.mp3"), E_FAIL);
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/en_melee_2_die_02.mp3", "en_melee_2_die_02.mp3"), E_FAIL);
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/en_melee_2_hurt_02.mp3", "en_melee_2_hurt_02.mp3"), E_FAIL);
+
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/en_bat_alert_01.mp3", "en_bat_alert_01.mp3"), E_FAIL);
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/en_bat_attack_02.mp3", "en_bat_attack_02.mp3"), E_FAIL);
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/en_bat_death_01.mp3", "en_bat_death_01.mp3"), E_FAIL);
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/en_bat_hurt_01.mp3", "en_bat_hurt_01.mp3"), E_FAIL);
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/en_bat_idle_01.mp3", "en_bat_idle_01.mp3"), E_FAIL);
+
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/en_mage_alert_03.mp3", "en_mage_alert_03.mp3"), E_FAIL);
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/en_mage_attack_01.mp3", "en_mage_attack_01.mp3"), E_FAIL);
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/en_mage_die_01.mp3", "en_mage_die_01.mp3"), E_FAIL);
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/en_mage_hurt_03.mp3", "en_mage_hurt_03.mp3"), E_FAIL);
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/en_bat_idle_01.mp3", "en_bat_idle_01.mp3"), E_FAIL);
+
+
 		//PLAYER
 		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/steps.mp3", "steps.mp3"), E_FAIL);
 
@@ -279,15 +304,33 @@ _uint CLoading::Loading_ForStage()
 		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/bow.wav", "bow.wav"), E_FAIL);
 		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/whoosh1.mp3", "whoosh1.mp3"), E_FAIL);
 		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/explode.mp3", "explode.mp3"), E_FAIL);
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/wep_swing_bow_load_01.mp3", "wep_swing_bow_load_01.mp3"), E_FAIL);
 
-		// Break
-		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/break_wood_01.mp3", "break_wood_01.mp3"), E_FAIL);
 
 		// SceneBGM
 		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/campfire-guitar.mp3", "campfire-guitar.mp3"), E_FAIL);
 		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/chase_sewers.mp3", "chase_sewers.mp3"), E_FAIL);
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/door_beginning.mp3", "door_beginning.mp3"), E_FAIL);
 
 
+		// Inventory
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/grab_item.mp3", "grab_item.mp3"), E_FAIL);
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/open_inventory.mp3", "open_inventory.mp3"), E_FAIL);
+
+		// Collision && Break 
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/break_wood_01.mp3", "break_wood_01.mp3"), E_FAIL);
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/torch.mp3", "torch.mp3"), E_FAIL);
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/clang_02.mp3", "clang_02.mp3"), E_FAIL);
+
+		//UI && INVENTORY
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/ui_dialogue_open.mp3", "ui_dialogue_open.mp3"), E_FAIL);
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/ui_dialogue_close.mp3", "ui_dialogue_close.mp3"), E_FAIL);
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/ui_buy.mp3", "ui_buy.mp3"), E_FAIL);
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/ui_equip_armor.mp3", "ui_equip_armor.mp3"), E_FAIL);
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/ui_equip_item.mp3", "ui_equip_item.mp3"), E_FAIL);
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/ui_equip_weapon.mp3", "ui_equip_weapon.mp3"), E_FAIL);
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/cons_drink.mp3", "cons_drink.mp3"), E_FAIL);
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/cons_food.mp3", "cons_food.mp3"), E_FAIL);
 
 #pragma endregion SOUND
 

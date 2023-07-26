@@ -48,6 +48,7 @@ private:
 	CTexture*		m_pTexture[(_uint)STATE::STATE_END] = {};
 	CAnimator*		m_pAnimator = nullptr;
 
+	_bool			m_bSearch = false;
 
 public:
 	static CDungeonWarrior* Create(LPDIRECT3DDEVICE9 pGraphicDev);

@@ -267,37 +267,6 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	//pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
 
-	pGameObject =  CWorm::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pGameObject->m_pTransform->Translate(_vec3(-62.f, 14.f, 39.f));
-	dynamic_cast<CWorm*>(pGameObject)->Set_CenterPos(_vec3(-62.f, 14.f, 39.f));
-	dynamic_cast<CWorm*>(pGameObject)->Set_MoveRange(2.f);
-	dynamic_cast<CWorm*>(pGameObject)->Set_RandomMoveRange(5.f);
-	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-
-	m_pWorm = dynamic_cast<CWorm*>(pGameObject);
-	
-	pGameObject = CSpiderRay::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-	dynamic_cast<CSpiderRay*>(pGameObject)->Set_Host(m_pWorm);
-
-
-	pGameObject = CDungeonSpider::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pGameObject->m_pTransform->Translate(_vec3(-62.f, 14.f, 39.f));
-	dynamic_cast<CDungeonSpider*>(pGameObject)->Set_CenterPos(_vec3(-62.f, 14.f, 39.f));
-	dynamic_cast<CDungeonSpider*>(pGameObject)->Set_MoveRange(2.f);
-	dynamic_cast<CDungeonSpider*>(pGameObject)->Set_RandomMoveRange(5.f);
-	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-
-	m_pSpider = dynamic_cast<CDungeonSpider*>(pGameObject);
-
-	pGameObject = CSpiderRay::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-	dynamic_cast<CSpiderRay*>(pGameObject)->Set_Host(m_pSpider);
-
 	//pGameObject = CDungeonWarrior::Create(m_pGraphicDev);
 	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	//pGameObject->m_pTransform->Translate(_vec3(25.f, 12.f, -40.f));

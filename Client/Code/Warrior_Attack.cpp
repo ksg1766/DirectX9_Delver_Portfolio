@@ -1,3 +1,5 @@
+#include "stdafx.h"
+#include "SoundManager.h"
 #include "..\Header\Warrior_Attack.h"
 #include "Export_Function.h"
 #include "DungeonSpider.h"
@@ -49,6 +51,7 @@ STATE CWarror_Attack::Update_State(const _float& fTimeDelta)
 	if (!m_bIsAttack)
 	{		
 		m_fChase += fTimeDelta;
+		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTER);
 
 		if (m_fChase < 1.f)
 		{
@@ -74,14 +77,18 @@ STATE CWarror_Attack::Update_State(const _float& fTimeDelta)
 		//	m_pOwner->Get_Transform()->m_vInfo[INFO_POS] + vDir * 10 * fTimeDelta;
 
 		m_pOwner->Get_Transform()->Translate(_vec3(vDir.x, 0.f, vDir.z) * 10 * fTimeDelta);
+		
+		_float fDistance = D3DXVec3Length(&(pPlayer.m_pTransform->m_vInfo[INFO_POS] - m_pOwner->Get_Transform()->m_vInfo[INFO_POS]));
 
-
+		if (fDistance < 15.f)
+			Attack_Sound();
 	}
 
 
 	if (D3DXVec3Length(&(m_vPrevPos  - m_pOwner->Get_Transform()->m_vInfo[INFO_POS])) < 0.5f
 		&& m_pOwner->Get_Animator()->Get_Animation()->Get_Frame() > 4.8f)
 	{
+		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTER);
 		m_bIsAttack = false;
 		m_fTime = 0.f;
 		return STATE::ROMIMG;
@@ -95,6 +102,24 @@ void CWarror_Attack::LateUpdate_State()
 void CWarror_Attack::Render_State()
 {
 	//cout << "Spider Jump" << endl;
+}
+
+void CWarror_Attack::Attack_Sound()
+{
+	MONSTERTAG _eMonsterTag = dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Get_MonsterTag();
+
+
+	switch (_eMonsterTag)
+	{
+	case MONSTERTAG::WARRIOR:
+		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTER);
+		CSoundManager::GetInstance()->PlaySound(L"en_melee_2_attack_02.mp3", CHANNELID::SOUND_MONSTER, 1.f);
+		break;
+	case MONSTERTAG::SLIME:
+		break;
+	case MONSTERTAG::SKELETON:
+		break;
+	}
 }
 
 

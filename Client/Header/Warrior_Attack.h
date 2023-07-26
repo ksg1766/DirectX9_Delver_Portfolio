@@ -20,6 +20,7 @@ public:
 
 public:
 	virtual STATE	Key_Input(const _float& fTimeDelta) { return STATE(); }
+	void	Attack_Sound();
 
 private:
 	_vec3	m_vPrevPos;

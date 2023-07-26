@@ -61,22 +61,30 @@ STATE CPlayer_Attack::Key_Input(const _float& fTimeDelta)
 	{
 		if (Engine::InputDev()->Key_Pressing(DIK_W))
 		{
-			m_pOwner->Get_Transform()->Translate(10.f * fTimeDelta * vLook);
+			_vec3 vFront = vLook;
+			vFront.y = 0.f;
+			m_pOwner->Get_Transform()->Translate(6.f * fTimeDelta * vFront);
 		}
 
 		if (Engine::InputDev()->Key_Pressing(DIK_S))
 		{
-			m_pOwner->Get_Transform()->Translate(10.f * fTimeDelta * -vLook);
+			_vec3 vFront = vLook;
+			vFront.y = 0.f;
+			m_pOwner->Get_Transform()->Translate(6. * fTimeDelta * -vFront);
 		}
 
 		if (Engine::InputDev()->Key_Pressing(DIK_A))
 		{
-			m_pOwner->Get_Transform()->Translate(10.f * fTimeDelta * -vRight);
+			_vec3 vSide = vRight;
+			vSide.y = 0.f;
+			m_pOwner->Get_Transform()->Translate(6.f * fTimeDelta * -vSide);
 		}
 
 		if (Engine::InputDev()->Key_Pressing(DIK_D))
 		{
-			m_pOwner->Get_Transform()->Translate(10.f * fTimeDelta * vRight);
+			_vec3 vSide = vRight;
+			vSide.y = 0.f;
+			m_pOwner->Get_Transform()->Translate(6.f * fTimeDelta * vSide);
 		}
 
 		if (!pPlayer.Get_Attack() && pPlayer.Get_CurrentEquipRight() != nullptr
@@ -109,6 +117,8 @@ STATE CPlayer_Attack::Key_Input(const _float& fTimeDelta)
 
 					if (m_fSpeed >= 20)
 						m_fSpeed = 20.f;
+
+					CSoundManager::GetInstance()->PlaySound(L"wep_swing_bow_load_01.mp3", CHANNELID::SOUND_WEAPON, 1.f);
 
 					_eState = STATE::ATTACK;
 				}
@@ -169,6 +179,7 @@ STATE CPlayer_Attack::Key_Input(const _float& fTimeDelta)
 						m_fSpeed = 20.f;
 
 					_eState = STATE::ATTACK;
+					CSoundManager::GetInstance()->PlaySound(L"wep_swing_bow_load_01.mp3", CHANNELID::SOUND_WEAPON, 1.f);
 				}
 				if (Engine::InputDev()->Mouse_Up(DIM_LB))
 				{

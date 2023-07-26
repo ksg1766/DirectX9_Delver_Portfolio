@@ -10,6 +10,7 @@
 #include "Skeleton.h"
 #include "Worm.h"
 #include "SkullGhost.h"
+#include "SpiderRay.h"
 //#include "Monk.h"
 
 #include "EffectBubble.h"
@@ -47,6 +48,16 @@ CMonster* CPoolManager::Create_Monster(MONSTERTAG _eMonsterTag, _vec3 _vSpawnPos
 	CGameObject* pGameObject = m_pPool->GetMonsterPool(_eMonsterTag).front();
 	pGameObject->Set_Dead(false);
 	pGameObject->m_pTransform->m_vInfo[INFO_POS] = _vSpawnPos;
+
+	if (_eMonsterTag == MONSTERTAG::SPIDER || _eMonsterTag == MONSTERTAG::WORM)
+	{
+		CGameObject* pRay = nullptr;
+
+		pRay = CSpiderRay::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+		EventManager()->CreateObject(pRay, LAYERTAG::GAMELOGIC);
+		dynamic_cast<CSpiderRay*>(pRay)->Set_Host(pGameObject);
+	}
+
 	EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 
 	m_pPool->GetMonsterPool(_eMonsterTag).pop();
@@ -60,6 +71,7 @@ CTempEffect* CPoolManager::Create_Effect(EFFECTTAG _eEffectTag, _vec3 _vSpawnPos
 	pGameObject->m_pTransform->m_vInfo[INFO_POS] = _vSpawnPos;
 	EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
  
+
 	m_pPool->GetEffectPool(_eEffectTag).pop();
 	return static_cast<CTempEffect*>(pGameObject);
 }
