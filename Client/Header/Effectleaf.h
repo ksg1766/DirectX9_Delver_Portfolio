@@ -27,6 +27,8 @@ private:
 
 private:
 	_float m_bMoveSpeed = 0.f;
+	_float m_fCount = 0.f;
+	_bool  m_bFall = false;
 	_vec3  m_vecMoveDir;
 
 public:

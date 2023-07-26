@@ -28,9 +28,23 @@ HRESULT CEffectleaf::Ready_Object(void)
 
 Engine::_int CEffectleaf::Update_Object(const _float& fTimeDelta)
 {
+	if (m_bFall)
+	{
+		m_fCount += 1.f * fTimeDelta;
+		if (m_fCount > 5.f) {
+			m_fCount = 0.f;
+			m_bFall = false;
+			m_fFrame = CTempEffect::Get_RandomFloat(0.f, 2.f);
+			m_fEffectScale = CTempEffect::Get_RandomFloat(0.5f, 2.f);
+			CTempEffect::Get_RandomVector(&m_pTransform->m_vInfo[INFO_POS], &_vec3(-100.f, 90.f, -100.f), &_vec3(100.f, 100.f, 100.f));
+
+		}
+	}
+
 	Engine::Renderer()->Add_RenderGroup(RENDER_ALPHA, this);
 
-	m_pTransform->m_vInfo[INFO_POS] += m_vecMoveDir * fTimeDelta * m_bMoveSpeed;
+	if(!m_bFall)
+		m_pTransform->m_vInfo[INFO_POS] += m_vecMoveDir * fTimeDelta * m_bMoveSpeed;
 
 	_int iExit = CTempEffect::Update_Object(fTimeDelta);
 
@@ -39,16 +53,16 @@ Engine::_int CEffectleaf::Update_Object(const _float& fTimeDelta)
 
 void CEffectleaf::LateUpdate_Object(void)
 {
-	if (m_pTransform->m_vInfo[INFO_POS].y <= 0.f) {
-		m_fFrame = CTempEffect::Get_RandomFloat(0.f, 2.f);
-		m_fEffectScale = CTempEffect::Get_RandomFloat(0.5f, 2.f);
-		CTempEffect::Get_RandomVector(&m_pTransform->m_vInfo[INFO_POS], &_vec3(-100.f, 90.f, -100.f), &_vec3(100.f, 100.f, 100.f));
+	if (m_pTransform->m_vInfo[INFO_POS].y < 4.f + (m_fEffectScale - 1.f)) {
+		m_bFall = true;
 	}
 
 	CTempEffect::LateUpdate_Object();
 
-	m_pBillBoardCom->LateUpdate_Component();
-	m_pTransform->Scale(_vec3(m_fEffectScale, m_fEffectScale, m_fEffectScale));
+	if (!m_bFall) {
+		m_pBillBoardCom->LateUpdate_Component();
+		m_pTransform->Scale(_vec3(m_fEffectScale, m_fEffectScale, m_fEffectScale));
+	}
 }
 
 void CEffectleaf::Render_Object(void)

@@ -242,6 +242,7 @@ public:
 	void  AddPopupGameobject_UI(UIPOPUPLAYER ePopupLayer, UILAYER eType, CGameObject* pGameObject);
 	void  AddItemGameobject_UI(CGameObject* pGameObject);
 
+	CGameObject* Get_ItemUI(ITEMID _eItemID);
 	CGameObject* Get_PopupObject(UIPOPUPLAYER ePopupLayer, UILAYER eType, UIOBJECTTTAG eObjID, _uint eUINumber)
 	{ 
 		UIOBJECTTTAG UIObjID;
