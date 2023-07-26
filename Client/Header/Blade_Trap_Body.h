@@ -25,14 +25,23 @@ public:
 	
 	void		Create_Blade();
 
+	virtual void		OnCollisionEnter(CCollider* _pOther);
+	virtual void		OnCollisionStay(CCollider* _pOther);
+	virtual void		OnCollisionExit(CCollider* _pOther);
+
 private:
 	CTexture*		m_pTexture = nullptr;
 
-	CBlade_Trap_Blade* m_pTrapBlade;
+	vector<CBlade_Trap_Blade*> m_vecTrapBlade;
 
 	_bool			m_bSpawnBlade;
 	_vec3			m_vBladePos[9];
 	_vec3			m_vBladeDir[7];
+
+	//ksg
+	enum BladeState {BLADE_IDLE, BLADE_ATTACK};
+	BladeState	m_eCurBladeState = BLADE_IDLE;
+	BladeState	m_ePreBladeState = BLADE_IDLE;
 
 private:
 	HRESULT		Add_Component(void);

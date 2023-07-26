@@ -1,6 +1,7 @@
 #include "Blade_Trap_Body.h"
 #include "Export_Function.h"
 #include "Blade_Trap_Blade.h"
+#include "Player.h"
 
 CBlade_Trap::CBlade_Trap(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CTrap(pGraphicDev)
@@ -62,6 +63,7 @@ _int CBlade_Trap::Update_Object(const _float& fTimeDelta)
 
 	if (SceneManager()->Get_GameStop()) { return 0; }
 	iExit = __super::Update_Object(fTimeDelta);
+	
 	return iExit;
 }
 
@@ -77,6 +79,9 @@ void CBlade_Trap::Render_Object(void)
 
 	m_pTexture->Render_Texture();
 	m_pCubeBf->Render_Buffer();
+
+	for (int i = 0; i < 9; ++i)
+		m_vecTrapBlade[i]->Render_Object();
 }
 
 void CBlade_Trap::Create_Blade()
@@ -84,14 +89,58 @@ void CBlade_Trap::Create_Blade()
 	Engine::CGameObject* pGameObject = nullptr;
 	for (int i = 0; i < 9; ++i)
 	{
-		pGameObject = m_pTrapBlade = CBlade_Trap_Blade::Create(m_pGraphicDev, m_pTransform->m_vInfo[INFO_POS]);
-		dynamic_cast<CBlade_Trap_Blade*>(m_pTrapBlade)->m_pTransform->m_vInfo[INFO_POS] = m_pTransform->m_vInfo[INFO_POS];
-		dynamic_cast<CBlade_Trap_Blade*>(m_pTrapBlade)->m_pTransform->Translate(m_vBladePos[i]);
+		pGameObject = CBlade_Trap_Blade::Create(m_pGraphicDev, m_pTransform->m_vInfo[INFO_POS]);
+		dynamic_cast<CBlade_Trap_Blade*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = m_pTransform->m_vInfo[INFO_POS];
+		dynamic_cast<CBlade_Trap_Blade*>(pGameObject)->m_pTransform->Translate(m_vBladePos[i] - _vec3(0.f, 1.f, 0.f));
 		if (i == 6)
-			dynamic_cast<CBlade_Trap_Blade*>(m_pTrapBlade)->Set_Collider();
-		if(i < 7)
-			dynamic_cast<CBlade_Trap_Blade*>(m_pTrapBlade)->m_pTransform->Rotate(m_vBladeDir[i]);
-		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+			dynamic_cast<CBlade_Trap_Blade*>(pGameObject)->Set_Collider();
+		if (i < 7)
+			dynamic_cast<CBlade_Trap_Blade*>(pGameObject)->m_pTransform->Rotate(m_vBladeDir[i]);
+		m_vecTrapBlade.push_back(dynamic_cast<CBlade_Trap_Blade*>(pGameObject));
+	}
+}
+
+void CBlade_Trap::OnCollisionEnter(CCollider* _pOther)
+{
+	CGameObject* pOtherObj = _pOther->Get_Host();
+	if (OBJECTTAG::PLAYER == pOtherObj->Get_ObjectTag())
+	{
+		for (int i = 0; i < 9; ++i)
+		{
+			static_cast<CStateMachine*>(static_cast<CBlade_Trap_Blade*>(m_vecTrapBlade[i])
+				->Get_Component(COMPONENTTAG::STATEMACHINE, ID_STATIC))->Set_State(STATE::ATTACK);
+			static_cast<CBlade_Trap_Blade*>(m_vecTrapBlade[i])->Update_Object(0.02f);
+		}
+
+		if (OBJECTTAG::PLAYER == pOtherObj->Get_ObjectTag())
+		{
+			CPlayerStat& PlayerState = *static_cast<CPlayer*>(pOtherObj)->Get_Stat();
+			PlayerState.Take_Damage(4.f);
+		}
+	}
+}
+
+void CBlade_Trap::OnCollisionStay(CCollider* _pOther)
+{
+	if (OBJECTTAG::PLAYER == _pOther->Get_Host()->Get_ObjectTag())
+	{
+		for (int i = 0; i < 9; ++i)
+		{
+			static_cast<CStateMachine*>(static_cast<CBlade_Trap_Blade*>(m_vecTrapBlade[i])
+				->Get_Component(COMPONENTTAG::STATEMACHINE, ID_STATIC))->Update_StateMachine(0.02f);
+			static_cast<CBlade_Trap_Blade*>(m_vecTrapBlade[i])->Update_Object(0.02f);
+		}
+	}
+}
+
+void CBlade_Trap::OnCollisionExit(CCollider* _pOther)
+{
+	for (int i = 0; i < 9; ++i)
+	{
+		m_vecTrapBlade[i]->m_pTransform->m_vInfo[INFO_POS].y = m_pTransform->m_vInfo[INFO_POS].y - 1.f;
+		static_cast<CStateMachine*>(static_cast<CBlade_Trap_Blade*>(m_vecTrapBlade[i])
+			->Get_Component(COMPONENTTAG::STATEMACHINE, ID_STATIC))->Set_State(STATE::IDLE);
+		static_cast<CBlade_Trap_Blade*>(m_vecTrapBlade[i])->Update_Object(0.02f);
 	}
 }
 
@@ -110,6 +159,10 @@ HRESULT CBlade_Trap::Add_Component(void)
 	pComponent = m_pTransform = dynamic_cast<CTransform*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Transform"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::TRANSFORM, pComponent);
+
+	pComponent = m_pCollider = dynamic_cast<CCollider*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Collider"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::COLLIDER, pComponent);
 
 	for (_uint i = 0; i < ID_END; ++i)
 		for (auto& iter : m_mapComponent[i])

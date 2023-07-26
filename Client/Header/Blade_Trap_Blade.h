@@ -23,7 +23,7 @@ public:
 	virtual _int	Update_Object(const _float& fTimeDelta) override;
 	virtual void	LateUpdate_Object(void) override;
 	virtual void	Render_Object(void) override;
-	virtual HRESULT Render_Object2(_vec3 vCenterPos);
+	virtual HRESULT Ready_Object2(_vec3 vCenterPos);
 
 	void			Set_Collider();
 	void			Set_TrapCenter(_vec3 _vCenter);

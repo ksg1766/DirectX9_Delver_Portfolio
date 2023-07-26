@@ -601,7 +601,8 @@ void CPlayer::OnCollisionEnter(CCollider* _pOther)
 {
 	if (_pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::MONSTER 
 		&& _pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::MONSTERBULLET
-		&& _pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::ITEM)
+		&& _pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::ITEM
+		&& _pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::TRAP)
 	{
 		_vec3	vOtherPos = _pOther->GetCenterPos();
 		_float* fOtherAxis = _pOther->GetAxisLen();
@@ -664,7 +665,8 @@ void CPlayer::OnCollisionStay(CCollider* _pOther)
 {
 	if (_pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::MONSTER 
 		&& _pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::MONSTERBULLET
-		&& _pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::ITEM)
+		&& _pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::ITEM
+		&& _pOther->GetHost()->Get_ObjectTag() != OBJECTTAG::TRAP)
 	{
 		_vec3	vOtherPos = _pOther->GetCenterPos();
 		_float* fOtherAxis = _pOther->GetAxisLen();

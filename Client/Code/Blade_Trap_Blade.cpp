@@ -58,7 +58,8 @@ _int CBlade_Trap_Blade::Update_Object(const _float& fTimeDelta)
 
 	if (SceneManager()->Get_GameStop()) { return 0; }
 	iExit = __super::Update_Object(fTimeDelta);
-	m_pStateMachine->Update_StateMachine(fTimeDelta);
+
+	//m_pStateMachine->Update_StateMachine(fTimeDelta);
 	m_fHitTime += fTimeDelta;
 	if ((m_bHit)&&(1.5f < m_fHitTime))
 	{
@@ -90,7 +91,7 @@ void CBlade_Trap_Blade::Render_Object(void)
 #endif
 }
 
-HRESULT CBlade_Trap_Blade::Render_Object2(_vec3 vCenterPos)
+HRESULT CBlade_Trap_Blade::Ready_Object2(_vec3 vCenterPos)
 {
 	m_eObjectTag = OBJECTTAG::MONSTER;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
@@ -126,8 +127,6 @@ void CBlade_Trap_Blade::Set_Collider()
 void CBlade_Trap_Blade::Set_TrapCenter(_vec3 _vCenter)
 { 
 	m_vTrapCenter = _vCenter; 
-
-
 }
 
 void CBlade_Trap_Blade::OnCollisionEnter(CCollider* _pOther)
@@ -206,7 +205,7 @@ CBlade_Trap_Blade* CBlade_Trap_Blade::Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec
 {
 	CBlade_Trap_Blade* pInstance = new CBlade_Trap_Blade(pGraphicDev);
 
-	if (FAILED(pInstance->Render_Object2(vCenterPos)))
+	if (FAILED(pInstance->Ready_Object2(vCenterPos)))
 	{
 		Safe_Release(pInstance);
 
