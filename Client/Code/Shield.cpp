@@ -38,7 +38,7 @@ HRESULT CShield::Ready_Object(_bool _Item)
 
 		//m_pTransform->Copy_RUL(m_pTransform->m_pParent->m_vInfo);
 
-		m_pTransform->Translate(pPlayer->m_pTransform->m_vInfo[INFO_POS] + *dynamic_cast<CPlayer*>(pPlayer)->Get_LeftOffset());
+		//m_pTransform->Translate(pPlayer->m_pTransform->m_vInfo[INFO_POS] + *dynamic_cast<CPlayer*>(pPlayer)->Get_LeftOffset());
 
 		m_vDir = pPlayer->m_pTransform->m_vInfo[INFO_LOOK];
 		D3DXVec3Normalize(&m_vDir, &m_vDir);
@@ -59,6 +59,7 @@ HRESULT CShield::Ready_Object(_bool _Item)
 
 
 	m_iAttackTick = 40;
+	m_iMoveTick = 10;
 	return S_OK;
 }
 
@@ -85,6 +86,7 @@ _int CShield::Update_Object(const _float& fTimeDelta)
 		if (pPlayer->IsThrowShield() && pPlayer != nullptr)
 		{
 #pragma region ºÎ¸Þ¶û1
+			m_iMoveTick = 0;
 			if (m_iAttackTick > 0)
 			{
 
@@ -92,7 +94,7 @@ _int CShield::Update_Object(const _float& fTimeDelta)
 				m_pTransform->RotateAround(m_pTransform->m_vInfo[INFO_POS], m_pTransform->m_vInfo[INFO_UP],
 					20.f);
 				m_pTransform->Rotate(ROT_Z, 2.f);
-				m_pTransform->Translate(m_vDir * 5.f * fTimeDelta);
+				m_pTransform->Translate(m_pTransform->m_vInfo[INFO_LOOK] * 5.f * fTimeDelta);
 				pPlayer->Set_Parrying(true);//Msh
 			}
 			else
@@ -102,7 +104,7 @@ _int CShield::Update_Object(const _float& fTimeDelta)
 				m_pTransform->RotateAround(m_pTransform->m_vInfo[INFO_POS], m_pTransform->m_vInfo[INFO_UP],
 					-20.f);
 				m_pTransform->Rotate(ROT_X, 10.f);
-				m_pTransform->Translate(m_vDir * -5.f * fTimeDelta);
+				m_pTransform->Translate(m_pTransform->m_vInfo[INFO_LOOK] * -5.f * fTimeDelta);
 				pPlayer->Set_Parrying(false);//Msh
 			}
 
@@ -115,13 +117,25 @@ _int CShield::Update_Object(const _float& fTimeDelta)
 			}
 #pragma endregion
 		}
+		else if (pPlayer->Get_StateMachine()->Get_State() == STATE::ROMIMG)
+		{
+			if (m_iMoveTick > 0)
+				m_pTransform->Translate(m_pTransform->m_vInfo[INFO_UP] * 0.01f);
+			else
+				m_pTransform->Translate(m_pTransform->m_vInfo[INFO_UP] * -0.01f);
+
+			--m_iMoveTick;
+
+			if (-9 == m_iMoveTick)
+				m_iMoveTick = 10;
+		}
 		else
 		{
 			pPlayer->Set_ThrowShield(false);
 
 			CTransform* pPlayerTransform = pPlayer->m_pTransform;
 
-			_vec3 vOffSet = 0.7f * -pPlayerTransform->m_vInfo[INFO_RIGHT] + 1.5f * pPlayerTransform->m_vInfo[INFO_LOOK] - 0.4f * pPlayerTransform->m_vInfo[INFO_UP];
+			_vec3 vOffSet = 0.7f * -pPlayerTransform->m_vInfo[INFO_RIGHT] + 1.5f * pPlayerTransform->m_vInfo[INFO_LOOK] - 0.6f * pPlayerTransform->m_vInfo[INFO_UP];
 			m_pTransform->m_vInfo[INFO_POS] = (pPlayerTransform->m_vInfo[INFO_POS] + vOffSet);
 
 			_vec3 vLocalScale = m_pTransform->LocalScale();
@@ -132,6 +146,7 @@ _int CShield::Update_Object(const _float& fTimeDelta)
 
 			m_vDir = pPlayer->m_pTransform->m_vInfo[INFO_LOOK];
 			D3DXVec3Normalize(&m_vDir, &m_vDir);
+			m_iMoveTick = 0;
 		}
 	}
 		
@@ -207,7 +222,15 @@ HRESULT CShield::Add_Component(void)
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BASICSTAT, pComponent);
 
-	if (Get_WorldItem())
+
+	if (!Get_WorldItem())
+	{
+		CPlayer* pPlayer = dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer());
+
+		m_pTransform->Set_Parent(pPlayer->m_pTransform);
+		m_pTransform->Copy_RUL(pPlayer->m_pTransform->m_vInfo);
+	}
+	else if (Get_WorldItem())
 	{
 		pComponent = m_pBillBoard = dynamic_cast<CBillBoard*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BillBoard"));
 		NULL_CHECK_RETURN(pComponent, E_FAIL);

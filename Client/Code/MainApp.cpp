@@ -49,21 +49,21 @@ int CMainApp::Update_MainApp(const float & fTimeDelta)
 	}
 */
 	// 스테이지 이동 테스트
-	if (Engine::InputDev()->Key_Down(DIK_F7))
-	{
-		CScene* pScene = CVillage::Create(m_pGraphicDev);
-		Engine::SceneManager()->Change_Scene(pScene);
-	}
-	else if (Engine::InputDev()->Key_Down(DIK_F8))
-	{
-		CScene* pScene = CStage::Create(m_pGraphicDev);
-		Engine::SceneManager()->Change_Scene(pScene);
-	}
-	else if (Engine::InputDev()->Key_Down(DIK_F9))
-	{
-		CScene* pScene = CBossStage::Create(m_pGraphicDev);
-		Engine::SceneManager()->Change_Scene(pScene);
-	}
+	//if (Engine::InputDev()->Key_Down(DIK_F7))
+	//{
+	//	CScene* pScene = CVillage::Create(m_pGraphicDev);
+	//	Engine::SceneManager()->Change_Scene(pScene);
+	//}
+	//else if (Engine::InputDev()->Key_Down(DIK_F8))
+	//{
+	//	CScene* pScene = CStage::Create(m_pGraphicDev);
+	//	Engine::SceneManager()->Change_Scene(pScene);
+	//}
+	//else if (Engine::InputDev()->Key_Down(DIK_F9))
+	//{
+	//	CScene* pScene = CBossStage::Create(m_pGraphicDev);
+	//	Engine::SceneManager()->Change_Scene(pScene);
+	//}
 
 	return 0;
 }

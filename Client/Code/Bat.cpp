@@ -1,3 +1,5 @@
+#include "stdafx.h"
+#include "SoundManager.h"
 #include "..\Header\Bat.h"
 #include "Export_Function.h"
 #include "Monster_Fly.h"
@@ -84,8 +86,14 @@ _int CBat::Update_Object(const _float& fTimeDelta)
 		Set_KnockBack(false);
 	}
 
+
+
 	if (m_pBasicStat->Get_Stat()->fHP <= 0)
 	{
+		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTER);
+		CSoundManager::GetInstance()->PlaySound(L"en_bat_death_01.mp3", CHANNELID::SOUND_MONSTER, 1.f);
+
+
 		if (m_pAnimator->Get_Animation()->Get_Frame() >= 3)
 			m_pAnimator->Get_Animation()->Set_Loop(FALSE);
 		{
@@ -107,6 +115,20 @@ _int CBat::Update_Object(const _float& fTimeDelta)
 
 			if (m_fDeadCoolTime > 3.f)
 			CPoolManager::GetInstance()->Delete_Object(this);
+		}
+	}
+
+
+	CPlayer& rPlayer = *SceneManager()->Get_Scene()->Get_MainPlayer();
+
+	_float fDistance = D3DXVec3Length(&(rPlayer.m_pTransform->m_vInfo[INFO_POS] - m_pTransform->m_vInfo[INFO_POS]));
+
+	if (fDistance < 15.f)
+	{
+		if (!m_bSearch)
+		{
+			m_bSearch = true;
+			CSoundManager::GetInstance()->PlaySound(L"en_bat_alert_01.mp3", CHANNELID::SOUND_MONSTER, 1.f);
 		}
 	}
 

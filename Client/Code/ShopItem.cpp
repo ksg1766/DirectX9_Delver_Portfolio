@@ -3,7 +3,7 @@
 #include "Export_Function.h"
 #include "Itemgroup.h"
 #include "Player.h"
-
+#include "SoundManager.h"
 #include "UIitem.h"
 #include <UIbasicslot.h>
 #include <UIemptyslot.h>
@@ -555,6 +555,9 @@ void CShopItem::Key_Input()
 
 		if (Engine::InputDev()->Mouse_Down(DIM_LB) && m_iBuyCount != 0)
 		{
+			CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_UI);
+			CSoundManager::GetInstance()->PlaySound(L"ui_buy.mp3", CHANNELID::SOUND_UI, 1.f);
+
 			switch (m_ItemID.eItemID)
 			{
 			case WEAPON_SWORD:

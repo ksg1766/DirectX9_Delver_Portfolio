@@ -47,6 +47,7 @@ private:
 	CAnimator*		m_pAnimator = nullptr;
 	
 
+	_bool		m_bSearch = false;
 	_bool		m_bAttackTick;
 	_float		m_fFrame;
 

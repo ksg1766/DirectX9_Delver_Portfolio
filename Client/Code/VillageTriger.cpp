@@ -1,3 +1,5 @@
+#include "stdafx.h"
+#include "SoundManager.h"
 #include "VillageTriger.h"
 #include "Export_Function.h"
 #include "Player.h"
@@ -53,6 +55,9 @@ void CVillageTriger::LateUpdate_Object(void)
 		if (fDistance < 5.f)
 		{
 			// 마을 -> 스테이지 씬 이동
+			CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_ENVIRONMENT);
+			CSoundManager::GetInstance()->PlaySound(L"door_beginning.mp3", CHANNELID::SOUND_ENVIRONMENT, 1.f);
+
 			CScene* pScene = CStage::Create(m_pGraphicDev);
 			Engine::SceneManager()->Change_Scene(pScene);
 		}

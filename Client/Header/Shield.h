@@ -41,6 +41,7 @@ private:
 
 
 	_int		m_iAttackTick;
+	_int		m_iMoveTick;
 	_vec3		m_vDir;
 
 	_vec3		m_vBoomerangPos;

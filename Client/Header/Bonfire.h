@@ -22,6 +22,7 @@ public:
 private:
 	CCubeBf*		m_pCubeBf = nullptr;
 	CTexture*		m_pTexture = nullptr;
+	_float			m_fTime;
 
 private:
 	HRESULT		Add_Component(void);

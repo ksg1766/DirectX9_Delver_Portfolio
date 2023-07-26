@@ -35,6 +35,9 @@ _int CSpiderRay::Update_Object(const _float& fTimeDelta)
 
 	_int iExit = __super::Update_Object(fTimeDelta);
 
+	if (m_pHost->IsDead())
+		EventManager()->DeleteObject(this);
+
 	m_pTransform->m_vInfo[INFO_POS] = m_pHost->m_pTransform->m_vInfo[INFO_POS] + _vec3(0.f, -0.65f, 0.f);
 
 	return iExit;
