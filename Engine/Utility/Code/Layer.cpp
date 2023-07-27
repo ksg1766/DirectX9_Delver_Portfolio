@@ -47,7 +47,7 @@ _int CLayer::Update_Layer(const _float & fTimeDelta)
 			{
 				if (!(*_iter)->IsDead() && *_iter != nullptr)
 				{
-					if ((OBJECTTAG)i == OBJECTTAG::EFFECT)	// 임시로 터지는것 방지
+					if ((OBJECTTAG)i == OBJECTTAG::EFFECT)    // 임시로 터지는것 방지
 					{
 						if (OBJECTTAG::EFFECT != (*_iter)->Get_ObjectTag())
 						{

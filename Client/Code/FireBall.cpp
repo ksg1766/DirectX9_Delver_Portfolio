@@ -144,18 +144,9 @@ void CFireBall::ForceHeight(_vec3 _vPos)
 void CFireBall::OnCollisionEnter(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
-	
-	/*if (_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::MONSTER &&
-		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::PLAYER &&
-		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::ITEM&& _pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::BOSS)
-		__super::OnCollisionEnter(_pOther);
-	
-	CGameObject* pGameObject = CEffectExplosion::Create(m_pGraphicDev);
-	pGameObject->m_pTransform->Translate(m_pTransform->m_vInfo[INFO_POS]);
-	Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);*/
 
-	//EventManager()->DeleteObject(this);
-	
+	__super::OnCollisionEnter(_pOther);*/
+
 	CPlayer& pPlayer = *dynamic_cast<CPlayer*>(SceneManager()->GetInstance()
 		->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
 
@@ -175,16 +166,10 @@ void CFireBall::OnCollisionEnter(CCollider* _pOther)
 		pGameObject->m_pTransform->Translate(m_pTransform->m_vInfo[INFO_POS]);
 		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 		//////////////////////////////////////////////////////////////////////////////// ÀÌÆåÆ® 
-
-		/*Set_State(STATE::DEAD);
-		EventManager()->DeleteObject(this);*/
 	}
 
 	Set_State(STATE::DEAD);
 	EventManager()->DeleteObject(this);
-
-	//if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BLOCK)
-	//	EventManager()->DeleteObject(this);
 }
 
 void CFireBall::OnCollisionStay(CCollider* _pOther)

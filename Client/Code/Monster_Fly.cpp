@@ -42,6 +42,9 @@ STATE CMonster_Fly::Update_State(const _float& fTimeDelta)
 	_float fDistance = D3DXVec3LengthSq(&(vPlayerPos - m_pOwner->Get_Transform()->m_vInfo[INFO_POS]));
 	_float fSight = pow(15, 2);
 
+	if (m_pOwner->Get_PrevState() == STATE::HIT)
+		Fly(fTimeDelta);
+
 
 	if (fDistance >= fSight)
 	{
@@ -119,8 +122,8 @@ void CMonster_Fly::Fly(const _float& fTimeDelta)
 	_float fReturnDistance = D3DXVec3Length(&vTargetPos);
 	D3DXVec3Normalize(&vTargetPos, &vTargetPos);
 
-	if (fReturnDistance >= dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Get_MoveRange() &&
-		!m_bCheck)
+	if ((fReturnDistance >= dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Get_MoveRange() &&
+		!m_bCheck) || m_pOwner->Get_PrevState() == STATE::HIT)
 	{
 		_float fPlayerDistance = D3DXVec3Length(&(rPlayer.m_pTransform->m_vInfo[INFO_POS] - m_pOwner->Get_Host()->m_pTransform->m_vInfo[INFO_POS]));
 
@@ -129,7 +132,7 @@ void CMonster_Fly::Fly(const _float& fTimeDelta)
 		D3DXVec3Normalize(&vChase, &vChase);
 
 
-		if (fPlayerDistance < 50.f)
+		if (fPlayerDistance < 50.f || m_pOwner->Get_PrevState() == STATE::HIT)
 		{
 			_vec3 vTest = _vec3(vDir.x, 0.f, vDir.z);
 			_vec3 vRan = vChase + vTest * 3.f;

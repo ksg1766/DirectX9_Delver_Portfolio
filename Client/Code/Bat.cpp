@@ -90,8 +90,8 @@ _int CBat::Update_Object(const _float& fTimeDelta)
 
 	if (m_pBasicStat->Get_Stat()->fHP <= 0)
 	{
-		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTER);
-		CSoundManager::GetInstance()->PlaySound(L"en_bat_death_01.mp3", CHANNELID::SOUND_MONSTER, 1.f);
+		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_BAT);
+		CSoundManager::GetInstance()->PlaySound(L"en_bat_death_01.mp3", CHANNELID::SOUND_BAT, 1.f);
 
 
 		if (m_pAnimator->Get_Animation()->Get_Frame() >= 3)
@@ -128,7 +128,8 @@ _int CBat::Update_Object(const _float& fTimeDelta)
 		if (!m_bSearch)
 		{
 			m_bSearch = true;
-			CSoundManager::GetInstance()->PlaySound(L"en_bat_alert_01.mp3", CHANNELID::SOUND_MONSTER, 1.f);
+			CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_BAT);
+			CSoundManager::GetInstance()->PlaySound(L"en_bat_alert_01.mp3", CHANNELID::SOUND_BAT, 1.f);
 		}
 	}
 

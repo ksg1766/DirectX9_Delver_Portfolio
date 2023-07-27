@@ -1,3 +1,5 @@
+#include "stdafx.h"
+#include "SoundManager.h"
 #include "..\Header\Wizard_Attack.h"
 #include "Export_Function.h"
 #include "Player.h"
@@ -48,6 +50,8 @@ STATE CWizard_Attack::Update_State(const _float& fTimeDelta)
 		if (m_pOwner->Get_Animator()->Get_Animation()->Get_Frame() > 5.f)
 		{
 
+			Attack_Sound();
+
 			_float fSpeed = dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Get_Speed();
 
 			m_pOwner->Get_Animator()->Get_Animation()->Set_Frame(0.f);
@@ -71,6 +75,30 @@ void CWizard_Attack::LateUpdate_State()
 
 void CWizard_Attack::Render_State()
 {
+}
+
+void CWizard_Attack::Attack_Sound()
+{
+
+	MONSTERTAG _eMonsterTag = dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Get_MonsterTag();
+
+	switch (_eMonsterTag)
+	{
+	case MONSTERTAG::WIZARD:
+		//CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTERMOVE);
+		//CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTERATTACK);
+		//CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTERIDLE);
+		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_WIZARD);
+		CSoundManager::GetInstance()->PlaySound(L"en_mage_attack_01.mp3", CHANNELID::SOUND_WIZARD, 1.f);
+		break;
+	case MONSTERTAG::ALIEN:
+		//CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTERMOVE);
+		//CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTERATTACK);
+		//CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTERIDLE);
+		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_ALIEN);
+		CSoundManager::GetInstance()->PlaySound(L"en_beholder_attack_01.mp3", CHANNELID::SOUND_ALIEN, 1.f);
+		break;
+	}
 }
 
 CWizard_Attack* CWizard_Attack::Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner)

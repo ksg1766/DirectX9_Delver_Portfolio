@@ -428,6 +428,7 @@
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="WaterFallTriger.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\Alchemist_Idle.cpp" />
@@ -647,6 +648,7 @@
     <ClCompile Include="..\Code\UIUseShop_Trander.cpp" />
     <ClCompile Include="..\Code\Village.cpp" />
     <ClCompile Include="..\Code\WakeUp_BossSkeleton.cpp" />
+    <ClCompile Include="..\Code\WaterFallTriger.cpp" />
     <ClCompile Include="..\Code\Worm.cpp" />
     <ClCompile Include="..\Code\Warrior_Attack.cpp" />
     <ClCompile Include="..\Code\Wizard.cpp" />

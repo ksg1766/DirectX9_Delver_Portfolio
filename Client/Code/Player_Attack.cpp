@@ -102,7 +102,7 @@ STATE CPlayer_Attack::Key_Input(const _float& fTimeDelta)
 
 
 					CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_WEAPON);
-					CSoundManager::GetInstance()->PlaySound(L"whoosh1.mp3", CHANNELID::SOUND_WEAPON, 1.f);
+					CSoundManager::GetInstance()->PlaySound(L"whoosh1.mp3", CHANNELID::SOUND_WEAPON, 0.5f);
 
 					return STATE::ATTACK;
 				}

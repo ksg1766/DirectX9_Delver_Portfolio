@@ -1,9 +1,9 @@
 #include "stdafx.h"
 #include "..\Header\Monster_Move.h"
-#include "Export_Function.h"
 #include "DungeonSpider.h"
 #include "Player.h"
 #include "SoundManager.h"
+#include "Export_Function.h"
 
 CMonster_Move::CMonster_Move()
 {
@@ -48,9 +48,6 @@ STATE CMonster_Move::Update_State(const _float& fTimeDelta)
 			m_bAttackCool = false;
 	}
 
-	Move_Sound();
-
-
 	_vec3 fDistance = m_pOwner->Get_Host()->m_pTransform->m_vInfo[INFO_POS] - pPlayer.m_pTransform->m_vInfo[INFO_POS];
 	_float fLength = D3DXVec3Length(&fDistance);
 
@@ -69,6 +66,7 @@ STATE CMonster_Move::Update_State(const _float& fTimeDelta)
 		else
 		{
 			Move_RandomPos(fTimeDelta);
+			//Move_Sound();
 		}
 		
 	}
@@ -83,6 +81,7 @@ STATE CMonster_Move::Update_State(const _float& fTimeDelta)
 		{
 			//m_pOwner->Get_Transform()->m_vInfo[INFO_POS] += vReturn * m_fSpeed * fTimeDelta; 
 			m_pOwner->Get_Transform()->Translate(_vec3(vReturn.x, 0.f, vReturn.z) * m_fSpeed * fTimeDelta);
+			//Move_Sound();
 			// Distance가 큰 동안 무조건 Center 쪽으로 보냄. 근데 30이 됐을 땐 bool값을 TRUE로 바꿈
 			//m_bCheck = true; // 이러면 30 영역 안에 들어왔다는 것임. 여기서부터 랜덤지역을 배회시킴. 근데 센터에서 50 ~ 100 정도 벗어나면 다시 돌아가게 만든다.
 		}
@@ -96,6 +95,7 @@ STATE CMonster_Move::Update_State(const _float& fTimeDelta)
 			else
 			{
 				Move_RandomPos(fTimeDelta);
+				//Move_Sound();
 			}
 		}
 	}
@@ -109,8 +109,8 @@ void CMonster_Move::Move_RandomPos(const _float& fTimeDelta)
 {
 	//_vec3 vTerrainCenter = _vec3((VTXCNTX * 32) / 2.f, 0.f, (VTXCNTZ * 32) / 2.f);
 
-	_float	fMinDistance = 10.f;
-	_float	fMaxDistance = 20.f;
+	_float	fMinDistance = 5.f;
+	_float	fMaxDistance = 15.f;
 
 	_float fDistance = fMinDistance + (rand() / (_float)RAND_MAX) * (fMaxDistance - fMinDistance);
 
@@ -126,7 +126,7 @@ void CMonster_Move::Move_RandomPos(const _float& fTimeDelta)
 
 _vec3 CMonster_Move::Get_RandomDir(const _float& fTimeDelta)
 {
-	_float distance = 15.f;
+	_float distance = 10.f;
 
 	_float X = m_vSavePos.x + (distance * cosf((_float)rand() / RAND_MAX * 2.f * D3DX_PI)) / 50.f;
 	_float Z = m_vSavePos.z + (distance * -sinf((_float)rand() / RAND_MAX * 2.f * D3DX_PI)) / 50.f;
@@ -147,9 +147,11 @@ void CMonster_Move::Move_Sound()
 	switch (_eMonsterTag)
 	{
 	case MONSTERTAG::SPIDER:
-		//if(m_pOwner->Get_PrevState() != STATE::ROMIMG)
-		//CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTER);
-		//CSoundManager::GetInstance()->PlaySound(L"spider_walk.mp3", CHANNELID::SOUND_MONSTER, 1.f);
+		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_SPIDER);
+		//CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTERHIT);
+		//CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTERIDLE);
+		//CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTERMOVE);
+		CSoundManager::GetInstance()->PlaySound(L"spider_walk.mp3", CHANNELID::SOUND_SPIDER, 1.f);
 		break;
 	case MONSTERTAG::WARRIOR:
 		break;
@@ -160,6 +162,11 @@ void CMonster_Move::Move_Sound()
 	case MONSTERTAG::ALIEN:
 		break;
 	case MONSTERTAG::SLIME:
+		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_SLIME);
+	/*	CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTERHIT);
+		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTERIDLE);*/
+		//CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTERMOVE);
+		CSoundManager::GetInstance()->PlaySound(L"en_slime_idle_03.mp3", CHANNELID::SOUND_SLIME, 1.f);
 		break;
 	case MONSTERTAG::SKELETON:
 		break;

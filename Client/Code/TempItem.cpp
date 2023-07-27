@@ -2,6 +2,7 @@
 #include "stdafx.h"
 
 #include "SoundManager.h"
+#include "DynamicCamera.h"
 #include "..\Header\TempItem.h"
 #include "Export_Function.h"
 #include "Player.h"
@@ -276,19 +277,9 @@ void CTempItem::OnCollisionEnter(CCollider* _pOther)
 			dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_StateMachine()->Get_State() != STATE::DEAD))
 			// 공격 하지 않은 상태라면.
 		{
-			//dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_BasicStat()->I
 			pPlayer.Set_AttackTick(true);
-
-	
-
-			++g_iCount;
-
-			if (dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_StateMachine()->Get_PrevState() != STATE::HIT
-				&& g_iCount > 4)
-			{
-				g_iCount = 0;
-				dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_StateMachine()->Set_State(STATE::HIT);
-			}
+			dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_StateMachine()->Set_State(STATE::HIT);
+			
 
 			//////////////////////////////////////////////////////////////////////////////// 이펙트 
 			_matrix      matMonsterWorld  = _pOther->Get_Host()->m_pTransform->WorldMatrix();
@@ -351,6 +342,11 @@ void CTempItem::OnCollisionStay(CCollider* _pOther)
 		pPlayer.Set_AttackTick(true);
 		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_BREAK);
 		CSoundManager::GetInstance()->PlaySound(L"clang_02.mp3", CHANNELID::SOUND_BREAK, 1.f);
+
+		CDynamicCamera* pDynamic = dynamic_cast<CDynamicCamera*>
+			(SceneManager()->Get_ObjectList(LAYERTAG::ENVIRONMENT, OBJECTTAG::CAMERA).front());
+
+		pDynamic->Shake_Camera();
 	}
 }
 

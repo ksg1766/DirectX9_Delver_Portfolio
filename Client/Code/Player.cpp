@@ -2,7 +2,7 @@
 #include "..\Header\Player.h"
 
 #include "Export_Function.h"
-
+#include "SoundManager.h"
 // 임시 아이템
 #include "DynamicCamera.h"
 #include "Itemgroup.h"
@@ -123,6 +123,9 @@ Engine::_int CPlayer::Update_Object(const _float& fTimeDelta)
 
 	_int iExit = __super::Update_Object(fTimeDelta);
 	m_pStateMachine->Update_StateMachine(fTimeDelta);
+
+	Foot_Sound();
+
 
 #pragma region ksg
 
@@ -298,6 +301,8 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 			{
 				m_pRigidBody->Add_Force(_vec3(0.f, 1.1f * m_fSpeed, 0.f));
 				m_pRigidBody->UseGravity(true);
+
+				m_bTestJump = true;
 				//m_IsJump = true;
 			}
 		}
@@ -1075,6 +1080,32 @@ void CPlayer::Create_Item(CCollider* _pOther)
 
 	// 월드 아이템 지우기
 	EventManager()->DeleteObject(dynamic_cast<CItem*>(_pOther->Get_Host()));
+}
+
+void CPlayer::Foot_Sound()
+{
+	if (SceneManager()->Get_Scene()->Get_SceneTag() == SCENETAG::VILLAGE)
+	{
+		if (!IsJump() && (m_pStateMachine->Get_State() == STATE::ROMIMG || m_pStateMachine->Get_State() == STATE::ATTACK))
+			CSoundManager::GetInstance()->PlaySound(L"feet_default_01.mp3", CHANNELID::SOUND_PLAYER, 1.f);
+
+		if (IsJump() && m_bTestJump)
+		{
+			CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_PLAYER);
+			m_bTestJump = false;
+		}
+	}
+	else if (SceneManager()->Get_Scene()->Get_SceneTag() == SCENETAG::STAGE)
+	{
+		//if (!IsJump() && (m_pStateMachine->Get_State() == STATE::ROMIMG || m_pStateMachine->Get_State() == STATE::ATTACK))
+		//	CSoundManager::GetInstance()->PlaySound(L"feet_wood_01.mp3", CHANNELID::SOUND_PLAYER, 1.f);
+		//
+		//if (IsJump() && m_bTestJump)
+		//{
+		//	CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_PLAYER);
+		//	m_bTestJump = false;
+		//}
+	}
 }
 
 void CPlayer::Free()

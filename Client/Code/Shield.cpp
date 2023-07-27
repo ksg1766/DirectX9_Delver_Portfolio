@@ -134,17 +134,10 @@ _int CShield::Update_Object(const _float& fTimeDelta)
 
 			CTransform* pPlayerTransform = pPlayer->m_pTransform;
 
-			_vec3 vOffSet = 0.7f * -pPlayerTransform->m_vInfo[INFO_RIGHT] + 1.5f * pPlayerTransform->m_vInfo[INFO_LOOK] - 0.6f * pPlayerTransform->m_vInfo[INFO_UP];
+			_vec3 vOffSet = -0.7f * pPlayerTransform->m_vInfo[INFO_RIGHT] + 1.5f * pPlayerTransform->m_vInfo[INFO_LOOK] - 0.6f * pPlayerTransform->m_vInfo[INFO_UP];
 			m_pTransform->m_vInfo[INFO_POS] = (pPlayerTransform->m_vInfo[INFO_POS] + vOffSet);
 
-			_vec3 vLocalScale = m_pTransform->LocalScale();
 
-			m_pTransform->Copy_RUL(pPlayerTransform->m_vInfo);
-			for (_int i = 0; i < INFO_POS; ++i)
-				m_pTransform->m_vInfo[i] *= *(((_float*)&vLocalScale) + i);
-
-			m_vDir = pPlayer->m_pTransform->m_vInfo[INFO_LOOK];
-			D3DXVec3Normalize(&m_vDir, &m_vDir);
 			m_iMoveTick = 0;
 		}
 	}
@@ -292,10 +285,13 @@ void CShield::OnCollisionExit(CCollider* _pOther)
 	if (!(_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::MONSTER) &&
 		!(_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::PLAYER))
 	{
-		CTransform* pPlayerTransform = SceneManager()->Get_Scene()->Get_MainPlayer()->m_pTransform;
+		if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BLOCK)
+		{
+			CTransform* pPlayerTransform = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform;
 
-		_vec3 vOffSet = -0.7f * pPlayerTransform->m_vInfo[INFO_RIGHT] + 1.4f * pPlayerTransform->m_vInfo[INFO_LOOK] - 0.4f * pPlayerTransform->m_vInfo[INFO_UP];
-		m_pTransform->m_vInfo[INFO_POS] = (pPlayerTransform->m_vInfo[INFO_POS] + vOffSet);
+			_vec3 vOffSet = -0.7f * pPlayerTransform->m_vInfo[INFO_RIGHT] + 1.4f * pPlayerTransform->m_vInfo[INFO_LOOK] - 0.4f * pPlayerTransform->m_vInfo[INFO_UP];
+			m_pTransform->m_vInfo[INFO_POS] = (pPlayerTransform->m_vInfo[INFO_POS] + vOffSet);
+		}
 	}
 }
 

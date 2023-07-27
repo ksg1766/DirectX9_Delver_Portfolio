@@ -39,19 +39,10 @@ STATE CWarror_Attack::Update_State(const _float& fTimeDelta)
 		(SceneManager()->GetInstance()->Get_ObjectList
 		(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
 	
-	m_fTime += fTimeDelta;
-
-	if (m_fTime >= 3.f)
-	{
-		m_fTime = 0.f;
-		return STATE::ROMIMG;
-	}
-
 
 	if (!m_bIsAttack)
 	{		
 		m_fChase += fTimeDelta;
-		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTER);
 
 		if (m_fChase < 1.f)
 		{
@@ -80,15 +71,21 @@ STATE CWarror_Attack::Update_State(const _float& fTimeDelta)
 		
 		_float fDistance = D3DXVec3Length(&(pPlayer.m_pTransform->m_vInfo[INFO_POS] - m_pOwner->Get_Transform()->m_vInfo[INFO_POS]));
 
-		if (fDistance < 15.f)
-			Attack_Sound();
+		Attack_Sound();
+
+		m_fTime += fTimeDelta;
+
+		if (m_fTime >= 2.f)
+		{
+			m_fTime = 0.f;
+			return STATE::ROMIMG;
+		}
 	}
 
 
-	if (D3DXVec3Length(&(m_vPrevPos  - m_pOwner->Get_Transform()->m_vInfo[INFO_POS])) < 0.5f
+	if (D3DXVec3Length(&(m_vPrevPos  - m_pOwner->Get_Transform()->m_vInfo[INFO_POS])) < 1.f
 		&& m_pOwner->Get_Animator()->Get_Animation()->Get_Frame() > 4.8f)
 	{
-		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTER);
 		m_bIsAttack = false;
 		m_fTime = 0.f;
 		return STATE::ROMIMG;
@@ -112,10 +109,20 @@ void CWarror_Attack::Attack_Sound()
 	switch (_eMonsterTag)
 	{
 	case MONSTERTAG::WARRIOR:
-		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTER);
-		CSoundManager::GetInstance()->PlaySound(L"en_melee_2_attack_02.mp3", CHANNELID::SOUND_MONSTER, 1.f);
+		//CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTERMOVE);
+		//CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTERHIT);
+		//CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTERDEAD);
+		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_WARRIOR);
+		//CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTERATTACK);
+		CSoundManager::GetInstance()->PlaySound(L"en_melee_2_attack_02.mp3", CHANNELID::SOUND_WARRIOR, 1.f);
 		break;
 	case MONSTERTAG::SLIME:
+		//CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTERMOVE);
+		//CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTERHIT);
+		//CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTERDEAD);
+		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_SLIME);
+		//CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTERATTACK);
+		CSoundManager::GetInstance()->PlaySound(L"en_slime_attack_01.mp3", CHANNELID::SOUND_SLIME, 1.f);
 		break;
 	case MONSTERTAG::SKELETON:
 		break;

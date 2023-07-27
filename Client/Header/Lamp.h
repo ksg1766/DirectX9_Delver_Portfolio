@@ -36,6 +36,8 @@ private:
 	CRcTex* m_pBuffer = nullptr;
 	CTexture* m_pTexture = nullptr;
 	CBillBoard* m_pBillBoard = nullptr;
+
+	_int	m_iMoveTick;
 public:
 	static CLamp* Create(LPDIRECT3DDEVICE9 pGraphicDev, _bool _Item);
 

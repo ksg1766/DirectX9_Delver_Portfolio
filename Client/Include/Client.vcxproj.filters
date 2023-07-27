@@ -1583,6 +1583,9 @@
     <ClInclude Include="..\Header\MiniMeteor_Idle.h">
       <Filter>03. GameObject\01. Stage\999. Boss\01. AttackEff\04. Meteor_Cube\Mini\State</Filter>
     </ClInclude>
+    <ClInclude Include="WaterFallTriger.h">
+      <Filter>03. GameObject\01. Stage\05. Cube\02. CubeTrigger</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -2321,6 +2324,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\MiniMeteor_Idle.cpp">
       <Filter>03. GameObject\01. Stage\999. Boss\01. AttackEff\04. Meteor_Cube\Mini\State</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\WaterFallTriger.cpp">
+      <Filter>03. GameObject\01. Stage\05. Cube\02. CubeTrigger</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

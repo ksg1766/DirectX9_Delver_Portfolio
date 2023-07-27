@@ -21,10 +21,12 @@ public:
 
 public:
 	virtual STATE	Key_Input(const _float& fTimeDelta) { return STATE(); }
+	void Monster_Dead();
 
 
 private:
 	_float	m_fFlyDown;
+	_bool	m_bDead = false;
 
 public:
 	static CMonster_Dead* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);

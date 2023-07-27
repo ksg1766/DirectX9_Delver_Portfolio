@@ -86,6 +86,9 @@ _int CDungeonWarrior::Update_Object(const _float& fTimeDelta)
 
 	_int iExit = __super::Update_Object(fTimeDelta);
 
+	if (m_pStateMachine->Get_State() == STATE::DEAD)
+		m_pRigidBody->UseGravity(false);
+
 
 	if (IsKnockBack())
 	{
@@ -104,23 +107,17 @@ _int CDungeonWarrior::Update_Object(const _float& fTimeDelta)
 		if (!m_bSearch)
 		{
 			m_bSearch = true;
-			CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTER);
-			CSoundManager::GetInstance()->PlaySound(L"en_melee_2_alert_02.mp3", CHANNELID::SOUND_MONSTER, 1.f);
+			CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_WARRIOR);
+			CSoundManager::GetInstance()->PlaySound(L"en_melee_2_alert_02.mp3", CHANNELID::SOUND_WARRIOR, 1.f);
 		}
 	}
 
 	if (m_pBasicStat->Get_Stat()->fHP <= 0)
 	{
-
-		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTER);
-		CSoundManager::GetInstance()->PlaySound(L"en_melee_2_die_02.mp3", CHANNELID::SOUND_MONSTER, 1.f);
-
-
 		if (m_pAnimator->Get_Animation()->Get_Frame() >= 1) // ? ) 확인 부탁드립니다
 			m_pAnimator->Get_Animation()->Set_Loop(FALSE);
 		{
 		m_pStateMachine->Set_State(STATE::DEAD);
-
 		
 		//////////////////////////////////////////////////////////////////////////////// 이펙트 
 			if (!m_bDieEffect)
@@ -185,8 +182,7 @@ void CDungeonWarrior::OnCollisionEnter(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 
-	if (_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::PLAYER
-		&&this->Get_StateMachine()->Get_State() != STATE::DEAD && 
+	if (_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::PLAYER &&
 		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::ITEM &&
 		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::PLAYERBULLET)
 		__super::OnCollisionEnter(_pOther);
@@ -210,7 +206,6 @@ void CDungeonWarrior::OnCollisionStay(CCollider* _pOther)
 	if (SceneManager()->Get_GameStop()) { return; }
 	// 충돌 밀어내기 후 이벤트 : 구현하시면 됩니다.
 	if (_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::PLAYER &&
-		this->Get_StateMachine()->Get_State() != STATE::DEAD &&
 		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::ITEM&&
 		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::PLAYERBULLET)
 		__super::OnCollisionStay(_pOther);
@@ -218,6 +213,19 @@ void CDungeonWarrior::OnCollisionStay(CCollider* _pOther)
 	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BLOCK)
 	{
 		this->Set_BlockOn(true);
+	}
+
+	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::ITEM)
+	{
+		ITEMTYPEID _eID = dynamic_cast<CItem*>(_pOther->Get_Host())->Get_ItemTag();
+
+		CPlayer& rPlayer = *SceneManager()->Get_Scene()->Get_MainPlayer();
+
+		if (_eID.eItemID == ITEMID::WEAPON_SWORD && rPlayer.Get_Attack())
+		{
+			CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_WEAPON);
+			CSoundManager::GetInstance()->PlaySound(L"attack_04.mp3", CHANNELID::SOUND_WEAPON, 1.f);
+		}
 	}
 }
 
