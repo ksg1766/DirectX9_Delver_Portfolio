@@ -57,7 +57,7 @@ _int CSpawningPool::Update_Object(const _float& fTimeDelta)
 
     _vec3 vPlayerPos = SceneManager()->Get_Scene()->Get_MainPlayer()->m_pTransform->m_vInfo[INFO_POS];
 
-    if (D3DXVec3Length(&(m_pTransform->m_vInfo[INFO_POS] - vPlayerPos)) > 110.f)
+    if (D3DXVec3Length(&(m_pTransform->m_vInfo[INFO_POS] - vPlayerPos)) > 80.f)
         return 0;
 
     _int iExit = __super::Update_Object(fTimeDelta);
