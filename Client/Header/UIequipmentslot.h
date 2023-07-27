@@ -18,7 +18,7 @@ private:
 	virtual ~CUIequipmentslot();
 
 public:
-	void		Set_UseSlot(_bool _bUse) { m_bUse = _bUse; }
+	//void		Set_UseSlot(_bool _bUse) { m_bUse = _bUse; }
 	void        Set_FindSlot(_bool bFind) 
 	{ 
 		m_bFind = bFind; 
@@ -58,9 +58,9 @@ private:
 	void	    Key_Input(void);
 
 private:
-	_bool       m_bFind = false;
-	_bool		m_bUse = false;
-
+	_bool       m_bFind      = false;
+	_bool		m_bEntrance  = false;
+	_bool       m_bExit      = false;
 public:
 	static CUIequipmentslot*	Create(LPDIRECT3DDEVICE9 pGraphicDev);
 	

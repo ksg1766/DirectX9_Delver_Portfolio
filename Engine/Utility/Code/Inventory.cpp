@@ -755,7 +755,7 @@ CGameObject* CInventory::Get_IDItem(ITEMID _eID)
 		if (iter.second != nullptr) {
 			ITEMTYPEID SlotItemType = dynamic_cast<CItem*>(iter.second)->Get_ItemTag();
 
-			if (SlotItemType.eItemType == _eID)
+			if (SlotItemType.eItemID == _eID)
 			{
 				return iter.second;
 			}

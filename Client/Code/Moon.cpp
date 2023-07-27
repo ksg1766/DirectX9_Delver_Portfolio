@@ -41,7 +41,7 @@ void CMoon::LateUpdate_Object(void)
 	__super::LateUpdate_Object();
 
 	m_pBillBoardCom->LateUpdate_Component();
-	m_pTransform->Scale(_vec3(20.f, 20.f, 20.f));
+	m_pTransform->Scale(_vec3(23.f, 23.f, 23.f));
 }
 
 void CMoon::Render_Object(void)

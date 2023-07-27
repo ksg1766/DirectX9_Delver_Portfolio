@@ -622,89 +622,87 @@ void CShopItem::Key_Input()
 				Engine::CGameObject* FindSlotObj = Engine::UIManager()->Get_PopupObjectBasicSlot(ItemType);
 				dynamic_cast<CUIbasicslot*>(dynamic_cast<CTempUI*>(FindSlotObj))->Set_FindSlot(true);
 			}
-			else if (ItemType.eItemType == ITEMTYPE::ITEMTYPE_GENERALITEM && !rPlayer.Get_ItemEquipLeft())
-			{
-				rPlayer.Set_ItemEquipLeft(true);
-
-				rPlayer.Set_CurrentEquipLeft(pItem);
-				rPlayer.Set_PrevEquipLeft(pItem);
-				Engine::EventManager()->CreateObject(pItem, LAYERTAG::GAMELOGIC);
-
-#pragma region 해당 슬롯을 찾아서 비었을 시 해당 슬롯에 할당 및 스왑
-				_uint ItemSlotNumber = 0;
-				switch (ItemType.eItemID)
-				{
-				case GENERAL_SHIELD:
-					ItemSlotNumber = 1;
-					break;
-				case GENERAL_LAMP:
-					ItemSlotNumber = 1;
-					break;
-				case GENERAL_BEER:
-					ItemSlotNumber = 1;
-					break;
-				case EQUIP_OLDHELMET:
-					ItemSlotNumber = 0;
-					break;
-				case EQUIP_OLDARMOR:
-					ItemSlotNumber = 2;
-					break;
-				case EQUIP_OLDTROUSERS:
-					ItemSlotNumber = 4;
-					break;
-				case EQUIP_IRONHELMET:
-					ItemSlotNumber = 0;
-					break;
-				case EQUIP_IRONARMOR:
-					ItemSlotNumber = 2;
-					break;
-				case EQUIP_IRONTROUSERS:
-					ItemSlotNumber = 4;
-					break;
-				case EQUIP_SMALLSILVERRING:
-					ItemSlotNumber = 3;
-					break;
-				case EQUIP_BIGSILVERRING:
-					ItemSlotNumber = 3;
-					break;
-				case EQUIP_SILVERNECKLACE:
-					ItemSlotNumber = 5;
-					break;
-				case EQUIP_SMALLGOLDRING:
-					ItemSlotNumber = 3;
-					break;
-				case EQUIP_BIGGOLDRING:
-					ItemSlotNumber = 3;
-					break;
-				case EQUIP_GOLDNECKLACE:
-					ItemSlotNumber = 5;
-					break;
-				}
-
-				CGameObject* SlotObject = Engine::UIManager()->Get_PopupObject(Engine::UIPOPUPLAYER::POPUP_EQUIPMENT, Engine::UILAYER::UI_DOWN, UIID_SLOTEQUIPMENT, ItemSlotNumber);
-
-				if (dynamic_cast<CTempUI*>(SlotObject)->Get_EmptyBool()) // 해당 슬롯이 비어있으면
-				{
-					// 들어온 아이템 ui 포지션을 비어있는 해당 슬롯 포지션 값으로 대입 후 월드 행렬 셋팅
-					pGameObjectUI->m_pTransform->m_vInfo[INFO_POS].x = SlotObject->m_pTransform->m_vInfo[INFO_POS].x;
-					pGameObjectUI->m_pTransform->m_vInfo[INFO_POS].y = SlotObject->m_pTransform->m_vInfo[INFO_POS].y;
-					dynamic_cast<CTempUI*>(pGameObjectUI)->WorldMatrix(pGameObjectUI->m_pTransform->m_vInfo[INFO_POS].x, pGameObjectUI->m_pTransform->m_vInfo[INFO_POS].y, pGameObjectUI->m_pTransform->m_vLocalScale.x, pGameObjectUI->m_pTransform->m_vLocalScale.y);
-
-					// 아이템의 부모 오브젝트로 해당 슬롯 등록
-					dynamic_cast<CTempUI*>(pGameObjectUI)->Set_Parent(SlotObject);
-					// 슬롯 자식 오브젝트로 해당 아이템 등록 후 비어있지 않다는 상태로 변경
-					dynamic_cast<CTempUI*>(SlotObject)->Set_Child(pGameObjectUI);
-					dynamic_cast<CTempUI*>(SlotObject)->Set_EmptyBool(false);
-
-					Engine::UIManager()->AddPopupGameobject_UI(Engine::UIPOPUPLAYER::POPUP_ITEM, Engine::UILAYER::UI_DOWN, pGameObjectUI);
-					Engine::UIManager()->Hide_InvenItem(0);
-				}
-				else // 비어 있지 않으면 그냥 추가
-				{
-					Engine::UIManager()->AddItemGameobject_UI(pGameObjectUI);
-				}
-#pragma endregion 
-			}
+//			else if (ItemType.eItemType == ITEMTYPE::ITEMTYPE_GENERALITEM && !rPlayer.Get_ItemEquipLeft())
+//			{
+//				rPlayer.Set_ItemEquipLeft(true);
+//
+//				rPlayer.Set_CurrentEquipLeft(pItem);
+//				rPlayer.Set_PrevEquipLeft(pItem);
+//				Engine::EventManager()->CreateObject(pItem, LAYERTAG::GAMELOGIC);
+//
+//				_uint ItemSlotNumber = 0;
+//				switch (ItemType.eItemID)
+//				{
+//				case GENERAL_SHIELD:
+//					ItemSlotNumber = 1;
+//					break;
+//				case GENERAL_LAMP:
+//					ItemSlotNumber = 1;
+//					break;
+//				case GENERAL_BEER:
+//					ItemSlotNumber = 1;
+//					break;
+//				case EQUIP_OLDHELMET:
+//					ItemSlotNumber = 0;
+//					break;
+//				case EQUIP_OLDARMOR:
+//					ItemSlotNumber = 2;
+//					break;
+//				case EQUIP_OLDTROUSERS:
+//					ItemSlotNumber = 4;
+//					break;
+//				case EQUIP_IRONHELMET:
+//					ItemSlotNumber = 0;
+//					break;
+//				case EQUIP_IRONARMOR:
+//					ItemSlotNumber = 2;
+//					break;
+//				case EQUIP_IRONTROUSERS:
+//					ItemSlotNumber = 4;
+//					break;
+//				case EQUIP_SMALLSILVERRING:
+//					ItemSlotNumber = 3;
+//					break;
+//				case EQUIP_BIGSILVERRING:
+//					ItemSlotNumber = 3;
+//					break;
+//				case EQUIP_SILVERNECKLACE:
+//					ItemSlotNumber = 5;
+//					break;
+//				case EQUIP_SMALLGOLDRING:
+//					ItemSlotNumber = 3;
+//					break;
+//				case EQUIP_BIGGOLDRING:
+//					ItemSlotNumber = 3;
+//					break;
+//				case EQUIP_GOLDNECKLACE:
+//					ItemSlotNumber = 5;
+//					break;
+//				}
+//
+//				CGameObject* SlotObject = Engine::UIManager()->Get_PopupObject(Engine::UIPOPUPLAYER::POPUP_EQUIPMENT, Engine::UILAYER::UI_DOWN, UIID_SLOTEQUIPMENT, ItemSlotNumber);
+//
+//				if (dynamic_cast<CTempUI*>(SlotObject)->Get_EmptyBool()) // 해당 슬롯이 비어있으면
+//				{
+//					// 들어온 아이템 ui 포지션을 비어있는 해당 슬롯 포지션 값으로 대입 후 월드 행렬 셋팅
+//					pGameObjectUI->m_pTransform->m_vInfo[INFO_POS].x = SlotObject->m_pTransform->m_vInfo[INFO_POS].x;
+//					pGameObjectUI->m_pTransform->m_vInfo[INFO_POS].y = SlotObject->m_pTransform->m_vInfo[INFO_POS].y;
+//					dynamic_cast<CTempUI*>(pGameObjectUI)->WorldMatrix(pGameObjectUI->m_pTransform->m_vInfo[INFO_POS].x, pGameObjectUI->m_pTransform->m_vInfo[INFO_POS].y, pGameObjectUI->m_pTransform->m_vLocalScale.x, pGameObjectUI->m_pTransform->m_vLocalScale.y);
+//
+//					// 아이템의 부모 오브젝트로 해당 슬롯 등록
+//					dynamic_cast<CTempUI*>(pGameObjectUI)->Set_Parent(SlotObject);
+//					// 슬롯 자식 오브젝트로 해당 아이템 등록 후 비어있지 않다는 상태로 변경
+//					dynamic_cast<CTempUI*>(SlotObject)->Set_Child(pGameObjectUI);
+//					dynamic_cast<CTempUI*>(SlotObject)->Set_EmptyBool(false);
+//
+//					Engine::UIManager()->AddPopupGameobject_UI(Engine::UIPOPUPLAYER::POPUP_ITEM, Engine::UILAYER::UI_DOWN, pGameObjectUI);
+//					Engine::UIManager()->Hide_InvenItem(0);
+//				}
+//				else // 비어 있지 않으면 그냥 추가
+//				{
+//					Engine::UIManager()->AddItemGameobject_UI(pGameObjectUI);
+//				}
+//			}
 			else
 			{
 				Engine::EventManager()->CreateObject(pItem, LAYERTAG::GAMELOGIC);

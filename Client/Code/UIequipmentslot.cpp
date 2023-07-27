@@ -34,12 +34,53 @@ HRESULT CUIequipmentslot::Ready_Object()
 
 _int CUIequipmentslot::Update_Object(const _float & fTimeDelta)
 {
+	CPlayer*    pPlayer = dynamic_cast<CPlayer*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
+	if (pPlayer != nullptr) {
+		CInventory* pInventory = dynamic_cast<CInventory*>(pPlayer->Get_Component(COMPONENTTAG::INVENTORY, ID_DYNAMIC));
+
+		if (m_bChildEntrance && !m_bEntrance) // 해당 아이템 슬롯을 사용할 시 효과 적용
+		{
+			m_bEntrance = true;
+
+			ITEMTYPEID   eItemId = dynamic_cast<CUIitem*>(m_pChild)->Get_ItemTag();
+			CGameObject* pGameObject = pInventory->Get_IDItem(eItemId.eItemID);
+
+			if (pGameObject != nullptr) {
+				pPlayer->Get_Stat()->Get_Stat()->iArmorMax += dynamic_cast<CItem*>(pGameObject)->Get_ItemStat()->Get_Stat()->iArmorMax;
+				pPlayer->Get_Stat()->Get_Stat()->iArmorMin += dynamic_cast<CItem*>(pGameObject)->Get_ItemStat()->Get_Stat()->iArmorMin;
+
+				if (eItemId.eItemType == ITEMTYPE_GENERALITEM) {
+					pPlayer->Set_PrevEquipLeft(pPlayer->Get_CurrentEquipLeft());
+					pPlayer->Set_CurrentEquipLeft(pGameObject);
+					pPlayer->Set_ItemEquipLeft(true);
+				}
+			}
+		}
+		else if (m_bChildExit && m_bEntrance) // 해당 아이템 슬롯을 사용했다가 비었을 시 효과 적용 해제
+		{
+			ITEMTYPEID   eItemId = dynamic_cast<CUIitem*>(m_pBeforeChild)->Get_ItemTag();
+			CGameObject* pGameObject = pInventory->Get_IDItem(eItemId.eItemID);
+
+			if (pGameObject != nullptr) {
+				pPlayer->Get_Stat()->Get_Stat()->iArmorMax -= dynamic_cast<CItem*>(pGameObject)->Get_ItemStat()->Get_Stat()->iArmorMax;
+				pPlayer->Get_Stat()->Get_Stat()->iArmorMin -= dynamic_cast<CItem*>(pGameObject)->Get_ItemStat()->Get_Stat()->iArmorMin;
+
+				if (pPlayer->Get_CurrentEquipLeft() != nullptr && dynamic_cast<CItem*>(pPlayer->Get_CurrentEquipLeft())->Get_ItemTag().eItemID == eItemId.eItemID) {
+					pPlayer->Set_PrevEquipLeft(pPlayer->Get_CurrentEquipLeft());
+					pPlayer->Set_CurrentEquipLeft(nullptr);
+					pPlayer->Set_ItemEquipLeft(false);
+				}
+			}
+
+			m_bEntrance = false;
+		}
+	}
+	
 	if (m_IsDead)
 		return 0;
 
 	if (m_bSetup) {
 		m_bSetup = false;
-		m_bEmpty = true;
 
 		switch (m_UINumber)
 		{
@@ -61,22 +102,6 @@ _int CUIequipmentslot::Update_Object(const _float & fTimeDelta)
 		case 5:
 			m_fCurrentImage = 14;
 			break;
-		}
-	}
-
-	if (m_bUse == true && m_bEmpty)
-	{
-		m_bUse = false;
-
-		CPlayer* pPlayer = dynamic_cast<CPlayer*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
-		CInventory* Inventory = dynamic_cast<CInventory*>(pPlayer->Get_Component(COMPONENTTAG::INVENTORY, ID_DYNAMIC));
-		ITEMTYPEID ItemId = dynamic_cast<CUIitem*>(m_pChild)->Get_ItemTag();
-		CGameObject* pGameObject = Inventory->Get_IDItem(ItemId.eItemID);
-	
-		if (pGameObject != nullptr)
-		{
-			pPlayer->Get_Stat()->Get_Stat()->iArmorMax -= dynamic_cast<CItem*>(pGameObject)->Get_ItemStat()->Get_Stat()->iArmorMax;
-			pPlayer->Get_Stat()->Get_Stat()->iArmorMin -= dynamic_cast<CItem*>(pGameObject)->Get_ItemStat()->Get_Stat()->iArmorMin;
 		}
 	}
 
