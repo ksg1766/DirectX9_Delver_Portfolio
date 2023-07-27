@@ -28,6 +28,7 @@ CAnimation::CAnimation(const CAnimation& rhs)
 	m_pGhostingRenderTarget(rhs.m_pGhostingRenderTarget),
 	m_pOriginalRenderTarget(rhs.m_pOriginalRenderTarget)
 {
+	m_pGraphicDev->AddRef();
 }
 
 CAnimation::~CAnimation()
@@ -116,5 +117,6 @@ CAnimation* CAnimation::Create(LPDIRECT3DDEVICE9 pGraphicDev, CTexture* pTexture
 
 void CAnimation::Free()
 {
-	Safe_Release<LPDIRECT3DDEVICE9>(m_pGraphicDev);
+	//Safe_Release<LPDIRECT3DDEVICE9>(m_pGraphicDev);
+	Safe_Release(m_pGraphicDev);
 }

@@ -112,8 +112,7 @@ STATE CPlayerState_Walk::Key_Input(const _float& fTimeDelta)
 			// TODO : 마우스 오른 쪽 누르면 소모류는 사용 가능하게.
 			// 스테이트 반영은 필요X
 
-			CPlayer& pPlayer = *dynamic_cast<CPlayer*>(SceneManager()->GetInstance()
-				->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
+			CPlayer& pPlayer = *dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer());
 
 			if (pPlayer.Get_CurrentEquipLeft() == nullptr)
 				return STATE::IDLE;

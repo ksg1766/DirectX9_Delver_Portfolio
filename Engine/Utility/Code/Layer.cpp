@@ -33,6 +33,7 @@ HRESULT CLayer::Ready_Layer()
 _int CLayer::Update_Layer(const _float & fTimeDelta)
 {
 	_int     iResult = 0;
+
 	SCENETAG eSceneTag = SceneManager()->Get_Scene()->Get_SceneTag();
 	// Stage
 	if (SCENETAG::VILLAGE == eSceneTag || SCENETAG::STAGE == eSceneTag || SCENETAG::BOSSSTAGE == eSceneTag)

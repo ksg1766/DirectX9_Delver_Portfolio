@@ -133,6 +133,7 @@ HRESULT COctreeNode::InitBoundingBoxVisible()
 
 	m_pIB->Unlock();
 #endif
+	return S_OK;
 }
 
 void COctreeNode::AddChildNode(COctreeNode* pChild)

@@ -114,7 +114,7 @@ HRESULT CVillage::Ready_Layer_Environment(LAYERTAG _eLayerTag)
 			D3DXToRadian(90.f),
 			(_float)WINCX / WINCY,
 			0.1f,
-			1000.f);
+			110.f);
 		NULL_CHECK_RETURN(pGameObject, E_FAIL);
 		pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 	}

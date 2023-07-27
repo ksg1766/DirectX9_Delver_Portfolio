@@ -163,11 +163,11 @@ void CEquipBox::OnCollisionStay(CCollider* _pOther)
 
 	CPlayer& rPlayer = *SceneManager()->Get_Scene()->Get_MainPlayer();
 
-	if ((_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::ITEM || _pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::PLAYERBULLET) && !IsDead())
+	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::ITEM && !IsDead())
 	{
 		if ((dynamic_cast<CItem*>(_pOther->Get_Host())->
 			Get_ItemTag().eItemType == ITEMTYPE::ITEMTYPE_WEAPONITEM &&
-			!m_bHit && rPlayer.Get_Attack()) || dynamic_cast<CItem*>(_pOther->Get_Host())->Get_ObjectTag() == OBJECTTAG::PLAYERBULLET)
+			!m_bHit && rPlayer.Get_Attack()))
 		{
 			m_iHP -= 1.f;
 
@@ -182,6 +182,19 @@ void CEquipBox::OnCollisionStay(CCollider* _pOther)
 
 			m_bHit = true;
 		}
+	}
+	else if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::PLAYERBULLET && !IsDead())
+	{
+		m_iHP -= 1.f;
+		if (m_iHP <= 0)
+		{
+			Drop_RandomItem();
+			EventManager()->DeleteObject(this);
+		}
+		m_bHit = true;
+
+		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_EFFECT);
+		CSoundManager::GetInstance()->PlaySound(L"break_wood_01.mp3", CHANNELID::SOUND_EFFECT, 1.f);
 	}
 }
 

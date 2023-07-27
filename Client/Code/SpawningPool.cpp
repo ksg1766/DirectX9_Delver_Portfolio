@@ -1,7 +1,7 @@
 #include "..\Header\SpawningPool.h"
 #include "Export_Function.h"
 #include "PoolManager.h"
-
+#include "Player.h"
 #include "Monstergroup.h"
 
 CSpawningPool::CSpawningPool(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -54,6 +54,11 @@ _int CSpawningPool::Update_Object(const _float& fTimeDelta)
     }
 
     if (SceneManager()->Get_GameStop()) { return 0; } // ! Esc 및 M키 누를 시 업데이트 멈추게 하는 용도 입니다.
+
+    _vec3 vPlayerPos = SceneManager()->Get_Scene()->Get_MainPlayer()->m_pTransform->m_vInfo[INFO_POS];
+
+    if (D3DXVec3Length(&(m_pTransform->m_vInfo[INFO_POS] - vPlayerPos)) > 110.f)
+        return 0;
 
     _int iExit = __super::Update_Object(fTimeDelta);
 

@@ -6,6 +6,7 @@ BEGIN(Engine)
 
 class CRcTex;
 class CTexture;
+class CRigidBody;
 
 END
 
@@ -17,7 +18,7 @@ private:
 	virtual ~CArrow();
 
 public:
-	virtual HRESULT Ready_Object(CTransform* Weapon, CTransform* pOwner, _float _fSpeed = 1.f);
+	virtual HRESULT Ready_Object(CTransform* Weapon, CTransform* pOwner, _float _fSpeed = 1.5f);
 	virtual _int	Update_Object(const _float& fTimeDelta) override;
 	virtual void	LateUpdate_Object(void) override;
 	virtual void	Render_Object(void) override;
@@ -34,18 +35,19 @@ public:
 	virtual void	OnCollisionExit(CCollider* _pOther);
 
 private:
-	CRcTex*		 m_pBuffer = nullptr;
-	CTexture*	 m_pTexture = nullptr;
-	CTransform*  m_pPlayerTransform = nullptr;
+	CRcTex*			m_pBuffer = nullptr;
+	CTexture*		m_pTexture = nullptr;
+	CRigidBody*		m_pRigidBody = nullptr;
+	CTransform*		m_pPlayerTransform = nullptr;
 
-	_vec3		 m_vDir;
-	_float		 m_fSpeed;
-	STATE		 m_eState;
+	_vec3			m_vDir;
+	_float			m_fSpeed;
+	STATE			m_eState;
 
-	_bool		 m_bIsAttack;
-	_vec3		 m_vPrevPos;
+	_bool			m_bIsAttack;
+	_vec3			m_vPrevPos;
 
-	CGameObject* m_pEffect = nullptr;
+	CGameObject*	m_pEffect = nullptr;
 
 public:
 	static CArrow* Create(LPDIRECT3DDEVICE9 pGraphicDev, CTransform* Weapon, 

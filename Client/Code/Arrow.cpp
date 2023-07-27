@@ -77,13 +77,14 @@ HRESULT CArrow::Ready_Object(CTransform* Weapon, CTransform* pOwner, _float _fSp
 
 _int CArrow::Update_Object(const _float& fTimeDelta)
 {
-
 	if (IsDead())
 		return 0;
 
 	Engine::Renderer()->Add_RenderGroup(RENDER_ALPHA, this);
 	
 	if (SceneManager()->Get_GameStop()) { return 0; }
+
+	//m_pRigidBody->Update_RigidBody(fTimeDelta);
 
 	_int iExit = __super::Update_Object(fTimeDelta);		
 
@@ -145,6 +146,10 @@ HRESULT CArrow::Add_Component(void)
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
 
+	pComponent = m_pRigidBody = dynamic_cast<CRigidBody*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_RigidBody"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::RIGIDBODY, pComponent);
+
 	pComponent = m_pCollider = dynamic_cast<CCollider*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Collider"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::COLLIDER, pComponent);
@@ -182,7 +187,6 @@ void CArrow::OnCollisionEnter(CCollider* _pOther)
 	{
 		pPlayer.IsAttack(dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_BasicStat());
 	
-
 		if (++g_iCount == 2)
 		{
 			dynamic_cast<CMonster*>(_pOther->Get_Host())->Set_KnockBack(true);

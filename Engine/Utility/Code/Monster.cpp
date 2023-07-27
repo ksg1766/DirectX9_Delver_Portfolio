@@ -26,6 +26,11 @@ HRESULT CMonster::Ready_Object()
 
 _int CMonster::Update_Object(const _float& fTimeDelta)
 {
+	_vec3 vPlayerPos = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform->m_vInfo[INFO_POS];
+
+	if (D3DXVec3Length(&(m_pTransform->m_vInfo[INFO_POS] - vPlayerPos)) > 110.f)
+		return 0;
+
 	if(m_pRigidBody)
 		m_pRigidBody->Update_RigidBody(fTimeDelta);
 	_int iExit = __super::Update_Object(fTimeDelta);

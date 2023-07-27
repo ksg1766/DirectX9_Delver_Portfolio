@@ -57,9 +57,7 @@ public:
 
 	_bool			IsThrowShield()			{ return m_bThrowShield; }
 	_bool			IsTalk()				{ return m_bIsTalk; }
-	virtual void	OnCollisionEnter(CCollider* _pOther);
-	virtual void	OnCollisionStay(CCollider* _pOther);
-	virtual void	OnCollisionExit(CCollider* _pOther);
+
 
 public:
 	void			Set_Offset(_vec3 _vOffset)						{ m_vOffset = _vOffset; }
@@ -87,6 +85,11 @@ public:
 
 	_bool			Get_Parrying()									{ return m_bParrying; }
 	void			IsDrunk();
+
+public:
+	virtual void	OnCollisionEnter(CCollider* _pOther);
+	virtual void	OnCollisionStay(CCollider* _pOther);
+	virtual void	OnCollisionExit(CCollider* _pOther);
 
 public:
 	//void			Add_Item(CGameObject* pItem, ITEMTAG _eItem) { m_pItem[(_uint)_eItem] = pItem; }

@@ -28,7 +28,8 @@ public:
 			Hide_PopupUI(UIPOPUPLAYER::POPUP_INVEN);
 			Hide_InvenItem(0);
 			Hide_PopupUI(UIPOPUPLAYER::POPUP_EQUIPMENT);
-			CGameObject* Obj = Get_PopupObject(Engine::UIPOPUPLAYER::POPUP_EQUIPMENT, Engine::UILAYER::UI_DOWN, UIOBJECTTTAG::UIID_INVENBUTTON, 0);
+			CGameObject* Obj = nullptr;
+			Obj = Get_PopupObject(Engine::UIPOPUPLAYER::POPUP_EQUIPMENT, Engine::UILAYER::UI_DOWN, UIOBJECTTTAG::UIID_INVENBUTTON, 0);
 			dynamic_cast<CTempUI*>(Obj)->Set_UIImage(1);
 		}
 		else { // 인벤 열 때
@@ -47,9 +48,11 @@ public:
 			Show_PopupUI(UIPOPUPLAYER::POPUP_INVEN);
 			Show_InvenItem(0);
 			Show_PopupUI(UIPOPUPLAYER::POPUP_EQUIPMENT);
-			CGameObject* Obj = Get_PopupObject(Engine::UIPOPUPLAYER::POPUP_EQUIPMENT, Engine::UILAYER::UI_DOWN, UIOBJECTTTAG::UIID_INVENBUTTON, 0);
+			CGameObject* Obj = nullptr;
+			Obj = Get_PopupObject(Engine::UIPOPUPLAYER::POPUP_EQUIPMENT, Engine::UILAYER::UI_DOWN, UIOBJECTTTAG::UIID_INVENBUTTON, 0);
 			dynamic_cast<CTempUI*>(Obj)->Set_UIImage(0);
-			CGameObject* Obj2 = Get_PopupObject(Engine::UIPOPUPLAYER::POPUP_EQUIPMENT, Engine::UILAYER::UI_DOWN, UIOBJECTTTAG::UIID_INVENBUTTON, 1);
+			CGameObject* Obj2 = nullptr;
+			Obj2 = Get_PopupObject(Engine::UIPOPUPLAYER::POPUP_EQUIPMENT, Engine::UILAYER::UI_DOWN, UIOBJECTTTAG::UIID_INVENBUTTON, 1);
 			dynamic_cast<CTempUI*>(Obj2)->Set_UIImage(3);
 		}
 
@@ -65,7 +68,8 @@ public:
 			Show_PopupUI(UIPOPUPLAYER::POPUP_MOUSE);
 			Hide_PopupUI(UIPOPUPLAYER::POPUP_STAT);
 			Hide_PopupUI(UIPOPUPLAYER::POPUP_EQUIPMENT);
-			CGameObject* Obj = Get_PopupObject(Engine::UIPOPUPLAYER::POPUP_EQUIPMENT, Engine::UILAYER::UI_DOWN, UIOBJECTTTAG::UIID_INVENBUTTON, 1);
+			CGameObject* Obj = nullptr;
+			Obj = Get_PopupObject(Engine::UIPOPUPLAYER::POPUP_EQUIPMENT, Engine::UILAYER::UI_DOWN, UIOBJECTTTAG::UIID_INVENBUTTON, 1);
 			dynamic_cast<CTempUI*>(Obj)->Set_UIImage(3);
 		}
 		else { // 스탯창 열 때
@@ -85,9 +89,11 @@ public:
 
 			Show_PopupUI(UIPOPUPLAYER::POPUP_STAT);
 			Show_PopupUI(UIPOPUPLAYER::POPUP_EQUIPMENT);
-			CGameObject* Obj = Get_PopupObject(Engine::UIPOPUPLAYER::POPUP_EQUIPMENT, Engine::UILAYER::UI_DOWN, UIOBJECTTTAG::UIID_INVENBUTTON, 0);
+			CGameObject* Obj = nullptr;
+			Obj = Get_PopupObject(Engine::UIPOPUPLAYER::POPUP_EQUIPMENT, Engine::UILAYER::UI_DOWN, UIOBJECTTTAG::UIID_INVENBUTTON, 0);
 			dynamic_cast<CTempUI*>(Obj)->Set_UIImage(1);
-			CGameObject* Obj2 = Get_PopupObject(Engine::UIPOPUPLAYER::POPUP_EQUIPMENT, Engine::UILAYER::UI_DOWN, UIOBJECTTTAG::UIID_INVENBUTTON, 1);
+			CGameObject* Obj2 = nullptr;
+			Obj2 = Get_PopupObject(Engine::UIPOPUPLAYER::POPUP_EQUIPMENT, Engine::UILAYER::UI_DOWN, UIOBJECTTTAG::UIID_INVENBUTTON, 1);
 			dynamic_cast<CTempUI*>(Obj2)->Set_UIImage(2);
 		}
 

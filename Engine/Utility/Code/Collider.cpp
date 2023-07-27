@@ -197,6 +197,7 @@ HRESULT CCollider::InitOBB(_vec3 & _vCenter, _vec3 * _vAxisDir, _float * _fAxisL
 
 	m_pIB->Unlock();
 #endif
+	return S_OK;
 }
 
 void CCollider::OnCollisionEnter(CCollider * _pOther)

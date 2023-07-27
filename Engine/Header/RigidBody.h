@@ -31,7 +31,7 @@ private:
 	
 	_vec3	m_vNetPower;
 
-	const _float	m_fGravityAcc = 2 * -9.8f;
+	const _float	m_fGravityAcc = 2.f * -9.8f;
 
 public:
 	static CRigidBody* Create(LPDIRECT3DDEVICE9 pGraphicDev);

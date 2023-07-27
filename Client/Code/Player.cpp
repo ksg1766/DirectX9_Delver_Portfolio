@@ -189,9 +189,9 @@ void CPlayer::LateUpdate_Object(void)
 
 	m_pStateMachine->LateUpdate_StateMachine();
 
-	cout << m_pTransform->m_vInfo[INFO_POS].x << endl;
+	/*cout << m_pTransform->m_vInfo[INFO_POS].x << endl;
 	cout << m_pTransform->m_vInfo[INFO_POS].y << endl;
-	cout << m_pTransform->m_vInfo[INFO_POS].z << endl;
+	cout << m_pTransform->m_vInfo[INFO_POS].z << endl;*/
 }
 
 void CPlayer::Render_Object(void)
@@ -661,7 +661,8 @@ void CPlayer::OnCollisionEnter(CCollider* _pOther)
 {
 	if (_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::MONSTER
 		&& _pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::MONSTERBULLET
-		&& _pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::ITEM)
+		&& _pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::ITEM
+		&& _pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::TRAP)
 	{
 		_vec3	vOtherPos = _pOther->GetCenterPos();
 		_float* fOtherAxis = _pOther->GetAxisLen();
@@ -724,7 +725,8 @@ void CPlayer::OnCollisionStay(CCollider* _pOther)
 {
 	if (_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::MONSTER
 		&& _pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::MONSTERBULLET
-		&& _pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::ITEM)
+		&& _pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::ITEM
+		&& _pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::TRAP)
 	{
 		_vec3	vOtherPos = _pOther->GetCenterPos();
 		_float* fOtherAxis = _pOther->GetAxisLen();
@@ -1083,7 +1085,7 @@ void CPlayer::Create_Item(CCollider* _pOther)
 	}
 
 	// 월드 아이템 지우기
-	EventManager()->GetInstance()->DeleteObject(dynamic_cast<CItem*>(_pOther->Get_Host()));
+	EventManager()->DeleteObject(dynamic_cast<CItem*>(_pOther->Get_Host()));
 }
 
 void CPlayer::Free()

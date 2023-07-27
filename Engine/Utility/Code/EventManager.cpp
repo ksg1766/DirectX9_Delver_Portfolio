@@ -78,7 +78,8 @@ void CEventManager::Execute(const tagEvent & _eve)
 		CGameObject*	pDeadObject = (CGameObject*)_eve.lParam;
 
 		const OBJECTTAG& eObjectTag = pDeadObject->Get_ObjectTag();
-		if (OBJECTTAG::MONSTER != eObjectTag && OBJECTTAG::EFFECT != eObjectTag)
+		//if (OBJECTTAG::MONSTER != eObjectTag && OBJECTTAG::EFFECT != eObjectTag)
+		if (OBJECTTAG::MONSTER != eObjectTag)
 		{
 			pDeadObject->Set_Dead(true);
 			m_vecDead.push_back(pDeadObject);
