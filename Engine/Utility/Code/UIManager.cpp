@@ -72,6 +72,7 @@ void CUIManager::Delete_FindItemUI(ITEMTYPEID _itemId)
 				}
 				else
 				{
+					(*iter)->Set_Dead(true);
 					dynamic_cast<CTempUI*>(dynamic_cast<CUIitem*>(*iter)->Get_Parent())->Set_EmptyBool(true);
 					m_vecItemDead.push_back(*iter);
 					iter = m_mapPpopupUI[POPUP_ITEM][UI_DOWN].erase(iter);
@@ -343,7 +344,7 @@ CGameObject* CUIManager::Find_ColliderSlot()
 
 _int CUIManager::Update_UI(const _float& fTimeDelta)
 {
- //	for_each(m_vecDead.begin(), m_vecDead.end(), CDeleteObj());
+    //for_each(m_vecDead.begin(), m_vecDead.end(), CDeleteObj());
 	//m_vecDead.clear();
 
 	for (size_t i = 0; i < UILAYER::UI_END; ++i)
@@ -373,7 +374,7 @@ void CUIManager::LateUpdate_UI()
 	for (size_t i = 0; i < UILAYER::UI_END; ++i)
 	{
 		for (auto iter : m_vecUIbasic[i])
-			if (iter != nullptr)
+			if (iter != nullptr && !iter->IsDead())
 				iter->LateUpdate_Object();
 	}
 
@@ -382,7 +383,7 @@ void CUIManager::LateUpdate_UI()
 		for (size_t i = 0; i < UILAYER::UI_END; ++i)
 		{
 			for (auto iter : Mapiter.second[i])
-				if (iter != nullptr)
+				if (iter != nullptr && !iter->IsDead())
 					iter->LateUpdate_Object();
 		}
 	}
@@ -419,7 +420,7 @@ void CUIManager::Render_UI(LPDIRECT3DDEVICE9 pGraphicDev)
 	for (size_t i = 0; i < UILAYER::UI_END; ++i)
 	{
 		for (auto iter : m_vecUIbasic[i])
-			if (iter != nullptr)
+			if (iter != nullptr && !iter->IsDead())
 				iter->Render_Object();
 	}
 
@@ -429,7 +430,7 @@ void CUIManager::Render_UI(LPDIRECT3DDEVICE9 pGraphicDev)
 		{
 			for (auto iter : Mapiter.second[i])
 			{
-				if (iter != nullptr)
+				if (iter != nullptr && !iter->IsDead())
 				{
 					if (Mapiter.first == UIPOPUPLAYER::POPUP_ITEM && i == UILAYER::UI_DOWN && m_pPickingObject != nullptr && iter == m_pPickingObject) { continue; }
 					iter->Render_Object();

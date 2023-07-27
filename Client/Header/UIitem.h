@@ -195,9 +195,10 @@ private:
 	_bool       m_bTooltipRender = false;
 
 	_bool       m_bMove = false;
-	_bool       m_bOnly = false;
+	_bool       m_bOnlyMove = false;
 
 	_matrix     m_Position;
+	_bool       m_bDelete = false;
 
 public:
 	static CUIitem*	Create(LPDIRECT3DDEVICE9 pGraphicDev);

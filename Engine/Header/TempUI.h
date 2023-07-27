@@ -26,12 +26,26 @@ public:
 	}
 	CGameObject* Get_Parent()             { return m_pParent; }
 	CGameObject* Get_Child()              { return m_pChild; }
+	CGameObject* Get_BeforeChild()        { return m_pBeforeChild; }
 	void Set_UIImage(_uint _UINumber)     { m_fCurrentImage = _UINumber; }
 	void Set_Setup(_bool _Setup)          { m_bSetup = _Setup; }
 	_bool Get_EmptyBool()                 { return m_bEmpty; }
 	void Set_EmptyBool(_bool _Empty)      { m_bEmpty = _Empty; }
 	void Set_Parent(CGameObject* _parent) { m_pParent = _parent; }
-	void Set_Child(CGameObject* _child)   { m_pChild = _child; }
+	void Set_BeforeChild(CGameObject* _Beforechild) { m_pBeforeChild = _Beforechild; }
+	void Set_Child(CGameObject* _child)  
+	{ 
+		if (_child != nullptr) {
+			m_bChildExit = false;
+			m_bChildEntrance = true;
+		}
+		else {
+			m_bChildExit = true;
+			m_bChildEntrance = false;
+		}
+
+		m_pChild = _child; 
+	}
 
 	HRESULT		Ready_Object();
 	_int	    Update_Object(const _float& fTimeDelta);
@@ -58,13 +72,13 @@ protected:
 	UIOBJECTTTAG m_UIObjID;
 	_uint        m_UINumber;
 
-	CGameObject* m_pParent = nullptr;
-	CGameObject* m_pChild  = nullptr;
+	CGameObject* m_pParent      = nullptr;
+	CGameObject* m_pChild       = nullptr;
 
-    //_float  m_fX;
-    //_float  m_fY;
-    //_float  m_fSizeX;
-    //_float  m_fSizeY;
+	CGameObject* m_pBeforeChild = nullptr;
+
+	_bool        m_bChildEntrance = false;
+	_bool        m_bChildExit = true;
 
 protected:
 	virtual void	Free(void);

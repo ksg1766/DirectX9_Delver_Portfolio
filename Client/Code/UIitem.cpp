@@ -2,6 +2,8 @@
 #include "..\Header\UIitem.h"
 #include "UIequipmentslot.h"
 #include "Player.h"
+#include <UIbasicslot.h>
+#include <UIemptyslot.h>
 
 CUIitem::CUIitem(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CTempUI(pGraphicDev)
@@ -49,6 +51,9 @@ void CUIitem::LateUpdate_Object(void)
 
 void CUIitem::Render_Object()
 {
+	if(m_bDelete)
+		Engine::UIManager()->Delete_FindItemUI(m_ItemID);
+
 	if (m_IsDead)
 		return;
 
@@ -139,103 +144,97 @@ HRESULT CUIitem::Add_Component(void)
 
 void CUIitem::Key_Input(void)
 {
+	// 마우스가 UI를 움직이는 중이며 움직이는 UI가 아닐 시 리턴
+	if (Engine::UIManager()->m_bMouse && !m_bOnlyMove)
+		return;
+
 	POINT	pt{};
 	GetCursorPos(&pt);
 	ScreenToClient(g_hWnd, &pt);
 
-	if (m_bOnly)
+	// 마우스가 해당 UI를 움직이고 있다면 마우스 좌표 값으로 대입
+	if (m_bOnlyMove) 
 	{
 		m_pTransform->m_vInfo[INFO_POS].x = pt.x;
 		m_pTransform->m_vInfo[INFO_POS].y = WINCY - pt.y;
 		WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);
 	}
 
-	if (OnCollision(pt, m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y))
-	{
-		// 아이템 UI를 눌렀다가 가져다 놨을 때 해당 마우스 위치의 슬롯이 비어있는지 판별 후 여부에 따른 처리
-		if (Engine::InputDev()->Mouse_Pressing(DIM_LB))
-		{
-			if (Engine::UIManager()->m_bMouse && !m_bOnly)
-				return;
-
+	if (OnCollision(pt, m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y)) {
+		if (Engine::InputDev()->Mouse_Pressing(DIM_LB)) {
+			// 마우스가 UI를 움직이는 상태가 아닐 시 
 			if (!Engine::UIManager()->m_bMouse) {
+				m_bMove = true;
+				m_bOnlyMove = true;
+				m_bTooltipRender = false;
 				Engine::UIManager()->m_bMouse = true;
 				Engine::UIManager()->Set_PickingItemUI(this);
-				m_bOnly = true;
-			}
 
-			m_bTooltipRender = false;
-			m_bMove = true;
-			
-			//m_pTransform->m_vInfo[INFO_POS].x = pt.x;
-			//m_pTransform->m_vInfo[INFO_POS].y = pt.y;
-			//WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);
-
-			if (m_ItemID.eItemType == ITEMTYPE_GENERALITEM || m_ItemID.eItemType == ITEMTYPE_EQUIPITEM)
-			{
-				// 슬롯 중에서 해당 UInumber 슬롯을 찾고 해당 슬롯 이미지 변경
-				CGameObject* SlotObj = Engine::UIManager()->Get_PopupObject(Engine::UIPOPUPLAYER::POPUP_EQUIPMENT, Engine::UILAYER::UI_DOWN, UIID_SLOTEQUIPMENT, m_UINumber);
-				dynamic_cast<CUIequipmentslot*>(dynamic_cast<CTempUI*>(SlotObj))->Set_FindSlot(true);
+				// 아이템 장착 아이템 타입인 경우 해당 UINumber 슬롯을 찾고 해당 슬롯 이미지 변경
+				if (m_ItemID.eItemType == ITEMTYPE_GENERALITEM || m_ItemID.eItemType == ITEMTYPE_EQUIPITEM) {
+					CGameObject* SlotObj = Engine::UIManager()->Get_PopupObject(Engine::UIPOPUPLAYER::POPUP_EQUIPMENT, Engine::UILAYER::UI_DOWN, UIID_SLOTEQUIPMENT, m_UINumber);
+					dynamic_cast<CUIequipmentslot*>(dynamic_cast<CTempUI*>(SlotObj))->Set_FindSlot(true);
+				}
 			}
 		}
-		else
-		{
-			if (m_bMove)
-			{
+		else {
+			if (m_bMove) {
 				m_bMove = false;
 
-				UIOBJECTTTAG UIColliderObjID;
-				_uint        UIColliderNumber;
-
+				// 이동할 슬롯 주소를 가져와 할당
 				CGameObject* ColliderSlotObj = Engine::UIManager()->Find_ColliderSlot();
+				UIOBJECTTTAG UIColliderSlotObjID;
+				_uint        UIColliderSlotNumber;
 
-				if (ColliderSlotObj == nullptr)
-				{
-					//// 해당 아이템 버리기
-					//// 인벤토리에서 해당 아이템 아예 삭제 + 해당 개수 만큼 앞에다가 버림
+				CPlayer*    pPlayer    = dynamic_cast<CPlayer*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
+				CInventory* pInventory = dynamic_cast<CInventory*>(pPlayer->Get_Component(COMPONENTTAG::INVENTORY, ID_DYNAMIC));
 
-					m_bOnly = false;
+				if (pPlayer == nullptr || pInventory == nullptr)
+					return;
+
+#pragma region 아이템 버리기
+				if (ColliderSlotObj == nullptr) { // 이동할 슬롯을 찾지 못해 해당 아이템 버림 
+					m_bOnlyMove = false;
+					m_bTooltipRender = false;
 					Engine::UIManager()->m_bMouse = false;
 					Engine::UIManager()->Set_PickingItemUI(nullptr);
 
-					//CPlayer* pPlayer = dynamic_cast<CPlayer*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
-					//CInventory* Inventory = dynamic_cast<CInventory*>(pPlayer->Get_Component(COMPONENTTAG::INVENTORY, ID_DYNAMIC));
+					if(m_ItemID.iCount == 1) { // 버리려는 아이템이 1개일 시 버리고 장착하고 있던 아이템일 시 장착 해제
+						if (m_ItemID.eItemType == ITEMTYPE_WEAPONITEM && pPlayer->Get_CurrentEquipRight() != nullptr && m_ItemID.eItemID == dynamic_cast<CItem*>(pPlayer->Get_CurrentEquipRight())->Get_ItemTag().eItemID)
+						{ // 오른 손 무기 버렸을 시 
+							pPlayer->Set_PrevEquipRight(nullptr);
+							pPlayer->Set_CurrentEquipRight(nullptr);
+							pPlayer->Set_ItemEquipRight(false);
+						}
+						else if (m_ItemID.eItemType == ITEMTYPE_GENERALITEM && pPlayer->Get_CurrentEquipLeft() != nullptr && m_ItemID.eItemID == dynamic_cast<CItem*>(pPlayer->Get_CurrentEquipLeft())->Get_ItemTag().eItemID)
+						{// 왼 손 무기 버렸을 시 
+							pPlayer->Set_PrevEquipLeft(nullptr);
+							pPlayer->Set_CurrentEquipLeft(nullptr);
+							pPlayer->Set_ItemEquipLeft(false);
+						}
 
-					//if(m_ItemID.iCount == 1)
-					//{
-					//	switch (m_ItemID.eItemType)
-					//	{
-					//	case ITEMTYPE_WEAPONITEM:
-					//		pPlayer->Set_CurrentEquipRight(nullptr);
-					//		pPlayer->Set_ItemEquipRight(false);
-					//		break;
-					//	case ITEMTYPE_GENERALITEM:
-					//		pPlayer->Set_CurrentEquipLeft(nullptr);
-					//		pPlayer->Set_ItemEquipLeft(false);
-					//		break;
-					//	}
+						pInventory->delete_FindItem(m_ItemID);
+						dynamic_cast<CTempUI*>(Get_Parent())->Set_EmptyBool(true);
 
-					//	dynamic_cast<CTempUI*>(Get_Parent())->Set_EmptyBool(true);
-					//	Engine::UIManager()->Delete_FindItemUI(m_ItemID);
-					//	Inventory->delete_FindItem(m_ItemID);
-					//}
-				 //   else
-				 //   {
-					//	m_ItemID.iCount -= 1;
-                        m_pTransform->m_vInfo[INFO_POS].x = Get_Parent()->m_pTransform->m_vInfo[INFO_POS].x;
+						m_bDelete = true;
+					}
+				    else // 여러개일 시 한개씩 버림
+				    {
+						m_ItemID.iCount -= 1;
+					   	pInventory->delete_FindItem(m_ItemID);
+						m_pTransform->m_vInfo[INFO_POS].x = Get_Parent()->m_pTransform->m_vInfo[INFO_POS].x;
 						m_pTransform->m_vInfo[INFO_POS].y = Get_Parent()->m_pTransform->m_vInfo[INFO_POS].y;
 						WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);
-				 //       
-					//	Inventory->delete_FindItem(m_ItemID);
-					//}
+					}
 				}
-				else if (ColliderSlotObj != nullptr)
+#pragma endregion 아이템 버리기
+#pragma region 아이템 이동 및 스왑
+				else if (ColliderSlotObj != nullptr) // 이동할 슬롯을 찾았을 시
 				{
 					_bool bSucess = false;
+					dynamic_cast<CTempUI*>(ColliderSlotObj)->Get_UIObjID(UIColliderSlotObjID, UIColliderSlotNumber);
 
-					dynamic_cast<CTempUI*>(ColliderSlotObj)->Get_UIObjID(UIColliderObjID, UIColliderNumber);
-
-					switch (UIColliderObjID)
+					switch (UIColliderSlotObjID)
 					{
 					case Engine::UIID_SLOTBASIC:
 						bSucess = true;
@@ -244,16 +243,16 @@ void CUIitem::Key_Input(void)
 						bSucess = true;
 						break;
 					case Engine::UIID_SLOTEQUIPMENT:
-						if (m_UINumber == UIColliderNumber) {
-							bSucess = true;
-						}
-						else {
-							bSucess = false;
-						}
+						if (m_UINumber == UIColliderSlotNumber) { bSucess = true; }
+						else                                    { bSucess = false; }
 						break;
 					}
 					
-					if (!dynamic_cast<CTempUI*>(ColliderSlotObj)->Get_EmptyBool())
+					if (dynamic_cast<CTempUI*>(ColliderSlotObj)->Get_EmptyBool()) // 이동할 슬롯이 비어있을 시
+					{
+						
+					}
+					else
 					{
 						bSucess = false;
 					}
@@ -263,14 +262,12 @@ void CUIitem::Key_Input(void)
 						UIOBJECTTTAG UIStartObjID;
 						_uint        UIStartNumber;
 						dynamic_cast<CTempUI*>(Get_Parent())->Get_UIObjID(UIStartObjID, UIStartNumber);
+						dynamic_cast<CTempUI*>(Get_Parent())->Set_BeforeChild(dynamic_cast<CTempUI*>(Get_Parent())->Get_Child());
+						dynamic_cast<CTempUI*>(Get_Parent())->Set_Child(nullptr);
 						dynamic_cast<CTempUI*>(Get_Parent())->Set_EmptyBool(true);
 
-						// 장착 성공 시 해당 정보 인벤토리에 업데이트
-						CPlayer* pPlayer = dynamic_cast<CPlayer*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
-						if (pPlayer) { // 위치 이동 및 이전 위치에는 정보 초기화 (해제 X)
-							CInventory* Inventory = dynamic_cast<CInventory*>(pPlayer->Get_Component(COMPONENTTAG::INVENTORY, ID_DYNAMIC));
-							Inventory->Switch_InvenItem(m_ItemID, UIStartObjID, UIStartNumber, UIColliderObjID, UIColliderNumber); // : 이동한 아이템 아이디, 이동할 슬롯 타입 및 번호
-						}
+						// 장착 성공 시 해당 정보 인벤토리에 업데이트 // 위치 이동 및 이전 위치에는 정보 초기화 (해제 X)
+						pInventory->Switch_InvenItem(m_ItemID, UIStartObjID, UIStartNumber, UIColliderSlotObjID, UIColliderSlotNumber); // : 이동한 아이템 아이디, 이동할 슬롯 타입 및 번호
 
 						m_pTransform->m_vInfo[INFO_POS].x = ColliderSlotObj->m_pTransform->m_vInfo[INFO_POS].x;
 						m_pTransform->m_vInfo[INFO_POS].y = ColliderSlotObj->m_pTransform->m_vInfo[INFO_POS].y;
@@ -280,18 +277,29 @@ void CUIitem::Key_Input(void)
 						dynamic_cast<CTempUI*>(Get_Parent())->Set_Child(this);
 						dynamic_cast<CTempUI*>(Get_Parent())->Set_EmptyBool(false);
 
-						if (UIColliderObjID == Engine::UIID_SLOTEQUIPMENT)
-						{
-							CInventory* Inventory = dynamic_cast<CInventory*>(pPlayer->Get_Component(COMPONENTTAG::INVENTORY, ID_DYNAMIC));
-							CGameObject* pGameObject = dynamic_cast<CGameObject*>(Inventory->Get_ItemSlot((INVENITEMSLOT)UIColliderNumber));
-							
-							if (pGameObject != nullptr)
-							{
-								pPlayer->Get_Stat()->Get_Stat()->iArmorMax += dynamic_cast<CItem*>(pGameObject)->Get_ItemStat()->Get_Stat()->iArmorMax;
-								pPlayer->Get_Stat()->Get_Stat()->iArmorMin += dynamic_cast<CItem*>(pGameObject)->Get_ItemStat()->Get_Stat()->iArmorMin;
-								dynamic_cast<CUIequipmentslot*>(Get_Parent())->Set_UseSlot(true);
-							}
 
+						if (m_ItemID.eItemType == ITEMTYPE_WEAPONITEM)
+						{
+							CGameObject* pRightItem = pPlayer->Get_CurrentEquipRight();
+							if (pRightItem != nullptr) {
+								ITEMTYPEID ItemId = dynamic_cast<CItem*>(pRightItem)->Get_ItemTag();
+
+								if (ItemId.eItemID == m_ItemID.eItemID)
+								{
+									UIOBJECTTTAG UIFindObjID{};
+									_uint        UIFindNumber;
+									dynamic_cast<CTempUI*>(Get_Parent())->Get_UIObjID(UIFindObjID, UIFindNumber);
+
+									if (UIFindObjID == UIID_SLOTBASIC)
+										dynamic_cast<CUIbasicslot*>(dynamic_cast<CTempUI*>(Get_Parent()))->Set_FindSlot(true);
+									else if (UIFindObjID == UIID_SLOTEMPTY)
+										dynamic_cast<CUIemptyslot*>(dynamic_cast<CTempUI*>(Get_Parent()))->Set_FindSlot(true);
+								}
+								else
+								{
+
+								}
+							}
 						}
 					}
 					else
@@ -301,10 +309,11 @@ void CUIitem::Key_Input(void)
 						WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);
 					}
 
-					m_bOnly = false;
+					m_bOnlyMove = false;
 					Engine::UIManager()->m_bMouse = false;
 					Engine::UIManager()->Set_PickingItemUI(nullptr);
 				}
+#pragma endregion 아이템 이동 및 스왑
 
 				if (m_ItemID.eItemType == ITEMTYPE_GENERALITEM || m_ItemID.eItemType == ITEMTYPE_EQUIPITEM)
 				{
