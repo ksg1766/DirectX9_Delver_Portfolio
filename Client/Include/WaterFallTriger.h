@@ -20,11 +20,6 @@ public:
 	virtual void LateUpdate_Object() override;
 	virtual void Render_Object() override;
 
-public:
-	virtual void		OnCollisionEnter(CCollider* _pOther);
-	virtual void		OnCollisionStay(CCollider* _pOther);
-	virtual void		OnCollisionExit(CCollider* _pOther);
-
 private:
 	HRESULT	Add_Component();
 
@@ -36,6 +31,7 @@ private:
 	const _float m_fMaxVolume = 1.f;
 	const _float m_fMinVolume = 0.f;
 	const _float m_fMaxDistance = 120.f;
+
 public:
 	static CWaterFallTriger* Create(LPDIRECT3DDEVICE9 pGraphicDev);
 
