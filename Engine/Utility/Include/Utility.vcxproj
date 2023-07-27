@@ -197,6 +197,7 @@ call CopyUtility.bat</Command>
     <ClInclude Include="..\..\Header\CubeColBf.h" />
     <ClInclude Include="..\..\Header\DynamicBf.h" />
     <ClInclude Include="..\..\Header\Font.h" />
+    <ClInclude Include="..\..\Header\Fragile.h" />
     <ClInclude Include="..\..\Header\Inventory.h" />
     <ClInclude Include="..\..\Header\Item.h" />
     <ClInclude Include="..\..\Header\Material.h" />
@@ -259,6 +260,7 @@ call CopyUtility.bat</Command>
     <ClCompile Include="..\Code\DynamicBf.cpp" />
     <ClCompile Include="..\Code\Environment.cpp" />
     <ClCompile Include="..\Code\Font.cpp" />
+    <ClCompile Include="..\Code\Fragile.cpp" />
     <ClCompile Include="..\Code\Inventory.cpp" />
     <ClCompile Include="..\Code\Item.cpp" />
     <ClCompile Include="..\Code\Material.cpp" />

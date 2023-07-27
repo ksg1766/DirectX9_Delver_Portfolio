@@ -196,6 +196,9 @@
     <Filter Include="03. GameObject\12. Environment">
       <UniqueIdentifier>{516d85e8-2d57-4375-aaeb-489d45b37838}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. GameObject\13. Fragile">
+      <UniqueIdentifier>{0f392412-6f70-44df-8cbf-699fec998dcb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Header\Scene.h">
@@ -360,6 +363,9 @@
     <ClInclude Include="..\..\Header\Environment.h">
       <Filter>03. GameObject\12. Environment</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Header\Fragile.h">
+      <Filter>03. GameObject\13. Fragile</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\Scene.cpp">
@@ -520,6 +526,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\Environment.cpp">
       <Filter>03. GameObject\12. Environment</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Fragile.cpp">
+      <Filter>03. GameObject\13. Fragile</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -550,9 +550,6 @@
     <Filter Include="03. GameObject\01. Stage\06. Fragile\00. Box">
       <UniqueIdentifier>{6537b423-4951-411f-a39e-90527a43f8e3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. GameObject\01. Stage\06. Fragile\01%3b Pot">
-      <UniqueIdentifier>{df830bfd-b678-4fee-b189-619f13a73f98}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03. GameObject\01. Stage\09. Immortal">
       <UniqueIdentifier>{eac3e2eb-d455-4364-b92a-2f075511eac8}</UniqueIdentifier>
     </Filter>
@@ -801,6 +798,9 @@
     </Filter>
     <Filter Include="03. GameObject\01. Stage\999. Boss\01. AttackEff\03. Create_Clone\State\DEAD">
       <UniqueIdentifier>{0eb46c6d-791c-491e-868c-0cb057012fc6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\01. Stage\06. Fragile\01. Pot">
+      <UniqueIdentifier>{df830bfd-b678-4fee-b189-619f13a73f98}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1325,7 +1325,7 @@
     <ClInclude Include="..\Header\Plate_Trap_Body.h">
       <Filter>03. GameObject\01. Stage\08. Trap\02. Plate_Trap</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\Box_Cube.h">
+    <ClInclude Include="..\Header\BoxCube.h">
       <Filter>03. GameObject\01. Stage\06. Fragile\00. Box</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\UIBuff.h">
@@ -2091,7 +2091,7 @@
     <ClCompile Include="..\Code\Plate_Trap_Body.cpp">
       <Filter>03. GameObject\01. Stage\08. Trap\02. Plate_Trap</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\Box_Cube.cpp">
+    <ClCompile Include="..\Code\BoxCube.cpp">
       <Filter>03. GameObject\01. Stage\06. Fragile\00. Box</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\UIBuff.cpp">

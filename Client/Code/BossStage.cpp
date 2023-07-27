@@ -11,7 +11,7 @@
 #include "UIShop.h"
 
 #include "SpawningPool.h"
-#include "Box_Cube.h"
+#include "BoxCube.h"
 #include "EffectSquare.h"
 #include "EffectBubble.h"
 

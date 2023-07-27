@@ -10,7 +10,7 @@
 #include "SoundManager.h"
 
 #include "SpawningPool.h"
-#include "Box_Cube.h"
+#include "BoxCube.h"
 #include "EquipBox.h"
 
 #include "Blade_Trap_Body.h"
@@ -278,7 +278,7 @@ HRESULT CVillage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 
 	for (_uint i = 0; i < 5; ++i)
 	{
-		pGameObject = CBox_Cube::Create(m_pGraphicDev);
+		pGameObject = CBoxCube::Create(m_pGraphicDev);
 		NULL_CHECK_RETURN(pGameObject, E_FAIL);
 		_vec3 vPos = _vec3(-30.f, 3.5f, -30.f - (i * 5));
 		pGameObject->m_pTransform->Translate(vPos);

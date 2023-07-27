@@ -359,7 +359,7 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 			}
 		}
 
-		if (Engine::InputDev()->Key_Down(DIK_Q))
+		if (Engine::InputDev()->Key_Pressing(DIK_LCONTROL) && Engine::InputDev()->Key_Down(DIK_Q))
 		{
 			// 오른손에 들고 있는 아이템만 Q키로 버리기 가능
 

@@ -13,7 +13,8 @@
 #include "SoundManager.h"
 
 #include "SpawningPool.h"
-#include "Box_Cube.h"
+#include "BoxCube.h"
+#include "EquipBox.h"
 #include "EffectSquare.h"
 #include "EffectBubble.h"
 
@@ -409,7 +410,7 @@ HRESULT CStage::Load_Data()
 		for_each(refObjectList.begin(), refObjectList.end(), [&](CGameObject* pObj) { EventManager()->DeleteObject(pObj); });
 		refObjectList.clear();
 	}
-	HANDLE hFile = CreateFile(L"../Bin/Data/Sewer_TrapTest.dat", GENERIC_READ, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
+	HANDLE hFile = CreateFile(L"../Bin/Data/Sewer_TrapTest_v1.0.dat", GENERIC_READ, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
 	//HANDLE hFile = CreateFile(L"../Bin/Data/Sewer.dat", GENERIC_READ, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
 	//HANDLE hFile = CreateFile(L"../Bin/Data/TempData.dat", GENERIC_READ, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
 	//HANDLE hFile = CreateFile(L"../Bin/Data/TerrainGiantTree10.dat", GENERIC_READ,	0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
@@ -631,6 +632,40 @@ HRESULT CStage::Load_Data()
 			pGameObject->m_pTransform->Translate(_vec3(fX, fY + 1.f, fZ));
 			pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 			//EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+		}
+		else if (OBJECTTAG::FRAGILE == eTag)
+		{
+		// value°ª ÀúÀå
+		ReadFile(hFile, &fX, sizeof(_float), &dwByte, nullptr);
+		ReadFile(hFile, &fY, sizeof(_float), &dwByte, nullptr);
+		ReadFile(hFile, &fZ, sizeof(_float), &dwByte, nullptr);
+
+		FRAGILETAG eFragileTag;
+		ReadFile(hFile, &eFragileTag, sizeof(FRAGILETAG), &dwByte, nullptr);
+
+		if (0 == dwByte)
+			break;
+
+		CGameObject* pGameObject = nullptr;
+
+		switch (eFragileTag)
+		{
+		case FRAGILETAG::RANDOMBOX:
+		{
+			pGameObject = CBoxCube::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+			break;
+		}
+		case FRAGILETAG::EQUIPBOX:
+		{
+			pGameObject = CEquipBox::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+			break;
+		}
+		}
+		NULL_CHECK_RETURN(pGameObject, E_FAIL);
+
+		pGameObject->m_pTransform->Translate(_vec3(fX, fY + 1.f, fZ));
+		pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+		//EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 		}
 	}
 	CloseHandle(hFile);

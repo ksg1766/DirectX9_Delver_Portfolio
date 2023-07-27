@@ -54,10 +54,12 @@ void CSkyBox::Render_Object(void)
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransformCom->WorldMatrix());
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+	//m_pGraphicDev->SetRenderState(D3DRS_FOGENABLE, FALSE);
 
 	m_pTextureCom->Render_Texture(0);
 	m_pBufferCom->Render_Buffer();
 
+	//m_pGraphicDev->SetRenderState(D3DRS_FOGENABLE, TRUE);
 	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }

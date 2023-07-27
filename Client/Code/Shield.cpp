@@ -268,13 +268,11 @@ void CShield::OnCollisionEnter(CCollider* _pOther)
 				dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_StateMachine()->Set_State(STATE::HIT);
 			}
 
-
 			CGameObject* pGameObject = CEffectDamage::Create(m_pGraphicDev);
 			pGameObject->m_pTransform->Translate(_vec3(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vInfo[INFO_POS].z));
 			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 		}
 	}
-
 }
 
 void CShield::OnCollisionStay(CCollider* _pOther)
@@ -291,10 +289,14 @@ void CShield::OnCollisionExit(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 
-
 	if (!(_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::MONSTER) &&
 		!(_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::PLAYER))
-		__super::OnCollisionExit(_pOther);
+	{
+		CTransform* pPlayerTransform = SceneManager()->Get_Scene()->Get_MainPlayer()->m_pTransform;
+
+		_vec3 vOffSet = -0.7f * pPlayerTransform->m_vInfo[INFO_RIGHT] + 1.4f * pPlayerTransform->m_vInfo[INFO_LOOK] - 0.4f * pPlayerTransform->m_vInfo[INFO_UP];
+		m_pTransform->m_vInfo[INFO_POS] = (pPlayerTransform->m_vInfo[INFO_POS] + vOffSet);
+	}
 }
 
 CShield* CShield::Create(LPDIRECT3DDEVICE9 pGraphicDev, _bool _Item)

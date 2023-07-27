@@ -8,12 +8,12 @@
 #include "SoundManager.h"
 
 CEquipBox::CEquipBox(LPDIRECT3DDEVICE9 pGraphicDev)
-	: CGameObject(pGraphicDev)
+	: CFragile(pGraphicDev)
 {
 }
 
 CEquipBox::CEquipBox(const CEquipBox& rhs)
-	: CGameObject(rhs)
+	: CFragile(rhs)
 {
 }
 
@@ -25,6 +25,7 @@ CEquipBox::~CEquipBox()
 HRESULT CEquipBox::Ready_Object(void)
 {
 	m_eObjectTag = OBJECTTAG::FRAGILE;
+	m_eFragileTag = FRAGILETAG::EQUIPBOX;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 	m_fHitCool = 0.f;
 	m_fShakeDelay = 0.f;
@@ -84,8 +85,8 @@ void CEquipBox::Render_Object(void)
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
 
-	m_pTexture->Render_Texture(m_iTextureNumber);
-	m_pBuffer->Render_Buffer();
+	m_pTexture->Render_Texture(0);
+	m_pCubeBf->Render_Buffer();
 
 #if _DEBUG
 	m_pCollider->Render_Collider();
@@ -100,7 +101,7 @@ void CEquipBox::Drop_RandomItem()
 	CGameObject* pGameObject = CEffectBrokenbox::Create(m_pGraphicDev);
 	dynamic_cast<CEffectBrokenbox*>(pGameObject)->m_pTransform->
 		Translate(_vec3(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y + 0.5f, m_pTransform->m_vInfo[INFO_POS].z));
-	dynamic_cast<CEffectBrokenbox*>(pGameObject)->Set_EffectType(1);
+	dynamic_cast<CEffectBrokenbox*>(pGameObject)->Set_EffectType(0);
 	Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 
 	Engine::EventManager()->DeleteObject(this);
@@ -193,7 +194,7 @@ HRESULT CEquipBox::Add_Component(void)
 {
 	CComponent* pComponent = nullptr;
 
-	pComponent = m_pBuffer = dynamic_cast<CCubeBf*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_CubeBf"));
+	pComponent = m_pCubeBf = dynamic_cast<CCubeBf*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_CubeBf"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BUFFER, pComponent);
 

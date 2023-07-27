@@ -16,6 +16,9 @@
 #include "Pumpkin.h"
 #include "ImmortalSprite.h"
 
+#include "BoxCube.h"
+#include "EquipBox.h"
+
 IMPLEMENT_SINGLETON(CImGuiManager)
 
 CImGuiManager::CImGuiManager()
@@ -61,6 +64,13 @@ void CImGuiManager::Key_Input(const _float& fTimeDelta)
                     vOut = PickingBlock();
                 else if (2 == m_iPickingMode)
                     vOut = PickingEnvironment();
+            }
+            else if (FRAGILE == m_eToolMode)
+            {
+                if (1 == m_iPickingMode)
+                    vOut = PickingBlock();
+                else if (2 == m_iPickingMode)
+                    return;
             }
 
             if (_vec3(0.f, -10.f, 0.f) == vOut)
@@ -165,10 +175,28 @@ void CImGuiManager::Key_Input(const _float& fTimeDelta)
                 break;
             }
 
-            //NULL_CHECK_RETURN(pGameObject);
             if (pGameObject)
             {
                 pGameObject->m_pTransform->Translate(vOut);
+                EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+            }
+        }
+        else if (FRAGILE == m_eToolMode)
+        {
+            switch (m_iSelected_index)
+            {
+            case 0:
+                pGameObject = CBoxCube::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+                break;
+
+            case 1:
+                pGameObject = CEquipBox::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+                break;
+            }
+
+            if (pGameObject)
+            {
+                pGameObject->m_pTransform->Translate(vOut - _vec3(0.f, 0.5f, 0.f));
                 EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
             }
         }
@@ -810,7 +838,6 @@ void CImGuiManager::LateUpdate_ImGui()
 
                     ImGui::EndTabItem();
                 }
-
                 if (ImGui::BeginTabItem("Trap"))
                 {
                     m_eToolMode = TRAP;
@@ -868,6 +895,32 @@ void CImGuiManager::LateUpdate_ImGui()
 
                     ImGui::EndTabItem();
                 }
+                if (ImGui::BeginTabItem("Fragile"))
+                {
+                    m_eToolMode = FRAGILE;
+                    //m_iPickingMode = 0;
+                    ImGuiIO& io = ImGui::GetIO();
+
+                    const char* items[] = { "RandomBox", "EquipBox" };
+                    static _int item_current = 1;
+                    ImGui::ListBox("FragileList", &item_current, items, IM_ARRAYSIZE(items), 3);
+
+                    m_iSelected_index = item_current;
+
+                    ImGui::NewLine();
+
+                    if (ImGui::Button("Mode"))
+                        ++m_iPickingMode %= 3;
+
+                    if (0 == m_iPickingMode)
+                        ImGui::Text("None");
+                    else if (1 == m_iPickingMode)
+                        ImGui::Text("Place");
+                    else
+                        ImGui::Text("Erase");
+
+                    ImGui::EndTabItem();
+                }
 
                 ImGui::EndTabBar();
             }
@@ -890,7 +943,7 @@ HRESULT CImGuiManager::OnSaveData()
 {
     CScene* pScene = SceneManager()->Get_Scene();
 
-    HANDLE hFile = CreateFile(L"../Bin/Data/Sewer_TrapTest.dat", GENERIC_WRITE, 0, 0, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0);
+    HANDLE hFile = CreateFile(L"../Bin/Data/Sewer_TrapTest_v1.0.dat", GENERIC_WRITE, 0, 0, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0);
 
     if (INVALID_HANDLE_VALUE == hFile)
         return E_FAIL;
@@ -1041,9 +1094,31 @@ HRESULT CImGuiManager::OnSaveData()
                 }
             }
         }
+        else if (OBJECTTAG::FRAGILE == (OBJECTTAG)i)
+        {
+            vector<CGameObject*>& vecObjList = pScene->Get_ObjectList(LAYERTAG::GAMELOGIC, (OBJECTTAG)i);
+            for (auto& iter : vecObjList)
+            {
+                if (iter->m_pTransform->m_vInfo[INFO_POS].y < -10000.f)
+                    continue;
+
+                eTag = iter->Get_ObjectTag();
+                FRAGILETAG eFragileTag = dynamic_cast<CFragile*>(iter)->Get_FragileTag();
+                if (FRAGILETAG::FRAGILE_END == eFragileTag)
+                    continue;
+
+                WriteFile(hFile, &eTag, sizeof(OBJECTTAG), &dwByte, nullptr);
+                WriteFile(hFile, &(iter->m_pTransform->m_vInfo[INFO_POS].x), sizeof(_float), &dwByte, nullptr);
+                WriteFile(hFile, &(iter->m_pTransform->m_vInfo[INFO_POS].y), sizeof(_float), &dwByte, nullptr);
+                WriteFile(hFile, &(iter->m_pTransform->m_vInfo[INFO_POS].z), sizeof(_float), &dwByte, nullptr);
+
+                WriteFile(hFile, &eFragileTag, sizeof(FRAGILETAG), &dwByte, nullptr);
+            }
+        }
     }
 
     CloseHandle(hFile);
+
     return S_OK;
 }
 
@@ -1058,7 +1133,7 @@ HRESULT CImGuiManager::OnLoadData()
         refObjectList.clear();
     }
 
-    HANDLE hFile = CreateFile(L"../Bin/Data/Sewer_TrapTest.dat", GENERIC_READ, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
+    HANDLE hFile = CreateFile(L"../Bin/Data/Sewer_TrapTest_v1.0.dat", GENERIC_READ, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
 
     if (INVALID_HANDLE_VALUE == hFile)
         return E_FAIL;
@@ -1260,6 +1335,40 @@ HRESULT CImGuiManager::OnLoadData()
             //pGameObject->m_pTransform->m_vInfo[INFO_POS] = _vec3(fX, fY, fZ);
             NULL_CHECK_RETURN(pGameObject, E_FAIL);
             pGameObject->m_pTransform->Scale(_vec3(fCX, fCY, fCZ));
+            pGameObject->m_pTransform->Translate(_vec3(fX, fY, fZ));
+            pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+            //EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+        }
+        else if (OBJECTTAG::FRAGILE == eTag)
+        {
+            // value°ª ÀúÀå
+            ReadFile(hFile, &fX, sizeof(_float), &dwByte, nullptr);
+            ReadFile(hFile, &fY, sizeof(_float), &dwByte, nullptr);
+            ReadFile(hFile, &fZ, sizeof(_float), &dwByte, nullptr);
+
+            FRAGILETAG eFragileTag;
+            ReadFile(hFile, &eFragileTag, sizeof(FRAGILETAG), &dwByte, nullptr);
+
+            if (0 == dwByte)
+                break;
+
+            CGameObject* pGameObject = nullptr;
+
+            switch (eFragileTag)
+            {
+            case FRAGILETAG::RANDOMBOX:
+            {
+                pGameObject = CBoxCube::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+                break;
+            }
+            case FRAGILETAG::EQUIPBOX:
+            {
+                pGameObject = CEquipBox::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+                break;
+            }
+            }
+            NULL_CHECK_RETURN(pGameObject, E_FAIL);
+
             pGameObject->m_pTransform->Translate(_vec3(fX, fY, fZ));
             pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
             //EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
