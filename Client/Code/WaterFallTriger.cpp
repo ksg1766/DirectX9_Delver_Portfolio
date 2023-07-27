@@ -59,7 +59,7 @@ void CWaterFallTriger::LateUpdate_Object()
 	else
 		m_fSound = fVolume;
 
-	CSoundManager::GetInstance()->PlaySound(L"env_waterfall.mp3", CHANNELID::SOUND_ENVIRONMENT, m_fSound);
+	CSoundManager::GetInstance()->PlaySoundLoop(L"env_waterfall.mp3", CHANNELID::SOUND_ENVIRONMENT, m_fSound);
 }
 
 void CWaterFallTriger::Render_Object()

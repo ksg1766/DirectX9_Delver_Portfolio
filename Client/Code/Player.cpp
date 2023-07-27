@@ -205,6 +205,10 @@ void CPlayer::Render_Object(void)
 
 	//m_pBuffer->Render_Buffer();
 
+	cout << "X°ª : " << m_pTransform->m_vInfo[INFO_POS].x << endl;
+	cout << "Y°ª : " << m_pTransform->m_vInfo[INFO_POS].y << endl;
+	cout << "Z°ª : " << m_pTransform->m_vInfo[INFO_POS].z << endl;
+
 
 #if _DEBUG
 	m_pCollider->Render_Collider();

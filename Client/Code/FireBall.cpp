@@ -145,7 +145,7 @@ void CFireBall::OnCollisionEnter(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 
-	__super::OnCollisionEnter(_pOther);*/
+	//__super::OnCollisionEnter(_pOther);
 
 	CPlayer& pPlayer = *dynamic_cast<CPlayer*>(SceneManager()->GetInstance()
 		->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
