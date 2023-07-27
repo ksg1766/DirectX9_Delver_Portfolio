@@ -64,30 +64,6 @@ void CWaterFallTriger::LateUpdate_Object()
 
 void CWaterFallTriger::Render_Object()
 {
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
-
-	//m_pTexture->Render_Texture(0);
-	m_pCubeBf->Render_Buffer();
-
-#if _DEBUG
-	m_pCollider->Render_Collider();
-#endif // _DEBUG
-
-}
-
-void CWaterFallTriger::OnCollisionEnter(CCollider* _pOther)
-{
-	__super::OnCollisionEnter(_pOther);
-}
-
-void CWaterFallTriger::OnCollisionStay(CCollider* _pOther)
-{
-	__super::OnCollisionStay(_pOther);
-}
-
-void CWaterFallTriger::OnCollisionExit(CCollider* _pOther)
-{
-	__super::OnCollisionExit(_pOther);
 }
 
 HRESULT CWaterFallTriger::Add_Component()
@@ -97,17 +73,9 @@ HRESULT CWaterFallTriger::Add_Component()
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BUFFER, pComponent);
 
-	pComponent = m_pTexture = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_VillageTiger"));
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
-
 	pComponent = m_pTransform = dynamic_cast<CTransform*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Transform"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::TRANSFORM, pComponent);
-
-	pComponent = m_pCollider = static_cast<CCollider*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Collider"));
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::COLLIDER, pComponent);
 
 	for (_uint i = 0; i < ID_END; ++i)
 		for (auto& iter : m_mapComponent[i])

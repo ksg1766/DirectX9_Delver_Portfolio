@@ -137,18 +137,13 @@ void CFireBall::Render_Object()
 	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
 
-void CFireBall::ForceHeight(_vec3 _vPos)
-{
-}
-
 void CFireBall::OnCollisionEnter(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 
 	//__super::OnCollisionEnter(_pOther);
 
-	CPlayer& pPlayer = *dynamic_cast<CPlayer*>(SceneManager()->GetInstance()
-		->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
+	CPlayer& pPlayer = *dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer());
 
 	if ((_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::MONSTER &&
 		dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_StateMachine()->Get_State() != STATE::DEAD)||(_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BOSS))
