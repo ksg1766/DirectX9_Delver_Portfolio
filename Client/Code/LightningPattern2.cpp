@@ -34,9 +34,9 @@ STATE CLightningPattern2::Update_State(const _float& fTimeDelta)
 	{
 		m_bCool = true;
 		m_vPlayerPos = Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform->m_vInfo[INFO_POS];
-		pGameObject = CBoss_CautionEff::Create(m_pGraphicDev);
 		for (int i = 0; i < 10; ++i)
 		{
+			pGameObject = CBoss_CautionEff::Create(m_pGraphicDev);
 			dynamic_cast<CBoss_CautionEff*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = _vec3(m_vPlayerPos.x, 35.f + (i * 2), m_vPlayerPos.z);
 			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 		}

@@ -18,7 +18,7 @@ CBoss_CautionEff::~CBoss_CautionEff()
 
 HRESULT CBoss_CautionEff::Ready_Object(void)
 {
-	m_eObjectTag = OBJECTTAG::IMMORTAL;
+	m_eObjectTag = OBJECTTAG::UI;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 	m_fTime = 0.f;
 	m_fScale = 1.;

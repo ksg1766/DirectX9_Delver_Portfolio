@@ -254,6 +254,7 @@
     <ClInclude Include="..\Header\LostSoulPattern2.h" />
     <ClInclude Include="..\Header\Meat.h" />
     <ClInclude Include="..\Header\MiniMeteor.h" />
+    <ClInclude Include="..\Header\MiniMeteor_Idle.h" />
     <ClInclude Include="..\Header\Monstergroup.h" />
     <ClInclude Include="..\Header\Moon.h" />
     <ClInclude Include="..\Header\MeteorPh2.h" />
@@ -491,6 +492,7 @@
     <ClCompile Include="..\Code\LostSoulPattern2.cpp" />
     <ClCompile Include="..\Code\Meat.cpp" />
     <ClCompile Include="..\Code\MiniMeteor.cpp" />
+    <ClCompile Include="..\Code\MiniMeteor_Idle.cpp" />
     <ClCompile Include="..\Code\MiniMetorPattern.cpp" />
     <ClCompile Include="..\Code\Moon.cpp" />
     <ClCompile Include="..\Code\MeteorPh2.cpp" />

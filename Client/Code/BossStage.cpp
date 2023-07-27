@@ -67,7 +67,24 @@ Engine::_int CBossStage::Update_Scene(const _float& fTimeDelta)
 	__super::Update_Scene(fTimeDelta);
 
 	UIManager()->Update_UI(fTimeDelta);
-
+	if (10.f >= Engine::SceneManager()->Get_Scene()->Get_MainPlayer()->m_pTransform->m_vInfo[INFO_POS].y)
+	{
+		switch (dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_Phase())
+		{
+		case BOSSPHASE::PHASE1:
+			Engine::SceneManager()->Get_Scene()->Get_MainPlayer()->m_pTransform->m_vInfo[INFO_POS] = _vec3(100.f, 22.f, 0.f);
+			dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_StateMachine()->Set_State(STATE::BOSS_SLEEP);
+			break;
+		case BOSSPHASE::PHASE2:
+			Engine::SceneManager()->Get_Scene()->Get_MainPlayer()->m_pTransform->m_vInfo[INFO_POS] = _vec3(-72.5f, 36.f, 75.5f);
+			dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_StateMachine()->Set_State(STATE::BOSS_SLEEP);
+			break;
+		case BOSSPHASE::PHASE3:
+			Engine::SceneManager()->Get_Scene()->Get_MainPlayer()->m_pTransform->m_vInfo[INFO_POS] = _vec3(-72.f, 36.f, -75.f);
+			dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_StateMachine()->Set_State(STATE::BOSS_SLEEP);
+			break;
+		}
+	}
 	return 0;
 }
 
@@ -157,7 +174,6 @@ HRESULT CBossStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	pGameObject = CSkeletonKing::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	pGameObject->m_pTransform->Translate(_vec3(-80.f, 35.f, 0.f));
-	//pGameObject->m_pTransform->Translate(_vec3(-72.5f, 36.f, 94.5f));
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
 	pGameObject = CJump_Plate::Create(m_pGraphicDev);
@@ -453,6 +469,48 @@ HRESULT CBossStage::Load_Data()
 			}
 
 			pGameObject->m_pTransform->m_vInfo[INFO_POS] = _vec3(fX, fY + 1.f, fZ);
+			pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+			//EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+		}
+		else if (OBJECTTAG::TRAP == eTag)
+		{
+			// value°ª ÀúÀå
+			ReadFile(hFile, &fX, sizeof(_float), &dwByte, nullptr);
+			ReadFile(hFile, &fY, sizeof(_float), &dwByte, nullptr);
+			ReadFile(hFile, &fZ, sizeof(_float), &dwByte, nullptr);
+
+			TRAPTAG eTrapTag;
+			ReadFile(hFile, &eTrapTag, sizeof(TRAPTAG), &dwByte, nullptr);
+
+			if (0 == dwByte)
+				break;
+
+			CGameObject* pGameObject = nullptr;
+
+			switch (eTrapTag)
+			{
+			case TRAPTAG::BLADE:
+				pGameObject = CBlade_Trap::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+				pGameObject->m_pTransform->Translate(_vec3(fX, fY + 1.f, fZ));
+				dynamic_cast<CBlade_Trap*>(pGameObject)->Create_Blade();
+				NULL_CHECK_RETURN(pGameObject, E_FAIL);
+				break;
+
+			case TRAPTAG::STRIKEDOWN:
+				pGameObject = CStrikeDown_Trap::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+				pGameObject->m_pTransform->Translate(_vec3(fX, fY + 1.f, fZ));
+				dynamic_cast<CStrikeDown_Trap*>(pGameObject)->Set_InitailHeight(10.f);
+				dynamic_cast<CStrikeDown_Trap*>(pGameObject)->Set_MinHeight(10.f);
+				NULL_CHECK_RETURN(pGameObject, E_FAIL);
+				break;
+
+			case TRAPTAG::JUMP:
+				pGameObject = CJump_Plate::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+				pGameObject->m_pTransform->Translate(_vec3(fX, fY + 1.f, fZ));
+				NULL_CHECK_RETURN(pGameObject, E_FAIL);
+				break;
+			}
+
 			pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 			//EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 		}

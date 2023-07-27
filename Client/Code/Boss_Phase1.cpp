@@ -31,6 +31,7 @@ STATE CBoss_Phase1::Update_State(const _float& fTimeDelta)
     if (BOSSPHASE::PHASE1 != dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_Phase())
         return STATE::BOSS_IDLE;
     m_fDelay += fTimeDelta;
+    dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_RigidBody()->UseGravity(true);
     if (3.f < m_fDelay)
     {
         m_fDelay = 0.f;
@@ -58,19 +59,19 @@ STATE CBoss_Phase1::BossSkill(const _float& fTimeDelta)
     switch(m_iSkillCount)
     {
     case 0 :
-        m_iSkillCount = 1;
+        ++m_iSkillCount;
         return STATE::BOSS_PH1SKILL1;
         break;
     case 1:
-        m_iSkillCount = 2;
+        ++m_iSkillCount;
         return STATE::BOSS_PH1SKILL2;
         break;
     case 2:
-        m_iSkillCount = 3;
+        ++m_iSkillCount;
         return STATE::BOSS_PH1SKILL3;
         break;
     case 3:
-        m_iSkillCount = 4;
+        ++m_iSkillCount;
         return STATE::BOSS_PH1SKILL4;
         break;
     case 4:
@@ -84,6 +85,9 @@ STATE CBoss_Phase1::BossSkill(const _float& fTimeDelta)
             }
             break;
         }
+        else 
+            m_iSkillCount = 0;
+        return STATE::BOSS_ATTACK1;
         break;
     }
 }

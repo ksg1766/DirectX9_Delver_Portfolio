@@ -28,8 +28,8 @@ public:
 
 	void			ReSet_Sturn() { m_iHitCount = 0; }
 	virtual _float	Get_Frame() { return m_fFrame; }
-	CStateMachine*	Get_StatMachine() { return m_pStateMachine; }
 	_bool			Get_Sturn() { return m_bSturn; }
+	_bool			Get_3Phase() { return m_b3Phase; }
 	_uint			Get_CloneCount() { return m_iCloneCount; }
 	BOSSPHASE		Get_Phase() { return m_ePhase; }
 
@@ -39,6 +39,7 @@ public:
 	void			Set_Sturn(_bool _sturn) { m_bSturn = _sturn; }
 	void			Set_CloneCount(_int _Clone) { m_iCloneCount = _Clone; }
 	void			Set_Phase(BOSSPHASE _PHASE) { m_ePhase = _PHASE; }
+	void			Set_3Phase(_bool _3phase) { m_b3Phase = _3phase; }
 
 	void			Add_CloneCount(_int _Hit);
 	void			Add_HitCount();
@@ -57,6 +58,7 @@ private:
 	_float		m_fHitCool;
 	_int		m_iHitCount;
 	_bool		m_bSturn;
+	_bool		m_b3Phase;
 	_uint		m_iCloneCount;
 	BOSSPHASE	m_ePhase;
 public:

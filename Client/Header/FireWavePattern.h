@@ -21,8 +21,9 @@ private:
     //클래스 내에서만 쓸 함수
 private:
     //클래스 내에서만 쓸 함수
-    _float m_fDelay;
-    _float  m_fPatternDelay;
+    _float m_fFirstWaveDelay;
+    _float  m_fSecondWaveDelay;
+    _float  m_fThirdDelay;
     _int    m_iCount;
     _bool  m_bCool;
     _bool   m_bWarning;

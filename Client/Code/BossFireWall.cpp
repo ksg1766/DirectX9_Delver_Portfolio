@@ -23,7 +23,7 @@ HRESULT CBossFireWall::Ready_Object(void)
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 	m_pTransform->Scale(_vec3(2.f, 2.f, 2.f));
-	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale()*0.5f);
+	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale()*0.4f);
 	m_pBasicStat->Get_Stat()->fAttack = 2.f;
 	m_fDuration = 0.f;
 	m_fSpeed = 20.f;
@@ -56,17 +56,17 @@ _int CBossFireWall::Update_Object(const _float& fTimeDelta)
 void CBossFireWall::LateUpdate_Object(void)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
-
-	m_pBillBoard->LateUpdate_Component();
 	__super::LateUpdate_Object();
 	m_pTransform->Scale(_vec3(2.f, 2.f, 2.f));
 }
 
 void CBossFireWall::Render_Object(void)
 {
+	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
 	m_pTexture->Render_Texture((_uint)m_fFrame);
 	m_pBuffer->Render_Buffer();
+	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 #if _DEBUG
 	m_pCollider->Render_Collider();
 #endif
@@ -116,9 +116,9 @@ HRESULT CBossFireWall::Add_Component(void)
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
 
-	pComponent = m_pBillBoard = dynamic_cast<CBillBoard*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BillBoard"));
+	pComponent = dynamic_cast<CBillBoard*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BillBoard"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BILLBOARD, pComponent);
+	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::BILLBOARD, pComponent);
 
 	pComponent = m_pCollider = dynamic_cast<CCollider*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Collider"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);

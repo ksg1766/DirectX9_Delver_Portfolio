@@ -108,7 +108,7 @@ void CSceneManager::Render_Scene(LPDIRECT3DDEVICE9 pGraphicDev)
 				m_pPlayer->m_pTransform->m_vInfo[INFO_POS] = _vec3(0.f, 11.f, 0.f);  // 시작 위치 지정해주세요
 				break;
 			case SCENETAG::BOSSSTAGE:
-				m_pPlayer->m_pTransform->m_vInfo[INFO_POS] = _vec3(100.f, 35.f, 0.f); // 시작 위치 지정해주세요
+				m_pPlayer->m_pTransform->m_vInfo[INFO_POS] = _vec3(100.f, 20.f, 0.f); // 시작 위치 지정해주세요
 				break;
 			}
 

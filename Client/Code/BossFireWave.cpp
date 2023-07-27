@@ -54,14 +54,17 @@ void CBossFireWave::LateUpdate_Object(void)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 	__super::LateUpdate_Object();
+	m_pTransform->Scale(_vec3(m_fScale, m_fScale, m_fScale));
 	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale() * 0.4f);
 }
 
 void CBossFireWave::Render_Object(void)
 {
+	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
 	m_pTexture->Render_Texture((_uint)m_fFrame);
 	m_pBuffer->Render_Buffer();
+	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 #if _DEBUG
 	m_pCollider->Render_Collider();
 #endif

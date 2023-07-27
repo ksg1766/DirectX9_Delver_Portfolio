@@ -27,18 +27,6 @@ HRESULT CBoss_Sturn::Ready_State(CStateMachine* pOwner)
 STATE CBoss_Sturn::Update_State(const _float& fTimeDelta)
 {
     m_fCount += fTimeDelta;
-    switch (dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_Phase())
-    {
-    case BOSSPHASE::PHASE1:
-        m_pOwner->Get_Transform()->m_vInfo[INFO_POS].y = 35.f;
-        break;
-    case BOSSPHASE::PHASE2:
-        m_pOwner->Get_Transform()->m_vInfo[INFO_POS].y = 49.f;
-        break;
-    case BOSSPHASE::PHASE3:
-        m_pOwner->Get_Transform()->m_vInfo[INFO_POS].y = 33.f;
-        break;
-    }
     if (!m_bStar)
     {
         Engine::CGameObject* pGameObject = nullptr;
@@ -53,6 +41,12 @@ STATE CBoss_Sturn::Update_State(const _float& fTimeDelta)
         dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Set_Sturn(false);
         m_bStar = false;
         m_fCount = 0.f;
+        if ((45 > dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_BasicStat()->Get_Stat()->fHP)
+            && (BOSSPHASE::PHASE2 == dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_Phase()))
+        {
+            dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Set_Phase(BOSSPHASE::PHASE3);
+            return STATE::BOSS_TELEPORT;
+        }
         return STATE::BOSS_IDLE;
     }
     dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Set_Sturn(true);

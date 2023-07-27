@@ -20,8 +20,9 @@ CFireWavePattern::~CFireWavePattern()
 HRESULT CFireWavePattern::Ready_State(CStateMachine* pOwner)
 {
 	m_pOwner = pOwner;
-	m_fDelay = 0.f;
-	m_fPatternDelay = 0.f;
+	m_fFirstWaveDelay = 0.f;
+	m_fSecondWaveDelay = 0.f;
+	m_fThirdDelay = 0.f;
 	m_bCool = false;
 	m_bWarning = false;
 	m_iCount = 0;
@@ -33,31 +34,65 @@ HRESULT CFireWavePattern::Ready_State(CStateMachine* pOwner)
 STATE CFireWavePattern::Update_State(const _float& fTimeDelta)
 {
 	Engine::CGameObject* pGameObject = nullptr;
-	m_fDelay += fTimeDelta;
+	m_fFirstWaveDelay += fTimeDelta;
+	m_fSecondWaveDelay += fTimeDelta;
+	m_fThirdDelay += fTimeDelta;
 	if (!m_bWarning)
 	{
 		for (int i = 0; i < 18; ++i)
 		{
 			pGameObject = CBoss_WarningEff::Create(m_pGraphicDev);
-			dynamic_cast<CBoss_WarningEff*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = _vec3(-72.5f, 36.f, 94.5f) + (_vec3(-30 + (i * 3), -1.f, 0.f));
+			dynamic_cast<CBoss_WarningEff*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = _vec3(-72.5f, 36.f, 110.f) + (_vec3(-30 + (i * 3), -1.f, 0.f));
 			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 		}
 		m_bWarning = true;
 	}
-	if (1.5f < m_fDelay)
+	if (m_bWarning)
 	{
-		for (int i = 0; i < 18; ++i)
+		if (1.5f < m_fFirstWaveDelay)
 		{
-			pGameObject = CBossFireWave::Create(m_pGraphicDev);
-			dynamic_cast<CBossFireWave*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = _vec3(-72.5f, 36.f, 94.5f) + (_vec3(-30 + (i * 3), -1.f, 0.f));
-			dynamic_cast<CBossFireWave*>(pGameObject)->Set_Dir(_vec3(0.f, 0.f, -0.5f));
-			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+			for (int i = 0; i < 18; ++i)
+			{
+				pGameObject = CBossFireWave::Create(m_pGraphicDev);
+				dynamic_cast<CBossFireWave*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = _vec3(-72.5f, 36.f, 110.f) + (_vec3(-30 + (i * 3), -1.f, 0.f));
+				dynamic_cast<CBossFireWave*>(pGameObject)->Set_Dir(_vec3(0.f, 0.f, -0.5f));
+				Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+			}
+			m_fFirstWaveDelay = 0.f;
 		}
-		m_fDelay = 0.f;
-		++m_iCount;
+		if (1.7 < m_fSecondWaveDelay)
+		{
+			for (int i = 0; i < 18; ++i)
+			{
+				pGameObject = CBossFireWave::Create(m_pGraphicDev);
+				dynamic_cast<CBossFireWave*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = _vec3(-72.5f, 36.f, 110.f) + (_vec3(-30 + (i * 3), -1.f, 0.f));
+				dynamic_cast<CBossFireWave*>(pGameObject)->Set_Dir(_vec3(0.f, 0.f, -0.5f));
+				dynamic_cast<CBossFireWave*>(pGameObject)->Set_Scale(1.f);
+				Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+			}
+			m_fSecondWaveDelay = 0.f;
+		}
+		if (1.8 < m_fThirdDelay)
+		{
+			for (int i = 0; i < 18; ++i)
+			{
+				pGameObject = CBossFireWave::Create(m_pGraphicDev);
+				dynamic_cast<CBossFireWave*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = _vec3(-72.5f, 36.f, 110.f) + (_vec3(-30 + (i * 3), -1.f, 0.f));
+				dynamic_cast<CBossFireWave*>(pGameObject)->Set_Dir(_vec3(0.f, 0.f, -0.5f));
+				dynamic_cast<CBossFireWave*>(pGameObject)->Set_Scale(0.5f);
+				Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+			}
+			m_fFirstWaveDelay = 0.f;
+			m_fSecondWaveDelay = 0.f;
+			m_fThirdDelay = 0.f;
+			++m_iCount;
+		}
 	}
 	if (3 < m_iCount)
 	{
+		m_fFirstWaveDelay = 0.f;
+		m_fSecondWaveDelay = 0.f;
+		m_fThirdDelay = 0.f;
 		m_bWarning = false;
 		m_iCount = 0;
 		return STATE::BOSS_IDLE;

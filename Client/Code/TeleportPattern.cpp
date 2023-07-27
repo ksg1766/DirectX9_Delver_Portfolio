@@ -40,24 +40,33 @@ HRESULT CTeleportPattern::Ready_State(CStateMachine* pOwner)
 STATE CTeleportPattern::Update_State(const _float& fTimeDelta)
 {
     m_fDelay += fTimeDelta;
-  
+    switch (dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_Phase())
+    {
+    case BOSSPHASE::PHASE2:
+        if ((1.5f >= fabs(-72.5f - m_pOwner->Get_Transform()->m_vInfo[INFO_POS].x)) && (1.5f >= fabs(94.5f - m_pOwner->Get_Transform()->m_vInfo[INFO_POS].z)))
+        {
+            m_pOwner->Get_Transform()->m_vInfo[INFO_POS] = _vec3(-72.5f, 38.f, 94.5f);
+            return STATE::BOSS_SLEEP;
+        }
+        m_vDir = _vec3(-72.5f, 38.f, 94.5f) - m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
+        D3DXVec3Normalize(&m_vDir, &m_vDir);
+        m_pOwner->Get_Transform()->Translate(m_vDir);
+        m_fDelay = 0.f;
+        //return STATE::BOSS_SLEEP //바로 하니까 애가 이동을 안하지 병신아
+        break;
 
-        if (BOSSPHASE::PHASE2 == dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_Phase())
+    case BOSSPHASE::PHASE3:
+        if ((-72.f >= fabs(m_vDir.x - m_pOwner->Get_Transform()->m_vInfo[INFO_POS].x)) && (1.5f >= fabs(-105.f - m_pOwner->Get_Transform()->m_vInfo[INFO_POS].z)))
         {
-            _vec3 vDir = _vec3(-72.5f, 36.f, 94.5f) - m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
-            D3DXVec3Normalize(&vDir, &vDir);
-            m_pOwner->Get_Transform()->Translate(vDir);
-            m_fDelay = 0.f;
+            m_pOwner->Get_Transform()->m_vInfo[INFO_POS] = _vec3(-72.f, 34.f, -105.f);
             return STATE::BOSS_SLEEP;
         }
-        else  if (BOSSPHASE::PHASE3 == dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_Phase())
-        {
-            _vec3 vDir = _vec3(-72.f, 33.f, -105.f) - m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
-            D3DXVec3Normalize(&vDir, &vDir);
-            m_pOwner->Get_Transform()->Translate(vDir);
-            m_fDelay = 0.f;
-            return STATE::BOSS_SLEEP;
-        }
+        m_vDir = _vec3(-72.f, 33.f, -105.f) - m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
+        D3DXVec3Normalize(&m_vDir, &m_vDir);
+        m_pOwner->Get_Transform()->Translate(m_vDir);
+        m_fDelay = 0.f;
+        break;
+    }
 }
 
 void CTeleportPattern::LateUpdate_State()
