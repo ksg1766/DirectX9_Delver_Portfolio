@@ -48,10 +48,10 @@ void CSpiderRay::LateUpdate_Object(void)
 	__super::LateUpdate_Object();
 
 	if (!m_pColTarget)
-		if (!static_cast<CDungeonSpider*>(m_pHost)->IsJump())
+		if (!static_cast<CMonster*>(m_pHost)->IsJump())
 		{
-			static_cast<CDungeonSpider*>(m_pHost)->Set_Jump(true);
-			static_cast<CDungeonSpider*>(m_pHost)->Get_RigidBody()->UseGravity(true);
+			static_cast<CMonster*>(m_pHost)->Set_Jump(true);
+			static_cast<CMonster*>(m_pHost)->Get_RigidBody()->UseGravity(true);
 		}
 }
 
@@ -79,8 +79,8 @@ void CSpiderRay::OnCollisionStay(CCollider* _pOther)
 	CGameObject* pOtherObj = _pOther->Get_Host();
 	if (OBJECTTAG::BLOCK == pOtherObj->Get_ObjectTag())
 	{
-		static_cast<CDungeonSpider*>(m_pHost)->Set_Jump(false);
-		static_cast<CDungeonSpider*>(m_pHost)->Get_RigidBody()->UseGravity(false);
+		static_cast<CMonster*>(m_pHost)->Set_Jump(false);
+		static_cast<CMonster*>(m_pHost)->Get_RigidBody()->UseGravity(false);
 	}
 }
 
@@ -90,8 +90,8 @@ void CSpiderRay::OnCollisionExit(CCollider* _pOther)
 	if (OBJECTTAG::BLOCK == pOtherObj->Get_ObjectTag())
 	{
 		m_pColTarget = nullptr;
-		static_cast<CDungeonSpider*>(m_pHost)->Set_Jump(true);
-		static_cast<CDungeonSpider*>(m_pHost)->Get_RigidBody()->UseGravity(true);
+		static_cast<CMonster*>(m_pHost)->Set_Jump(true);
+		static_cast<CMonster*>(m_pHost)->Get_RigidBody()->UseGravity(true);
 	}
 }
 

@@ -94,6 +94,7 @@ public:
 	void			IsAddiction(const _float& fTimeDelta);
 	void			Eating(CBasicStat* _foodStat);
 	void			Create_Item(CCollider*	_pOther);
+	void			Foot_Sound();
 private:
 	CRigidBody*		m_pRigidBody = nullptr;
 	CStateMachine*	m_pStateMachine = nullptr;

@@ -54,7 +54,7 @@ STATE CMonster_Jump::Jump(const _float& fTimeDelta)
 
 	if (!m_bIsJumping)
 	{
-		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTER);
+		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_SPIDER);
 
 		m_fChase += fTimeDelta;
 
@@ -95,15 +95,15 @@ STATE CMonster_Jump::Jump(const _float& fTimeDelta)
 		_float fDistance = D3DXVec3Length(&(rPlayer.m_pTransform->m_vInfo[INFO_POS] - m_pOwner->Get_Transform()->m_vInfo[INFO_POS]));
 
 		if (fDistance < 15.f)
-			CSoundManager::GetInstance()->PlaySound(L"en_spider_attack_01.mp3", CHANNELID::SOUND_MONSTER, 1.f);
+			CSoundManager::GetInstance()->PlaySound(L"en_spider_attack_01.mp3", CHANNELID::SOUND_SPIDER, 1.f);
 	}
 
 	
 	if (!dynamic_cast<CMonster*>(m_pOwner->Get_Host())->IsJump())
 	{
 		m_bIsJumping = false;
-		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTER);
-		CSoundManager::GetInstance()->PlaySound(L"spider_walk.mp3", CHANNELID::SOUND_MONSTER, 1.f);
+		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_SPIDER);
+		CSoundManager::GetInstance()->PlaySound(L"spider_walk.mp3", CHANNELID::SOUND_SPIDER, 1.f);
 		return STATE::ROMIMG;
 	}
 

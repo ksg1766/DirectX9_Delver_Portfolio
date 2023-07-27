@@ -91,8 +91,7 @@ _int CDungeonSpider::Update_Object(const _float& fTimeDelta)
 	{
 		m_pStateMachine->Set_State(STATE::DEAD);
 		
-		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTER);
-		CSoundManager::GetInstance()->PlaySound(L"en_spider_die_01.mp3", CHANNELID::SOUND_MONSTER, 1.f);
+		
 		//////////////////////////////////////////////////////////////////////////////// 이펙트 
 		if (!m_bDieEffect)
 		{
@@ -122,24 +121,18 @@ _int CDungeonSpider::Update_Object(const _float& fTimeDelta)
 		if (!m_bSearch)
 		{
 			m_bSearch = true;
-			CSoundManager::GetInstance()->PlaySound(L"en_spider_idle_01.mp3", CHANNELID::SOUND_MONSTER, 1.f);
+			CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_SPIDER);
+			CSoundManager::GetInstance()->PlaySound(L"en_spider_idle_01.mp3", CHANNELID::SOUND_SPIDER, 1.f);
 		}
 	}
 		
-	m_pStateMachine->Update_StateMachine(fTimeDelta);
-
-
-	//if (m_pStateMachine->Get_State() != STATE::ATTACK)
-		//ForceHeight(m_pTransform->m_vInfo[INFO_POS]);
-	
 	if (m_pStateMachine->Get_State() != STATE::ATTACK)
 		m_pRigidBody->UseGravity(false);
 
+	m_pStateMachine->Update_StateMachine(fTimeDelta);
 
-	//if (m_pStateMachine->Get_State() == STATE::ATTACK)
-	//	m_pRigidBody->UseGravity(true);
-	//else
-	//	m_pRigidBody->UseGravity(false);
+	if(m_bIsJump)
+
 
 
 	return iExit;
@@ -182,8 +175,7 @@ void CDungeonSpider::OnCollisionEnter(CCollider* _pOther)
 	// 충돌 밀어내기 후 이벤트 : 구현하시면 됩니다.
 	if (SceneManager()->Get_GameStop()) { return; }
 
-	if (this->Get_StateMachine()->Get_State() != STATE::DEAD &&
-		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::ITEM &&
+	if (_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::ITEM &&
 		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::PLAYER)
 		__super::OnCollisionEnter(_pOther);
 
@@ -196,7 +188,6 @@ void CDungeonSpider::OnCollisionEnter(CCollider* _pOther)
 			IsAttack(&PlayerStat);
 			
 			//cout << "거미 공격" << endl;
-			
 		}
 }
 
@@ -204,10 +195,22 @@ void CDungeonSpider::OnCollisionStay(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 
-	if (this->Get_StateMachine()->Get_State() != STATE::DEAD &&
-		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::ITEM &&
+	if (_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::ITEM &&
 		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::PLAYER)
 	__super::OnCollisionStay(_pOther);
+
+	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::ITEM)
+	{
+		ITEMTYPEID _eID = dynamic_cast<CItem*>(_pOther->Get_Host())->Get_ItemTag();
+
+		CPlayer& rPlayer = *SceneManager()->Get_Scene()->Get_MainPlayer();
+
+		if (_eID.eItemID == ITEMID::WEAPON_SWORD && rPlayer.Get_Attack())
+		{
+			CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_WEAPON);
+			CSoundManager::GetInstance()->PlaySound(L"attack_04.mp3", CHANNELID::SOUND_WEAPON, 1.f);
+		}
+	}
 
 	//if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BLOCK)
 	//	m_bIsJump = false;

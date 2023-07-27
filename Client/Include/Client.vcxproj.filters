@@ -1577,6 +1577,9 @@
     <ClInclude Include="..\Header\Boss_CloneDead.h">
       <Filter>03. GameObject\01. Stage\999. Boss\01. AttackEff\03. Create_Clone\State\DEAD</Filter>
     </ClInclude>
+    <ClInclude Include="WaterFallTriger.h">
+      <Filter>03. GameObject\01. Stage\05. Cube\02. CubeTrigger</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -2312,6 +2315,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\Boss_CloneDead.cpp">
       <Filter>03. GameObject\01. Stage\999. Boss\01. AttackEff\03. Create_Clone\State\DEAD</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\WaterFallTriger.cpp">
+      <Filter>03. GameObject\01. Stage\05. Cube\02. CubeTrigger</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

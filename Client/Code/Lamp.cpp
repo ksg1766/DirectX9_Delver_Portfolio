@@ -38,6 +38,7 @@ HRESULT CLamp::Ready_Object(_bool _Item)
 	m_ItemID.eItemType = ITEMTYPE::ITEMTYPE_GENERALITEM;
 	m_ItemID.eItemID = ITEMID::GENERAL_LAMP;
 	m_ItemID.iCount = 1;
+	m_iMoveTick = 10;
 
 	m_pBasicStat->Get_Stat()->fHealth = 1.f; // 1회 사용 느낌으로
 
@@ -63,18 +64,34 @@ _int CLamp::Update_Object(const _float& fTimeDelta)
 		return iExit;
 
 
-	if (!Get_WorldItem())
+	if (!Get_WorldItem() && pPlayer != nullptr)
 	{
-		CTransform* pPlayerTransform = pPlayer->m_pTransform;
+		if (m_iMoveTick > 0)
+			m_pTransform->Translate(m_pTransform->m_pParent->m_vInfo[INFO_UP] * 0.008f);
+		else
+			m_pTransform->Translate(m_pTransform->m_pParent->m_vInfo[INFO_UP] * -0.008f);
 
-		_vec3 vOffSet = 0.4f * -pPlayerTransform->m_vInfo[INFO_RIGHT] + 1.f * pPlayerTransform->m_vInfo[INFO_LOOK] - 0.4f * pPlayerTransform->m_vInfo[INFO_UP];
-		m_pTransform->m_vInfo[INFO_POS] = (pPlayerTransform->m_vInfo[INFO_POS] + vOffSet);
+		--m_iMoveTick;
 
-		_vec3 vLocalScale = m_pTransform->LocalScale();
+		if (-9 == m_iMoveTick)
+			m_iMoveTick = 10;
 
-		m_pTransform->Copy_RUL(pPlayerTransform->m_vInfo);
-		for (_int i = 0; i < INFO_POS; ++i)
-			m_pTransform->m_vInfo[i] *= *(((_float*)&vLocalScale) + i);
+
+		if(pPlayer->Get_StateMachine()->Get_State() == STATE::IDLE)
+		{
+			CTransform* pPlayerTransform = pPlayer->m_pTransform;
+
+			_vec3 vOffSet = 0.55f * -pPlayerTransform->m_vInfo[INFO_RIGHT] + 1.f * pPlayerTransform->m_vInfo[INFO_LOOK] - 0.3f * pPlayerTransform->m_vInfo[INFO_UP];
+			m_pTransform->m_vInfo[INFO_POS] = (pPlayerTransform->m_vInfo[INFO_POS] + vOffSet);
+			m_iMoveTick = 0;
+			//_vec3 vLocalScale = m_pTransform->LocalScale();
+
+			//m_pTransform->Copy_RUL(pPlayerTransform->m_vInfo);
+			//for (_int i = 0; i < INFO_POS; ++i)
+			//	m_pTransform->m_vInfo[i] *= *(((_float*)&vLocalScale) + i);
+		}
+
+	
 	}
 
 

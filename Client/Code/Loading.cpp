@@ -293,11 +293,39 @@ _uint CLoading::Loading_ForStage()
 		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/en_mage_attack_01.mp3", "en_mage_attack_01.mp3"), E_FAIL);
 		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/en_mage_die_01.mp3", "en_mage_die_01.mp3"), E_FAIL);
 		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/en_mage_hurt_03.mp3", "en_mage_hurt_03.mp3"), E_FAIL);
-		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/en_bat_idle_01.mp3", "en_bat_idle_01.mp3"), E_FAIL);
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/en_mage_idle_01.mp3", "en_mage_idle_01.mp3"), E_FAIL);
 
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/en_slime_alert_02.mp3", "en_slime_alert_02.mp3"), E_FAIL);
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/en_slime_attack_01.mp3", "en_slime_attack_01.mp3"), E_FAIL);
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/en_slime_die_03.mp3", "en_slime_die_03.mp3"), E_FAIL);
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/en_slime_hurt_01.mp3", "en_slime_hurt_01.mp3"), E_FAIL);
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/en_slime_idle_03.mp3", "en_slime_idle_03.mp3"), E_FAIL);
+
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/en_beholder_alert_01.mp3", "en_beholder_alert_01.mp3"), E_FAIL);
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/en_beholder_attack_01.mp3", "en_beholder_attack_01.mp3"), E_FAIL);
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/en_beholder_die_01.mp3", "en_beholder_die_01.mp3"), E_FAIL);
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/en_beholder_hurt_01.mp3", "en_beholder_hurt_01.mp3"), E_FAIL);
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/en_beholder_idle_01.mp3", "en_beholder_idle_01.mp3"), E_FAIL);
+
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/en_worm_idle_03.mp3", "en_worm_idle_03.mp3"), E_FAIL);
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/en_worm_attack_02.mp3", "en_worm_attack_02.mp3"), E_FAIL);
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/en_worm_die_01.mp3", "en_worm_die_01.mp3"), E_FAIL);
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/en_worm_hurt_02.mp3", "en_worm_hurt_02.mp3"), E_FAIL);
+
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/en_skel_idle_01.mp3", "en_skel_idle_01.mp3"), E_FAIL);
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/en_skel_attack_01.mp3", "en_skel_attack_01.mp3"), E_FAIL);
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/en_skel_death_01.mp3", "en_skel_death_01.mp3"), E_FAIL);
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/en_skel_hurt_02.mp3", "en_skel_hurt_02.mp3"), E_FAIL);
+
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/en_skull_idle_01.mp3", "en_skull_idle_01.mp3"), E_FAIL);
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/en_skull_atk_01.mp3", "en_skull_atk_01.mp3"), E_FAIL);
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/en_skull_die_01", "en_skull_die_01"), E_FAIL);
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/en_skull_hurt_03.mp3", "en_skull_hurt_03.mp3"), E_FAIL);
 
 		//PLAYER
-		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/steps.mp3", "steps.mp3"), E_FAIL);
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/feet_default_01.mp3", "feet_default_01.mp3"), E_FAIL);
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/feet_wood_01.mp3", "feet_wood_01.mp3"), E_FAIL);
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/attack_04.mp3", "attack_04.mp3"), E_FAIL);
 
 
 		//WEAPON
@@ -311,6 +339,7 @@ _uint CLoading::Loading_ForStage()
 		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/campfire-guitar.mp3", "campfire-guitar.mp3"), E_FAIL);
 		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/chase_sewers.mp3", "chase_sewers.mp3"), E_FAIL);
 		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/door_beginning.mp3", "door_beginning.mp3"), E_FAIL);
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/env_waterfall.mp3", "env_waterfall.mp3"), E_FAIL);
 
 
 		// Inventory

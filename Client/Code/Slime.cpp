@@ -1,3 +1,5 @@
+#include "stdafx.h"
+#include "SoundManager.h"
 #include "..\Header\Slime.h"
 #include "Export_Function.h"
 #include "Monster_Move.h"
@@ -35,7 +37,7 @@ HRESULT CSlime::Ready_Object()
 
 	CState* pState = CMonster_Move::Create(m_pGraphicDev, m_pStateMachine);
 	m_pStateMachine->Add_State(STATE::ROMIMG, pState);
-	pState = CSlimeAttack::Create(m_pGraphicDev, m_pStateMachine);
+	pState = CWarror_Attack::Create(m_pGraphicDev, m_pStateMachine);
 	m_pStateMachine->Add_State(STATE::ATTACK, pState);
 	pState = CMonster_Hit::Create(m_pGraphicDev, m_pStateMachine);
 	m_pStateMachine->Add_State(STATE::HIT, pState);
@@ -84,6 +86,21 @@ _int CSlime::Update_Object(const _float& fTimeDelta)
 		Set_KnockBack(false);
 	}
 
+	CPlayer& rPlayer = *SceneManager()->Get_Scene()->Get_MainPlayer();
+
+	_float fDistance = D3DXVec3Length(&(rPlayer.m_pTransform->m_vInfo[INFO_POS] - m_pTransform->m_vInfo[INFO_POS]));
+
+
+	if (fDistance < 15.f)
+	{
+		if (!m_bSearch)
+		{
+			m_bSearch = true;
+			CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_SLIME);
+			CSoundManager::GetInstance()->PlaySound(L"en_slime_alert_02.mp3", CHANNELID::SOUND_SLIME, 1.f);
+		}
+	}
+
 	if (m_pBasicStat->Get_Stat()->fHP <= 0)
 	{
 		if (m_pAnimator->Get_Animation()->Get_Frame() >= 2)
@@ -112,8 +129,6 @@ _int CSlime::Update_Object(const _float& fTimeDelta)
 
 	m_pStateMachine->Update_StateMachine(fTimeDelta);
 
-	if (m_pStateMachine->Get_State() != STATE::ATTACK)
-		//ForceHeight(m_pTransform->m_vInfo[INFO_POS]);
 
 	return iExit;
 }

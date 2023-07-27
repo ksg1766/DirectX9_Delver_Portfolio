@@ -43,7 +43,7 @@ STATE CBat_Attack::Update_State(const _float& fTimeDelta)
 		m_bIsAttack = true;
 
 
-		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTER);
+		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_BAT);
 	}
 
 	_vec3 vDir = m_vPrevPos - vMonsterPos;
@@ -62,15 +62,15 @@ STATE CBat_Attack::Update_State(const _float& fTimeDelta)
 	_float fDistance = D3DXVec3Length(&(vPlayerPos - m_pOwner->Get_Transform()->m_vInfo[INFO_POS]));
 
 	if (fDistance < 15.f)
-		CSoundManager::GetInstance()->PlaySound(L"en_bat_attack_02.mp3", CHANNELID::SOUND_MONSTER, 1.f);
+		CSoundManager::GetInstance()->PlaySound(L"en_bat_attack_02.mp3", CHANNELID::SOUND_BAT, 1.f);
 
 	if (fRange <= 5.f)	
 	{
 		m_bIsAttack = false;
 		m_pOwner->Set_State(STATE::ROMIMG);
 
-		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTER);
-		CSoundManager::GetInstance()->PlaySound(L"en_bat_idle_01.mp3", CHANNELID::SOUND_MONSTER, 1.f);
+		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_BAT);
+		CSoundManager::GetInstance()->PlaySound(L"en_bat_idle_01.mp3", CHANNELID::SOUND_BAT, 1.f);
 
 		return STATE::ROMIMG;
 	}

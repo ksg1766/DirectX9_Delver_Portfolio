@@ -139,20 +139,18 @@ void CGhost_Bullet::OnCollisionEnter(CCollider* _pOther)
 		&& _pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::MONSTER)
 		__super::OnCollisionEnter(_pOther);
 
-	if ((_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BLOCK || _pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::PLAYER)
+	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::PLAYER
 		&& this->Get_State() != STATE::DEAD)
 	{
 		CPlayerStat& PlayerStat = *static_cast<CPlayer*>(_pOther->Get_Host())->Get_Stat();
 		this->Set_AttackTick(true);
 		IsAttack(&PlayerStat);
-
-		//cout << "마법구 충돌" << endl;
-
-		Set_State(STATE::DEAD);
-		m_pAnimator->Set_Animation(STATE::DEAD);
-		m_bCheck = true;
-		EventManager()->DeleteObject(this);
 	}
+
+	m_bCheck = true;
+	Set_State(STATE::DEAD);
+	m_pAnimator->Set_Animation(STATE::DEAD);
+	EventManager()->DeleteObject(this);
 }
 
 void CGhost_Bullet::OnCollisionStay(CCollider* _pOther)

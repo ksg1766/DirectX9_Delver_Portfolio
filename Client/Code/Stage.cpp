@@ -11,6 +11,7 @@
 #include "UIUseShop_Trander.h"
 #include "UIShop.h"
 #include "SoundManager.h"
+#include "WaterFallTriger.h"
 
 #include "SpawningPool.h"
 #include "Box_Cube.h"
@@ -70,7 +71,7 @@ HRESULT CStage::Ready_Scene()
 	m_pGraphicDev->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
 
 	CSoundManager::GetInstance()->StopAll();
-	CSoundManager::GetInstance()->PlayBGM(L"chase_sewers.mp3", 1.f);
+	CSoundManager::GetInstance()->PlayBGM(L"chase_sewers.mp3", 0.3f);
 
 	return S_OK;
 }
@@ -179,6 +180,10 @@ HRESULT CStage::Ready_Layer_Environment(LAYERTAG _eLayerTag)
 
 	// SkyBox
 	pGameObject = CSkyBox::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+
+	pGameObject = CWaterFallTriger::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 

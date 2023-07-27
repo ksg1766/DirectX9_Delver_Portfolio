@@ -168,10 +168,10 @@ void CArrow::OnCollisionEnter(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 
-	if (_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::MONSTER &&
-		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::PLAYER &&
-		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::ITEM&& _pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::BOSS)
-		__super::OnCollisionEnter(_pOther);
+	//if (_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::MONSTER &&
+	//	_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::PLAYER &&
+	//	_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::ITEM&& _pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::BOSS)
+	//	__super::OnCollisionEnter(_pOther);
 	// 몬스터거나 플레이어면 밀어내지않는다.
 
 	CPlayer& pPlayer = *dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer());
@@ -182,36 +182,30 @@ void CArrow::OnCollisionEnter(CCollider* _pOther)
 	{
 		pPlayer.IsAttack(dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_BasicStat());
 	
+		dynamic_cast<CMonster*>(_pOther->Get_Host())->Set_KnockBack(true);
 
-		if (++g_iCount == 2)
-		{
-			dynamic_cast<CMonster*>(_pOther->Get_Host())->Set_KnockBack(true);
-			g_iCount = 0;
 
-			//////////////////////////////////////////////////////////////////////////////// 이펙트 
-			CGameObject* pGameObject = CEffectDamageStar::Create(m_pGraphicDev);
-			dynamic_cast<CTempEffect*>(pGameObject)->Set_TargetObject(_pOther->Get_Host());
-			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
-			//CPoolManager::GetInstance()->Create_Effect(pGameObject, );
-			//////////////////////////////////////////////////////////////////////////////// 이펙트 
-
-			Engine::EventManager()->DeleteObject(this);
-		}
+		//////////////////////////////////////////////////////////////////////////////// 이펙트 
+		CGameObject* pGameObject = CEffectDamageStar::Create(m_pGraphicDev);
+		dynamic_cast<CTempEffect*>(pGameObject)->Set_TargetObject(_pOther->Get_Host());
+		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+		//CPoolManager::GetInstance()->Create_Effect(pGameObject, );
+		//////////////////////////////////////////////////////////////////////////////// 이펙트 
+		
 
 		//////////////////////////////////////////////////////////////////////////////// 이펙트 
 		_matrix      matMonsterWorld = _pOther->Get_Host()->m_pTransform->WorldMatrix();
 		_vec3        vecMonsterPos = _vec3(matMonsterWorld._41, matMonsterWorld._42 + .5f, matMonsterWorld._43);
-		CGameObject* pGameObject = CEffectSquare::Create(m_pGraphicDev, vecMonsterPos, 50, EFFECTCOLOR::ECOLOR_NONE);
+		pGameObject = CEffectSquare::Create(m_pGraphicDev, vecMonsterPos, 50, EFFECTCOLOR::ECOLOR_NONE);
 		dynamic_cast<CEffectSquare*>(pGameObject)->Set_MonsterEffectColor(dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_MonsterTag());
 		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 		//////////////////////////////////////////////////////////////////////////////// 이펙트 
 
-		Set_State(STATE::DEAD);
-		Engine::EventManager()->DeleteObject(this);
 	}
 
-	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BLOCK || _pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::FRAGILE)
-		EventManager()->DeleteObject(this);
+	Set_State(STATE::DEAD);
+	Engine::EventManager()->DeleteObject(this);
+
 }
 
 void CArrow::OnCollisionStay(CCollider* _pOther)
