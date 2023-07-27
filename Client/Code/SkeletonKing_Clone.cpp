@@ -59,7 +59,7 @@ _int CSkeletonKing_Clone::Update_Object(const _float& fTimeDelta)
 	_int iExit = __super::Update_Object(fTimeDelta);
 	m_fDelay += fTimeDelta;
 	m_pStateMachine->Update_StateMachine(fTimeDelta);
-	if (STATE::BOSS_STURN == dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_StatMachine()->Get_State())
+	if (STATE::BOSS_STURN == dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_StateMachine()->Get_State())
 	{
 		m_pStateMachine->Set_State(STATE::DEAD);
 	}
@@ -105,10 +105,12 @@ void CSkeletonKing_Clone::LateUpdate_Object(void)
 
 void CSkeletonKing_Clone::Render_Object(void)
 {
+	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
 	if(STATE::DEAD == m_pStateMachine->Get_State())
 		m_pStateMachine->Ready_StateMachine();
 	m_pBuffer->Render_Buffer();
+	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 }
 
 void CSkeletonKing_Clone::OnCollisionEnter(CCollider* _pOther)

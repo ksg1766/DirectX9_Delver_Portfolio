@@ -73,15 +73,12 @@ STATE CExplosionPattern::Update_State(const _float& fTimeDelta)
         }
         if (3 < m_iSkillCount)
         {
-                m_bPattern = false;
-                m_fPatternDelay = 0.f;
-                return STATE::BOSS_IDLE;
-
-            m_fDelay = 0.f;
+            m_bPattern = false;
+            m_fPatternDelay = 0.f;
             m_iSkillCount = 0.f;
-            m_bPattern = true;
+            m_fDelay = 0.f;
+            return STATE::BOSS_IDLE;
         }
-
     }
    
 }

@@ -18,11 +18,11 @@ CBoss_WarningEff::~CBoss_WarningEff()
 
 HRESULT CBoss_WarningEff::Ready_Object(void)
 {
-	m_eObjectTag = OBJECTTAG::IMMORTAL;
+	m_eObjectTag = OBJECTTAG::UI;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 	m_fTime = 0.f;
-	m_fScale = 1.;
-	m_pTransform->Scale(_vec3(m_fScale, 1.f, m_fScale));
+	m_fScale = 2.5;
+	m_pTransform->Scale(_vec3(m_fScale, 2.f, m_fScale));
 	return S_OK;
 }
 
@@ -31,7 +31,7 @@ _int CBoss_WarningEff::Update_Object(const _float& fTimeDelta)
 	Engine::Renderer()->Add_RenderGroup(RENDER_ALPHA, this);
 	if (SceneManager()->Get_GameStop()) { return 0; }
 	_int iExit = __super::Update_Object(fTimeDelta);
-	m_fScale -= fTimeDelta;
+	m_fScale -= fTimeDelta*2;
 	m_fTime += fTimeDelta;
 	if ((1.f < m_fTime))
 	{
@@ -45,14 +45,16 @@ void CBoss_WarningEff::LateUpdate_Object(void)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 	__super::LateUpdate_Object();
-	m_pTransform->Scale(_vec3(m_fScale, 1.f, m_fScale));
+	m_pTransform->Scale(_vec3(m_fScale, 2.f, m_fScale));
 }
 
 void CBoss_WarningEff::Render_Object(void)
 {
+	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
 	m_pTexture->Render_Texture();
 	m_pBuffer->Render_Buffer();
+	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 }
 
 HRESULT CBoss_WarningEff::Add_Component(void)

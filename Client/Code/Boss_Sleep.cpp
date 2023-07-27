@@ -1,5 +1,6 @@
 #include "Boss_Sleep.h"
 #include "Export_Function.h"
+#include "SkeletonKing.h"
 
 CBoss_Sleep::CBoss_Sleep()
 {
@@ -27,9 +28,26 @@ STATE CBoss_Sleep::Update_State(const _float& fTimeDelta)
 	_vec3 vBossPos = m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
 	_vec3 vDir = vPlayerPos - vBossPos;
 	_float fDistance = D3DXVec3LengthSq(&vDir);
-	if (fDistance < pow(20, 2))
+	if (BOSSPHASE::PHASE1 == dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_Phase())
 	{
-		return STATE::BOSS_WAKEUP;
+		if (fDistance < pow(20, 2))
+		{
+			return STATE::BOSS_WAKEUP;
+		}
+	}
+	else if (BOSSPHASE::PHASE2 == dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_Phase())
+	{
+		if (fDistance < pow(40, 2))
+		{
+			return STATE::BOSS_WAKEUP;
+		}
+	}
+	else if (BOSSPHASE::PHASE3 == dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_Phase())
+	{
+		if (fDistance < pow(40, 2))
+		{
+			return STATE::BOSS_WAKEUP;
+		}
 	}
 	return STATE::BOSS_SLEEP;
 }

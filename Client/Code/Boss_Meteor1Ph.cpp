@@ -44,9 +44,7 @@ STATE CBoss_MeteorPh1::Update_State(const _float& fTimeDelta)
 	{
 		m_bSkillStart = false;
 		m_fChannel_Count = 0.f;
-		m_pOwner->Get_Transform()->m_vInfo[INFO_POS].y = 35.f;
-		dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Set_Phase(BOSSPHASE::PHASE2);
-		return STATE::BOSS_TELEPORT;
+		return STATE::BOSS_ATTACK1;
 	}
 	else if(m_bSkillStart)
 	{

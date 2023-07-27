@@ -20,6 +20,7 @@
 #include "FireWavePattern.h"
 #include "Clone_Pattern.h"
 #include "LostSoulPattern.h"
+#include "Boss_LostSoul.h"
 #include "GrapPattern.h"
 #include "CrossPattern.h"
 #include "MeteorPh2.h"
@@ -47,13 +48,16 @@ CSkeletonKing::~CSkeletonKing()
 HRESULT CSkeletonKing::Ready_Object(void)
 {
 	m_eObjectTag = OBJECTTAG::BOSS;
+	m_eMonsterTag = MONSTERTAG::SKELETON;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
+	m_pRigidBody->UseGravity(false);
 	m_pTransform->Scale(_vec3(3.f, 3.f, 3.f));
 	m_pBasicStat->Get_Stat()->fHP = 100.f;
 	m_ePhase = BOSSPHASE::PHASE1;
 	m_iHitCount = 0;
 	m_fHitCool = 0.f;
 	m_bSturn = false;
+	m_b3Phase = false;
 	m_iCloneCount = 0;
 #pragma region 상태
 
@@ -258,21 +262,25 @@ HRESULT CSkeletonKing::Ready_Object(void)
 
 #pragma endregion 애니메이션
 
-	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
 	m_pStateMachine->Set_Animator(m_pAnimator);
 	m_pStateMachine->Set_State(STATE::BOSS_SLEEP);
+	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
 	return S_OK;
 }
 
 _int CSkeletonKing::Update_Object(const _float& fTimeDelta)
 {
 	Engine::Renderer()->Add_RenderGroup(RENDER_ALPHA, this);
-
 	if (SceneManager()->Get_GameStop()) { return 0; }
-
+	if ((STATE::BOSS_SLEEP != m_pStateMachine->Get_State())&&((STATE::BOSS_STURN != m_pStateMachine->Get_State())))
+		m_pRigidBody->UseGravity(false); 
+	else if((!m_b3Phase)&&(STATE::BOSS_SLEEP == m_pStateMachine->Get_State())||((STATE::BOSS_STURN == m_pStateMachine->Get_State())))
+		m_pRigidBody->UseGravity(true);
 	_int iExit = __super::Update_Object(fTimeDelta);
 	m_pStateMachine->Update_StateMachine(fTimeDelta);
 	Key_Input();
+	if (m_b3Phase)
+		m_pTransform->m_vInfo[INFO_POS].y = 34.f;
 	return iExit;
 }
 
@@ -280,31 +288,23 @@ void CSkeletonKing::LateUpdate_Object(void)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 	__super::LateUpdate_Object();
-	if(BOSSPHASE::PHASE3 == m_ePhase)
+	if((BOSSPHASE::PHASE3 == m_ePhase)&&(m_b3Phase))
 		m_pTransform->Scale(_vec3(12.f, 12.f, 12.f));
 	else
 		m_pTransform->Scale(_vec3(3.f, 3.f, 3.f));
-
-	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale()*0.8f);
+	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale()*0.9f);
 }
 
 void CSkeletonKing::Render_Object(void)
 {
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
-
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
-	/*if (STATE::BOSS_TELEPORT != m_pStateMachine->Get_State())
-	{
-		m_pStateMachine->Render_StateMachine();
-		m_pBuffer->Render_Buffer();
-	}*/
 	m_pStateMachine->Render_StateMachine();
 	m_pBuffer->Render_Buffer();
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 #if _DEBUG
 	m_pCollider->Render_Collider();
 #endif
-
 }
 
 void CSkeletonKing::Init_Stat()
@@ -318,22 +318,43 @@ void CSkeletonKing::Init_Stat()
 void CSkeletonKing::OnCollisionEnter(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
-	if (OBJECTTAG::PLAYERBULLET != _pOther->Get_Host()->Get_ObjectTag())
+	if ((OBJECTTAG::PLAYERBULLET != _pOther->Get_Host()->Get_ObjectTag()))
+	{
+		if((STATE::BOSS_TELEPORT == m_pStateMachine->Get_State())||(OBJECTTAG::PLAYER == _pOther->Get_Host()->Get_ObjectTag()))
+			return;
+		else if ((OBJECTTAG::LOSTSOUL == _pOther->Get_Host()->Get_ObjectTag()))
+			if (SOULSTATE::SOUL_PARRY != dynamic_cast<CBossLostSoul*>(_pOther->Get_Host())->Get_SoulState())
+				return;
 		__super::OnCollisionEnter(_pOther);
+	}
 }
 
 void CSkeletonKing::OnCollisionStay(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
-	if (OBJECTTAG::PLAYERBULLET != _pOther->Get_Host()->Get_ObjectTag())
-		__super::OnCollisionEnter(_pOther);
+	if ((OBJECTTAG::PLAYERBULLET != _pOther->Get_Host()->Get_ObjectTag()))
+	{
+		if ((STATE::BOSS_TELEPORT == m_pStateMachine->Get_State()) || (OBJECTTAG::PLAYER == _pOther->Get_Host()->Get_ObjectTag()))
+			return;
+		else if ((OBJECTTAG::LOSTSOUL == _pOther->Get_Host()->Get_ObjectTag()))
+			if (SOULSTATE::SOUL_PARRY != dynamic_cast<CBossLostSoul*>(_pOther->Get_Host())->Get_SoulState())
+				return;
+		__super::OnCollisionStay(_pOther);
+	}
 }
 
 void CSkeletonKing::OnCollisionExit(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
-	if (OBJECTTAG::PLAYERBULLET != _pOther->Get_Host()->Get_ObjectTag())
+	if ((OBJECTTAG::PLAYERBULLET != _pOther->Get_Host()->Get_ObjectTag()))
+	{
+		if ((STATE::BOSS_TELEPORT == m_pStateMachine->Get_State()) || (OBJECTTAG::PLAYER == _pOther->Get_Host()->Get_ObjectTag()))
+			return;
+		else if ((OBJECTTAG::LOSTSOUL == _pOther->Get_Host()->Get_ObjectTag()))
+			if (SOULSTATE::SOUL_PARRY != dynamic_cast<CBossLostSoul*>(_pOther->Get_Host())->Get_SoulState())
+				return;
 		__super::OnCollisionExit(_pOther);
+	}
 }
 
 void CSkeletonKing::Add_CloneCount(_int _Hit)

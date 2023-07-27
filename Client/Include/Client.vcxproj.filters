@@ -802,6 +802,9 @@
     <Filter Include="03. GameObject\01. Stage\999. Boss\01. AttackEff\03. Create_Clone\State\DEAD">
       <UniqueIdentifier>{0eb46c6d-791c-491e-868c-0cb057012fc6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. GameObject\01. Stage\999. Boss\01. AttackEff\04. Meteor_Cube\Mini\State">
+      <UniqueIdentifier>{c517795f-5b65-4e1c-8047-e7cc0ec0de31}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -1577,6 +1580,9 @@
     <ClInclude Include="..\Header\Boss_CloneDead.h">
       <Filter>03. GameObject\01. Stage\999. Boss\01. AttackEff\03. Create_Clone\State\DEAD</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\MiniMeteor_Idle.h">
+      <Filter>03. GameObject\01. Stage\999. Boss\01. AttackEff\04. Meteor_Cube\Mini\State</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -2312,6 +2318,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\Boss_CloneDead.cpp">
       <Filter>03. GameObject\01. Stage\999. Boss\01. AttackEff\03. Create_Clone\State\DEAD</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\MiniMeteor_Idle.cpp">
+      <Filter>03. GameObject\01. Stage\999. Boss\01. AttackEff\04. Meteor_Cube\Mini\State</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

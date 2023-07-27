@@ -32,6 +32,8 @@ STATE CBoss_Phase3::Update_State(const _float& fTimeDelta)
     m_fDelay += fTimeDelta;
     if (3.f < m_fDelay)
     {
+        if (!dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_3Phase())
+            dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Set_3Phase(true);
         m_fDelay = 0.f;
         return BossSkill(fTimeDelta);
     }
@@ -70,6 +72,7 @@ STATE CBoss_Phase3::BossSkill(const _float& fTimeDelta)
         if ((10.f < dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_BasicStat()->Get_Stat()->fHP)
             && (45.f > dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_BasicStat()->Get_Stat()->fHP))
         {
+            m_iSkillCount = 0;
             return STATE::BOSS_PH3SKILL5;
             break;
         }

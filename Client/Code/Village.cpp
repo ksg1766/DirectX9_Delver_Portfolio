@@ -74,10 +74,7 @@ Engine::_int CVillage::Update_Scene(const _float& fTimeDelta)
 {
 	__super::Update_Scene(fTimeDelta);
 
-
-
 	UIManager()->Update_UI(fTimeDelta);
-
 	return 0;
 }
 

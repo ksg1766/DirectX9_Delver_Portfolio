@@ -64,10 +64,16 @@ void CJump_Plate::Render_Object(void)
 
 void CJump_Plate::Trap_On()
 {
-	//이펙트 종류보고 추가할 예정
+	if ((m_bAttack) && (1.f < m_fTime))
+		m_bAttack = false;
 }
 
 void CJump_Plate::OnCollisionEnter(CCollider* _pOther)
+{
+	if (SceneManager()->Get_GameStop()) { return; }
+}
+
+void CJump_Plate::OnCollisionStay(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 	if (m_bAttack) { return; }
@@ -78,13 +84,8 @@ void CJump_Plate::OnCollisionEnter(CCollider* _pOther)
 		(dynamic_cast<CPlayer*>(_pOther->Get_Host())->Get_RigidBody()->Add_Force(_vec3(JumpDir.x, 1.1f * 15.f, JumpDir.z)));
 		(dynamic_cast<CPlayer*>(_pOther->Get_Host())->Get_RigidBody()->UseGravity(true));
 		(dynamic_cast<CPlayer*>(_pOther->Get_Host())->Set_JumpState(true));
+		m_bAttack = true;
 	}
-}
-
-void CJump_Plate::OnCollisionStay(CCollider* _pOther)
-{
-	if (SceneManager()->Get_GameStop()) { return; }
-
 }
 
 void CJump_Plate::OnCollisionExit(CCollider* _pOther)

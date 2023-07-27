@@ -292,6 +292,7 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 	{
 		if (Engine::InputDev()->Key_Down(DIK_SPACE))
 		{
+			if (!Get_UseUI())
 			if (!m_IsJump)
 			{
 				m_pRigidBody->Add_Force(_vec3(0.f, 1.1f * m_fSpeed, 0.f));

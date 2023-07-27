@@ -3,6 +3,7 @@
 #include "SkeletonKing.h"
 #include "Player.h"
 #include "BossExplosion.h"
+#include "MiniMeteor_Idle.h"
 CMiniMeteor::CMiniMeteor(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CMonster(pGraphicDev)
 {
@@ -28,6 +29,8 @@ HRESULT CMiniMeteor::Ready_Object()
 	m_pTransform->Scale(_vec3(m_fScale, m_fScale, m_fScale));
 	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
 	m_pBasicStat->Get_Stat()->fAttack = 3.f;
+	CState* m_pState = CMiniMeteor_Idle::Create(m_pGraphicDev, m_pStateMachine);
+	m_pStateMachine->Add_State(STATE::IDLE, m_pState);
 	return S_OK;
 }
 
@@ -42,7 +45,7 @@ _int CMiniMeteor::Update_Object(const _float& fTimeDelta)
 		m_IsDead = true;
 		Engine::CGameObject* pGameObject = nullptr;
 		pGameObject = CBossExplosion::Create(m_pGraphicDev);
-		dynamic_cast<CBossExplosion*>(pGameObject)->Set_Scale(1.f);
+		dynamic_cast<CBossExplosion*>(pGameObject)->Set_Scale(2.f);
 		dynamic_cast<CBossExplosion*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = m_pTransform->m_vInfo[INFO_POS];
 		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 	}
@@ -66,7 +69,7 @@ void CMiniMeteor::Render_Object(void)
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
 
-	m_pTexture->Render_Texture();
+	m_pTexture->Render_Texture(40);
 	m_pCubeBf->Render_Buffer();//큐브버퍼
 
 #if _DEBUG
@@ -85,18 +88,17 @@ void CMiniMeteor::OnCollisionEnter(CCollider* _pOther)
 	if (m_bHit) { return; }
 	if (OBJECTTAG::PLAYER == _pOther->Get_ObjectTag())
 	{
-	/*	CPlayerStat& PlayerState = *(dynamic_cast<CPlayer*>(_pOther->Get_Host())->Get_Stat());
+		CPlayerStat& PlayerState = *(dynamic_cast<CPlayer*>(_pOther->Get_Host())->Get_Stat());
 		PlayerState.Take_Damage(this->Get_BasicStat()->Get_Stat()->fAttack);
-		this->Set_AttackTick(true);*/
+		this->Set_AttackTick(true);
 
 		Engine::CGameObject* pGameObject = nullptr;
 		pGameObject = CBossExplosion::Create(m_pGraphicDev);
-		dynamic_cast<CBossExplosion*>(pGameObject)->Set_Scale(1.f);
+		dynamic_cast<CBossExplosion*>(pGameObject)->Set_Scale(2.f);
 		_vec3 m_vDis = (dynamic_cast<CPlayer*>(_pOther->Get_Host())->m_pTransform->m_vInfo[INFO_LOOK] * 0.2f);
 		dynamic_cast<CBossExplosion*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = _vec3(m_pTransform->m_vInfo[INFO_POS].x + m_vDis.x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vInfo[INFO_POS].z+ m_vDis.z);
 		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
-
-		m_bHit = false;
+		m_bHit = true;
 		m_IsDead = true;
 	}
 }
@@ -138,9 +140,13 @@ HRESULT CMiniMeteor::Add_Component()
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BASICSTAT, pComponent);
 
-	pComponent = m_pTexture = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_Meteor"));
+	pComponent = m_pTexture = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_Cube"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::ANIMATOR, pComponent);
+
+	pComponent = m_pStateMachine = dynamic_cast<CStateMachine*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_State"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::STATEMACHINE, pComponent);
 
 	pComponent = m_pRigidBody = dynamic_cast<CRigidBody*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_RigidBody"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);

@@ -24,7 +24,7 @@ private:
     void    Make_BatSwarm(const _float& fTimeDelta);
 private:
     //클래스 내에서만 쓸 함수
-    _vec3   m_fDestination;
+    _vec3   m_vDir;
     _vec3   m_fBatMovePos[8];
     _float  m_fSpawnHeight;
     _float  m_fSpawnWeight;

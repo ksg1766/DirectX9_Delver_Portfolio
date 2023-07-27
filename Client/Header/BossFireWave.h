@@ -38,7 +38,6 @@ public:
 private:
 	CRcTex*			m_pBuffer = nullptr;
 	CTexture*		m_pTexture = nullptr;
-	CBillBoard*		m_pBillBoard = nullptr;
 	_vec3			m_vDir;
 	_float			m_fFrame;
 	_float			m_fDuration;
