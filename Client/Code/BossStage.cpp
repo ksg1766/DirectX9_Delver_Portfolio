@@ -29,7 +29,7 @@ HRESULT CBossStage::Ready_Scene()
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	dynamic_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_BASIC, 0);
 
-	Engine::UIManager()->AddBasicGameobject_UI(Engine::UILAYER::UI_UP, pGameObject);
+	Engine::UIManager()->Add_BasicGameobject(Engine::UILAYER::UI_UP, pGameObject);
 
 	m_eSceneTag = SCENETAG::BOSSSTAGE;
 	FAILED_CHECK_RETURN(Ready_Layer_Environment(LAYERTAG::ENVIRONMENT), E_FAIL);
