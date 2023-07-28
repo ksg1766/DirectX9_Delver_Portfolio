@@ -4,6 +4,7 @@
 #include "Player.h"
 #include "SoundManager.h"
 #include "Export_Function.h"
+#include <random>
 
 CMonster_Move::CMonster_Move()
 {
@@ -37,6 +38,41 @@ HRESULT CMonster_Move::Ready_State(CStateMachine* pOwner)
 	return S_OK;
 }
 
+//STATE CMonster_Move::Update_State(const _float& fTimeDelta)
+//{
+//	CPlayer& pPlayer = *SceneManager()->Get_Scene()->Get_MainPlayer();
+//	_vec3 vMonsterPos = m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
+//	
+//	_vec3 vReturnPos = dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Get_CenterPos() - vMonsterPos;
+//	_float fReturnDistance = D3DXVec3Length(&vReturnPos);
+//
+//	if (fReturnDistance > dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Get_MoveRange())
+//	{
+//		float randomX = static_cast<float>(rand()) / RAND_MAX; // 0 ~ 1 사이의 랜덤 값
+//		float randomZ = static_cast<float>(rand()) / RAND_MAX; // 0 ~ 1 사이의 랜덤 값
+//
+//		// CenterPos와 MoveRange을 이용하여 랜덤한 위치 계산
+//		_vec3 vCenter = dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Get_CenterPos();
+//		float moveRange = dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Get_MoveRange();
+//		_vec3 vRandomPos = vCenter + _vec3(randomX * moveRange, 0.f, randomZ * moveRange);
+//
+//		// 목표 위치 설정
+//		m_vSavePos = vRandomPos;
+//		D3DXVec3Normalize(&m_vSavePos, &m_vSavePos);
+//
+//		m_pOwner->Get_Transform()->Translate(m_vSavePos * fTimeDelta * 5.f);
+//
+//		return STATE::ROMIMG;
+//	}
+//	else
+//	{
+//		D3DXVec3Normalize(&vReturnPos, &vReturnPos);
+//
+//		m_pOwner->Get_Transform()->Translate(vReturnPos * fTimeDelta * 5.f);
+//	}
+//}
+
+
 STATE CMonster_Move::Update_State(const _float& fTimeDelta)
 {
 	CPlayer& pPlayer = *SceneManager()->Get_Scene()->Get_MainPlayer();
@@ -53,9 +89,6 @@ STATE CMonster_Move::Update_State(const _float& fTimeDelta)
 
 	if (fLength < m_fChase)
 	{
-		_vec3 fChaseDir = pPlayer.m_pTransform->m_vInfo[INFO_POS] - m_pOwner->Get_Host()->m_pTransform->m_vInfo[INFO_POS];
-		D3DXVec3Normalize(&fChaseDir, &fChaseDir);
-
 		if (!Get_AttackCool())
 		{
 			m_fAttackCool = 0.f;
@@ -66,7 +99,6 @@ STATE CMonster_Move::Update_State(const _float& fTimeDelta)
 		else
 		{
 			Move_RandomPos(fTimeDelta);
-			//Move_Sound();
 		}
 		
 	}
@@ -107,29 +139,33 @@ STATE CMonster_Move::Update_State(const _float& fTimeDelta)
 
 void CMonster_Move::Move_RandomPos(const _float& fTimeDelta)
 {
-	//_vec3 vTerrainCenter = _vec3((VTXCNTX * 32) / 2.f, 0.f, (VTXCNTZ * 32) / 2.f);
+	//_float	fMinDistance = 5.f;
+	//_float	fMaxDistance = 10.f;
 
-	_float	fMinDistance = 5.f;
-	_float	fMaxDistance = 15.f;
+	//_float fDistance = fMinDistance + (rand() / (_float)RAND_MAX) * (fMaxDistance - fMinDistance);
 
-	_float fDistance = fMinDistance + (rand() / (_float)RAND_MAX) * (fMaxDistance - fMinDistance);
-
-	//_vec3 vRamdomDir = _vec3(cosf(fAngle), 0.f, -sinf(fAngle));
 	_vec3 vRandomDir = Get_RandomDir(fTimeDelta);
 	m_vSavePos = vRandomDir;
 	D3DXVec3Normalize(&vRandomDir, &vRandomDir);
 
-	m_vRandomPos =  m_pOwner->Get_Host()->m_pTransform->m_vInfo[INFO_POS] + vRandomDir * fDistance;
+	m_vRandomPos = m_pOwner->Get_Host()->m_pTransform->m_vInfo[INFO_POS] + vRandomDir;
 
 	MoveTo_Pos(m_vRandomPos, fTimeDelta);
 }
 
 _vec3 CMonster_Move::Get_RandomDir(const _float& fTimeDelta)
 {
+
+	mt19937 engine((_uint)time(NULL));           // MT19937 난수 엔진
+	uniform_real_distribution<_float> distribution(0.f, 1.f); // 생성 범위
+	auto generator = bind(distribution, engine);
+
 	_float distance = 10.f;
 
-	_float X = m_vSavePos.x + (distance * cosf((_float)rand() / RAND_MAX * 2.f * D3DX_PI)) / 50.f;
-	_float Z = m_vSavePos.z + (distance * -sinf((_float)rand() / RAND_MAX * 2.f * D3DX_PI)) / 50.f;
+
+	_float X = m_vSavePos.x + (distance * cosf((_float)rand() / D3DX_PI * generator())) / 50.f;
+	_float Z = m_vSavePos.z + (distance * -sinf((_float)rand() / D3DX_PI * generator())) / 50.f;
+
 
 	_vec3 vDir = _vec3(X, 0.f, Z);
 
@@ -184,12 +220,13 @@ void CMonster_Move::MoveTo_Pos(const _vec3& vTargetPos, const _float& fTimeDelta
 	_vec3 vDir = vTargetPos - vMonsterPos;
 	D3DXVec3Normalize(&vDir, &vDir);
 
+
 	_float fMoveSpeed = 3.f;
 	_float fMoveDistance = fMoveSpeed * fTimeDelta;
 
 	_vec3 vZeroY = _vec3(vDir.x, 0.f, vDir.z);
 
-	vMonsterPos += vZeroY * fMoveDistance;
+	vMonsterPos += vZeroY * fTimeDelta;
 }
 
 

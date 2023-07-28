@@ -12,6 +12,8 @@
 #include "UIShop.h"
 #include "SoundManager.h"
 #include "WaterFallTriger.h"
+#include "HellDoor.h"
+#include "DoorCube.h"
 
 #include "SpawningPool.h"
 #include "BoxCube.h"
@@ -188,6 +190,8 @@ HRESULT CStage::Ready_Layer_Environment(LAYERTAG _eLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
+
+
 	// Test SpawningPool
 	/*pGameObject = CSpawningPool::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
@@ -210,46 +214,22 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	Engine::CLayer*		pLayer = Engine::CLayer::Create(_eLayerTag);
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
 
+	Engine::CGameObject* pGameObject = nullptr;
+
+	pGameObject = CHellDoor::Create(m_pGraphicDev, pLayer);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+
+
 	m_mapLayer.insert({ _eLayerTag, pLayer });
 
 	CPoolManager::GetInstance()->Ready_Pool();
 
-	Engine::CGameObject*		pGameObject = nullptr;
+
 
 #pragma region 첫 번째 씬에서 받아오는 오브젝트
 
 #pragma endregion 첫 번째 씬에서 받아오는 오브젝트
-
-	pGameObject =  CWorm::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pGameObject->m_pTransform->Translate(_vec3(-62.f, 14.f, 39.f));
-	dynamic_cast<CWorm*>(pGameObject)->Set_CenterPos(_vec3(-62.f, 14.f, 39.f));
-	dynamic_cast<CWorm*>(pGameObject)->Set_MoveRange(2.f);
-	dynamic_cast<CWorm*>(pGameObject)->Set_RandomMoveRange(5.f);
-	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-
-	m_pWorm = dynamic_cast<CWorm*>(pGameObject);
-	
-	pGameObject = CSpiderRay::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-	dynamic_cast<CSpiderRay*>(pGameObject)->Set_Host(m_pWorm);
-
-
-	pGameObject = CDungeonSpider::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pGameObject->m_pTransform->Translate(_vec3(-62.f, 14.f, 39.f));
-	dynamic_cast<CDungeonSpider*>(pGameObject)->Set_CenterPos(_vec3(-62.f, 14.f, 39.f));
-	dynamic_cast<CDungeonSpider*>(pGameObject)->Set_MoveRange(2.f);
-	dynamic_cast<CDungeonSpider*>(pGameObject)->Set_RandomMoveRange(5.f);
-	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-
-	m_pSpider = dynamic_cast<CDungeonSpider*>(pGameObject);
-
-	pGameObject = CSpiderRay::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-	dynamic_cast<CSpiderRay*>(pGameObject)->Set_Host(m_pSpider);
 
 	return S_OK;
 }

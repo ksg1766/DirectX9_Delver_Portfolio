@@ -12,6 +12,7 @@
 #include "SpawningPool.h"
 #include "BoxCube.h"
 #include "EquipBox.h"
+#include "DoorCube.h"
 
 #include "Blade_Trap_Body.h"
 #include "StrikeDown_Trap_Body.h"
@@ -34,6 +35,7 @@
 #include "ImmortalSprite.h"
 #include "EffectFallingleaves.h"
 #include "EffectFirefly.h"
+#include "HellDoor.h"
 
 CVillage::CVillage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
@@ -322,6 +324,8 @@ HRESULT CVillage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	pGameObject->m_pTransform->Translate(_vec3(-94.f, 1.f, -23.f));
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+
+
 
 	return S_OK;
 }
