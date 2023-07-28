@@ -66,6 +66,19 @@ STATE CTeleportPattern::Update_State(const _float& fTimeDelta)
         m_pOwner->Get_Transform()->Translate(m_vDir);
         m_fDelay = 0.f;
         break;
+    
+    case BOSSPHASE::LASTPHASE:
+        dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Set_3Phase(false);
+        if ((-72.f >= fabs(m_vDir.x - m_pOwner->Get_Transform()->m_vInfo[INFO_POS].x)) && (1.5f >= fabs(-105.f - m_pOwner->Get_Transform()->m_vInfo[INFO_POS].z)))
+        {
+            m_pOwner->Get_Transform()->m_vInfo[INFO_POS] = _vec3(-72.f, 34.f, -105.f);
+            return STATE::BOSS_SLEEP;
+        }
+        m_vDir = _vec3(-80.f, 36.f, 0.f) - m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
+        D3DXVec3Normalize(&m_vDir, &m_vDir);
+        m_pOwner->Get_Transform()->Translate(m_vDir);
+        m_fDelay = 0.f;
+        break;
     }
 }
 

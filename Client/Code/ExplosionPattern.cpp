@@ -52,7 +52,7 @@ STATE CExplosionPattern::Update_State(const _float& fTimeDelta)
                 Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
             }
         }
-        if (1.0f < m_fDelay)
+        if (1.5f < m_fDelay)
         {
             for (int i = 0; i < 4; ++i)
             {

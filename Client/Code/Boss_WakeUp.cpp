@@ -17,16 +17,22 @@ CBoss_WakeUp::~CBoss_WakeUp()
 HRESULT CBoss_WakeUp::Ready_State(CStateMachine* pOwner)
 {
     m_pOwner = pOwner;
+    m_bWakeUp = false;
+    m_fDelay = 0.f;
     return S_OK;
 }
 
 STATE CBoss_WakeUp::Update_State(const _float& fTimeDelta)
 {
-    _float fFrame = m_pOwner->Get_Animator()->Get_Animation()->Get_Frame();
-    if (15.f < fFrame)
+    m_fDelay += fTimeDelta;
+    if ((1.4f > m_fDelay) && (!m_bWakeUp))
+        m_bWakeUp = true;
+    if ((1.4f <= m_fDelay)&&(m_bWakeUp))
+    {
+        m_fDelay = 0.f;
+        m_bWakeUp = false;
         return STATE::BOSS_IDLE;
-    else 
-        return STATE::BOSS_WAKEUP;
+    }
 }
 
 void CBoss_WakeUp::LateUpdate_State()

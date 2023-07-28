@@ -33,6 +33,8 @@ STATE CBoss_Idle::Update_State(const _float& fTimeDelta)
         break;
     case BOSSPHASE::PHASE3:
         return STATE::BOSS_ATTACK3;
+    case BOSSPHASE::LASTPHASE:
+        return STATE::BOSS_CRAWL;
         break;
     }
 }

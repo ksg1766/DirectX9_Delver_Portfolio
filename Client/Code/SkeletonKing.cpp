@@ -237,7 +237,7 @@ HRESULT CSkeletonKing::Ready_Object(void)
 	m_pAnimator->Add_Animation(STATE::BOSS_PH3SKILL5, pAnimation);
 	
 	pAnimation = CAnimation::Create(m_pGraphicDev,
-		m_pTexture[(_uint)STATE::BOSS_ATTACK], STATE::BOSS_TELEPORT, 10.f, TRUE);
+		m_pTexture[(_uint)STATE::BOSS_METEORREADY], STATE::BOSS_TELEPORT, 10.f, TRUE);
 	m_pAnimator->Add_Animation(STATE::BOSS_TELEPORT, pAnimation);
 
 	pAnimation = CAnimation::Create(m_pGraphicDev,
@@ -272,15 +272,15 @@ _int CSkeletonKing::Update_Object(const _float& fTimeDelta)
 {
 	Engine::Renderer()->Add_RenderGroup(RENDER_ALPHA, this);
 	if (SceneManager()->Get_GameStop()) { return 0; }
-	if ((STATE::BOSS_SLEEP != m_pStateMachine->Get_State())&&((STATE::BOSS_STURN != m_pStateMachine->Get_State())))
+	if ((STATE::BOSS_PH2SKILL1 == m_pStateMachine->Get_State())||(STATE::BOSS_SLEEP != m_pStateMachine->Get_State())&&((STATE::BOSS_STURN != m_pStateMachine->Get_State())))
 		m_pRigidBody->UseGravity(false); 
-	else if((!m_b3Phase)&&(STATE::BOSS_SLEEP == m_pStateMachine->Get_State())||((STATE::BOSS_STURN == m_pStateMachine->Get_State())))
+	else if((STATE::BOSS_PH2SKILL1 != m_pStateMachine->Get_State())&&(!m_b3Phase)&&(STATE::BOSS_SLEEP == m_pStateMachine->Get_State())||((STATE::BOSS_STURN == m_pStateMachine->Get_State())))
 		m_pRigidBody->UseGravity(true);
 	_int iExit = __super::Update_Object(fTimeDelta);
 	m_pStateMachine->Update_StateMachine(fTimeDelta);
 	Key_Input();
 	if (m_b3Phase)
-		m_pTransform->m_vInfo[INFO_POS].y = 34.f;
+		m_pTransform->m_vInfo[INFO_POS] = _vec3(-72.f, 34.f, -105.f);
 	return iExit;
 }
 
@@ -320,7 +320,7 @@ void CSkeletonKing::OnCollisionEnter(CCollider* _pOther)
 	if (SceneManager()->Get_GameStop()) { return; }
 	if ((OBJECTTAG::PLAYERBULLET != _pOther->Get_Host()->Get_ObjectTag()))
 	{
-		if((STATE::BOSS_TELEPORT == m_pStateMachine->Get_State())||(OBJECTTAG::PLAYER == _pOther->Get_Host()->Get_ObjectTag()))
+		if((STATE::BOSS_TELEPORT == m_pStateMachine->Get_State())||(STATE::BOSS_PH2SKILL1 == m_pStateMachine->Get_State())||(OBJECTTAG::PLAYER == _pOther->Get_Host()->Get_ObjectTag()))
 			return;
 		else if ((OBJECTTAG::LOSTSOUL == _pOther->Get_Host()->Get_ObjectTag()))
 			if (SOULSTATE::SOUL_PARRY != dynamic_cast<CBossLostSoul*>(_pOther->Get_Host())->Get_SoulState())
@@ -334,7 +334,7 @@ void CSkeletonKing::OnCollisionStay(CCollider* _pOther)
 	if (SceneManager()->Get_GameStop()) { return; }
 	if ((OBJECTTAG::PLAYERBULLET != _pOther->Get_Host()->Get_ObjectTag()))
 	{
-		if ((STATE::BOSS_TELEPORT == m_pStateMachine->Get_State()) || (OBJECTTAG::PLAYER == _pOther->Get_Host()->Get_ObjectTag()))
+		if ((STATE::BOSS_TELEPORT == m_pStateMachine->Get_State()) || (STATE::BOSS_PH2SKILL1 == m_pStateMachine->Get_State()) || (OBJECTTAG::PLAYER == _pOther->Get_Host()->Get_ObjectTag()))
 			return;
 		else if ((OBJECTTAG::LOSTSOUL == _pOther->Get_Host()->Get_ObjectTag()))
 			if (SOULSTATE::SOUL_PARRY != dynamic_cast<CBossLostSoul*>(_pOther->Get_Host())->Get_SoulState())
@@ -348,7 +348,7 @@ void CSkeletonKing::OnCollisionExit(CCollider* _pOther)
 	if (SceneManager()->Get_GameStop()) { return; }
 	if ((OBJECTTAG::PLAYERBULLET != _pOther->Get_Host()->Get_ObjectTag()))
 	{
-		if ((STATE::BOSS_TELEPORT == m_pStateMachine->Get_State()) || (OBJECTTAG::PLAYER == _pOther->Get_Host()->Get_ObjectTag()))
+		if ((STATE::BOSS_TELEPORT == m_pStateMachine->Get_State()) || (STATE::BOSS_PH2SKILL1 == m_pStateMachine->Get_State()) || (OBJECTTAG::PLAYER == _pOther->Get_Host()->Get_ObjectTag()))
 			return;
 		else if ((OBJECTTAG::LOSTSOUL == _pOther->Get_Host()->Get_ObjectTag()))
 			if (SOULSTATE::SOUL_PARRY != dynamic_cast<CBossLostSoul*>(_pOther->Get_Host())->Get_SoulState())
@@ -368,10 +368,21 @@ void CSkeletonKing::Add_HitCount()
 	if (m_eState == STATE::BOSS_STURN)
 		return;
 	++m_iHitCount;
-	if (3 <= m_iHitCount)
+	if (!m_b3Phase)
 	{
-		m_iHitCount = 0.f;
-		m_pStateMachine->Set_State(STATE::BOSS_STURN);
+		if (3 <= m_iHitCount)
+		{
+			m_iHitCount = 0.f;
+			m_pStateMachine->Set_State(STATE::BOSS_STURN);
+		}
+	}
+	if (m_b3Phase)
+	{
+		if (5 <= m_iHitCount)
+		{
+			m_iHitCount = 0.f;
+			m_pStateMachine->Set_State(STATE::BOSS_STURN);
+		}
 	}
 }
 

@@ -112,3 +112,9 @@ CEffectProjectileTrace* CEffectProjectileTrace::Create(LPDIRECT3DDEVICE9 pGraphi
 
 	return pInstance;
 }
+
+void CEffectProjectileTrace::Set_vDir(_vec3 _vInfo)
+{
+	m_vecDir = _vInfo;
+	D3DXVec3Normalize(&m_vecDir, &m_vecDir);
+}

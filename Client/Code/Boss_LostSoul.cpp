@@ -27,10 +27,10 @@ HRESULT CBossLostSoul::Ready_Object(void)
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS]
-		, &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale()*0.3f);
+		, &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale()*0.5f);
 	m_pBasicStat->Get_Stat()->fAttack = 1.f;
 	m_fTime = 0.f;
-	m_fSpeed = 3.f;
+	m_fSpeed = 1.5f;
 	m_bHit = false;
 	m_bParry = false;
 	m_eSoulState = SOULSTATE::SOUL_NORMAL;
@@ -45,7 +45,7 @@ _int CBossLostSoul::Update_Object(const _float& fTimeDelta)
 
 	_int iExit = __super::Update_Object(fTimeDelta);
 	m_fTime += fTimeDelta;
-		if (3.5f < m_fTime)//(5.f < m_fTime)
+		if (!m_bHit)//(5.f < m_fTime)
 		{
 			if ((m_eSoulState == SOULSTATE::SOUL_NORMAL) &&(5.f < m_fTime))
 			{
@@ -132,10 +132,9 @@ void CBossLostSoul::OnCollisionStay(CCollider* _pOther)
 			Engine::EventManager()->DeleteObject(this);
 		}
 	}
-
-	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::ITEM)
+	else if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::ITEM)
 	{
-		if ((m_eSoulState == SOULSTATE::SOUL_NORMAL)&&((!m_bHit)||(!m_bParry)))
+		if ((m_eSoulState == SOULSTATE::SOUL_NORMAL))
 		{
 			if ((dynamic_cast<CPlayer*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front())->Get_Parrying()) && (ITEMID::GENERAL_SHIELD == dynamic_cast<CShield*>(_pOther->Get_Host())->Get_ItemTag().eItemID))
 			{
@@ -145,7 +144,10 @@ void CBossLostSoul::OnCollisionStay(CCollider* _pOther)
 				m_fFrame = 4.f;
 			}
 		}
+		else
+			return;
 	}
+
 	if (m_eSoulState == SOULSTATE::SOUL_PARRY)
 	{
 		if ((_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BOSS))
@@ -159,6 +161,8 @@ void CBossLostSoul::OnCollisionStay(CCollider* _pOther)
 			Engine::EventManager()->DeleteObject(this);
 		}
 	}
+	else
+		return;
 }
 
 void CBossLostSoul::OnCollisionExit(CCollider* _pOther)

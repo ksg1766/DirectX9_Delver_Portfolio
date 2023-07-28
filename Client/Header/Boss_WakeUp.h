@@ -24,7 +24,8 @@ private:
     //STATE 
 private:
     //º¯¼ö
-
+    _float  m_fDelay;
+    _bool   m_bWakeUp;
 public:
     static CBoss_WakeUp* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
 

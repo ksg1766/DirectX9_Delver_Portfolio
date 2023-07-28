@@ -30,7 +30,9 @@ HRESULT CSkeletonKing_Clone::Ready_Object(void)
 	m_pTransform->Scale(_vec3(3.f, 3.f, 3.f));
 	m_fDelay = 0.f;
 	m_fDeleteDelay = 0.f;
+	m_fMoveDelay = 0.f;
 	m_bHit = false;
+	m_bMove = false;
 	m_pBasicStat->Get_Stat()->fHP = 4.f;
 	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
 	
@@ -59,6 +61,11 @@ _int CSkeletonKing_Clone::Update_Object(const _float& fTimeDelta)
 	_int iExit = __super::Update_Object(fTimeDelta);
 	m_fDelay += fTimeDelta;
 	m_pStateMachine->Update_StateMachine(fTimeDelta);
+	if ((2.f < m_fDelay)&&(!m_bMove))
+	{
+		m_fMoveDelay += fTimeDelta;
+		MoveToDir();
+	}
 	if (STATE::BOSS_STURN == dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_StateMachine()->Get_State())
 	{
 		m_pStateMachine->Set_State(STATE::DEAD);
@@ -70,10 +77,12 @@ _int CSkeletonKing_Clone::Update_Object(const _float& fTimeDelta)
 	else if ((0 >= dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_CloneCount()) || (BOSSPHASE::PHASE2 != dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_Phase()))
 	{
 		dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Add_CloneCount(-1);
+		m_bMove = false;
 		m_IsDead = true;
 	}
 	if ((m_bHit)&&(1.f < m_fDelay))
 	{
+		m_bMove = false;
 		m_fDelay = 0.f;
 		m_bHit = false;
 	}
@@ -90,6 +99,7 @@ _int CSkeletonKing_Clone::Update_Object(const _float& fTimeDelta)
 			dynamic_cast<CBossExplosion*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = (m_pTransform->m_vInfo[INFO_POS]);
 			dynamic_cast<CBossExplosion*>(pGameObject)->Set_Scale(3.f);
 			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+			m_bMove = false;
 			m_IsDead = true;
 		}
 	}
@@ -113,6 +123,18 @@ void CSkeletonKing_Clone::Render_Object(void)
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 }
 
+void CSkeletonKing_Clone::MoveToDir()
+{
+	m_pTransform->Translate(m_vDir);
+	if (1.f < m_fMoveDelay)
+	{
+		m_pTransform->m_vInfo[INFO_POS] = m_vTargetPos;
+		m_bMove = true;
+		m_fDelay = 0.f;
+		m_fMoveDelay = 0.f;
+	}
+}
+
 void CSkeletonKing_Clone::OnCollisionEnter(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
@@ -134,6 +156,13 @@ void CSkeletonKing_Clone::OnCollisionStay(CCollider* _pOther)
 void CSkeletonKing_Clone::OnCollisionExit(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
+}
+
+void CSkeletonKing_Clone::Set_Dir(_vec3 _vDir)
+{
+	m_vTargetPos = _vDir;
+	m_vDir = m_vTargetPos - m_pTransform->m_vInfo[INFO_POS];
+	D3DXVec3Normalize(&m_vDir, &m_vDir);
 }
 
 HRESULT CSkeletonKing_Clone::Add_Component(void)

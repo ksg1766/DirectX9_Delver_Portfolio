@@ -31,6 +31,8 @@ private:
 	CBillBoard* m_pBillBoard = nullptr;
 	_float		m_fFrame;
 	_float		m_fTime;
+	_vec3		m_vSpawnPos;
+	_vec3		m_vMovePos;
 private:
 	HRESULT		Add_Component(void);
 

@@ -23,6 +23,7 @@ private:
 private:
     //º¯¼ö
     _float  m_fDelay = 0;
+    _float  m_fPatternDelay;
     _uint   m_iSkillCount;
 
 public:

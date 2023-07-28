@@ -820,6 +820,9 @@
     <Filter Include="03. GameObject\01. Stage\05. Cube\02. CubeTrigger\HellDoor\DoorCube">
       <UniqueIdentifier>{f548ed28-0113-41da-a920-3f1e37be69ab}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. GameObject\01. Stage\999. Boss\01. AttackEff\99.Etc\Potal">
+      <UniqueIdentifier>{ba503226-b9dc-4361-b383-d90ae2bd87ee}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -1613,6 +1616,9 @@
     <ClInclude Include="..\Header\Water.h">
       <Filter>03. GameObject\01. Stage\05. Cube\04. Water</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\DimensionGate.h">
+      <Filter>03. GameObject\01. Stage\999. Boss\01. AttackEff\99.Etc\Potal</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -2366,6 +2372,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\Water.cpp">
       <Filter>03. GameObject\01. Stage\05. Cube\04. Water</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\DimensionGate.cpp">
+      <Filter>03. GameObject\01. Stage\999. Boss\01. AttackEff\99.Etc\Potal</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

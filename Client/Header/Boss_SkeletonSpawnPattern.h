@@ -22,8 +22,8 @@ private:
 private:
 
     _bool   m_bSkill;
-    _vec3 m_vSpawnPos1[2];
-    _vec3 m_vSpawnPos2[2];
+    _bool   m_bCaution;
+    _vec3 m_vSpawnPos1[8];
     _float  m_fSkillCool;
 public:
     static CBoss_SkeletonSpawnPattern* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);

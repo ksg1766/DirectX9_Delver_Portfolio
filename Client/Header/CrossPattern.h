@@ -26,9 +26,9 @@ private:
     _float m_fCautionDelay;
     _float  m_fPatternDelay;
     _bool  m_bCool;
-
+    _bool   m_bCross;
     _vec3   m_vHeight;
-    _vec3   m_vCrossDir[4];
+    _vec3   m_vCrossDir[8];
     _int    m_iSkillCount;
     _int    m_iCautionCount;
 public:

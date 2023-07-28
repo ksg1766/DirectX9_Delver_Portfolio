@@ -101,7 +101,7 @@ void CEquipBox::Drop_RandomItem()
 	CGameObject* pGameObject = CEffectBrokenbox::Create(m_pGraphicDev);
 	dynamic_cast<CEffectBrokenbox*>(pGameObject)->m_pTransform->
 		Translate(_vec3(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y + 0.5f, m_pTransform->m_vInfo[INFO_POS].z));
-	dynamic_cast<CEffectBrokenbox*>(pGameObject)->Set_EffectType(0);
+	dynamic_cast<CEffectBrokenbox*>(pGameObject)->Set_EffectType(1);
 	Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 
 	Engine::EventManager()->DeleteObject(this);

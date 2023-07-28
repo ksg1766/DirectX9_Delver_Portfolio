@@ -125,6 +125,8 @@ void CWarror_Attack::Attack_Sound()
 		CSoundManager::GetInstance()->PlaySound(L"en_slime_attack_01.mp3", CHANNELID::SOUND_SLIME, 1.f);
 		break;
 	case MONSTERTAG::SKELETON:
+		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_SKELETON);
+		CSoundManager::GetInstance()->PlaySound(L"en_skel_attack_01.mp3", CHANNELID::SOUND_SKELETON, 1.f);
 		break;
 	}
 }
