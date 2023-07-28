@@ -38,6 +38,7 @@ private:
 	CAnimator*	m_pAnimator = nullptr;
 
 	_int		m_iAttackTick;
+	_int		m_iMoveTick;
 	_float		m_fChase2;
 	_float		m_fChase;
 	_float		m_fAngle;

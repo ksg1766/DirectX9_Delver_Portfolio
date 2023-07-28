@@ -147,6 +147,9 @@ _uint CLoading::Loading_ForStage()
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_WoodBox", CTexture::Create(m_pGraphicDev, TEX_CUBE, L"../Bin/SRSource/Fragile/Box/Box_Cube0.dds")), E_FAIL); //상자용
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_EquipBox", CTexture::Create(m_pGraphicDev, TEX_CUBE, L"../Bin/SRSource/Fragile/Box/Box_Cube1.dds")), E_FAIL); //상자용
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Meteor", CTexture::Create(m_pGraphicDev, TEX_CUBE, L"../Bin/SRSource/Entities/Boss/Meteor.dds")), E_FAIL); //보스용
+
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Water", CTexture::Create(m_pGraphicDev, TEX_CUBE, L"../Bin/SRSource/Cube/Stage/water/water%d.dds", 32)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_WaterFall", CTexture::Create(m_pGraphicDev, TEX_CUBE, L"../Bin/SRSource/Cube/Stage/waterfall/waterfall%d.dds", 32)), E_FAIL);
 #pragma endregion Cube
 
 		// Weapon
@@ -264,9 +267,10 @@ _uint CLoading::Loading_ForStage()
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_EffectPastTrace",   CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Effect/Arrow.png", 1)), E_FAIL);
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_EffectGreenleaves", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Effect/Green_leaves/Green_leaves%d.png", 3)), E_FAIL);
 #pragma endregion EFFECT
+		//FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Shader_Cube",				CShader::Create(m_pGraphicDev, TEXT("../Bin/ShaderFiles/Shader_Rect.hlsl"))), E_FAIL);
 
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_BladeTrapBlade", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Entities/Trap/Trap_Blade.png")), E_FAIL); //트랩용
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Torch", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Immortal/Torch/Torch%d.png",8)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_BladeTrapBlade",	CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Entities/Trap/Trap_Blade.png")), E_FAIL); //트랩용
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Torch",				CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Immortal/Torch/Torch%d.png",8)), E_FAIL);
 
 #pragma region SOUND
 		// 테스트용

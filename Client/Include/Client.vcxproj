@@ -410,6 +410,8 @@
     <ClInclude Include="..\Header\UIUseShop_Trander.h" />
     <ClInclude Include="..\Header\Village.h" />
     <ClInclude Include="..\Header\WakeUp_BossSkeleton.h" />
+    <ClInclude Include="..\Header\Water.h" />
+    <ClInclude Include="..\Header\WaterFall.h" />
     <ClInclude Include="..\Header\Worm.h" />
     <ClInclude Include="..\Header\Warrior_Attack.h" />
     <ClInclude Include="..\Header\Wizard.h" />
@@ -648,6 +650,8 @@
     <ClCompile Include="..\Code\UIUseShop_Trander.cpp" />
     <ClCompile Include="..\Code\Village.cpp" />
     <ClCompile Include="..\Code\WakeUp_BossSkeleton.cpp" />
+    <ClCompile Include="..\Code\Water.cpp" />
+    <ClCompile Include="..\Code\WaterFall.cpp" />
     <ClCompile Include="..\Code\WaterFallTriger.cpp" />
     <ClCompile Include="..\Code\Worm.cpp" />
     <ClCompile Include="..\Code\Warrior_Attack.cpp" />

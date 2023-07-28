@@ -35,6 +35,7 @@ private:
 	CTexture*	m_pTexture = nullptr;
 
 	_int		m_iAttackTick;
+	_int		m_iMoveTick;
 
 	_bool       m_bEffect = false;
 

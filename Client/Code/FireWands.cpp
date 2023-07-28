@@ -29,7 +29,7 @@ HRESULT CFireWands::Ready_Object(_bool _Item)
 	{
 		m_pTransform->Scale(_vec3(0.3f, 0.3f, 0.3f));
 
-		CGameObject* pPlayer = SceneManager()->GetInstance()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front();
+		CGameObject* pPlayer = SceneManager()->Get_Scene()->Get_MainPlayer();
 		//CPlayer* pPlayer = dynamic_cast<CPlayer*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
 
 		//m_pTransform->Translate(pPlayer->m_pTransform->m_vInfo[INFO_POS] + *dynamic_cast<CPlayer*>(pPlayer)->Get_Offset());
@@ -49,8 +49,7 @@ HRESULT CFireWands::Ready_Object(_bool _Item)
 	{
 		m_pTransform->Scale(_vec3(0.3f, 0.3f, 0.3f));
 
-		m_pCollider->
-			InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
+		m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
 
 		m_pTransform->Translate(_vec3(0.0f, 2.f, 0.0f));
 	}
@@ -94,7 +93,6 @@ _int CFireWands::Update_Object(const _float& fTimeDelta)
 
 				CGameObject* pGameObject = CEffectWand::Create(m_pGraphicDev);
 
-
 				_vec3 vOffSet = -0.5f * m_pTransform->m_vInfo[INFO_RIGHT] + 1.4f * m_pTransform->m_vInfo[INFO_LOOK] + 0.4f * m_pTransform->m_vInfo[INFO_UP];
 				pGameObject->m_pTransform->Translate(m_pTransform->m_vInfo[INFO_POS] + vOffSet);
 				Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
@@ -120,12 +118,25 @@ _int CFireWands::Update_Object(const _float& fTimeDelta)
 				m_bEffect = false;
 			}
 		}
+		else if (pPlayer->Get_StateMachine()->Get_State() == STATE::ROMIMG && !pPlayer->IsJump())
+		{
+			if (m_iMoveTick > 0)
+				m_pTransform->Translate(m_pTransform->m_vInfo[INFO_UP] * 0.01f);
+			else
+				m_pTransform->Translate(m_pTransform->m_vInfo[INFO_UP] * -0.01f);
+
+			--m_iMoveTick;
+
+			if (-9 == m_iMoveTick)
+				m_iMoveTick = 10;
+		}
 		else
 		{
 			CTransform* pPlayerTransform = pPlayer->m_pTransform;
 
 			_vec3 vOffSet = 0.7f * pPlayerTransform->m_vInfo[INFO_RIGHT] + 1.4f * pPlayerTransform->m_vInfo[INFO_LOOK] - 0.4f * pPlayerTransform->m_vInfo[INFO_UP];
 			m_pTransform->m_vInfo[INFO_POS] = (pPlayerTransform->m_vInfo[INFO_POS] + vOffSet);
+			m_iMoveTick = 0;
 		}
 	}
 
@@ -136,7 +147,6 @@ _int CFireWands::Update_Object(const _float& fTimeDelta)
 void CFireWands::LateUpdate_Object(void)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
-
 
 	__super::LateUpdate_Object();
 	m_pTransform->Scale(_vec3(0.3f, 0.3f, 0.3f));
@@ -203,37 +213,31 @@ HRESULT CFireWands::Add_Component(void)
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::COLLIDER, pComponent);
 
-	pComponent = dynamic_cast<CBillBoard*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BillBoard"));
+	/*pComponent = dynamic_cast<CBillBoard*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BillBoard"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::BILLBOARD, pComponent);
+	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::BILLBOARD, pComponent);*/
 
 	if (!Get_WorldItem())
 	{
-		CPlayer* pPlayer = dynamic_cast<CPlayer*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
-		
+		CPlayer* pPlayer = dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer());
 	
 		m_pTransform->Set_Parent(SceneManager()->Get_Scene()->Get_MainPlayer()->m_pTransform);
 		m_pTransform->Copy_RUL(SceneManager()->Get_Scene()->Get_MainPlayer()->m_pTransform->m_vInfo);
 
-
 		for (int i = 0; i < ID_END; ++i)
 			for (auto& iter : m_mapComponent[i])
 				iter.second->Init_Property(this);
-		
 	}
 	else
 	{
-		//pComponent = dynamic_cast<CBillBoard*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BillBoard"));
-		//NULL_CHECK_RETURN(pComponent, E_FAIL);
-		//m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::BILLBOARD, pComponent);
-
+		pComponent = dynamic_cast<CBillBoard*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BillBoard"));
+		NULL_CHECK_RETURN(pComponent, E_FAIL);
+		m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::BILLBOARD, pComponent);
 
 		for (int i = 0; i < ID_END; ++i)
 			for (auto& iter : m_mapComponent[i])
 				iter.second->Init_Property(this);
 	}
-
-
 
 	return S_OK;
 }

@@ -162,9 +162,10 @@ _int CBow::Update_Object(const _float& fTimeDelta)
 				m_pTransform->m_vInfo[INFO_POS] = (pPlayerTransform->m_vInfo[INFO_POS] + vOffSet);
 
 				m_pAnimator->Set_Animation(STATE::IDLE);
+				m_iMoveTick = 0;
 			}
 		}
-
+		
 		m_pAnimator->Update_Animator(fTimeDelta);
 		return iExit;
 	}

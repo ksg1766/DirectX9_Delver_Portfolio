@@ -199,6 +199,9 @@
     <Filter Include="03. GameObject\13. Fragile">
       <UniqueIdentifier>{0f392412-6f70-44df-8cbf-699fec998dcb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04. Component\17. Shader">
+      <UniqueIdentifier>{f07501d4-29b9-49c7-b604-f22b70a96ce8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Header\Scene.h">

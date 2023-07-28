@@ -107,6 +107,7 @@ void CRenderer::Render_Priority(LPDIRECT3DDEVICE9& pGraphicDev)
 	
 void CRenderer::Render_Nonalpha(LPDIRECT3DDEVICE9& pGraphicDev)
 {
+	pGraphicDev->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
 	for (auto iter : m_RenderGroup[RENDER_NONALPHA])
 	{
 		/*if (iter->Get_ObjectTag() == OBJECTTAG::TRAP)
@@ -115,6 +116,7 @@ void CRenderer::Render_Nonalpha(LPDIRECT3DDEVICE9& pGraphicDev)
 
 		iter->Render_Object();
 	}
+	pGraphicDev->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_NONE);
 }
 
 void CRenderer::Render_Alpha(LPDIRECT3DDEVICE9& pGraphicDev)

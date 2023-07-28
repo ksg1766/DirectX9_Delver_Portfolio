@@ -51,6 +51,10 @@
 
 //Font
 #include "Font.h"
+
+//Shader
+#include "Shader.h"
+
 BEGIN(Engine)
 
 inline CSceneManager*		SceneManager();

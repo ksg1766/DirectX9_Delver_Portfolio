@@ -6,6 +6,8 @@
 #include "Player.h"
 #include "FootRay.h"
 #include "CubeBlock.h"
+#include "Water.h"
+#include "WaterFall.h"
 
 #include "UIplayerhp.h"
 #include "UIplayerstat.h"

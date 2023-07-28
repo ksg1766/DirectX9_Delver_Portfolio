@@ -111,7 +111,7 @@ HRESULT CVillage::Ready_Layer_Environment(LAYERTAG _eLayerTag)
 			D3DXToRadian(90.f),
 			(_float)WINCX / WINCY,
 			0.1f,
-			110.f);
+			200.f);
 		NULL_CHECK_RETURN(pGameObject, E_FAIL);
 		pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 	}
@@ -554,11 +554,34 @@ HRESULT CVillage::Load_Data()
 				break;
 
 			CGameObject* pGameObject = CCubeBlock::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
-			NULL_CHECK_RETURN(pGameObject, E_FAIL);
-			dynamic_cast<CCubeBlock*>(pGameObject)->Set_TextureNumber(byTextureNumber);
-			pGameObject->m_pTransform->Translate(_vec3(fX, fY + 1.f, fZ));
-			pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-			//EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+			
+			if (32 == byTextureNumber)
+			{
+				pGameObject = CWaterFall::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+				NULL_CHECK_RETURN(pGameObject, E_FAIL);
+				dynamic_cast<CWaterFall*>(pGameObject)->Set_TextureNumber(0);
+				pGameObject->m_pTransform->Translate(_vec3(fX, fY + 1.f, fZ));
+				pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+				//EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+			}
+			else if (31 == byTextureNumber)
+			{
+				pGameObject = CWater::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+				NULL_CHECK_RETURN(pGameObject, E_FAIL);
+				dynamic_cast<CWater*>(pGameObject)->Set_TextureNumber(byTextureNumber);
+				pGameObject->m_pTransform->Translate(_vec3(fX, fY + 1.f, fZ));
+				pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+				//EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+			}
+			else
+			{
+				pGameObject = CCubeBlock::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+				NULL_CHECK_RETURN(pGameObject, E_FAIL);
+				dynamic_cast<CCubeBlock*>(pGameObject)->Set_TextureNumber(byTextureNumber);
+				pGameObject->m_pTransform->Translate(_vec3(fX, fY + 1.f, fZ));
+				pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+				//EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+			}
 		}
 		else if (OBJECTTAG::SPAWNINGPOOL == eTag)
 		{

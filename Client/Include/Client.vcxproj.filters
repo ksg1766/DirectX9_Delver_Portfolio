@@ -805,6 +805,12 @@
     <Filter Include="03. GameObject\01. Stage\999. Boss\01. AttackEff\04. Meteor_Cube\Mini\State">
       <UniqueIdentifier>{c517795f-5b65-4e1c-8047-e7cc0ec0de31}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. GameObject\01. Stage\05. Cube\03. WaterFall">
+      <UniqueIdentifier>{3ae352e1-b3f6-47bd-8ab6-de92f783a627}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\01. Stage\05. Cube\04. Water">
+      <UniqueIdentifier>{641efea8-e7d1-4e5b-a0ef-b794c16c46dc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -1586,6 +1592,12 @@
     <ClInclude Include="WaterFallTriger.h">
       <Filter>03. GameObject\01. Stage\05. Cube\02. CubeTrigger</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\WaterFall.h">
+      <Filter>03. GameObject\01. Stage\05. Cube\03. WaterFall</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Water.h">
+      <Filter>03. GameObject\01. Stage\05. Cube\04. Water</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -2327,6 +2339,12 @@
     </ClCompile>
     <ClCompile Include="..\Code\WaterFallTriger.cpp">
       <Filter>03. GameObject\01. Stage\05. Cube\02. CubeTrigger</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\WaterFall.cpp">
+      <Filter>03. GameObject\01. Stage\05. Cube\03. WaterFall</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Water.cpp">
+      <Filter>03. GameObject\01. Stage\05. Cube\04. Water</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

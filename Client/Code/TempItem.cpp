@@ -100,8 +100,6 @@ _int CTempItem::Update_Object(const _float& fTimeDelta)
 
 	if (!Get_WorldItem())
 	{
-		CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pTransform->m_pParent->Get_Host());
-
 #pragma region ksg
 		if (pPlayer->Get_Attack() && pPlayer != nullptr)
 		{
@@ -139,7 +137,7 @@ _int CTempItem::Update_Object(const _float& fTimeDelta)
 					m_pTransform->m_vInfo[i] *= *(((_float*)&vLocalScale) + i);
 			}
 		}
-		else if (pPlayer->Get_StateMachine()->Get_State() == STATE::ROMIMG)
+		else if (pPlayer->Get_StateMachine()->Get_State() == STATE::ROMIMG && !pPlayer->IsJump())
 		{
 			if (m_iMoveTick > 0)
 				m_pTransform->Translate(m_pTransform->m_vInfo[INFO_UP] * 0.01f);
@@ -259,11 +257,11 @@ void CTempItem::OnCollisionEnter(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 
-	if (!(_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::MONSTER) &&
+	/*if (!(_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::MONSTER) &&
 		!(_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::PLAYER)&& !(_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BOSS))
 	{
 		__super::OnCollisionEnter(_pOther);
-	}
+	}*/
 
 	// 몬스터거나 플레이어면 밀어내지않는다.
 
@@ -308,13 +306,12 @@ void CTempItem::OnCollisionStay(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 
-	if (!(_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::MONSTER) && !(_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::PLAYER))
+	/*if (!(_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::MONSTER) && !(_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::PLAYER))
 	{
 		__super::OnCollisionStay(_pOther);
-	}
+	}*/
 
-	CPlayer& pPlayer = *dynamic_cast<CPlayer*>(SceneManager()->GetInstance()
-		->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
+	CPlayer& pPlayer = *dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer());
 	// 플레이어의 정보를 레퍼런스로 얻어옴.
 
 	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::MONSTER && !pPlayer.Get_AttackTick() &&
@@ -354,11 +351,11 @@ void CTempItem::OnCollisionExit(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 
-	if (!(_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::MONSTER) &&
+	/*if (!(_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::MONSTER) &&
 		!(_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::PLAYER))
 	{
 		__super::OnCollisionExit(_pOther);
-	}
+	}*/
 
 }
 

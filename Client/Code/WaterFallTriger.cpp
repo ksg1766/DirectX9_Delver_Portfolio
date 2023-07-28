@@ -25,10 +25,7 @@ HRESULT CWaterFallTriger::Ready_Object()
 
 	m_pTransform->Scale(_vec3(4.f, 20.f, 4.f));
 	m_pTransform->Translate(_vec3(-43.f, 30.f, 19.f));
-	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT],
-		m_pTransform->LocalScale());
-
-
+	
 	m_fSound = 0.f;
 	return S_OK;
 }
@@ -50,7 +47,6 @@ void CWaterFallTriger::LateUpdate_Object()
 
 	_vec3 vDir = rPlayer.m_pTransform->m_vInfo[INFO_POS] - m_pTransform->m_vInfo[INFO_POS];
 	_float fDistance = D3DXVec3Length(&vDir);
-
 
 	_float fVolume = m_fMaxVolume - (fDistance / m_fMaxDistance) * (m_fMaxVolume - m_fMinVolume);
 

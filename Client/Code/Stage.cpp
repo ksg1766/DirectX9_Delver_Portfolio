@@ -69,7 +69,7 @@ HRESULT CStage::Ready_Scene()
 
 	//m_pGraphicDev->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
 	//m_pGraphicDev->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
-	m_pGraphicDev->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
+	//m_pGraphicDev->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
 
 	CSoundManager::GetInstance()->StopAll();
 	CSoundManager::GetInstance()->PlayBGM(L"chase_sewers.mp3", 0.3f);
@@ -131,7 +131,6 @@ void CStage::Render_Scene()
 
 void CStage::Free()
 {
-
 	CSoundManager::GetInstance()->StopAll();
 	CPoolManager::DestroyInstance();
 	__super::Free();
@@ -459,24 +458,33 @@ HRESULT CStage::Load_Data()
 
 			CGameObject* pGameObject = nullptr;
 
-			//if (31 == byTextureNumber || 32 == byTextureNumber)
-			//{
-			//	pGameObject = CDynamicCubeBlock::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
-			//	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-			//	dynamic_cast<CDynamicCubeBlock*>(pGameObject)->Set_TextureNumber(byTextureNumber);
-			//	pGameObject->m_pTransform->Translate(_vec3(fX, fY + 1.f, fZ));
-			//	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-			//	//EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
-			//}
-			//else
-			//{
+			if (32 == byTextureNumber)
+			{
+				pGameObject = CWaterFall::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+				NULL_CHECK_RETURN(pGameObject, E_FAIL);
+				dynamic_cast<CWaterFall*>(pGameObject)->Set_TextureNumber(0);
+				pGameObject->m_pTransform->Translate(_vec3(fX, fY + 1.f, fZ));
+				pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+				//EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+			}
+			else if(31 == byTextureNumber)
+			{
+				pGameObject = CWater::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+				NULL_CHECK_RETURN(pGameObject, E_FAIL);
+				dynamic_cast<CWater*>(pGameObject)->Set_TextureNumber(byTextureNumber);
+				pGameObject->m_pTransform->Translate(_vec3(fX, fY + 1.f, fZ));
+				pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+				//EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+			}
+			else
+			{
 				pGameObject = CCubeBlock::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
 				NULL_CHECK_RETURN(pGameObject, E_FAIL);
 				dynamic_cast<CCubeBlock*>(pGameObject)->Set_TextureNumber(byTextureNumber);
 				pGameObject->m_pTransform->Translate(_vec3(fX, fY + 1.f, fZ));
 				pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 				//EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
-			//}
+			}
 		}
 		else if (OBJECTTAG::SPAWNINGPOOL == eTag)
 		{
