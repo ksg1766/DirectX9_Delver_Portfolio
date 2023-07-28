@@ -18,7 +18,6 @@ private:
 	virtual ~CUIequipmentslot();
 
 public:
-	//void		Set_UseSlot(_bool _bUse) { m_bUse = _bUse; }
 	void        Set_FindSlot(_bool bFind) 
 	{ 
 		m_bFind = bFind; 
@@ -46,6 +45,9 @@ public:
 			}
 		}
 	}
+	void        Set_ThrowItem(ITEMID _eItem) {
+		m_eThrowitem = _eItem;
+	}
 
 public:
 	HRESULT		Ready_Object();
@@ -61,6 +63,9 @@ private:
 	_bool       m_bFind      = false;
 	_bool		m_bEntrance  = false;
 	_bool       m_bExit      = false;
+	_bool       m_bNextItem  = false;
+	ITEMID      m_eThrowitem = ITEMID::ITEMID_END;
+	
 public:
 	static CUIequipmentslot*	Create(LPDIRECT3DDEVICE9 pGraphicDev);
 	

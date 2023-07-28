@@ -34,30 +34,39 @@ public:
 		{
 		case WEAPON_SWORD:
 			m_fCurrentImage = 30;
+			m_UINumber = -1;
 			break;
 		case WEAPON_BOW:
 			m_fCurrentImage = 33;
+			m_UINumber = -1;
 			break;
 		case WEAPON_ARROW:
 			m_fCurrentImage = 34;
+			m_UINumber = -1;
 			break;
 		case WEAPON_BOWANDARROW:
 			m_fCurrentImage = 35;
+			m_UINumber = -1;
 			break;
 		case WEAPON_WAND1:
 			m_fCurrentImage = 36;
+			m_UINumber = -1;
 			break;
 		case WEAPON_WAND2:
 			m_fCurrentImage = 37;
+			m_UINumber = -1;
 			break;
 		case WEAPON_WAND3:
 			m_fCurrentImage = 38;
+			m_UINumber = -1;
 			break;
 		case WEAPON_WAND4:
 			m_fCurrentImage = 39;
+			m_UINumber = -1;
 			break;
 		case WEAPON_WAND5:
 			m_fCurrentImage = 40;
+			m_UINumber = -1;
 			break;
 		case GENERAL_SHIELD:
 			m_fCurrentImage = 31;
@@ -73,12 +82,15 @@ public:
 			break;
 		case GENERAL_KEY:
 			m_fCurrentImage = 19;
+			m_UINumber = -1;
 			break;
 		case GENERAL_DOCUMENT:
 			m_fCurrentImage = 20;
+			m_UINumber = -1;
 			break;
 		case GENERAL_MAP:
 			m_fCurrentImage = 22;
+			m_UINumber = -1;
 			break;
 		case EQUIP_OLDHELMET:
 			m_fCurrentImage = 6;
@@ -130,42 +142,55 @@ public:
 			break;
 		case EAT_SLICEDBREAD:
 			m_fCurrentImage = 12;
+			m_UINumber = -1;
 			break;
 		case EAT_APPLE:
 			m_fCurrentImage = 13;
+			m_UINumber = -1;
 			break;
 		case EAT_CHEESE:
 			m_fCurrentImage = 14;
+			m_UINumber = -1;
 			break;
 		case EAT_RAWMEAT:
 			m_fCurrentImage = 15;
+			m_UINumber = -1;
 			break;
 		case EAT_COOKEDMEAT:
 			m_fCurrentImage = 16;
+			m_UINumber = -1;
 			break;
 		case EAT_POTION1:
 			m_fCurrentImage = 23;
+			m_UINumber = -1;
 			break;
 		case EAT_POTION2:
 			m_fCurrentImage = 24;
+			m_UINumber = -1;
 			break;
 		case EAT_POTION3:
 			m_fCurrentImage = 25;
+			m_UINumber = -1;
 			break;
 		case EAT_POTION4:
 			m_fCurrentImage = 26;
+			m_UINumber = -1;
 			break;
 		case EAT_POTION5:
 			m_fCurrentImage = 27;
+			m_UINumber = -1;
 			break;
 		case EAT_POTION6:
 			m_fCurrentImage = 28;
+			m_UINumber = -1;
 			break;
 		case EAT_POTION7:
 			m_fCurrentImage = 29;
+			m_UINumber = -1;
 			break;
 		case WEAPON_EPICBOW:
 			m_fCurrentImage = 41;
+			m_UINumber = -1;
 			break;
 		}
 	}
@@ -198,7 +223,7 @@ private:
 	_bool       m_bOnlyMove = false;
 
 	_matrix     m_Position;
-	_bool       m_bDelete = false;
+	_bool       m_bUIDelete = false;
 
 public:
 	static CUIitem*	Create(LPDIRECT3DDEVICE9 pGraphicDev);

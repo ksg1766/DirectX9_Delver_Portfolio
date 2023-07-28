@@ -120,18 +120,18 @@ HRESULT CStageLoading::Ready_Layer_Environment(LAYERTAG _eLayerTag)
 	pGameObject = CLoadingBackGround::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	dynamic_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_BASIC, 0);
-	Engine::UIManager()->AddBasicGameobject_UI(Engine::UILAYER::UI_DOWN, pGameObject);
+	Engine::UIManager()->Add_BasicGameobject(Engine::UILAYER::UI_DOWN, pGameObject);
 	//Engine::UIManager()->AddPopupGameobject_UI(Engine::UIPOPUPLAYER::POPUP_STAT, Engine::UILAYER::UI_DOWN, pGameObject);
 
 	pGameObject = CProgressBar::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	dynamic_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_BASIC, 1);
-	Engine::UIManager()->AddBasicGameobject_UI(Engine::UILAYER::UI_MIDDLE, pGameObject);
+	Engine::UIManager()->Add_BasicGameobject(Engine::UILAYER::UI_MIDDLE, pGameObject);
 
 	pGameObject = CLoadingPont::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	dynamic_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_BASIC, 2);
-	Engine::UIManager()->AddBasicGameobject_UI(Engine::UILAYER::UI_MIDDLE, pGameObject);
+	Engine::UIManager()->Add_BasicGameobject(Engine::UILAYER::UI_MIDDLE, pGameObject);
 
 	return S_OK;
 }

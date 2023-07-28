@@ -24,7 +24,8 @@ public:
 	CGameObject*	Get_ItemSlot(INVENITEMSLOT _Key)	 { return m_mapItemSlot[_Key]; }
 	CGameObject*	Get_IDItem(ITEMID _eID);
 
-	void            Switch_InvenItem(ITEMTYPEID  _ItemID, UIOBJECTTTAG _StartslotId, _uint _StartUINumber, UIOBJECTTTAG _EndslotId, _uint _EndUINumber);
+	void            GoSwitch_InvenItem(ITEMTYPEID  _ItemID, UIOBJECTTTAG _StartslotId, _uint _StartUINumber, UIOBJECTTTAG _EndslotId, _uint _EndUINumber);
+	void            ExSwitch_InvenItem(ITEMTYPEID  _StartItemID, UIOBJECTTTAG _StartslotId, _uint _StartUINumber, ITEMTYPEID  _EndItemID, UIOBJECTTTAG _EndslotId, _uint _EndUINumber);
 
 public:
 	HRESULT			Ready_Inventory();

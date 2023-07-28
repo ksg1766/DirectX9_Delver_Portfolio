@@ -38,6 +38,12 @@ _int CUIequipmentslot::Update_Object(const _float & fTimeDelta)
 	if (pPlayer != nullptr) {
 		CInventory* pInventory = dynamic_cast<CInventory*>(pPlayer->Get_Component(COMPONENTTAG::INVENTORY, ID_DYNAMIC));
 
+		// 다음에 장착해야하는 자식이 존재할 시 장착 해제 및 다음 자식 장착
+		if (m_pNextChild != nullptr && !m_bNextItem) {
+			m_bChildExit = true;
+			m_bNextItem  = true;
+		}
+
 		if (m_bChildEntrance && !m_bEntrance) // 해당 아이템 슬롯을 사용할 시 효과 적용
 		{
 			m_bEntrance = true;
@@ -46,13 +52,17 @@ _int CUIequipmentslot::Update_Object(const _float & fTimeDelta)
 			CGameObject* pGameObject = pInventory->Get_IDItem(eItemId.eItemID);
 
 			if (pGameObject != nullptr) {
-				pPlayer->Get_Stat()->Get_Stat()->iArmorMax += dynamic_cast<CItem*>(pGameObject)->Get_ItemStat()->Get_Stat()->iArmorMax;
-				pPlayer->Get_Stat()->Get_Stat()->iArmorMin += dynamic_cast<CItem*>(pGameObject)->Get_ItemStat()->Get_Stat()->iArmorMin;
+				CBasicStat* pStat = dynamic_cast<CItem*>(pGameObject)->Get_ItemStat();
+				if (pStat != nullptr)
+				{
+					pPlayer->Get_Stat()->Get_Stat()->iArmorMax += pStat->Get_Stat()->iArmorMax;
+					pPlayer->Get_Stat()->Get_Stat()->iArmorMin += pStat->Get_Stat()->iArmorMin;
 
-				if (eItemId.eItemType == ITEMTYPE_GENERALITEM) {
-					pPlayer->Set_PrevEquipLeft(pPlayer->Get_CurrentEquipLeft());
-					pPlayer->Set_CurrentEquipLeft(pGameObject);
-					pPlayer->Set_ItemEquipLeft(true);
+					if (eItemId.eItemType == ITEMTYPE_GENERALITEM) {
+						pPlayer->Set_PrevEquipLeft(pPlayer->Get_CurrentEquipLeft());
+						pPlayer->Set_CurrentEquipLeft(pGameObject);
+						pPlayer->Set_ItemEquipLeft(true);
+					}
 				}
 			}
 		}
@@ -61,15 +71,33 @@ _int CUIequipmentslot::Update_Object(const _float & fTimeDelta)
 			ITEMTYPEID   eItemId = dynamic_cast<CUIitem*>(m_pBeforeChild)->Get_ItemTag();
 			CGameObject* pGameObject = pInventory->Get_IDItem(eItemId.eItemID);
 
-			if (pGameObject != nullptr) {
-				pPlayer->Get_Stat()->Get_Stat()->iArmorMax -= dynamic_cast<CItem*>(pGameObject)->Get_ItemStat()->Get_Stat()->iArmorMax;
-				pPlayer->Get_Stat()->Get_Stat()->iArmorMin -= dynamic_cast<CItem*>(pGameObject)->Get_ItemStat()->Get_Stat()->iArmorMin;
+			if (pGameObject != nullptr && pGameObject->Get_ObjectTag() != OBJECTTAG::BACKGROUND) {
+				CBasicStat* pStat = dynamic_cast<CItem*>(pGameObject)->Get_ItemStat();
+				if (pStat != nullptr)
+				{
+					pPlayer->Get_Stat()->Get_Stat()->iArmorMax -= pStat->Get_Stat()->iArmorMax;
+					pPlayer->Get_Stat()->Get_Stat()->iArmorMin -= pStat->Get_Stat()->iArmorMin;
 
-				if (pPlayer->Get_CurrentEquipLeft() != nullptr && dynamic_cast<CItem*>(pPlayer->Get_CurrentEquipLeft())->Get_ItemTag().eItemID == eItemId.eItemID) {
-					pPlayer->Set_PrevEquipLeft(pPlayer->Get_CurrentEquipLeft());
-					pPlayer->Set_CurrentEquipLeft(nullptr);
-					pPlayer->Set_ItemEquipLeft(false);
+					if (pPlayer->Get_CurrentEquipLeft() != nullptr && dynamic_cast<CItem*>(pPlayer->Get_CurrentEquipLeft())->Get_ItemTag().eItemID == eItemId.eItemID) {
+						pPlayer->Set_PrevEquipLeft(pPlayer->Get_CurrentEquipLeft());
+						pPlayer->Set_CurrentEquipLeft(nullptr);
+						pPlayer->Set_ItemEquipLeft(false);
+					}
 				}
+			}
+
+			if (m_eThrowitem != ITEMID::ITEMID_END) {
+				pInventory->delete_FindItem(eItemId);
+				m_eThrowitem = ITEMID::ITEMID_END;
+			}
+
+			if (m_bNextItem)
+			{
+				m_pChild = m_pNextChild;
+				m_bChildEntrance = true;
+
+				m_pNextChild = nullptr;
+				m_bNextItem = false;
 			}
 
 			m_bEntrance = false;

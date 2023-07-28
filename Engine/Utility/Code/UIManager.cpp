@@ -143,7 +143,7 @@ void CUIManager::Hide_InvenItem(_uint iType)
 	}
 }
 
-void CUIManager::AddBasicGameobject_UI(UILAYER eType, CGameObject* pGameObject)
+void CUIManager::Add_BasicGameobject(UILAYER eType, CGameObject* pGameObject)
 {
 	if (UILAYER::UI_END <= eType || nullptr == pGameObject)
 		return;
@@ -192,7 +192,7 @@ CGameObject* CUIManager::Get_PopupObjectBasicSlot(ITEMTYPEID ItemType)
 	return nullptr;
 }
 
-void CUIManager::AddPopupGameobject_UI(UIPOPUPLAYER ePopupLayer, UILAYER eType, CGameObject* pGameObject)
+void CUIManager::Add_PopupGameobject(UIPOPUPLAYER ePopupLayer, UILAYER eType, CGameObject* pGameObject)
 {
 	if (UIPOPUPLAYER::POPUP_END <= ePopupLayer || UILAYER::UI_END <= eType || nullptr == pGameObject)
 		return;
@@ -200,7 +200,7 @@ void CUIManager::AddPopupGameobject_UI(UIPOPUPLAYER ePopupLayer, UILAYER eType, 
 	m_mapPpopupUI[ePopupLayer][eType].push_back(pGameObject);
 }
 
-void CUIManager::AddItemGameobject_UI(CGameObject* pGameObject)
+void CUIManager::Add_ItemGameobject(CGameObject* pGameObject)
 {
 	// 들어온 아이템 오브젝트 아이템 타입 및 아이디, 개수를 가져옴.
 	ITEMTYPEID ItemType = dynamic_cast<CUIitem*>(pGameObject)->Get_ItemTag();
@@ -237,7 +237,7 @@ void CUIManager::AddItemGameobject_UI(CGameObject* pGameObject)
 			dynamic_cast<CTempUI*>(iter)->Set_Child(pGameObject);
 			dynamic_cast<CTempUI*>(iter)->Set_EmptyBool(false);
 
-			Engine::UIManager()->AddPopupGameobject_UI(Engine::UIPOPUPLAYER::POPUP_ITEM, Engine::UILAYER::UI_DOWN, pGameObject);
+			Engine::UIManager()->Add_PopupGameobject(Engine::UIPOPUPLAYER::POPUP_ITEM, Engine::UILAYER::UI_DOWN, pGameObject);
 			return;
 		}
 	}
@@ -254,8 +254,50 @@ void CUIManager::AddItemGameobject_UI(CGameObject* pGameObject)
 			dynamic_cast<CTempUI*>(iter)->Set_Child(pGameObject);
 			dynamic_cast<CTempUI*>(iter)->Set_EmptyBool(false);
 
-			Engine::UIManager()->AddPopupGameobject_UI(Engine::UIPOPUPLAYER::POPUP_ITEM, Engine::UILAYER::UI_DOWN, pGameObject);
+			Engine::UIManager()->Add_PopupGameobject(Engine::UIPOPUPLAYER::POPUP_ITEM, Engine::UILAYER::UI_DOWN, pGameObject);
 			Hide_InvenItem(0); // 내부 아이템 숨김
+			return;
+		}
+	}
+}
+
+void CUIManager::ReplayAdd_ItemGameobject(CGameObject* pGameObject)
+{
+	// 빈 공간이 있는지 검사후 할당 후 장착
+	for (auto iter : m_vecUIbasic[UI_DOWN])
+	{
+		if (dynamic_cast<CTempUI*>(iter)->Get_EmptyBool())
+		{
+			// 들어온 아이템 ui 포지션을 비어있는 해당 슬롯 포지션 값으로 대입 후 월드 행렬 셋팅
+			pGameObject->m_pTransform->m_vInfo[INFO_POS].x = iter->m_pTransform->m_vInfo[INFO_POS].x;
+			pGameObject->m_pTransform->m_vInfo[INFO_POS].y = iter->m_pTransform->m_vInfo[INFO_POS].y;
+			dynamic_cast<CTempUI*>(pGameObject)->WorldMatrix(pGameObject->m_pTransform->m_vInfo[INFO_POS].x, pGameObject->m_pTransform->m_vInfo[INFO_POS].y, pGameObject->m_pTransform->m_vLocalScale.x, pGameObject->m_pTransform->m_vLocalScale.y);
+
+			// 아이템의 부모 오브젝트로 해당 슬롯 등록
+			dynamic_cast<CTempUI*>(pGameObject)->Set_Parent(iter);
+			// 슬롯 자식 오브젝트로 해당 아이템 등록 후 비어있지 않다는 상태로 변경
+			dynamic_cast<CTempUI*>(iter)->Set_Child(pGameObject);
+			dynamic_cast<CTempUI*>(iter)->Set_EmptyBool(false);
+
+			Engine::UIManager()->Add_PopupGameobject(Engine::UIPOPUPLAYER::POPUP_ITEM, Engine::UILAYER::UI_DOWN, pGameObject);
+			return;
+		}
+	}
+
+	for (auto iter : m_mapPpopupUI[POPUP_INVEN][UI_DOWN])
+	{
+		if (dynamic_cast<CTempUI*>(iter)->Get_EmptyBool())
+		{
+			pGameObject->m_pTransform->m_vInfo[INFO_POS].x = iter->m_pTransform->m_vInfo[INFO_POS].x;
+			pGameObject->m_pTransform->m_vInfo[INFO_POS].y = iter->m_pTransform->m_vInfo[INFO_POS].y;
+			dynamic_cast<CTempUI*>(pGameObject)->WorldMatrix(pGameObject->m_pTransform->m_vInfo[INFO_POS].x, pGameObject->m_pTransform->m_vInfo[INFO_POS].y, pGameObject->m_pTransform->m_vLocalScale.x, pGameObject->m_pTransform->m_vLocalScale.y);
+
+			dynamic_cast<CTempUI*>(pGameObject)->Set_Parent(iter);
+			dynamic_cast<CTempUI*>(iter)->Set_Child(pGameObject);
+			dynamic_cast<CTempUI*>(iter)->Set_EmptyBool(false);
+
+			Engine::UIManager()->Add_PopupGameobject(Engine::UIPOPUPLAYER::POPUP_ITEM, Engine::UILAYER::UI_DOWN, pGameObject);
+			//Hide_InvenItem(0); // 내부 아이템 숨김
 			return;
 		}
 	}

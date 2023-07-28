@@ -24,7 +24,7 @@ HRESULT CEffectFallingleaves::Ready_Object(void)
 	CTempEffect::Get_RandomVector(&NewDir, &_vec3(-0.3f, -1.f, -0.3f), &_vec3(0.3f, 0.f, 0.3f));
 	_float fMoveSpeed = CTempEffect::Get_RandomFloat(10.f, 20.f);
 
-	for (_uint i = 0; i < 100; ++i)
+	for (_uint i = 0; i < 70; ++i)
 	{
 		CGameObject* pGameObject = CEffectleaf::Create(m_pGraphicDev);
 		NULL_CHECK_RETURN(pGameObject, E_FAIL);

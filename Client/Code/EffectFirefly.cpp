@@ -19,7 +19,7 @@ HRESULT CEffectFirefly::Ready_Object(void)
 
 	m_EffectTag = EFFECTTAG::EFFECT_FIREFLY;
 
-	CTempEffect::Get_RandomVector(&m_pTransform->m_vInfo[INFO_POS], &_vec3(-50.f, 4.f, -50.f), &_vec3(50.f, 10.f, 50.f));
+	CTempEffect::Get_RandomVector(&m_pTransform->m_vInfo[INFO_POS], &_vec3(-40.f, 4.f, -40.f), &_vec3(40.f, 10.f, 40.f));
 	m_fEffectScale = CTempEffect::Get_RandomFloat(0.05f, 0.15f);
 
 	CTempEffect::Get_RandomVector(&m_vecMoveDir, &_vec3(-1.f, -1.f, -1.f), &_vec3(1.f, 1.f, 1.f));

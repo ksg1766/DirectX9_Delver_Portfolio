@@ -82,6 +82,7 @@ namespace Engine
 	enum PARTICLETAG        { PARTICLE_SQUARE, PARTICLE_END };
 
 	enum class BOSSPHASE	{PHASE1, PHASE2, PHASE3, LASTPHASE, PHASE_END};
+
 	enum class SOULSTATE { SOUL_NORMAL, SOUL_PARRY, SOUL_END };//기본, 패링당했을 때
 
 	enum CHANNELID          

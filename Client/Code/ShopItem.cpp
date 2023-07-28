@@ -617,7 +617,7 @@ void CShopItem::Key_Input()
 				rPlayer.Set_PrevEquipRight(pItem);
 				Engine::EventManager()->CreateObject(pItem, LAYERTAG::GAMELOGIC);
 
-				Engine::UIManager()->AddItemGameobject_UI(pGameObjectUI);
+				Engine::UIManager()->Add_ItemGameobject(pGameObjectUI);
 
 				Engine::CGameObject* FindSlotObj = Engine::UIManager()->Get_PopupObjectBasicSlot(ItemType);
 				dynamic_cast<CUIbasicslot*>(dynamic_cast<CTempUI*>(FindSlotObj))->Set_FindSlot(true);
@@ -706,7 +706,7 @@ void CShopItem::Key_Input()
 			else
 			{
 				Engine::EventManager()->CreateObject(pItem, LAYERTAG::GAMELOGIC);
-				Engine::UIManager()->AddItemGameobject_UI(pGameObjectUI);
+				Engine::UIManager()->Add_ItemGameobject(pGameObjectUI);
 			}
 		}
 	}

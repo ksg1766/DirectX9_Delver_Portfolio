@@ -21,7 +21,7 @@ HRESULT CEffectleaf::Ready_Object(void)
 
 	m_fFrame = CTempEffect::Get_RandomFloat(0.f, 2.f);
 	m_fEffectScale = CTempEffect::Get_RandomFloat(0.5f, 2.f);
-	CTempEffect::Get_RandomVector(&m_pTransform->m_vInfo[INFO_POS], &_vec3(-50.f, 20.f, -50.f), &_vec3(50.f, 100.f, 50.f));
+	CTempEffect::Get_RandomVector(&m_pTransform->m_vInfo[INFO_POS], &_vec3(-40.f, 20.f, -40.f), &_vec3(40.f, 100.f, 40.f));
 
 	return S_OK;
 }
