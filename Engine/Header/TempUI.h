@@ -33,6 +33,7 @@ public:
 	void Set_EmptyBool(_bool _Empty)      { m_bEmpty = _Empty; }
 	void Set_Parent(CGameObject* _parent) { m_pParent = _parent; }
 	void Set_BeforeChild(CGameObject* _Beforechild) { m_pBeforeChild = _Beforechild; }
+	void Set_NextChild(CGameObject* _Nextchild)     { m_pNextChild = _Nextchild; }
 	void Set_Child(CGameObject* _child)  
 	{ 
 		if (_child != nullptr) {
@@ -76,6 +77,7 @@ protected:
 	CGameObject* m_pChild       = nullptr;
 
 	CGameObject* m_pBeforeChild = nullptr;
+	CGameObject* m_pNextChild   = nullptr;
 
 	_bool        m_bChildEntrance = false;
 	_bool        m_bChildExit = true;

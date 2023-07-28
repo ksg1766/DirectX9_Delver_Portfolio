@@ -20,7 +20,12 @@ HRESULT CEffectStar::Ready_Object(void)
 	m_eObjectTag = OBJECTTAG::IMMORTAL;
 	m_EffectTag = EFFECTTAG::EFFECT_STAR;
 
-	m_pTransform->Translate(_vec3(CTempEffect::Get_RandomFloat(-350.f, 350.f), CTempEffect::Get_RandomFloat(120.f, 140.f), CTempEffect::Get_RandomFloat(-350.f, 350.f)));
+	m_pTransform->Translate(_vec3(CTempEffect::Get_RandomFloat(-100.f, 100.f), CTempEffect::Get_RandomFloat(80.f, 150.f), CTempEffect::Get_RandomFloat(-100.f, 100.f)));
+	//if ()
+	//{
+
+	//}
+
 	m_fEffectScale = CTempEffect::Get_RandomFloat(.8f, 1.3f);
 	m_fScaleTime   = CTempEffect::Get_RandomFloat(0.f, 4.0f);
 

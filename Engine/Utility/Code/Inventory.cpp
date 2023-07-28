@@ -775,7 +775,7 @@ CGameObject* CInventory::Get_IDItem(ITEMID _eID)
 	}
 }
 
-void CInventory::Switch_InvenItem(ITEMTYPEID  _ItemID, UIOBJECTTTAG _StartslotId, _uint _StartUINumber, UIOBJECTTTAG _EndslotId, _uint _EndUINumber)
+void CInventory::GoSwitch_InvenItem(ITEMTYPEID  _ItemID, UIOBJECTTTAG _StartslotId, _uint _StartUINumber, UIOBJECTTTAG _EndslotId, _uint _EndUINumber)
 {
 	// 시작 위치에서 해당 아이템을 찾아오고 해당 공간은 지운다.
 	CGameObject* pFindItemObject = nullptr;
@@ -813,6 +813,84 @@ void CInventory::Switch_InvenItem(ITEMTYPEID  _ItemID, UIOBJECTTTAG _StartslotId
 
 	case Engine::UIID_SLOTEMPTY:
 		m_vecInventory.push_back(pFindItemObject);
+		break;
+	}
+}
+
+void CInventory::ExSwitch_InvenItem(ITEMTYPEID  _StartItemID, UIOBJECTTTAG _StartslotId, _uint _StartUINumber, ITEMTYPEID  _EndItemID, UIOBJECTTTAG _EndslotId, _uint _EndUINumber)
+{
+	// 서로 스위칭할 아이템들을 찾아온다.
+	CGameObject* pStartItemObject = nullptr;
+	CGameObject* pEndItemObject = nullptr;
+
+	switch (_StartslotId)
+	{
+	case Engine::UIID_SLOTBASIC:
+		pStartItemObject = Find_KeySlotItem(_StartUINumber);
+		break;
+
+	case Engine::UIID_SLOTEQUIPMENT:
+		pStartItemObject = Find_ItemSlotItem(_StartUINumber);
+		break;
+
+	case Engine::UIID_SLOTEMPTY:
+		pStartItemObject = Find_InvenSlotItem(_StartItemID);
+		break;
+	}
+
+	if (pStartItemObject == nullptr)
+		return;
+
+	switch (_EndslotId)
+	{
+	case Engine::UIID_SLOTBASIC:
+		pEndItemObject = Find_KeySlotItem(_EndUINumber);
+		break;
+
+	case Engine::UIID_SLOTEQUIPMENT:
+		pEndItemObject = Find_ItemSlotItem(_EndUINumber);
+		break;
+
+	case Engine::UIID_SLOTEMPTY:
+		pEndItemObject = Find_InvenSlotItem(_EndItemID);
+		break;
+	}
+
+	if (pEndItemObject == nullptr)
+		return;
+
+	// 서로의 위치에 넣어준다.
+	switch (_EndslotId)
+	{
+	case Engine::UIID_SLOTBASIC:
+		m_mapKeySlot[(INVENKEYSLOT)_EndUINumber] = pStartItemObject;
+		m_bKeySlotEmpty[_EndUINumber] = true;
+		break;
+
+	case Engine::UIID_SLOTEQUIPMENT:
+		m_mapItemSlot[(INVENITEMSLOT)_EndUINumber] = pStartItemObject;
+		m_bItemSlotEmpty[_EndUINumber] = true;
+		break;
+
+	case Engine::UIID_SLOTEMPTY:
+		m_vecInventory.push_back(pStartItemObject);
+		break;
+	}
+
+	switch (_StartslotId)
+	{
+	case Engine::UIID_SLOTBASIC:
+		m_mapKeySlot[(INVENKEYSLOT)_StartUINumber] = pEndItemObject;
+		m_bKeySlotEmpty[_StartUINumber] = true;
+		break;
+
+	case Engine::UIID_SLOTEQUIPMENT:
+		m_mapItemSlot[(INVENITEMSLOT)_StartUINumber] = pEndItemObject;
+		m_bItemSlotEmpty[_StartUINumber] = true;
+		break;
+
+	case Engine::UIID_SLOTEMPTY:
+		m_vecInventory.push_back(pEndItemObject);
 		break;
 	}
 }

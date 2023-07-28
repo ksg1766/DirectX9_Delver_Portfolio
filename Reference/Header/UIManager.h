@@ -166,7 +166,7 @@ public:
 		return m_bEsc;
 	}
 
-	_bool	Set_Shop()
+	_bool Set_Shop()
 	{
 		HCURSOR Cursor = nullptr;
 
@@ -244,9 +244,10 @@ public:
 	void  Hide_InvenItem(_uint iType);
 
 public:
-	void  AddBasicGameobject_UI(UILAYER eType, CGameObject* pGameObject);
-	void  AddPopupGameobject_UI(UIPOPUPLAYER ePopupLayer, UILAYER eType, CGameObject* pGameObject);
-	void  AddItemGameobject_UI(CGameObject* pGameObject);
+	void  Add_BasicGameobject(UILAYER eType, CGameObject* pGameObject);
+	void  Add_PopupGameobject(UIPOPUPLAYER ePopupLayer, UILAYER eType, CGameObject* pGameObject);
+	void  Add_ItemGameobject(CGameObject* pGameObject);
+	void  ReplayAdd_ItemGameobject(CGameObject* pGameObject);
 
 	CGameObject* Get_ItemUI(ITEMID _eItemID);
 	CGameObject* Get_PopupObject(UIPOPUPLAYER ePopupLayer, UILAYER eType, UIOBJECTTTAG eObjID, _uint eUINumber)
