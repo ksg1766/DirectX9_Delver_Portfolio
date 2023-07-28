@@ -265,6 +265,23 @@ void CDynamicCamera::Third_Camera()
 	}
 }
 
+void CDynamicCamera::Set_ShakeForce(_float _ShakeTime, _float _Amplitude, _float _Duration, _float _Frequency)
+{
+	m_fShakeElipsedTime = _ShakeTime;
+	m_fAmplitude = _Amplitude;
+	m_fDuration = _Duration;
+	m_fFrequency = _Frequency;
+}
+
+void CDynamicCamera::Reset_ShakeForce()
+{
+	m_fShakeElipsedTime = 0.f; // ÁßÃ¸½Ã°£
+
+	m_fAmplitude = 0.005f; // ÁøÆø
+	m_fDuration = 0.1f;  // Èçµå´Â ½Ã°£
+	m_fFrequency = 1.f; // Èçµå´Â ¼Óµµ
+}
+
 void CDynamicCamera::Shake_Camera()
 {
 	CComponent* pComponent = SceneManager()->Get_Scene()->Get_MainPlayer()->m_pTransform;

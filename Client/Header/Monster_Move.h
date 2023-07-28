@@ -46,6 +46,7 @@ private:
 	_float m_fRandomRange;
 	_float m_fAttackCool;
 
+	_float m_fLerpTime;
 	_vec3  m_vSavePos;
 
 	_bool  m_bCheck;

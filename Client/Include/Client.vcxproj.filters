@@ -811,6 +811,15 @@
     <Filter Include="03. GameObject\01. Stage\05. Cube\04. Water">
       <UniqueIdentifier>{641efea8-e7d1-4e5b-a0ef-b794c16c46dc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. GameObject\01. Stage\05. Cube\02. CubeTrigger\WaterFall">
+      <UniqueIdentifier>{0ae52d99-1cf7-40b7-a2c3-cf494087734b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\01. Stage\05. Cube\02. CubeTrigger\HellDoor">
+      <UniqueIdentifier>{4a81bb90-3cb7-4276-9e78-8f7d4d40cb12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\01. Stage\05. Cube\02. CubeTrigger\HellDoor\DoorCube">
+      <UniqueIdentifier>{f548ed28-0113-41da-a920-3f1e37be69ab}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -1590,7 +1599,13 @@
       <Filter>03. GameObject\01. Stage\999. Boss\01. AttackEff\04. Meteor_Cube\Mini\State</Filter>
     </ClInclude>
     <ClInclude Include="WaterFallTriger.h">
-      <Filter>03. GameObject\01. Stage\05. Cube\02. CubeTrigger</Filter>
+      <Filter>03. GameObject\01. Stage\05. Cube\02. CubeTrigger\WaterFall</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\HellDoor.h">
+      <Filter>03. GameObject\01. Stage\05. Cube\02. CubeTrigger\HellDoor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\DoorCube.h">
+      <Filter>03. GameObject\01. Stage\05. Cube\02. CubeTrigger\HellDoor\DoorCube</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\WaterFall.h">
       <Filter>03. GameObject\01. Stage\05. Cube\03. WaterFall</Filter>
@@ -2338,7 +2353,13 @@
       <Filter>03. GameObject\01. Stage\999. Boss\01. AttackEff\04. Meteor_Cube\Mini\State</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\WaterFallTriger.cpp">
-      <Filter>03. GameObject\01. Stage\05. Cube\02. CubeTrigger</Filter>
+      <Filter>03. GameObject\01. Stage\05. Cube\02. CubeTrigger\WaterFall</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\HellDoor.cpp">
+      <Filter>03. GameObject\01. Stage\05. Cube\02. CubeTrigger\HellDoor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\DoorCube.cpp">
+      <Filter>03. GameObject\01. Stage\05. Cube\02. CubeTrigger\HellDoor\DoorCube</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\WaterFall.cpp">
       <Filter>03. GameObject\01. Stage\05. Cube\03. WaterFall</Filter>

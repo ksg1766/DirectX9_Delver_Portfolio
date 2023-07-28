@@ -221,6 +221,7 @@
     <ClInclude Include="..\Header\Boss_Phase3.h" />
     <ClInclude Include="..\Header\Boss_WarningEff.h" />
     <ClInclude Include="..\Header\BoxCube.h" />
+    <ClInclude Include="..\Header\DoorCube.h" />
     <ClInclude Include="..\Header\DynamicCubeBlock.h" />
     <ClInclude Include="..\Header\Clone_Pattern.h" />
     <ClInclude Include="..\Header\CrossPattern.h" />
@@ -242,6 +243,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\Header\Grass.h" />
+    <ClInclude Include="..\Header\HellDoor.h" />
     <ClInclude Include="..\Header\HolyWater.h" />
     <ClInclude Include="..\Header\HpPotion.h" />
     <ClInclude Include="..\Header\ImmortalSprite.h" />
@@ -460,6 +462,7 @@
     <ClCompile Include="..\Code\Boss_Phase2.cpp" />
     <ClCompile Include="..\Code\Boss_Phase3.cpp" />
     <ClCompile Include="..\Code\Boss_WarningEff.cpp" />
+    <ClCompile Include="..\Code\DoorCube.cpp" />
     <ClCompile Include="..\Code\DynamicCubeBlock.cpp" />
     <ClCompile Include="..\Code\BossFireWall.cpp" />
     <ClCompile Include="..\Code\BossFireWave.cpp" />
@@ -484,6 +487,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\Code\Grass.cpp" />
+    <ClCompile Include="..\Code\HellDoor.cpp" />
     <ClCompile Include="..\Code\HolyWater.cpp" />
     <ClCompile Include="..\Code\HpPotion.cpp" />
     <ClCompile Include="..\Code\ImmortalSprite.cpp" />
