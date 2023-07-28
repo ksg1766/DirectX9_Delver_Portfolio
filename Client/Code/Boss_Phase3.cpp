@@ -22,6 +22,7 @@ HRESULT CBoss_Phase3::Ready_State(CStateMachine* pOwner)
     m_pOwner = pOwner;
     m_fDelay = 0.f;
     m_iSkillCount = 0;
+    m_fPatternDelay = 0.f;
     return S_OK;
 }
 
@@ -30,6 +31,7 @@ STATE CBoss_Phase3::Update_State(const _float& fTimeDelta)
     if (BOSSPHASE::PHASE3 != dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_Phase())
         return STATE::BOSS_IDLE;
     m_fDelay += fTimeDelta;
+    m_fPatternDelay += fTimeDelta;
     if (3.f < m_fDelay)
     {
         if (!dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_3Phase())
@@ -50,6 +52,12 @@ void CBoss_Phase3::Render_State()
 
 STATE CBoss_Phase3::BossSkill(const _float& fTimeDelta)
 {
+    if ((30.f > dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_BasicStat()->Get_Stat()->fHP))
+    {
+        m_fPatternDelay = 0.f;
+        m_iSkillCount = 0;
+        return STATE::BOSS_PH3SKILL5;
+    }
     switch(m_iSkillCount)
     {
     case 0 :
@@ -69,12 +77,11 @@ STATE CBoss_Phase3::BossSkill(const _float& fTimeDelta)
         return STATE::BOSS_PH3SKILL4;
         break;
     case 4:
-        if ((10.f < dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_BasicStat()->Get_Stat()->fHP)
-            && (45.f > dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_BasicStat()->Get_Stat()->fHP))
+        if ((30.f > dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_BasicStat()->Get_Stat()->fHP))
         {
+            m_fPatternDelay = 0.f;
             m_iSkillCount = 0;
             return STATE::BOSS_PH3SKILL5;
-            break;
         }
         else
         {
@@ -83,8 +90,6 @@ STATE CBoss_Phase3::BossSkill(const _float& fTimeDelta)
             return STATE::BOSS_PH3SKILL1;
         }
     }
-
-
 }
 
 CBoss_Phase3* CBoss_Phase3::Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner)

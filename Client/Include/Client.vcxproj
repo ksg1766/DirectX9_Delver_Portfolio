@@ -221,6 +221,7 @@
     <ClInclude Include="..\Header\Boss_Phase3.h" />
     <ClInclude Include="..\Header\Boss_WarningEff.h" />
     <ClInclude Include="..\Header\BoxCube.h" />
+    <ClInclude Include="..\Header\DimensionGate.h" />
     <ClInclude Include="..\Header\DynamicCubeBlock.h" />
     <ClInclude Include="..\Header\Clone_Pattern.h" />
     <ClInclude Include="..\Header\CrossPattern.h" />
@@ -458,6 +459,7 @@
     <ClCompile Include="..\Code\Boss_Phase2.cpp" />
     <ClCompile Include="..\Code\Boss_Phase3.cpp" />
     <ClCompile Include="..\Code\Boss_WarningEff.cpp" />
+    <ClCompile Include="..\Code\DimensionGate.cpp" />
     <ClCompile Include="..\Code\DynamicCubeBlock.cpp" />
     <ClCompile Include="..\Code\BossFireWall.cpp" />
     <ClCompile Include="..\Code\BossFireWave.cpp" />

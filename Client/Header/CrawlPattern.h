@@ -23,13 +23,14 @@ private:
     void    Dash(const _float& fTimeDelta);
 private:
     //클래스 내에서만 쓸 함수
+    _bool   m_bTarget;
     _vec3 m_vTargetPos;
     _vec3 m_vDir;
 
     _float m_fDelay;
     _float m_fSpeed;
     _int    m_iSkillCount;
-
+    
 public:
     static CCrawlPattern* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
 

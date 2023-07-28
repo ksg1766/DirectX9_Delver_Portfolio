@@ -36,6 +36,7 @@ public:
 private:
 	CRcTex*			m_pBuffer = nullptr;
 	CTexture*		m_pTexture = nullptr;
+	CGameObject*	m_pEffect;
 	_float			m_fFrame;
 	_float			m_fTime;
 	_float			m_fSpeed;

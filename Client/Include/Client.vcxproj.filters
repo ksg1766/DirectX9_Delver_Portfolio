@@ -805,6 +805,9 @@
     <Filter Include="03. GameObject\01. Stage\999. Boss\01. AttackEff\04. Meteor_Cube\Mini\State">
       <UniqueIdentifier>{c517795f-5b65-4e1c-8047-e7cc0ec0de31}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. GameObject\01. Stage\999. Boss\01. AttackEff\99.Etc\Potal">
+      <UniqueIdentifier>{ba503226-b9dc-4361-b383-d90ae2bd87ee}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -1586,6 +1589,9 @@
     <ClInclude Include="WaterFallTriger.h">
       <Filter>03. GameObject\01. Stage\05. Cube\02. CubeTrigger</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\DimensionGate.h">
+      <Filter>03. GameObject\01. Stage\999. Boss\01. AttackEff\99.Etc\Potal</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -2327,6 +2333,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\WaterFallTriger.cpp">
       <Filter>03. GameObject\01. Stage\05. Cube\02. CubeTrigger</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\DimensionGate.cpp">
+      <Filter>03. GameObject\01. Stage\999. Boss\01. AttackEff\99.Etc\Potal</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

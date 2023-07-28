@@ -15,18 +15,22 @@ public:
     virtual  void		LateUpdate_State();
     virtual  void		Render_State();
 
+    STATE Move_DIr();
+
 public:
     virtual STATE	Key_Input(const _float& fTimeDelta) { return STATE(); }
 
 private:
     //클래스 내에서만 쓸 함수
-    void    Create_Clone(_int _iNum);
 private:
     //클래스 내에서만 쓸 함수
     _float m_fDelay;
-    _float  m_fPatternDelay;
+    _float m_fMoveDelay;
     _bool  m_bSkill;
+    _bool   m_bPosReset;
     _vec3   m_vPillarPos[3];
+    _vec3   m_vTargetPos;
+    _vec3   m_vDir;
 public:
     static CClone_Pattern* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
 

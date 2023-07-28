@@ -64,7 +64,7 @@ int CMainApp::Update_MainApp(const float & fTimeDelta)
 	//	CScene* pScene = CBossStage::Create(m_pGraphicDev);
 	//	Engine::SceneManager()->Change_Scene(pScene);
 	//}
-	 if (Engine::InputDev()->Key_Down(DIK_F9))
+	 if (Engine::InputDev()->Key_Down(DIK_F6))
 	{
 		CScene* pScene = CBossStage::Create(m_pGraphicDev);
 		Engine::SceneManager()->Change_Scene(pScene);

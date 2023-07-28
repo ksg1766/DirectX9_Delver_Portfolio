@@ -27,7 +27,7 @@ HRESULT CBoss_CloneState::Ready_State(CStateMachine* pOwner)
 STATE CBoss_CloneState::Update_State(const _float& fTimeDelta)
 {
     m_fDelay += fTimeDelta;
-    if (3.f < m_fDelay)
+    if ((3.f < m_fDelay)&&(dynamic_cast<CSkeletonKing_Clone*>(m_pOwner->Get_Host())->Get_bMove()))
     {
         Engine::CGameObject* pGameObject = nullptr;
         pGameObject = CBossProjectile::Create(m_pGraphicDev);

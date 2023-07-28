@@ -1,33 +1,16 @@
 #include "stdafx.h"
 #include "..\Header\BossStage.h"
-
 #include "Export_Function.h"
 #include "PoolManager.h"
-
 #include "Monstergroup.h"
 #include "Itemgroup.h"
-#include "Npc_Trader.h"
 #include "UIUseShop_Trander.h"
 #include "UIShop.h"
-
 #include "SpawningPool.h"
-#include "BoxCube.h"
-#include "EffectSquare.h"
-#include "EffectBubble.h"
-
 #include "Blade_Trap_Body.h"
 #include "StrikeDown_Trap_Body.h"
 #include "Plate_Trap_Body.h"
-#include "Pot.h"
-
-#include "EffectBrokenbox.h"
-#include "EffectDamage.h"
-#include "EffectDamageStar.h"
-#include "EffectBlood.h"
-#include "EffectProjectileTrace.h"
-#include "EffectTwinkle.h"
 #include "SoundManager.h"
-
 #include "Jump_Plate.h"
 #include "BlackIn.h"
 
@@ -46,17 +29,9 @@ HRESULT CBossStage::Ready_Scene()
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	dynamic_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_BASIC, 0);
 	Engine::UIManager()->AddBasicGameobject_UI(Engine::UILAYER::UI_UP, pGameObject);
-
 	m_eSceneTag = SCENETAG::BOSSSTAGE;
-
-	//FAILED_CHECK_RETURN(Ready_Prototype(), E_FAIL);
-
 	FAILED_CHECK_RETURN(Ready_Layer_Environment(LAYERTAG::ENVIRONMENT), E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_GameLogic(LAYERTAG::GAMELOGIC), E_FAIL);
-	//FAILED_CHECK_RETURN(Ready_Layer_UI(LAYERTAG::UI), E_FAIL);
-
-	//m_pGraphicDev->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
-	//m_pGraphicDev->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
 	m_pGraphicDev->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
 
 	return S_OK;
@@ -81,6 +56,10 @@ Engine::_int CBossStage::Update_Scene(const _float& fTimeDelta)
 			break;
 		case BOSSPHASE::PHASE3:
 			Engine::SceneManager()->Get_Scene()->Get_MainPlayer()->m_pTransform->m_vInfo[INFO_POS] = _vec3(-72.f, 36.f, -75.f);
+			dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_StateMachine()->Set_State(STATE::BOSS_SLEEP);
+			break;
+		case BOSSPHASE::LASTPHASE:
+			Engine::SceneManager()->Get_Scene()->Get_MainPlayer()->m_pTransform->m_vInfo[INFO_POS] = _vec3(100.f, 22.f, 0.f);
 			dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_StateMachine()->Set_State(STATE::BOSS_SLEEP);
 			break;
 		}

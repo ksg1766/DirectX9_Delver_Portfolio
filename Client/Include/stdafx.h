@@ -33,6 +33,7 @@
 
 #include <process.h>
 
+#include <random>
 extern HWND g_hWnd;
 extern HINSTANCE g_hInst;
 extern float g_fSound;

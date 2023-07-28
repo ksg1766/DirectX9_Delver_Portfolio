@@ -58,7 +58,7 @@ HRESULT CShield::Ready_Object(_bool _Item)
 #pragma endregion
 
 
-	m_iAttackTick = 40;
+	m_iAttackTick = 10;
 	m_iMoveTick = 10;
 	return S_OK;
 }
@@ -95,11 +95,9 @@ _int CShield::Update_Object(const _float& fTimeDelta)
 					20.f);
 				m_pTransform->Rotate(ROT_Z, 2.f);
 				m_pTransform->Translate(m_pTransform->m_pParent->m_vInfo[INFO_LOOK] * 5.f * fTimeDelta);
-				pPlayer->Set_Parrying(true);//Msh
 			}
 			else
 			{
-
 				m_pTransform->Rotate(ROT_Z, -2.f);
 				m_pTransform->RotateAround(m_pTransform->m_vInfo[INFO_POS], m_pTransform->m_vInfo[INFO_UP],
 					-20.f);
@@ -107,12 +105,16 @@ _int CShield::Update_Object(const _float& fTimeDelta)
 				m_pTransform->Translate(m_pTransform->m_pParent->m_vInfo[INFO_LOOK] * -5.f * fTimeDelta);
 				pPlayer->Set_Parrying(false);//Msh
 			}
-
 			--m_iAttackTick;
 
-			if (-39 == m_iAttackTick)
+			if ((0.f < m_iAttackTick) && (7.f > m_iAttackTick))
+				pPlayer->Set_Parrying(true);//Msh
+			else
+				pPlayer->Set_Parrying(false);//Msh
+
+			if (-9 == m_iAttackTick)
 			{
-				m_iAttackTick = 40;
+				m_iAttackTick = 10;
 				pPlayer->Set_ThrowShield(false);
 			}
 #pragma endregion

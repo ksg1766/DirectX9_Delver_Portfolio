@@ -27,7 +27,7 @@ private:
 
 public:
 	static CEffectProjectileTrace*	Create(LPDIRECT3DDEVICE9 pGraphicDev);
-
+	void	Set_vDir(_vec3 _vInfo);
 private:
 	virtual void Free() override;
 

@@ -156,5 +156,7 @@ CBossProjectile* CBossProjectile::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 
 void CBossProjectile::Free()
 {
+	Safe_Release(m_pEffect);
+
 	__super::Free();
 }

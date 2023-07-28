@@ -18,12 +18,16 @@ public:
 
 private:
     //클래스 내에서만 쓸 함수
+    void    Make_Thunder();
 private:
     //클래스 내에서만 쓸 함수
     _float m_fDelay;
+    _float  m_fThunderDelay;
     _int    m_iSkillCount;
     _bool  m_CautionCool;
     _bool  m_bCool;
+    _bool  m_bThunderCool;
+    _vec3   m_vPlayerPos;
     _int   m_iSpawnX;
 public:
     static CMiniMetorPattern* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);

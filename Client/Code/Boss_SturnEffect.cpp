@@ -34,17 +34,22 @@ _int CBoss_SturnEffect::Update_Object(const _float& fTimeDelta)
 	if (SceneManager()->Get_GameStop()) { return 0; }
 
 	_int iExit = __super::Update_Object(fTimeDelta);
-	
-	m_pTransform->m_vInfo[INFO_POS]= Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front()->m_pTransform->m_vInfo[INFO_POS];
-	m_pTransform->m_vInfo[INFO_POS].y = Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front()->m_pTransform->m_vInfo[INFO_POS].y + 1.5f;
-	m_pTransform->m_vInfo[INFO_POS].z = Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front()->m_pTransform->m_vInfo[INFO_POS].z - 0.1f;
-
+	if (!dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_3Phase())
+	{
+		m_vSpawnPos = Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front()->m_pTransform->m_vInfo[INFO_POS];
+		m_pTransform->m_vInfo[INFO_POS] = _vec3(m_vSpawnPos.x, m_vSpawnPos.y + 3.5f, m_vSpawnPos.z + 0.01f);
+	}
+	else if (dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_3Phase())
+	{
+		m_vSpawnPos = Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front()->m_pTransform->m_vInfo[INFO_POS];
+		m_pTransform->m_vInfo[INFO_POS] = _vec3(m_vSpawnPos.x, m_vSpawnPos.y + 6.5f, m_vSpawnPos.z + 0.01f);
+	}
 	m_fTime += fTimeDelta;
 	m_fFrame += 9.f * fTimeDelta * 2;
 	if (9.f < m_fFrame)
 		m_fFrame = 0.f;
 
-	if (3.f < m_fTime)
+	if (10.f < m_fTime)
 	{
 		m_fTime = 0.f;
 		Engine::EventManager()->DeleteObject(this);

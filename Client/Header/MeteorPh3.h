@@ -20,14 +20,19 @@ public:
     void    Reset_Member();
 private:
     void    Make_LostSoul();
+    void    Make_MiniMeteor();
 private:
     _float  m_fDelay;
+    _float  m_fMiniDelay;
     _float  m_fSpawnDelay;
-    _float  m_fPatternDelay;
     _float m_fChannel_Count;
     _bool   m_bSkill;
     _bool   m_bSkillStart;
+    _bool  m_CautionCool;
+    _bool  m_bCool;
     _vec3   m_vSpawnPos[3];
+    _vec3 m_vLaunchPos[8];
+    _int   m_iSpawnX;
 public:
     static CMeteorPh3* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
 

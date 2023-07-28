@@ -80,7 +80,7 @@ void CJump_Plate::OnCollisionStay(CCollider* _pOther)
 	m_pOtherObj = _pOther->Get_Host();
 	if (OBJECTTAG::PLAYER == m_pOtherObj->Get_ObjectTag())
 	{
-		_vec3 JumpDir = m_pOtherObj->m_pTransform->m_vInfo[INFO_LOOK] * 20.f;//(dynamic_cast<CPlayer*>(m_pOtherObj)->Get_Speed());
+		_vec3 JumpDir = m_pOtherObj->m_pTransform->m_vInfo[INFO_LOOK] * 5.f;//(dynamic_cast<CPlayer*>(m_pOtherObj)->Get_Speed());
 		(dynamic_cast<CPlayer*>(_pOther->Get_Host())->Get_RigidBody()->Add_Force(_vec3(JumpDir.x, 1.1f * 15.f, JumpDir.z)));
 		(dynamic_cast<CPlayer*>(_pOther->Get_Host())->Get_RigidBody()->UseGravity(true));
 		(dynamic_cast<CPlayer*>(_pOther->Get_Host())->Set_JumpState(true));

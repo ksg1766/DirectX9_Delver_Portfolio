@@ -28,7 +28,9 @@ private:
 
     _vec3   m_vPlayerPos;
     _vec3   m_vCrossDir[4];
-    _int    m_iSkillCount;
+    _float  m_fDuration;
+    _float  m_fRandomX;
+    _float  m_fRandomZ;
 public:
     static CLightningPattern2* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
 
