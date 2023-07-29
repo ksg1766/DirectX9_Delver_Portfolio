@@ -1,6 +1,7 @@
 #include "Export_Utility.h"
 
 #include "../../../Client/Header/UIitem.h"
+#include "../../../Client/Header/UILevelUp.h"
 
 IMPLEMENT_SINGLETON(CUIManager)
 
@@ -30,7 +31,12 @@ void CUIManager::Show_PopupUI(UIPOPUPLAYER _PopupID)
 	{
 		for (auto& iter : m_mapPpopupUI[_PopupID][i])
 		{
-			iter->Set_Dead(false);
+			if (_PopupID == UIPOPUPLAYER::POPUP_LEVELUP) { // 레벨업 창 활성화
+				iter->Set_Dead(false);
+				dynamic_cast<CUILevelUp*>(iter)->Set_UseLevelUpUI(true);
+			}
+			else
+				iter->Set_Dead(false);
 		}
 	}
 }
@@ -41,7 +47,12 @@ void CUIManager::Hide_PopupUI(UIPOPUPLAYER _PopupID)
 	{
 		for (auto& iter : m_mapPpopupUI[_PopupID][i])
 		{
-			iter->Set_Dead(true);
+			if (_PopupID == UIPOPUPLAYER::POPUP_LEVELUP) { // 레벨업 창 비활성화
+				iter->Set_Dead(true);
+				dynamic_cast<CUILevelUp*>(iter)->Set_NotUseLevelUpUI(true);
+			}
+			else
+				iter->Set_Dead(true);
 		}
 	}
 }
@@ -113,7 +124,10 @@ void CUIManager::Show_InvenItem(_uint iType)
 					iter->Set_Dead(false);
 				}
 			}
-
+			else if (iType == 2) // 전부 활성화
+			{
+				iter->Set_Dead(false);
+			}
 		}
 	}
 }

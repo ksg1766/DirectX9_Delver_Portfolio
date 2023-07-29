@@ -618,10 +618,30 @@ void CPlayer::Use_SlotItem(INVENKEYSLOT _SlotNum)
 
 					ITEMTYPEID PrevItemType = dynamic_cast<CItem*>(Get_PrevEquipRight())->Get_ItemTag(); // 이전 무기의 아이템 태그갖고옴.
 					Engine::CGameObject* PrevFindSlotObj = Engine::UIManager()->Get_PopupObjectBasicSlot(PrevItemType);
-					dynamic_cast<CUIbasicslot*>(dynamic_cast<CTempUI*>(PrevFindSlotObj))->Set_FindSlot(false);
+
+					UIOBJECTTTAG UIPrevObjID;
+					_uint        UIPrevNumber;
+					dynamic_cast<CTempUI*>(PrevFindSlotObj)->Get_UIObjID(UIPrevObjID, UIPrevNumber);
+
+					if (UIPrevObjID == UIID_SLOTBASIC) {
+						dynamic_cast<CUIbasicslot*>(dynamic_cast<CTempUI*>(PrevFindSlotObj))->Set_FindSlot(false);
+					}
+					else if (UIPrevObjID == UIID_SLOTEMPTY) {
+						dynamic_cast<CUIemptyslot*>(dynamic_cast<CTempUI*>(PrevFindSlotObj))->Set_FindSlot(false);
+					}
+
 
 					Engine::CGameObject* FindSlotObj = Engine::UIManager()->Get_PopupObjectBasicSlot(ItemType);
-					dynamic_cast<CUIbasicslot*>(dynamic_cast<CTempUI*>(FindSlotObj))->Set_FindSlot(true);
+					UIOBJECTTTAG UIFindObjID;
+					_uint        UIFindNumber;
+					dynamic_cast<CTempUI*>(FindSlotObj)->Get_UIObjID(UIFindObjID, UIFindNumber);
+
+					if (UIFindObjID == UIID_SLOTBASIC) {
+						dynamic_cast<CUIbasicslot*>(dynamic_cast<CTempUI*>(FindSlotObj))->Set_FindSlot(true);
+					}
+					else if (UIFindObjID == UIID_SLOTEMPTY) {
+						dynamic_cast<CUIemptyslot*>(dynamic_cast<CTempUI*>(FindSlotObj))->Set_FindSlot(true);
+					}
 
 					Set_PrevEquipRight(SlotItemObj);
 				}
@@ -668,12 +688,95 @@ void CPlayer::Use_SlotItem(INVENKEYSLOT _SlotNum)
 			}
 			else // 왼 손에 장착하고 있는 상태일 시 서로 스위칭
 			{
-				//m_bItemEquipLeft = true;
-				//Set_CurrentEquipLeft(SlotItemObj);
-				//ITEMTYPEID PrevItemType = dynamic_cast<CItem*>(Get_PrevEquipLeft())->Get_ItemTag(); // 이전 무기의 아이템 태그갖고옴.
+				// 현재 아이템 정보를 이전 아이템 정보로 변경
+				Set_PrevEquipLeft(Get_CurrentEquipLeft());
+				ITEMTYPEID PrevItemType = dynamic_cast<CItem*>(Get_PrevEquipLeft())->Get_ItemTag();
+				
+				// 기존에 있던 아이템 UI 및 슬롯 찾아옴.
+				ITEMTYPEID   UIPrevItemID     = PrevItemType;
+				CGameObject* UIPrevUIItem     = Engine::UIManager()->Get_ItemUI(UIPrevItemID.eItemID);
+				CGameObject* UIPrevParentSlot = dynamic_cast<CTempUI*>(UIPrevUIItem)->Get_Parent();
+				UIOBJECTTTAG UIPrevSlotObjID;
+				_uint        UIPrevSlotNumber;
+				dynamic_cast<CTempUI*>(UIPrevParentSlot)->Get_UIObjID(UIPrevSlotObjID, UIPrevSlotNumber);
 
-				//Set_PrevEquipLeft(SlotItemObj);
+				// 새로 들어올 예정인 아이템 UI 및 슬롯 찾아옴.
+				ITEMTYPEID   UINewItemID     = ItemType;
+				CGameObject* UINewUIItem     = Engine::UIManager()->Get_ItemUI(ItemType.eItemID);
+				CGameObject* UINewParentSlot = dynamic_cast<CTempUI*>(UINewUIItem)->Get_Parent();
+				UIOBJECTTTAG UINewSlotObjID;
+				_uint        UINewSlotNumber;
+				dynamic_cast<CTempUI*>(UINewParentSlot)->Get_UIObjID(UINewSlotObjID, UINewSlotNumber);
 
+				// 슬롯에 현재 자식의 정보를 이전 자식 정보로 설정
+				dynamic_cast<CTempUI*>(UIPrevParentSlot)->Set_BeforeChild(dynamic_cast<CTempUI*>(UIPrevParentSlot)->Get_Child());
+				dynamic_cast<CTempUI*>(UINewParentSlot)->Set_BeforeChild(dynamic_cast<CTempUI*>(UINewParentSlot)->Get_Child());
+
+				// 각각 위치 이동
+				UIPrevUIItem->m_pTransform->m_vInfo[INFO_POS].x = UINewParentSlot->m_pTransform->m_vInfo[INFO_POS].x;
+				UIPrevUIItem->m_pTransform->m_vInfo[INFO_POS].y = UINewParentSlot->m_pTransform->m_vInfo[INFO_POS].y;
+				dynamic_cast<CUIitem*>(UIPrevUIItem)->WorldMatrix(UIPrevUIItem->m_pTransform->m_vInfo[INFO_POS].x, UIPrevUIItem->m_pTransform->m_vInfo[INFO_POS].y, UIPrevUIItem->m_pTransform->m_vLocalScale.x, UIPrevUIItem->m_pTransform->m_vLocalScale.y);
+
+				UINewUIItem->m_pTransform->m_vInfo[INFO_POS].x = UIPrevParentSlot->m_pTransform->m_vInfo[INFO_POS].x;
+				UINewUIItem->m_pTransform->m_vInfo[INFO_POS].y = UIPrevParentSlot->m_pTransform->m_vInfo[INFO_POS].y;
+				dynamic_cast<CUIitem*>(UINewUIItem)->WorldMatrix(UINewUIItem->m_pTransform->m_vInfo[INFO_POS].x, UINewUIItem->m_pTransform->m_vInfo[INFO_POS].y, UINewUIItem->m_pTransform->m_vLocalScale.x, UINewUIItem->m_pTransform->m_vLocalScale.y);
+
+				// 서로 부모 자식 설정
+				if (UINewSlotObjID == UIID_SLOTEQUIPMENT)
+				{
+					dynamic_cast<CTempUI*>(UIPrevUIItem)->Set_Parent(UINewParentSlot);
+					dynamic_cast<CTempUI*>(UINewParentSlot)->Set_Child(nullptr);
+					dynamic_cast<CTempUI*>(UINewParentSlot)->Set_EmptyBool(true);
+					dynamic_cast<CTempUI*>(UINewParentSlot)->Set_NextChild(UIPrevUIItem);
+					dynamic_cast<CTempUI*>(UINewParentSlot)->Set_EmptyBool(false);
+
+					dynamic_cast<CUIitem*>(UINewUIItem)->Set_Parent(UIPrevParentSlot);
+					dynamic_cast<CTempUI*>(UIPrevParentSlot)->Set_Child(nullptr);
+					dynamic_cast<CTempUI*>(UIPrevParentSlot)->Set_EmptyBool(true);
+					dynamic_cast<CTempUI*>(UIPrevParentSlot)->Set_Child(UINewUIItem);
+					dynamic_cast<CTempUI*>(UIPrevParentSlot)->Set_EmptyBool(false);
+				}
+				else if (UIPrevSlotObjID == UIID_SLOTEQUIPMENT)
+				{
+					dynamic_cast<CTempUI*>(UIPrevUIItem)->Set_Parent(UINewParentSlot);
+					dynamic_cast<CTempUI*>(UINewParentSlot)->Set_Child(nullptr);
+					dynamic_cast<CTempUI*>(UINewParentSlot)->Set_EmptyBool(true);
+					dynamic_cast<CTempUI*>(UINewParentSlot)->Set_Child(UIPrevUIItem);
+					dynamic_cast<CTempUI*>(UINewParentSlot)->Set_EmptyBool(false);
+
+					dynamic_cast<CUIitem*>(UINewUIItem)->Set_Parent(UIPrevParentSlot);
+					dynamic_cast<CTempUI*>(UIPrevParentSlot)->Set_Child(nullptr);
+					dynamic_cast<CTempUI*>(UIPrevParentSlot)->Set_EmptyBool(true);
+					dynamic_cast<CTempUI*>(UIPrevParentSlot)->Set_NextChild(UINewUIItem);
+					dynamic_cast<CTempUI*>(UIPrevParentSlot)->Set_EmptyBool(false);
+				}
+				else
+				{
+					dynamic_cast<CTempUI*>(UIPrevUIItem)->Set_Parent(UINewParentSlot);;
+					dynamic_cast<CTempUI*>(UINewParentSlot)->Set_Child(nullptr);
+					dynamic_cast<CTempUI*>(UINewParentSlot)->Set_EmptyBool(true);
+					dynamic_cast<CTempUI*>(UINewParentSlot)->Set_Child(UIPrevUIItem);
+					dynamic_cast<CTempUI*>(UINewParentSlot)->Set_EmptyBool(false);
+
+					dynamic_cast<CUIitem*>(UINewUIItem)->Set_Parent(UIPrevParentSlot);
+					dynamic_cast<CTempUI*>(UIPrevParentSlot)->Set_Child(nullptr);
+					dynamic_cast<CTempUI*>(UIPrevParentSlot)->Set_EmptyBool(true);
+					dynamic_cast<CTempUI*>(UIPrevParentSlot)->Set_Child(UINewUIItem);
+					dynamic_cast<CTempUI*>(UIPrevParentSlot)->Set_EmptyBool(false);
+				}
+
+				// 이동한 곳이 아이템 UI가 보이는 곳인지 안보여야 하는 곳인지 검사
+				if (!Engine::UIManager()->m_bInven && !Engine::UIManager()->m_bStat) {
+					Engine::UIManager()->Show_InvenItem(2);
+					Engine::UIManager()->Hide_InvenItem(0); // 기본 슬롯 빼고 모두 끔
+				}
+				else if (Engine::UIManager()->m_bStat) {
+					Engine::UIManager()->Show_InvenItem(2);
+					Engine::UIManager()->Hide_InvenItem(1); // 내부 슬롯만 끔
+				}
+
+				// 스위칭 성공 시 해당 정보 인벤토리에 업데이트
+				m_pInventory->ExSwitch_InvenItem(UIPrevItemID, UIPrevSlotObjID, UIPrevSlotNumber, UINewItemID, UINewSlotObjID, UINewSlotNumber);
 			}
 		}
 #pragma endregion 해당 슬롯의 아이템이 왼 손에 장착하는 타입인 경우
@@ -683,7 +786,7 @@ void CPlayer::Use_SlotItem(INVENKEYSLOT _SlotNum)
 		{
 			// 해당 아이템 슬롯에 장착 및 위치 이동
 			CGameObject* pItemUIObject = Engine::UIManager()->Get_ItemUI(ItemType.eItemID);
-			CGameObject* GoSlotObject = Engine::UIManager()->Get_PopupObject(Engine::UIPOPUPLAYER::POPUP_EQUIPMENT, Engine::UILAYER::UI_DOWN, UIID_SLOTEQUIPMENT, ItemSlotNumber);
+			CGameObject* GoSlotObject  = Engine::UIManager()->Get_PopupObject(Engine::UIPOPUPLAYER::POPUP_EQUIPMENT, Engine::UILAYER::UI_DOWN, UIID_SLOTEQUIPMENT, ItemSlotNumber);
 
 			// 해당 슬롯이 비어있으면 해당 슬롯으로 공간 이동
 			if (dynamic_cast<CTempUI*>(GoSlotObject)->Get_EmptyBool()) { 
@@ -716,7 +819,91 @@ void CPlayer::Use_SlotItem(INVENKEYSLOT _SlotNum)
 			}
 			else // 해당 슬롯에 아이템이 있는 경우 서로 스위칭
 			{
+				// 기존에 있던 아이템 UI 및 슬롯 찾아옴.
+				ITEMTYPEID   UIPrevItemID = dynamic_cast<CUIitem*>(dynamic_cast<CTempUI*>(GoSlotObject)->Get_Child())->Get_ItemTag();
+				CGameObject* UIPrevUIItem = Engine::UIManager()->Get_ItemUI(UIPrevItemID.eItemID);
+				CGameObject* UIPrevParentSlot = dynamic_cast<CTempUI*>(UIPrevUIItem)->Get_Parent();
+				UIOBJECTTTAG UIPrevSlotObjID;
+				_uint        UIPrevSlotNumber;
+				dynamic_cast<CTempUI*>(UIPrevParentSlot)->Get_UIObjID(UIPrevSlotObjID, UIPrevSlotNumber);
 
+				// 새로 들어올 예정인 아이템 UI 및 슬롯 찾아옴.
+				ITEMTYPEID   UINewItemID = ItemType;
+				CGameObject* UINewUIItem = Engine::UIManager()->Get_ItemUI(ItemType.eItemID);
+				CGameObject* UINewParentSlot = dynamic_cast<CTempUI*>(UINewUIItem)->Get_Parent();
+				UIOBJECTTTAG UINewSlotObjID;
+				_uint        UINewSlotNumber;
+				dynamic_cast<CTempUI*>(UINewParentSlot)->Get_UIObjID(UINewSlotObjID, UINewSlotNumber);
+
+				// 슬롯에 현재 자식의 정보를 이전 자식 정보로 설정
+				dynamic_cast<CTempUI*>(UIPrevParentSlot)->Set_BeforeChild(dynamic_cast<CTempUI*>(UIPrevParentSlot)->Get_Child());
+				dynamic_cast<CTempUI*>(UINewParentSlot)->Set_BeforeChild(dynamic_cast<CTempUI*>(UINewParentSlot)->Get_Child());
+
+				// 각각 위치 이동
+				UIPrevUIItem->m_pTransform->m_vInfo[INFO_POS].x = UINewParentSlot->m_pTransform->m_vInfo[INFO_POS].x;
+				UIPrevUIItem->m_pTransform->m_vInfo[INFO_POS].y = UINewParentSlot->m_pTransform->m_vInfo[INFO_POS].y;
+				dynamic_cast<CUIitem*>(UIPrevUIItem)->WorldMatrix(UIPrevUIItem->m_pTransform->m_vInfo[INFO_POS].x, UIPrevUIItem->m_pTransform->m_vInfo[INFO_POS].y, UIPrevUIItem->m_pTransform->m_vLocalScale.x, UIPrevUIItem->m_pTransform->m_vLocalScale.y);
+
+				UINewUIItem->m_pTransform->m_vInfo[INFO_POS].x = UIPrevParentSlot->m_pTransform->m_vInfo[INFO_POS].x;
+				UINewUIItem->m_pTransform->m_vInfo[INFO_POS].y = UIPrevParentSlot->m_pTransform->m_vInfo[INFO_POS].y;
+				dynamic_cast<CUIitem*>(UINewUIItem)->WorldMatrix(UINewUIItem->m_pTransform->m_vInfo[INFO_POS].x, UINewUIItem->m_pTransform->m_vInfo[INFO_POS].y, UINewUIItem->m_pTransform->m_vLocalScale.x, UINewUIItem->m_pTransform->m_vLocalScale.y);
+
+				// 서로 부모 자식 설정
+				if (UINewSlotObjID == UIID_SLOTEQUIPMENT)
+				{
+					dynamic_cast<CTempUI*>(UIPrevUIItem)->Set_Parent(UINewParentSlot);
+					dynamic_cast<CTempUI*>(UINewParentSlot)->Set_Child(nullptr);
+					dynamic_cast<CTempUI*>(UINewParentSlot)->Set_EmptyBool(true);
+					dynamic_cast<CTempUI*>(UINewParentSlot)->Set_NextChild(UIPrevUIItem);
+					dynamic_cast<CTempUI*>(UINewParentSlot)->Set_EmptyBool(false);
+
+					dynamic_cast<CUIitem*>(UINewUIItem)->Set_Parent(UIPrevParentSlot);
+					dynamic_cast<CTempUI*>(UIPrevParentSlot)->Set_Child(nullptr);
+					dynamic_cast<CTempUI*>(UIPrevParentSlot)->Set_EmptyBool(true);
+					dynamic_cast<CTempUI*>(UIPrevParentSlot)->Set_Child(UINewUIItem);
+					dynamic_cast<CTempUI*>(UIPrevParentSlot)->Set_EmptyBool(false);
+				}
+				else if (UIPrevSlotObjID == UIID_SLOTEQUIPMENT)
+				{
+					dynamic_cast<CTempUI*>(UIPrevUIItem)->Set_Parent(UINewParentSlot);
+					dynamic_cast<CTempUI*>(UINewParentSlot)->Set_Child(nullptr);
+					dynamic_cast<CTempUI*>(UINewParentSlot)->Set_EmptyBool(true);
+					dynamic_cast<CTempUI*>(UINewParentSlot)->Set_Child(UIPrevUIItem);
+					dynamic_cast<CTempUI*>(UINewParentSlot)->Set_EmptyBool(false);
+
+					dynamic_cast<CUIitem*>(UINewUIItem)->Set_Parent(UIPrevParentSlot);
+					dynamic_cast<CTempUI*>(UIPrevParentSlot)->Set_Child(nullptr);
+					dynamic_cast<CTempUI*>(UIPrevParentSlot)->Set_EmptyBool(true);
+					dynamic_cast<CTempUI*>(UIPrevParentSlot)->Set_NextChild(UINewUIItem);
+					dynamic_cast<CTempUI*>(UIPrevParentSlot)->Set_EmptyBool(false);
+				}
+				else
+				{
+					dynamic_cast<CTempUI*>(UIPrevUIItem)->Set_Parent(UINewParentSlot);;
+					dynamic_cast<CTempUI*>(UINewParentSlot)->Set_Child(nullptr);
+					dynamic_cast<CTempUI*>(UINewParentSlot)->Set_EmptyBool(true);
+					dynamic_cast<CTempUI*>(UINewParentSlot)->Set_Child(UIPrevUIItem);
+					dynamic_cast<CTempUI*>(UINewParentSlot)->Set_EmptyBool(false);
+
+					dynamic_cast<CUIitem*>(UINewUIItem)->Set_Parent(UIPrevParentSlot);
+					dynamic_cast<CTempUI*>(UIPrevParentSlot)->Set_Child(nullptr);
+					dynamic_cast<CTempUI*>(UIPrevParentSlot)->Set_EmptyBool(true);
+					dynamic_cast<CTempUI*>(UIPrevParentSlot)->Set_Child(UINewUIItem);
+					dynamic_cast<CTempUI*>(UIPrevParentSlot)->Set_EmptyBool(false);
+				}
+
+				// 이동한 곳이 아이템 UI가 보이는 곳인지 안보여야 하는 곳인지 검사
+				if (!Engine::UIManager()->m_bInven && !Engine::UIManager()->m_bStat) {
+					Engine::UIManager()->Show_InvenItem(2);
+					Engine::UIManager()->Hide_InvenItem(0); // 기본 슬롯 빼고 모두 끔
+				}
+				else if (Engine::UIManager()->m_bStat) {
+					Engine::UIManager()->Show_InvenItem(2);
+					Engine::UIManager()->Hide_InvenItem(1); // 내부 슬롯만 끔
+				}
+
+				// 스위칭 성공 시 해당 정보 인벤토리에 업데이트
+				m_pInventory->ExSwitch_InvenItem(UIPrevItemID, UIPrevSlotObjID, UIPrevSlotNumber, UINewItemID, UINewSlotObjID, UINewSlotNumber);
 			}
 		}
 #pragma endregion 해당 슬롯의 아이템이 아이템 슬롯에 장착하는 타입인 경우

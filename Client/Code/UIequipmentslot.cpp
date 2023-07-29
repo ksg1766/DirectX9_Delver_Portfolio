@@ -38,15 +38,13 @@ _int CUIequipmentslot::Update_Object(const _float & fTimeDelta)
 	if (pPlayer != nullptr) {
 		CInventory* pInventory = dynamic_cast<CInventory*>(pPlayer->Get_Component(COMPONENTTAG::INVENTORY, ID_DYNAMIC));
 
-		// 다음에 장착해야하는 자식이 존재할 시 장착 해제 및 다음 자식 장착
-		if (m_pNextChild != nullptr && !m_bNextItem) {
-			m_bChildExit = true;
-			m_bNextItem  = true;
-		}
-
-		if (m_bChildEntrance && !m_bEntrance) // 해당 아이템 슬롯을 사용할 시 효과 적용
+		if (m_bChildEntrance && !m_bEntrance || m_bNextItem) // 해당 아이템 슬롯을 사용할 시 효과 적용
 		{
 			m_bEntrance = true;
+			if (m_bNextItem) {
+				m_bNextItem = false;
+				m_bChildExit = false;
+			}
 
 			ITEMTYPEID   eItemId = dynamic_cast<CUIitem*>(m_pChild)->Get_ItemTag();
 			CGameObject* pGameObject = pInventory->Get_IDItem(eItemId.eItemID);
@@ -66,7 +64,7 @@ _int CUIequipmentslot::Update_Object(const _float & fTimeDelta)
 				}
 			}
 		}
-		else if (m_bChildExit && m_bEntrance) // 해당 아이템 슬롯을 사용했다가 비었을 시 효과 적용 해제
+		else if (m_bChildExit && m_bEntrance || m_pNextChild != nullptr) // 해당 아이템 슬롯을 사용했다가 비었을 시 효과 적용 해제
 		{
 			ITEMTYPEID   eItemId = dynamic_cast<CUIitem*>(m_pBeforeChild)->Get_ItemTag();
 			CGameObject* pGameObject = pInventory->Get_IDItem(eItemId.eItemID);
@@ -91,13 +89,10 @@ _int CUIequipmentslot::Update_Object(const _float & fTimeDelta)
 				m_eThrowitem = ITEMID::ITEMID_END;
 			}
 
-			if (m_bNextItem)
-			{
-				m_pChild = m_pNextChild;
-				m_bChildEntrance = true;
-
+			if (m_pNextChild != nullptr) {
+				m_pChild     = m_pNextChild;
 				m_pNextChild = nullptr;
-				m_bNextItem = false;
+				m_bNextItem  = true;
 			}
 
 			m_bEntrance = false;

@@ -356,6 +356,7 @@ void CUIitem::Key_Input(void)
 								Set_Parent(ColliderSlotObj);
 								dynamic_cast<CTempUI*>(Get_Parent())->Set_Child(nullptr);
 								dynamic_cast<CTempUI*>(Get_Parent())->Set_EmptyBool(true);
+
 								dynamic_cast<CTempUI*>(Get_Parent())->Set_NextChild(this);
 								dynamic_cast<CTempUI*>(Get_Parent())->Set_EmptyBool(false);
 

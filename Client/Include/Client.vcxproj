@@ -272,6 +272,8 @@
     <ClInclude Include="..\Header\Roastmeat.h" />
     <ClInclude Include="..\Header\SpiderRay.h" />
     <ClInclude Include="..\Header\Rock.h" />
+    <ClInclude Include="..\Header\UILevelUp.h" />
+    <ClInclude Include="..\Header\UILevelUpCard.h" />
     <ClInclude Include="..\Header\VillageTriger.h" />
     <ClInclude Include="..\Header\Shield.h" />
     <ClInclude Include="..\Header\ShopItem.h" />
@@ -516,6 +518,8 @@
     <ClCompile Include="..\Code\Roastmeat.cpp" />
     <ClCompile Include="..\Code\SpiderRay.cpp" />
     <ClCompile Include="..\Code\Rock.cpp" />
+    <ClCompile Include="..\Code\UILevelUp.cpp" />
+    <ClCompile Include="..\Code\UILevelUpCard.cpp" />
     <ClCompile Include="..\Code\VillageTriger.cpp" />
     <ClCompile Include="..\Code\Shield.cpp" />
     <ClCompile Include="..\Code\ShopItem.cpp" />

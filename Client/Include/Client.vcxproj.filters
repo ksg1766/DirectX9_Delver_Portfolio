@@ -829,6 +829,12 @@
     <Filter Include="01. Managers\00. GameManager">
       <UniqueIdentifier>{20e40e4b-1600-44b6-8e46-7a1ef6a05a76}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. GameObject\03. UI\18. UILevelUp">
+      <UniqueIdentifier>{11f5e58b-0b4f-4a8d-8b15-5c262f6857e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\03. UI\18. UILevelUp\00. UILevelUpCard">
+      <UniqueIdentifier>{844e7bd5-e19c-421c-a199-4fcfc162c7ce}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -1628,6 +1634,12 @@
     <ClInclude Include="..\Header\GameManager.h">
       <Filter>01. Managers\00. GameManager</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\UILevelUpCard.h">
+      <Filter>03. GameObject\03. UI\18. UILevelUp\00. UILevelUpCard</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\UILevelUp.h">
+      <Filter>03. GameObject\03. UI\18. UILevelUp</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -2387,6 +2399,12 @@
     </ClCompile>
     <ClCompile Include="..\Code\GameManager.cpp">
       <Filter>01. Managers\00. GameManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UILevelUp.cpp">
+      <Filter>03. GameObject\03. UI\18. UILevelUp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UILevelUpCard.cpp">
+      <Filter>03. GameObject\03. UI\18. UILevelUp\00. UILevelUpCard</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -41,6 +41,8 @@
 // 연출 테스트 // 성공시 보스 씬으로 이동
 #include "GameManager.h"
 
+#include "UILevelUp.h"
+#include "UILevelUpCard.h"
 
 CVillage::CVillage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
@@ -56,7 +58,7 @@ HRESULT CVillage::Ready_Scene()
 	Engine::CGameObject* pGameObject = CBlackIn::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	dynamic_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_BASIC, 0);
-	Engine::UIManager()->Add_BasicGameobject(Engine::UILAYER::UI_UP, pGameObject);
+	Engine::UIManager()->Add_PopupGameobject(Engine::UIPOPUPLAYER::POPUP_BLACK, Engine::UILAYER::UI_DOWN, pGameObject);
 
 	m_eSceneTag = SCENETAG::VILLAGE;
 
@@ -79,6 +81,13 @@ HRESULT CVillage::Ready_Scene()
 
 Engine::_int CVillage::Update_Scene(const _float& fTimeDelta)
 {
+	if (Engine::InputDev()->Key_Down(DIK_COMMA)) {
+		Engine::UIManager()->Show_PopupUI(Engine::UIPOPUPLAYER::POPUP_LEVELUP);
+    }
+	else if (Engine::InputDev()->Key_Down(DIK_SLASH)) {
+		Engine::UIManager()->Hide_PopupUI(Engine::UIPOPUPLAYER::POPUP_LEVELUP);
+	}
+
 	__super::Update_Scene(fTimeDelta);
 
 	CGameManager::GetInstance()->Update_Game(fTimeDelta);
@@ -494,15 +503,6 @@ HRESULT CVillage::Ready_Layer_UI(LAYERTAG _eLayerTag)
 		NULL_CHECK_RETURN(pGameObject, E_FAIL);
 		Engine::UIManager()->Add_PopupGameobject(Engine::UIPOPUPLAYER::POPUP_SPEECH, Engine::UILAYER::UI_DOWN, pGameObject);
 
-
-		Engine::UIManager()->Hide_PopupUI(Engine::UIPOPUPLAYER::POPUP_EQUIPMENT);
-		Engine::UIManager()->Hide_PopupUI(Engine::UIPOPUPLAYER::POPUP_INVEN);
-		Engine::UIManager()->Hide_PopupUI(Engine::UIPOPUPLAYER::POPUP_STAT);
-		Engine::UIManager()->Hide_PopupUI(Engine::UIPOPUPLAYER::POPUP_MAP);
-		Engine::UIManager()->Hide_PopupUI(Engine::UIPOPUPLAYER::POPUP_ESC);
-		Engine::UIManager()->Hide_PopupUI(Engine::UIPOPUPLAYER::POPUP_SPEECH);	// Speech Bubble Test
-		Engine::UIManager()->Hide_PopupUI(Engine::UIPOPUPLAYER::POPUP_SHOP);
-
 		pGameObject = CUIBark_Dog::Create(m_pGraphicDev);
 		NULL_CHECK_RETURN(pGameObject, E_FAIL);
 		Engine::UIManager()->Add_PopupGameobject(Engine::UIPOPUPLAYER::POPUP_SPEECH, Engine::UILAYER::UI_DOWN, pGameObject);
@@ -511,6 +511,15 @@ HRESULT CVillage::Ready_Layer_UI(LAYERTAG _eLayerTag)
 		NULL_CHECK_RETURN(pGameObject, E_FAIL);
 		Engine::UIManager()->Add_PopupGameobject(Engine::UIPOPUPLAYER::POPUP_SPEECH, Engine::UILAYER::UI_DOWN, pGameObject);
 
+		// 플레이어 레벨 업 UI 미리 생성 후 활성화 비활성화로 사용
+		/*pGameObject = CUILevelUp::Create(m_pGraphicDev);
+		NULL_CHECK_RETURN(pGameObject, E_FAIL);
+		Engine::UIManager()->Add_PopupGameobject(Engine::UIPOPUPLAYER::POPUP_LEVELUP, Engine::UILAYER::UI_DOWN, pGameObject);
+
+		pGameObject = CUILevelUpCard::Create(m_pGraphicDev);
+		NULL_CHECK_RETURN(pGameObject, E_FAIL);
+		Engine::UIManager()->Add_PopupGameobject(Engine::UIPOPUPLAYER::POPUP_LEVELUP, Engine::UILAYER::UI_DOWN, pGameObject);*/
+
 		Engine::UIManager()->Hide_PopupUI(Engine::UIPOPUPLAYER::POPUP_EQUIPMENT);
 		Engine::UIManager()->Hide_PopupUI(Engine::UIPOPUPLAYER::POPUP_INVEN);
 		Engine::UIManager()->Hide_PopupUI(Engine::UIPOPUPLAYER::POPUP_STAT);
@@ -518,6 +527,7 @@ HRESULT CVillage::Ready_Layer_UI(LAYERTAG _eLayerTag)
 		Engine::UIManager()->Hide_PopupUI(Engine::UIPOPUPLAYER::POPUP_ESC);
 		Engine::UIManager()->Hide_PopupUI(Engine::UIPOPUPLAYER::POPUP_SPEECH);	// Speech Bubble Test
 		Engine::UIManager()->Hide_PopupUI(Engine::UIPOPUPLAYER::POPUP_SHOP);
+		//Engine::UIManager()->Hide_PopupUI(Engine::UIPOPUPLAYER::POPUP_LEVELUP);
 	}
 	
 	m_mapLayer.insert({ _eLayerTag, pLayer });
