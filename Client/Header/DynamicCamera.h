@@ -33,6 +33,7 @@ private:
 	void		First_Camera();
 	void		Third_Camera();
 	
+	// 연출용 카메라 무빙은 bCameraCheck을 true로 만든후에 해보자...
 
 public:
 	//_bool		Get_CameraMode() { return m_bCameraCheck; }
@@ -40,8 +41,7 @@ public:
 
 public:
 	void		Set_Fix(_bool _Fix) { m_bFix = _Fix; }
-	void		Set_ShakeForce(_float _ShakeTime, _float _Amplitude, _float _Duration,
-		_float _Frequency);
+	void		Set_ShakeForce(_float _ShakeTime, _float _Amplitude, _float _Duration, _float _Frequency);
 	void		Reset_ShakeForce();
 
 public:

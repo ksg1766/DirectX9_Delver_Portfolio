@@ -37,6 +37,10 @@
 #include "EffectFirefly.h"
 #include "HellDoor.h"
 
+// 연출 테스트 // 성공시 보스 씬으로 이동
+#include "GameManager.h"
+
+
 CVillage::CVillage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
 {
@@ -75,6 +79,8 @@ HRESULT CVillage::Ready_Scene()
 Engine::_int CVillage::Update_Scene(const _float& fTimeDelta)
 {
 	__super::Update_Scene(fTimeDelta);
+
+	CGameManager::GetInstance()->Update_Game(fTimeDelta);
 
 	UIManager()->Update_UI(fTimeDelta);
 	return 0;

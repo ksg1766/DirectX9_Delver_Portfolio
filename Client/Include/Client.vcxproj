@@ -240,6 +240,7 @@
     <ClInclude Include="..\Header\FireWallPttern.h" />
     <ClInclude Include="..\Header\FIreWave2.h" />
     <ClInclude Include="..\Header\FireWavePattern.h" />
+    <ClInclude Include="..\Header\GameManager.h" />
     <ClInclude Include="..\Header\GrapPattern.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
@@ -485,6 +486,7 @@
     <ClCompile Include="..\Code\FireWallPttern.cpp" />
     <ClCompile Include="..\Code\FIreWave2.cpp" />
     <ClCompile Include="..\Code\FireWavePattern.cpp" />
+    <ClCompile Include="..\Code\GameManager.cpp" />
     <ClCompile Include="..\Code\GrapPattern.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>

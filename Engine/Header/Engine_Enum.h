@@ -86,11 +86,24 @@ namespace Engine
 	enum class SOULSTATE { SOUL_NORMAL, SOUL_PARRY, SOUL_END };//기본, 패링당했을 때
 
 	enum CHANNELID          
-	{ SOUND_EFFECT, SOUND_BGM, SOUND_WEAPON, SOUND_UI, SOUND_PLAYER, 
+	{
+		SOUND_EFFECT, SOUND_BGM, SOUND_WEAPON, SOUND_UI, SOUND_PLAYER, 
 		SOUND_CONSUMABLE, SOUND_INVENTORY, SOUND_ENVIRONMENT, SOUND_BREAK, 
 		SOUND_WARRIOR, SOUND_SPIDER, SOUND_BAT, SOUND_WIZARD, SOUND_ALIEN, 
 		SOUND_SLIME, SOUND_SKELETON, SOUND_SKULL, SOUND_WORM,
 		
-		SOUND_MAXCHANNEL };
+		SOUND_MAXCHANNEL
+	};
+
+	typedef enum class Production
+	{
+		Normal = 0,
+		ShowVillage = 1,
+		ShowSewer = 2,
+		//
+		ShowBoss = 3,
+		HekirekiIssen = 4,
+	}PD;
+
 };
 #endif // Engine_Enum_h__

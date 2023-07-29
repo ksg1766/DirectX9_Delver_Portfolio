@@ -45,6 +45,9 @@
 #include "Boss_Lightning.h"
 #include "BlackIn.h"
 
+// 연출 테스트 // 성공시 보스 씬으로 이동
+#include "GameManager.h"
+
 CStage::CStage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
 {
@@ -82,6 +85,8 @@ HRESULT CStage::Ready_Scene()
 Engine::_int CStage::Update_Scene(const _float& fTimeDelta)
 {
 	__super::Update_Scene(fTimeDelta);
+
+	CGameManager::GetInstance()->Update_Game(fTimeDelta);
 
 	UIManager()->Update_UI(fTimeDelta);
 

@@ -51,14 +51,38 @@ _int CSceneManager::Update_Scene(const _float & fTimeDelta)
 	if (nullptr == m_pCurrentScene)
 		return -1;
 
-	if (m_bSceneChange) {
+	if (m_bSceneChange)
+	{
 		Octree()->Ready_Octree();
 		m_bSceneChange = false;
 	}
 	
-	Octree()->Update_Octree();
+#pragma region SlowMode
 
-	return m_pCurrentScene->Update_Scene(fTimeDelta);
+	if (m_fSlowDuration > 0.f)
+	{
+		m_bPassTick = false;
+		m_fSlowDuration -= fTimeDelta;
+		if (m_bySlowRate - 1 > m_iUpdateCount++)
+		{
+			m_bPassTick = true;
+			return _int();
+		}
+
+		m_iUpdateCount = 0;
+	}
+	else
+	{
+		m_bPassTick = false;
+		m_iUpdateCount = 0;
+	}
+
+#pragma endregion SlowMode
+
+	Octree()->Update_Octree();
+	m_pCurrentScene->Update_Scene(fTimeDelta);
+
+	return _int();
 }
 
 void CSceneManager::LateUpdate_Scene()
@@ -66,7 +90,8 @@ void CSceneManager::LateUpdate_Scene()
 	if (nullptr == m_pCurrentScene)
 		return;
 
-	m_pCurrentScene->LateUpdate_Scene();
+	if(!m_bPassTick)
+		m_pCurrentScene->LateUpdate_Scene();
 }
 
 void CSceneManager::Render_Scene(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -75,13 +100,16 @@ void CSceneManager::Render_Scene(LPDIRECT3DDEVICE9 pGraphicDev)
 	//if(SCENETAG::STAGE == m_pScene->Get_SceneTag())	Octree()->Render_Octree(pGraphicDev);
 #endif
 
-	if (SCENETAG::VILLAGE == m_pCurrentScene->Get_SceneTag() || SCENETAG::STAGE == m_pCurrentScene->Get_SceneTag() || SCENETAG::BOSSSTAGE == m_pCurrentScene->Get_SceneTag())
-		Octree()->Render_Octree(pGraphicDev);
+	//if (!m_bPassTick)
+	//{
+		if (SCENETAG::VILLAGE == m_pCurrentScene->Get_SceneTag() || SCENETAG::STAGE == m_pCurrentScene->Get_SceneTag() || SCENETAG::BOSSSTAGE == m_pCurrentScene->Get_SceneTag())
+			Octree()->Render_Octree(pGraphicDev);
 
-	Renderer()->Render_GameObject(pGraphicDev);
+		Renderer()->Render_GameObject(pGraphicDev);
+	//}
 
 	if (m_pCurrentScene)
-		m_pCurrentScene->Render_Scene();	
+		m_pCurrentScene->Render_Scene();
 
 	if (m_bSceneChange)
 	{
@@ -133,6 +161,12 @@ HRESULT CSceneManager::Load_Data()
 		m_pCurrentScene->Load_Data();
 
 	return S_OK;
+}
+
+void CSceneManager::SlowMode(_uint _bySlowDuration, _ubyte _bySlowRate)
+{
+	m_fSlowDuration = _bySlowDuration;
+	m_bySlowRate = _bySlowRate;
 }
 
 void CSceneManager::Free()

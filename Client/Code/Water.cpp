@@ -35,6 +35,9 @@ HRESULT CWater::Ready_Object(void)
 _int CWater::Update_Object(const _float& fTimeDelta)
 {
 	_int iExit = __super::Update_Object(fTimeDelta);
+
+	(m_iTextureNumber < 319) ? (++m_iTextureNumber) : (m_iTextureNumber = 0);
+
 	Engine::Renderer()->Add_RenderGroup(RENDER_NONALPHA, this);
 
 	return iExit;
@@ -42,7 +45,8 @@ _int CWater::Update_Object(const _float& fTimeDelta)
 
 void CWater::LateUpdate_Object(void)
 {
-	__super::LateUpdate_Object();
+	//__super::LateUpdate_Object();
+	m_pCollider->SetCenterPos(m_pTransform->m_vInfo[INFO_POS] - _vec3(0.f, 0.3f, 0.f));
 }
 
 void CWater::Render_Object(void)
@@ -50,7 +54,6 @@ void CWater::Render_Object(void)
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
 
 	m_pTexture->Render_Texture(m_iTextureNumber / 10);
-	(m_iTextureNumber < 319) ? (++m_iTextureNumber) : (m_iTextureNumber = 0);
 
 	m_pBuffer->Render_Buffer();
 }

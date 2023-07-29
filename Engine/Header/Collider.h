@@ -25,6 +25,8 @@ public:
 
 	UINT			GetID() { return m_iID; }
 
+	void			SetCenterPos(_vec3& _vCenterPos) { m_vCenterPos = _vCenterPos; }
+
 public:
 	virtual void	OnCollisionEnter(CCollider* _pOther);
 	virtual void	OnCollisionStay(CCollider* _pOther);

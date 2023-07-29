@@ -234,10 +234,10 @@ void CDynamicCamera::First_Camera()
 {
 	CComponent* pComponent = SceneManager()->Get_Scene()->Get_MainPlayer()->m_pTransform;
 
-	_matrix matPlayerWorld = dynamic_cast<CTransform*>(pComponent)->WorldMatrix();
+	const _matrix& matPlayerWorld = dynamic_cast<CTransform*>(pComponent)->WorldMatrix();
 
-	_vec3	vPlayerLook = dynamic_cast<CTransform*>(pComponent)->m_vInfo[INFO_LOOK];
-	_vec3	vPlayerUp = dynamic_cast<CTransform*>(pComponent)->m_vInfo[INFO_UP];
+	_vec3&	vPlayerLook = dynamic_cast<CTransform*>(pComponent)->m_vInfo[INFO_LOOK];
+	_vec3&	vPlayerUp = dynamic_cast<CTransform*>(pComponent)->m_vInfo[INFO_UP];
 
 	//_vec3 vCameraOffset = vPlayerUp * 1.0f + vPlayerLook * 1.0f;
 	//_vec3 vCameraPosition = dynamic_cast<CTransform*>(pComponent)->m_vInfo[INFO_POS] + vCameraOffset;

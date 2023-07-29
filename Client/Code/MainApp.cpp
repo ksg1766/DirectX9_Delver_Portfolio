@@ -94,13 +94,15 @@ void CMainApp::Render_MainApp()
 	}
 
 	m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, FALSE);
-
+if (!m_pSceneManager->Is_TickPassed())
+	{
 	Engine::Render_Begin(D3DXCOLOR(0.f, 0.f, 1.f, 1.f));
-
+	 
 	m_pSceneManager->Render_Scene(m_pGraphicDev);
-
-	Engine::Render_End();
-
+	
+	
+		Engine::Render_End();
+	}
 	Engine::EventManager()->Update();
 }
 

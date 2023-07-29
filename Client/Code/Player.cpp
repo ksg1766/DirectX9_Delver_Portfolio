@@ -20,6 +20,9 @@
 // 임시 몬스터 삭제용
 #include "PoolManager.h"
 
+// 연출 테스트
+#include "GameManager.h"
+
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CGameObject(pGraphicDev)
 {
@@ -269,6 +272,22 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 	_vec3 vUp = m_pTransform->m_vInfo[INFO_UP];
 
 	_bool bCameraOn = static_cast<CDynamicCamera*>(pGameObject)->Get_MouseFix();
+
+#pragma region 연출 테스트
+
+if (Engine::InputDev()->Key_Pressing(DIK_LCONTROL) && Engine::InputDev()->Key_Down(DIK_X))
+	{
+		SceneManager()->SlowMode(3.f, 3);
+	}
+
+	if (Engine::InputDev()->Key_Pressing(DIK_LCONTROL) && Engine::InputDev()->Key_Down(DIK_H))
+	{
+		CGameManager::GetInstance()->PlayMode(PD::HekirekiIssen);
+	}
+
+#pragma endregion 연출 테스트
+
+	
 
 	if (0 != (dwMouseMove = Engine::InputDev()->Get_DIMouseMove(DIMS_X)) && !bCameraOn)
 	{

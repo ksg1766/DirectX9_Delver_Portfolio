@@ -400,9 +400,6 @@
     <Filter Include="03. GameObject\04. Public">
       <UniqueIdentifier>{2fcd0e5e-a0a7-48c6-a837-e4bf6372d6c4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. GameObject\04. Public\00. DynamicCamera">
-      <UniqueIdentifier>{80783a13-8054-457e-985d-d4596f67ba30}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03. GameObject\04. Public\02. Loading">
       <UniqueIdentifier>{d61b0e5a-288d-420d-be59-f8a8961db575}</UniqueIdentifier>
     </Filter>
@@ -484,12 +481,6 @@
     <Filter Include="03. GameObject\01. Stage\05. Monster\09. Worm">
       <UniqueIdentifier>{48c719c2-4bc1-4b02-b162-c9de2a6b3265}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01. Managers\00. CameraManager">
-      <UniqueIdentifier>{a57827f0-bee6-4f0f-893f-b9133a2e166f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Managers\01. PoolManager">
-      <UniqueIdentifier>{8e8513ea-f60d-429b-9697-3b55143b1e64}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03. GameObject\01. Stage\05. Monster\08. SkullGhost">
       <UniqueIdentifier>{8c95a3a2-b82e-454a-ae00-6331239cea8f}</UniqueIdentifier>
     </Filter>
@@ -568,9 +559,6 @@
     <Filter Include="03. GameObject\01. Stage\05. Cube\01. DynamicCubeBlock">
       <UniqueIdentifier>{6b1d2605-954b-46af-95a0-ffbadd198e15}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01. Managers\02. SoundManager">
-      <UniqueIdentifier>{9a838c8e-62af-4bb9-9334-54ef7099647c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03. GameObject\03. UI\14. UISpeech\01. NPC\02. Trader">
       <UniqueIdentifier>{9cd2480d-94d8-4a98-9889-1725288c38d9}</UniqueIdentifier>
     </Filter>
@@ -582,9 +570,6 @@
     </Filter>
     <Filter Include="01. Managers\02. SoundManager">
       <UniqueIdentifier>{c2bdc8f7-7c35-443c-9cd6-7bd289c3a95b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Managers\02. SoundManager\fmode">
-      <UniqueIdentifier>{1b5777de-7772-4e88-8648-15c4262fb03f}</UniqueIdentifier>
     </Filter>
     <Filter Include="02. Scene\05. Village">
       <UniqueIdentifier>{cdb9d315-6627-4acc-8612-173ceac1078f}</UniqueIdentifier>
@@ -823,6 +808,27 @@
     <Filter Include="03. GameObject\01. Stage\999. Boss\01. AttackEff\99.Etc\Potal">
       <UniqueIdentifier>{ba503226-b9dc-4361-b383-d90ae2bd87ee}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. GameObject\04. Public\00. Camera">
+      <UniqueIdentifier>{80783a13-8054-457e-985d-d4596f67ba30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\04. Public\00. Camera\00. MainCamera">
+      <UniqueIdentifier>{5501f942-c390-4d44-8f14-6904aa60ac89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Managers\01. CameraManager">
+      <UniqueIdentifier>{a57827f0-bee6-4f0f-893f-b9133a2e166f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Managers\02. PoolManager">
+      <UniqueIdentifier>{8e8513ea-f60d-429b-9697-3b55143b1e64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Managers\03. SoundManager">
+      <UniqueIdentifier>{9a838c8e-62af-4bb9-9334-54ef7099647c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Managers\03. SoundManager\fmode">
+      <UniqueIdentifier>{1b5777de-7772-4e88-8648-15c4262fb03f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Managers\00. GameManager">
+      <UniqueIdentifier>{20e40e4b-1600-44b6-8e46-7a1ef6a05a76}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -850,7 +856,7 @@
       <Filter>02. Scene\01. Stage</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\DynamicCamera.h">
-      <Filter>03. GameObject\04. Public\00. DynamicCamera</Filter>
+      <Filter>03. GameObject\04. Public\00. Camera</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Loading.h">
       <Filter>03. GameObject\04. Public\02. Loading</Filter>
@@ -916,7 +922,7 @@
       <Filter>03. GameObject\02. Editor\01. OrthoCamera</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\CameraManager.h">
-      <Filter>01. Managers\00. CameraManager</Filter>
+      <Filter>01. Managers\01. CameraManager</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\PlayerState_Walk.h">
       <Filter>03. GameObject\01. Stage\01. Player\State\Walk</Filter>
@@ -1249,7 +1255,7 @@
       <Filter>03. GameObject\01. Stage\05. Monster\09. Worm</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\PoolManager.h">
-      <Filter>01. Managers\01. PoolManager</Filter>
+      <Filter>01. Managers\02. PoolManager</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\DungeonSpider.h">
       <Filter>03. GameObject\01. Stage\05. Monster\02. Spider</Filter>
@@ -1377,28 +1383,28 @@
       <Filter>03. GameObject\03. UI\17. UIShopItem</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\SoundManager.h">
-      <Filter>01. Managers\02. SoundManager</Filter>
+      <Filter>01. Managers\03. SoundManager</Filter>
     </ClInclude>
     <ClInclude Include="..\fmode\inc\fmod.h">
-      <Filter>01. Managers\02. SoundManager\fmode</Filter>
+      <Filter>01. Managers\03. SoundManager\fmode</Filter>
     </ClInclude>
     <ClInclude Include="..\fmode\inc\fmod.hpp">
-      <Filter>01. Managers\02. SoundManager\fmode</Filter>
+      <Filter>01. Managers\03. SoundManager\fmode</Filter>
     </ClInclude>
     <ClInclude Include="..\fmode\inc\fmod_codec.h">
-      <Filter>01. Managers\02. SoundManager\fmode</Filter>
+      <Filter>01. Managers\03. SoundManager\fmode</Filter>
     </ClInclude>
     <ClInclude Include="..\fmode\inc\fmod_dsp.h">
-      <Filter>01. Managers\02. SoundManager\fmode</Filter>
+      <Filter>01. Managers\03. SoundManager\fmode</Filter>
     </ClInclude>
     <ClInclude Include="..\fmode\inc\fmod_errors.h">
-      <Filter>01. Managers\02. SoundManager\fmode</Filter>
+      <Filter>01. Managers\03. SoundManager\fmode</Filter>
     </ClInclude>
     <ClInclude Include="..\fmode\inc\fmod_memoryinfo.h">
-      <Filter>01. Managers\02. SoundManager\fmode</Filter>
+      <Filter>01. Managers\03. SoundManager\fmode</Filter>
     </ClInclude>
     <ClInclude Include="..\fmode\inc\fmod_output.h">
-      <Filter>01. Managers\02. SoundManager\fmode</Filter>
+      <Filter>01. Managers\03. SoundManager\fmode</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Village.h">
       <Filter>02. Scene\05. Village</Filter>
@@ -1619,6 +1625,9 @@
     <ClInclude Include="..\Header\DimensionGate.h">
       <Filter>03. GameObject\01. Stage\999. Boss\01. AttackEff\99.Etc\Potal</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\GameManager.h">
+      <Filter>01. Managers\00. GameManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -1643,7 +1652,7 @@
       <Filter>02. Scene\01. Stage</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\DynamicCamera.cpp">
-      <Filter>03. GameObject\04. Public\00. DynamicCamera</Filter>
+      <Filter>03. GameObject\04. Public\00. Camera</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Loading.cpp">
       <Filter>03. GameObject\04. Public\02. Loading</Filter>
@@ -1709,7 +1718,7 @@
       <Filter>03. GameObject\02. Editor\01. OrthoCamera</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\CameraManager.cpp">
-      <Filter>01. Managers\00. CameraManager</Filter>
+      <Filter>01. Managers\01. CameraManager</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\PlayerState_Walk.cpp">
       <Filter>03. GameObject\01. Stage\01. Player\State\Walk</Filter>
@@ -2036,7 +2045,7 @@
       <Filter>03. GameObject\01. Stage\05. Monster\09. Worm</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\PoolManager.cpp">
-      <Filter>01. Managers\01. PoolManager</Filter>
+      <Filter>01. Managers\02. PoolManager</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\DungeonSpider.cpp">
       <Filter>03. GameObject\01. Stage\05. Monster\02. Spider</Filter>
@@ -2164,7 +2173,7 @@
       <Filter>03. GameObject\03. UI\17. UIShopItem</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\SoundManager.cpp">
-      <Filter>01. Managers\02. SoundManager</Filter>
+      <Filter>01. Managers\03. SoundManager</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Village.cpp">
       <Filter>02. Scene\05. Village</Filter>
@@ -2375,6 +2384,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\DimensionGate.cpp">
       <Filter>03. GameObject\01. Stage\999. Boss\01. AttackEff\99.Etc\Potal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\GameManager.cpp">
+      <Filter>01. Managers\00. GameManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
