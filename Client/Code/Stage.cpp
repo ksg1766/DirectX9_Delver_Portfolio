@@ -220,6 +220,11 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
+	//pGameObject = CDungeonSpider::Create(m_pGraphicDev);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+
+
 
 	m_mapLayer.insert({ _eLayerTag, pLayer });
 
