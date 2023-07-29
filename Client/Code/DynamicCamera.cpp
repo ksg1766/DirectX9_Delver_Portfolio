@@ -277,9 +277,9 @@ void CDynamicCamera::Reset_ShakeForce()
 {
 	m_fShakeElipsedTime = 0.f; // ÁßÃ¸½Ã°£
 
-	m_fAmplitude = 0.005f; // ÁøÆø
-	m_fDuration = 0.1f;  // Èçµå´Â ½Ã°£
-	m_fFrequency = 1.f; // Èçµå´Â ¼Óµµ
+	m_fAmplitude = 0.f; // ÁøÆø
+	m_fDuration = 0.f;  // Èçµå´Â ½Ã°£
+	m_fFrequency = 0.f; // Èçµå´Â ¼Óµµ
 }
 
 void CDynamicCamera::Shake_Camera()

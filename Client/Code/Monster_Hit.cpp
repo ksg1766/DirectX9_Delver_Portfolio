@@ -86,65 +86,38 @@ void CMonster_Hit::Hit_Sound()
 	switch (_eMonsterTag)
 	{
 	case MONSTERTAG::SPIDER:
-		//CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTERMOVE);
-		//CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTERATTACK);
-		//CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTERIDLE);
 		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_SPIDER);
 		CSoundManager::GetInstance()->PlaySound(L"en_spider_hurt_01.mp3", CHANNELID::SOUND_SPIDER, 1.f);
 		break;
 	case MONSTERTAG::WARRIOR:
-	/*	CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTERMOVE);
-		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTERATTACK);
-		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTERIDLE);*/
 		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_WARRIOR);
 		CSoundManager::GetInstance()->PlaySound(L"en_melee_2_hurt_02.mp3", CHANNELID::SOUND_WARRIOR, 1.f);
 		break;
 	case MONSTERTAG::BAT:
-		//CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTERMOVE);
-		//CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTERATTACK);
-		//CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTERIDLE);
 		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_BAT);
 		CSoundManager::GetInstance()->PlaySound(L"en_bat_hurt_01.mp3", CHANNELID::SOUND_BAT, 1.f);
 		break;
 	case MONSTERTAG::WIZARD:
-		//CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTERMOVE);
-		//CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTERATTACK);
-		//CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTERIDLE);
 		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_WIZARD);
 		CSoundManager::GetInstance()->PlaySound(L"en_mage_hurt_03.mp3", CHANNELID::SOUND_WIZARD, 1.f);
 		break;
 	case MONSTERTAG::ALIEN:
-		//CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTERMOVE);
-		//CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTERATTACK);
-		//CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTERIDLE);
 		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_ALIEN);
 		CSoundManager::GetInstance()->PlaySound(L"en_beholder_hurt_01.mp3", CHANNELID::SOUND_ALIEN, 1.f);
 		break;
 	case MONSTERTAG::SLIME:
-		//CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTERMOVE);
-		//CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTERATTACK);
-		//CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTERIDLE);
 		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_SLIME);
 		CSoundManager::GetInstance()->PlaySound(L"en_slime_hurt_01.mp3", CHANNELID::SOUND_SLIME, 1.f);
 		break;
 	case MONSTERTAG::SKELETON:
-		//CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTERMOVE);
-		//CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTERATTACK);
-		//CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTERIDLE);
 		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_SKELETON);
 		CSoundManager::GetInstance()->PlaySound(L"en_skel_hurt_02.mp3", CHANNELID::SOUND_SKELETON, 1.f);
 		break;
 	case MONSTERTAG::SKULLGHOST:
-		//CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTERMOVE);
-		//CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTERATTACK);
-		//CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTERIDLE);
 		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_SKULL);
 		CSoundManager::GetInstance()->PlaySound(L"en_skull_hurt_03.mp3", CHANNELID::SOUND_SKULL, 1.f);
 		break;
 	case MONSTERTAG::WORM:
-		//CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTERMOVE);
-		//CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTERATTACK);
-		//CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTERIDLE);
 		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_WORM);
 		CSoundManager::GetInstance()->PlaySound(L"en_worm_hurt_02.mp3", CHANNELID::SOUND_WORM, 1.f);
 		break;

@@ -55,7 +55,6 @@ void CVillageTriger::LateUpdate_Object(void)
 		if (fDistance < 5.f)
 		{
 			// 마을 -> 스테이지 씬 이동
-			CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_ENVIRONMENT);
 			CSoundManager::GetInstance()->PlaySound(L"door_beginning.mp3", CHANNELID::SOUND_ENVIRONMENT, 1.f);
 
 			CScene* pScene = CStage::Create(m_pGraphicDev);

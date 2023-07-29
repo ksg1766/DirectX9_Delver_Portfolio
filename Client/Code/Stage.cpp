@@ -74,13 +74,14 @@ HRESULT CStage::Ready_Scene()
 	m_pGraphicDev->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
 
 	CSoundManager::GetInstance()->StopAll();
-	CSoundManager::GetInstance()->PlayBGM(L"chase_sewers.mp3", 0.3f);
+	CSoundManager::GetInstance()->PlayBGM(L"chase_sewers.mp3", 0.5f);
 
 	return S_OK;
 }
 
 Engine::_int CStage::Update_Scene(const _float& fTimeDelta)
 {
+
 	__super::Update_Scene(fTimeDelta);
 
 	UIManager()->Update_UI(fTimeDelta);

@@ -23,7 +23,8 @@ public:
 
 private:
 	STATE Jump(const _float& fTimeDelta);
-		
+	void  Jump_Sound();
+	void  Idle_Sound();
 private:
 	_vec3	m_vLastPos;
 	_vec3	m_vSavePos;

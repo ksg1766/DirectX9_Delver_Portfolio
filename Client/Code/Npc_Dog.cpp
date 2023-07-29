@@ -1,3 +1,5 @@
+#include "stdafx.h"
+#include "SoundManager.h"
 #include "Npc_Dog.h"
 #include "Export_Function.h"
 #include "Dog_Idle.h"
@@ -92,6 +94,8 @@ _int CNpc_Dog::Update_Object(const _float& fTimeDelta)
 					m_bTalking = true;
 
 				static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(true);
+				CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_UI);
+				CSoundManager::GetInstance()->PlaySound(L"ui_dialogue_open.mp3", CHANNELID::SOUND_UI, 1.f);
 			}
 			else
 			{
@@ -103,6 +107,8 @@ _int CNpc_Dog::Update_Object(const _float& fTimeDelta)
 				rPlayer.Set_Talk(false);
 
 				static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(false);
+				CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_UI);
+				CSoundManager::GetInstance()->PlaySound(L"ui_dialogue_close.mp3", CHANNELID::SOUND_UI, 1.f);
 			}
 		}
 

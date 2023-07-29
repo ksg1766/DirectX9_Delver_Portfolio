@@ -67,10 +67,10 @@ void CWaterFallTriger::Render_Object()
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
 
 	//m_pTexture->Render_Texture(0);
-	m_pCubeBf->Render_Buffer();
+	//m_pCubeBf->Render_Buffer();
 
 #if _DEBUG
-	m_pCollider->Render_Collider();
+	//m_pCollider->Render_Collider();
 #endif // _DEBUG
 
 }

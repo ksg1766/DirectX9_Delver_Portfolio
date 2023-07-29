@@ -135,6 +135,9 @@ _int CBat::Update_Object(const _float& fTimeDelta)
 
 	m_pStateMachine->Update_StateMachine(fTimeDelta);
 
+	if (m_pStateMachine->Get_State() == STATE::DEAD)
+		m_pRigidBody->UseGravity(true);
+
 	return iExit;
 }
 
@@ -198,6 +201,17 @@ void CBat::OnCollisionStay(CCollider* _pOther)
 		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::ITEM &&
 		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::PLAYER)
 		__super::OnCollisionStay(_pOther);
+
+	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::PLAYER
+		&& this->Get_State() == STATE::ATTACK)
+		if (!this->Get_AttackTick())
+		{
+			CPlayerStat& PlayerStat = *static_cast<CPlayer*>(_pOther->Get_Host())->Get_Stat();
+			this->Set_AttackTick(true);
+			IsAttack(&PlayerStat);
+
+			//cout << "¹ÚÁã °ø°Ý" << endl;
+		}
 
 	if (_pOther->Get_ObjectTag() == OBJECTTAG::BLOCK)
 		m_bBlockOn = true;

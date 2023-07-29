@@ -38,6 +38,10 @@ private:
 	_bool	  m_bTriger = false;
 	_bool	  m_bShake = false;
 	_bool	  m_bCreate = false;
+	_bool	  m_bBgmChange = false;
+	_bool	  m_bBgmStop = false;
+	_bool	  m_bDoorOpen = false;
+	_bool	  m_bDoorClose = false;
 
 	_float	m_fSound;
 	const _float m_fMaxVolume = 1.f;

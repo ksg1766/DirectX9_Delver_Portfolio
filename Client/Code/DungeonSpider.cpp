@@ -131,8 +131,8 @@ _int CDungeonSpider::Update_Object(const _float& fTimeDelta)
 
 	m_pStateMachine->Update_StateMachine(fTimeDelta);
 
-	if(m_bIsJump)
-
+	if (m_pStateMachine->Get_State() == STATE::DEAD)
+		m_pRigidBody->UseGravity(true);
 
 
 	return iExit;

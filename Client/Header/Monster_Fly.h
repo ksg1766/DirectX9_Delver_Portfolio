@@ -25,16 +25,20 @@ public:
 
 private:
 	void	Fly(const _float& fTimeDelta);
+	void	Get_RandomDir(_vec3& vDir, const _vec3& _vCenter, const _float& fRange);
+	void	Lerp_Move(_vec3& vDir, const _float& fTimeDelta);
 
 private:
 	_vec3	m_vSavePos;
 
 	_float	m_fAttackDuration;
+	_float	m_fReturnTime;
+	_float  m_fLerpTime;
 
 	_bool	m_bAttackCoolDown;
 	_bool	m_bFirstCool;
 	_bool	m_bCheck;
-
+	_bool	m_bInSightMove;
 
 public:
 	static CMonster_Fly* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);

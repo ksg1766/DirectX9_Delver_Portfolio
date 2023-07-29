@@ -46,7 +46,13 @@ private:
 	virtual HRESULT	Load_Data() override;
 
 public:
+	void	Set_Bgm(_bool _bgm) { m_bBgmStop = _bgm; }
+
+public:
 	static CStage*		Create(LPDIRECT3DDEVICE9 pGraphicDev);
+
+private:
+	_bool	m_bBgmStop = true;
 
 private:
 	virtual void Free() override;
