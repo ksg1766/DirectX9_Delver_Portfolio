@@ -1,3 +1,5 @@
+#include "stdafx.h"
+#include "SoundManager.h"
 #include "..\Header\Magic_Ball.h"
 #include "Export_Function.h"
 #include "Player.h"
@@ -40,6 +42,7 @@ HRESULT CMagic_Ball::Ready_Object(CTransform* pOwner, _float _fSpeed, _vec3 _vOf
 	
 	m_fFrame = 0.f;
 	m_fSpeed = _fSpeed;
+	m_fSound = 0.f;
 
 	CAnimation* pAnimation = CAnimation::Create(m_pGraphicDev,
 		m_pTexture[(_uint)STATE::ATTACK], STATE::ATTACK, 5.f, TRUE);
@@ -93,7 +96,7 @@ _int CMagic_Ball::Update_Object(const _float& fTimeDelta)
 	
 	_float fDistance = D3DXVec3Length(&(m_pTransform->m_vInfo[INFO_POS] - m_vInit));
 
-	if (fDistance > 60.f && Get_State() != STATE::DEAD)
+	if (fDistance > m_fMaxDistance && Get_State() != STATE::DEAD)
 	{
 		Set_State(STATE::DEAD);
 		EventManager()->DeleteObject(this);
@@ -113,6 +116,22 @@ void CMagic_Ball::LateUpdate_Object()
 	if (SceneManager()->Get_GameStop()) { return; }
 
 	__super::LateUpdate_Object();
+
+	CPlayer& rPlayer = *SceneManager()->Get_Scene()->Get_MainPlayer();
+
+	_vec3 vDir = rPlayer.m_pTransform->m_vInfo[INFO_POS] - m_pTransform->m_vInfo[INFO_POS];
+	_float fDistance = D3DXVec3Length(&vDir);
+
+	_float fVolume = m_fMaxVolume - (fDistance / m_fMaxDistance) * (m_fMaxVolume - m_fMinVolume);
+
+	if (fVolume <= 0.f)
+		m_fSound = 0.f;
+	else
+		m_fSound = fVolume;
+
+	//CSoundManager::GetInstance()->PlaySound(L"mg_fire_shoot_03.mp3", CHANNELID::SOUND_BULLET, m_fSound);
+
+
 	//__super::Compute_ViewZ(&m_pTransform->m_vInfo[INFO_POS]);
 
 }
@@ -156,12 +175,12 @@ void CMagic_Ball::OnCollisionEnter(CCollider* _pOther)
 		Set_State(STATE::DEAD);
 		m_pAnimator->Set_Animation(STATE::DEAD);
 		m_bCheck = true;
-		EventManager()->GetInstance()->DeleteObject(this);
+
 	}
 
+	//CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_BULLET);
+	EventManager()->DeleteObject(this);
 
-	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BLOCK)
-		EventManager()->DeleteObject(this);
 }
 
 void CMagic_Ball::OnCollisionStay(CCollider* _pOther)

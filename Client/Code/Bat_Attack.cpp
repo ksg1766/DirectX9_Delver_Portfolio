@@ -23,7 +23,7 @@ HRESULT CBat_Attack::Ready_State(CStateMachine* pOwner)
 	m_fChase = 0.f;
 	m_vPrevPos = _vec3(0.f, 0.f, 0.f);
 	m_bIsAttack = false;
-	m_fSpeed = 13.f;
+	m_fSpeed = 20.f;
 
 	return S_OK;
 }
@@ -42,8 +42,8 @@ STATE CBat_Attack::Update_State(const _float& fTimeDelta)
 		m_vPrevPos = vPlayerPos;
 		m_bIsAttack = true;
 
-
 		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_BAT);
+		CSoundManager::GetInstance()->PlaySound(L"en_bat_attack_02.mp3", CHANNELID::SOUND_BAT, 1.f);
 	}
 
 	_vec3 vDir = m_vPrevPos - vMonsterPos;
@@ -60,9 +60,6 @@ STATE CBat_Attack::Update_State(const _float& fTimeDelta)
 
 
 	_float fDistance = D3DXVec3Length(&(vPlayerPos - m_pOwner->Get_Transform()->m_vInfo[INFO_POS]));
-
-	if (fDistance < 15.f)
-		CSoundManager::GetInstance()->PlaySound(L"en_bat_attack_02.mp3", CHANNELID::SOUND_BAT, 1.f);
 
 	if (fRange <= 5.f)	
 	{

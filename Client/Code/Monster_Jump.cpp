@@ -71,6 +71,7 @@ STATE CMonster_Jump::Jump(const _float& fTimeDelta)
 			m_vLastPos = rPlayer.m_pTransform->m_vInfo[INFO_POS];
 			m_bIsJumping = true;
 			m_fChase = 0.f;
+			Jump_Sound();
 		}
 	}
 
@@ -83,19 +84,12 @@ STATE CMonster_Jump::Jump(const _float& fTimeDelta)
 
 		_vec3 vTest = _vec3(vDir.x, 0.f, vDir.z);
 
-
 		m_pOwner->Get_Transform()->m_vInfo[INFO_POS].y += dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Get_JumpVelocity() * fTimeDelta;
-		m_pOwner->Get_Transform()->m_vInfo[INFO_POS] += vDir * 10 * fTimeDelta;
+		m_pOwner->Get_Transform()->m_vInfo[INFO_POS] += vDir * 15 * fTimeDelta;
 
 
 		if(dynamic_cast<CMonster*>(m_pOwner->Get_Host())->IsJump())
-		dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Add_JumpVelocity(-0.5f * fTimeDelta * fTimeDelta * 3000.f);
-	
-
-		_float fDistance = D3DXVec3Length(&(rPlayer.m_pTransform->m_vInfo[INFO_POS] - m_pOwner->Get_Transform()->m_vInfo[INFO_POS]));
-
-		if (fDistance < 15.f)
-			CSoundManager::GetInstance()->PlaySound(L"en_spider_attack_01.mp3", CHANNELID::SOUND_SPIDER, 1.f);
+			dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Add_JumpVelocity(-0.5f * fTimeDelta * fTimeDelta * 3000.f);
 	}
 
 	
@@ -108,10 +102,42 @@ STATE CMonster_Jump::Jump(const _float& fTimeDelta)
 	}
 
 
-
-	//m_pOwner->Get_Animator()->Get_Animation()->Set_Frame(0.f);
 	return STATE::ATTACK;
 
+}
+
+void CMonster_Jump::Jump_Sound()
+{
+	MONSTERTAG _eMonsterTag = dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Get_MonsterTag();
+
+	switch (_eMonsterTag)
+	{
+	case MONSTERTAG::SPIDER:
+		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_SPIDER);
+		CSoundManager::GetInstance()->PlaySound(L"en_spider_attack_01.mp3", CHANNELID::SOUND_SPIDER, 1.f);
+		break;
+	case MONSTERTAG::WORM:
+		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_WORM);
+		CSoundManager::GetInstance()->PlaySound(L"en_worm_attack_02.mp3", CHANNELID::SOUND_WORM, 1.f);
+		break;
+	}
+}
+
+void CMonster_Jump::Idle_Sound()
+{
+	MONSTERTAG _eMonsterTag = dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Get_MonsterTag();
+
+	switch (_eMonsterTag)
+	{
+	case MONSTERTAG::SPIDER:
+		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_SPIDER);
+		CSoundManager::GetInstance()->PlaySound(L"spider_walk.mp3", CHANNELID::SOUND_SPIDER, 1.f);
+		break;
+	case MONSTERTAG::WORM:
+		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_WORM);
+		CSoundManager::GetInstance()->PlaySound(L"en_worm_idle_03.mp3", CHANNELID::SOUND_WORM, 1.f);
+		break;
+	}
 }
 
 CMonster_Jump* CMonster_Jump::Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner)

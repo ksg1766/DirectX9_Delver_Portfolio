@@ -56,6 +56,7 @@ STATE CWarror_Attack::Update_State(const _float& fTimeDelta)
 			m_vPrevPos = pPlayer.m_pTransform->m_vInfo[INFO_POS];
 			m_bIsAttack = true;
 			m_fChase = 0.f;
+			Attack_Sound();
 		}
 	}
 
@@ -70,8 +71,6 @@ STATE CWarror_Attack::Update_State(const _float& fTimeDelta)
 		m_pOwner->Get_Transform()->Translate(_vec3(vDir.x, 0.f, vDir.z) * 10 * fTimeDelta);
 		
 		_float fDistance = D3DXVec3Length(&(pPlayer.m_pTransform->m_vInfo[INFO_POS] - m_pOwner->Get_Transform()->m_vInfo[INFO_POS]));
-
-		Attack_Sound();
 
 		m_fTime += fTimeDelta;
 
@@ -109,19 +108,11 @@ void CWarror_Attack::Attack_Sound()
 	switch (_eMonsterTag)
 	{
 	case MONSTERTAG::WARRIOR:
-		//CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTERMOVE);
-		//CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTERHIT);
-		//CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTERDEAD);
 		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_WARRIOR);
-		//CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTERATTACK);
 		CSoundManager::GetInstance()->PlaySound(L"en_melee_2_attack_02.mp3", CHANNELID::SOUND_WARRIOR, 1.f);
 		break;
 	case MONSTERTAG::SLIME:
-		//CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTERMOVE);
-		//CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTERHIT);
-		//CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTERDEAD);
 		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_SLIME);
-		//CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTERATTACK);
 		CSoundManager::GetInstance()->PlaySound(L"en_slime_attack_01.mp3", CHANNELID::SOUND_SLIME, 1.f);
 		break;
 	case MONSTERTAG::SKELETON:

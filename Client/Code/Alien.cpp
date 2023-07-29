@@ -59,7 +59,7 @@ HRESULT CAlien::Ready_Object()
 	m_pStateMachine->Set_Animator(m_pAnimator);
 	m_pStateMachine->Set_State(STATE::ROMIMG);
 
-	Set_Speed(30.f);
+	Set_Speed(50.f);
 
 #pragma region AlienStat
 
@@ -112,6 +112,9 @@ _int CAlien::Update_Object(const _float& fTimeDelta)
 	}
 
 	m_pStateMachine->Update_StateMachine(fTimeDelta);
+
+	if (m_pStateMachine->Get_State() == STATE::DEAD)
+		m_pRigidBody->UseGravity(true);
 
 	return iExit;
 }

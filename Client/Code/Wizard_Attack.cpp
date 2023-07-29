@@ -85,16 +85,10 @@ void CWizard_Attack::Attack_Sound()
 	switch (_eMonsterTag)
 	{
 	case MONSTERTAG::WIZARD:
-		//CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTERMOVE);
-		//CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTERATTACK);
-		//CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTERIDLE);
 		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_WIZARD);
 		CSoundManager::GetInstance()->PlaySound(L"en_mage_attack_01.mp3", CHANNELID::SOUND_WIZARD, 1.f);
 		break;
 	case MONSTERTAG::ALIEN:
-		//CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTERMOVE);
-		//CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTERATTACK);
-		//CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_MONSTERIDLE);
 		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_ALIEN);
 		CSoundManager::GetInstance()->PlaySound(L"en_beholder_attack_01.mp3", CHANNELID::SOUND_ALIEN, 1.f);
 		break;

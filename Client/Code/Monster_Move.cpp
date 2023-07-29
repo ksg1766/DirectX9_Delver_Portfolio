@@ -32,149 +32,83 @@ HRESULT CMonster_Move::Ready_State(CStateMachine* pOwner)
 	m_vSavePos = _vec3(0.f, 0.f, 0.f);
 	m_vRandomPos = _vec3(0.f, 0.f, 0.f);
 	m_fAttackCool = 0.f;
+	m_fLerpTime = 0.f;
+	m_fReturnTime = 0.f;
 	m_bAttackCool = false;
 	m_bCheck = false;
+	m_bInSightMove = false;
 
 	return S_OK;
 }
 
-//STATE CMonster_Move::Update_State(const _float& fTimeDelta)
-//{
-//	CPlayer& pPlayer = *SceneManager()->Get_Scene()->Get_MainPlayer();
-//	_vec3 vMonsterPos = m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
-//	
-//	_vec3 vReturnPos = dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Get_CenterPos() - vMonsterPos;
-//	_float fReturnDistance = D3DXVec3Length(&vReturnPos);
-//
-//	if (fReturnDistance > dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Get_MoveRange())
-//	{
-//		float randomX = static_cast<float>(rand()) / RAND_MAX; // 0 ~ 1 사이의 랜덤 값
-//		float randomZ = static_cast<float>(rand()) / RAND_MAX; // 0 ~ 1 사이의 랜덤 값
-//
-//		// CenterPos와 MoveRange을 이용하여 랜덤한 위치 계산
-//		_vec3 vCenter = dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Get_CenterPos();
-//		float moveRange = dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Get_MoveRange();
-//		_vec3 vRandomPos = vCenter + _vec3(randomX * moveRange, 0.f, randomZ * moveRange);
-//
-//		// 목표 위치 설정
-//		m_vSavePos = vRandomPos;
-//		D3DXVec3Normalize(&m_vSavePos, &m_vSavePos);
-//
-//		m_pOwner->Get_Transform()->Translate(m_vSavePos * fTimeDelta * 5.f);
-//
-//		return STATE::ROMIMG;
-//	}
-//	else
-//	{
-//		D3DXVec3Normalize(&vReturnPos, &vReturnPos);
-//
-//		m_pOwner->Get_Transform()->Translate(vReturnPos * fTimeDelta * 5.f);
-//	}
-//}
-
-
 STATE CMonster_Move::Update_State(const _float& fTimeDelta)
 {
 	CPlayer& pPlayer = *SceneManager()->Get_Scene()->Get_MainPlayer();
+	_vec3 vMonsterPos = m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
+	
+	_vec3 vCenterPos = _vec3(dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Get_CenterPos().x, vMonsterPos.y, dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Get_CenterPos().z);
+	_vec3 vTargetCenter = _vec3(pPlayer.m_pTransform->m_vInfo[INFO_POS].x, vMonsterPos.y, pPlayer.m_pTransform->m_vInfo[INFO_POS].z);
+	_float fMoveRange = dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Get_MoveRange();
+
+	_vec3 vDirToCenter = vCenterPos - vMonsterPos;
+	_float fDistanceToCenter = D3DXVec3Length(&vDirToCenter);
+	_float fDistanceToPlayer = D3DXVec3Length(&(pPlayer.m_pTransform->m_vInfo[INFO_POS] - vMonsterPos));
+
 
 	if (m_pOwner->Get_PrevState() == STATE::ATTACK)
 	{
 		m_fAttackCool += fTimeDelta;
-		if (m_fAttackCool > 2.f)
+
+		if (m_fAttackCool >= 2.f)
+		{
 			m_bAttackCool = false;
+			m_fAttackCool = 0.f;
+		}
 	}
 
-	_vec3 fDistance = m_pOwner->Get_Host()->m_pTransform->m_vInfo[INFO_POS] - pPlayer.m_pTransform->m_vInfo[INFO_POS];
-	_float fLength = D3DXVec3Length(&fDistance);
-
-	if (fLength < m_fChase)
+	if (fDistanceToPlayer < m_fChase)
 	{
-		if (!Get_AttackCool())
+		_vec3 vTarget = pPlayer.m_pTransform->m_vInfo[INFO_POS] - vMonsterPos;
+		D3DXVec3Normalize(&vTarget, &vTarget);
+
+		if(m_bInSightMove)
+			Lerp_Move(pPlayer.m_pTransform->m_vInfo[INFO_POS], fTimeDelta);
+		else
+			Get_RandomDir(m_vSavePos, vTargetCenter, fMoveRange);
+		
+	   
+		if (!m_bAttackCool)
 		{
-			m_fAttackCool = 0.f;
 			m_bAttackCool = true;
-			dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Set_AttackTick(false);
 			return STATE::ATTACK;
 		}
-		else
+		//m_pOwner->Get_Transform()->Translate(vTarget * 2 * fTimeDelta);
+	}
+	else if (fDistanceToCenter > fMoveRange)
+	{
+		D3DXVec3Normalize(&vDirToCenter, &vDirToCenter);
+		m_pOwner->Get_Transform()->Translate(vDirToCenter * dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Get_BasicStat()->Get_Stat()->fSpeed * fTimeDelta);
+
+		m_fReturnTime += fTimeDelta;
+
+		if (m_fReturnTime >= 2.5f)
 		{
-			Move_RandomPos(fTimeDelta);
+			dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Set_CenterPos(m_pOwner->Get_Transform()->m_vInfo[INFO_POS]);
+			m_fReturnTime = 0.f;
+			m_bCheck = false;
 		}
-		
 	}
 	else
 	{
-		_vec3 vReturn = dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Get_CenterPos() - m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
-		_float fReturnDistance = D3DXVec3Length(&vReturn);
-		D3DXVec3Normalize(&vReturn, &vReturn);
-
-		if (fReturnDistance >= dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Get_MoveRange() 
-			&& !m_bCheck)
-		{
-			//m_pOwner->Get_Transform()->m_vInfo[INFO_POS] += vReturn * m_fSpeed * fTimeDelta; 
-			m_pOwner->Get_Transform()->Translate(_vec3(vReturn.x, 0.f, vReturn.z) * m_fSpeed * fTimeDelta);
-			//Move_Sound();
-			// Distance가 큰 동안 무조건 Center 쪽으로 보냄. 근데 30이 됐을 땐 bool값을 TRUE로 바꿈
-			//m_bCheck = true; // 이러면 30 영역 안에 들어왔다는 것임. 여기서부터 랜덤지역을 배회시킴. 근데 센터에서 50 ~ 100 정도 벗어나면 다시 돌아가게 만든다.
-		}
-		else
-			m_bCheck = true;
-
 		if (m_bCheck)
-		{
-			if (fReturnDistance > dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Get_RandomoMoveRange())
-				m_bCheck = false;
-			else
-			{
-				Move_RandomPos(fTimeDelta);
-				//Move_Sound();
-			}
-		}
+			Lerp_Move(vMonsterPos, fTimeDelta);
+		else
+			Get_RandomDir(m_vSavePos, vCenterPos, fMoveRange);
 	}
-
 
 	return STATE::ROMIMG;
 }
 
-
-void CMonster_Move::Move_RandomPos(const _float& fTimeDelta)
-{
-	//_float	fMinDistance = 5.f;
-	//_float	fMaxDistance = 10.f;
-
-	//_float fDistance = fMinDistance + (rand() / (_float)RAND_MAX) * (fMaxDistance - fMinDistance);
-
-	_vec3 vRandomDir = Get_RandomDir(fTimeDelta);
-	m_vSavePos = vRandomDir;
-	D3DXVec3Normalize(&vRandomDir, &vRandomDir);
-
-	m_vRandomPos = m_pOwner->Get_Host()->m_pTransform->m_vInfo[INFO_POS] + vRandomDir;
-
-	MoveTo_Pos(m_vRandomPos, fTimeDelta);
-}
-
-_vec3 CMonster_Move::Get_RandomDir(const _float& fTimeDelta)
-{
-
-	mt19937 engine((_uint)time(NULL));           // MT19937 난수 엔진
-	uniform_real_distribution<_float> distribution(0.f, 1.f); // 생성 범위
-	auto generator = bind(distribution, engine);
-
-	_float distance = 10.f;
-
-
-	_float X = m_vSavePos.x + (distance * cosf((_float)rand() / D3DX_PI * generator())) / 50.f;
-	_float Z = m_vSavePos.z + (distance * -sinf((_float)rand() / D3DX_PI * generator())) / 50.f;
-
-
-	_vec3 vDir = _vec3(X, 0.f, Z);
-
-	D3DXVec3Normalize(&vDir, &vDir);
-
-
-	return vDir;
-
-}
 
 void CMonster_Move::Move_Sound()
 {
@@ -213,23 +147,6 @@ void CMonster_Move::Move_Sound()
 	}
 }
 
-void CMonster_Move::MoveTo_Pos(const _vec3& vTargetPos, const _float& fTimeDelta)
-{
-	_vec3& vMonsterPos = m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
-
-	_vec3 vDir = vTargetPos - vMonsterPos;
-	D3DXVec3Normalize(&vDir, &vDir);
-
-
-	_float fMoveSpeed = 3.f;
-	_float fMoveDistance = fMoveSpeed * fTimeDelta;
-
-	_vec3 vZeroY = _vec3(vDir.x, 0.f, vDir.z);
-
-	vMonsterPos += vZeroY * fTimeDelta;
-}
-
-
 void CMonster_Move::LateUpdate_State()
 {
 }
@@ -252,6 +169,44 @@ CMonster_Move* CMonster_Move::Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachin
 	}
 
 	return pState;
+}
+
+void CMonster_Move::Get_RandomDir(_vec3& vDir, const _vec3& _vCenter, const _float& fRange)
+{
+	_float fRandomAngle = static_cast<_float>(rand()) / RAND_MAX * 2 * D3DX_PI;
+
+	_vec3 vRandomDir = _vec3(cosf(fRandomAngle), 0.f, sinf(fRandomAngle));
+
+	m_vSavePos = _vCenter + vRandomDir * fRange * 0.5f;
+	m_bCheck = true;
+	m_bInSightMove = true;
+}
+
+void CMonster_Move::Lerp_Move(_vec3& vDir, const _float& fTimeDelta)
+{
+	_float fDistanceToTarget = D3DXVec3Length(&(m_vSavePos - vDir));
+	_float fLerpDistance = dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Get_BasicStat()->Get_Stat()->fSpeed * fTimeDelta;
+
+	if (fDistanceToTarget <= fLerpDistance)
+	{
+		m_pOwner->Get_Transform()->m_vInfo[INFO_POS] = m_vSavePos;
+		m_bCheck = false;
+		m_bInSightMove = false;
+	}
+	else
+	{
+		_vec3 vLerpDir = (m_vSavePos - vDir) / fDistanceToTarget;
+		m_pOwner->Get_Transform()->Translate(vLerpDir * fLerpDistance);
+
+		m_fLerpTime += fTimeDelta;
+
+		if (m_fLerpTime >= 2.5f)
+		{
+			dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Set_CenterPos(m_pOwner->Get_Transform()->m_vInfo[INFO_POS]);
+			m_fLerpTime = 0.f;
+			m_bCheck = false;
+		}
+	}
 }
 
 

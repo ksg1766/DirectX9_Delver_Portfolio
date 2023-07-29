@@ -77,13 +77,14 @@ HRESULT CStage::Ready_Scene()
 	//m_pGraphicDev->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
 
 	CSoundManager::GetInstance()->StopAll();
-	CSoundManager::GetInstance()->PlayBGM(L"chase_sewers.mp3", 0.3f);
+	CSoundManager::GetInstance()->PlayBGM(L"chase_sewers.mp3", 0.5f);
 
 	return S_OK;
 }
 
 Engine::_int CStage::Update_Scene(const _float& fTimeDelta)
 {
+
 	__super::Update_Scene(fTimeDelta);
 
 	CGameManager::GetInstance()->Update_Game(fTimeDelta);
@@ -223,6 +224,11 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	pGameObject = CHellDoor::Create(m_pGraphicDev, pLayer);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+
+	//pGameObject = CDungeonSpider::Create(m_pGraphicDev);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+
 
 
 	m_mapLayer.insert({ _eLayerTag, pLayer });

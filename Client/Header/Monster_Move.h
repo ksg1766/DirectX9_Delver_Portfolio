@@ -19,11 +19,6 @@ public:
 	virtual void	LateUpdate_State();
 	virtual void	Render_State();
 
-
-private:
-	void Move_RandomPos(const _float& fTimeDelta);
-	void MoveTo_Pos(const _vec3& vTargetPos, const _float& fTimeDelta);
-	_vec3 Get_RandomDir(const _float& fTimeDelta);
 public:
 	virtual STATE	Key_Input(const _float& fTimeDelta) { return STATE(); }
 	void Move_Sound();
@@ -31,11 +26,8 @@ public:
 	static CMonster_Move* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
 
 private:
-	_float RandomRange(_float _Min, _float _Max)
-	{
-		_float fRandom = static_cast<_float>(rand()) / static_cast<_float>(RAND_MAX);
-		return _Min + fRandom * (_Max - _Min);
-	}
+	void Get_RandomDir(_vec3& vDir, const _vec3& _vCenter, const _float& fRange);
+	void Lerp_Move(_vec3& vDir, const _float& fTimeDelta);
 
 private:
 	_float m_fDistance;
@@ -44,11 +36,16 @@ private:
 	_float m_fSpeed;
 	_float m_fRandomRange;
 	_float m_fAttackCool;
+	_float m_fReturnTime;
+
+
+
 
 	_float m_fLerpTime;
 	_vec3  m_vSavePos;
 
 	_bool  m_bCheck;
+	_bool  m_bInSightMove;
 
 private:
 	virtual void Free();

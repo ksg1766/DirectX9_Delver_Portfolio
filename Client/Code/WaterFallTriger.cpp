@@ -60,6 +60,30 @@ void CWaterFallTriger::LateUpdate_Object()
 
 void CWaterFallTriger::Render_Object()
 {
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
+
+	//m_pTexture->Render_Texture(0);
+	//m_pCubeBf->Render_Buffer();
+
+#if _DEBUG
+	//m_pCollider->Render_Collider();
+#endif // _DEBUG
+
+}
+
+void CWaterFallTriger::OnCollisionEnter(CCollider* _pOther)
+{
+	__super::OnCollisionEnter(_pOther);
+}
+
+void CWaterFallTriger::OnCollisionStay(CCollider* _pOther)
+{
+	__super::OnCollisionStay(_pOther);
+}
+
+void CWaterFallTriger::OnCollisionExit(CCollider* _pOther)
+{
+	__super::OnCollisionExit(_pOther);
 }
 
 HRESULT CWaterFallTriger::Add_Component()

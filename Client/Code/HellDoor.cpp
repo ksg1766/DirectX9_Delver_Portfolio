@@ -5,6 +5,8 @@
 #include "HellDoor.h"
 #include "DoorCube.h"
 #include "DynamicCamera.h"
+#include "MoveCamera.h"
+#include "CameraManager.h"
 
 CHellDoor::CHellDoor(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CGameObject(pGraphicDev)
@@ -31,7 +33,8 @@ HRESULT CHellDoor::Ready_Object(CLayer* pLayer)
 		m_pTransform->LocalScale());
 	m_pTransform->Translate(_vec3(51.f, 75.f,50.f));
 
-
+	m_bShake = true;
+	m_bBgmChange = false;
 
 	return S_OK;
 }
@@ -56,15 +59,43 @@ _int CHellDoor::Update_Object(const _float& fTimeDelta)
 				pDoor = CDoorCube::Create(m_pGraphicDev);
 				pDoor->m_pTransform->Translate(_vec3(59 - (j * 2), 72 + (2 * i), 45.f));
 				EventManager()->CreateObject(pDoor, LAYERTAG::GAMELOGIC);
-				//pLayer->Add_GameObject(pDoor->Get_ObjectTag(), pDoor);
 				m_vecDoorCube.push_back(dynamic_cast<CDoorCube*>(pDoor));
 			}
 
 		m_bCreate = true;
 	}
 
+	if (m_bBgmChange)
+	{
+		CSoundManager::GetInstance()->StopAll();
+		CSoundManager::GetInstance()->PlayBGM(L"04_swords_and_skulls.mp3", 0.8f);
 
-	
+		m_bBgmChange = false;
+		m_bDoorOpen = false;
+
+
+
+		CGameObject* pCamera = nullptr;
+		pCamera = CMoveCamera::Create(m_pGraphicDev,
+			&SceneManager()->Get_Scene()->Get_MainPlayer()->m_pTransform->m_vInfo[INFO_POS],
+			&_vec3(0.f, 0.f, 1.f),
+			&_vec3(0.f, 1.f, 0.f),
+			D3DXToRadian(90.f),
+			(_float)WINCX / WINCY,
+			0.1f,
+			110.f);
+
+		CCameraManager::GetInstance()->Add_Camera(CAMERA_TYPE::MOVE_CAMERA, pCamera);
+		CCameraManager::GetInstance()->Switch_Camera(CAMERA_TYPE::MOVE_CAMERA);
+		EventManager()->CreateObject(pCamera, LAYERTAG::ENVIRONMENT);
+	}
+
+	if (m_bDoorOpen)
+	{
+		CSoundManager::GetInstance()->PlaySoundLoop(L"MyDoor.mp3", CHANNELID::SOUND_DOOR, 0.8f);
+	}
+
+
 	if (m_bTriger)
 	{
 		CDynamicCamera& rCamera = *dynamic_cast<CDynamicCamera*>(SceneManager()->Get_ObjectList(LAYERTAG::ENVIRONMENT, OBJECTTAG::CAMERA).front());
@@ -108,13 +139,17 @@ _int CHellDoor::Update_Object(const _float& fTimeDelta)
 				(*iter)->m_pTransform->m_vInfo[INFO_POS].y += fNewY * fTimeDelta * fTimeDelta * 0.05f;
 
 
-			if (iCurrentIndex == 15)
+			if (iCurrentIndex == 17)
 			{
 				if (fFinalY <= (*iter)->m_pTransform->m_vInfo[INFO_POS].y)
 				{
-					rCamera.Reset_ShakeForce();
-					m_bShake = false;
-					
+					if (!m_bBgmStop)
+					{
+						rCamera.Reset_ShakeForce();
+						m_bShake = false;
+						m_bBgmChange = true;
+						m_bBgmStop = true;
+					}
 				}
 			}
 
@@ -125,11 +160,18 @@ _int CHellDoor::Update_Object(const _float& fTimeDelta)
 					m_bTriger = false;
 					return iExit;
 				}
-					
-
-		
 			}
+
+			if (iCurrentIndex == 1 && !m_bDoorClose)
+			{
+				m_bDoorClose = true;
+				m_bDoorOpen = true;
+			}
+		
 		}
+
+		for (auto iter = m_vecDoorCube.begin(); iter != m_vecDoorCube.end(); ++iter)
+			(*iter)->LateUpdate_Object();
 	}
 
 	return iExit;
@@ -139,8 +181,7 @@ void CHellDoor::LateUpdate_Object()
 {
 	__super::LateUpdate_Object();
 
-	for (auto iter = m_vecDoorCube.begin(); iter != m_vecDoorCube.end(); ++iter)
-		(*iter)->LateUpdate_Object();
+
 }
 
 void CHellDoor::Render_Object()
@@ -163,9 +204,6 @@ void CHellDoor::OnCollisionEnter(CCollider* _pOther)
 
 	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::PLAYER)
 	{
-		if(m_bTriger == false)
-		m_bShake = true;
-
 		m_bTriger = true;
 	}
 }

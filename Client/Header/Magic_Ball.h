@@ -48,6 +48,13 @@ private:
 	_vec3  m_vPrevPos;
 	_vec3  m_vInit;
 
+
+	// Sound
+	_float m_fSound;
+	const _float m_fMaxVolume = 1.f;
+	const _float m_fMinVolume = 0.f;
+	const _float m_fMaxDistance = 60.f;
+
 public:
 	static CMagic_Ball* Create(
 		LPDIRECT3DDEVICE9 pGraphicDev, CTransform* pOwner, _float _fSpeed, _vec3 _vOffset = _vec3(0.f,0.f,0.f));
