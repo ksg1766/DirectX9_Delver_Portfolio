@@ -5,8 +5,7 @@
 #include "HellDoor.h"
 #include "DoorCube.h"
 #include "DynamicCamera.h"
-#include "MoveCamera.h"
-#include "CameraManager.h"
+//#include "CameraManager.h"
 
 CHellDoor::CHellDoor(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CGameObject(pGraphicDev)
@@ -73,21 +72,6 @@ _int CHellDoor::Update_Object(const _float& fTimeDelta)
 		m_bBgmChange = false;
 		m_bDoorOpen = false;
 
-
-
-		CGameObject* pCamera = nullptr;
-		pCamera = CMoveCamera::Create(m_pGraphicDev,
-			&SceneManager()->Get_Scene()->Get_MainPlayer()->m_pTransform->m_vInfo[INFO_POS],
-			&_vec3(0.f, 0.f, 1.f),
-			&_vec3(0.f, 1.f, 0.f),
-			D3DXToRadian(90.f),
-			(_float)WINCX / WINCY,
-			0.1f,
-			110.f);
-
-		CCameraManager::GetInstance()->Add_Camera(CAMERA_TYPE::MOVE_CAMERA, pCamera);
-		CCameraManager::GetInstance()->Switch_Camera(CAMERA_TYPE::MOVE_CAMERA);
-		EventManager()->CreateObject(pCamera, LAYERTAG::ENVIRONMENT);
 	}
 
 	if (m_bDoorOpen)

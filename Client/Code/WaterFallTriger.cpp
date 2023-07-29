@@ -71,21 +71,6 @@ void CWaterFallTriger::Render_Object()
 
 }
 
-void CWaterFallTriger::OnCollisionEnter(CCollider* _pOther)
-{
-	__super::OnCollisionEnter(_pOther);
-}
-
-void CWaterFallTriger::OnCollisionStay(CCollider* _pOther)
-{
-	__super::OnCollisionStay(_pOther);
-}
-
-void CWaterFallTriger::OnCollisionExit(CCollider* _pOther)
-{
-	__super::OnCollisionExit(_pOther);
-}
-
 HRESULT CWaterFallTriger::Add_Component()
 {
 	CComponent* pComponent = nullptr;
