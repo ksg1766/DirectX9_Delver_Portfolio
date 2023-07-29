@@ -30,7 +30,9 @@ private:
     _bool   m_bPosReset;
     _vec3   m_vPillarPos[3];
     _vec3   m_vTargetPos;
+    _vec3   m_vResetPos;
     _vec3   m_vDir;
+    _uint   m_iIndex;
 public:
     static CClone_Pattern* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
 

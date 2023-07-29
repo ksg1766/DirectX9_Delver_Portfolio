@@ -30,6 +30,7 @@
 #include "MiniMetorPattern.h"
 #include "MeteorPh3.h"
 #include "Player.h"
+#include "SkeletonKing_Clone.h"
 CSkeletonKing::CSkeletonKing(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CMonster(pGraphicDev)
 {
@@ -53,11 +54,14 @@ HRESULT CSkeletonKing::Ready_Object(void)
 	m_pRigidBody->UseGravity(false);
 	m_pTransform->Scale(_vec3(3.f, 3.f, 3.f));
 	m_pBasicStat->Get_Stat()->fHP = 100.f;
-	m_ePhase = BOSSPHASE::PHASE1;
+	m_ePhase = BOSSPHASE::PHASE2;
 	m_iHitCount = 0;
 	m_fHitCool = 0.f;
+	m_fMoveDelay = 0.f;
+	m_fDelay = 0.f;
 	m_bSturn = false;
 	m_b3Phase = false;
+	m_bMove = false;
 	m_iCloneCount = 0;
 #pragma region ป๓ลย
 
@@ -278,7 +282,6 @@ _int CSkeletonKing::Update_Object(const _float& fTimeDelta)
 		m_pRigidBody->UseGravity(true);
 	_int iExit = __super::Update_Object(fTimeDelta);
 	m_pStateMachine->Update_StateMachine(fTimeDelta);
-	Key_Input();
 	if (m_b3Phase)
 		m_pTransform->m_vInfo[INFO_POS] = _vec3(-72.f, 34.f, -105.f);
 	return iExit;
@@ -481,18 +484,30 @@ void CSkeletonKing::Change_Phase()
 		m_ePhase = BOSSPHASE::PHASE1;
 }
 
-void CSkeletonKing::Key_Input()
+void CSkeletonKing::Set_Dir(_vec3 _vDir)
 {
-	if (Engine::InputDev()->Key_Down(DIK_J))
-	{
-		m_pStateMachine->Set_State(STATE::BOSS_TELEPORT);
-	}
-	if (Engine::InputDev()->Key_Down(DIK_K))
-	{
-		m_pStateMachine->Set_State(STATE::BOSS_PH1SKILL1);
-	}
+	m_vTargetPos = _vDir;
+	m_vDir = m_vTargetPos - m_pTransform->m_vInfo[INFO_POS];
+	D3DXVec3Normalize(&m_vDir, &m_vDir);
+	m_fDelay = 0.f;
+	m_bMove = true;
 }
 
+void CSkeletonKing::MoveToDir(const _float& fTimeDelta)
+{
+	if (2.f < m_fDelay)
+	{
+		m_fMoveDelay += fTimeDelta;
+		m_pTransform->Translate(m_vDir);
+		if (1.f < m_fMoveDelay)
+		{
+			m_pTransform->m_vInfo[INFO_POS] = m_vTargetPos;
+			m_fDelay = 0.f;
+			m_fMoveDelay = 0.f;
+			m_bMove = false;
+		}
+	}
+}
 
 CSkeletonKing* CSkeletonKing::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 {

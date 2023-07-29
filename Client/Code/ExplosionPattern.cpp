@@ -43,12 +43,15 @@ STATE CExplosionPattern::Update_State(const _float& fTimeDelta)
     m_fPatternDelay += fTimeDelta;
     if (!m_bPattern)
     {
-        if (0.3f < m_fDelay)
+        if (0.5f < m_fDelay)
         {
             for (int i = 0; i < 4; ++i)
             {
                 pGameObject = CBoss_WarningEff::Create(m_pGraphicDev);
                 dynamic_cast<CBoss_WarningEff*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = _vec3(m_pOwner->Get_Transform()->m_vInfo[INFO_POS] + (m_vExplosionin1[i] * m_iSkillCount * 4.f));
+                Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+                pGameObject = CBoss_WarningEff::Create(m_pGraphicDev);
+                dynamic_cast<CBoss_WarningEff*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = _vec3(m_pOwner->Get_Transform()->m_vInfo[INFO_POS] + (m_vExplosionin2[i] * m_iSkillCount * 4.f));
                 Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
             }
         }

@@ -1,7 +1,7 @@
 #include "Boss_Sleep.h"
 #include "Export_Function.h"
 #include "SkeletonKing.h"
-
+#include "SoundManager.h"
 CBoss_Sleep::CBoss_Sleep()
 {
 }
@@ -18,6 +18,7 @@ CBoss_Sleep::~CBoss_Sleep()
 HRESULT CBoss_Sleep::Ready_State(CStateMachine* pOwner)
 {
 	m_pOwner = pOwner;
+	m_bMusic = false;
 	return S_OK;
 }
 
@@ -30,6 +31,12 @@ STATE CBoss_Sleep::Update_State(const _float& fTimeDelta)
 	_float fDistance = D3DXVec3LengthSq(&vDir);
 	if (BOSSPHASE::PHASE1 == dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_Phase())
 	{
+		if ((!m_bMusic)&&(fDistance < pow(100, 2)))
+		{
+			CSoundManager::GetInstance()->StopAll();
+			CSoundManager::GetInstance()->PlayBGM(L"Test_BossTheme.mp3", 0.3f);
+			m_bMusic = true;
+		}
 		if (fDistance < pow(20, 2))
 		{
 			return STATE::BOSS_WAKEUP;

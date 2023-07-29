@@ -29,7 +29,7 @@ HRESULT CBossFireWave::Ready_Object(void)
 	m_fDuration = 0.f;
 	m_fScale = 2.f;
 	m_pTransform->Scale(_vec3(m_fScale, m_fScale, m_fScale));
-	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale()*0.4f);
+	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS]+_vec3(0.f, -1.f, 0.f), &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale()*0.4f);
 	return S_OK;
 }
 
