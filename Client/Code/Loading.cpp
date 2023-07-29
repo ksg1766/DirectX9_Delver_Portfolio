@@ -348,6 +348,7 @@ _uint CLoading::Loading_ForStage()
 		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/04_swords_and_skulls.mp3", "04_swords_and_skulls.mp3"), E_FAIL);
 		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/DK-7.mp3", "DK-7.mp3"), E_FAIL);
 		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/MyDoor.mp3", "MyDoor.mp3"), E_FAIL);
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/Boss/Test_BossTheme.mp3", "Test_BossTheme.mp3"), E_FAIL);
 
 		// Inventory
 		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/grab_item.mp3", "grab_item.mp3"), E_FAIL);

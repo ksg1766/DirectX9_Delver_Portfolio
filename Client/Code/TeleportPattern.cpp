@@ -93,10 +93,6 @@ void CTeleportPattern::Render_State()
 
 void CTeleportPattern::Make_BatSwarm(const _float& fTimeDelta)
 {
-
- 
-
- 
 }
 
 CTeleportPattern* CTeleportPattern::Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner)

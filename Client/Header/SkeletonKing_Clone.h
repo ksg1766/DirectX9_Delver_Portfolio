@@ -38,6 +38,8 @@ private:
 	CRcTex* m_pBuffer = nullptr;
 	CTexture* m_pTexture[(_uint)STATE::STATE_END] = {};
 	CAnimator*	m_pAnimator;
+	STATE	m_eCurrentBoss;
+	STATE	m_eOppositeBoss;
 	_float	m_fFrame = 0;
 	_float	m_fSkillCool = 0;
 	_float	m_fDelay;

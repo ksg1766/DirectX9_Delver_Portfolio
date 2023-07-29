@@ -60,7 +60,6 @@ _int CSkeletonKing_Clone::Update_Object(const _float& fTimeDelta)
 	if (SceneManager()->Get_GameStop()) { return 0; }
 	_int iExit = __super::Update_Object(fTimeDelta);
 	m_fDelay += fTimeDelta;
-	m_pStateMachine->Update_StateMachine(fTimeDelta);
 	if ((2.f < m_fDelay)&&(!m_bMove))
 	{
 		m_fMoveDelay += fTimeDelta;
@@ -103,12 +102,19 @@ _int CSkeletonKing_Clone::Update_Object(const _float& fTimeDelta)
 			m_IsDead = true;
 		}
 	}
+	m_pStateMachine->Update_StateMachine(fTimeDelta);
 	return iExit;
 }
 
 void CSkeletonKing_Clone::LateUpdate_Object(void)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
+	if ((0 >= dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_CloneCount()) || (BOSSPHASE::PHASE2 != dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_Phase()))
+	{
+		dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Add_CloneCount(-1);
+		m_bMove = false;
+		m_IsDead = true;
+	}
 	__super::LateUpdate_Object();
 	m_pTransform->Scale(_vec3(3.f, 3.f, 3.f));
 }
@@ -227,7 +233,6 @@ CSkeletonKing_Clone* CSkeletonKing_Clone::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 		MSG_BOX("SkeletonKing Create Failed");
 		return nullptr;
 	}
-
 	return pInstance;
 }
 

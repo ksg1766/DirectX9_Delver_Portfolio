@@ -70,9 +70,7 @@ STATE CBoss_Phase2::BossSkill(const _float& fTimeDelta)
         m_iSkillCount = 0;
         return STATE::BOSS_PH2SKILL5;
         break;
-    }
-
-
+    } 
 }
 
 CBoss_Phase2* CBoss_Phase2::Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner)

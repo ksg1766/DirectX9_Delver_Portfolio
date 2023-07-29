@@ -23,7 +23,7 @@ HRESULT CBossFireWall::Ready_Object(void)
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 	m_pTransform->Scale(_vec3(2.f, 2.f, 2.f));
-	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale()*0.4f);
+	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale()*0.45f);
 	m_pBasicStat->Get_Stat()->fAttack = 2.f;
 	m_fDuration = 0.f;
 	m_fSpeed = 20.f;

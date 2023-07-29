@@ -25,16 +25,19 @@ private:
     //클래스 내에서만 쓸 함수
     void    Make_Clone();
     void    Make_LostSoul();
+    void Move_DIr();
 private:
     //클래스 내에서만 쓸 함수
     _float m_fDelay;
     _float  m_fPatternDelay;
-    _bool  m_bCool;
     _bool  m_bSkill;
-    _float m_fChannel_Count;
+    _bool   m_bMove;
     _bool   m_bSkillStart;
-
+    _bool   m_bPosReset;
+    _float m_fChannel_Count;
     _vec3   m_vPillarPos[3];
+    _vec3   m_vTargetPos;
+    _vec3   m_vDir;
 public:
     static CBoss_Meteor2Ph* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
 
