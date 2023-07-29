@@ -823,6 +823,12 @@
     <Filter Include="03. GameObject\01. Stage\999. Boss\01. AttackEff\99.Etc\Potal">
       <UniqueIdentifier>{ba503226-b9dc-4361-b383-d90ae2bd87ee}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. GameObject\03. UI\18. UILevelUp">
+      <UniqueIdentifier>{11f5e58b-0b4f-4a8d-8b15-5c262f6857e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\03. UI\18. UILevelUp\00. UILevelUpCard">
+      <UniqueIdentifier>{844e7bd5-e19c-421c-a199-4fcfc162c7ce}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -1619,6 +1625,12 @@
     <ClInclude Include="..\Header\DimensionGate.h">
       <Filter>03. GameObject\01. Stage\999. Boss\01. AttackEff\99.Etc\Potal</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\UILevelUpCard.h">
+      <Filter>03. GameObject\03. UI\18. UILevelUp\00. UILevelUpCard</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\UILevelUp.h">
+      <Filter>03. GameObject\03. UI\18. UILevelUp</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -2375,6 +2387,12 @@
     </ClCompile>
     <ClCompile Include="..\Code\DimensionGate.cpp">
       <Filter>03. GameObject\01. Stage\999. Boss\01. AttackEff\99.Etc\Potal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UILevelUp.cpp">
+      <Filter>03. GameObject\03. UI\18. UILevelUp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UILevelUpCard.cpp">
+      <Filter>03. GameObject\03. UI\18. UILevelUp\00. UILevelUpCard</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

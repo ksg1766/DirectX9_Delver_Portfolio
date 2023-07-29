@@ -64,6 +64,7 @@ private:
 	_bool		m_bEntrance  = false;
 	_bool       m_bExit      = false;
 	_bool       m_bNextItem  = false;
+	_bool       m_bStopExit  = false;
 	ITEMID      m_eThrowitem = ITEMID::ITEMID_END;
 	
 public:
