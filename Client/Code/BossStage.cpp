@@ -13,7 +13,7 @@
 #include "SoundManager.h"
 #include "Jump_Plate.h"
 #include "BlackIn.h"
-
+#include "Lava.h"
 #include "GameManager.h"
 
 CBossStage::CBossStage(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -374,11 +374,11 @@ HRESULT CBossStage::Load_Data()
 
 			CGameObject* pGameObject = nullptr;
 
-			if (31 == byTextureNumber || 32 == byTextureNumber)
+			if (40 == byTextureNumber)
 			{
-				pGameObject = CDynamicCubeBlock::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+				pGameObject = CLava::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
 				NULL_CHECK_RETURN(pGameObject, E_FAIL);
-				dynamic_cast<CDynamicCubeBlock*>(pGameObject)->Set_TextureNumber(byTextureNumber);
+				dynamic_cast<CLava*>(pGameObject)->Set_TextureNumber(0);
 				pGameObject->m_pTransform->Translate(_vec3(fX, fY + 1.f, fZ));
 				pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 				//EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);

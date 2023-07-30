@@ -59,6 +59,7 @@ _int CSkeletonKing_Clone::Update_Object(const _float& fTimeDelta)
 	Engine::Renderer()->Add_RenderGroup(RENDER_ALPHA, this);
 	if (SceneManager()->Get_GameStop()) { return 0; }
 	_int iExit = __super::Update_Object(fTimeDelta);
+	m_pStateMachine->Update_StateMachine(fTimeDelta);
 	m_fDelay += fTimeDelta;
 	if ((2.f < m_fDelay)&&(!m_bMove))
 	{
@@ -102,7 +103,6 @@ _int CSkeletonKing_Clone::Update_Object(const _float& fTimeDelta)
 			m_IsDead = true;
 		}
 	}
-	m_pStateMachine->Update_StateMachine(fTimeDelta);
 	return iExit;
 }
 

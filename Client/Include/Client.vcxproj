@@ -253,6 +253,7 @@
     <ClInclude Include="..\Header\Jump_Plate.h" />
     <ClInclude Include="..\Header\Lamp.h" />
     <ClInclude Include="..\Header\Boss_LostSoul.h" />
+    <ClInclude Include="..\Header\Lava.h" />
     <ClInclude Include="..\Header\LightningPattern2.h" />
     <ClInclude Include="..\Header\LostSoulPattern.h" />
     <ClInclude Include="..\Header\LostSoulPattern2.h" />
@@ -500,6 +501,7 @@
     <ClCompile Include="..\Code\Jump_Plate.cpp" />
     <ClCompile Include="..\Code\Lamp.cpp" />
     <ClCompile Include="..\Code\Boss_LostSoul.cpp" />
+    <ClCompile Include="..\Code\Lava.cpp" />
     <ClCompile Include="..\Code\LightningPattern2.cpp" />
     <ClCompile Include="..\Code\LostSoulPattern.cpp" />
     <ClCompile Include="..\Code\LostSoulPattern2.cpp" />

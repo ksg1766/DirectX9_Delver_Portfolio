@@ -2,6 +2,7 @@
 #include "..\Header\BossProjectile.h"
 #include "Export_Function.h"
 #include "Player.h"
+#include "SoundManager.h"
 CBossProjectile::CBossProjectile(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CMonster(pGraphicDev), m_fFrame(0.f)
 {
@@ -26,6 +27,8 @@ HRESULT CBossProjectile::Ready_Object(void)
 	m_fSpeed = 20.f;
 	m_bHit = false;
 	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale()*0.8f);
+	CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_WARRIOR);
+	CSoundManager::GetInstance()->PlaySound(L"Boss_FireBall1.wav", CHANNELID::SOUND_WARRIOR, 1.f);
 	return S_OK;
 }
 
@@ -96,7 +99,6 @@ void CBossProjectile::OnCollisionStay(CCollider* _pOther)
 		m_bHit = false;
 		Engine::EventManager()->DeleteObject(this);
 	}
-
 }
 
 void CBossProjectile::OnCollisionExit(CCollider* _pOther)

@@ -2,6 +2,7 @@
 #include "..\Header\BossExplosion.h"
 #include "Export_Function.h"
 #include "Player.h"
+#include "SoundManager.h"
 
 CBossExplosion::CBossExplosion(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CMonster(pGraphicDev)
@@ -29,6 +30,8 @@ HRESULT CBossExplosion::Ready_Object(void)
 	m_fSclae = 1.f;
 	m_pTransform->Scale(_vec3(m_fSclae, m_fSclae, m_fSclae));
 	m_bHit = false;
+	CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_WIZARD);
+	CSoundManager::GetInstance()->PlaySound(L"explode.mp3", CHANNELID::SOUND_WIZARD, 1.f);
 	return S_OK;
 }
 

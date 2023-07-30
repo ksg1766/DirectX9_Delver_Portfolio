@@ -54,7 +54,7 @@ HRESULT CSkeletonKing::Ready_Object(void)
 	m_pRigidBody->UseGravity(false);
 	m_pTransform->Scale(_vec3(3.f, 3.f, 3.f));
 	m_pBasicStat->Get_Stat()->fHP = 100.f;
-	m_ePhase = BOSSPHASE::PHASE2;
+	m_ePhase = BOSSPHASE::PHASE1;
 	m_iHitCount = 0;
 	m_fHitCool = 0.f;
 	m_fMoveDelay = 0.f;
