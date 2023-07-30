@@ -27,6 +27,7 @@ private:
     _float  m_fPatternDelay;
     _bool  m_bCool;
     _bool   m_bCross;
+    _bool   m_bSound;
     _vec3   m_vHeight;
     _vec3   m_vCrossDir[8];
     _int    m_iSkillCount;

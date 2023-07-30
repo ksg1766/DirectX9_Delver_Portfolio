@@ -273,5 +273,4 @@ void CHellDoor::Free()
 	
 	//for_each(m_vecDoorCube.begin(), m_vecDoorCube.end(), CDeleteObj());
 	//m_vecDoorCube.clear();
-
 }

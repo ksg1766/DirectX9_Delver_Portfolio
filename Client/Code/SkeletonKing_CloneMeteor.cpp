@@ -1,29 +1,30 @@
 #include "stdafx.h"
-#include "SkeletonKing_Clone.h"
+#include "SkeletonKing_CloneMeteor.h"
 #include "Export_Function.h"
 #include "BossProjectile.h"
 #include "BossExplosion.h"
 #include "SkeletonKing.h"
-#include "Boss_CloneState.h"
+#include "Boss_CloneMeteorState.h"
 #include "Player.h"
-#include "Boss_CloneDead.h"
-CSkeletonKing_Clone::CSkeletonKing_Clone(LPDIRECT3DDEVICE9 pGraphicDev)
+#include "Boss_CloneMeteorDead.h"
+
+CSkeletonKing_CloneMeteor::CSkeletonKing_CloneMeteor(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CMonster(pGraphicDev)
 {
 
 }
 
-CSkeletonKing_Clone::CSkeletonKing_Clone(const CSkeletonKing_Clone& rhs)
+CSkeletonKing_CloneMeteor::CSkeletonKing_CloneMeteor(const CSkeletonKing_CloneMeteor& rhs)
 	: Engine::CMonster(rhs)
 {
 }
 
-CSkeletonKing_Clone::~CSkeletonKing_Clone()
+CSkeletonKing_CloneMeteor::~CSkeletonKing_CloneMeteor()
 {
 	Free();
 }
 
-HRESULT CSkeletonKing_Clone::Ready_Object(void)
+HRESULT CSkeletonKing_CloneMeteor::Ready_Object(void)
 {
 	m_eObjectTag = OBJECTTAG::BOSS;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
@@ -38,9 +39,9 @@ HRESULT CSkeletonKing_Clone::Ready_Object(void)
 	m_pBasicStat->Get_Stat()->fHP = 4.f;
 	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
 	
-	CState* m_pState = CBoss_CloneState::Create(m_pGraphicDev, m_pStateMachine);
+	CState* m_pState = CBoss_CloneMeteorState::Create(m_pGraphicDev, m_pStateMachine);
 	m_pStateMachine->Add_State(STATE::IDLE, m_pState);
-	m_pState = CBoss_CloneDead::Create(m_pGraphicDev, m_pStateMachine);
+	m_pState = CBoss_CloneMeteorDead::Create(m_pGraphicDev, m_pStateMachine);
 	m_pStateMachine->Add_State(STATE::DEAD, m_pState);
 
 	CAnimation* pAnimation = CAnimation::Create(m_pGraphicDev,
@@ -56,7 +57,7 @@ HRESULT CSkeletonKing_Clone::Ready_Object(void)
 	return S_OK;
 }
 
-_int CSkeletonKing_Clone::Update_Object(const _float& fTimeDelta)
+_int CSkeletonKing_CloneMeteor::Update_Object(const _float& fTimeDelta)
 {
 	Engine::Renderer()->Add_RenderGroup(RENDER_ALPHA, this);
 	if (SceneManager()->Get_GameStop()) { return 0; }
@@ -112,16 +113,16 @@ _int CSkeletonKing_Clone::Update_Object(const _float& fTimeDelta)
 	return iExit;
 }
 
-void CSkeletonKing_Clone::LateUpdate_Object(void)
+void CSkeletonKing_CloneMeteor::LateUpdate_Object(void)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
-	if (STATE::BOSS_PH2SKILL5 == dynamic_cast<CSkeletonKing*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_StateMachine()->Get_State())
+    if(STATE::BOSS_PH2SKILL5 != dynamic_cast<CSkeletonKing*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_StateMachine()->Get_State())
 		m_pStateMachine->Set_State(STATE::DEAD);
 	__super::LateUpdate_Object();
 	m_pTransform->Scale(_vec3(3.f, 3.f, 3.f));
 }
 
-void CSkeletonKing_Clone::Render_Object(void)
+void CSkeletonKing_CloneMeteor::Render_Object(void)
 {
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
@@ -131,7 +132,7 @@ void CSkeletonKing_Clone::Render_Object(void)
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 }
 
-void CSkeletonKing_Clone::MoveToDir()
+void CSkeletonKing_CloneMeteor::MoveToDir()
 {
 	m_pTransform->Translate(m_vDir);
 	if (1.f < m_fMoveDelay)
@@ -143,12 +144,12 @@ void CSkeletonKing_Clone::MoveToDir()
 	}
 }
 
-void CSkeletonKing_Clone::OnCollisionEnter(CCollider* _pOther)
+void CSkeletonKing_CloneMeteor::OnCollisionEnter(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 }
 
-void CSkeletonKing_Clone::OnCollisionStay(CCollider* _pOther)
+void CSkeletonKing_CloneMeteor::OnCollisionStay(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 	if (m_bHit) { return; }
@@ -161,12 +162,12 @@ void CSkeletonKing_Clone::OnCollisionStay(CCollider* _pOther)
 	}
 }
 
-void CSkeletonKing_Clone::OnCollisionExit(CCollider* _pOther)
+void CSkeletonKing_CloneMeteor::OnCollisionExit(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 }
 
-void CSkeletonKing_Clone::Set_Dir(_vec3 _vDir)
+void CSkeletonKing_CloneMeteor::Set_Dir(_vec3 _vDir)
 {
 	m_vTargetPos = _vDir;
 	//m_vDir = m_vTargetPos - m_pTransform->m_vInfo[INFO_POS];
@@ -174,7 +175,7 @@ void CSkeletonKing_Clone::Set_Dir(_vec3 _vDir)
 	D3DXVec3Normalize(&m_vDir, &m_vDir);
 }
 
-HRESULT CSkeletonKing_Clone::Add_Component(void)
+HRESULT CSkeletonKing_CloneMeteor::Add_Component(void)
 {
 	CComponent* pComponent = nullptr;
 
@@ -225,9 +226,9 @@ HRESULT CSkeletonKing_Clone::Add_Component(void)
 	return S_OK;
 }
 
-CSkeletonKing_Clone* CSkeletonKing_Clone::Create(LPDIRECT3DDEVICE9 pGraphicDev)
+CSkeletonKing_CloneMeteor* CSkeletonKing_CloneMeteor::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 {
-	CSkeletonKing_Clone* pInstance = new CSkeletonKing_Clone(pGraphicDev);
+	CSkeletonKing_CloneMeteor* pInstance = new CSkeletonKing_CloneMeteor(pGraphicDev);
 
 	if (FAILED(pInstance->Ready_Object()))
 	{
@@ -239,11 +240,11 @@ CSkeletonKing_Clone* CSkeletonKing_Clone::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 	return pInstance;
 }
 
-void CSkeletonKing_Clone::Free()
+void CSkeletonKing_CloneMeteor::Free()
 {
 	__super::Free();
 }
 
-void CSkeletonKing_Clone::Init_Stat()
+void CSkeletonKing_CloneMeteor::Init_Stat()
 {
 }

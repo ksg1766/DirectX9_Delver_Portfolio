@@ -850,6 +850,21 @@
     <Filter Include="03. GameObject\07. Effect\99. EffectHekiRekiIssen\02. SwordLightning">
       <UniqueIdentifier>{808d1e9b-1fc8-49ec-9adf-89402892cc9b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. GameObject\01. Stage\999. Boss\01. AttackEff\07. LostSoul\State">
+      <UniqueIdentifier>{0969eb32-9f76-44ae-b227-3e8c01c91793}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\01. Stage\999. Boss\01. AttackEff\03. Create_Clone\MeteorClone">
+      <UniqueIdentifier>{0053e920-7f1d-418a-84f1-e496dd69241b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\01. Stage\999. Boss\01. AttackEff\03. Create_Clone\MeteorClone\State">
+      <UniqueIdentifier>{607b6227-71cb-4ef6-b7c5-71edc22124ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\01. Stage\999. Boss\01. AttackEff\03. Create_Clone\MeteorClone\State\IDLE">
+      <UniqueIdentifier>{9b09408d-6f57-402e-b097-5049581b59ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\01. Stage\999. Boss\01. AttackEff\03. Create_Clone\MeteorClone\State\DEAD">
+      <UniqueIdentifier>{1e3862c4-55a7-47fe-bfe1-2cf9599b6be6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -1667,6 +1682,18 @@
     <ClInclude Include="..\Header\EffectSwordLightning.h">
       <Filter>03. GameObject\07. Effect\99. EffectHekiRekiIssen\02. SwordLightning</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\LostSoul_State.h">
+      <Filter>03. GameObject\01. Stage\999. Boss\01. AttackEff\07. LostSoul\State</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Boss_CloneMeteorState.h">
+      <Filter>03. GameObject\01. Stage\999. Boss\01. AttackEff\03. Create_Clone\MeteorClone\State\IDLE</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Boss_CloneMeteorDead.h">
+      <Filter>03. GameObject\01. Stage\999. Boss\01. AttackEff\03. Create_Clone\MeteorClone\State\DEAD</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\SkeletonKing_CloneMeteor.h">
+      <Filter>03. GameObject\01. Stage\999. Boss\01. AttackEff\03. Create_Clone\MeteorClone</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -2444,6 +2471,18 @@
     </ClCompile>
     <ClCompile Include="..\Code\EffectSwordLightning.cpp">
       <Filter>03. GameObject\07. Effect\99. EffectHekiRekiIssen\02. SwordLightning</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\LostSoul_State.cpp">
+      <Filter>03. GameObject\01. Stage\999. Boss\01. AttackEff\07. LostSoul\State</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\SkeletonKing_CloneMeteor.cpp">
+      <Filter>03. GameObject\01. Stage\999. Boss\01. AttackEff\03. Create_Clone\MeteorClone</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Boss_CloneMeteorState.cpp">
+      <Filter>03. GameObject\01. Stage\999. Boss\01. AttackEff\03. Create_Clone\MeteorClone\State\IDLE</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Boss_CloneMeteorDead.cpp">
+      <Filter>03. GameObject\01. Stage\999. Boss\01. AttackEff\03. Create_Clone\MeteorClone\State\DEAD</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

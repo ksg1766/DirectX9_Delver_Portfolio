@@ -39,6 +39,8 @@ HRESULT CBossStage::Ready_Scene()
 	FAILED_CHECK_RETURN(Ready_Layer_GameLogic(LAYERTAG::GAMELOGIC), E_FAIL);
 	m_pGraphicDev->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
 
+	CSoundManager::GetInstance()->StopAll();
+	CSoundManager::GetInstance()->PlayBGM(L"DK-7.mp3", 0.5f);
 	return S_OK;
 }
 
@@ -165,12 +167,11 @@ HRESULT CBossStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	pGameObject->m_pTransform->Translate(_vec3(-80.f, 35.f, 0.f));
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
-	pGameObject = CJump_Plate::Create(m_pGraphicDev);
+	pGameObject = CDimensionGate::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pGameObject->m_pTransform->Translate(_vec3(-2.f, 11.5f, -2.f));
+	pGameObject->m_pTransform->Translate(_vec3(95.f, 22.f, 0.f));
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
-	
 	return S_OK;
 }
 

@@ -6,7 +6,6 @@
 #include "Player.h"
 #include "FootRay.h"
 #include "CubeBlock.h"
-#include "DynamicCubeBlock.h"
 
 #include "UIplayerhp.h"
 #include "UIplayerstat.h"
@@ -23,9 +22,7 @@
 #include "UISpeech_OldMan.h"//Speech Bubble Test
 
 #include "SkeletonKing.h"
-#include "Npc_OldMan.h"
-#include "Npc_Bard.h"
-
+#include "DimensionGate.h"
 class CBossStage : public Engine::CScene
 {
 private:

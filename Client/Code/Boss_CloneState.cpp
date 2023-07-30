@@ -26,6 +26,8 @@ HRESULT CBoss_CloneState::Ready_State(CStateMachine* pOwner)
 
 STATE CBoss_CloneState::Update_State(const _float& fTimeDelta)
 {
+    if(STATE::BOSS_PH2SKILL5 == dynamic_cast<CSkeletonKing*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_StateMachine()->Get_State())
+        return STATE::DEAD;
     m_fDelay += fTimeDelta;
     if ((3.f < m_fDelay)&&(dynamic_cast<CSkeletonKing_Clone*>(m_pOwner->Get_Host())->Get_bMove()))
     {

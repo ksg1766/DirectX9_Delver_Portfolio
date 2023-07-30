@@ -29,7 +29,7 @@ STATE CBoss_Sleep::Update_State(const _float& fTimeDelta)
 	_vec3 vBossPos = m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
 	_vec3 vDir = vPlayerPos - vBossPos;
 	_float fDistance = D3DXVec3LengthSq(&vDir);
-	if (BOSSPHASE::PHASE1 == dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_Phase())
+	if (BOSSPHASE::PHASE1 == dynamic_cast<CSkeletonKing*>(m_pOwner->Get_Host())->Get_Phase())
 	{
 		if ((!m_bMusic)&&(fDistance < pow(100, 2)))
 		{
@@ -42,15 +42,16 @@ STATE CBoss_Sleep::Update_State(const _float& fTimeDelta)
 			return STATE::BOSS_WAKEUP;
 		}
 	}
-	else if (BOSSPHASE::PHASE2 == dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_Phase())
+	else if (BOSSPHASE::PHASE2 == dynamic_cast<CSkeletonKing*>(m_pOwner->Get_Host())->Get_Phase())
 	{
 		if (fDistance < pow(40, 2))
 		{
 			return STATE::BOSS_WAKEUP;
 		}
 	}
-	else if (BOSSPHASE::PHASE3 == dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_Phase())
+	else if (BOSSPHASE::PHASE3 == dynamic_cast<CSkeletonKing*>(m_pOwner->Get_Host())->Get_Phase())
 	{
+		dynamic_cast<CSkeletonKing*>(m_pOwner->Get_Host())->Set_3Phase(true);
 		if (fDistance < pow(40, 2))
 		{
 			return STATE::BOSS_WAKEUP;

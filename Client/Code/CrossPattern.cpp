@@ -1,9 +1,11 @@
+#include "stdafx.h"
 #include "CrossPattern.h"
 #include "Export_Function.h"
 #include "SkeletonKing.h"
 #include "SkeletonKing_Clone.h"
 #include "Boss_Lightning.h"
 #include "Boss_CautionEff.h"
+#include "SoundManager.h"
 CCrossPattern::CCrossPattern()
 {
 }
@@ -27,6 +29,7 @@ HRESULT CCrossPattern::Ready_State(CStateMachine* pOwner)
 	m_fCautionDelay = 0.f;
 	m_bCool = false;
 	m_bCross = false;
+	m_bSound = false;
 	m_vHeight = _vec3(0.f, 10.f, 0.f);
 	m_vCrossDir[0] = _vec3(-2.f, 0.f, 0.f);
 	m_vCrossDir[1] = _vec3(0.f, 0.f, -2.f);
@@ -94,6 +97,8 @@ STATE CCrossPattern::Update_State(const _float& fTimeDelta)
 	{
 		if (!m_bCross)
 		{
+			CSoundManager::GetInstance()->StopSound(SOUND_SLIME);
+			CSoundManager::GetInstance()->PlaySound(L"Elec1.wav", CHANNELID::SOUND_SLIME, 0.5f);
 			for (int i = 0; i < 10; ++i)
 			{
 				for (int j = 0; j < 4; ++j)
@@ -115,6 +120,8 @@ STATE CCrossPattern::Update_State(const _float& fTimeDelta)
 		}
 		else if (m_bCross)
 		{
+			CSoundManager::GetInstance()->StopSound(SOUND_SLIME);
+			CSoundManager::GetInstance()->PlaySound(L"Elec1.wav", CHANNELID::SOUND_SLIME, 0.5f);
 			for (int i = 0; i < 10; ++i)
 			{
 				for (int j = 0; j < 4; ++j)

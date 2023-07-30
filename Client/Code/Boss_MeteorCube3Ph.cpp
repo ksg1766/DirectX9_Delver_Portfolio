@@ -54,7 +54,7 @@ _int CBoss_MeteorCube3Ph::Update_Object(const _float& fTimeDelta)
 	}
 	m_fScale += fTimeDelta / 1.5f;
 	m_fEndTime += fTimeDelta;
-	if ((m_bChanneling_Start) && (10.f <= m_fEndTime))
+	if ((m_bChanneling_Start) && (20.f <= m_fEndTime))
 	{
 		Channeling_End(fTimeDelta);
 		return iExit;
@@ -84,7 +84,7 @@ void CBoss_MeteorCube3Ph::Render_Object(void)
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
 
-	m_pTexture->Render_Texture();
+	m_pTexture->Render_Texture(40);
 	m_pCubeBf->Render_Buffer();//큐브버퍼
 
 #if _DEBUG
@@ -190,7 +190,7 @@ HRESULT CBoss_MeteorCube3Ph::Add_Component()
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BASICSTAT, pComponent);
 
-	pComponent = m_pTexture = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_Meteor"));
+	pComponent = m_pTexture = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_Cube"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::ANIMATOR, pComponent);
 

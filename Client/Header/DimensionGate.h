@@ -19,12 +19,18 @@ public:
 	virtual void	LateUpdate_Object(void)					override;
 	virtual void	Render_Object(void)						override;
 
+public:
+	virtual void	OnCollisionEnter(CCollider* _pOther);
+	virtual void	OnCollisionStay(CCollider* _pOther);
+	virtual void	OnCollisionExit(CCollider* _pOther);
+
 private:
 	CRcTex* m_pBuffer = nullptr;
 	CTexture* m_pTexture = nullptr;
 
 	_float			m_fTime;
 	_float			m_fScale;
+	_float			m_fFrame;
 private:
 	HRESULT		Add_Component(void);
 

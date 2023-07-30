@@ -101,7 +101,19 @@ void CRenderer::Render_Priority(LPDIRECT3DDEVICE9& pGraphicDev)
 		pGraphicDev->SetRenderState(D3DRS_FOGSTART, *(DWORD*)&fNear);
 		pGraphicDev->SetRenderState(D3DRS_FOGEND, *(DWORD*)&fFar);
 	}
+	else if (SCENETAG::BOSSSTAGE == CurrentScene)
+	{
+		_float fNear = 1.f;
+		_float fFar = 120.0f;
 
+		pGraphicDev->SetRenderState(D3DRS_FOGENABLE, TRUE);
+		pGraphicDev->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_LINEAR);
+
+		pGraphicDev->SetRenderState(D3DRS_FOGCOLOR, D3DCOLOR_ARGB(1, 100, 0, 0));
+
+		pGraphicDev->SetRenderState(D3DRS_FOGSTART, *(DWORD*)&fNear);
+		pGraphicDev->SetRenderState(D3DRS_FOGEND, *(DWORD*)&fFar);
+	}
 	for (auto iter : m_RenderGroup[RENDER_PRIORITY])
 		iter->Render_Object();
 }

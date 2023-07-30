@@ -26,7 +26,7 @@ HRESULT CBossExplosion::Ready_Object(void)
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 	m_fFrame = 0.f;
 	m_iCount = 0.f;
-	m_pBasicStat->Get_Stat()->fAttack = 3.0;
+	m_pBasicStat->Get_Stat()->fAttack = 2.0;
 	m_fSclae = 1.f;
 	m_pTransform->Scale(_vec3(m_fSclae, m_fSclae, m_fSclae));
 	m_bHit = false;
@@ -92,7 +92,7 @@ void CBossExplosion::OnCollisionStay(CCollider* _pOther)
 		PlayerState.Take_Damage(this->Get_BasicStat()->Get_Stat()->fAttack);
 		this->Set_AttackTick(true);
 
-		(dynamic_cast<CPlayer*>(_pOther->Get_Host())->Get_RigidBody()->Add_Force(_vec3(0.f, 1.1f * 15.f, 0.f)));
+		(dynamic_cast<CPlayer*>(_pOther->Get_Host())->Get_RigidBody()->Add_Force(_vec3(0.f, 1.1f * 12.f, 0.f)));
 		(dynamic_cast<CPlayer*>(_pOther->Get_Host())->Get_RigidBody()->UseGravity(true));
 		(dynamic_cast<CPlayer*>(_pOther->Get_Host())->Set_JumpState(true));
 		m_bHit = true;

@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "MiniMetorPattern.h"
 #include "MiniMeteor.h"
 #include "Export_Function.h"
@@ -5,6 +6,7 @@
 #include "Boss_WarningEff.h"
 #include "Boss_Lightning.h"
 #include "Boss_CautionEff.h"
+#include "SoundManager.h"
 CMiniMetorPattern::CMiniMetorPattern()
 {
 }
@@ -99,6 +101,8 @@ void CMiniMetorPattern::Make_Thunder()
 	}
 	else if (1.f < m_fThunderDelay)
 	{
+		CSoundManager::GetInstance()->StopSound(SOUND_SLIME);
+		CSoundManager::GetInstance()->PlaySound(L"Elec1.wav", CHANNELID::SOUND_SLIME, 0.5f);
 		for (int i = 0; i < 10; ++i)
 		{
 			pGameObject = CBoss_Lightning::Create(m_pGraphicDev);

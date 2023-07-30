@@ -93,6 +93,9 @@ void CBossProjectile::OnCollisionStay(CCollider* _pOther)
 	if (m_bHit) { return; }
 	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::PLAYER)
 	{
+		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_DOOR);
+		CSoundManager::GetInstance()->PlaySound(L"Fire_Hit1.wav", CHANNELID::SOUND_DOOR, 1.f);
+
 		CPlayerStat& PlayerState = *(dynamic_cast<CPlayer*>(_pOther->Get_Host())->Get_Stat());
 		PlayerState.Take_Damage(this->Get_BasicStat()->Get_Stat()->fAttack);
 		this->Set_AttackTick(true);

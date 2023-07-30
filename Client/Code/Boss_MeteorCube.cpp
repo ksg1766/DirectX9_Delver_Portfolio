@@ -1,9 +1,11 @@
-
+#include "stdafx.h"
 #include "Boss_MeteorCube.h"
 #include "Export_Function.h"
 #include "SkeletonKing.h"
 #include "Player.h"
 #include "BossExplosion.h"
+#include "SoundManager.h"
+#include "DynamicCamera.h"
 CBoss_MeteorCube::CBoss_MeteorCube(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CMonster(pGraphicDev)
 {
@@ -27,6 +29,8 @@ HRESULT CBoss_MeteorCube::Ready_Object()
 	m_bChanneling_End = false;
 	m_bTargetSet = false;
 	m_bHit = false;
+	m_bSound = false;
+	m_bShake = false;
 	m_bMaxHeight = 20.f;
 	m_fMeteorExplosionTime = 0.f;
 	m_fScale = 0;
@@ -43,10 +47,7 @@ _int CBoss_MeteorCube::Update_Object(const _float& fTimeDelta)
 	Engine::Renderer()->Add_RenderGroup(RENDER_PRIORITY, this);
 	if (SceneManager()->Get_GameStop()) { return 0; }
 	_uint iExit = __super::Update_Object(fTimeDelta);
-	if ((!m_bHit)&& (m_fExplosionTime))
-	{
 
-	}
 	if (STATE::BOSS_STURN == dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_StateMachine()->Get_State())
 	{
 		m_bChanneling_Start = false;
@@ -66,6 +67,12 @@ _int CBoss_MeteorCube::Update_Object(const _float& fTimeDelta)
 	}
 	if (m_bChanneling_Start)
 	{
+		if (!m_bSound)
+		{
+			CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_ALIEN);
+			CSoundManager::GetInstance()->PlaySound(L"Boss_MeteorCharging.wav", CHANNELID::SOUND_ALIEN, 0.4f);
+			m_bSound = true;
+		}
 		Channeling_Now(fTimeDelta);
 		m_pTransform->Translate(_vec3(-fTimeDelta / 4.f, 0.f, 0.f));
 	}
@@ -89,7 +96,7 @@ void CBoss_MeteorCube::Render_Object(void)
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
 
-	m_pTexture->Render_Texture();
+	m_pTexture->Render_Texture(40);
 	m_pCubeBf->Render_Buffer();//큐브버퍼
 
 #if _DEBUG
@@ -106,6 +113,14 @@ void CBoss_MeteorCube::Channeling_Begin()
 
 void CBoss_MeteorCube::Channeling_Now(const _float& fTimeDelta)
 {
+	CDynamicCamera& rCamera = *dynamic_cast<CDynamicCamera*>(SceneManager()->Get_ObjectList(LAYERTAG::ENVIRONMENT, OBJECTTAG::CAMERA).front());
+
+	if (!m_bShake)
+	{
+		rCamera.Set_ShakeForce(0.f, 0.01, 3, 2.f);
+		rCamera.Shake_Camera();
+	}
+
 	m_pTransform->Translate(_vec3(0.f, 1.5f * fTimeDelta, 0.f));
 	m_pTransform->Rotate(_vec3(0.f, 0.f, 3.f));
 	m_pTransform->RotateAround(m_vCenter, _vec3(0.f, 3.f, 0.f), 3.f * fTimeDelta / 2.f);
@@ -114,13 +129,19 @@ void CBoss_MeteorCube::Channeling_Now(const _float& fTimeDelta)
 
 void CBoss_MeteorCube::Channeling_End(const _float& fTimeDelta)
 {
+	
 	if (!m_bTargetSet)
+	{
+		m_bShake = true;
 		Set_PlayerPos();
+	}
 	m_pTransform->Translate(m_vDir * fTimeDelta);
 	m_fMeteorExplosionTime += fTimeDelta;
 	m_vDir = m_vTargetPos - m_pTransform->m_vInfo[INFO_POS];
 	if (3.5f < m_fExplosionTime)
 	{
+		m_bShake = false;
+
 		m_fMeteorExplosionTime = 0.f;
 		m_bHit = true;
 		CPlayerStat& PlayerState = *dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer())->Get_Stat();
@@ -156,13 +177,15 @@ void CBoss_MeteorCube::OnCollisionEnter(CCollider* _pOther)
 	if (m_bHit) { return; }
 	if (OBJECTTAG::PLAYER == _pOther->Get_ObjectTag())
 	{
-
+		m_bShake = false;
+		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_ALIEN);
+		CSoundManager::GetInstance()->PlaySound(L"Boss_MeteorExplosion3.wav", CHANNELID::SOUND_ALIEN, 1.f);
 		m_fMeteorExplosionTime = 0.f;
 		m_bHit = true;
 		CPlayerStat& PlayerState = *dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer())->Get_Stat();
 		PlayerState.Take_Damage(m_fAttack);
 		this->Set_AttackTick(true);
-
+		m_bSound = false;
 		m_bChanneling_Start = false;
 		m_bChanneling_End = false;
 		m_fEndTime = 0.f;
@@ -219,7 +242,7 @@ HRESULT CBoss_MeteorCube::Add_Component()
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BASICSTAT, pComponent);
 
-	pComponent = m_pTexture = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_Meteor"));
+	pComponent = m_pTexture = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_Cube"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::ANIMATOR, pComponent);
 
@@ -245,5 +268,7 @@ CBoss_MeteorCube* CBoss_MeteorCube::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 
 void CBoss_MeteorCube::Free()
 {
+	CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_ALIEN);
+	m_bSound = false;
 	__super::Free();
 }

@@ -35,7 +35,7 @@ protected:
 private:
 	CCubeBf*	m_pBuffer = nullptr;
 	_uint		m_iTextureNumber;
-
+	_float		m_fDelay;
 public:
 	static CLava* Create(LPDIRECT3DDEVICE9 pGraphicDev);
 

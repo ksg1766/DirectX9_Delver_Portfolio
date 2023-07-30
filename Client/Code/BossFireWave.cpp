@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "..\Header\BossFireWave.h"
 #include "Export_Function.h"
+#include "SoundManager.h"
 #include "Player.h"
 CBossFireWave::CBossFireWave(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CMonster(pGraphicDev), m_fFrame(0.f)
@@ -28,8 +29,10 @@ HRESULT CBossFireWave::Ready_Object(void)
 	m_fAngle = 0.f;
 	m_fDuration = 0.f;
 	m_fScale = 2.f;
+	m_bSound = false;
 	m_pTransform->Scale(_vec3(m_fScale, m_fScale, m_fScale));
 	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS]+_vec3(0.f, -1.f, 0.f), &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale()*0.4f);
+
 	return S_OK;
 }
 
@@ -40,6 +43,12 @@ _int CBossFireWave::Update_Object(const _float& fTimeDelta)
 	if (SceneManager()->Get_GameStop()) { return 0; }
 
 	_int iExit = __super::Update_Object(fTimeDelta);
+	if (!m_bSound)
+	{
+		m_bSound = true;
+		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_BAT);
+		CSoundManager::GetInstance()->PlaySound(L"Fire_Wave1.wav", CHANNELID::SOUND_BAT, 1.f);
+	}
 	m_fDuration += fTimeDelta;
 	m_fFrame += 8.f * fTimeDelta * 2;
 	if (8.f < m_fFrame)
@@ -91,6 +100,8 @@ void CBossFireWave::OnCollisionStay(CCollider* _pOther)
 	if (SceneManager()->Get_GameStop()) { return; }
 	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::PLAYER)
 	{
+		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_SPIDER);
+		CSoundManager::GetInstance()->PlaySound(L"Fire_Hit1.wav", CHANNELID::SOUND_SPIDER, 1.f);
 		CPlayerStat& PlayerState = *(dynamic_cast<CPlayer*>(_pOther->Get_Host())->Get_Stat());
 		PlayerState.Take_Damage(this->Get_BasicStat()->Get_Stat()->fAttack);
 		this->Set_AttackTick(true);

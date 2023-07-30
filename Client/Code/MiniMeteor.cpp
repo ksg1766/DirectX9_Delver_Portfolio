@@ -4,6 +4,7 @@
 #include "Player.h"
 #include "BossExplosion.h"
 #include "MiniMeteor_Idle.h"
+#include "DynamicCamera.h"
 CMiniMeteor::CMiniMeteor(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CMonster(pGraphicDev)
 {
@@ -26,9 +27,10 @@ HRESULT CMiniMeteor::Ready_Object()
 	m_fScale = 0.3f;
 	m_fDuration = 0.f;
 	m_bHit = false;
+	m_bShake = false;
 	m_pTransform->Scale(_vec3(m_fScale, m_fScale, m_fScale));
 	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
-	m_pBasicStat->Get_Stat()->fAttack = 3.f;
+	m_pBasicStat->Get_Stat()->fAttack = 1.f;
 	CState* m_pState = CMiniMeteor_Idle::Create(m_pGraphicDev, m_pStateMachine);
 	m_pStateMachine->Add_State(STATE::IDLE, m_pState);
 	return S_OK;
@@ -39,8 +41,16 @@ _int CMiniMeteor::Update_Object(const _float& fTimeDelta)
 	Engine::Renderer()->Add_RenderGroup(RENDER_PRIORITY, this);
 	if (SceneManager()->Get_GameStop()) { return 0; }
 	_uint iExit = __super::Update_Object(fTimeDelta);
+	CDynamicCamera& rCamera = *dynamic_cast<CDynamicCamera*>(SceneManager()->Get_ObjectList(LAYERTAG::ENVIRONMENT, OBJECTTAG::CAMERA).front());
+
+	if (!m_bShake)
+	{
+		rCamera.Set_ShakeForce(0.f, 0.01, 3, 2.f);
+		rCamera.Shake_Camera();
+	}
 	if ((3.f < m_fDuration) && (!m_bHit))
 	{
+		m_bShake = true;
 		m_fDuration = 0.f;
 		m_IsDead = true;
 		Engine::CGameObject* pGameObject = nullptr;
@@ -88,6 +98,7 @@ void CMiniMeteor::OnCollisionEnter(CCollider* _pOther)
 	if (m_bHit) { return; }
 	if (OBJECTTAG::PLAYER == _pOther->Get_ObjectTag())
 	{
+		m_bShake = true;
 		CPlayerStat& PlayerState = *(dynamic_cast<CPlayer*>(_pOther->Get_Host())->Get_Stat());
 		PlayerState.Take_Damage(this->Get_BasicStat()->Get_Stat()->fAttack);
 		this->Set_AttackTick(true);

@@ -10,12 +10,12 @@ class CBossAI;
 class CAnimator;
 END
 
-class CSkeletonKing_Clone : public Engine::CMonster
+class CSkeletonKing_CloneMeteor : public Engine::CMonster
 {
 private:
-	explicit	CSkeletonKing_Clone(LPDIRECT3DDEVICE9	pGraphicDev);
-	explicit	CSkeletonKing_Clone(const CSkeletonKing_Clone& rhs);
-	virtual		~CSkeletonKing_Clone();
+	explicit	CSkeletonKing_CloneMeteor(LPDIRECT3DDEVICE9	pGraphicDev);
+	explicit	CSkeletonKing_CloneMeteor(const CSkeletonKing_CloneMeteor& rhs);
+	virtual		~CSkeletonKing_CloneMeteor();
 
 public:
 	virtual HRESULT Ready_Object(void) override;
@@ -57,7 +57,7 @@ private:
 	HRESULT		Add_Component(void);
 
 public:
-	static CSkeletonKing_Clone* Create(LPDIRECT3DDEVICE9 pGraphicDev);
+	static CSkeletonKing_CloneMeteor* Create(LPDIRECT3DDEVICE9 pGraphicDev);
 
 private:
 	virtual void Free() override;

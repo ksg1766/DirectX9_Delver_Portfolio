@@ -44,6 +44,7 @@ private:
 	_float			m_fSpeed;
 	_float			m_fAngle;
 	_float			m_fScale;
+	_bool			m_bSound;
 private:
 	HRESULT		Add_Component(void);
 

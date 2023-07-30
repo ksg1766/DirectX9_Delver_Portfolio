@@ -38,6 +38,7 @@ private:
     _float      m_fScale;
     _float      m_fDuration;
     _bool       m_bHit;
+    _bool       m_bShake;
 
 public:
     HRESULT		Add_Component();

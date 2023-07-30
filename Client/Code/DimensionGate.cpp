@@ -1,7 +1,7 @@
 #include "DimensionGate.h"
 #include "Export_Function.h"
 #include "SkeletonKing.h"
-
+#include "Player.h"
 CDimensionGate::CDimensionGate(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CGameObject(pGraphicDev)
 {
@@ -19,10 +19,12 @@ CDimensionGate::~CDimensionGate()
 
 HRESULT CDimensionGate::Ready_Object(void)
 {
-	m_eObjectTag = OBJECTTAG::UI;
+	m_eObjectTag = OBJECTTAG::IMMORTAL;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 	m_fTime = 0.f;
 	m_fScale = 1.;
+	m_fFrame = 0.f;
+	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS]+_vec3(-0.5f, 0.f, -0.5f), &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
 	return S_OK;
 }
 
@@ -31,6 +33,10 @@ _int CDimensionGate::Update_Object(const _float& fTimeDelta)
 	Engine::Renderer()->Add_RenderGroup(RENDER_ALPHA, this);
 	if (SceneManager()->Get_GameStop()) { return 0; }
 	_int iExit = __super::Update_Object(fTimeDelta);
+	m_fFrame += 5.f * fTimeDelta;
+	if (5.f < m_fFrame)
+		m_fFrame = 0.f;
+	return iExit;
 }
 
 void CDimensionGate::LateUpdate_Object(void)
@@ -43,9 +49,45 @@ void CDimensionGate::Render_Object(void)
 {
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
-	m_pTexture->Render_Texture();
+	m_pTexture->Render_Texture(_int(m_fFrame));
 	m_pBuffer->Render_Buffer();
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+}
+
+void CDimensionGate::OnCollisionEnter(CCollider* _pOther)
+{
+	if (SceneManager()->Get_GameStop()) { return; }
+}
+
+void CDimensionGate::OnCollisionStay(CCollider* _pOther)
+{
+	if (SceneManager()->Get_GameStop()) { return; }
+	if (OBJECTTAG::PLAYER == _pOther->Get_Host()->Get_ObjectTag())
+	{
+		switch (dynamic_cast<CSkeletonKing*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_Phase())
+		{
+		case BOSSPHASE::PHASE1:
+			dynamic_cast<CPlayer*>(_pOther->Get_Host())->m_pTransform->m_vInfo[INFO_POS] = _vec3(-10.f, 36.f, 0.f);
+			break;
+
+		case BOSSPHASE::PHASE2:
+			dynamic_cast<CPlayer*>(_pOther->Get_Host())->m_pTransform->m_vInfo[INFO_POS] = _vec3(-80.f, 36.f, 0.f);
+			break;
+
+		case BOSSPHASE::PHASE3:
+			dynamic_cast<CPlayer*>(_pOther->Get_Host())->m_pTransform->m_vInfo[INFO_POS] = _vec3(-80.f, 36.f, 0.f);
+			break;
+
+		case BOSSPHASE::LASTPHASE:
+			dynamic_cast<CPlayer*>(_pOther->Get_Host())->m_pTransform->m_vInfo[INFO_POS] = _vec3(-10.f, 36.f, 0.f);
+			break;
+		}
+	}
+}
+
+void CDimensionGate::OnCollisionExit(CCollider* _pOther)
+{
+	if (SceneManager()->Get_GameStop()) { return; }
 }
 
 HRESULT CDimensionGate::Add_Component(void)
@@ -60,7 +102,7 @@ HRESULT CDimensionGate::Add_Component(void)
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::TRANSFORM, pComponent);
 
-	pComponent = m_pTexture = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_BossCaution"));
+	pComponent = m_pTexture = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_BossPortal"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
 

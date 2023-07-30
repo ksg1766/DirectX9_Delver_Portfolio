@@ -30,6 +30,7 @@ private:
     _float  m_fSpawnWeight;
     _float m_fDelay;
     _bool    m_bSkillCount;
+    _bool   m_bSound;
 public:
     static CTeleportPattern* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
 

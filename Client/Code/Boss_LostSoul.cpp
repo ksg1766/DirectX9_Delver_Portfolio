@@ -7,6 +7,9 @@
 #include "BossExplosion.h"
 #include "EffectExplosion.h"
 #include "SoundManager.h"
+#include "LostSoul_State.h"
+#include "EffectSquare.h"
+
 CBossLostSoul::CBossLostSoul(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CMonster(pGraphicDev), m_fFrame(0.f)
 {
@@ -35,8 +38,11 @@ HRESULT CBossLostSoul::Ready_Object(void)
 	m_bHit = false;
 	m_bParry = false;
 	m_eSoulState = SOULSTATE::SOUL_NORMAL;
+	CState* m_pState = CLostSoul_State::Create(m_pGraphicDev, m_pStateMachine);
+	m_pStateMachine->Add_State(STATE::IDLE, m_pState);
+	m_pStateMachine->Set_State(STATE::IDLE);
 	CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_SPIDER);
-	CSoundManager::GetInstance()->PlaySound(L"LostSoulSpawn1.wav", CHANNELID::SOUND_SPIDER, 1.f);
+	CSoundManager::GetInstance()->PlaySound(L"LostSoulSpawn1.wav", CHANNELID::SOUND_SPIDER, 0.8f);
 	return S_OK;
 }
 
@@ -141,8 +147,16 @@ void CBossLostSoul::OnCollisionStay(CCollider* _pOther)
 	{
 		if ((m_eSoulState == SOULSTATE::SOUL_NORMAL))
 		{
-			if ((dynamic_cast<CPlayer*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front())->Get_Parrying()) && (ITEMID::GENERAL_SHIELD == dynamic_cast<CShield*>(_pOther->Get_Host())->Get_ItemTag().eItemID))
+			if ((ITEMID::GENERAL_SHIELD == dynamic_cast<CItem*>(_pOther->Get_Host())->Get_ItemTag().eItemID))
 			{
+				if (!dynamic_cast<CPlayer*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front())->Get_Parrying())
+					return;
+
+				_matrix      matMonsterWorld = _pOther->Get_Host()->m_pTransform->WorldMatrix();
+				_vec3        vecMonsterPos = _vec3(matMonsterWorld._41, matMonsterWorld._42 + .5f, matMonsterWorld._43);
+				CGameObject* pGameObject = CEffectSquare::Create(m_pGraphicDev, vecMonsterPos, 50, EFFECTCOLOR::ECOLOR_WHITE);
+				Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+
 				CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_SPIDER);
 				CSoundManager::GetInstance()->PlaySound(L"Parry1.wav", CHANNELID::SOUND_SPIDER, 1.f);
 				m_eSoulState = SOULSTATE::SOUL_PARRY;
@@ -159,9 +173,14 @@ void CBossLostSoul::OnCollisionStay(CCollider* _pOther)
 	{
 		if ((_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BOSS))
 		{
+			_matrix      matMonsterWorld = _pOther->Get_Host()->m_pTransform->WorldMatrix();
+			_vec3        vecMonsterPos = _vec3(matMonsterWorld._41, matMonsterWorld._42 + .5f, matMonsterWorld._43);
+			CGameObject* pGameObject = CEffectSquare::Create(m_pGraphicDev, vecMonsterPos, 50, EFFECTCOLOR::ECOLOR_APRICOT);
+			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+
 			CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_SPIDER);
 			CSoundManager::GetInstance()->PlaySound(L"LostSoul2.wav", CHANNELID::SOUND_SPIDER, 1.f);
-			Engine::CGameObject* pGameObject = nullptr;
+			
 			pGameObject = CEffectExplosion::Create(m_pGraphicDev);
 			dynamic_cast<CEffectExplosion*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = m_pTransform->m_vInfo[INFO_POS];
 			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
@@ -206,6 +225,10 @@ HRESULT CBossLostSoul::Add_Component(void)
 	pComponent = m_pBasicStat = dynamic_cast<CBasicStat*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BasicStat"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BASICSTAT, pComponent);
+
+	pComponent = m_pStateMachine = dynamic_cast<CStateMachine*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_State"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::STATEMACHINE, pComponent);
 
 	for (_uint i = 0; i < ID_END; ++i)
 		for (auto& iter : m_mapComponent[i])
