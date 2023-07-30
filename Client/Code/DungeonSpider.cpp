@@ -81,37 +81,6 @@ _int CDungeonSpider::Update_Object(const _float& fTimeDelta)
 
 	_int iExit = __super::Update_Object(fTimeDelta);
 
-	if (IsKnockBack())
-	{
-		m_pStateMachine->Set_State(STATE::HIT);
-		Set_KnockBack(false);
-	}
-
-	if (m_pBasicStat->Get_Stat()->fHP <= 0)
-	{
-		m_pStateMachine->Set_State(STATE::DEAD);
-		
-		
-		//////////////////////////////////////////////////////////////////////////////// ÀÌÆåÆ® 
-		if (!m_bDieEffect)
-		{
-			CGameObject* pGameObject = CEffectBlood::Create(m_pGraphicDev);
-			pGameObject->m_pTransform->Translate(_vec3(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y - .95f, m_pTransform->m_vInfo[INFO_POS].z));
-			dynamic_cast<CTempEffect*>(pGameObject)->Set_EffectColor(ECOLOR_RED);
-			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
-
-			m_bDieEffect = true;
-		}
-
-		//////////////////////////////////////////////////////////////////////////////// ÀÌÆåÆ® 
-		m_fDeadCoolTime += fTimeDelta;
-
-		if (m_fDeadCoolTime > 3.f)
-		CPoolManager::GetInstance()->Delete_Object(this);
-	}
-
-	
-
 	CPlayer& rPlayer = *SceneManager()->Get_Scene()->Get_MainPlayer();
 
 	_float fDistance = D3DXVec3Length(&(rPlayer.m_pTransform->m_vInfo[INFO_POS] - m_pTransform->m_vInfo[INFO_POS]));
@@ -124,6 +93,38 @@ _int CDungeonSpider::Update_Object(const _float& fTimeDelta)
 			CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_SPIDER);
 			CSoundManager::GetInstance()->PlaySound(L"en_spider_idle_01.mp3", CHANNELID::SOUND_SPIDER, 1.f);
 		}
+	}
+
+
+
+	if (IsKnockBack())
+	{
+		m_pStateMachine->Set_State(STATE::HIT);
+		Set_KnockBack(false);
+	}
+
+	if (m_pBasicStat->Get_Stat()->fHP <= 0)
+	{
+		m_pStateMachine->Set_State(STATE::DEAD);
+		
+
+		//////////////////////////////////////////////////////////////////////////////// ÀÌÆåÆ® 
+		if (!m_bDieEffect)
+		{
+			CGameObject* pGameObject = CEffectBlood::Create(m_pGraphicDev);
+			pGameObject->m_pTransform->Translate(_vec3(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y - .95f, m_pTransform->m_vInfo[INFO_POS].z));
+			dynamic_cast<CTempEffect*>(pGameObject)->Set_EffectColor(ECOLOR_RED);
+			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+
+			m_bDieEffect = true;
+			rPlayer.Add_Exp(this);
+		}
+
+		//////////////////////////////////////////////////////////////////////////////// ÀÌÆåÆ® 
+		m_fDeadCoolTime += fTimeDelta;
+
+		if (m_fDeadCoolTime > 3.f)
+			CPoolManager::GetInstance()->Delete_Object(this);
 	}
 		
 	if (m_pStateMachine->Get_State() != STATE::ATTACK)

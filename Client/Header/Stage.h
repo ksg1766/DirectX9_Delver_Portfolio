@@ -48,13 +48,21 @@ private:
 	virtual HRESULT	Load_Data() override;
 
 public:
-	void	Set_Bgm(_bool _bgm) { m_bBgmStop = _bgm; }
+	void	Set_Bgm(_bool _bgm)		 { m_bBgmStop = _bgm; }
+	void	Set_Sound(_float _Sound) { m_fSound = _Sound; }
+	void	Set_Sound(_bool _Sound)	 { m_bSoundOn = _Sound; }
 
 public:
 	static CStage*		Create(LPDIRECT3DDEVICE9 pGraphicDev);
 
 private:
 	_bool	m_bBgmStop = true;
+	_bool	m_bSoundOn = true;
+
+	_float	m_fSound;
+	const _float m_fMaxVolume = 1.f;
+	const _float m_fMinVolume = 0.f;
+	const _float m_fMaxDistance = 120.f;
 
 private:
 	virtual void Free() override;

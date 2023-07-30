@@ -313,6 +313,7 @@ _uint CLoading::Loading_ForStage()
 		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/en_beholder_hurt_01.mp3", "en_beholder_hurt_01.mp3"), E_FAIL);
 		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/en_beholder_idle_01.mp3", "en_beholder_idle_01.mp3"), E_FAIL);
 
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/en_worm_alert_03.mp3", "en_worm_alert_03.mp3"), E_FAIL);
 		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/en_worm_idle_03.mp3", "en_worm_idle_03.mp3"), E_FAIL);
 		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/en_worm_attack_02.mp3", "en_worm_attack_02.mp3"), E_FAIL);
 		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/en_worm_die_01.mp3", "en_worm_die_01.mp3"), E_FAIL);

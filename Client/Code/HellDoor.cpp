@@ -5,6 +5,8 @@
 #include "HellDoor.h"
 #include "DoorCube.h"
 #include "DynamicCamera.h"
+#include "Scene.h"
+#include "Stage.h"
 //#include "CameraManager.h"
 
 CHellDoor::CHellDoor(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -93,6 +95,7 @@ _int CHellDoor::Update_Object(const _float& fTimeDelta)
 
 		_float fFinalY = m_vecDoorCube[30]->m_pTransform->m_vInfo[INFO_POS].y;
 
+
 		for (auto& iter = m_vecDoorCube.begin(); iter != m_vecDoorCube.end(); ++iter)
 		{
 			_uint iCurrentIndex = std::distance(m_vecDoorCube.begin(), iter);
@@ -105,7 +108,6 @@ _int CHellDoor::Update_Object(const _float& fTimeDelta)
 			else if (iCurrentIndex >= 20 && iCurrentIndex < 30)
 				fNormalizeIndex = static_cast<_float>(30 - iCurrentIndex) / 10.f;
 
-			//_float fNormalizeIndex = static_cast<_float>(iCurrentIndex) / 30.f;
 
 			_float fNewY = (*iter)->m_pTransform->m_vInfo[INFO_POS].y +
 				fNormalizeIndex * (fFinalY - m_pTransform->m_vInfo[INFO_POS].y);
@@ -117,7 +119,7 @@ _int CHellDoor::Update_Object(const _float& fTimeDelta)
 			else if (iCurrentIndex >= 20 && iCurrentIndex < 30)
 				fNewY *= ((_float)30 - iCurrentIndex) + 1;
 
-			//fNewY *= ((_float)29 - iCurrentIndex) + 1;
+
 
 			if (iCurrentIndex < 30 && fFinalY >= (*iter)->m_pTransform->m_vInfo[INFO_POS].y)
 				(*iter)->m_pTransform->m_vInfo[INFO_POS].y += fNewY * fTimeDelta * fTimeDelta * 0.05f;
@@ -157,6 +159,24 @@ _int CHellDoor::Update_Object(const _float& fTimeDelta)
 		for (auto iter = m_vecDoorCube.begin(); iter != m_vecDoorCube.end(); ++iter)
 			(*iter)->LateUpdate_Object();
 	}
+
+	_vec3 vSoundDir = m_vecDoorCube[37]->m_pTransform->m_vInfo[INFO_POS] - m_vecDoorCube[17]->m_pTransform->m_vInfo[INFO_POS];
+	_float fSoundDistance = D3DXVec3Length(&vSoundDir);
+
+	_float fVolume = m_fMinVolume - (fSoundDistance / m_fMaxDistance) * (m_fMaxVolume - m_fMinVolume);
+
+	fVolume *= -1.f;
+
+	if (fVolume <= 0.01f)
+	{
+		m_fSound = 0.f;
+		dynamic_cast<CStage*>(CSceneManager::GetInstance()->Get_Scene())->Set_Sound(false);
+	}
+	else
+		m_fSound = fVolume;
+
+	if(m_fSound != 0)
+		dynamic_cast<CStage*>(CSceneManager::GetInstance()->Get_Scene())->Set_Sound(m_fSound);
 
 	return iExit;
 }

@@ -128,6 +128,7 @@ _int CDungeonWarrior::Update_Object(const _float& fTimeDelta)
 				Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 				
 				m_bDieEffect = true;
+				rPlayer.Add_Exp(this);
 			}
 		//////////////////////////////////////////////////////////////////////////////// ¿Ã∆Â∆Æ 
 			

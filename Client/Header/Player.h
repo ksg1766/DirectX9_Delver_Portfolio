@@ -85,6 +85,7 @@ public:
 
 	_bool			Get_Parrying()									{ return m_bParrying; }
 	void			IsDrunk();
+	void			Add_Exp(CGameObject* pExp);
 
 public:
 	virtual void	OnCollisionEnter(CCollider* _pOther);

@@ -47,6 +47,7 @@ private:
 	_bool		m_bAttackTick;
 	_float		m_fFrame;
 
+	_bool		m_bSearch = false;
 	STATE		m_eState;
 
 public:

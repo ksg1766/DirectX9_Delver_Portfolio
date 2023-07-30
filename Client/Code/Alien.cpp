@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "..\Header\Alien.h"
 #include "Export_Function.h"
 #include "Monster_Fly.h"
@@ -5,6 +6,7 @@
 #include "Monster_Hit.h"
 #include "Wizard_Attack.h"
 #include "EffectBlood.h"
+#include "Player.h"
 
 #include "PoolManager.h"
 
@@ -84,6 +86,9 @@ _int CAlien::Update_Object(const _float& fTimeDelta)
 		Set_KnockBack(false);
 	}
 
+
+	CPlayer& rPlayer = *SceneManager()->Get_Scene()->Get_MainPlayer();
+
 	if (m_pBasicStat->Get_Stat()->fHP <= 0)
 	{
 		if (m_pAnimator->Get_Animation()->Get_Frame() >= 2)
@@ -99,6 +104,7 @@ _int CAlien::Update_Object(const _float& fTimeDelta)
 				Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 
 				m_bDieEffect = true;
+				rPlayer.Add_Exp(this);
 			}
 			//////////////////////////////////////////////////////////////////////////////// ¿Ã∆Â∆Æ 
 			

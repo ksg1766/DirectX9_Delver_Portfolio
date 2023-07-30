@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "..\Header\Wizard.h"
 #include "Export_Function.h"
 
@@ -6,7 +7,8 @@
 #include "Monster_Hit.h"
 #include "Monster_Dead.h"
 #include "EffectBlood.h"
-
+#include "Player.h"
+#include "SoundManager.h"
 #include "PoolManager.h"
 
 CWizard::CWizard(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -84,6 +86,22 @@ _int CWizard::Update_Object(const _float& fTimeDelta)
 		Set_KnockBack(false);
 	}
 
+
+	CPlayer& rPlayer = *SceneManager()->Get_Scene()->Get_MainPlayer();
+
+	_float fDistance = D3DXVec3Length(&(rPlayer.m_pTransform->m_vInfo[INFO_POS] - m_pTransform->m_vInfo[INFO_POS]));
+
+	if (fDistance < 15.f)
+	{
+		if (!m_bSearch)
+		{
+			m_bSearch = true;
+			CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_WIZARD);
+			CSoundManager::GetInstance()->PlaySound(L"en_mage_alert_03.mp3", CHANNELID::SOUND_WIZARD, 1.f);
+		}
+	}
+
+
 	if (m_pBasicStat->Get_Stat()->fHP <= 0)
 	{
 		if (m_pAnimator->Get_Animation()->Get_Frame() >= 1)
@@ -100,6 +118,7 @@ _int CWizard::Update_Object(const _float& fTimeDelta)
 				Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 
 				m_bDieEffect = true;
+				rPlayer.Add_Exp(this);
 			}
 			//////////////////////////////////////////////////////////////////////////////// ¿Ã∆Â∆Æ 
 			

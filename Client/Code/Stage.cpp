@@ -65,6 +65,7 @@ HRESULT CStage::Ready_Scene()
 	Engine::UIManager()->Add_BasicGameobject(Engine::UILAYER::UI_UP, pGameObject);
 
 	m_eSceneTag = SCENETAG::STAGE;
+	m_fSound = 1.f;
 
 	//FAILED_CHECK_RETURN(Ready_Prototype(), E_FAIL);
 
@@ -77,13 +78,14 @@ HRESULT CStage::Ready_Scene()
 	//m_pGraphicDev->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
 
 	CSoundManager::GetInstance()->StopAll();
-	CSoundManager::GetInstance()->PlayBGM(L"chase_sewers.mp3", 0.5f);
+
 
 	return S_OK;
 }
 
 Engine::_int CStage::Update_Scene(const _float& fTimeDelta)
 {
+
 
 	__super::Update_Scene(fTimeDelta);
 
@@ -97,6 +99,10 @@ Engine::_int CStage::Update_Scene(const _float& fTimeDelta)
 void CStage::LateUpdate_Scene()
 {
 	__super::LateUpdate_Scene();
+
+	//CPlayer& rPlayer = *SceneManager()->Get_Scene()->Get_MainPlayer();
+	if(m_bSoundOn)
+		CSoundManager::GetInstance()->PlaySoundLoop(L"chase_sewers.mp3", CHANNELID::SOUND_BGM, m_fSound);
 
 	CollisionManager()->LateUpdate_Collision();
 	UIManager()->LateUpdate_UI();

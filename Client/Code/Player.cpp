@@ -207,10 +207,6 @@ void CPlayer::Render_Object(void)
 
 	//m_pBuffer->Render_Buffer();
 
-	cout << "X값 : " << m_pTransform->m_vInfo[INFO_POS].x << endl;
-	cout << "Y값 : " << m_pTransform->m_vInfo[INFO_POS].y << endl;
-	cout << "Z값 : " << m_pTransform->m_vInfo[INFO_POS].z << endl;
-
 
 #if _DEBUG
 	m_pCollider->Render_Collider();
@@ -1166,6 +1162,27 @@ void CPlayer::IsDrunk()
 		}
 
 
+	}
+}
+
+void CPlayer::Add_Exp(CGameObject* pExp)
+{
+	// 몬스터를 잡았을 시 Exp 추가 -> 몬스터당 exp 6.
+
+	BASICSTAT eStat = *dynamic_cast<CMonster*>(pExp)->Get_BasicStat()->Get_Stat();
+	
+	m_pStat->Get_Stat()->iExp += eStat.iExp;
+
+	if (m_pStat->Get_Stat()->iExp >= m_pStat->Get_Stat()->iExpMax)
+	{
+		++m_pStat->Get_Stat()->iLevel;
+		// 레벨업 시키고 초과분 산정해줘야함.
+
+		_uint iResultExp = m_pStat->Get_Stat()->iExp - m_pStat->Get_Stat()->iExpMax;
+		
+		m_pStat->Get_Stat()->iExp = iResultExp;
+
+		m_pStat->Get_Stat()->iExpMax *= 4;
 	}
 }
 

@@ -87,6 +87,20 @@ _int CBat::Update_Object(const _float& fTimeDelta)
 	}
 
 
+	CPlayer& rPlayer = *SceneManager()->Get_Scene()->Get_MainPlayer();
+
+	_float fDistance = D3DXVec3Length(&(rPlayer.m_pTransform->m_vInfo[INFO_POS] - m_pTransform->m_vInfo[INFO_POS]));
+
+	if (fDistance < 15.f)
+	{
+		if (!m_bSearch)
+		{
+			m_bSearch = true;
+			CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_BAT);
+			CSoundManager::GetInstance()->PlaySound(L"en_bat_alert_01.mp3", CHANNELID::SOUND_BAT, 1.f);
+		}
+	}
+
 
 	if (m_pBasicStat->Get_Stat()->fHP <= 0)
 	{
@@ -108,6 +122,7 @@ _int CBat::Update_Object(const _float& fTimeDelta)
 				Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 
 				m_bDieEffect = true;
+				rPlayer.Add_Exp(this);
 			}
 			//////////////////////////////////////////////////////////////////////////////// ÀÌÆåÆ® 
 			
@@ -115,21 +130,6 @@ _int CBat::Update_Object(const _float& fTimeDelta)
 
 			if (m_fDeadCoolTime > 3.f)
 			CPoolManager::GetInstance()->Delete_Object(this);
-		}
-	}
-
-
-	CPlayer& rPlayer = *SceneManager()->Get_Scene()->Get_MainPlayer();
-
-	_float fDistance = D3DXVec3Length(&(rPlayer.m_pTransform->m_vInfo[INFO_POS] - m_pTransform->m_vInfo[INFO_POS]));
-
-	if (fDistance < 15.f)
-	{
-		if (!m_bSearch)
-		{
-			m_bSearch = true;
-			CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_BAT);
-			CSoundManager::GetInstance()->PlaySound(L"en_bat_alert_01.mp3", CHANNELID::SOUND_BAT, 1.f);
 		}
 	}
 
