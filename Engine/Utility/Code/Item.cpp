@@ -26,6 +26,43 @@ CItem::~CItem()
 {
 }
 
+void CItem::Set_BillBoard()
+{
+	CComponent* pComponent = nullptr;
+	
+	pComponent = dynamic_cast<CBillBoard*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BillBoard"));
+	NULL(pComponent, E_FAIL);
+	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::BILLBOARD, pComponent);
+
+	for (int i = 0; i < ID_END; ++i)
+		for (auto& iter : m_mapComponent[i])
+			iter.second->Init_Property(this);
+}
+
+void CItem::DropanItem(CGameObject* pOwner)
+{
+	const _float fMaxDistance = 3.f;
+
+	_vec3 vEndPos = this->m_pTransform->m_vInfo[INFO_POS] + pOwner->m_pTransform->m_vInfo[INFO_LOOK] * (fMaxDistance + 0.21f);
+	// 최종목적지
+	_vec3 vStartPos = this->m_pTransform->m_vInfo[INFO_POS];
+	// 시작 위치
+
+	_vec3 vDir = vEndPos - vStartPos;
+	_float fDistance = D3DXVec3Length(&vDir);
+
+	D3DXVec3Normalize(&vDir, &vDir);
+
+	_float vLerpDistance = fMaxDistance - (fDistance / fMaxDistance) * (fMaxDistance - 0);
+	_vec3 vTest = _vec3(vDir.x, 0.f, vDir.y);
+
+	m_pTransform->m_vInfo[INFO_POS] = vStartPos + vDir * vLerpDistance;
+
+
+	if(vLerpDistance <= 0.02f)
+		m_bDropAnItem = false;
+}
+
 void CItem::OnCollisionEnter(CCollider* _pOther)
 {
 	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BLOCK)

@@ -1,7 +1,10 @@
+#include "stdafx.h"
+#include "SoundManager.h"
 #include "FootRay.h"
 #include "Export_Function.h"
 #include "Player.h"
 #include "Scene.h"
+#include "CubeBlock.h"
 
 CFootRay::CFootRay(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev)
@@ -76,11 +79,20 @@ void CFootRay::Render_Object(void)
 
 void CFootRay::OnCollisionEnter(CCollider* _pOther)
 {
+
+	CPlayer& rPlayer = *SceneManager()->Get_Scene()->Get_MainPlayer();
+
 	CGameObject* pOtherObj = _pOther->Get_Host();
 	if (OBJECTTAG::BLOCK == pOtherObj->Get_ObjectTag())
 	{
 		// 새로 충돌한 지형은 타겟에 저장
 		m_pColTarget = pOtherObj;
+
+		if (dynamic_cast<CCubeBlock*>(pOtherObj)->Get_BlockTag() == BLOCKTAG::WATER_BLOCK)
+			rPlayer.Set_InWater(true);
+
+		// (dynamic_cast<CCubeBlock*>(pOtherObj)->Get_BlockTag() != BLOCKTAG::NORMAL_BLOCK)
+		//Player.Set_DropWather(false);
 	}
 }
 
@@ -100,6 +112,8 @@ void CFootRay::OnCollisionExit(CCollider* _pOther)
 	CGameObject* pOtherObj = _pOther->Get_Host();
 	if (OBJECTTAG::BLOCK == pOtherObj->Get_ObjectTag())
 	{
+		CPlayer& rPlayer = *SceneManager()->Get_Scene()->Get_MainPlayer();
+
 		// 충돌 해제된 대상이 타겟과 일치한다면 블럭에서 벗어남. 따라서 공중에 떠 있는 상태
 		// 일치하지 않는다면 다른 블럭위로 이동하여 Enter가 먼저호출된 것이므로 nullptr초기화 필요없음
 		/*if (pOtherObj == m_pColTarget)
@@ -112,6 +126,9 @@ void CFootRay::OnCollisionExit(CCollider* _pOther)
 		m_pColTarget = nullptr;
 		static_cast<CPlayer*>(m_pHost)->Set_JumpState(true);
 		static_cast<CPlayer*>(m_pHost)->Get_RigidBody()->UseGravity(true);
+
+		if (dynamic_cast<CCubeBlock*>(pOtherObj)->Get_BlockTag() == BLOCKTAG::WATER_BLOCK)
+			rPlayer.Set_InWater(false);
 	}
 }
 

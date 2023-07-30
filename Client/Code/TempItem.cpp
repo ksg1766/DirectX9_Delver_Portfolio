@@ -73,8 +73,8 @@ HRESULT CTempItem::Ready_Object(_bool _Item)
 	}
 
 #pragma region SwoardStat
-	m_pBasicStat->Get_Stat()->iDamageMax = 2.f;
-	m_pBasicStat->Get_Stat()->iDamageMin = 1.f;
+		m_pBasicStat->Get_Stat()->iDamageMax = 3.f;
+		m_pBasicStat->Get_Stat()->iDamageMin = 2.f;
 #pragma endregion
 
 	return S_OK;
@@ -89,8 +89,26 @@ _int CTempItem::Update_Object(const _float& fTimeDelta)
 	_int iExit = __super::Update_Object(fTimeDelta);
 
 	CPlayer* pPlayer = dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer());
+
 	CItem* ItemType = dynamic_cast<CItem*>(pPlayer->Get_CurrentEquipRight());
 	ITEMTYPEID ItemID = {};
+
+	if (Get_WorldItem())
+	{
+
+		if (m_bDropAnItem)
+		{
+			DropanItem(pPlayer);
+
+			m_pRigidBody->UseGravity(true);
+			m_pRigidBody->Update_RigidBody(fTimeDelta);
+		}
+		else
+			m_pRigidBody->UseGravity(false);
+	}
+		
+
+
 
 	if (ItemType != nullptr)
 		ItemID = ItemType->Get_ItemTag();
@@ -100,9 +118,13 @@ _int CTempItem::Update_Object(const _float& fTimeDelta)
 
 	if (!Get_WorldItem())
 	{
+		m_pRigidBody->UseGravity(false);
+
+
 #pragma region ksg
 		if (pPlayer->Get_Attack() && pPlayer != nullptr)
 		{
+
 			m_iMoveTick = 0;
 			if (m_iAttackTick > 0)
 			{
@@ -169,7 +191,9 @@ void CTempItem::LateUpdate_Object(void)
 	if (SceneManager()->Get_GameStop()) { return; }
 
 	__super::LateUpdate_Object();
+
 	m_pTransform->Scale(_vec3(0.3f, 0.3f, 0.3f));
+	//m_pCollider->SetCenterPos(m_pTransform->m_vInfo[INFO_POS] - _vec3(0.f, 0.3f, 0.f));
 
 }
 
@@ -232,6 +256,10 @@ HRESULT CTempItem::Add_Component(void)
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BASICSTAT, pComponent);
 
+	pComponent = m_pRigidBody = dynamic_cast<CRigidBody*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_RigidBody"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::RIGIDBODY, pComponent);
+
 	if (!Get_WorldItem())
 	{
 		CPlayer* pPlayer = dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer());
@@ -257,7 +285,16 @@ void CTempItem::OnCollisionEnter(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 
-	/*if (!(_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::MONSTER) &&
+
+	if (Get_WorldItem())
+	{
+		__super::OnCollisionEnter(_pOther);
+		m_bDropAnItem = false;
+	}
+
+	else
+	{
+		/*if (!(_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::MONSTER) &&
 		!(_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::PLAYER)&& !(_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BOSS))
 	{
 		__super::OnCollisionEnter(_pOther);
@@ -265,40 +302,41 @@ void CTempItem::OnCollisionEnter(CCollider* _pOther)
 
 	// 몬스터거나 플레이어면 밀어내지않는다.
 
-	CPlayer& pPlayer = *dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer());
-	// 플레이어의 정보를 레퍼런스로 얻어옴.
+		CPlayer& pPlayer = *dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer());
+		// 플레이어의 정보를 레퍼런스로 얻어옴.
 
-	if ((_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::MONSTER)||(_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BOSS))
-		// 무기 콜리전에 들어온 타입이 몬스터이면서, 플레이어의 스테이트가 공격이라면
-	{
-		if ((!pPlayer.Get_AttackTick() &&
-			dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_StateMachine()->Get_State() != STATE::DEAD))
-			// 공격 하지 않은 상태라면.
+		if ((_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::MONSTER) || (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BOSS))
+			// 무기 콜리전에 들어온 타입이 몬스터이면서, 플레이어의 스테이트가 공격이라면
+		{
+			if ((!pPlayer.Get_AttackTick() &&
+				dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_StateMachine()->Get_State() != STATE::DEAD))
+				// 공격 하지 않은 상태라면.
+			{
+				pPlayer.Set_AttackTick(true);
+				dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_StateMachine()->Set_State(STATE::HIT);
+
+
+				//////////////////////////////////////////////////////////////////////////////// 이펙트 
+				_matrix      matMonsterWorld = _pOther->Get_Host()->m_pTransform->WorldMatrix();
+				_vec3        vecMonsterPos = _vec3(matMonsterWorld._41, matMonsterWorld._42 + .5f, matMonsterWorld._43);
+				CGameObject* pGameObject = CEffectSquare::Create(m_pGraphicDev, vecMonsterPos, 50, EFFECTCOLOR::ECOLOR_NONE);
+				dynamic_cast<CEffectSquare*>(pGameObject)->Set_MonsterEffectColor(dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_MonsterTag());
+				Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+
+				pGameObject = CEffectDamage::Create(m_pGraphicDev);
+				pGameObject->m_pTransform->Translate(_vec3(vecMonsterPos.x, vecMonsterPos.y - 0.5f, vecMonsterPos.z + .5f));
+				Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+				//////////////////////////////////////////////////////////////////////////////// 이펙트 
+
+				//cout << "데미지" << endl;
+			}
+		}
+		else if (!pPlayer.Get_AttackTick() && _pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BLOCK)
 		{
 			pPlayer.Set_AttackTick(true);
-			dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_StateMachine()->Set_State(STATE::HIT);
-			
-
-			//////////////////////////////////////////////////////////////////////////////// 이펙트 
-			_matrix      matMonsterWorld  = _pOther->Get_Host()->m_pTransform->WorldMatrix();
-			_vec3        vecMonsterPos    = _vec3(matMonsterWorld._41, matMonsterWorld._42 + .5f, matMonsterWorld._43);
-			CGameObject* pGameObject = CEffectSquare::Create(m_pGraphicDev, vecMonsterPos, 50, EFFECTCOLOR::ECOLOR_NONE);
-			dynamic_cast<CEffectSquare*>(pGameObject)->Set_MonsterEffectColor(dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_MonsterTag());
-			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
-
-			pGameObject = CEffectDamage::Create(m_pGraphicDev);
-			pGameObject->m_pTransform->Translate(_vec3(vecMonsterPos.x, vecMonsterPos.y - 0.5f, vecMonsterPos.z + .5f));
-			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
-			//////////////////////////////////////////////////////////////////////////////// 이펙트 
-
-			//cout << "데미지" << endl;
+			CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_BREAK);
+			CSoundManager::GetInstance()->PlaySound(L"clang_02.mp3", CHANNELID::SOUND_BREAK, 1.f);
 		}
-	}
-	else if (!pPlayer.Get_AttackTick() && _pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BLOCK)
-	{
-		pPlayer.Set_AttackTick(true);
-		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_BREAK);
-		CSoundManager::GetInstance()->PlaySound(L"clang_02.mp3", CHANNELID::SOUND_BREAK, 1.f);
 	}
 }
 
@@ -314,36 +352,44 @@ void CTempItem::OnCollisionStay(CCollider* _pOther)
 	CPlayer& pPlayer = *dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer());
 	// 플레이어의 정보를 레퍼런스로 얻어옴.
 
-	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::MONSTER && !pPlayer.Get_AttackTick() &&
-		dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_StateMachine()->Get_State() != STATE::DEAD)
+	if (Get_WorldItem())
 	{
-		++m_iHitCount;
-
-		if (m_iHitCount == 2)
-		{
-			m_iHitCount = 0;
-			dynamic_cast<CMonster*>(_pOther->Get_Host())->Set_KnockBack(true);
-		}
-		pPlayer.IsAttack(dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_BasicStat());
-
-		//////////////////////////////////////////////////////////////////////////////// 이펙트 
-		_matrix MonsterWorld     = _pOther->Get_Host()->m_pTransform->WorldMatrix();
-		_vec3   vecMonsterPos    = _vec3(MonsterWorld._41, MonsterWorld._42 + .5f, MonsterWorld._43);
-		CGameObject* pGameObject = CEffectSquare::Create(m_pGraphicDev, vecMonsterPos, 50, EFFECTCOLOR::ECOLOR_NONE);
-		dynamic_cast<CEffectSquare*>(pGameObject)->Set_MonsterEffectColor(dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_MonsterTag());
-		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
-		//////////////////////////////////////////////////////////////////////////////// 이펙트 
+		__super::OnCollisionStay(_pOther);
+		m_bDropAnItem = false;
 	}
-	else if (!pPlayer.Get_AttackTick() && _pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BLOCK)
+	else
 	{
-		pPlayer.Set_AttackTick(true);
-		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_BREAK);
-		CSoundManager::GetInstance()->PlaySound(L"clang_02.mp3", CHANNELID::SOUND_BREAK, 1.f);
+		if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::MONSTER && !pPlayer.Get_AttackTick() &&
+			dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_StateMachine()->Get_State() != STATE::DEAD)
+		{
+			++m_iHitCount;
 
-		CDynamicCamera* pDynamic = dynamic_cast<CDynamicCamera*>
-			(SceneManager()->Get_ObjectList(LAYERTAG::ENVIRONMENT, OBJECTTAG::CAMERA).front());
+			if (m_iHitCount == 2)
+			{
+				m_iHitCount = 0;
+				dynamic_cast<CMonster*>(_pOther->Get_Host())->Set_KnockBack(true);
+			}
+			pPlayer.IsAttack(dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_BasicStat());
 
-		pDynamic->Shake_Camera();
+			//////////////////////////////////////////////////////////////////////////////// 이펙트 
+			_matrix MonsterWorld = _pOther->Get_Host()->m_pTransform->WorldMatrix();
+			_vec3   vecMonsterPos = _vec3(MonsterWorld._41, MonsterWorld._42 + .5f, MonsterWorld._43);
+			CGameObject* pGameObject = CEffectSquare::Create(m_pGraphicDev, vecMonsterPos, 50, EFFECTCOLOR::ECOLOR_NONE);
+			dynamic_cast<CEffectSquare*>(pGameObject)->Set_MonsterEffectColor(dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_MonsterTag());
+			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+			//////////////////////////////////////////////////////////////////////////////// 이펙트 
+		}
+		else if (!pPlayer.Get_AttackTick() && _pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BLOCK)
+		{
+			pPlayer.Set_AttackTick(true);
+			CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_BREAK);
+			CSoundManager::GetInstance()->PlaySound(L"clang_02.mp3", CHANNELID::SOUND_BREAK, 1.f);
+
+			CDynamicCamera* pDynamic = dynamic_cast<CDynamicCamera*>
+				(SceneManager()->Get_ObjectList(LAYERTAG::ENVIRONMENT, OBJECTTAG::CAMERA).front());
+
+			pDynamic->Shake_Camera();
+		}
 	}
 }
 

@@ -52,7 +52,10 @@ HRESULT CFireBall::Ready_Object(CTransform* pWeapon, CTransform* pOwner, _float 
 	m_pAnimator->Set_Animation(STATE::ATTACK);
 
 
-	BASICSTAT* pOwnerStat = dynamic_cast<CFireWands*>(pWeapon->Get_Host())->Get_ItemStat()->Get_Stat();
+	BASICSTAT* pOwnerStat = {};
+	CPlayer& rPlayer = *SceneManager()->Get_Scene()->Get_MainPlayer();
+
+	pOwnerStat = rPlayer.Get_Stat()->Get_Stat();
 
 	if (pOwnerStat != nullptr)
 	{
@@ -86,6 +89,7 @@ _int CFireBall::Update_Object(const _float& fTimeDelta)
 
 	CPlayer& pPlayer = *dynamic_cast<CPlayer*>(SceneManager()->GetInstance()->
 		Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
+
 
 	if (!m_bIsAttack)
 	{

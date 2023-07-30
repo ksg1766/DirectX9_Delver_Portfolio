@@ -36,6 +36,8 @@ public:
 	_ubyte				Get_TextureNumber()							{ return m_byTextureNumber; }
 	void				Set_TextureNumber(_uint _iTextureNumber)	{ m_byTextureNumber = _iTextureNumber; }
 
+	BLOCKTAG			Get_BlockTag()						{ return m_eBlockTag; }
+	void				Set_BlockTag(BLOCKTAG _eBlockTag)	{ m_eBlockTag = _eBlockTag; }
 private:
 	HRESULT				Add_Component(void);
 
@@ -45,6 +47,8 @@ protected:
 
 	vector<_vec3>	m_vecCubeVertex;
 	vector<INDEX32>	m_vecCubeIndex;
+
+	BLOCKTAG		m_eBlockTag;
 
 private:
 	CCubeBf*	m_pBuffer = nullptr;

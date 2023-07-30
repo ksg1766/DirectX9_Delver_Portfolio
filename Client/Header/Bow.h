@@ -7,6 +7,8 @@ BEGIN(Engine)
 class CRcTex;
 class CTexture;
 class CAnimator;
+class CRigidBody;
+
 END
 
 class CBow : public Engine::CItem
@@ -36,6 +38,7 @@ private:
 	CRcTex*		m_pBuffer = nullptr;
 	CTexture*	m_pTexture[(_uint)STATE::STATE_END] = {};
 	CAnimator*	m_pAnimator = nullptr;
+	CRigidBody* m_pRigidBody = nullptr;
 
 	_int		m_iAttackTick;
 	_int		m_iMoveTick;

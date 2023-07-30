@@ -49,6 +49,8 @@ public:
 	_bool			Get_AttackTick()		{ return m_bAttackTick; }
 	_bool			Get_UseUI()				{ return m_bUseUI; }
 	_bool			Get_Drunk()				{ return m_bDrunk; }
+	_bool			InWater()				{ return m_bInWater; }
+	_bool			DropWater()				{ return m_bDropWater; }
 
 	_float			Get_Speed()				{ return m_fSpeed; }
 	_bool			IsJump()				{ return m_IsJump; }
@@ -74,6 +76,8 @@ public:
 	void			Set_LeftOffset(_vec3 _vOffset)					{ m_vLeftOffset = _vOffset; }
 	void			Set_Drunk(_bool _Drunk)							{ m_bDrunk = _Drunk; }
 	void			Set_ThrowShield(_bool _Throw)					{ m_bThrowShield = _Throw; }
+	void			Set_InWater(_bool _Wather)						{ m_bInWater = _Wather; }
+	void			Set_DropWather(_bool _Wather)					{ m_bDropWater = _Wather; }
 	// ksg
 	void			Set_JumpState(_bool _bJump)						{ m_IsJump = _bJump; }
 
@@ -86,6 +90,7 @@ public:
 	_bool			Get_Parrying()									{ return m_bParrying; }
 	void			IsDrunk();
 	void			Add_Exp(CGameObject* pExp);
+	void			Equip_Weapon(CGameObject* pWeapon);
 
 public:
 	virtual void	OnCollisionEnter(CCollider* _pOther);
@@ -121,6 +126,9 @@ private:
 
 	// Player 
 	STATE			m_eState = STATE::STATE_END;
+
+	_bool			m_bInWater = false;
+	_bool			m_bDropWater = false;
 
 	_bool			m_bUseUI;
 	_bool			m_bIsAttack;  // 공격형 아이템의 업데이트에 신호를 줄 불 변수

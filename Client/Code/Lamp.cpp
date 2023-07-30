@@ -57,6 +57,22 @@ _int CLamp::Update_Object(const _float& fTimeDelta)
 	CItem* ItemType = dynamic_cast<CItem*>(pPlayer->Get_CurrentEquipLeft());
 	ITEMTYPEID ItemID = {};
 
+
+	if (Get_WorldItem())
+	{
+
+		if (m_bDropAnItem)
+		{
+			DropanItem(pPlayer);
+
+			m_pRigidBody->UseGravity(true);
+			m_pRigidBody->Update_RigidBody(fTimeDelta);
+		}
+		else
+			m_pRigidBody->UseGravity(false);
+	}
+
+
 	if (ItemType != nullptr)
 		ItemID = ItemType->Get_ItemTag();
 
@@ -66,6 +82,9 @@ _int CLamp::Update_Object(const _float& fTimeDelta)
 
 	if (!Get_WorldItem() && pPlayer != nullptr)
 	{
+		m_pRigidBody->UseGravity(false);
+
+
 		if (m_iMoveTick > 0)
 			m_pTransform->Translate(m_pTransform->m_pParent->m_vInfo[INFO_UP] * 0.008f);
 		else
@@ -163,6 +182,10 @@ HRESULT CLamp::Add_Component(void)
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BASICSTAT, pComponent);
 
+	pComponent = m_pRigidBody = dynamic_cast<CRigidBody*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_RigidBody"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::RIGIDBODY, pComponent);
+
 	if (Get_WorldItem())
 	{
 		pComponent = m_pBillBoard = dynamic_cast<CBillBoard*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BillBoard"));
@@ -192,11 +215,24 @@ void CLamp::OnCollisionEnter(CCollider* _pOther)
 	if (!(_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::MONSTER) &&
 		!(_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::PLAYER))
 		__super::OnCollisionEnter(_pOther);
+
+
+	if (Get_WorldItem())
+	{
+		__super::OnCollisionEnter(_pOther);
+		m_bDropAnItem = false;
+	}
 }
 
 void CLamp::OnCollisionStay(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
+
+	if (Get_WorldItem())
+	{
+		__super::OnCollisionStay(_pOther);
+		m_bDropAnItem = false;
+	}
 }
 
 void CLamp::OnCollisionExit(CCollider* _pOther)

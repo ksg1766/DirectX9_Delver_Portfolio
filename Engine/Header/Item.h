@@ -22,7 +22,10 @@ public:
     void        Set_HitCount(_int iHit)         { m_iHitCount = iHit; }
 
     CBasicStat* Get_ItemStat()                  { return m_pBasicStat; }
-
+    
+    void        Set_BillBoard();
+    void        DropanItem(CGameObject* pOwner);
+    void        Set_DropItem(_bool _drop) { m_bDropAnItem = _drop; }
 public:
     virtual void		OnCollisionEnter(CCollider* _pOther);
     virtual void		OnCollisionStay(CCollider* _pOther);
@@ -37,7 +40,12 @@ protected:
     _bool       m_bWorldItem;
     CBasicStat* m_pBasicStat = nullptr;
     
+    _bool       m_bDropAnItem = false;
+    _bool       m_bDropStart = true;
     _int        m_iHitCount;
+
+    _vec3       m_vDropEndPos;
+    _vec3       m_vDropStartPos;
 
 #pragma region ksg
 

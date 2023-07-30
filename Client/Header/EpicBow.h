@@ -8,6 +8,7 @@ class CRcTex;
 class CTexture;
 class CStateMachine;
 class CAnimator;
+class CRigidBody;
 
 END
 
@@ -38,7 +39,7 @@ private:
 	CRcTex* m_pBuffer = nullptr;
 	CTexture* m_pTexture[(_uint)STATE::STATE_END] = {};
 	CAnimator* m_pAnimator = nullptr;
-
+	CRigidBody* m_pRigidBody = nullptr;
 
 	_int		m_iAttackTick;
 	_float		m_fChase2;
