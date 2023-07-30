@@ -238,6 +238,10 @@
     <ClInclude Include="..\Header\EffectSwordLightning.h" />
     <ClInclude Include="..\Header\EffectSwordParticles.h" />
     <ClInclude Include="..\Header\EffectSwordTrail.h" />
+    <ClInclude Include="..\Header\EffectWaterBubble.h" />
+    <ClInclude Include="..\Header\EffectWaterdrop.h" />
+    <ClInclude Include="..\Header\EffectWaterfall.h" />
+    <ClInclude Include="..\Header\EffectWaterMove.h" />
     <ClInclude Include="..\Header\EpicBow.h" />
     <ClInclude Include="..\Header\EffectStar.h" />
     <ClInclude Include="..\Header\EquipBox.h" />
@@ -280,6 +284,7 @@
     <ClInclude Include="..\Header\SkeletonKing_CloneMeteor.h" />
     <ClInclude Include="..\Header\SpiderRay.h" />
     <ClInclude Include="..\Header\Rock.h" />
+    <ClInclude Include="..\Header\UIbosshp.h" />
     <ClInclude Include="..\Header\UILevelUp.h" />
     <ClInclude Include="..\Header\UILevelUpCard.h" />
     <ClInclude Include="..\Header\VillageTriger.h" />
@@ -494,6 +499,10 @@
     <ClCompile Include="..\Code\EffectSwordLightning.cpp" />
     <ClCompile Include="..\Code\EffectSwordParticles.cpp" />
     <ClCompile Include="..\Code\EffectSwordTrail.cpp" />
+    <ClCompile Include="..\Code\EffectWaterBubble.cpp" />
+    <ClCompile Include="..\Code\EffectWaterdrop.cpp" />
+    <ClCompile Include="..\Code\EffectWaterfall.cpp" />
+    <ClCompile Include="..\Code\EffectWaterMove.cpp" />
     <ClCompile Include="..\Code\EpicBow.cpp" />
     <ClCompile Include="..\Code\EffectStar.cpp" />
     <ClCompile Include="..\Code\EquipBox.cpp" />
@@ -534,6 +543,7 @@
     <ClCompile Include="..\Code\SkeletonKing_CloneMeteor.cpp" />
     <ClCompile Include="..\Code\SpiderRay.cpp" />
     <ClCompile Include="..\Code\Rock.cpp" />
+    <ClCompile Include="..\Code\UIbosshp.cpp" />
     <ClCompile Include="..\Code\UILevelUp.cpp" />
     <ClCompile Include="..\Code\UILevelUpCard.cpp" />
     <ClCompile Include="..\Code\VillageTriger.cpp" />

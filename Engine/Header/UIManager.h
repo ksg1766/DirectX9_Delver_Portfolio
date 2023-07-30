@@ -68,6 +68,7 @@ public:
 			Show_PopupUI(UIPOPUPLAYER::POPUP_MOUSE);
 			Hide_PopupUI(UIPOPUPLAYER::POPUP_STAT);
 			Hide_PopupUI(UIPOPUPLAYER::POPUP_EQUIPMENT);
+			Hide_InvenItem(0);
 			CGameObject* Obj = nullptr;
 			Obj = Get_PopupObject(Engine::UIPOPUPLAYER::POPUP_EQUIPMENT, Engine::UILAYER::UI_DOWN, UIOBJECTTTAG::UIID_INVENBUTTON, 1);
 			dynamic_cast<CTempUI*>(Obj)->Set_UIImage(3);
@@ -82,6 +83,7 @@ public:
 			Cursor = LoadCursor(NULL, IDC_ARROW);
 			Hide_PopupUI(UIPOPUPLAYER::POPUP_MOUSE);
 			Hide_PopupUI(UIPOPUPLAYER::POPUP_INVEN);
+			Hide_InvenItem(1);
 			Hide_PopupUI(UIPOPUPLAYER::POPUP_MAP);
 			Hide_PopupUI(UIPOPUPLAYER::POPUP_ESC);
 			Hide_PopupUI(UIPOPUPLAYER::POPUP_SPEECH);

@@ -28,8 +28,8 @@ HRESULT CUIplayerhp::Ready_Object()
 
 	WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);
 
-	m_iMaxHp = 12;
-	m_iCurrentHp = 12;
+	m_fMaxHp = 12;
+	m_fCurrentHp = 12;
 	m_iCurrentOneNum = 1;
 	m_iCurrentTwoNum = 2;
 
@@ -54,9 +54,11 @@ _int CUIplayerhp::Update_Object(const _float& fTimeDelta)
 	}
 
 	//if (Engine::InputDev()->Key_Down(DIK_9))
-	//	m_iCurrentHp -= 1;
+	//	m_fCurrentHp -= 1;
 	//else if (Engine::InputDev()->Key_Down(DIK_0))
-	//	m_iCurrentHp += 1;
+	//	m_fCurrentHp += 1;
+
+	//Update_NumverUI();
 
 	_int iExit = CTempUI::Update_Object(fTimeDelta);
 
@@ -72,8 +74,8 @@ void CUIplayerhp::LateUpdate_Object(void)
 	{
 		CPlayer& rPlayer = *dynamic_cast<CPlayer*>(pObject);
 
-		m_iMaxHp = rPlayer.Get_Stat()->Get_Stat()->fMaxHP;
-		m_iCurrentHp = rPlayer.Get_Stat()->Get_Stat()->fHP;
+		m_fMaxHp = rPlayer.Get_Stat()->Get_Stat()->fMaxHP;
+		m_fCurrentHp = rPlayer.Get_Stat()->Get_Stat()->fHP;
 
 		Update_NumverUI();
 	}
@@ -82,7 +84,7 @@ void CUIplayerhp::LateUpdate_Object(void)
 void CUIplayerhp::Render_Object()
 {
 	// 위급 상태 붉은 표시 이미지
-	if (m_iCurrentHp <= m_iMaxHp / 3)
+	if (m_fCurrentHp <= m_fMaxHp / 3 && m_fCurrentHp <= 6.f)
 	{
 		m_pTransform->m_vInfo[INFO_POS].x = WINCX / 2;
 		m_pTransform->m_vInfo[INFO_POS].y = WINCY / 2;
@@ -170,7 +172,7 @@ void CUIplayerhp::Render_Object()
 	WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorld);
 
-	m_pNumberTextureCom->Render_Texture(1);
+	m_pNumberTextureCom->Render_Texture(m_iMaxOneNum);
 	m_pBufferCom->Render_Buffer();
 
 	// 십의 자리
@@ -182,7 +184,7 @@ void CUIplayerhp::Render_Object()
 	WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorld);
 
-	m_pNumberTextureCom->Render_Texture(2);
+	m_pNumberTextureCom->Render_Texture(m_iMaxTwoNum);
 	m_pBufferCom->Render_Buffer();
 }
 
@@ -219,11 +221,13 @@ void CUIplayerhp::Key_Input(void)
 
 void CUIplayerhp::Update_NumverUI(void)
 {
-	if (m_iCurrentHp > m_iMaxHp)
-		m_iCurrentHp = m_iMaxHp;
+	if (m_fCurrentHp > m_fMaxHp)
+		m_fCurrentHp = m_fMaxHp;
+	else if (m_fCurrentHp < 0)
+		m_fCurrentHp = 0;
 
-	_int iCurrentOneNum = m_iCurrentHp / 10;
-	_int iCurrentTwoNum = m_iCurrentHp % 10;
+	_int iCurrentOneNum = (_int)m_fCurrentHp / 10;
+	_int iCurrentTwoNum = (_int)m_fCurrentHp % 10;
 
 	switch (iCurrentOneNum)
 	{
@@ -258,7 +262,6 @@ void CUIplayerhp::Update_NumverUI(void)
 		m_iCurrentOneNum = 9;
 		break;
 	}
-
 	switch (iCurrentTwoNum)
 	{
 	case 0:
@@ -293,8 +296,86 @@ void CUIplayerhp::Update_NumverUI(void)
 		break;
 	}
 
-	m_flength   = (110.f / m_iMaxHp) * (m_iMaxHp - m_iCurrentHp);
-	m_fPosition = 140.f - (m_flength / 2) - (m_iMaxHp - m_iCurrentHp) * 2.5f;
+	if (99 < m_fMaxHp)
+		m_fMaxHp = 99;
+
+	// Max hp 연동
+	_int iMaxOneNum = (_int)m_fMaxHp / 10;
+	_int iMaxTwoNum = (_int)m_fMaxHp % 10;
+
+	switch (iMaxOneNum)
+	{
+	case 0:
+		m_iMaxOneNum = 0;
+		break;
+	case 1:
+		m_iMaxOneNum = 1;
+		break;
+	case 2:
+		m_iMaxOneNum = 2;
+		break;
+	case 3:
+		m_iMaxOneNum = 3;
+		break;
+	case 4:
+		m_iMaxOneNum = 4;
+		break;
+	case 5:
+		m_iMaxOneNum = 5;
+		break;
+	case 6:
+		m_iMaxOneNum = 6;
+		break;
+	case 7:
+		m_iMaxOneNum = 7;
+		break;
+	case 8:
+		m_iMaxOneNum = 8;
+		break;
+	case 9:
+		m_iMaxOneNum = 9;
+		break;
+	}
+	switch (iMaxTwoNum)
+	{
+	case 0:
+		m_iMaxTwoNum = 0;
+		break;
+	case 1:
+		m_iMaxTwoNum = 1;
+		break;
+	case 2:
+		m_iMaxTwoNum = 2;
+		break;
+	case 3:
+		m_iMaxTwoNum = 3;
+		break;
+	case 4:
+		m_iMaxTwoNum = 4;
+		break;
+	case 5:
+		m_iMaxTwoNum = 5;
+		break;
+	case 6:
+		m_iMaxTwoNum = 6;
+		break;
+	case 7:
+		m_iMaxTwoNum = 7;
+		break;
+	case 8:
+		m_iMaxTwoNum = 8;
+		break;
+	case 9:
+		m_iMaxTwoNum = 9;
+		break;
+	}
+
+	//m_flength   = (110.f / m_iMaxHp) * (m_iMaxHp - m_iCurrentHp);
+	//m_fPosition = 140.f - (m_flength / 2) - (m_iMaxHp - m_iCurrentHp) * 2.5f;
+
+	// 110.f MAX 길이 -> 줄어든 hp바 길이
+	m_flength   = (110.f / m_fMaxHp) * (m_fMaxHp - m_fCurrentHp);
+	m_fPosition = (140.f - (m_flength / 2.f)) - ((m_fMaxHp - m_fCurrentHp) * (30.f / m_fMaxHp));
 }
 
 CUIplayerhp* CUIplayerhp::Create(LPDIRECT3DDEVICE9 pGraphicDev)

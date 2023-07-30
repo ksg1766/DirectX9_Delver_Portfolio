@@ -46,6 +46,9 @@
 
 #include "UILevelUp.h"
 #include "UILevelUpCard.h"
+#include "UIbosshp.h"
+#include "EffectWaterfall.h"
+#include <EffectWaterMove.h>
 
 CVillage::CVillage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
@@ -86,7 +89,7 @@ Engine::_int CVillage::Update_Scene(const _float& fTimeDelta)
 {
 	// 레벨업 창 활성화 테스트
 	if (Engine::InputDev()->Key_Down(DIK_COMMA)) {
-		Engine::UIManager()->Show_PopupUI(Engine::UIPOPUPLAYER::POPUP_LEVELUP);
+		Engine::UIManager()->Show_PopupUI(Engine::UIPOPUPLAYER::POPUP_BOSSHP);
     }
 
 	__super::Update_Scene(fTimeDelta);
@@ -198,6 +201,15 @@ HRESULT CVillage::Ready_Layer_Environment(LAYERTAG _eLayerTag)
 		NULL_CHECK_RETURN(pGameObject, E_FAIL);
 		pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 	}
+
+	// 폭포 이펙트
+	pGameObject = CEffectWaterfall::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	pGameObject->m_pTransform->Translate(_vec3(-22.f, 1.f, - 70.f));
+	dynamic_cast<CEffectWaterfall*>(pGameObject)->Set_BoundingBox(_vec3(-100.f, -100.f, -100.f), _vec3(100.f, 100.f, 100.f));
+	dynamic_cast<CEffectWaterfall*>(pGameObject)->Set_EffectMoveScale(5, _vec3(1.f, 1.f, 1.f), _vec3(5.f, 5.f, 5.f));
+
+	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
 #pragma region TREE
 	// 시작 시 왼쪽 그룹
@@ -535,6 +547,11 @@ HRESULT CVillage::Ready_Layer_UI(LAYERTAG _eLayerTag)
 		NULL_CHECK_RETURN(pGameObject, E_FAIL);
 		Engine::UIManager()->Add_PopupGameobject(Engine::UIPOPUPLAYER::POPUP_LEVELUP, Engine::UILAYER::UI_DOWN, pGameObject);
 
+		// 보스 hp 바 생성
+		pGameObject = CUIbosshp::Create(m_pGraphicDev);
+		NULL_CHECK_RETURN(pGameObject, E_FAIL);
+		Engine::UIManager()->Add_PopupGameobject(Engine::UIPOPUPLAYER::POPUP_BOSSHP, Engine::UILAYER::UI_DOWN, pGameObject);
+
 		Engine::UIManager()->Hide_PopupUI(Engine::UIPOPUPLAYER::POPUP_EQUIPMENT);
 		Engine::UIManager()->Hide_PopupUI(Engine::UIPOPUPLAYER::POPUP_INVEN);
 		Engine::UIManager()->Hide_PopupUI(Engine::UIPOPUPLAYER::POPUP_STAT);
@@ -543,6 +560,7 @@ HRESULT CVillage::Ready_Layer_UI(LAYERTAG _eLayerTag)
 		Engine::UIManager()->Hide_PopupUI(Engine::UIPOPUPLAYER::POPUP_SPEECH);	// Speech Bubble Test
 		Engine::UIManager()->Hide_PopupUI(Engine::UIPOPUPLAYER::POPUP_SHOP);
 		Engine::UIManager()->Hide_PopupUI(Engine::UIPOPUPLAYER::POPUP_LEVELUP);
+		Engine::UIManager()->Hide_PopupUI(Engine::UIPOPUPLAYER::POPUP_BOSSHP);
 	}
 	
 	m_mapLayer.insert({ _eLayerTag, pLayer });

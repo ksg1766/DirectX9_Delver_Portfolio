@@ -865,6 +865,21 @@
     <Filter Include="03. GameObject\01. Stage\999. Boss\01. AttackEff\03. Create_Clone\MeteorClone\State\DEAD">
       <UniqueIdentifier>{1e3862c4-55a7-47fe-bfe1-2cf9599b6be6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. GameObject\03. UI\19. UIBosshp">
+      <UniqueIdentifier>{7413e059-2649-424e-8828-edc53b0e32a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\07. Effect\24. EffectWaterfall">
+      <UniqueIdentifier>{144b98c0-53f2-4df5-89d7-e6f849def92b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\07. Effect\24. EffectWaterfall\00. EffectWaterdrop">
+      <UniqueIdentifier>{ffc795aa-cf99-441d-82b4-600889cf0e2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\07. Effect\24. EffectWaterfall\01. EffectWaterMove">
+      <UniqueIdentifier>{02747508-b9e0-4ed9-8ff4-bcd92ea29f00}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\07. Effect\24. EffectWaterfall\02. EffectWaterBubble">
+      <UniqueIdentifier>{f6733735-e178-41ed-88e5-2f9212b63ce5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -1694,6 +1709,21 @@
     <ClInclude Include="..\Header\SkeletonKing_CloneMeteor.h">
       <Filter>03. GameObject\01. Stage\999. Boss\01. AttackEff\03. Create_Clone\MeteorClone</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\UIbosshp.h">
+      <Filter>03. GameObject\03. UI\19. UIBosshp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\EffectWaterfall.h">
+      <Filter>03. GameObject\07. Effect\24. EffectWaterfall</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\EffectWaterdrop.h">
+      <Filter>03. GameObject\07. Effect\24. EffectWaterfall\00. EffectWaterdrop</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\EffectWaterMove.h">
+      <Filter>03. GameObject\07. Effect\24. EffectWaterfall\01. EffectWaterMove</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\EffectWaterBubble.h">
+      <Filter>03. GameObject\07. Effect\24. EffectWaterfall\02. EffectWaterBubble</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -2483,6 +2513,21 @@
     </ClCompile>
     <ClCompile Include="..\Code\Boss_CloneMeteorDead.cpp">
       <Filter>03. GameObject\01. Stage\999. Boss\01. AttackEff\03. Create_Clone\MeteorClone\State\DEAD</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UIbosshp.cpp">
+      <Filter>03. GameObject\03. UI\19. UIBosshp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\EffectWaterfall.cpp">
+      <Filter>03. GameObject\07. Effect\24. EffectWaterfall</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\EffectWaterdrop.cpp">
+      <Filter>03. GameObject\07. Effect\24. EffectWaterfall\00. EffectWaterdrop</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\EffectWaterMove.cpp">
+      <Filter>03. GameObject\07. Effect\24. EffectWaterfall\01. EffectWaterMove</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\EffectWaterBubble.cpp">
+      <Filter>03. GameObject\07. Effect\24. EffectWaterfall\02. EffectWaterBubble</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
