@@ -46,7 +46,7 @@ private:
 	_float	m_fSound;
 	const _float m_fMaxVolume = 1.f;
 	const _float m_fMinVolume = 0.f;
-	const _float m_fMaxDistance = 120.f;
+	const _float m_fMaxDistance = 4.f;
 
 
 	vector<CDoorCube*> m_vecDoorCube;

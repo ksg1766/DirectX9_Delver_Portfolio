@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "Worm.h"
 #include "Export_Function.h"
 #include "Monster_Move.h"
@@ -8,6 +9,7 @@
 #include "EffectBlood.h"
 #include "SpiderRay.h"
 #include "PoolManager.h"
+#include "SoundManager.h"
 
 CWorm::CWorm(LPDIRECT3DDEVICE9 pGrapicDev)
 	: Engine::CMonster(pGrapicDev), m_fFrame(0.f), m_bAttackTick(false)
@@ -80,6 +82,21 @@ _int CWorm::Update_Object(const _float& fTimeDelta)
 		Set_KnockBack(false);
 	}
 
+
+	CPlayer& rPlayer = *SceneManager()->Get_Scene()->Get_MainPlayer();
+
+	_float fDistance = D3DXVec3Length(&(rPlayer.m_pTransform->m_vInfo[INFO_POS] - m_pTransform->m_vInfo[INFO_POS]));
+
+	if (fDistance < 15.f)
+	{
+		if (!m_bSearch)
+		{
+			m_bSearch = true;
+			CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_WORM);
+			CSoundManager::GetInstance()->PlaySound(L"en_worm_alert_03.mp3", CHANNELID::SOUND_WORM, 1.f);
+		}
+	}
+
 	if (m_pBasicStat->Get_Stat()->fHP <= 0)
 	{
 		m_pStateMachine->Set_State(STATE::DEAD);
@@ -97,6 +114,7 @@ _int CWorm::Update_Object(const _float& fTimeDelta)
 				Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 
 				m_bDieEffect = true;
+				rPlayer.Add_Exp(this);
 			}
 			//////////////////////////////////////////////////////////////////////////////// ¿Ã∆Â∆Æ 
 

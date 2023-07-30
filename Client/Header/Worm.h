@@ -48,7 +48,7 @@ private:
 	_float		m_fFrame;
 
 	STATE		m_eState;
-
+	_bool		m_bSearch = false;
 public:
 	static CWorm* Create(LPDIRECT3DDEVICE9 pGraphicDev);
 

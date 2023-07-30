@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "..\Header\Skeleton.h"
 #include "Export_Function.h"
 #include "Monster_Move.h"
@@ -7,6 +8,7 @@
 #include "Player.h"
 #include "EffectBlood.h"
 
+#include "SoundManager.h"
 #include "PoolManager.h"
 
 CSkeleton::CSkeleton(LPDIRECT3DDEVICE9 pGrapicDev)
@@ -84,6 +86,21 @@ _int CSkeleton::Update_Object(const _float& fTimeDelta)
 		Set_KnockBack(false);
 	}
 
+	CPlayer& rPlayer = *SceneManager()->Get_Scene()->Get_MainPlayer();
+
+	_float fDistance = D3DXVec3Length(&(rPlayer.m_pTransform->m_vInfo[INFO_POS] - m_pTransform->m_vInfo[INFO_POS]));
+
+	if (fDistance < 15.f)
+	{
+		if (!m_bSearch)
+		{
+			m_bSearch = true;
+			CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_SKELETON);
+			CSoundManager::GetInstance()->PlaySound(L"en_slime_alert_02.mp3", CHANNELID::SOUND_SKELETON, 1.f);
+		}
+	}
+
+
 	if (m_pBasicStat->Get_Stat()->fHP <= 0)
 	{
 		m_pStateMachine->Set_State(STATE::DEAD);
@@ -96,6 +113,7 @@ _int CSkeleton::Update_Object(const _float& fTimeDelta)
 			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 
 			m_bDieEffect = true;
+			rPlayer.Add_Exp(this);
 		}
 		//////////////////////////////////////////////////////////////////////////////// ¿Ã∆Â∆Æ 
 		
