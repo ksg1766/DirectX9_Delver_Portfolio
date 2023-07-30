@@ -48,6 +48,8 @@ private:
 	_float		m_fAngle;
 	_float		m_fTime;
 	_float		m_fAngleVelocity;
+
+	_bool		m_bSound;
 public:
 	static CShield* Create(LPDIRECT3DDEVICE9 pGraphicDev, _bool _Item);
 

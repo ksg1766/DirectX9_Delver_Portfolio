@@ -69,7 +69,7 @@ STATE CFireWallPttern::Update_State(const _float& fTimeDelta)
         for (int i = 0; i < 5; ++i)
         {
             pGameObject = CBossFireWall::Create(m_pGraphicDev);
-            dynamic_cast<CBossFireWall*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = (m_pOwner->Get_Transform()->m_vInfo[INFO_POS] + _vec3(0.f, 0.f, 3.f)) + (m_vCenterDistance[0] * (i * 2));
+            dynamic_cast<CBossFireWall*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = (m_pOwner->Get_Transform()->m_vInfo[INFO_POS] + _vec3(0.f, -0.5f, 3.f)) + (m_vCenterDistance[0] * (i * 2));
             dynamic_cast<CBossFireWall*>(pGameObject)->Set_Center(m_pOwner->Get_Transform()->m_vInfo[INFO_POS]);
             dynamic_cast<CBossFireWall*>(pGameObject)->Set_Angle(3.f);
             dynamic_cast<CBossFireWall*>(pGameObject)->Set_Speed(20.f* fTimeDelta);
@@ -78,7 +78,7 @@ STATE CFireWallPttern::Update_State(const _float& fTimeDelta)
         for (int i = 0; i < 5; ++i)
         {
             pGameObject = CBossFireWall::Create(m_pGraphicDev);
-            dynamic_cast<CBossFireWall*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = (m_pOwner->Get_Transform()->m_vInfo[INFO_POS] + _vec3(0.f, 0.f, -3.f)) + (m_vCenterDistance[1] * (i * 2));
+            dynamic_cast<CBossFireWall*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = (m_pOwner->Get_Transform()->m_vInfo[INFO_POS] + _vec3(0.f, -0.5f, -3.f)) + (m_vCenterDistance[1] * (i * 2));
             dynamic_cast<CBossFireWall*>(pGameObject)->Set_Center(m_pOwner->Get_Transform()->m_vInfo[INFO_POS]);
             dynamic_cast<CBossFireWall*>(pGameObject)->Set_Angle(20.f);
             Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
@@ -86,7 +86,7 @@ STATE CFireWallPttern::Update_State(const _float& fTimeDelta)
         for (int i = 0; i < 5; ++i)
         {
             pGameObject = CBossFireWall::Create(m_pGraphicDev);
-            dynamic_cast<CBossFireWall*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = (m_pOwner->Get_Transform()->m_vInfo[INFO_POS]+_vec3(6.f, 0.f, 0.f)) + (m_vCenterDistance[2] * (i * 2));
+            dynamic_cast<CBossFireWall*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = (m_pOwner->Get_Transform()->m_vInfo[INFO_POS]+_vec3(6.f, -0.5f, 0.f)) + (m_vCenterDistance[2] * (i * 2));
             dynamic_cast<CBossFireWall*>(pGameObject)->Set_Center(m_pOwner->Get_Transform()->m_vInfo[INFO_POS]);
             dynamic_cast<CBossFireWall*>(pGameObject)->Set_Angle(20.f);
             Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
@@ -94,7 +94,7 @@ STATE CFireWallPttern::Update_State(const _float& fTimeDelta)
         for (int i = 0; i < 5; ++i)
         {
             pGameObject = CBossFireWall::Create(m_pGraphicDev);
-            dynamic_cast<CBossFireWall*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = (m_pOwner->Get_Transform()->m_vInfo[INFO_POS]+_vec3(-6.f, 0.f, 0.f)) + (m_vCenterDistance[3] * (i * 2));
+            dynamic_cast<CBossFireWall*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = (m_pOwner->Get_Transform()->m_vInfo[INFO_POS]+_vec3(-6.f, -0.5f, 0.f)) + (m_vCenterDistance[3] * (i * 2));
             dynamic_cast<CBossFireWall*>(pGameObject)->Set_Center(m_pOwner->Get_Transform()->m_vInfo[INFO_POS]);
             dynamic_cast<CBossFireWall*>(pGameObject)->Set_Angle(20.f);
             Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);

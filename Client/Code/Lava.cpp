@@ -23,7 +23,7 @@ HRESULT CLava::Ready_Object(void)
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	m_byTextureNumber = 0;
-
+	m_fDelay = 0.f;
 	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS] + _vec3(0.f, -1.f, 0.f), &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
 
 	return S_OK;
@@ -32,7 +32,12 @@ HRESULT CLava::Ready_Object(void)
 _int CLava::Update_Object(const _float& fTimeDelta)
 {
 	_int iExit = __super::Update_Object(fTimeDelta);
-	(m_byTextureNumber < 31) ? (++m_byTextureNumber) : (m_byTextureNumber = 0);
+	m_fDelay += fTimeDelta;
+	if (0.1f < m_fDelay)
+	{
+		(m_byTextureNumber < 31) ? (++m_byTextureNumber) : (m_byTextureNumber = 0);
+		m_fDelay = 0.f;
+	}
 	Engine::Renderer()->Add_RenderGroup(RENDER_NONALPHA, this);
 	return iExit;
 }

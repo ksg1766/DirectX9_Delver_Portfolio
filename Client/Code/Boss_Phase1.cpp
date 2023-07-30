@@ -87,8 +87,8 @@ STATE CBoss_Phase1::BossSkill(const _float& fTimeDelta)
             m_iSkillCount = 0;
             if (!m_bMeteor)
             {
+                CSoundManager::GetInstance()->PlaySound(L"Boss_Power1.wav", CHANNELID::SOUND_BOSS, 1.f);
                 m_bMeteor = true;
-                CSoundManager::GetInstance()->PlaySound(L"Boss_Taunt1.wav", CHANNELID::SOUND_BOSS, 1.f);
                 return STATE::BOSS_PH1SKILL5;
             }
             break;

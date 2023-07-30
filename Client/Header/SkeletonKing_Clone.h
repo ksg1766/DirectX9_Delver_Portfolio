@@ -33,7 +33,10 @@ public:
 	void Set_Dir(_vec3 _vDir);
 
 	_bool	Get_bMove() { return m_bMove; }
-	_bool	Set_bMove(_bool _bMove) { m_bMove = _bMove; }
+	void	Set_bMove(_bool _bMove) { m_bMove = _bMove; }
+
+	_bool	Get_bMeteor() { return m_bMeteor; }
+	void	Set_bMeteor(_bool _bMeteor) { m_bMeteor = _bMeteor; }
 private:
 	CRcTex* m_pBuffer = nullptr;
 	CTexture* m_pTexture[(_uint)STATE::STATE_END] = {};
@@ -47,6 +50,7 @@ private:
 	_float	m_fMoveDelay;
 	_bool	m_bHit;
 	_bool	m_bMove;
+	_bool	m_bMeteor;
 	_vec3	m_vTargetPos;
 	_vec3	m_vDir;
 private:

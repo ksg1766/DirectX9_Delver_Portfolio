@@ -1,7 +1,8 @@
+#include "stdafx.h"
 #include "Boss_Lightning.h"
 #include "Export_Function.h"
 #include "Player.h"
-
+#include "SoundManager.h"
 CBoss_Lightning::CBoss_Lightning(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CMonster(pGraphicDev)
 {
@@ -41,7 +42,6 @@ _int CBoss_Lightning::Update_Object(const _float& fTimeDelta)
 	if ((1.f< m_fTime))
 		EventManager()->DeleteObject(this);
 	m_pTransform->Scale(_vec3(m_fScale, 1.f, m_fScale));
-
 	return iExit;
 }
 

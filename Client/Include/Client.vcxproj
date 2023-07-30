@@ -210,6 +210,8 @@
     <ClInclude Include="..\Header\BossStage.h" />
     <ClInclude Include="..\Header\Boss_CautionEff.h" />
     <ClInclude Include="..\Header\Boss_CloneDead.h" />
+    <ClInclude Include="..\Header\Boss_CloneMeteorDead.h" />
+    <ClInclude Include="..\Header\Boss_CloneMeteorState.h" />
     <ClInclude Include="..\Header\Boss_CloneState.h" />
     <ClInclude Include="..\Header\Boss_GrabBat.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
@@ -257,6 +259,7 @@
     <ClInclude Include="..\Header\LightningPattern2.h" />
     <ClInclude Include="..\Header\LostSoulPattern.h" />
     <ClInclude Include="..\Header\LostSoulPattern2.h" />
+    <ClInclude Include="..\Header\LostSoul_State.h" />
     <ClInclude Include="..\Header\Meat.h" />
     <ClInclude Include="..\Header\MiniMeteor.h" />
     <ClInclude Include="..\Header\MiniMeteor_Idle.h" />
@@ -271,6 +274,7 @@
     <ClInclude Include="..\Header\RandomPotion.h" />
     <ClInclude Include="..\Header\Ring.h" />
     <ClInclude Include="..\Header\Roastmeat.h" />
+    <ClInclude Include="..\Header\SkeletonKing_CloneMeteor.h" />
     <ClInclude Include="..\Header\SpiderRay.h" />
     <ClInclude Include="..\Header\Rock.h" />
     <ClInclude Include="..\Header\UILevelUp.h" />
@@ -458,6 +462,8 @@
     <ClCompile Include="..\Code\BossStage.cpp" />
     <ClCompile Include="..\Code\Boss_CautionEff.cpp" />
     <ClCompile Include="..\Code\Boss_CloneDead.cpp" />
+    <ClCompile Include="..\Code\Boss_CloneMeteorDead.cpp" />
+    <ClCompile Include="..\Code\Boss_CloneMeteorState.cpp" />
     <ClCompile Include="..\Code\Boss_CloneState.cpp" />
     <ClCompile Include="..\Code\Boss_GrabBat.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
@@ -505,6 +511,7 @@
     <ClCompile Include="..\Code\LightningPattern2.cpp" />
     <ClCompile Include="..\Code\LostSoulPattern.cpp" />
     <ClCompile Include="..\Code\LostSoulPattern2.cpp" />
+    <ClCompile Include="..\Code\LostSoul_State.cpp" />
     <ClCompile Include="..\Code\Meat.cpp" />
     <ClCompile Include="..\Code\MiniMeteor.cpp" />
     <ClCompile Include="..\Code\MiniMeteor_Idle.cpp" />
@@ -518,6 +525,7 @@
     <ClCompile Include="..\Code\RandomPotion.cpp" />
     <ClCompile Include="..\Code\Ring.cpp" />
     <ClCompile Include="..\Code\Roastmeat.cpp" />
+    <ClCompile Include="..\Code\SkeletonKing_CloneMeteor.cpp" />
     <ClCompile Include="..\Code\SpiderRay.cpp" />
     <ClCompile Include="..\Code\Rock.cpp" />
     <ClCompile Include="..\Code\UILevelUp.cpp" />

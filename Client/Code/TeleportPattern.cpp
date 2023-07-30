@@ -1,9 +1,12 @@
+#include "stdafx.h"
 #include "..\Header\TeleportPattern.h"
 #include "Export_Function.h"
 #include "SkeletonKing.h"
 #include "SkeletonKing_Clone.h"
 #include "Boss_BatSwarm.h"
 #include "Player.h"
+#include "SoundManager.h"
+#include "DimensionGate.h"
 CTeleportPattern::CTeleportPattern()
 {
 }
@@ -22,6 +25,7 @@ HRESULT CTeleportPattern::Ready_State(CStateMachine* pOwner)
 	m_pOwner = pOwner;
     m_fDelay = 0.f;
     m_bSkillCount = false;
+    m_bSound = false;
     m_fSpawnHeight = 0.f;
     m_fSpawnWeight = 0.4f;
     m_fBatMovePos[0]=_vec3(0.5f, 0.f, 0.5f);
@@ -45,6 +49,7 @@ STATE CTeleportPattern::Update_State(const _float& fTimeDelta)
     case BOSSPHASE::PHASE2:
         if ((1.5f >= fabs(-72.5f - m_pOwner->Get_Transform()->m_vInfo[INFO_POS].x)) && (1.5f >= fabs(94.5f - m_pOwner->Get_Transform()->m_vInfo[INFO_POS].z)))
         {
+            m_bSound = false;
             m_pOwner->Get_Transform()->m_vInfo[INFO_POS] = _vec3(-72.5f, 38.f, 94.5f);
             return STATE::BOSS_SLEEP;
         }
@@ -52,12 +57,18 @@ STATE CTeleportPattern::Update_State(const _float& fTimeDelta)
         D3DXVec3Normalize(&m_vDir, &m_vDir);
         m_pOwner->Get_Transform()->Translate(m_vDir);
         m_fDelay = 0.f;
-        //return STATE::BOSS_SLEEP //바로 하니까 애가 이동을 안하지 병신아
+        if (!m_bSound)
+        {
+            m_bSound = true;
+            CSoundManager::GetInstance()->StopSound(SOUND_BOSS);
+            CSoundManager::GetInstance()->PlaySound(L"Boss_Taunt3.wav", CHANNELID::SOUND_BOSS, 1.f);
+        }
         break;
 
     case BOSSPHASE::PHASE3:
         if ((-72.f >= fabs(m_vDir.x - m_pOwner->Get_Transform()->m_vInfo[INFO_POS].x)) && (1.5f >= fabs(-105.f - m_pOwner->Get_Transform()->m_vInfo[INFO_POS].z)))
         {
+            m_bSound = false;
             m_pOwner->Get_Transform()->m_vInfo[INFO_POS] = _vec3(-72.f, 34.f, -105.f);
             return STATE::BOSS_SLEEP;
         }
@@ -65,12 +76,19 @@ STATE CTeleportPattern::Update_State(const _float& fTimeDelta)
         D3DXVec3Normalize(&m_vDir, &m_vDir);
         m_pOwner->Get_Transform()->Translate(m_vDir);
         m_fDelay = 0.f;
+        if (!m_bSound)
+        {
+            m_bSound = true;
+            CSoundManager::GetInstance()->StopSound(SOUND_BOSS);
+            CSoundManager::GetInstance()->PlaySound(L"Boss_LowHp.wav", CHANNELID::SOUND_BOSS, 1.f);
+        }
         break;
     
     case BOSSPHASE::LASTPHASE:
         dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Set_3Phase(false);
         if ((-72.f >= fabs(m_vDir.x - m_pOwner->Get_Transform()->m_vInfo[INFO_POS].x)) && (1.5f >= fabs(-105.f - m_pOwner->Get_Transform()->m_vInfo[INFO_POS].z)))
         {
+            m_bSound = false;
             m_pOwner->Get_Transform()->m_vInfo[INFO_POS] = _vec3(-72.f, 34.f, -105.f);
             return STATE::BOSS_SLEEP;
         }

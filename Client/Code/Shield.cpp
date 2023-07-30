@@ -3,7 +3,7 @@
 #include "Export_Function.h"
 #include "Player.h" 
 #include "EffectDamage.h"
-
+#include "SoundManager.h"
 _int g_iCount = 0;
 
 CShield::CShield(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -60,6 +60,8 @@ HRESULT CShield::Ready_Object(_bool _Item)
 
 	m_iAttackTick = 10;
 	m_iMoveTick = 10;
+
+	m_bSound = false;
 	return S_OK;
 }
 
@@ -85,6 +87,12 @@ _int CShield::Update_Object(const _float& fTimeDelta)
 	{
 		if (pPlayer->IsThrowShield() && pPlayer != nullptr)
 		{
+			if (!m_bSound)
+			{
+				m_bSound = true;
+				CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_WEAPON);
+				CSoundManager::GetInstance()->PlaySound(L"ShieldSwing.wav", CHANNELID::SOUND_WEAPON, 1.f);
+			}
 #pragma region ºÎ¸Þ¶û1
 			m_iMoveTick = 0;
 			if (m_iAttackTick > 0)
@@ -115,6 +123,7 @@ _int CShield::Update_Object(const _float& fTimeDelta)
 			if (-9 == m_iAttackTick)
 			{
 				m_iAttackTick = 10;
+				m_bSound = false;
 				pPlayer->Set_ThrowShield(false);
 			}
 #pragma endregion
@@ -129,7 +138,10 @@ _int CShield::Update_Object(const _float& fTimeDelta)
 			--m_iMoveTick;
 
 			if (-9 == m_iMoveTick)
+			{
+				m_bSound = false;
 				m_iMoveTick = 10;
+			}
 		}
 		else
 		{
@@ -139,11 +151,10 @@ _int CShield::Update_Object(const _float& fTimeDelta)
 			_vec3 vOffSet = -0.7f * pPlayerTransform->m_vInfo[INFO_RIGHT] + 1.5f * pPlayerTransform->m_vInfo[INFO_LOOK] - 0.6f * pPlayerTransform->m_vInfo[INFO_UP];
 			m_pTransform->m_vInfo[INFO_POS] = (pPlayerTransform->m_vInfo[INFO_POS] + vOffSet);
 
-
+			m_bSound = false;
 			m_iMoveTick = 0;
 		}
 	}
-		
 	return iExit;
 }
 

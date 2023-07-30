@@ -1,9 +1,10 @@
+#include "stdafx.h"
 #include "LightningPattern2.h"
 #include "Export_Function.h"
 #include "Boss_Lightning.h"
 #include "Boss_CautionEff.h"
 #include "SkeletonKing.h"
-
+#include "SoundManager.h"
 CLightningPattern2::CLightningPattern2()
 {
 }
@@ -61,6 +62,8 @@ STATE CLightningPattern2::Update_State(const _float& fTimeDelta)
 	}
 	else if (0.5f <= m_fDelay)
 	{
+		CSoundManager::GetInstance()->StopSound(SOUND_SLIME);
+		CSoundManager::GetInstance()->PlaySound(L"Elec1.wav", CHANNELID::SOUND_SLIME, 0.5f);
 		for (int i = 0; i < 10; ++i)
 		{
 				pGameObject = CBoss_Lightning::Create(m_pGraphicDev);

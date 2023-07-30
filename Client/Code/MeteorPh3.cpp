@@ -53,7 +53,7 @@ STATE CMeteorPh3::Update_State(const _float& fTimeDelta)
 		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 		m_bSkillStart = true;
 	}
-	else if (m_bSkillStart && (12.1f < m_fChannel_Count))
+	else if (m_bSkillStart && (20.1f < m_fChannel_Count))
 	{
 		m_fDelay = 0.f;
 		m_bSkillStart = false;
@@ -105,7 +105,7 @@ void CMeteorPh3::Make_LostSoul()
 void CMeteorPh3::Make_MiniMeteor()
 {
 	Engine::CGameObject* pGameObject = nullptr;
-	if ((0.2f < m_fMiniDelay) && (!m_CautionCool))
+	if ((0.4f > m_fMiniDelay) && (!m_CautionCool))
 	{
 		std::random_device rd;
 		mt19937 engine(rd());
@@ -118,7 +118,7 @@ void CMeteorPh3::Make_MiniMeteor()
 		m_fDelay = 0.f;
 		m_CautionCool = true;
 	}
-	if ((0.2f < m_fMiniDelay) && (m_CautionCool) && (!m_bCool))
+	if ((0.4f < m_fMiniDelay) && (m_CautionCool) && (!m_bCool))
 	{
 		pGameObject = CMiniMeteor::Create(m_pGraphicDev);
 		dynamic_cast<CMiniMeteor*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = _vec3(m_pOwner->Get_Transform()->m_vInfo[INFO_POS].x + m_iSpawnX, m_pOwner->Get_Transform()->m_vInfo[INFO_POS].y + 5.f, m_pOwner->Get_Transform()->m_vInfo[INFO_POS].z + 5.f);
@@ -126,7 +126,7 @@ void CMeteorPh3::Make_MiniMeteor()
 		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 		m_bCool = true;
 	}
-	if ((0.2f < m_fMiniDelay) && (m_bCool) && (m_CautionCool))
+	if ((0.4f < m_fMiniDelay) && (m_bCool) && (m_CautionCool))
 	{
 		m_fDelay = 0.f;
 		m_bCool = false;

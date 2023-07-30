@@ -24,7 +24,7 @@ HRESULT CBossFireWall::Ready_Object(void)
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 	m_pTransform->Scale(_vec3(2.f, 2.f, 2.f));
-	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale()*0.45f);
+	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale()*0.4f);
 	m_pBasicStat->Get_Stat()->fAttack = 2.f;
 	m_fDuration = 0.f;
 	m_fSpeed = 20.f;
@@ -33,7 +33,7 @@ HRESULT CBossFireWall::Ready_Object(void)
 	m_fDuration = 0.f;
 	m_fSoundCool = 0.f;
 	CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_WIZARD);
-	CSoundManager::GetInstance()->PlaySound(L"Boss_FireWall1.wav", CHANNELID::SOUND_WIZARD,0.5f);
+	CSoundManager::GetInstance()->PlaySound(L"Boss_FireWall1.wav", CHANNELID::SOUND_WIZARD,0.4f);
 	return S_OK;
 }
 
@@ -50,7 +50,7 @@ _int CBossFireWall::Update_Object(const _float& fTimeDelta)
 	{
 		m_fSoundCool = 0.f;
 		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_WIZARD);
-		CSoundManager::GetInstance()->PlaySound(L"Boss_FireWall1.wav", CHANNELID::SOUND_WIZARD, 0.5f);
+		CSoundManager::GetInstance()->PlaySound(L"Boss_FireWall1.wav", CHANNELID::SOUND_WIZARD, 0.4f);
 	}
 	m_fDuration += fTimeDelta;
 	m_fFrame += 8.f * fTimeDelta * 2;
@@ -97,6 +97,9 @@ void CBossFireWall::OnCollisionStay(CCollider* _pOther)
 	if (m_bHit) { return; }
 	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::PLAYER)
 	{
+		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_WARRIOR);
+		CSoundManager::GetInstance()->PlaySound(L"Fire_Hit1.wav", CHANNELID::SOUND_WARRIOR, 1.f);
+
 		CPlayerStat& PlayerState = *(dynamic_cast<CPlayer*>(_pOther->Get_Host())->Get_Stat());
 		PlayerState.Take_Damage(this->Get_BasicStat()->Get_Stat()->fAttack);
 		this->Set_AttackTick(true);

@@ -28,6 +28,7 @@ private:
     _float m_fMoveDelay;
     _bool  m_bSkill;
     _bool   m_bPosReset;
+    _bool   m_bSound;
     _vec3   m_vPillarPos[3];
     _vec3   m_vTargetPos;
     _vec3   m_vResetPos;

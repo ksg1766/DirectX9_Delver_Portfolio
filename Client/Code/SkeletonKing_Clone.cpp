@@ -33,6 +33,8 @@ HRESULT CSkeletonKing_Clone::Ready_Object(void)
 	m_fMoveDelay = 0.f;
 	m_bHit = false;
 	m_bMove = false;
+	m_bMeteor = false;
+	m_pBasicStat->Get_Stat()->fMaxHP = 4.f;
 	m_pBasicStat->Get_Stat()->fHP = 4.f;
 	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
 	
@@ -66,30 +68,27 @@ _int CSkeletonKing_Clone::Update_Object(const _float& fTimeDelta)
 		m_fMoveDelay += fTimeDelta;
 		MoveToDir();
 	}
+
 	if (STATE::BOSS_STURN == dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_StateMachine()->Get_State())
 	{
 		m_pStateMachine->Set_State(STATE::DEAD);
 	}
-	else if (0 >= m_pBasicStat->Get_Stat()->fHP)
+	
+	if (0 >= m_pBasicStat->Get_Stat()->fHP)
 	{
 		m_pStateMachine->Set_State(STATE::DEAD);
 	}
-	else if ((0 >= dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_CloneCount()) || (BOSSPHASE::PHASE2 != dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_Phase()))
+	if ((BOSSPHASE::PHASE2 != dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_Phase()))
 	{
 		dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Add_CloneCount(-1);
 		m_bMove = false;
-		m_IsDead = true;
+		m_pStateMachine->Set_State(STATE::DEAD);
 	}
-	if ((m_bHit)&&(1.f < m_fDelay))
-	{
-		m_bMove = false;
-		m_fDelay = 0.f;
-		m_bHit = false;
-	}
+
 	if (STATE::DEAD == m_pStateMachine->Get_State())
 	{
 		m_fDeleteDelay += fTimeDelta;
-		if (4.f < m_fDeleteDelay)
+		if (2.f < m_fDeleteDelay)
 		{
 			m_fDeleteDelay = 0.f;
 			dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Add_CloneCount(-1);
@@ -103,18 +102,21 @@ _int CSkeletonKing_Clone::Update_Object(const _float& fTimeDelta)
 			m_IsDead = true;
 		}
 	}
+
+	if ((m_bHit) && (1.f < m_fDelay))
+	{
+		m_bMove = false;
+		m_fDelay = 0.f;
+		m_bHit = false;
+	}
 	return iExit;
 }
 
 void CSkeletonKing_Clone::LateUpdate_Object(void)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
-	if ((0 >= dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_CloneCount()) || (BOSSPHASE::PHASE2 != dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_Phase()))
-	{
-		dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Add_CloneCount(-1);
-		m_bMove = false;
-		m_IsDead = true;
-	}
+	if (STATE::BOSS_PH2SKILL5 == dynamic_cast<CSkeletonKing*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_StateMachine()->Get_State())
+		m_pStateMachine->Set_State(STATE::DEAD);
 	__super::LateUpdate_Object();
 	m_pTransform->Scale(_vec3(3.f, 3.f, 3.f));
 }
@@ -167,7 +169,8 @@ void CSkeletonKing_Clone::OnCollisionExit(CCollider* _pOther)
 void CSkeletonKing_Clone::Set_Dir(_vec3 _vDir)
 {
 	m_vTargetPos = _vDir;
-	m_vDir = m_vTargetPos - m_pTransform->m_vInfo[INFO_POS];
+	//m_vDir = m_vTargetPos - m_pTransform->m_vInfo[INFO_POS];
+	m_vDir = m_vTargetPos - _vec3(-72.5f, 38.f, 94.5f);
 	D3DXVec3Normalize(&m_vDir, &m_vDir);
 }
 
