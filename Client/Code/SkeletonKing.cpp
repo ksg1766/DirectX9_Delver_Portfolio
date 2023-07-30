@@ -275,26 +275,35 @@ HRESULT CSkeletonKing::Ready_Object(void)
 _int CSkeletonKing::Update_Object(const _float& fTimeDelta)
 {
 	Engine::Renderer()->Add_RenderGroup(RENDER_ALPHA, this);
+
 	if (SceneManager()->Get_GameStop()) { return 0; }
+
 	if ((STATE::BOSS_PH2SKILL1 == m_pStateMachine->Get_State())||(STATE::BOSS_SLEEP != m_pStateMachine->Get_State())&&((STATE::BOSS_STURN != m_pStateMachine->Get_State())))
 		m_pRigidBody->UseGravity(false); 
+
 	else if((STATE::BOSS_PH2SKILL1 != m_pStateMachine->Get_State())&&(!m_b3Phase)&&(STATE::BOSS_SLEEP == m_pStateMachine->Get_State())||((STATE::BOSS_STURN == m_pStateMachine->Get_State())))
 		m_pRigidBody->UseGravity(true);
+
 	_int iExit = __super::Update_Object(fTimeDelta);
 	m_pStateMachine->Update_StateMachine(fTimeDelta);
+
 	if (m_b3Phase)
 		m_pTransform->m_vInfo[INFO_POS] = _vec3(-72.f, 34.f, -105.f);
+
 	return iExit;
 }
 
 void CSkeletonKing::LateUpdate_Object(void)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
+
 	__super::LateUpdate_Object();
+
 	if((BOSSPHASE::PHASE3 == m_ePhase)&&(m_b3Phase))
 		m_pTransform->Scale(_vec3(12.f, 12.f, 12.f));
 	else
 		m_pTransform->Scale(_vec3(3.f, 3.f, 3.f));
+
 	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale()*0.9f);
 }
 
@@ -305,6 +314,7 @@ void CSkeletonKing::Render_Object(void)
 	m_pStateMachine->Render_StateMachine();
 	m_pBuffer->Render_Buffer();
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+
 #if _DEBUG
 	m_pCollider->Render_Collider();
 #endif
@@ -325,9 +335,11 @@ void CSkeletonKing::OnCollisionEnter(CCollider* _pOther)
 	{
 		if((STATE::BOSS_TELEPORT == m_pStateMachine->Get_State())||(STATE::BOSS_PH2SKILL1 == m_pStateMachine->Get_State())||(OBJECTTAG::PLAYER == _pOther->Get_Host()->Get_ObjectTag()))
 			return;
+
 		else if ((OBJECTTAG::LOSTSOUL == _pOther->Get_Host()->Get_ObjectTag()))
 			if (SOULSTATE::SOUL_PARRY != dynamic_cast<CBossLostSoul*>(_pOther->Get_Host())->Get_SoulState())
 				return;
+
 		__super::OnCollisionEnter(_pOther);
 	}
 }
@@ -339,9 +351,11 @@ void CSkeletonKing::OnCollisionStay(CCollider* _pOther)
 	{
 		if ((STATE::BOSS_TELEPORT == m_pStateMachine->Get_State()) || (STATE::BOSS_PH2SKILL1 == m_pStateMachine->Get_State()) || (OBJECTTAG::PLAYER == _pOther->Get_Host()->Get_ObjectTag()))
 			return;
+
 		else if ((OBJECTTAG::LOSTSOUL == _pOther->Get_Host()->Get_ObjectTag()))
 			if (SOULSTATE::SOUL_PARRY != dynamic_cast<CBossLostSoul*>(_pOther->Get_Host())->Get_SoulState())
 				return;
+
 		__super::OnCollisionStay(_pOther);
 	}
 }
@@ -349,13 +363,16 @@ void CSkeletonKing::OnCollisionStay(CCollider* _pOther)
 void CSkeletonKing::OnCollisionExit(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
+
 	if ((OBJECTTAG::PLAYERBULLET != _pOther->Get_Host()->Get_ObjectTag()))
 	{
 		if ((STATE::BOSS_TELEPORT == m_pStateMachine->Get_State()) || (STATE::BOSS_PH2SKILL1 == m_pStateMachine->Get_State()) || (OBJECTTAG::PLAYER == _pOther->Get_Host()->Get_ObjectTag()))
 			return;
+
 		else if ((OBJECTTAG::LOSTSOUL == _pOther->Get_Host()->Get_ObjectTag()))
 			if (SOULSTATE::SOUL_PARRY != dynamic_cast<CBossLostSoul*>(_pOther->Get_Host())->Get_SoulState())
 				return;
+
 		__super::OnCollisionExit(_pOther);
 	}
 }

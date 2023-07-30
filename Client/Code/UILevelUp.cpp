@@ -2,7 +2,7 @@
 #include "..\Header\UILevelUp.h"
 #include "UILevelUpCard.h"
 #include "Player.h"
-#include "DynamicCamera.h"
+#include "FlyingCamera.h"
 
 CUILevelUp::CUILevelUp(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CTempUI(pGraphicDev)
@@ -53,7 +53,7 @@ _int CUILevelUp::Update_Object(const _float& fTimeDelta)
 		SceneManager()->Set_GameStop(false);
 
 		if (m_pCamera != nullptr)
-			static_cast<CDynamicCamera*>(m_pCamera)->Set_Fix(false);
+			static_cast<CFlyingCamera*>(m_pCamera)->Set_MouseFix(false);
 
 		HCURSOR Cursor = nullptr;
 		SetCursor(Cursor);
@@ -73,7 +73,7 @@ _int CUILevelUp::Update_Object(const _float& fTimeDelta)
 
 		m_pCamera = SceneManager()->Get_ObjectList(LAYERTAG::ENVIRONMENT, OBJECTTAG::CAMERA).front();
 		if (m_pCamera != nullptr)
-			static_cast<CDynamicCamera*>(m_pCamera)->Set_Fix(true);
+			static_cast<CFlyingCamera*>(m_pCamera)->Set_MouseFix(true);
 
 		HCURSOR Cursor = nullptr;
 		Cursor = GetCursor();

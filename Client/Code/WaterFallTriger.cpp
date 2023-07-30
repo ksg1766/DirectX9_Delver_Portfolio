@@ -2,7 +2,7 @@
 #include "SoundManager.h"
 #include "Export_Function.h"
 #include "Player.h"
-#include "..\Include\WaterFallTriger.h"
+#include "..\Header\WaterFallTriger.h"
 
 CWaterFallTriger::CWaterFallTriger(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CGameObject(pGraphicDev)

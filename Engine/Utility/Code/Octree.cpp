@@ -46,8 +46,8 @@ HRESULT COctree::Ready_Octree()
 _int COctree::Update_Octree()
 {
     if (m_pFrustum)
-        if (m_pFrustum->Update_Frustum())
-            FrustumCull(m_pOctreeRoot);
+        //if (m_pFrustum->Update_Frustum())
+        FrustumCull(m_pOctreeRoot);
 
     return _int();
 }

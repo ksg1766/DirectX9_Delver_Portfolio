@@ -6,7 +6,8 @@
 
 CFrustum::CFrustum()
 {
-	m_pCamera = dynamic_cast<CTempCamera*>(SceneManager()->Get_ObjectList(LAYERTAG::ENVIRONMENT, OBJECTTAG::CAMERA).front());
+	//m_pCamera = dynamic_cast<CTempCamera*>(SceneManager()->Get_ObjectList(LAYERTAG::ENVIRONMENT, OBJECTTAG::CAMERA).front());
+	m_pCamera = SceneManager()->Get_ObjectList(LAYERTAG::ENVIRONMENT, OBJECTTAG::CAMERA).front();
 }
 
 CFrustum::CFrustum(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -51,16 +52,23 @@ BOOL CFrustum::MakeFrustum(_matrix* _pmatViewProj)
 
 _int CFrustum::Update_Frustum()
 {
-	if (m_pCamera)
-	{	
-		if (!m_pCamera->Get_CameraMode())
-		{
-			_matrix _matViewProj = m_pCamera->Get_ViewMat() * m_pCamera->Get_ProjMat();
-			//D3DXMatrixMultiply(&_matViewProj, &m_pCamera->Get_ViewMat(), &m_pCamera->Get_ProjMat());
-			MakeFrustum(&_matViewProj);
-			return 1;
-		}
-	}
+	//if (m_pCamera)
+	//{	
+	//	//if (!m_pCamera->Get_CameraMode())
+	//	//{
+	//	//	_matrix _matViewProj = m_pCamera->Get_ViewMat() * m_pCamera->Get_ProjMat();
+	//	//	//D3DXMatrixMultiply(&_matViewProj, &m_pCamera->Get_ViewMat(), &m_pCamera->Get_ProjMat());
+	//	//	MakeFrustum(&_matViewProj);
+	//	//	return 1;
+	//	//}
+
+	//
+	//	_matrix _matViewProj = m_pCamera-> Get_ViewMat() * m_pCamera->Get_ProjMat();
+	//	//D3DXMatrixMultiply(&_matViewProj, &m_pCamera->Get_ViewMat(), &m_pCamera->Get_ProjMat());
+	//	MakeFrustum(&_matViewProj);
+	//	return 1;
+	//	}
+	//}
 	return 0;
 }
 

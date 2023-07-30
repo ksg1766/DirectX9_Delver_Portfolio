@@ -40,6 +40,7 @@
 #include "EffectProjectileTrace.h"
 #include "EffectTwinkle.h"
 #include "SoundManager.h"
+#include "CameraManager.h"
 
 #include "Jump_Plate.h"
 #include "Boss_Lightning.h"
@@ -90,6 +91,7 @@ Engine::_int CStage::Update_Scene(const _float& fTimeDelta)
 	__super::Update_Scene(fTimeDelta);
 
 	CGameManager::GetInstance()->Update_Game(fTimeDelta);
+	CCameraManager::GetInstance()->Update_Camera(fTimeDelta);
 
 	UIManager()->Update_UI(fTimeDelta);
 
@@ -105,6 +107,8 @@ void CStage::LateUpdate_Scene()
 		CSoundManager::GetInstance()->PlaySoundLoop(L"chase_sewers.mp3", CHANNELID::SOUND_BGM, m_fSound);
 
 	CollisionManager()->LateUpdate_Collision();
+	CCameraManager::GetInstance()->LateUpdate_Camera();
+
 	UIManager()->LateUpdate_UI();
 
 	// 테스트용입니다.

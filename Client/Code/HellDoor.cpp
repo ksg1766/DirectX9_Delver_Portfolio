@@ -4,7 +4,9 @@
 #include "Player.h"
 #include "HellDoor.h"
 #include "DoorCube.h"
-#include "DynamicCamera.h"
+
+#include "CameraManager.h"
+#include "FlyingCamera.h"
 #include "Scene.h"
 #include "Stage.h"
 //#include "CameraManager.h"
@@ -84,12 +86,13 @@ _int CHellDoor::Update_Object(const _float& fTimeDelta)
 
 	if (m_bTriger)
 	{
-		CDynamicCamera& rCamera = *dynamic_cast<CDynamicCamera*>(SceneManager()->Get_ObjectList(LAYERTAG::ENVIRONMENT, OBJECTTAG::CAMERA).front());
+		//CDynamicCamera& rCamera = *dynamic_cast<CDynamicCamera*>(SceneManager()->Get_ObjectList(LAYERTAG::ENVIRONMENT, OBJECTTAG::CAMERA).front());
+		CFlyingCamera* refCamera = dynamic_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam());
 
 		if (m_bShake)
 		{
-			rCamera.Set_ShakeForce(0.f, 0.01, 3, 2.f);
-			rCamera.Shake_Camera();
+			refCamera->Set_ShakeForce(0.f, 0.01, 3, 2.f);
+			refCamera->Shake_Camera();
 		}
 
 
@@ -131,7 +134,7 @@ _int CHellDoor::Update_Object(const _float& fTimeDelta)
 				{
 					if (!m_bBgmStop)
 					{
-						rCamera.Reset_ShakeForce();
+						refCamera->Reset_ShakeForce();
 						m_bShake = false;
 						m_bBgmChange = true;
 						m_bBgmStop = true;

@@ -3,7 +3,7 @@
 #include "Npc_Bard.h"
 #include "Export_Function.h"
 #include "Bard_Idle.h"
-#include "DynamicCamera.h"
+#include "FlyingCamera.h"
 #include "Player.h"
 
 CNpc_Bard::CNpc_Bard(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -75,7 +75,7 @@ _int CNpc_Bard::Update_Object(const _float& fTimeDelta)
 				if (!m_bTalking)
 					m_bTalking = true;
 
-				static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(true);
+				static_cast<CFlyingCamera*>(pGameObject)->Set_MouseFix(true);
 
 				CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_UI);
 				CSoundManager::GetInstance()->PlaySound(L"ui_dialogue_open.mp3", CHANNELID::SOUND_UI, 1.f);
@@ -88,7 +88,7 @@ _int CNpc_Bard::Update_Object(const _float& fTimeDelta)
 				m_bTalking = false;
 				rPlayer.Set_Talk(false);
 
-				static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(false);
+				static_cast<CFlyingCamera*>(pGameObject)->Set_MouseFix(false);
 				CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_UI);
 				CSoundManager::GetInstance()->PlaySound(L"ui_dialogue_close.mp3", CHANNELID::SOUND_UI, 1.f);
 			}

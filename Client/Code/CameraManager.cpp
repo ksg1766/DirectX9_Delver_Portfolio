@@ -2,6 +2,8 @@
 #include "stdafx.h"
 #include "FlyingCamera.h"
 #include "OrthoCamera.h"
+#include "Octree.h"
+#include "Frustum.h"
 
 IMPLEMENT_SINGLETON(CCameraManager)
 
@@ -15,18 +17,23 @@ CCameraManager::~CCameraManager()
 	Free();
 }
 
-void CCameraManager::Update_Camera()
+_int CCameraManager::Update_Camera(const _float& fTimeDelta)
 {
-	if (Engine::InputDev()->Key_Down(DIK_M))
+	if (SCENETAG::EDITOR == SceneManager()->Get_Scene()->Get_SceneTag())
 	{
-		if (!m_bToggleMap)
-			m_bToggleMap = true;
-		else
+		if (Engine::InputDev()->Key_Down(DIK_M))
 		{
-			m_bToggleMap = false;
-			dynamic_cast<COrthoCamera*>(m_mapCameras[CAMERA_TYPE::ORTHOGRAPHIC])->ReturnViewPort();
+			if (!m_bToggleMap)
+				m_bToggleMap = true;
+			else
+			{
+				m_bToggleMap = false;
+				dynamic_cast<COrthoCamera*>(m_mapCameras[CAMERA_TYPE::ORTHOGRAPHIC])->ReturnViewPort();
+			}
 		}
 	}
+
+	return _int();
 }
 
 void CCameraManager::LateUpdate_Camera()
@@ -44,6 +51,9 @@ void CCameraManager::LateUpdate_Camera()
 		dynamic_cast<COrthoCamera*>(m_mapCameras[CAMERA_TYPE::ORTHOGRAPHIC])->Set_OrthoView();
 		pCamera->Set_Projection(CAMERA_TYPE::ORTHOGRAPHIC);
 	}
+	
+	_matrix _matViewProj = pCamera->Get_ViewMatrix() * pCamera->Get_ProjMatrix();
+	Octree()->GetFrustum()->MakeFrustum(&_matViewProj);
 }
 
 void CCameraManager::Free()

@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "..\Header\UIResumeButton.h"
 
-#include "DynamicCamera.h"
+#include "FlyingCamera.h"
 
 CUIResumeButton::CUIResumeButton(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CTempUI(pGraphicDev)
@@ -95,7 +95,7 @@ void CUIResumeButton::Key_Input(void)
 		m_fCurrentImage = 1;
 		if (Engine::InputDev()->Mouse_Down(DIM_LB)) {
 			CGameObject* pGameObject = SceneManager()->Get_ObjectList(LAYERTAG::ENVIRONMENT, OBJECTTAG::CAMERA).front();
-			static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(false);
+			static_cast<CFlyingCamera*>(pGameObject)->Set_MouseFix(false);
 			SceneManager()->Set_GameStop(false);
 
 			UIManager()->m_bEsc = false;

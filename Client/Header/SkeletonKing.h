@@ -48,9 +48,11 @@ public:
 
 	void			Set_Dir(_vec3 _vDir);
 	void			MoveToDir(const _float& fTimeDelta);
+
 private:
 	HRESULT		Add_Component(void);
 	void		Change_Phase();
+
 private:
 	CRcTex*		m_pBuffer = nullptr;
 	CTexture*	m_pTexture[(_uint)STATE::STATE_END] = {};
@@ -70,6 +72,7 @@ private:
 	_vec3		m_vDir;
 	BOSSPHASE	m_ePhase;
 	vector<CSkeletonKing_Clone*>	m_vecSkeletonClone;
+
 public:
 	static CSkeletonKing* Create(LPDIRECT3DDEVICE9 pGraphicDev);
 

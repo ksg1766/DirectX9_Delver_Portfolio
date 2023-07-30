@@ -14,6 +14,7 @@
 #include "Jump_Plate.h"
 #include "BlackIn.h"
 #include "Lava.h"
+#include "CameraManager.h"
 #include "GameManager.h"
 
 CBossStage::CBossStage(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -46,6 +47,7 @@ Engine::_int CBossStage::Update_Scene(const _float& fTimeDelta)
 	__super::Update_Scene(fTimeDelta);
 
 	CGameManager::GetInstance()->Update_Game(fTimeDelta);
+	CCameraManager::GetInstance()->Update_Camera(fTimeDelta);
 
 	UIManager()->Update_UI(fTimeDelta);
 	if (10.f >= Engine::SceneManager()->Get_Scene()->Get_MainPlayer()->m_pTransform->m_vInfo[INFO_POS].y)
@@ -78,6 +80,8 @@ void CBossStage::LateUpdate_Scene()
 	__super::LateUpdate_Scene();
 
 	CollisionManager()->LateUpdate_Collision();
+	CCameraManager::GetInstance()->LateUpdate_Camera();
+
 	UIManager()->LateUpdate_UI();
 }
 

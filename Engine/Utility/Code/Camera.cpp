@@ -50,7 +50,7 @@ void CCamera::Set_Projection(const CAMERA_TYPE eMode)
 	switch (eMode)
 	{
 	case CAMERA_TYPE::PERSPECTIVE:
-		D3DXMatrixPerspectiveFovLH(&m_matProj, D3DX_PI / 4.f, WINCX / (float)WINCY, 0.1f, 1000.0f);
+		D3DXMatrixPerspectiveFovLH(&m_matProj, D3DX_PI / 4.f, WINCX / (_float)WINCY, 0.1f, 1000.0f);
 		m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &m_matProj);
 		break;
 	case CAMERA_TYPE::ORTHOGRAPHIC:	// custom

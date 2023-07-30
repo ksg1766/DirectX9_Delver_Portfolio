@@ -838,6 +838,18 @@
     <Filter Include="03. GameObject\01. Stage\05. Cube\05.Lava">
       <UniqueIdentifier>{00f3d79b-2d8d-457d-8bef-6886eed7b41e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. GameObject\07. Effect\99. EffectHekiRekiIssen">
+      <UniqueIdentifier>{c068519c-12a9-4cbc-96e4-596d8a231941}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\07. Effect\99. EffectHekiRekiIssen\00. SwordTrail">
+      <UniqueIdentifier>{498091d7-4d75-4e28-93df-ee58426c2d43}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\07. Effect\99. EffectHekiRekiIssen\01. SwordParticles">
+      <UniqueIdentifier>{09832858-6ce7-4cf0-a507-71703c5fb66c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\07. Effect\99. EffectHekiRekiIssen\02. SwordLightning">
+      <UniqueIdentifier>{808d1e9b-1fc8-49ec-9adf-89402892cc9b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -1646,6 +1658,15 @@
     <ClInclude Include="..\Header\Lava.h">
       <Filter>03. GameObject\01. Stage\05. Cube\05.Lava</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\EffectSwordTrail.h">
+      <Filter>03. GameObject\07. Effect\99. EffectHekiRekiIssen\00. SwordTrail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\EffectSwordParticles.h">
+      <Filter>03. GameObject\07. Effect\99. EffectHekiRekiIssen\01. SwordParticles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\EffectSwordLightning.h">
+      <Filter>03. GameObject\07. Effect\99. EffectHekiRekiIssen\02. SwordLightning</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -2414,6 +2435,15 @@
     </ClCompile>
     <ClCompile Include="..\Code\Lava.cpp">
       <Filter>03. GameObject\01. Stage\05. Cube\05.Lava</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\EffectSwordTrail.cpp">
+      <Filter>03. GameObject\07. Effect\99. EffectHekiRekiIssen\00. SwordTrail</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\EffectSwordParticles.cpp">
+      <Filter>03. GameObject\07. Effect\99. EffectHekiRekiIssen\01. SwordParticles</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\EffectSwordLightning.cpp">
+      <Filter>03. GameObject\07. Effect\99. EffectHekiRekiIssen\02. SwordLightning</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

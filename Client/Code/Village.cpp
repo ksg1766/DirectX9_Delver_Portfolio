@@ -40,6 +40,9 @@
 
 // 연출 테스트 // 성공시 보스 씬으로 이동
 #include "GameManager.h"
+#include "FlyingCamera.h"
+#include "OrthoCamera.h"
+#include "CameraManager.h"
 
 #include "UILevelUp.h"
 #include "UILevelUpCard.h"
@@ -89,6 +92,7 @@ Engine::_int CVillage::Update_Scene(const _float& fTimeDelta)
 	__super::Update_Scene(fTimeDelta);
 
 	CGameManager::GetInstance()->Update_Game(fTimeDelta);
+	CCameraManager::GetInstance()->Update_Camera(fTimeDelta);
 
 	UIManager()->Update_UI(fTimeDelta);
 	return 0;
@@ -99,6 +103,7 @@ void CVillage::LateUpdate_Scene()
 	__super::LateUpdate_Scene();
 
 	CollisionManager()->LateUpdate_Collision();
+	CCameraManager::GetInstance()->LateUpdate_Camera();
 
 	UIManager()->LateUpdate_UI();
 }
@@ -120,7 +125,7 @@ HRESULT CVillage::Ready_Layer_Environment(LAYERTAG _eLayerTag)
 	if (!Engine::SceneManager()->Get_VisitScene(m_eSceneTag))
 	{
 		// DynamicCamera
-		pGameObject = CDynamicCamera::Create(m_pGraphicDev,
+		/*pGameObject = CDynamicCamera::Create(m_pGraphicDev,
 			&_vec3(0.f, 0.f, 0.f),
 			&_vec3(0.f, 0.f, 1.f),
 			&_vec3(0.f, 1.f, 0.f),
@@ -128,6 +133,16 @@ HRESULT CVillage::Ready_Layer_Environment(LAYERTAG _eLayerTag)
 			(_float)WINCX / WINCY,
 			0.1f,
 			200.f);
+		NULL_CHECK_RETURN(pGameObject, E_FAIL);
+		pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);*/
+
+		// FlyingCamera
+		pGameObject = CFlyingCamera::Create(m_pGraphicDev);
+		NULL_CHECK_RETURN(pGameObject, E_FAIL);
+		pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+
+		// OrthoCamera
+		pGameObject = COrthoCamera::Create(m_pGraphicDev);
 		NULL_CHECK_RETURN(pGameObject, E_FAIL);
 		pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 	}
@@ -344,6 +359,12 @@ HRESULT CVillage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	pGameObject->m_pTransform->Translate(_vec3(1.f, 10.f, -55.f));
 	dynamic_cast<CMonster*>(pGameObject)->Set_CenterPos(_vec3(1.f, 10.f, -55.f));
 	dynamic_cast<CMonster*>(pGameObject)->Set_MoveRange(10.f);
+	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+
+	// Boss
+	pGameObject = CSkeletonKing::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	pGameObject->m_pTransform->Translate(_vec3(0.f, 11.f, -30.f));
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
 	//m_pSpider = dynamic_cast<CDungeonSpider*>(pGameObject);

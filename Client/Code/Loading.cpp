@@ -72,6 +72,8 @@ _uint CLoading::Loading_ForStage()
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Animator", CAnimator::Create(m_pGraphicDev)), E_FAIL);
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Inventory", CInventory::Create(m_pGraphicDev)), E_FAIL);
 
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Camera", CCamera::Create(m_pGraphicDev)), E_FAIL);
+
 		// Monster 
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_State", CStateMachine::Create(m_pGraphicDev)), E_FAIL);
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_BasicStat", CBasicStat::Create(m_pGraphicDev)), E_FAIL);
@@ -268,9 +270,14 @@ _uint CLoading::Loading_ForStage()
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_EffectDebuff",      CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Effect/Debuff/Debuff%d.png", 4)), E_FAIL);
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_EffectPastTrace",   CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Effect/Arrow.png", 1)), E_FAIL);
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_EffectGreenleaves", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Effect/Green_leaves/Green_leaves%d.png", 3)), E_FAIL);
+		
+		//HekiRekiIssen
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"EffectSwordTrail",				CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Effect/HekiRekiIssen/EffectSwordTrail.png")), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"EffectSwordParticles",			CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Effect/HekiRekiIssen/EffectSwordParticles.png")), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"EffectSwordLightning",			CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Effect/HekiRekiIssen/EffectSwordLightning%d.png", 6)), E_FAIL);
 #pragma endregion EFFECT
-		//FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Shader_Cube",				CShader::Create(m_pGraphicDev, TEXT("../Bin/ShaderFiles/Shader_Rect.hlsl"))), E_FAIL);
 
+		//FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Shader_Cube",				CShader::Create(m_pGraphicDev, TEXT("../Bin/ShaderFiles/Shader_Rect.hlsl"))), E_FAIL);
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_BladeTrapBlade",	CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Entities/Trap/Trap_Blade.png")), E_FAIL); //Æ®·¦¿ë
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Torch",				CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Immortal/Torch/Torch%d.png",8)), E_FAIL);
 

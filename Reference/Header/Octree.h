@@ -22,6 +22,7 @@ public:
 
     COctreeNode*    GetOctreeRoot() { return m_pOctreeRoot; }
     COctreeNode*    GetParentNodeByPos(_vec3 vPos, COctreeNode* const pNode);
+    CFrustum*       GetFrustum() { return m_pFrustum; }
 
 private:
     COctreeNode*    BuildOctree(_vec3 vCenter, _float fHalfWidth, _int iDepth);

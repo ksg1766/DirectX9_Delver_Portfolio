@@ -33,6 +33,7 @@ HRESULT CDynamicCamera::Ready_Object(const _vec3* pEye, const _vec3* pAt, const 
 	m_fFrequency = 1.f; // Èçµå´Â ¼Óµµ
 	m_vOriginPos = _vec3(0.f, 0.f, 0.f);
 
+	Add_Component();
 	FAILED_CHECK_RETURN(CTempCamera::Ready_Object(), E_FAIL);
 	m_eObjectTag = OBJECTTAG::CAMERA;
 	m_eCamera_Mode = CAMERA_MODE::CAMERA_FIRST;
@@ -43,7 +44,6 @@ HRESULT CDynamicCamera::Ready_Object(const _vec3* pEye, const _vec3* pAt, const 
 _int CDynamicCamera::Update_Object(const _float& fTimeDelta)
 {
 	Key_Input(fTimeDelta);
-
 
 	if (false == m_bFix)
 	{
@@ -97,6 +97,10 @@ HRESULT CDynamicCamera::Add_Component()
 	pComponent = m_pTransform = dynamic_cast<CTransform*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Transform"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::TRANSFORM, pComponent);
+
+	for (int i = 0; i < ID_END; ++i)
+		for (auto& iter : m_mapComponent[i])
+			iter.second->Init_Property(this);
 
 	return S_OK;
 }
@@ -232,12 +236,12 @@ void CDynamicCamera::Mouse_Fix()
 
 void CDynamicCamera::First_Camera()
 {
-	CComponent* pComponent = SceneManager()->Get_Scene()->Get_MainPlayer()->m_pTransform;
+	CTransform* pPlayerTrans = SceneManager()->Get_Scene()->Get_MainPlayer()->m_pTransform;
 
-	const _matrix& matPlayerWorld = dynamic_cast<CTransform*>(pComponent)->WorldMatrix();
+	const _matrix& matPlayerWorld = dynamic_cast<CTransform*>(pPlayerTrans)->WorldMatrix();
 
-	_vec3&	vPlayerLook = dynamic_cast<CTransform*>(pComponent)->m_vInfo[INFO_LOOK];
-	_vec3&	vPlayerUp = dynamic_cast<CTransform*>(pComponent)->m_vInfo[INFO_UP];
+	_vec3&	vPlayerLook = dynamic_cast<CTransform*>(pPlayerTrans)->m_vInfo[INFO_LOOK];
+	_vec3&	vPlayerUp = dynamic_cast<CTransform*>(pPlayerTrans)->m_vInfo[INFO_UP];
 
 	//_vec3 vCameraOffset = vPlayerUp * 1.0f + vPlayerLook * 1.0f;
 	//_vec3 vCameraPosition = dynamic_cast<CTransform*>(pComponent)->m_vInfo[INFO_POS] + vCameraOffset;
@@ -248,6 +252,10 @@ void CDynamicCamera::First_Camera()
 	//m_vAt += ((vPlayerUp * 0.5f) + (vPlayerLook * 0.5f));
 
 	m_vUp = vPlayerUp;
+
+	//ksg
+	m_pTransform->Copy_RUL_AddPos(pPlayerTrans->m_vInfo);
+
 }
 
 void CDynamicCamera::Third_Camera()

@@ -209,12 +209,16 @@ void CInventory::delete_FindItem(ITEMTYPEID _itemId)
 
 				for (auto& iter = ChildTransform.begin(); iter != ChildTransform.end();)
 				{
-					if (dynamic_cast<CItem*>((*iter)->Get_Host())->Get_ItemTag().eItemID == SlotItemType.eItemID)
-						iter = ChildTransform.erase(iter);
+					if (OBJECTTAG::ITEM == (*iter)->Get_ObjectTag())
+					{
+						if (dynamic_cast<CItem*>((*iter)->Get_Host())->Get_ItemTag().eItemID == SlotItemType.eItemID)
+							iter = ChildTransform.erase(iter);
+						else
+							++iter;
+					}
 					else
 						++iter;
 				}
-
 
 				for (auto& iter = m_mapKeySlot.begin(); iter != m_mapKeySlot.end();)
 					if (iter->second != nullptr)
@@ -252,8 +256,13 @@ void CInventory::delete_FindItem(ITEMTYPEID _itemId)
 
 				for (auto& iter = ChildTransform.begin(); iter != ChildTransform.end();)
 				{
-					if (dynamic_cast<CItem*>((*iter)->Get_Host())->Get_ItemTag().eItemID == SlotItemType.eItemID)
-						iter = ChildTransform.erase(iter);
+					if (OBJECTTAG::ITEM == (*iter)->Get_ObjectTag())
+					{
+						if (dynamic_cast<CItem*>((*iter)->Get_Host())->Get_ItemTag().eItemID == SlotItemType.eItemID)
+							iter = ChildTransform.erase(iter);
+						else
+							++iter;
+					}
 					else
 						++iter;
 				}
@@ -295,8 +304,13 @@ void CInventory::delete_FindItem(ITEMTYPEID _itemId)
 
 				for (auto& iter = ChildTransform.begin(); iter != ChildTransform.end();)
 				{
-					if (dynamic_cast<CItem*>((*iter)->Get_Host())->Get_ItemTag().eItemID == SlotItemType.eItemID)
-						iter = ChildTransform.erase(iter);
+					if (OBJECTTAG::ITEM == (*iter)->Get_ObjectTag())
+					{
+						if (dynamic_cast<CItem*>((*iter)->Get_Host())->Get_ItemTag().eItemID == SlotItemType.eItemID)
+							iter = ChildTransform.erase(iter);
+						else
+							++iter;
+					}
 					else
 						++iter;
 				}
@@ -340,13 +354,17 @@ void CInventory::delete_FindItem(ITEMTYPEID _itemId)
 
 				for (auto iter = ChildTransform.begin(); iter != ChildTransform.end();)
 				{
-					if (dynamic_cast<CItem*>((*iter)->Get_Host())->Get_ItemTag().eItemID == SlotItemType.eItemID)
+					if (OBJECTTAG::ITEM == (*iter)->Get_ObjectTag())
 					{
-						iter = ChildTransform.erase(iter);
+						if (dynamic_cast<CItem*>((*iter)->Get_Host())->Get_ItemTag().eItemID == SlotItemType.eItemID)
+						{
+							iter = ChildTransform.erase(iter);
+						}
+						else
+							++iter;
 					}
 					else
 						++iter;
-
 				}
 
 				for (auto& iter = m_mapKeySlot.begin(); iter != m_mapKeySlot.end();)
@@ -386,11 +404,15 @@ void CInventory::delete_FindItem(ITEMTYPEID _itemId)
 
 				for (auto iter = ChildTransform.begin(); iter != ChildTransform.end();)
 				{
-					if (dynamic_cast<CItem*>((*iter)->Get_Host())->Get_ItemTag().eItemID == SlotItemType.eItemID)
-						iter = ChildTransform.erase(iter);
+					if (OBJECTTAG::ITEM == (*iter)->Get_ObjectTag())
+					{
+						if (dynamic_cast<CItem*>((*iter)->Get_Host())->Get_ItemTag().eItemID == SlotItemType.eItemID)
+							iter = ChildTransform.erase(iter);
+						else
+							++iter;
+					}
 					else
 						++iter;
-
 				}
 
 
@@ -433,11 +455,15 @@ void CInventory::delete_FindItem(ITEMTYPEID _itemId)
 
 				for (auto iter = ChildTransform.begin(); iter != ChildTransform.end();)
 				{
-					if (dynamic_cast<CItem*>((*iter)->Get_Host())->Get_ItemTag().eItemID == SlotItemType.eItemID)
-						iter = ChildTransform.erase(iter);
+					if (OBJECTTAG::ITEM == (*iter)->Get_ObjectTag())
+					{
+						if (dynamic_cast<CItem*>((*iter)->Get_Host())->Get_ItemTag().eItemID == SlotItemType.eItemID)
+							iter = ChildTransform.erase(iter);
+						else
+							++iter;
+					}
 					else
 						++iter;
-
 				}
 
 				for (auto& iter = m_mapItemSlot.begin(); iter != m_mapItemSlot.end();)
@@ -479,11 +505,15 @@ void CInventory::delete_FindItem(ITEMTYPEID _itemId)
 
 				for (auto iter = ChildTransform.begin(); iter != ChildTransform.end();)
 				{
-					if (dynamic_cast<CItem*>((*iter)->Get_Host())->Get_ItemTag().eItemID == SlotItemType.eItemID)
-						iter = ChildTransform.erase(iter);
+					if (OBJECTTAG::ITEM == (*iter)->Get_ObjectTag())
+					{
+						if (dynamic_cast<CItem*>((*iter)->Get_Host())->Get_ItemTag().eItemID == SlotItemType.eItemID)
+							iter = ChildTransform.erase(iter);
+						else
+							++iter;
+					}
 					else
 						++iter;
-
 				}
 
 				for (auto& iter = m_mapItemSlot.begin(); iter != m_mapItemSlot.end();)
@@ -524,8 +554,13 @@ void CInventory::delete_FindItem(ITEMTYPEID _itemId)
 
 				for (auto iter = ChildTransform.begin(); iter != ChildTransform.end();)
 				{
-					if (dynamic_cast<CItem*>((*iter)->Get_Host())->Get_ItemTag().eItemID == SlotItemType.eItemID)
-						iter = ChildTransform.erase(iter);
+					if (OBJECTTAG::ITEM == (*iter)->Get_ObjectTag())
+					{
+						if (dynamic_cast<CItem*>((*iter)->Get_Host())->Get_ItemTag().eItemID == SlotItemType.eItemID)
+							iter = ChildTransform.erase(iter);
+						else
+							++iter;
+					}
 					else
 						++iter;
 				}
@@ -561,7 +596,6 @@ void CInventory::delete_FindItem(ITEMTYPEID _itemId)
 			}
 			else
 			{
-
 				CTransform* pPlayerTransform = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform;
 
 				vector<CTransform*>& ChildTransform = pPlayerTransform->Get_Child();
@@ -569,16 +603,21 @@ void CInventory::delete_FindItem(ITEMTYPEID _itemId)
 
 				for (auto iter = ChildTransform.begin(); iter != ChildTransform.end();)
 				{
-					if (dynamic_cast<CItem*>((*iter)->Get_Host())->Get_ItemTag().eItemID == SlotItemType.eItemID)
-						iter = ChildTransform.erase(iter);
+					if (OBJECTTAG::ITEM == (*iter)->Get_ObjectTag())
+					{
+						if (dynamic_cast<CItem*>((*iter)->Get_Host())->Get_ItemTag().eItemID == SlotItemType.eItemID)
+							iter = ChildTransform.erase(iter);
+						else
+							++iter;
+					}
 					else
 						++iter;
-
-
 				}
 
 				for (auto& iter = m_mapItemSlot.begin(); iter != m_mapItemSlot.end();)
+				{
 					if (iter->second != nullptr)
+					{
 						if (dynamic_cast<CItem*>(iter->second)->Get_ItemTag().eItemID == SlotItemType.eItemID)
 						{
 							m_vDead.push_back(iter->second);
@@ -586,9 +625,10 @@ void CInventory::delete_FindItem(ITEMTYPEID _itemId)
 						}
 						else
 							++iter;
+					}
 					else
 						++iter;
-
+				}
 
 
 				m_bItemSlotEmpty[ITEMSLOT_RING] = false;
@@ -617,8 +657,13 @@ void CInventory::delete_FindItem(ITEMTYPEID _itemId)
 
 				for (auto iter = ChildTransform.begin(); iter != ChildTransform.end();)
 				{
-					if (dynamic_cast<CItem*>((*iter)->Get_Host())->Get_ItemTag().eItemID == SlotItemType.eItemID)
-						iter = ChildTransform.erase(iter);
+					if (OBJECTTAG::ITEM == (*iter)->Get_ObjectTag())
+					{
+						if (dynamic_cast<CItem*>((*iter)->Get_Host())->Get_ItemTag().eItemID == SlotItemType.eItemID)
+							iter = ChildTransform.erase(iter);
+						else
+							++iter;
+					}
 					else
 						++iter;
 				}
@@ -660,8 +705,13 @@ void CInventory::delete_FindItem(ITEMTYPEID _itemId)
 
 				for (auto iter = ChildTransform.begin(); iter != ChildTransform.end();)
 				{
-					if (dynamic_cast<CItem*>((*iter)->Get_Host())->Get_ItemTag().eItemID == SlotItemType.eItemID)
-						iter = ChildTransform.erase(iter);
+					if (OBJECTTAG::ITEM == (*iter)->Get_ObjectTag())
+					{
+						if (dynamic_cast<CItem*>((*iter)->Get_Host())->Get_ItemTag().eItemID == SlotItemType.eItemID)
+							iter = ChildTransform.erase(iter);
+						else
+							++iter;
+					}
 					else
 						++iter;
 				}
@@ -707,8 +757,13 @@ void CInventory::delete_FindItem(ITEMTYPEID _itemId)
 
 					for (auto iter = ChildTransform.begin(); iter != ChildTransform.end();)
 					{
-						if (dynamic_cast<CItem*>((*iter)->Get_Host())->Get_ItemTag().eItemID == SlotItemType.eItemID)
-							iter = ChildTransform.erase(iter);
+						if (OBJECTTAG::ITEM == (*iter)->Get_ObjectTag())
+						{
+							if (dynamic_cast<CItem*>((*iter)->Get_Host())->Get_ItemTag().eItemID == SlotItemType.eItemID)
+								iter = ChildTransform.erase(iter);
+							else
+								++iter;
+						}
 						else
 							++iter;
 					}
@@ -1030,7 +1085,6 @@ void CInventory::Free()
 		for_each(m_vecInventory.begin(), m_vecInventory.end(), CDeleteObj());
 		m_vecInventory.clear();
 	}
-
 
 	for_each(m_vDead.begin(), m_vDead.end(), CDeleteObj());
 	m_vDead.clear();

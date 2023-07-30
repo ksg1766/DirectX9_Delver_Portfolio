@@ -16,8 +16,8 @@ private:
 	virtual ~CCameraManager();
 
 public:
-	void	Update_Camera();
-	void	LateUpdate_Camera();
+	_int			Update_Camera(const _float& fTimeDelta);
+	void			LateUpdate_Camera();
 
 	_bool			Is_MapOn() { return m_bToggleMap; }
 

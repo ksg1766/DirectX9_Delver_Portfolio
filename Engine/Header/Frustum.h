@@ -25,7 +25,8 @@ private:
 	_vec3		m_vtx[8];
 	D3DXPLANE	m_tPlane[6];
 
-	CTempCamera* m_pCamera = nullptr;
+	//CTempCamera* m_pCamera = nullptr;
+	CGameObject* m_pCamera = nullptr;
 
 public:
 	virtual void Free() override;

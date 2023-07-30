@@ -62,6 +62,7 @@ private:
 	_float		m_fFrequency; // 흔드는 속도
 
 	_vec3		m_vOriginPos; // 원래 있던 위치
+
 	CAMERA_MODE m_eCamera_Mode; // 카메라 모드 상태
 
 

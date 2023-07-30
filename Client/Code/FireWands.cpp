@@ -221,7 +221,7 @@ HRESULT CFireWands::Add_Component(void)
 	{
 		CPlayer* pPlayer = dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer());
 	
-		m_pTransform->Set_Parent(SceneManager()->Get_Scene()->Get_MainPlayer()->m_pTransform);
+		m_pTransform->Set_Parent(pPlayer->m_pTransform);
 		m_pTransform->Copy_RUL(SceneManager()->Get_Scene()->Get_MainPlayer()->m_pTransform->m_vInfo);
 
 		for (int i = 0; i < ID_END; ++i)

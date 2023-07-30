@@ -8,6 +8,8 @@
 #include "Player.h"
 #include "EffectSquare.h"
 #include "EffectDamage.h"
+#include "CameraManager.h"
+#include "FlyingCamera.h"
 
 static _int g_iCount = 0;
 
@@ -340,10 +342,7 @@ void CTempItem::OnCollisionStay(CCollider* _pOther)
 		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_BREAK);
 		CSoundManager::GetInstance()->PlaySound(L"clang_02.mp3", CHANNELID::SOUND_BREAK, 1.f);
 
-		CDynamicCamera* pDynamic = dynamic_cast<CDynamicCamera*>
-			(SceneManager()->Get_ObjectList(LAYERTAG::ENVIRONMENT, OBJECTTAG::CAMERA).front());
-
-		pDynamic->Shake_Camera();
+		dynamic_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam())->Shake_Camera();
 	}
 }
 

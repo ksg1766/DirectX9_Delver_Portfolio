@@ -13,7 +13,7 @@ class CInventory;
 
 END
 
-class CTerrain;
+class CFlyingCamera;
 class CPlayer : public Engine::CGameObject
 {
 private:
@@ -53,7 +53,7 @@ public:
 	_float			Get_Speed()				{ return m_fSpeed; }
 	_bool			IsJump()				{ return m_IsJump; }
 	CRigidBody*		Get_RigidBody()			{ return m_pRigidBody; }
-	CStateMachine* Get_StateMachine()		{ return m_pStateMachine; }
+	CStateMachine*	Get_StateMachine()		{ return m_pStateMachine; }
 
 	_bool			IsThrowShield()			{ return m_bThrowShield; }
 	_bool			IsTalk()				{ return m_bIsTalk; }
@@ -100,6 +100,8 @@ public:
 	void			Create_Item(CCollider*	_pOther);
 	void			Foot_Sound();
 private:
+	CFlyingCamera*	m_pMainCamera = nullptr;
+
 	CRigidBody*		m_pRigidBody = nullptr;
 	CStateMachine*	m_pStateMachine = nullptr;
 	CPlayerBf*		m_pBuffer = nullptr;

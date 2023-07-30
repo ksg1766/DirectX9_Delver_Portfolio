@@ -22,6 +22,8 @@
 
 // 연출 테스트
 #include "GameManager.h"
+#include "CameraManager.h"
+#include "FlyingCamera.h"
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CGameObject(pGraphicDev)
@@ -56,6 +58,11 @@ HRESULT CPlayer::Ready_Object(void)
 	m_iRootCount = 0;
 	m_fAddictionTime = 0.f;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
+
+	m_pMainCamera = dynamic_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam());
+	m_pMainCamera->m_pTransform->Copy_RUL_AddPos(m_pTransform->m_vInfo);
+	//CCameraManager::GetInstance()->Get_CurrentCam()->m_pTransform->Translate(_vec3(0.f, 0.5f, 0.f));
+	m_pMainCamera->m_pTransform->Set_Parent(m_pTransform);
 
 	m_pTransform->Scale(_vec3(0.9f, 0.9f, 0.9f));
 	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
@@ -116,10 +123,9 @@ HRESULT CPlayer::Ready_Object(void)
 
 Engine::_int CPlayer::Update_Object(const _float& fTimeDelta)
 {
-	//Engine::Renderer()->Add_RenderGroup(RENDER_NONALPHA, this);
-	// 
-	//
-	Key_Input(fTimeDelta);
+	if (!m_pMainCamera->Get_CameraMode())
+		Key_Input(fTimeDelta);
+	
 	if (SceneManager()->Get_GameStop()) { return 0; }
 	m_pRigidBody->Update_RigidBody(fTimeDelta);
 
@@ -259,7 +265,8 @@ HRESULT CPlayer::Add_Component(void)
 
 void CPlayer::Key_Input(const _float& fTimeDelta)
 {
-	CGameObject* pGameObject = SceneManager()->Get_ObjectList(LAYERTAG::ENVIRONMENT, OBJECTTAG::CAMERA).front();
+	//CGameObject* pGameObject = SceneManager()->Get_ObjectList(LAYERTAG::ENVIRONMENT, OBJECTTAG::CAMERA).front();
+	CGameObject* pGameObject = CCameraManager::GetInstance()->Get_CurrentCam();
 
 	_long dwMouseMove;
 
@@ -267,7 +274,7 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 	_vec3 vRight = m_pTransform->m_vInfo[INFO_RIGHT];
 	_vec3 vUp = m_pTransform->m_vInfo[INFO_UP];
 
-	_bool bCameraOn = static_cast<CDynamicCamera*>(pGameObject)->Get_MouseFix();
+	_bool bCameraOn = static_cast<CFlyingCamera*>(pGameObject)->Is_MouseFree();
 
 #pragma region 연출 테스트
 
@@ -282,8 +289,6 @@ if (Engine::InputDev()->Key_Pressing(DIK_LCONTROL) && Engine::InputDev()->Key_Do
 	}
 
 #pragma endregion 연출 테스트
-
-	
 
 	if (0 != (dwMouseMove = Engine::InputDev()->Get_DIMouseMove(DIMS_X)) && !bCameraOn)
 	{
@@ -315,13 +320,15 @@ if (Engine::InputDev()->Key_Pressing(DIK_LCONTROL) && Engine::InputDev()->Key_Do
 		if (Engine::InputDev()->Key_Down(DIK_SPACE))
 		{
 			if (!Get_UseUI())
-			if (!m_IsJump)
 			{
-				m_pRigidBody->Add_Force(_vec3(0.f, 1.1f * m_fSpeed, 0.f));
-				m_pRigidBody->UseGravity(true);
+				if (!m_IsJump)
+				{
+					m_pRigidBody->Add_Force(_vec3(0.f, 1.1f * m_fSpeed, 0.f));
+					m_pRigidBody->UseGravity(true);
 
-				m_bTestJump = true;
-				//m_IsJump = true;
+					m_bTestJump = true;
+					//m_IsJump = true;
+				}
 			}
 		}
 
@@ -330,14 +337,14 @@ if (Engine::InputDev()->Key_Pressing(DIK_LCONTROL) && Engine::InputDev()->Key_Do
 		{
 			if (Engine::UIManager()->Set_InvenUse())
 			{
-				static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(true);
+				static_cast<CFlyingCamera*>(pGameObject)->Set_MouseFix(true);
 				SceneManager()->Set_GameStop(false);
 				Set_UseUI(true);
 				// 사용자 마우스 못 받게.
 			}
 			else
 			{
-				static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(false);
+				static_cast<CFlyingCamera*>(pGameObject)->Set_MouseFix(false);
 				Set_UseUI(false);
 			}
 		}
@@ -345,13 +352,13 @@ if (Engine::InputDev()->Key_Pressing(DIK_LCONTROL) && Engine::InputDev()->Key_Do
 		{
 			if (Engine::UIManager()->Set_StatUse())
 			{
-				static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(true);
+				static_cast<CFlyingCamera*>(pGameObject)->Set_MouseFix(true);
 				SceneManager()->Set_GameStop(false);
 				Set_UseUI(true);
 			}
 			else
 			{
-				static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(false);
+				static_cast<CFlyingCamera*>(pGameObject)->Set_MouseFix(false);
 				Set_UseUI(false);
 			}
 
@@ -359,12 +366,13 @@ if (Engine::InputDev()->Key_Pressing(DIK_LCONTROL) && Engine::InputDev()->Key_Do
 		else if (Engine::InputDev()->Key_Down(DIK_M))
 		{
 			if (Engine::UIManager()->Set_MapUse()) {
-				static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(true);
+				static_cast<CFlyingCamera*>(pGameObject)->Set_MouseFix(true);
 				SceneManager()->Set_GameStop(true);
 				Set_UseUI(true);
 			}
-			else {
-				static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(false);
+			else
+			{
+				static_cast<CFlyingCamera*>(pGameObject)->Set_MouseFix(false);
 				SceneManager()->Set_GameStop(false);
 				Set_UseUI(false);
 			}
@@ -372,19 +380,19 @@ if (Engine::InputDev()->Key_Pressing(DIK_LCONTROL) && Engine::InputDev()->Key_Do
 		else if (Engine::InputDev()->Key_Down(DIK_ESCAPE))
 		{
 			if (Engine::UIManager()->Set_EscUse()) {
-				static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(true);
+				static_cast<CFlyingCamera*>(pGameObject)->Set_MouseFix(true);
 				SceneManager()->Set_GameStop(true);
 				Set_UseUI(true);
 			}
 			else
 			{
-				static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(false);
+				static_cast<CFlyingCamera*>(pGameObject)->Set_MouseFix(false);
 				SceneManager()->Set_GameStop(false);
 				Set_UseUI(false);
 			}
 		}
 #pragma region 아이템 버리기
-		if (Engine::InputDev()->Key_Down(DIK_Q) && m_bItemEquipRight == true)
+		if (Engine::InputDev()->Key_Pressing(DIK_LCONTROL) && Engine::InputDev()->Key_Down(DIK_Q) && m_bItemEquipRight == true)
 		{
 			// 오른손에 들고 있는 아이템만 Q키로 버리기 가능
 			ITEMTYPEID ItemType = dynamic_cast<CItem*>(m_pCurrentEquipItemRight)->Get_ItemTag();
@@ -439,13 +447,6 @@ if (Engine::InputDev()->Key_Pressing(DIK_LCONTROL) && Engine::InputDev()->Key_Do
 		{
 			Use_SlotItem(KEYSLOT_FIVE);
 		}
-
-		/*if (Engine::InputDev()->Key_Down(DIK_DELETE))
-		{
-			vector<CGameObject*>& vecMonsterList = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::MONSTER);
-			if (!vecMonsterList.empty())
-				CPoolManager::GetInstance()->Delete_Object(vecMonsterList.back());
-		}*/
 	}
 }
 
@@ -1216,11 +1217,8 @@ void CPlayer::IsAddiction(const _float& fTimeDelta)
 		if (m_fAddictionTime > 1.5 && m_iAddictionCount < 5)
 		{
 			this->Get_Stat()->Get_Stat()->fHP -= 1;
-			CDynamicCamera* pDynamic =
-				dynamic_cast<CDynamicCamera*>(SceneManager()->
-					Get_ObjectList(LAYERTAG::ENVIRONMENT, OBJECTTAG::CAMERA).front());
 
-			pDynamic->Shake_Camera();
+			dynamic_cast<CDynamicCamera*>(CCameraManager::GetInstance()->Get_CurrentCam())->Shake_Camera();
 
 			m_fAddictionTime = 0.f;
 			m_iAddictionCount = 0;

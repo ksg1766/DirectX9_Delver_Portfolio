@@ -5,7 +5,7 @@
 #include "Dog_Idle.h"
 #include "Dog_Stand.h"
 #include "Player.h"
-#include "DynamicCamera.h"
+#include "FlyingCamera.h"
 
 CNpc_Dog::CNpc_Dog(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CNpc(pGraphicDev)
@@ -93,7 +93,7 @@ _int CNpc_Dog::Update_Object(const _float& fTimeDelta)
 				if (!m_bTalking)
 					m_bTalking = true;
 
-				static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(true);
+				static_cast<CFlyingCamera*>(pGameObject)->Set_MouseFix(true);
 				CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_UI);
 				CSoundManager::GetInstance()->PlaySound(L"ui_dialogue_open.mp3", CHANNELID::SOUND_UI, 1.f);
 			}
@@ -106,7 +106,7 @@ _int CNpc_Dog::Update_Object(const _float& fTimeDelta)
 				m_bStand = false;
 				rPlayer.Set_Talk(false);
 
-				static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(false);
+				static_cast<CFlyingCamera*>(pGameObject)->Set_MouseFix(false);
 				CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_UI);
 				CSoundManager::GetInstance()->PlaySound(L"ui_dialogue_close.mp3", CHANNELID::SOUND_UI, 1.f);
 			}

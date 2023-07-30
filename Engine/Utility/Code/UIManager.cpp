@@ -508,7 +508,7 @@ void CUIManager::Render_UI(LPDIRECT3DDEVICE9 pGraphicDev)
 
 	pGraphicDev->SetViewport(&m_BackupViewPort);                // UI 전체 출력 후 백업해둔 이전 뷰포트로 되돌림.
 
-	for_each(m_vecDead.begin(), m_vecDead.end(), CDeleteObj());
+	//for_each(m_vecDead.begin(), m_vecDead.end(), CDeleteObj());
 	m_vecDead.clear();
 }
 
