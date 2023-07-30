@@ -233,6 +233,10 @@
     <ClInclude Include="..\Header\EffectPastTrace.h" />
     <ClInclude Include="..\Header\Bread.h" />
     <ClInclude Include="..\Header\Cheese.h" />
+    <ClInclude Include="..\Header\EffectWaterBubble.h" />
+    <ClInclude Include="..\Header\EffectWaterdrop.h" />
+    <ClInclude Include="..\Header\EffectWaterfall.h" />
+    <ClInclude Include="..\Header\EffectWaterMove.h" />
     <ClInclude Include="..\Header\EpicBow.h" />
     <ClInclude Include="..\Header\EffectStar.h" />
     <ClInclude Include="..\Header\EquipBox.h" />
@@ -273,6 +277,7 @@
     <ClInclude Include="..\Header\Roastmeat.h" />
     <ClInclude Include="..\Header\SpiderRay.h" />
     <ClInclude Include="..\Header\Rock.h" />
+    <ClInclude Include="..\Header\UIbosshp.h" />
     <ClInclude Include="..\Header\UILevelUp.h" />
     <ClInclude Include="..\Header\UILevelUpCard.h" />
     <ClInclude Include="..\Header\VillageTriger.h" />
@@ -482,6 +487,10 @@
     <ClCompile Include="..\Code\EffectPastTrace.cpp" />
     <ClCompile Include="..\Code\Bread.cpp" />
     <ClCompile Include="..\Code\Cheese.cpp" />
+    <ClCompile Include="..\Code\EffectWaterBubble.cpp" />
+    <ClCompile Include="..\Code\EffectWaterdrop.cpp" />
+    <ClCompile Include="..\Code\EffectWaterfall.cpp" />
+    <ClCompile Include="..\Code\EffectWaterMove.cpp" />
     <ClCompile Include="..\Code\EpicBow.cpp" />
     <ClCompile Include="..\Code\EffectStar.cpp" />
     <ClCompile Include="..\Code\EquipBox.cpp" />
@@ -520,6 +529,7 @@
     <ClCompile Include="..\Code\Roastmeat.cpp" />
     <ClCompile Include="..\Code\SpiderRay.cpp" />
     <ClCompile Include="..\Code\Rock.cpp" />
+    <ClCompile Include="..\Code\UIbosshp.cpp" />
     <ClCompile Include="..\Code\UILevelUp.cpp" />
     <ClCompile Include="..\Code\UILevelUpCard.cpp" />
     <ClCompile Include="..\Code\VillageTriger.cpp" />

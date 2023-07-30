@@ -30,11 +30,13 @@ private:
 
 private:
 	CTexture*   m_pNumberTextureCom;
-	_int        m_iCurrentHp;
-	_int        m_iMaxHp;
+	_float      m_fCurrentHp;
+	_float      m_fMaxHp;
 
 	_int        m_iCurrentOneNum;
 	_int        m_iCurrentTwoNum;
+	_int        m_iMaxOneNum;
+	_int        m_iMaxTwoNum;
 
 	_float      m_fPosition;
 	_float      m_flength;

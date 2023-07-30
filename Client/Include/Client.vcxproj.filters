@@ -838,6 +838,21 @@
     <Filter Include="03. GameObject\01. Stage\05. Cube\05.Lava">
       <UniqueIdentifier>{00f3d79b-2d8d-457d-8bef-6886eed7b41e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. GameObject\03. UI\19. UIBosshp">
+      <UniqueIdentifier>{7413e059-2649-424e-8828-edc53b0e32a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\07. Effect\24. EffectWaterfall">
+      <UniqueIdentifier>{144b98c0-53f2-4df5-89d7-e6f849def92b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\07. Effect\24. EffectWaterfall\00. EffectWaterdrop">
+      <UniqueIdentifier>{ffc795aa-cf99-441d-82b4-600889cf0e2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\07. Effect\24. EffectWaterfall\01. EffectWaterMove">
+      <UniqueIdentifier>{02747508-b9e0-4ed9-8ff4-bcd92ea29f00}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\07. Effect\24. EffectWaterfall\02. EffectWaterBubble">
+      <UniqueIdentifier>{f6733735-e178-41ed-88e5-2f9212b63ce5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -1646,6 +1661,21 @@
     <ClInclude Include="..\Header\Lava.h">
       <Filter>03. GameObject\01. Stage\05. Cube\05.Lava</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\UIbosshp.h">
+      <Filter>03. GameObject\03. UI\19. UIBosshp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\EffectWaterfall.h">
+      <Filter>03. GameObject\07. Effect\24. EffectWaterfall</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\EffectWaterdrop.h">
+      <Filter>03. GameObject\07. Effect\24. EffectWaterfall\00. EffectWaterdrop</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\EffectWaterMove.h">
+      <Filter>03. GameObject\07. Effect\24. EffectWaterfall\01. EffectWaterMove</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\EffectWaterBubble.h">
+      <Filter>03. GameObject\07. Effect\24. EffectWaterfall\02. EffectWaterBubble</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -2414,6 +2444,21 @@
     </ClCompile>
     <ClCompile Include="..\Code\Lava.cpp">
       <Filter>03. GameObject\01. Stage\05. Cube\05.Lava</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UIbosshp.cpp">
+      <Filter>03. GameObject\03. UI\19. UIBosshp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\EffectWaterfall.cpp">
+      <Filter>03. GameObject\07. Effect\24. EffectWaterfall</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\EffectWaterdrop.cpp">
+      <Filter>03. GameObject\07. Effect\24. EffectWaterfall\00. EffectWaterdrop</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\EffectWaterMove.cpp">
+      <Filter>03. GameObject\07. Effect\24. EffectWaterfall\01. EffectWaterMove</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\EffectWaterBubble.cpp">
+      <Filter>03. GameObject\07. Effect\24. EffectWaterfall\02. EffectWaterBubble</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
