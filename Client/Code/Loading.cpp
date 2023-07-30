@@ -341,7 +341,10 @@ _uint CLoading::Loading_ForStage()
 		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/feet_default_01.mp3", "feet_default_01.mp3"), E_FAIL);
 		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/feet_wood_01.mp3", "feet_wood_01.mp3"), E_FAIL);
 		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/attack_04.mp3", "attack_04.mp3"), E_FAIL);
-
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/levelup.mp3", "levelup.mp3"), E_FAIL);
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/splash2.mp3", "splash2.mp3"), E_FAIL);
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/feet_water_01.mp3", "feet_water_01.mp3"), E_FAIL);
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/drop_water_03.mp3", "drop_water_03.mp3"), E_FAIL);
 
 		//WEAPON
 		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/bow.wav", "bow.wav"), E_FAIL);
@@ -363,6 +366,7 @@ _uint CLoading::Loading_ForStage()
 		// Inventory
 		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/grab_item.mp3", "grab_item.mp3"), E_FAIL);
 		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/open_inventory.mp3", "open_inventory.mp3"), E_FAIL);
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/drop_item.mp3", "drop_item.mp3"), E_FAIL);
 
 		// Collision && Break 
 		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/break_wood_01.mp3", "break_wood_01.mp3"), E_FAIL);

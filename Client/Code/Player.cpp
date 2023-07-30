@@ -173,12 +173,7 @@ Engine::_int CPlayer::Update_Object(const _float& fTimeDelta)
 	}
 
 	if (m_pCurrentEquipItemRight)
-	{
-		m_pStat->Get_Stat()->iDamageMax = iDefalutDamageMax + dynamic_cast<CItem*>(m_pCurrentEquipItemRight)->Get_ItemStat()->Get_Stat()->iDamageMax;
-		m_pStat->Get_Stat()->iDamageMin = iDefalutDamageMin + dynamic_cast<CItem*>(m_pCurrentEquipItemRight)->Get_ItemStat()->Get_Stat()->iDamageMin;
-
-		m_bEquipStat = true;
-	}
+		Equip_Weapon(m_pCurrentEquipItemRight);
 	else
 	{
 		m_pStat->Get_Stat()->iDamageMax = iDefalutDamageMax;
@@ -409,6 +404,27 @@ if (Engine::InputDev()->Key_Pressing(DIK_LCONTROL) && Engine::InputDev()->Key_Do
 				Engine::UIManager()->Delete_FindItemUI(ItemType);
 
 				// 1개만 가지고 있었기에 버림으로 인해 보유 X, 다음 아이템을 들기 위한 초기화
+				vector<CGameObject*>&vecWorldItem = m_pInventory->Get_DropInven();
+
+				auto FindDropItem = [&ItemType](CGameObject* Item)
+				{
+					if (CItem* ItemCast = dynamic_cast<CItem*>(Item))
+						return ItemCast->Get_ItemTag().eItemID == ItemType.eItemID;
+
+					return false;
+				};
+
+				auto Itemiter = find_if(vecWorldItem.begin(), vecWorldItem.end(), FindDropItem);
+
+				if (Itemiter != vecWorldItem.end())
+				{
+					dynamic_cast<CItem*>(*Itemiter)->Set_WorldItem(true);
+					dynamic_cast<CItem*>(*Itemiter)->Set_DropItem(true);
+					dynamic_cast<CItem*>(*Itemiter)->Set_BillBoard();
+					vecWorldItem.erase(Itemiter);
+				}
+
+
 				m_pCurrentEquipItemRight = nullptr;
 				m_pPrevEquipItemRight    = nullptr;
 				m_bItemEquipRight        = false;
@@ -1184,7 +1200,40 @@ void CPlayer::Add_Exp(CGameObject* pExp)
 		m_pStat->Get_Stat()->iExp = iResultExp;
 
 		m_pStat->Get_Stat()->iExpMax *= 4;
+		m_pStat->Get_Stat()->fHP = m_pStat->Get_Stat()->fMaxHP;
+
+		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_PLAYER);
+		CSoundManager::GetInstance()->PlaySound(L"levelup.mp3", CHANNELID::SOUND_PLAYER, 0.7f);
+
+		Engine::UIManager()->Show_PopupUI(Engine::UIPOPUPLAYER::POPUP_LEVELUP);
 	}
+}
+
+void CPlayer::Equip_Weapon(CGameObject* pWeapon)
+{
+	ITEMTYPEID eItemType = dynamic_cast<CItem*>(pWeapon)->Get_ItemTag();
+
+	switch (eItemType.eItemID)
+	{
+	case ITEMID::WEAPON_SWORD:
+		m_pStat->Get_Stat()->iDamageMax = iDefalutDamageMax + dynamic_cast<CItem*>(m_pCurrentEquipItemRight)->Get_ItemStat()->Get_Stat()->iDamageMax + (static_cast<_int>(m_pStat->Get_Stat()->fAttack) % 4);
+		m_pStat->Get_Stat()->iDamageMin = iDefalutDamageMin + dynamic_cast<CItem*>(m_pCurrentEquipItemRight)->Get_ItemStat()->Get_Stat()->iDamageMin + (static_cast<_int>(m_pStat->Get_Stat()->fAttack) % 4);
+		break;
+	case ITEMID::WEAPON_BOW:
+		m_pStat->Get_Stat()->iDamageMax = iDefalutDamageMax + dynamic_cast<CItem*>(m_pCurrentEquipItemRight)->Get_ItemStat()->Get_Stat()->iDamageMax + (static_cast<_int>(m_pStat->Get_Stat()->fAgility) % 4);
+		m_pStat->Get_Stat()->iDamageMin = iDefalutDamageMin + dynamic_cast<CItem*>(m_pCurrentEquipItemRight)->Get_ItemStat()->Get_Stat()->iDamageMin + (static_cast<_int>(m_pStat->Get_Stat()->fAgility) % 4);
+		break;
+	case ITEMID::WEAPON_WAND3:
+		m_pStat->Get_Stat()->iDamageMax = iDefalutDamageMax + dynamic_cast<CItem*>(m_pCurrentEquipItemRight)->Get_ItemStat()->Get_Stat()->iDamageMax + (static_cast<_int>(m_pStat->Get_Stat()->fMagic) % 4);
+		m_pStat->Get_Stat()->iDamageMin = iDefalutDamageMin + dynamic_cast<CItem*>(m_pCurrentEquipItemRight)->Get_ItemStat()->Get_Stat()->iDamageMin + (static_cast<_int>(m_pStat->Get_Stat()->fMagic) % 4);
+		break;
+	case ITEMID::WEAPON_EPICBOW:
+		m_pStat->Get_Stat()->iDamageMax = iDefalutDamageMax + dynamic_cast<CItem*>(m_pCurrentEquipItemRight)->Get_ItemStat()->Get_Stat()->iDamageMax + (static_cast<_int>(m_pStat->Get_Stat()->fAgility) % 4);
+		m_pStat->Get_Stat()->iDamageMin = iDefalutDamageMin + dynamic_cast<CItem*>(m_pCurrentEquipItemRight)->Get_ItemStat()->Get_Stat()->iDamageMin + (static_cast<_int>(m_pStat->Get_Stat()->fAgility) % 4);
+		break;
+	}
+
+	m_bEquipStat = true;
 }
 
 void CPlayer::IsAttack(CBasicStat* _MonsterStat)
@@ -1431,14 +1480,14 @@ void CPlayer::Foot_Sound()
 	}
 	else if (SceneManager()->Get_Scene()->Get_SceneTag() == SCENETAG::STAGE)
 	{
-		//if (!IsJump() && (m_pStateMachine->Get_State() == STATE::ROMIMG || m_pStateMachine->Get_State() == STATE::ATTACK))
-		//	CSoundManager::GetInstance()->PlaySound(L"feet_wood_01.mp3", CHANNELID::SOUND_PLAYER, 1.f);
-		//
-		//if (IsJump() && m_bTestJump)
-		//{
-		//	CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_PLAYER);
-		//	m_bTestJump = false;
-		//}
+		if (!IsJump() && (m_pStateMachine->Get_State() == STATE::ROMIMG || m_pStateMachine->Get_State() == STATE::ATTACK) && InWater())
+			CSoundManager::GetInstance()->PlaySound(L"splash2.mp3", CHANNELID::SOUND_PLAYER, 1.f);
+		
+		if (IsJump() && m_bTestJump)
+		{
+			CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_PLAYER);
+			m_bTestJump = false;
+		}
 	}
 }
 

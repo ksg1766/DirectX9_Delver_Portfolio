@@ -110,6 +110,20 @@ _int CBow::Update_Object(const _float& fTimeDelta)
 	CItem* ItemType = dynamic_cast<CItem*>(pPlayer->Get_CurrentEquipRight());
 	ITEMTYPEID ItemID = {};
 
+	if (Get_WorldItem())
+	{
+
+		if (m_bDropAnItem)
+		{
+			DropanItem(pPlayer);
+
+			m_pRigidBody->UseGravity(true);
+			m_pRigidBody->Update_RigidBody(fTimeDelta);
+		}
+		else
+			m_pRigidBody->UseGravity(false);
+	}
+
 	if (ItemType != nullptr)
 		ItemID = ItemType->Get_ItemTag();
 
@@ -182,7 +196,11 @@ void CBow::LateUpdate_Object(void)
 	if (SceneManager()->Get_GameStop()) { return; }
 
 	__super::LateUpdate_Object();
+
 	m_pTransform->Scale(_vec3(0.3f, 0.3f, 0.3f));
+
+	if(m_bDropAnItem)
+	m_pCollider->SetCenterPos(m_pTransform->m_vInfo[INFO_POS] - _vec3(0.f, 0.3f, 0.f));
 }
 
 void CBow::Render_Object(void)
@@ -254,6 +272,10 @@ HRESULT CBow::Add_Component(void)
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::ANIMATOR, pComponent);
 
+	pComponent = m_pRigidBody = dynamic_cast<CRigidBody*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_RigidBody"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::RIGIDBODY, pComponent);
+
 	//pComponent = dynamic_cast<CBillBoard*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BillBoard"));
 	//NULL_CHECK_RETURN(pComponent, E_FAIL);
 	//m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::BILLBOARD, pComponent);
@@ -290,12 +312,24 @@ void CBow::OnCollisionEnter(CCollider* _pOther)
 	if (!(_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::MONSTER) &&
 		!(_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::PLAYER))
 		__super::OnCollisionEnter(_pOther);
+
+	if (Get_WorldItem())
+	{
+		__super::OnCollisionEnter(_pOther);
+		m_bDropAnItem = false;
+	}
 	// 몬스터거나 플레이어면 밀어내지않는다.
 }
 
 void CBow::OnCollisionStay(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
+
+	if (Get_WorldItem())
+	{
+		__super::OnCollisionStay(_pOther);
+		m_bDropAnItem = false;
+	}
 }
 
 void CBow::OnCollisionExit(CCollider* _pOther)

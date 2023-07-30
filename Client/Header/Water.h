@@ -27,6 +27,9 @@ public:
 	_ubyte				Get_TextureNumber() { return m_iTextureNumber; }
 	void				Set_TextureNumber(_uint _iTextureNumber) { m_iTextureNumber = _iTextureNumber; }
 
+public:
+
+
 private:
 	HRESULT				Add_Component(void);
 

@@ -1,6 +1,7 @@
 #include "stdafx.h"
+#include "SoundManager.h"
 #include "Water.h"
-
+#include "Player.h"
 #include "Export_Function.h"
 
 CWater::CWater(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -20,6 +21,7 @@ CWater::~CWater()
 HRESULT CWater::Ready_Object(void)
 {
 	m_eObjectTag = OBJECTTAG::BLOCK;
+	m_eBlockTag = BLOCKTAG::WATER_BLOCK;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	m_iTextureNumber = 0;
@@ -60,6 +62,22 @@ void CWater::Render_Object(void)
 
 void CWater::OnCollisionEnter(CCollider* _pOther)
 {
+	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::PLAYER)
+	{
+		if (!dynamic_cast<CPlayer*>(_pOther->Get_Host())->DropWater())
+		{
+			CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_WATER);
+			CSoundManager::GetInstance()->PlaySound(L"drop_water_03.mp3", CHANNELID::SOUND_WATER, 1.f);
+			
+			dynamic_cast<CPlayer*>(_pOther->Get_Host())->Set_DropWather(true);
+		}
+		else
+		{
+
+		}
+			//CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_WATER);
+
+	}
 }
 
 void CWater::OnCollisionStay(CCollider* _pOther)

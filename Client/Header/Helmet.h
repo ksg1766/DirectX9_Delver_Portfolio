@@ -8,6 +8,7 @@ class CRcTex;
 class CTexture;
 class CBasicStat;
 class CBillBoard;
+class CRigidBody;
 
 END
 
@@ -38,6 +39,7 @@ private:
 	CRcTex* m_pBuffer = nullptr;
 	CTexture* m_pTexture = nullptr;
 	CBillBoard* m_pBillBoard = nullptr;
+	CRigidBody* m_pRigidBody = nullptr;
 
 public:
 	static CHelmet* Create(LPDIRECT3DDEVICE9 pGraphicDev, _bool _Item);

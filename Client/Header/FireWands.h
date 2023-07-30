@@ -6,6 +6,7 @@ BEGIN(Engine)
 
 class CRcTex;
 class CTexture;
+class CRigidBody;
 
 END
 
@@ -33,6 +34,7 @@ public:
 private:
 	CRcTex*		m_pBuffer = nullptr;
 	CTexture*	m_pTexture = nullptr;
+	CRigidBody* m_pRigidBody = nullptr;
 
 	_int		m_iAttackTick;
 	_int		m_iMoveTick;

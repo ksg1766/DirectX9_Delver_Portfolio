@@ -2,6 +2,7 @@
 #include "..\Header\UIitem.h"
 #include "UIequipmentslot.h"
 #include "Player.h"
+#include "SoundManager.h"
 #include <UIbasicslot.h>
 #include <UIemptyslot.h>
 
@@ -51,8 +52,11 @@ void CUIitem::LateUpdate_Object(void)
 
 void CUIitem::Render_Object()
 {
-	if(m_bUIDelete)
+	if (m_bUIDelete)
+	{
 		Engine::UIManager()->Delete_FindItemUI(m_ItemID);
+		m_bUIDelete = false;
+	}
 
 	if (m_IsDead)
 		return;
@@ -170,6 +174,9 @@ void CUIitem::Key_Input(void)
 				Engine::UIManager()->m_bMouse = true;
 				Engine::UIManager()->Set_PickingItemUI(this);
 
+				CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_INVENTORY);
+				CSoundManager::GetInstance()->PlaySound(L"grab_item.mp3", CHANNELID::SOUND_INVENTORY, 1.f);
+
 				// 아이템 장착 아이템 타입인 경우 해당 UINumber 슬롯을 찾고 해당 슬롯 이미지 변경
 				if (m_ItemID.eItemType == ITEMTYPE_GENERALITEM || m_ItemID.eItemType == ITEMTYPE_EQUIPITEM) {
 					CGameObject* SlotObj = Engine::UIManager()->Get_PopupObject(Engine::UIPOPUPLAYER::POPUP_EQUIPMENT, Engine::UILAYER::UI_DOWN, UIID_SLOTEQUIPMENT, m_UINumber);
@@ -199,7 +206,48 @@ void CUIitem::Key_Input(void)
 					Engine::UIManager()->m_bMouse = false;
 					Engine::UIManager()->Set_PickingItemUI(nullptr);
 
+
 					if(m_ItemID.iCount == 1) { // 버리려는 아이템이 1개일 시 버리고 장착하고 있던 아이템일 시 장착 해제
+						UIOBJECTTTAG UIParentSlotObjID;
+						_uint        UIParentSlotNumber;
+						CGameObject* pSlotObj = Get_Parent();
+
+						dynamic_cast<CTempUI*>(pSlotObj)->Get_UIObjID(UIParentSlotObjID, UIParentSlotNumber);
+						dynamic_cast<CTempUI*>(pSlotObj)->Set_BeforeChild(dynamic_cast<CTempUI*>(Get_Parent())->Get_Child());
+						dynamic_cast<CTempUI*>(pSlotObj)->Set_Child(nullptr);
+						dynamic_cast<CTempUI*>(pSlotObj)->Set_EmptyBool(true);
+
+						if ((m_ItemID.eItemType != ITEMTYPE_GENERALITEM && m_ItemID.eItemType != ITEMTYPE_EQUIPITEM) || UIParentSlotObjID != UIID_SLOTEQUIPMENT) {
+							pInventory->delete_FindItem(m_ItemID);
+						}
+						else {
+							dynamic_cast<CUIequipmentslot*>(pSlotObj)->Set_ThrowItem(m_ItemID.eItemID);
+						}
+						// TODO
+
+
+						vector<CGameObject*>& vecWorldItem = pPlayer->Get_Inventory()->Get_DropInven();
+
+						ITEMTYPEID eItemID = m_ItemID;
+
+						auto FindDropItem = [&eItemID](CGameObject* Item)
+						{
+							if (CItem* ItemCast = dynamic_cast<CItem*>(Item))
+								return ItemCast->Get_ItemTag().eItemID == eItemID.eItemID;
+
+							return false;
+						};
+
+						auto Itemiter = find_if(vecWorldItem.begin(), vecWorldItem.end(), FindDropItem);
+
+						if (Itemiter != vecWorldItem.end())
+						{
+							dynamic_cast<CItem*>(*Itemiter)->Set_WorldItem(true);
+							dynamic_cast<CItem*>(*Itemiter)->Set_DropItem(true);
+							dynamic_cast<CItem*>(*Itemiter)->Set_BillBoard();
+							vecWorldItem.erase(Itemiter);
+						}
+
 						if (m_ItemID.eItemType == ITEMTYPE_WEAPONITEM && pPlayer->Get_CurrentEquipRight() != nullptr && m_ItemID.eItemID == dynamic_cast<CItem*>(pPlayer->Get_CurrentEquipRight())->Get_ItemTag().eItemID)
 						{ // 오른 손 무기 버렸을 시 
 							pPlayer->Set_PrevEquipRight(nullptr);
@@ -213,21 +261,8 @@ void CUIitem::Key_Input(void)
 							pPlayer->Set_ItemEquipLeft(false);
 						}
 
-						UIOBJECTTTAG UIParentSlotObjID;
-						_uint        UIParentSlotNumber;
-						CGameObject* pSlotObj = Get_Parent();
-
-						dynamic_cast<CTempUI*>(pSlotObj)->Get_UIObjID(UIParentSlotObjID, UIParentSlotNumber);
-						dynamic_cast<CTempUI*>(pSlotObj)->Set_BeforeChild(dynamic_cast<CTempUI*>(Get_Parent())->Get_Child());
-						dynamic_cast<CTempUI*>(pSlotObj)->Set_Child(nullptr);
-						dynamic_cast<CTempUI*>(pSlotObj)->Set_EmptyBool(true);
-
-						if (m_ItemID.eItemType != ITEMTYPE_GENERALITEM && m_ItemID.eItemType != ITEMTYPE_EQUIPITEM || UIParentSlotObjID != UIID_SLOTEQUIPMENT) {
-							pInventory->delete_FindItem(m_ItemID);
-						}
-						else {
-							dynamic_cast<CUIequipmentslot*>(pSlotObj)->Set_ThrowItem(m_ItemID.eItemID);
-						}
+						CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_INVENTORY);
+						CSoundManager::GetInstance()->PlaySound(L"drop_item.mp3", CHANNELID::SOUND_INVENTORY, 1.f);
 
 						m_bUIDelete = true;
 					}
@@ -238,6 +273,34 @@ void CUIitem::Key_Input(void)
 						m_pTransform->m_vInfo[INFO_POS].x = Get_Parent()->m_pTransform->m_vInfo[INFO_POS].x;
 						m_pTransform->m_vInfo[INFO_POS].y = Get_Parent()->m_pTransform->m_vInfo[INFO_POS].y;
 						WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);
+						
+						// TODO
+
+						vector<CGameObject*>& vecWorldItem = pPlayer->Get_Inventory()->Get_DropInven();
+
+						ITEMTYPEID eItemID = m_ItemID;
+
+						auto FindDropItem = [&eItemID](CGameObject* Item)
+						{
+							if (CItem* ItemCast = dynamic_cast<CItem*>(Item))
+								return ItemCast->Get_ItemTag().eItemID == eItemID.eItemID;
+
+							return false;
+						};
+
+						auto Itemiter = find_if(vecWorldItem.begin(), vecWorldItem.end(), FindDropItem);
+
+						if (Itemiter != vecWorldItem.end())
+						{
+							dynamic_cast<CItem*>(*Itemiter)->Set_WorldItem(true);
+							dynamic_cast<CItem*>(*Itemiter)->Set_DropItem(true);
+							dynamic_cast<CItem*>(*Itemiter)->Set_BillBoard();
+							vecWorldItem.erase(Itemiter);
+						}
+
+						CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_INVENTORY);
+						CSoundManager::GetInstance()->PlaySound(L"drop_item.mp3", CHANNELID::SOUND_INVENTORY, 1.f);
+
 					}
 				}
 #pragma endregion 아이템 버리기

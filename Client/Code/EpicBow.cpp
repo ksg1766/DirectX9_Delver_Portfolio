@@ -69,6 +69,8 @@ HRESULT CEpicBow::Ready_Object(_bool _Item)
 		m_pAnimator->Add_Animation(STATE::ATTACK, pAnimation);
 
 		m_pAnimator->Set_Animation(STATE::IDLE);
+
+
 	}
 	else
 	{
@@ -89,9 +91,10 @@ HRESULT CEpicBow::Ready_Object(_bool _Item)
 	m_ItemID.iCount = 1;
 
 
+
 #pragma region EpicBow
-	m_pBasicStat->Get_Stat()->iDamageMax = 6.f;
-	m_pBasicStat->Get_Stat()->iDamageMin = 4.f;
+	m_pBasicStat->Get_Stat()->iDamageMax = 10.f;
+	m_pBasicStat->Get_Stat()->iDamageMin = 8.f;
 #pragma endregion
 
 	return S_OK;
@@ -109,6 +112,20 @@ _int CEpicBow::Update_Object(const _float& fTimeDelta)
 	CItem* ItemType = dynamic_cast<CItem*>(pPlayer->Get_CurrentEquipRight());
 	ITEMTYPEID ItemID = {};
 
+	if (Get_WorldItem())
+	{
+
+		if (m_bDropAnItem)
+		{
+			DropanItem(pPlayer);
+
+			m_pRigidBody->UseGravity(true);
+			m_pRigidBody->Update_RigidBody(fTimeDelta);
+		}
+		else
+			m_pRigidBody->UseGravity(false);
+	}
+
 	if (ItemType != nullptr)
 		ItemID = ItemType->Get_ItemTag();
 
@@ -123,6 +140,8 @@ _int CEpicBow::Update_Object(const _float& fTimeDelta)
 		_matrix matRot;
 		_vec3 vLook = *D3DXVec3Cross(&vLook, &m_pTransform->m_pParent->m_vInfo[INFO_UP],
 			&m_pTransform->m_pParent->m_vInfo[INFO_RIGHT]);
+
+		m_pRigidBody->UseGravity(false);
 
 		if (pPlayer->Get_Attack())
 		{
@@ -184,6 +203,9 @@ void CEpicBow::LateUpdate_Object(void)
 
 	__super::LateUpdate_Object();
 	m_pTransform->Scale(_vec3(0.3f, 0.3f, 0.3f));
+
+	if (m_bDropAnItem)
+	m_pCollider->SetCenterPos(m_pTransform->m_vInfo[INFO_POS] - _vec3(0.f, 0.3f, 0.f));
 }
 
 void CEpicBow::Render_Object(void)
@@ -257,6 +279,10 @@ HRESULT CEpicBow::Add_Component(void)
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::ANIMATOR, pComponent);
 	
 
+	pComponent = m_pRigidBody = dynamic_cast<CRigidBody*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_RigidBody"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::RIGIDBODY, pComponent);
+
 	//pComponent = dynamic_cast<CBillBoard*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BillBoard"));
 	//NULL_CHECK_RETURN(pComponent, E_FAIL);
 	//m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::BILLBOARD, pComponent);
@@ -294,11 +320,24 @@ void CEpicBow::OnCollisionEnter(CCollider* _pOther)
 		!(_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::PLAYER))
 		__super::OnCollisionEnter(_pOther);
 	// 몬스터거나 플레이어면 밀어내지않는다.
+
+
+	if (Get_WorldItem())
+	{
+		__super::OnCollisionEnter(_pOther);
+		m_bDropAnItem = false;
+	}
 }
 
 void CEpicBow::OnCollisionStay(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
+
+	if (Get_WorldItem())
+	{
+		__super::OnCollisionStay(_pOther);
+		m_bDropAnItem = false;
+	}
 }
 
 void CEpicBow::OnCollisionExit(CCollider* _pOther)

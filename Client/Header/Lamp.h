@@ -7,6 +7,7 @@ BEGIN(Engine)
 class CRcTex;
 class CTexture;
 class CBillBoard;
+class CRigidBody;
 
 END
 
@@ -36,6 +37,7 @@ private:
 	CRcTex* m_pBuffer = nullptr;
 	CTexture* m_pTexture = nullptr;
 	CBillBoard* m_pBillBoard = nullptr;
+	CRigidBody* m_pRigidBody = nullptr;
 
 	_int	m_iMoveTick;
 public:

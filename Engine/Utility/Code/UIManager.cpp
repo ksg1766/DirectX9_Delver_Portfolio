@@ -128,6 +128,11 @@ void CUIManager::Show_InvenItem(_uint iType)
 			{
 				iter->Set_Dead(false);
 			}
+			else if (iType == 3)
+			{
+				if (_UIObjID == UIID_SLOTBASIC)
+					iter->Set_Dead(false);
+			}
 		}
 	}
 }
@@ -252,6 +257,7 @@ void CUIManager::Add_ItemGameobject(CGameObject* pGameObject)
 			dynamic_cast<CTempUI*>(iter)->Set_EmptyBool(false);
 
 			Engine::UIManager()->Add_PopupGameobject(Engine::UIPOPUPLAYER::POPUP_ITEM, Engine::UILAYER::UI_DOWN, pGameObject);
+			Show_InvenItem(3);
 			return;
 		}
 	}

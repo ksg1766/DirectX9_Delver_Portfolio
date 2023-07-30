@@ -51,12 +51,9 @@ HRESULT CArrow::Ready_Object(CTransform* Weapon, CTransform* pOwner, _float _fSp
 	}
 
 	BASICSTAT* pOwnerStat = {};
+	CPlayer& rPlayer = *SceneManager()->Get_Scene()->Get_MainPlayer();
 
-	if (dynamic_cast<CItem*>(Weapon->Get_Host())->Get_ItemTag().eItemID == ITEMID::WEAPON_BOW)
-		pOwnerStat = dynamic_cast<CBow*>(Weapon->Get_Host())->Get_ItemStat()->Get_Stat();
-	else
-		pOwnerStat = dynamic_cast<CEpicBow*>(Weapon->Get_Host())->Get_ItemStat()->Get_Stat();
-
+	pOwnerStat = rPlayer.Get_Stat()->Get_Stat();
 
 	if (pOwnerStat != nullptr)
 	{

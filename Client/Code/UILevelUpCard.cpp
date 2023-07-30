@@ -77,27 +77,27 @@ void CUILevelUpCard::LateUpdate_Object(void)
 		switch (m_iTypeImage)
 		{
 		case 0: // AGILITY
-			m_iCurrentStatNumber = 1;
+			m_iCurrentStatNumber = SceneManager()->Get_Scene()->Get_MainPlayer()->Get_Stat()->Get_Stat()->fAgility;;
 			break;
 
 		case 1: // ATTACK 
-			m_iCurrentStatNumber = 2;
+			m_iCurrentStatNumber = SceneManager()->Get_Scene()->Get_MainPlayer()->Get_Stat()->Get_Stat()->fAttack;
 			break;
 
 		case 2: // DEFFENSE 
-			m_iCurrentStatNumber = 3;
+			m_iCurrentStatNumber = SceneManager()->Get_Scene()->Get_MainPlayer()->Get_Stat()->Get_Stat()->fDeffense;
 			break;
 
 		case 3: // HEALTH 
-			m_iCurrentStatNumber = 4;
+			m_iCurrentStatNumber = SceneManager()->Get_Scene()->Get_MainPlayer()->Get_Stat()->Get_Stat()->fHealth;
 			break;
 
 		case 4: // MAGIC 
-			m_iCurrentStatNumber = 5;
+			m_iCurrentStatNumber = SceneManager()->Get_Scene()->Get_MainPlayer()->Get_Stat()->Get_Stat()->fMagic;
 			break;
 
 		case 5: // SPEED
-			m_iCurrentStatNumber = 6;
+			m_iCurrentStatNumber = SceneManager()->Get_Scene()->Get_MainPlayer()->Get_Stat()->Get_Stat()->fSpeed;
 			break;
 		}
 
@@ -262,33 +262,36 @@ void CUILevelUpCard::Key_Input(void)
 	GetCursorPos(&pt);
 	ScreenToClient(g_hWnd, &pt);
 
+	CPlayer& rPlayer = *SceneManager()->Get_Scene()->Get_MainPlayer();
+
 	if (!m_bMoveUpdate && OnCollision(pt, m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y)) {
 		if (Engine::InputDev()->Mouse_Pressing(DIM_LB)) {
 			// 해당 카드에 따른 스탯 +1 증가
 			switch (m_iTypeImage)
 			{
 			case 0: // AGILITY
-				
+				++rPlayer.Get_Stat()->Get_Stat()->fAgility;
 				break;
 
 			case 1: // ATTACK 
-				
+				++rPlayer.Get_Stat()->Get_Stat()->fAttack;
 				break;
 
 			case 2: // DEFFENSE 
-				
+				++rPlayer.Get_Stat()->Get_Stat()->fDeffense;
 				break;
 
 			case 3: // HEALTH 
-				
+				++rPlayer.Get_Stat()->Get_Stat()->fHealth;
+				SceneManager()->Get_Scene()->Get_MainPlayer()->Get_Stat()->Get_Stat()->fMaxHP += 4;
+				rPlayer.Get_Stat()->Get_Stat()->fHP = rPlayer.Get_Stat()->Get_Stat()->fMaxHP;
 				break;
-
 			case 4: // MAGIC 
-				
+				++rPlayer.Get_Stat()->Get_Stat()->fMagic;
 				break;
 
 			case 5: // SPEED
-				
+				++rPlayer.Get_Stat()->Get_Stat()->fSpeed;
 				break;
 			}
 

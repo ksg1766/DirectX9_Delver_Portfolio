@@ -4,12 +4,12 @@
 #include "Export_Function.h"
 
 CCubeBlock::CCubeBlock(LPDIRECT3DDEVICE9 pGraphicDev)
-    : CGameObject(pGraphicDev), m_byTextureNumber(7)
+    : CGameObject(pGraphicDev), m_byTextureNumber(7), m_eBlockTag(BLOCKTAG::NORMAL_BLOCK)
 {
 }
 
 CCubeBlock::CCubeBlock(const CCubeBlock& rhs)
-    : CGameObject(rhs), m_byTextureNumber(7)
+    : CGameObject(rhs), m_byTextureNumber(7), m_eBlockTag(rhs.m_eBlockTag)
 {
 }
 
