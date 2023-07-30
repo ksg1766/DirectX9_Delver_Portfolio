@@ -32,15 +32,23 @@ public:
 private:
 	HRESULT		Add_Component(void);
 	void	    Key_Input(void);
+	void        Update_NumberUI();
 
 private:
 	CTexture*   m_pNumberTexture = nullptr;
 	_uint       m_iTypeImage;
-	_bool       m_bUseCard = false;
 	_uint       m_iPickNumber;
 
+	_uint       m_iCurrentStatNumber;
+	_uint       m_iStatNumberOne;
+	_uint       m_iStatNumberTwo;
+
+	_bool       m_bUseCard = false;
 	_bool       m_bStatUpdate = false;
 	_bool       m_bMoveUpdate = false;
+	_bool       m_bMouseCollision = false;
+
+	_float      m_fFirstCardMoveTime = 0.f;
 
 public:
 	static CUILevelUpCard*	Create(LPDIRECT3DDEVICE9 pGraphicDev);

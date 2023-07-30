@@ -129,7 +129,7 @@ void CUIplayerstat::LateUpdate_Object(void)
 	m_fMaxXPNumber		= rPlayer.Get_Stat()->Get_Stat()->iExpMax;
 	m_fGoldNumber		= rPlayer.Get_Stat()->Get_Stat()->iGold;
 
-	Update_NumverUI();
+	Update_NumberUI();
 }
 
 void CUIplayerstat::Render_Object()
@@ -374,7 +374,7 @@ void CUIplayerstat::Key_Input(void)
 {
 }
 
-void CUIplayerstat::Update_NumverUI()
+void CUIplayerstat::Update_NumberUI()
 {
 	Check_Number(m_fAttackPowerNumberMin, m_fAttackPowerMinNumberOne, m_fAttackPowerMinNumberTwo);
 	Check_Number(m_fAttackPowerNumberMax, m_fAttackPowerMaxNumberOne, m_fAttackPowerMaxNumberTwo);

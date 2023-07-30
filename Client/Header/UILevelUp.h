@@ -18,8 +18,20 @@ private:
 	virtual ~CUILevelUp();
 
 public:
-	void        Set_UseLevelUpUI(_bool _bUse)       { m_bUseLevelUpUI = _bUse; }
-	void        Set_NotUseLevelUpUI(_bool _bNotUse) { m_bNotUseLevelUpUI = _bNotUse; }
+	void        Set_UseLevelUpUI(_bool _bUse) { 
+		if (m_bUsing)
+			return;
+
+		m_bUseLevelUpUI = _bUse; 
+
+		if (m_bUseLevelUpUI)
+			m_bUsing = true;
+	}
+
+	void        Set_NotUseLevelUpUI(_bool _bNotUse) { 
+		m_bNotUseLevelUpUI = _bNotUse; 
+		m_bUsing = false;
+	}
 
 public:
 	HRESULT		Ready_Object();
@@ -43,12 +55,14 @@ private:
 	_matrix     m_FontWorld;
 	_bool       m_bUseLevelUpUI    = false;
 	_bool       m_bNotUseLevelUpUI = false;
+	_bool       m_bUsing = false;
 
 	vector<CGameObject*> m_vecCardObject;
 	vector<CGameObject*> m_vecPickObject;
 	_bool                m_bSelectCard[6];
 	_bool                m_bPickRender = false;
 
+	CGameObject*         m_pCamera = nullptr;
 
 public:
 	static CUILevelUp*	Create(LPDIRECT3DDEVICE9 pGraphicDev);
