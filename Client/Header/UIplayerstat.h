@@ -26,7 +26,7 @@ public:
 private:
 	HRESULT		Add_Component(void);
 	void	    Key_Input(void);
-	void        Update_NumverUI();
+	void        Update_NumberUI();
 	void        Check_Number(_uint Number, _uint& NumberOne, _uint& NumberTwo);
 
 private:

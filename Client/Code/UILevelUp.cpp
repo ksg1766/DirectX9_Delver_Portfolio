@@ -2,6 +2,7 @@
 #include "..\Header\UILevelUp.h"
 #include "UILevelUpCard.h"
 #include "Player.h"
+#include "DynamicCamera.h"
 
 CUILevelUp::CUILevelUp(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CTempUI(pGraphicDev)
@@ -35,11 +36,10 @@ HRESULT CUILevelUp::Ready_Object()
 
 	// 카드 6개 생성 후 보유
 	CGameObject* pGameObject = nullptr;
-	for (_uint i = 0; i < 6; ++i)
-	{
+	for (_uint i = 0; i < 6; ++i) {
 		pGameObject = CUILevelUpCard::Create(m_pGraphicDev);
+		dynamic_cast<CTempUI*>(pGameObject)->Set_Parent(this);
 		dynamic_cast<CUILevelUpCard*>(pGameObject)->Set_CardType(i);
-
 		m_vecCardObject.push_back(pGameObject);
 	}
 
@@ -52,6 +52,11 @@ _int CUILevelUp::Update_Object(const _float& fTimeDelta)
 		m_bNotUseLevelUpUI = false;
 		SceneManager()->Set_GameStop(false);
 
+		if (m_pCamera != nullptr)
+			static_cast<CDynamicCamera*>(m_pCamera)->Set_Fix(false);
+
+		HCURSOR Cursor = nullptr;
+		SetCursor(Cursor);
 
 		m_vecPickObject.clear();
 
@@ -66,12 +71,41 @@ _int CUILevelUp::Update_Object(const _float& fTimeDelta)
 		m_bUseLevelUpUI = false;
 		SceneManager()->Set_GameStop(true);
 
-		// 랜덤으로 카드 3개 활성화 -> 골라진 순서대로 1번째에서 보이고 1 / 2 / 3번째 위치로 이동함
+		m_pCamera = SceneManager()->Get_ObjectList(LAYERTAG::ENVIRONMENT, OBJECTTAG::CAMERA).front();
+		if (m_pCamera != nullptr)
+			static_cast<CDynamicCamera*>(m_pCamera)->Set_Fix(true);
 
-		dynamic_cast<CUILevelUpCard*>(m_vecCardObject[1])->Set_PickNumber(0);
-		dynamic_cast<CUILevelUpCard*>(m_vecCardObject[1])->Set_UseCard(true);
-		m_vecPickObject.push_back(m_vecCardObject[1]);
+		HCURSOR Cursor = nullptr;
+		Cursor = GetCursor();
+		Cursor = LoadCursor(NULL, IDC_ARROW);
+		SetCursor(Cursor);
+
+		for (_uint i = 0; i < 6; ++i) {
+			m_bSelectCard[i] = false;
+		}
+
+		// 랜덤으로 카드 3개 활성화 
+		_uint  m_iPickCount = 0;
+		while (m_iPickCount < 3) {
+			int fRanNum = Get_RandomFloatNumber(0.f, 5.f);
+			if (m_bSelectCard[fRanNum] == false) {
+
+				dynamic_cast<CUILevelUpCard*>(m_vecCardObject[fRanNum])->Set_PickNumber(m_iPickCount);
+				dynamic_cast<CUILevelUpCard*>(m_vecCardObject[fRanNum])->Set_UseCard(true);
+				m_vecPickObject.push_back(m_vecCardObject[fRanNum]);
+
+				m_bSelectCard[fRanNum] = true;
+				m_iPickCount++;
+			}
+		}
+
 		m_bPickRender = true;
+	}
+
+	if (m_bPickRender) {
+		for (auto& iter : m_vecPickObject) {
+			iter->Update_Object(fTimeDelta);
+		}
 	}
 
 	_int iExit = CTempUI::Update_Object(fTimeDelta);
@@ -85,6 +119,12 @@ void CUILevelUp::LateUpdate_Object(void)
 		return;
 
 	CTempUI::LateUpdate_Object();
+
+	if (m_bPickRender) {
+		for (auto& iter : m_vecPickObject) {
+			iter->LateUpdate_Object();
+		}
+	}
 }
 
 void CUILevelUp::Render_Object()

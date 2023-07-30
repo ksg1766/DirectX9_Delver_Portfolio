@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "..\Header\UILevelUpCard.h"
 #include "Player.h"
+#include "UILevelUp.h"
 
 CUILevelUpCard::CUILevelUpCard(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CTempUI(pGraphicDev)
@@ -19,12 +20,8 @@ HRESULT CUILevelUpCard::Ready_Object()
 	FAILED_CHECK_RETURN(CTempUI::Ready_Object(), E_FAIL); // 초기화
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-
-	m_pTransform->m_vInfo[INFO_POS].x = 640;
-	m_pTransform->m_vInfo[INFO_POS].y = 350;
 	m_pTransform->m_vLocalScale.x = 135;
 	m_pTransform->m_vLocalScale.y = 275;
-	WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);
 
 	return S_OK;
 }
@@ -33,32 +30,34 @@ _int CUILevelUpCard::Update_Object(const _float& fTimeDelta)
 {
 	if (m_IsDead)
 		return 0;
-
-	// 골라진 순서에 따라 해당 위치로 이동
+	
 	if (m_bUseCard) {
 		m_bUseCard = false;
 
-		// 초기 위치로 이동
-	    m_pTransform->m_vInfo[INFO_POS].x = 125.f;
-	    m_pTransform->m_vInfo[INFO_POS].y = 35.f;
+		// 초기 위치 첫 번째 위치로 이동
+		m_pTransform->m_vInfo[INFO_POS].x = 370;
+		m_pTransform->m_vInfo[INFO_POS].y = 350;
 	    WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);
 
 		m_bMoveUpdate = true;
 		m_bStatUpdate = true;
 	}
-	else if (m_bMoveUpdate)
-	{
-		if (m_iPickNumber == 0) {
+
+	// 골라진 순서에 따라 해당 위치로 이동
+	if (m_bMoveUpdate) {
+		if (m_iPickNumber == 0 && m_fFirstCardMoveTime < 2.f) {
+			m_fFirstCardMoveTime += 1.f * fTimeDelta;
+		}
+		else if (m_iPickNumber == 1 && m_pTransform->m_vInfo[INFO_POS].x < 640.f) {
+			m_pTransform->m_vInfo[INFO_POS].x += 150.f * fTimeDelta;
+			WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);
+		}
+		else if (m_iPickNumber == 2 && m_pTransform->m_vInfo[INFO_POS].x < 910.f) {
+			m_pTransform->m_vInfo[INFO_POS].x += 300.f * fTimeDelta;
+			WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);
+		}
+		else
 			m_bMoveUpdate = false;
-		}
-		else if (m_iPickNumber == 1 && m_pTransform->m_vInfo[INFO_POS].x < 300.f )
-		{
-			// 해당 위치까지 이동해라
-		}
-		else if (m_iPickNumber == 2 && m_pTransform->m_vInfo[INFO_POS].x < 400.f)
-		{
-			// 해당 위치까지 이동해라
-		}
 	}
 
 	_int iExit = CTempUI::Update_Object(fTimeDelta);
@@ -74,22 +73,35 @@ void CUILevelUpCard::LateUpdate_Object(void)
 	if (m_bStatUpdate) {
 		m_bStatUpdate = false;
 
-		// 카드 타입에 따른 현재 스탯 가져와 할당
+		// 카드 타입에 따른 현재 스탯 가져와 할당 (현재 스탯 보여주기 용도)
 		switch (m_iTypeImage)
 		{
-		case 0:
+		case 0: // AGILITY
+			m_iCurrentStatNumber = 1;
 			break;
-		case 1:
+
+		case 1: // ATTACK 
+			m_iCurrentStatNumber = 2;
 			break;
-		case 2:
+
+		case 2: // DEFFENSE 
+			m_iCurrentStatNumber = 3;
 			break;
-		case 3:
+
+		case 3: // HEALTH 
+			m_iCurrentStatNumber = 4;
 			break;
-		case 4:
+
+		case 4: // MAGIC 
+			m_iCurrentStatNumber = 5;
 			break;
-		case 5:
+
+		case 5: // SPEED
+			m_iCurrentStatNumber = 6;
 			break;
 		}
+
+		Update_NumberUI();
 	}
 
 	CTempUI::LateUpdate_Object();
@@ -111,38 +123,110 @@ void CUILevelUpCard::Render_Object()
 	if (m_IsDead)
 		return;
 
-	// 첫번째 위치
-	m_pTransform->m_vInfo[INFO_POS].x = 340;
-	m_pTransform->m_vInfo[INFO_POS].y = 350;
-	m_pTransform->m_vLocalScale.x = 135;
-	m_pTransform->m_vLocalScale.y = 275;
-	WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorld);
+	if (m_bMouseCollision)
+	{
+		m_pTransform->m_vLocalScale.x = 143;
+		m_pTransform->m_vLocalScale.y = 283;
+		WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);
+		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorld);
 
-	m_pTextureCom->Render_Texture(0);
-	m_pBufferCom->Render_Buffer();
+		m_pTextureCom->Render_Texture(m_iTypeImage);
+		m_pBufferCom->Render_Buffer();
 
-	// 가운데 위치
-	m_pTransform->m_vInfo[INFO_POS].x = 640;
-	m_pTransform->m_vInfo[INFO_POS].y = 350;
-	m_pTransform->m_vLocalScale.x = 135;
-	m_pTransform->m_vLocalScale.y = 275;
-	WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorld);
+		// 현재 카드에 해당하는 스탯 넘버 출력 // 첫 번째 숫자
+		_matrix      matWorld;
 
-	m_pTextureCom->Render_Texture(0);
-	m_pBufferCom->Render_Buffer();
+		if (m_iStatNumberOne != 0) {
+			D3DXMatrixIdentity(&matWorld);
+			matWorld._11 = 9.f;
+			matWorld._22 = 9.f;
+			matWorld._41 = m_matWorld._41 + 51.f;
+			matWorld._42 = m_matWorld._42 + 124.f;
 
-	// 가운데 위치
-	m_pTransform->m_vInfo[INFO_POS].x = 940;
-	m_pTransform->m_vInfo[INFO_POS].y = 350;
-	m_pTransform->m_vLocalScale.x = 135;
-	m_pTransform->m_vLocalScale.y = 275;
-	WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorld);
+			m_pGraphicDev->SetTransform(D3DTS_WORLD, &matWorld);
 
-	m_pTextureCom->Render_Texture(0);
-	m_pBufferCom->Render_Buffer();
+			m_pNumberTexture->Render_Texture(m_iStatNumberOne);
+			m_pBufferCom->Render_Buffer();
+
+			//// 두 번째 숫자
+			D3DXMatrixIdentity(&matWorld);
+			matWorld._11 = 9.f;
+			matWorld._22 = 9.f;
+			matWorld._41 = m_matWorld._41 + 64.f;
+			matWorld._42 = m_matWorld._42 + 124.f;
+
+			m_pGraphicDev->SetTransform(D3DTS_WORLD, &matWorld);
+
+			m_pNumberTexture->Render_Texture(m_iStatNumberTwo);
+			m_pBufferCom->Render_Buffer();
+		}
+		else
+		{
+			//// 두 번째 숫자
+			D3DXMatrixIdentity(&matWorld);
+			matWorld._11 = 9.f;
+			matWorld._22 = 9.f;
+			matWorld._41 = m_matWorld._41 + 51.f;
+			matWorld._42 = m_matWorld._42 + 124.f;
+
+			m_pGraphicDev->SetTransform(D3DTS_WORLD, &matWorld);
+
+			m_pNumberTexture->Render_Texture(m_iStatNumberTwo);
+			m_pBufferCom->Render_Buffer();
+		}
+	}
+	else
+	{
+		m_pTransform->m_vLocalScale.x = 135;
+		m_pTransform->m_vLocalScale.y = 275;
+		WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);
+		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorld);
+
+		m_pTextureCom->Render_Texture(m_iTypeImage);
+		m_pBufferCom->Render_Buffer();
+
+		// 현재 카드에 해당하는 스탯 넘버 출력 // 첫 번째 숫자
+		_matrix      matWorld;
+
+		if (m_iStatNumberOne != 0) {
+			D3DXMatrixIdentity(&matWorld);
+			matWorld._11 = 9.f;
+			matWorld._22 = 9.f;
+			matWorld._41 = m_matWorld._41 + 48.f;
+			matWorld._42 = m_matWorld._42 + 120.f;
+
+			m_pGraphicDev->SetTransform(D3DTS_WORLD, &matWorld);
+
+			m_pNumberTexture->Render_Texture(m_iStatNumberOne);
+			m_pBufferCom->Render_Buffer();
+
+			//// 두 번째 숫자
+			D3DXMatrixIdentity(&matWorld);
+			matWorld._11 = 9.f;
+			matWorld._22 = 9.f;
+			matWorld._41 = m_matWorld._41 + 61.f;
+			matWorld._42 = m_matWorld._42 + 120.f;
+
+			m_pGraphicDev->SetTransform(D3DTS_WORLD, &matWorld);
+
+			m_pNumberTexture->Render_Texture(m_iStatNumberTwo);
+			m_pBufferCom->Render_Buffer();
+		}
+		else
+		{
+			//// 두 번째 숫자
+			D3DXMatrixIdentity(&matWorld);
+			matWorld._11 = 9.f;
+			matWorld._22 = 9.f;
+			matWorld._41 = m_matWorld._41 + 48.f;
+			matWorld._42 = m_matWorld._42 + 120.f;
+
+			m_pGraphicDev->SetTransform(D3DTS_WORLD, &matWorld);
+
+			m_pNumberTexture->Render_Texture(m_iStatNumberTwo);
+			m_pBufferCom->Render_Buffer();
+		}
+	}
 }
 
 HRESULT CUILevelUpCard::Add_Component(void)
@@ -174,6 +258,126 @@ HRESULT CUILevelUpCard::Add_Component(void)
 
 void CUILevelUpCard::Key_Input(void)
 {
+	POINT	pt{};
+	GetCursorPos(&pt);
+	ScreenToClient(g_hWnd, &pt);
+
+	if (!m_bMoveUpdate && OnCollision(pt, m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y)) {
+		if (Engine::InputDev()->Mouse_Pressing(DIM_LB)) {
+			// 해당 카드에 따른 스탯 +1 증가
+			switch (m_iTypeImage)
+			{
+			case 0: // AGILITY
+				
+				break;
+
+			case 1: // ATTACK 
+				
+				break;
+
+			case 2: // DEFFENSE 
+				
+				break;
+
+			case 3: // HEALTH 
+				
+				break;
+
+			case 4: // MAGIC 
+				
+				break;
+
+			case 5: // SPEED
+				
+				break;
+			}
+
+			// 부모 메인 창 주소를 통한 창 비활성화
+			if (m_pParent != nullptr) {
+				dynamic_cast<CUILevelUp*>(m_pParent)->Set_NotUseLevelUpUI(true);
+			}
+		}
+
+		m_bMouseCollision = true;
+	}
+	else
+	{
+		m_bMouseCollision = false;
+	}
+}
+
+void CUILevelUpCard::Update_NumberUI()
+{
+	_int iCurrentOneNum = m_iCurrentStatNumber / 10;
+	_int iCurrentTwoNum = m_iCurrentStatNumber % 10;
+
+	switch (iCurrentOneNum)
+	{
+	case 0:
+		m_iStatNumberOne = 0;
+		break;
+	case 1:
+		m_iStatNumberOne = 1;
+		break;
+	case 2:
+		m_iStatNumberOne = 2;
+		break;
+	case 3:
+		m_iStatNumberOne = 3;
+		break;
+	case 4:
+		m_iStatNumberOne = 4;
+		break;
+	case 5:
+		m_iStatNumberOne = 5;
+		break;
+	case 6:
+		m_iStatNumberOne = 6;
+		break;
+	case 7:
+		m_iStatNumberOne = 7;
+		break;
+	case 8:
+		m_iStatNumberOne = 8;
+		break;
+	case 9:
+		m_iStatNumberOne = 9;
+		break;
+	}
+
+	switch (iCurrentTwoNum)
+	{
+	case 0:
+		m_iStatNumberTwo = 0;
+		break;
+	case 1:
+		m_iStatNumberTwo = 1;
+		break;
+	case 2:
+		m_iStatNumberTwo = 2;
+		break;
+	case 3:
+		m_iStatNumberTwo = 3;
+		break;
+	case 4:
+		m_iStatNumberTwo = 4;
+		break;
+	case 5:
+		m_iStatNumberTwo = 5;
+		break;
+	case 6:
+		m_iStatNumberTwo = 6;
+		break;
+	case 7:
+		m_iStatNumberTwo = 7;
+		break;
+	case 8:
+		m_iStatNumberTwo = 8;
+		break;
+	case 9:
+		m_iStatNumberTwo = 9;
+		break;
+	}
 }
 
 //void CUILevelUpCard::Update_NumverUI(void)
