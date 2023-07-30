@@ -6,6 +6,7 @@
 #include "SkeletonKing.h"
 #include "BossExplosion.h"
 #include "EffectExplosion.h"
+#include "SoundManager.h"
 CBossLostSoul::CBossLostSoul(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CMonster(pGraphicDev), m_fFrame(0.f)
 {
@@ -34,6 +35,8 @@ HRESULT CBossLostSoul::Ready_Object(void)
 	m_bHit = false;
 	m_bParry = false;
 	m_eSoulState = SOULSTATE::SOUL_NORMAL;
+	CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_SPIDER);
+	CSoundManager::GetInstance()->PlaySound(L"LostSoulSpawn1.wav", CHANNELID::SOUND_SPIDER, 1.f);
 	return S_OK;
 }
 
@@ -121,6 +124,8 @@ void CBossLostSoul::OnCollisionStay(CCollider* _pOther)
 	{
 		if (m_eSoulState == SOULSTATE::SOUL_NORMAL)
 		{
+			CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_SPIDER);
+			CSoundManager::GetInstance()->PlaySound(L"LostSoul3.wav", CHANNELID::SOUND_SPIDER, 1.f);
 			CPlayerStat& PlayerState = *(dynamic_cast<CPlayer*>(_pOther->Get_Host())->Get_Stat());
 			PlayerState.Take_Damage(this->Get_BasicStat()->Get_Stat()->fAttack);
 			this->Set_AttackTick(true);
@@ -138,6 +143,8 @@ void CBossLostSoul::OnCollisionStay(CCollider* _pOther)
 		{
 			if ((dynamic_cast<CPlayer*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front())->Get_Parrying()) && (ITEMID::GENERAL_SHIELD == dynamic_cast<CShield*>(_pOther->Get_Host())->Get_ItemTag().eItemID))
 			{
+				CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_SPIDER);
+				CSoundManager::GetInstance()->PlaySound(L"Parry1.wav", CHANNELID::SOUND_SPIDER, 1.f);
 				m_eSoulState = SOULSTATE::SOUL_PARRY;
 				m_bHit = true;
 				m_bParry = true;
@@ -152,6 +159,8 @@ void CBossLostSoul::OnCollisionStay(CCollider* _pOther)
 	{
 		if ((_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BOSS))
 		{
+			CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_SPIDER);
+			CSoundManager::GetInstance()->PlaySound(L"LostSoul2.wav", CHANNELID::SOUND_SPIDER, 1.f);
 			Engine::CGameObject* pGameObject = nullptr;
 			pGameObject = CEffectExplosion::Create(m_pGraphicDev);
 			dynamic_cast<CEffectExplosion*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = m_pTransform->m_vInfo[INFO_POS];

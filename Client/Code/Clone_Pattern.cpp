@@ -47,6 +47,7 @@ STATE CClone_Pattern::Update_State(const _float& fTimeDelta)
         D3DXVec3Normalize(&m_vResetPos, &m_vResetPos);
         m_pOwner->Get_Transform()->Translate(m_vResetPos);
         m_fDelay = 0.f;
+        dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Set_CloneCount(0);
     }
     if ((m_bPosReset) && (!m_bSkill))
     {
@@ -54,7 +55,6 @@ STATE CClone_Pattern::Update_State(const _float& fTimeDelta)
         mt19937 engine(rd());
         uniform_int_distribution<__int64> distribution(0, 2); // 생성 범위
         auto generator = bind(distribution, engine);
-        dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Set_CloneCount(0);
         m_iIndex = generator();
         Engine::CGameObject* pGameObject = nullptr;
         m_vTargetPos = m_vPillarPos[m_iIndex];

@@ -43,6 +43,7 @@ private:
 	_float			m_fDuration;
 	_float			m_fSpeed;
 	_float			m_fAngle;
+	_float			m_fSoundCool;
 	_bool			m_bHit;
 private:
 	HRESULT		Add_Component(void);

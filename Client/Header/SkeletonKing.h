@@ -1,6 +1,5 @@
 #pragma once
 #include "Monster.h"
-#include "Engine_Enum.h"
 BEGIN(Engine)
 class CRcTex;
 class CTexture;

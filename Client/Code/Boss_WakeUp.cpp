@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "Boss_WakeUp.h"
 #include "Export_Function.h"
 #include "SkeletonKing.h"
@@ -26,7 +27,11 @@ HRESULT CBoss_WakeUp::Ready_State(CStateMachine* pOwner)
 STATE CBoss_WakeUp::Update_State(const _float& fTimeDelta)
 {
     if ((0.1f > m_fDelay) && (!m_bWakeUp))
+    {
+        CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_BOSS);
+        CSoundManager::GetInstance()->PlaySound(L"Boss_Laugh1.wav", CHANNELID::SOUND_BOSS, 1.f);
         dynamic_cast<CSkeletonKing*>(m_pOwner->Get_Host())->Get_StateMachine()->Get_Animator()->Get_Animation()->Set_Frame(0.f);
+    }
     m_fDelay += fTimeDelta;
     if ((1.42f > m_fDelay) && (!m_bWakeUp))
         m_bWakeUp = true;

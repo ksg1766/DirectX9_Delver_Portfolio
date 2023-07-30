@@ -2,6 +2,7 @@
 #include "..\Header\BossFireWall.h"
 #include "Export_Function.h"
 #include "Player.h"
+#include "SoundManager.h"
 CBossFireWall::CBossFireWall(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CMonster(pGraphicDev), m_fFrame(0.f)
 {
@@ -30,6 +31,9 @@ HRESULT CBossFireWall::Ready_Object(void)
 	m_fAngle = 0.f;
 	m_fHitCool = 0.f;
 	m_fDuration = 0.f;
+	m_fSoundCool = 0.f;
+	CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_WIZARD);
+	CSoundManager::GetInstance()->PlaySound(L"Boss_FireWall1.wav", CHANNELID::SOUND_WIZARD,0.5f);
 	return S_OK;
 }
 
@@ -42,9 +46,15 @@ _int CBossFireWall::Update_Object(const _float& fTimeDelta)
 	_int iExit = __super::Update_Object(fTimeDelta);
 	if ((1.f < m_fHitCool)&&(m_bHit))
 		m_bHit = false;
-
+	if (0.5f < m_fSoundCool)
+	{
+		m_fSoundCool = 0.f;
+		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_WIZARD);
+		CSoundManager::GetInstance()->PlaySound(L"Boss_FireWall1.wav", CHANNELID::SOUND_WIZARD, 0.5f);
+	}
 	m_fDuration += fTimeDelta;
 	m_fFrame += 8.f * fTimeDelta * 2;
+	m_fSoundCool += fTimeDelta;
 	m_pTransform->RotateAround(m_vCenter, _vec3(0.f, 1.f, 0.f),1.f* fTimeDelta);
 	if (8.f < m_fFrame)
 		m_fFrame = 0.f;

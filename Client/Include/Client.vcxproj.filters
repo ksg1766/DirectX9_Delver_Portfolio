@@ -796,9 +796,6 @@
     <Filter Include="03. GameObject\01. Stage\05. Cube\04. Water">
       <UniqueIdentifier>{641efea8-e7d1-4e5b-a0ef-b794c16c46dc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. GameObject\01. Stage\05. Cube\02. CubeTrigger\WaterFall">
-      <UniqueIdentifier>{0ae52d99-1cf7-40b7-a2c3-cf494087734b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03. GameObject\01. Stage\05. Cube\02. CubeTrigger\HellDoor">
       <UniqueIdentifier>{4a81bb90-3cb7-4276-9e78-8f7d4d40cb12}</UniqueIdentifier>
     </Filter>
@@ -834,6 +831,12 @@
     </Filter>
     <Filter Include="03. GameObject\03. UI\18. UILevelUp\00. UILevelUpCard">
       <UniqueIdentifier>{844e7bd5-e19c-421c-a199-4fcfc162c7ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\01. Stage\05. Cube\02. CubeTrigger\WaterFall">
+      <UniqueIdentifier>{0ae52d99-1cf7-40b7-a2c3-cf494087734b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\01. Stage\05. Cube\05.Lava">
+      <UniqueIdentifier>{00f3d79b-2d8d-457d-8bef-6886eed7b41e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1640,6 +1643,9 @@
     <ClInclude Include="..\Header\UILevelUp.h">
       <Filter>03. GameObject\03. UI\18. UILevelUp</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\Lava.h">
+      <Filter>03. GameObject\01. Stage\05. Cube\05.Lava</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -2405,6 +2411,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\UILevelUpCard.cpp">
       <Filter>03. GameObject\03. UI\18. UILevelUp\00. UILevelUpCard</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Lava.cpp">
+      <Filter>03. GameObject\01. Stage\05. Cube\05.Lava</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
