@@ -370,6 +370,8 @@ _uint CLoading::Loading_ForStage()
 		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/cons_drink.mp3", "cons_drink.mp3"), E_FAIL);
 		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/cons_food.mp3", "cons_food.mp3"), E_FAIL);
 
+		//HekiRekiIssen
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/Production/HekiRekiIssen.mp3", "HekiRekiIssen"), E_FAIL);
 #pragma endregion SOUND
 
 #pragma region VILLAGE

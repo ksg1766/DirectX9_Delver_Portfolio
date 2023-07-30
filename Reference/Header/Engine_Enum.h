@@ -91,7 +91,7 @@ namespace Engine
 		SOUND_CONSUMABLE, SOUND_INVENTORY, SOUND_ENVIRONMENT, SOUND_BREAK, 
 		SOUND_WARRIOR, SOUND_SPIDER, SOUND_BAT, SOUND_WIZARD, SOUND_ALIEN, 
 		SOUND_SLIME, SOUND_SKELETON, SOUND_SKULL, SOUND_WORM, SOUND_DOOR,
-		SOUND_BULLET, SOUND_MAXCHANNEL
+		SOUND_BULLET, SOUND_HEKIREKIISSEN = 31, SOUND_MAXCHANNEL
 	};
 
 	typedef enum class Production
@@ -102,6 +102,7 @@ namespace Engine
 		//
 		ShowBoss = 3,
 		HekirekiIssen = 4,
+		HekirekiIssen_SideView = 5,
 	}PD;
 };
 #endif // Engine_Enum_h__

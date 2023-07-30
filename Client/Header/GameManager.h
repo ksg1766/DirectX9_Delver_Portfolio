@@ -7,6 +7,8 @@ BEGIN(Engine)
 
 END
 
+class CPlayer;
+class CSkeletonKing;
 class CGameManager :
     public CBase
 {
@@ -28,6 +30,9 @@ private:
 	void	HekirekiIssen(const _float& fTimeDelta);
 
 private:
+	CPlayer*		m_pPlayer;
+	CSkeletonKing*	m_pBoss;
+
 	PD m_eCurr_PD = PD::Normal;
 	PD m_ePrev_PD = PD::Normal;
 

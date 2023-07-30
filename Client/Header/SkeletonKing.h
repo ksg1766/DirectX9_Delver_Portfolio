@@ -1,6 +1,7 @@
 #pragma once
 #include "Monster.h"
 #include "Engine_Enum.h"
+
 BEGIN(Engine)
 class CRcTex;
 class CTexture;
@@ -9,6 +10,7 @@ class CStateMachine;
 class CAnimator;
 class CState;
 END
+
 class CSkeletonKing_Clone;
 class CSkeletonKing:public Engine::CMonster
 {
