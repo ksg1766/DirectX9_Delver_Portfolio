@@ -3,34 +3,33 @@
 
 BEGIN(Engine)
 class CRcTex;
+class CTransform;
 class CTexture;
 class CBillBoard;
-class CStateMachine;
 END
 
-class CTorch :
+class CKingSpiderFog :
     public CGameObject
 {
 private:
-    explicit CTorch(LPDIRECT3DDEVICE9 pGraphicDev);
-    explicit CTorch(const CTorch& rhs);
-    virtual ~CTorch();
+    explicit CKingSpiderFog(LPDIRECT3DDEVICE9 pGraphicDev);
+    explicit CKingSpiderFog(const CKingSpiderFog& rhs);
+    virtual ~CKingSpiderFog();
 public:
     virtual HRESULT Ready_Object(void)						override;
     virtual _int	Update_Object(const _float& fTimeDelta)	override;
     virtual void	LateUpdate_Object(void)					override;
-    virtual void	Render_Object(void)						override;
+    virtual void	Render_Object(void);
 
 private:
     CRcTex* m_pBuffer = nullptr;
     CTexture* m_pTexture = nullptr;
-    CGameObject* m_pOtherObj = nullptr;
-    CBillBoard* m_pBillBoard = nullptr;
-    _float      m_fFrame;
+    _float      m_fDelay;
+    _float      m_fScale;
 private:
     HRESULT			Add_Component(void);
 public:
-    static CTorch* Create(LPDIRECT3DDEVICE9 pGraphicDev);
+    static CKingSpiderFog* Create(LPDIRECT3DDEVICE9 pGraphicDev);
 private:
     virtual void Free() override;
 };

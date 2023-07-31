@@ -1001,7 +1001,7 @@ void CPlayer::PoisonDamage(const _float& fTimeDelta)
 		m_fPoisoningTime = 0.f;
 		++m_iPosingingCount;
 	}
-	if (4 < m_iPosingingCount)
+	if (2 < m_iPosingingCount)
 	{
 		m_iPosingingCount = 0;
 		m_bPoisoning = false;

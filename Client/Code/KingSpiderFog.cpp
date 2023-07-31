@@ -1,55 +1,62 @@
-#include "Torch.h"
+#include "KingSpiderFog.h"
 #include "Export_Function.h"
 
-CTorch::CTorch(LPDIRECT3DDEVICE9 pGraphicDev)
+CKingSpiderFog::CKingSpiderFog(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CGameObject(pGraphicDev)
 {
 }
 
-CTorch::CTorch(const CTorch& rhs)
-	:CGameObject(rhs)
+CKingSpiderFog::CKingSpiderFog(const CKingSpiderFog& rhs)
+	: CGameObject(rhs)
 {
 }
 
-CTorch::~CTorch()
+CKingSpiderFog::~CKingSpiderFog()
 {
+	Free();
 }
 
-HRESULT CTorch::Ready_Object(void)
+HRESULT CKingSpiderFog::Ready_Object(void)
 {
-	m_eObjectTag = OBJECTTAG::IMMORTAL;
+	m_eObjectTag = OBJECTTAG::EFFECT;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
-	m_fFrame = 0.f;
+	m_fScale = 2.f;
+	m_fDelay = 0.f;
 	return S_OK;
 }
 
-_int CTorch::Update_Object(const _float& fTimeDelta)
+_int CKingSpiderFog::Update_Object(const _float& fTimeDelta)
 {
 	Engine::Renderer()->Add_RenderGroup(RENDER_ALPHA, this);
 	if (SceneManager()->Get_GameStop()) { return 0; }
 	_uint iExit = __super::Update_Object(fTimeDelta);
-	m_fFrame += fTimeDelta * 16.f;
-	if (8.f < m_fFrame)
-		m_fFrame = 0.f;
+	m_fDelay += fTimeDelta;
+	m_fScale -= fTimeDelta;
+	if (2.f < m_fDelay)
+	{
+		m_fDelay = 0.f;
+		m_IsDead = true;
+	}
+
 	return iExit;
 }
 
-void CTorch::LateUpdate_Object(void)
+void CKingSpiderFog::LateUpdate_Object(void)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 	__super::LateUpdate_Object();
-	m_pBillBoard->LateUpdate_Component();
+	m_pTransform->Scale(_vec3(m_fScale, m_fScale, m_fScale));
 }
 
-void CTorch::Render_Object(void)
+void CKingSpiderFog::Render_Object(void)
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
 
-	m_pTexture->Render_Texture(_uint(m_fFrame));
+	m_pTexture->Render_Texture();
 	m_pBuffer->Render_Buffer();
 }
 
-HRESULT CTorch::Add_Component(void)
+HRESULT CKingSpiderFog::Add_Component(void)
 {
 	CComponent* pComponent = nullptr;
 	pComponent = m_pBuffer = dynamic_cast<CRcTex*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_RcTex"));
@@ -64,9 +71,9 @@ HRESULT CTorch::Add_Component(void)
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::TRANSFORM, pComponent);
 
-	pComponent = m_pBillBoard  = dynamic_cast<CBillBoard*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BillBoard"));
+	pComponent = dynamic_cast<CBillBoard*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BillBoard"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TRANSFORM, pComponent);
+	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::TRANSFORM, pComponent);
 
 	for (_uint i = 0; i < ID_END; ++i)
 		for (auto& iter : m_mapComponent[i])
@@ -74,20 +81,19 @@ HRESULT CTorch::Add_Component(void)
 	return S_OK;
 }
 
-CTorch* CTorch::Create(LPDIRECT3DDEVICE9 pGraphicDev)
+CKingSpiderFog* CKingSpiderFog::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 {
-	CTorch* pGameObject = new CTorch(pGraphicDev);
+	CKingSpiderFog* pGameObject = new CKingSpiderFog(pGraphicDev);
 	if (FAILED(pGameObject->Ready_Object()))
 	{
 		Safe_Release(pGameObject);
-		MSG_BOX("Torch create Failed");
+		MSG_BOX("KingSpider Fog create Failed");
 		return nullptr;
 	}
-
 	return pGameObject;
 }
 
-void CTorch::Free()
+void CKingSpiderFog::Free()
 {
 	__super::Free();
 }

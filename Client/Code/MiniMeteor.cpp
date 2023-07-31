@@ -6,7 +6,7 @@
 #include "MiniMeteor_Idle.h"
 #include "FlyingCamera.h"
 #include "CameraManager.h"
-
+#include "PoolManager.h"
 CMiniMeteor::CMiniMeteor(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CMonster(pGraphicDev)
 {
@@ -54,12 +54,12 @@ _int CMiniMeteor::Update_Object(const _float& fTimeDelta)
 	{
 		m_bShake = true;
 		m_fDuration = 0.f;
-		m_IsDead = true;
 		Engine::CGameObject* pGameObject = nullptr;
 		pGameObject = CBossExplosion::Create(m_pGraphicDev);
 		dynamic_cast<CBossExplosion*>(pGameObject)->Set_Scale(2.f);
 		dynamic_cast<CBossExplosion*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = m_pTransform->m_vInfo[INFO_POS];
 		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+		CPoolManager::GetInstance()->Delete_Object(this);
 	}
 	m_fDuration += fTimeDelta;
 	if(1.f > m_fScale)
@@ -112,7 +112,8 @@ void CMiniMeteor::OnCollisionEnter(CCollider* _pOther)
 		dynamic_cast<CBossExplosion*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = _vec3(m_pTransform->m_vInfo[INFO_POS].x + m_vDis.x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vInfo[INFO_POS].z+ m_vDis.z);
 		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 		m_bHit = true;
-		m_IsDead = true;
+		//m_IsDead = true;
+		CPoolManager::GetInstance()->Delete_Object(this);
 	}
 }
 

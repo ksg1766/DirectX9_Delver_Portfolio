@@ -276,6 +276,7 @@ _uint CLoading::Loading_ForStage()
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_EffectDebuff",      CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Effect/Debuff/Debuff%d.png", 4)), E_FAIL);
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_EffectPastTrace",   CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Effect/Arrow.png", 1)), E_FAIL);
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_EffectGreenleaves", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Effect/Green_leaves/Green_leaves%d.png", 3)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_EffectFog", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Effect/Fog.png")), E_FAIL);
 
 		//HekiRekiIssen
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"EffectSwordTrail",				CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Effect/HekiRekiIssen/EffectSwordTrail.png")), E_FAIL);
