@@ -34,14 +34,15 @@ HRESULT CUIequipmentslot::Ready_Object()
 
 _int CUIequipmentslot::Update_Object(const _float & fTimeDelta)
 {
-	CPlayer*    pPlayer = dynamic_cast<CPlayer*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
+	CPlayer*    pPlayer = dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer());
 	if (pPlayer != nullptr) {
 		CInventory* pInventory = dynamic_cast<CInventory*>(pPlayer->Get_Component(COMPONENTTAG::INVENTORY, ID_DYNAMIC));
 
 		if (m_bChildEntrance && !m_bEntrance || m_bNextItem) // 해당 아이템 슬롯을 사용할 시 효과 적용
 		{
 			m_bEntrance = true;
-			if (m_bNextItem) {
+			if (m_bNextItem)
+			{
 				m_bNextItem = false;
 				m_bChildExit = false;
 			}

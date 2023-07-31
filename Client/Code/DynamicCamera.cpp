@@ -273,13 +273,13 @@ void CDynamicCamera::Third_Camera()
 	}
 }
 
-void CDynamicCamera::Set_ShakeForce(_float _ShakeTime, _float _Amplitude, _float _Duration, _float _Frequency)
-{
-	m_fShakeElipsedTime = _ShakeTime;
-	m_fAmplitude = _Amplitude;
-	m_fDuration = _Duration;
-	m_fFrequency = _Frequency;
-}
+//void CDynamicCamera::Set_ShakeForce(_float _ShakeTime, _float _Amplitude, _float _Duration, _float _Frequency)
+//{
+//	m_fShakeElipsedTime = _ShakeTime;
+//	m_fAmplitude = _Amplitude;
+//	m_fDuration = _Duration;
+//	m_fFrequency = _Frequency;
+//}
 
 void CDynamicCamera::Reset_ShakeForce()
 {

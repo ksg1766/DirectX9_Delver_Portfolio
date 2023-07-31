@@ -48,7 +48,7 @@ HRESULT CBow::Ready_Object(_bool _Item)
 
 		CTransform* pPlayerTransform = pPlayer->m_pTransform;
 
-		_vec3 vOffSet = 0.7f * pPlayerTransform->m_vInfo[INFO_RIGHT] + 1.4f * pPlayerTransform->m_vInfo[INFO_LOOK] - 0.4f * pPlayerTransform->m_vInfo[INFO_UP];
+		_vec3 vOffSet = 0.6f * pPlayerTransform->m_vInfo[INFO_RIGHT] + 1.6f * pPlayerTransform->m_vInfo[INFO_LOOK] - 0.4f * pPlayerTransform->m_vInfo[INFO_UP];
 		m_pTransform->m_vInfo[INFO_POS] = (pPlayerTransform->m_vInfo[INFO_POS] + vOffSet);
 
 #pragma endregion ksg
@@ -172,7 +172,7 @@ _int CBow::Update_Object(const _float& fTimeDelta)
 			{
 				CTransform* pPlayerTransform = pPlayer->m_pTransform;
 
-				_vec3 vOffSet = 0.7f * pPlayerTransform->m_vInfo[INFO_RIGHT] + 1.4f * pPlayerTransform->m_vInfo[INFO_LOOK] - 0.4f * pPlayerTransform->m_vInfo[INFO_UP];
+				_vec3 vOffSet = 0.6f * pPlayerTransform->m_vInfo[INFO_RIGHT] + 1.6f * pPlayerTransform->m_vInfo[INFO_LOOK] - 0.4f * pPlayerTransform->m_vInfo[INFO_UP];
 				m_pTransform->m_vInfo[INFO_POS] = (pPlayerTransform->m_vInfo[INFO_POS] + vOffSet);
 
 				m_pAnimator->Set_Animation(STATE::IDLE);
@@ -233,8 +233,6 @@ void CBow::Render_Object(void)
 		m_pCollider->Render_Collider();
 #endif
 	}
-
-
 }
 
 HRESULT CBow::Add_Component(void)
@@ -248,7 +246,6 @@ HRESULT CBow::Add_Component(void)
 	pComponent = m_pTransform = dynamic_cast<CTransform*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Transform"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::TRANSFORM, pComponent);
-
 
 	pComponent = m_pTexture[(_uint)STATE::IDLE] = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_BowIdle"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);

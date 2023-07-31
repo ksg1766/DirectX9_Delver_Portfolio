@@ -69,6 +69,9 @@ void CInventory::Add_ItemObject(CGameObject* pGameObject)
 				ChildTransform.erase(remove_if(ChildTransform.begin(), ChildTransform.end(),
 					[&](CTransform* pTramsform)
 					{
+						if (OBJECTTAG::ITEM != pTramsform->Get_Host()->Get_ObjectTag())
+							return false;
+
 						if (pTramsform == dynamic_cast<CItem*>(pGameObject)->m_pTransform)
 							return true;
 
@@ -100,6 +103,9 @@ void CInventory::Add_ItemObject(CGameObject* pGameObject)
 				ChildTransform.erase(remove_if(ChildTransform.begin(), ChildTransform.end(),
 					[&](CTransform* pTramsform)
 					{
+						if (OBJECTTAG::ITEM != pTramsform->Get_Host()->Get_ObjectTag())
+							return false;
+
 						if (pTramsform == dynamic_cast<CItem*>(pGameObject)->m_pTransform)
 							return true;
 
@@ -131,6 +137,9 @@ void CInventory::Add_ItemObject(CGameObject* pGameObject)
 				ChildTransform.erase(remove_if(ChildTransform.begin(), ChildTransform.end(),
 					[&](CTransform* pTramsform)
 					{
+						if (OBJECTTAG::ITEM != pTramsform->Get_Host()->Get_ObjectTag())
+							return false;
+
 						if (pTramsform == dynamic_cast<CItem*>(pGameObject)->m_pTransform)
 							return true;
 

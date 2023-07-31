@@ -24,6 +24,9 @@
 #include "GameManager.h"
 #include "CameraManager.h"
 #include "FlyingCamera.h"
+#include "EffectSwordTrail.h"
+#include "EffectSwordLightning.h"
+#include "EffectSwordParticles.h"
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CGameObject(pGraphicDev)
@@ -281,6 +284,30 @@ if (Engine::InputDev()->Key_Pressing(DIK_LCONTROL) && Engine::InputDev()->Key_Do
 	if (Engine::InputDev()->Key_Pressing(DIK_LCONTROL) && Engine::InputDev()->Key_Down(DIK_H))
 	{
 		CGameManager::GetInstance()->PlayMode(PD::HekirekiIssen);
+	}
+
+	if (Engine::InputDev()->Key_Pressing(DIK_LCONTROL) && Engine::InputDev()->Key_Down(DIK_8))
+	{
+		CEffectSwordTrail* pSwordLightning = CEffectSwordTrail::Create(m_pGraphicDev);
+		NULL_CHECK_RETURN(pSwordLightning);
+		pSwordLightning->m_pTransform->m_vInfo[INFO_POS] = (5.f * m_pTransform->m_vInfo[INFO_LOOK]);
+		EventManager()->CreateObject(pSwordLightning, LAYERTAG::GAMELOGIC);
+	}
+
+	if (Engine::InputDev()->Key_Pressing(DIK_LCONTROL) && Engine::InputDev()->Key_Down(DIK_9))
+	{
+		CEffectSwordLightning* pSwordLightning = CEffectSwordLightning::Create(m_pGraphicDev);
+		NULL_CHECK_RETURN(pSwordLightning);
+		pSwordLightning->m_pTransform->m_vInfo[INFO_POS] = (5.f * m_pTransform->m_vInfo[INFO_LOOK]);
+		EventManager()->CreateObject(pSwordLightning, LAYERTAG::GAMELOGIC);
+	}
+
+	if (Engine::InputDev()->Key_Pressing(DIK_LCONTROL) && Engine::InputDev()->Key_Down(DIK_0))
+	{
+		CEffectSwordParticles* pSwordLightning = CEffectSwordParticles::Create(m_pGraphicDev);
+		NULL_CHECK_RETURN(pSwordLightning);
+		pSwordLightning->m_pTransform->m_vInfo[INFO_POS] = (5.f * m_pTransform->m_vInfo[INFO_LOOK]);
+		EventManager()->CreateObject(pSwordLightning, LAYERTAG::GAMELOGIC);
 	}
 
 #pragma endregion 연출 테스트
@@ -1177,8 +1204,6 @@ void CPlayer::IsDrunk()
 				m_bDrunk = false;
 			}
 		}
-
-
 	}
 }
 
@@ -1267,7 +1292,7 @@ void CPlayer::IsAddiction(const _float& fTimeDelta)
 		{
 			this->Get_Stat()->Get_Stat()->fHP -= 1;
 
-			dynamic_cast<CDynamicCamera*>(CCameraManager::GetInstance()->Get_CurrentCam())->Shake_Camera();
+			dynamic_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam())->Shake_Camera();
 
 			m_fAddictionTime = 0.f;
 			m_iAddictionCount = 0;

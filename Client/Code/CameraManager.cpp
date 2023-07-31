@@ -52,8 +52,11 @@ void CCameraManager::LateUpdate_Camera()
 		pCamera->Set_Projection(CAMERA_TYPE::ORTHOGRAPHIC);
 	}
 	
-	_matrix _matViewProj = pCamera->Get_ViewMatrix() * pCamera->Get_ProjMatrix();
-	Octree()->GetFrustum()->MakeFrustum(&_matViewProj);
+	if (SCENETAG::EDITOR != SceneManager()->Get_Scene()->Get_SceneTag())
+	{
+		_matrix _matViewProj = pCamera->Get_ViewMatrix() * pCamera->Get_ProjMatrix();
+		Octree()->GetFrustum()->MakeFrustum(&_matViewProj);
+	}
 }
 
 void CCameraManager::Free()

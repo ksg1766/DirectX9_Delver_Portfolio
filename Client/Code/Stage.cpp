@@ -45,6 +45,7 @@
 #include "Jump_Plate.h"
 #include "Boss_Lightning.h"
 #include "BlackIn.h"
+#include "BossStage.h"
 
 // 연출 테스트 // 성공시 보스 씬으로 이동
 #include "GameManager.h"
@@ -86,8 +87,6 @@ HRESULT CStage::Ready_Scene()
 
 Engine::_int CStage::Update_Scene(const _float& fTimeDelta)
 {
-
-
 	__super::Update_Scene(fTimeDelta);
 
 	CGameManager::GetInstance()->Update_Game(fTimeDelta);
@@ -111,35 +110,14 @@ void CStage::LateUpdate_Scene()
 
 	UIManager()->LateUpdate_UI();
 
-	// 테스트용입니다.
-	//if (Engine::InputDev()->Key_Down(DIK_F7))
-	//{
-	//	CGameObject* pGameObject = CEffectBubble::Create(m_pGraphicDev);
+	if (m_pPlayer && m_pPlayer->m_pTransform->m_vInfo[INFO_POS].y > 250)
+	{
+		// 하수도 -> 보스 씬 이동
+		//CSoundManager::GetInstance()->PlaySound(L"door_beginning.mp3", CHANNELID::SOUND_ENVIRONMENT, 1.f);
 
-	//	//pGameObject->m_pTransform->Translate(_vec3(-40.f, 5.f, -40.f));
-	//	//Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
-	//	CPoolManager::GetInstance()->Create_Effect(EFFECTTAG::EFFECT_BROKENBOX, _vec3(-40.f, 5.f, -40.f));
-	//}
-	//else if (Engine::InputDev()->Key_Down(DIK_F8))
-	//{
-	//	CGameObject* pGameObject = CEffectBrokenbox::Create(m_pGraphicDev);
-	//	pGameObject->m_pTransform->Translate(_vec3(-40.f, 3.5f, -40.f));
-	//	Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
-	//	//CPoolManager::GetInstance()->Create_Effect(EFFECTTAG::, TargetPos);
-	//}
-
-	//if (Engine::InputDev()->Key_Down(DIK_F9))
-	//{
-	//	CSoundManager::GetInstance()->PlaySound(L"01_Title_Screen", CHANNELID::SOUND_EFFECT, g_fSound);
-	//	CSoundManager::GetInstance()->PlayBGM(L"11_10.Player_Die.wav", g_fSound);
-	//}
-	//if (Engine::InputDev()->Key_Pressing(DIK_K))
-	//{
-	//	CSoundManager::GetInstance()->PlaySound(L"03_StartVillage", CHANNELID::SOUND_EFFECT, g_fSound);
-	//	CSoundManager::GetInstance()->PlayBGM(L"11_10.Player_Die.wav", g_fSound);
-	//}
-
-
+		CScene* pScene = CBossStage::Create(m_pGraphicDev);
+		Engine::SceneManager()->Change_Scene(pScene);
+	}
 }
 
 void CStage::Render_Scene()
@@ -150,7 +128,7 @@ void CStage::Render_Scene()
 void CStage::Free()
 {
 	CSoundManager::GetInstance()->StopAll();
-	CPoolManager::DestroyInstance();
+	//CPoolManager::DestroyInstance();
 	__super::Free();
 }
 
@@ -239,13 +217,9 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	//pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
-
-
 	m_mapLayer.insert({ _eLayerTag, pLayer });
 
 	CPoolManager::GetInstance()->Ready_Pool();
-
-
 
 #pragma region 첫 번째 씬에서 받아오는 오브젝트
 

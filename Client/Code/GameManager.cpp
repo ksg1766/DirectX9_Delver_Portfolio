@@ -12,8 +12,8 @@ CGameManager::CGameManager()
 {
 	if (!m_pPlayer)
 		m_pPlayer = SceneManager()->Get_Scene()->Get_MainPlayer();
-	if (!m_pBoss)
-		m_pBoss = static_cast<CSkeletonKing*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front());
+	//if (!m_pBoss)
+	//	m_pBoss = static_cast<CSkeletonKing*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front());
 }
 
 CGameManager::~CGameManager()

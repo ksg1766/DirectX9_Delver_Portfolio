@@ -43,6 +43,23 @@ _int CFlyingCamera::Update_Object(const _float& fTimeDelta)
 		}
 	}
 
+	if (m_tCameraShaking.m_bShaking)
+	{
+		m_tCameraShaking.m_fShakeElipsedTime += fTimeDelta;
+
+		if (m_tCameraShaking.m_fShakeElipsedTime < m_tCameraShaking.m_fDuration)
+		{
+			_float X = m_tCameraShaking.m_fAmplitude * cosf(m_tCameraShaking.m_fShakeElipsedTime * m_tCameraShaking.m_fFrequency + (((_float)rand() / (_float)RAND_MAX) * D3DX_PI));
+			_float Y = m_tCameraShaking.m_fAmplitude * -sinf(m_tCameraShaking.m_fShakeElipsedTime * m_tCameraShaking.m_fFrequency + (((_float)rand() / (_float)RAND_MAX) * D3DX_PI));
+			m_pTransform->Translate(_vec3(X, Y, 0));
+		}
+		else
+		{
+			m_pTransform->Copy_RUL_AddPos(m_pTransform->m_pParent->m_vInfo);
+			m_tCameraShaking.m_bShaking = false;
+		}
+	}
+
 	_int iExit = __super::Update_Object(fTimeDelta);
 
 	return iExit;
@@ -117,7 +134,7 @@ HRESULT CFlyingCamera::Add_Component(void)
 
 void CFlyingCamera::Key_Input(const _float& fTimeDelta)
 {
-	if (m_eCameraMode == CAMERA_MODE::THIRD_PERSON)
+	if (m_eCameraMode == CAMERA_MODE::THIRD_PERSON || SCENETAG::EDITOR == SceneManager()->Get_Scene()->Get_SceneTag())
 	{
 		if (Engine::InputDev()->Key_Pressing(DIK_W))
 			m_pTransform->Translate(m_fSpeed * fTimeDelta * m_pTransform->m_vInfo[INFO_LOOK]);
@@ -184,6 +201,7 @@ void CFlyingCamera::Key_Input(const _float& fTimeDelta)
 
 	if (Engine::InputDev()->Key_Pressing(DIK_F5))
 	{
+		Set_ShakeForce(0.f, 0.01f, 3, 2.f);
 		Shake_Camera();
 	}
 }

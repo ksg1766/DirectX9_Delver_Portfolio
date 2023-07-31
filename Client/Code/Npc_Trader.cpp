@@ -4,7 +4,7 @@
 #include "Export_Function.h"
 #include "Trader_Idle.h"
 #include "Player.h"
-#include "DynamicCamera.h"
+#include "FlyingCamera.h"
 
 CNpc_Trader::CNpc_Trader(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CNpc(pGraphicDev)
@@ -79,7 +79,7 @@ _int CNpc_Trader::Update_Object(const _float& fTimeDelta)
 			{
 				Engine::UIManager()->Set_Shop();
 				rPlayer.Set_Talk(false);
-				static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(false);
+				static_cast<CFlyingCamera*>(pGameObject)->Set_MouseFix(false);
 				m_bUse = false;
 
 				CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_UI);
@@ -108,7 +108,7 @@ _int CNpc_Trader::Update_Object(const _float& fTimeDelta)
 			
 				if (Engine::UIManager()->Set_Shop())
 				{
-					static_cast<CDynamicCamera*>(pGameObject)->Set_Fix(true);
+					static_cast<CFlyingCamera*>(pGameObject)->Set_MouseFix(true);
 					CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_UI);
 					CSoundManager::GetInstance()->PlaySound(L"ui_dialogue_open.mp3", CHANNELID::SOUND_UI, 1.f);
 				}

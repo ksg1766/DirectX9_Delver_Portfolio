@@ -109,6 +109,15 @@ void CLayer::LateUpdate_Layer()
 		{
 			if ((_iter)->Get_ObjectTag() != OBJECTTAG::BACKGROUND)
 			{
+				if ((OBJECTTAG)iter.first == OBJECTTAG::EFFECT)    // 임시로 터지는것 방지
+				{
+					if (OBJECTTAG::EFFECT != _iter->Get_ObjectTag())
+					{
+						++_iter;
+						continue;
+					}
+				}
+
 				_iter->LateUpdate_Object();
 				if ((_iter)->Get_ObjectTag() == OBJECTTAG::TRAP)
 				{

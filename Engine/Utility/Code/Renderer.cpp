@@ -56,7 +56,7 @@ void CRenderer::Render_GameObject(LPDIRECT3DDEVICE9& pGraphicDev)
 	Render_UI(pGraphicDev);
 
 //	if(!SceneManager()->Is_TickPassed())
-		Clear_RenderGroup();
+	Clear_RenderGroup();
 }
 
 void CRenderer::Clear_RenderGroup()
@@ -96,7 +96,7 @@ void CRenderer::Render_Priority(LPDIRECT3DDEVICE9& pGraphicDev)
 		pGraphicDev->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_LINEAR);
 		// 안개 색상 설정
 		//pGraphicDev->SetRenderState(D3DRS_FOGCOLOR, D3DCOLOR_ARGB(1, 100, 155, 180));
-		pGraphicDev->SetRenderState(D3DRS_FOGCOLOR, D3DCOLOR_ARGB(1, 10, 25, 50));
+		pGraphicDev->SetRenderState(D3DRS_FOGCOLOR, D3DCOLOR_ARGB(1, 10, 35, 50));
 		//_float fFar = 140.0f;
 		pGraphicDev->SetRenderState(D3DRS_FOGSTART, *(DWORD*)&fNear);
 		pGraphicDev->SetRenderState(D3DRS_FOGEND, *(DWORD*)&fFar);

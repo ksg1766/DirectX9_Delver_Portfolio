@@ -150,16 +150,23 @@ void CFireBall::OnCollisionEnter(CCollider* _pOther)
 	CPlayer& pPlayer = *dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer());
 
 	if ((_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::MONSTER &&
-		dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_StateMachine()->Get_State() != STATE::DEAD)||(_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BOSS))
+		dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_StateMachine()->Get_State() != STATE::DEAD) ||
+		(_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BOSS) ||
+		(_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BLOCK) ||
+		(_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::FRAGILE))
 	{
-		pPlayer.IsAttack(dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_BasicStat());
+		CGameObject* pGameObject = nullptr;
+		if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::MONSTER || _pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BOSS)
+		{
+			pPlayer.IsAttack(dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_BasicStat());
 
-		//////////////////////////////////////////////////////////////////////////////// ÀÌÆåÆ® 
-		_matrix      matMonsterWorld = _pOther->Get_Host()->m_pTransform->WorldMatrix();
-		_vec3        vecMonsterPos   = _vec3(matMonsterWorld._41, matMonsterWorld._42 + .5f, matMonsterWorld._43);
-		CGameObject* pGameObject     = CEffectSquare::Create(m_pGraphicDev, vecMonsterPos, 50, EFFECTCOLOR::ECOLOR_NONE);
-		dynamic_cast<CEffectSquare*>(pGameObject)->Set_MonsterEffectColor(dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_MonsterTag());
-		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+			//////////////////////////////////////////////////////////////////////////////// ÀÌÆåÆ® 
+			_matrix      matMonsterWorld = _pOther->Get_Host()->m_pTransform->WorldMatrix();
+			_vec3        vecMonsterPos = _vec3(matMonsterWorld._41, matMonsterWorld._42 + .5f, matMonsterWorld._43);
+			pGameObject = CEffectSquare::Create(m_pGraphicDev, vecMonsterPos, 50, EFFECTCOLOR::ECOLOR_NONE);
+			dynamic_cast<CEffectSquare*>(pGameObject)->Set_MonsterEffectColor(dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_MonsterTag());
+			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+		}
 
 		pGameObject = CEffectExplosion::Create(m_pGraphicDev);
 		pGameObject->m_pTransform->Translate(m_pTransform->m_vInfo[INFO_POS]);

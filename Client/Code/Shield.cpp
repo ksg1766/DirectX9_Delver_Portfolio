@@ -27,18 +27,13 @@ HRESULT CShield::Ready_Object(_bool _Item)
 	m_bWorldItem = _Item;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-
 	if (!Get_WorldItem())
 	{
 		m_pTransform->Scale(_vec3(-0.3f, 0.3f, 0.3f));
 		m_pCollider->
 			InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
 
-		CGameObject* pPlayer = SceneManager()->GetInstance()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front();
-
-		//m_pTransform->Copy_RUL(m_pTransform->m_pParent->m_vInfo);
-
-		//m_pTransform->Translate(pPlayer->m_pTransform->m_vInfo[INFO_POS] + *dynamic_cast<CPlayer*>(pPlayer)->Get_LeftOffset());
+		CGameObject* pPlayer = SceneManager()->Get_Scene()->Get_MainPlayer();
 
 		m_vDir = pPlayer->m_pTransform->m_vInfo[INFO_LOOK];
 		D3DXVec3Normalize(&m_vDir, &m_vDir);
@@ -73,7 +68,7 @@ _int CShield::Update_Object(const _float& fTimeDelta)
 
 	_int iExit = __super::Update_Object(fTimeDelta);
 
-	CPlayer* pPlayer = dynamic_cast<CPlayer*>(SceneManager()->GetInstance()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
+	CPlayer* pPlayer = dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer());
 	CItem* ItemType = dynamic_cast<CItem*>(pPlayer->Get_CurrentEquipLeft());
 	ITEMTYPEID ItemID = {};
 
@@ -131,9 +126,9 @@ _int CShield::Update_Object(const _float& fTimeDelta)
 		else if (pPlayer->Get_StateMachine()->Get_State() == STATE::ROMIMG)
 		{
 			if (m_iMoveTick > 0)
-				m_pTransform->Translate(m_pTransform->m_pParent->m_vInfo[INFO_UP] * 0.01f);
+				m_pTransform->Translate(m_pTransform->m_vInfo[INFO_UP] * 0.01f);
 			else
-				m_pTransform->Translate(m_pTransform->m_pParent->m_vInfo[INFO_UP] * -0.01f);
+				m_pTransform->Translate(m_pTransform->m_vInfo[INFO_UP] * -0.01f);
 
 			--m_iMoveTick;
 
@@ -145,10 +140,9 @@ _int CShield::Update_Object(const _float& fTimeDelta)
 		}
 		else
 		{
-
 			CTransform* pPlayerTransform = pPlayer->m_pTransform;
 
-			_vec3 vOffSet = -0.7f * pPlayerTransform->m_vInfo[INFO_RIGHT] + 1.5f * pPlayerTransform->m_vInfo[INFO_LOOK] - 0.6f * pPlayerTransform->m_vInfo[INFO_UP];
+			_vec3 vOffSet = -0.6f * pPlayerTransform->m_vInfo[INFO_RIGHT] + 1.6f * pPlayerTransform->m_vInfo[INFO_LOOK] - 0.4f * pPlayerTransform->m_vInfo[INFO_UP];
 			m_pTransform->m_vInfo[INFO_POS] = (pPlayerTransform->m_vInfo[INFO_POS] + vOffSet);
 
 			m_bSound = false;
@@ -197,10 +191,6 @@ void CShield::Render_Object(void)
 		m_pCollider->Render_Collider();
 #endif // _DEBUG
 	}
-
-
-
-
 }
 	
 HRESULT CShield::Add_Component(void)
@@ -253,9 +243,9 @@ void CShield::OnCollisionEnter(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 
-	if (!(_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::MONSTER) &&
-		!(_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::PLAYER))
-		__super::OnCollisionEnter(_pOther);
+	/*if (_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::MONSTER) &&
+		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::PLAYER))
+		__super::OnCollisionEnter(_pOther);*/
 
 	CPlayer& pPlayer = *dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer());
 
@@ -286,9 +276,9 @@ void CShield::OnCollisionStay(CCollider* _pOther)
 	if (SceneManager()->Get_GameStop()) { return; }
 
 
-	if (!(_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::MONSTER) &&
-		!(_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::PLAYER))
-		__super::OnCollisionStay(_pOther);
+	/*if (_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::MONSTER &&
+		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::PLAYER)
+		__super::OnCollisionStay(_pOther);*/
 }
 
 void CShield::OnCollisionExit(CCollider* _pOther)
@@ -302,7 +292,7 @@ void CShield::OnCollisionExit(CCollider* _pOther)
 		{
 			CTransform* pPlayerTransform = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform;
 
-			_vec3 vOffSet = -0.7f * pPlayerTransform->m_vInfo[INFO_RIGHT] + 1.4f * pPlayerTransform->m_vInfo[INFO_LOOK] - 0.4f * pPlayerTransform->m_vInfo[INFO_UP];
+			_vec3 vOffSet = -0.6f * pPlayerTransform->m_vInfo[INFO_RIGHT] + 1.6f * pPlayerTransform->m_vInfo[INFO_LOOK] - 0.4f * pPlayerTransform->m_vInfo[INFO_UP];
 			m_pTransform->m_vInfo[INFO_POS] = (pPlayerTransform->m_vInfo[INFO_POS] + vOffSet);
 		}
 	}

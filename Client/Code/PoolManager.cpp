@@ -40,7 +40,8 @@ CPoolManager::~CPoolManager()
 
 void CPoolManager::Ready_Pool()
 {
-	m_pPool = new ObjectPool;
+	if(!m_pPool)
+		m_pPool = new ObjectPool;
 }
 
 CMonster* CPoolManager::Create_Monster(MONSTERTAG _eMonsterTag, _vec3 _vSpawnPos) // 특정 위치에 소환

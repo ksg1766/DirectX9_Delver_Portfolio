@@ -36,22 +36,13 @@ HRESULT CEpicBow::Ready_Object(_bool _Item)
 		m_pTransform->Scale(_vec3(0.3f, 0.3f, 0.3f));
 
 		CGameObject* pPlayer = SceneManager()->Get_Scene()->Get_MainPlayer();
-		//CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pTransform->m_pParent->Get_Host());
 
-		// 밑으로 ksg가 주석 처리 함
-		//m_pTransform->Copy_RUL(m_pTransform->m_pParent->m_vInfo);
 		m_pTransform->Scale(_vec3(0.3f, 0.3f, 0.3f));
-
-		//m_pTransform->Translate(m_pTransform->m_pParent->m_vInfo[INFO_POS] + *dynamic_cast<CPlayer*>(pPlayer)->Get_Offset());
-
-#pragma region ksg
 
 		CTransform* pPlayerTransform = pPlayer->m_pTransform;
 
-		_vec3 vOffSet = 0.7f * pPlayerTransform->m_vInfo[INFO_RIGHT] + 1.4f * pPlayerTransform->m_vInfo[INFO_LOOK] - 0.4f * pPlayerTransform->m_vInfo[INFO_UP];
+		_vec3 vOffSet = 0.6f * pPlayerTransform->m_vInfo[INFO_RIGHT] + 1.6f * pPlayerTransform->m_vInfo[INFO_LOOK] - 0.4f * pPlayerTransform->m_vInfo[INFO_UP];
 		m_pTransform->m_vInfo[INFO_POS] = (pPlayerTransform->m_vInfo[INFO_POS] + vOffSet);
-
-#pragma endregion ksg
 
 		m_iAttackTick = 10;
 		m_fChase = 0.f;
@@ -69,8 +60,6 @@ HRESULT CEpicBow::Ready_Object(_bool _Item)
 		m_pAnimator->Add_Animation(STATE::ATTACK, pAnimation);
 
 		m_pAnimator->Set_Animation(STATE::IDLE);
-
-
 	}
 	else
 	{
@@ -80,17 +69,12 @@ HRESULT CEpicBow::Ready_Object(_bool _Item)
 			InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
 
 		m_pTransform->Translate(_vec3(0.0f, 2.f, 0.0f));
-		//m_pCollider->
-		//	InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
 	}
-
 
 	// 타입 및 아이디 지정
 	m_ItemID.eItemType = ITEMTYPE::ITEMTYPE_WEAPONITEM;
 	m_ItemID.eItemID = WEAPON_EPICBOW;
 	m_ItemID.iCount = 1;
-
-
 
 #pragma region EpicBow
 	m_pBasicStat->Get_Stat()->iDamageMax = 10.f;
@@ -178,7 +162,7 @@ _int CEpicBow::Update_Object(const _float& fTimeDelta)
 			{
 				CTransform* pPlayerTransform = pPlayer->m_pTransform;
 
-				_vec3 vOffSet = 0.7f * pPlayerTransform->m_vInfo[INFO_RIGHT] + 1.4f * pPlayerTransform->m_vInfo[INFO_LOOK] - 0.4f * pPlayerTransform->m_vInfo[INFO_UP];
+				_vec3 vOffSet = 0.6f * pPlayerTransform->m_vInfo[INFO_RIGHT] + 1.6f * pPlayerTransform->m_vInfo[INFO_LOOK] - 0.4f * pPlayerTransform->m_vInfo[INFO_UP];
 				m_pTransform->m_vInfo[INFO_POS] = (pPlayerTransform->m_vInfo[INFO_POS] + vOffSet);
 
 				m_pAnimator->Set_Animation(STATE::IDLE);

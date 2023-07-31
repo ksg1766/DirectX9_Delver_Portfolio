@@ -4,7 +4,9 @@
 #include "Player.h"
 #include "BossExplosion.h"
 #include "MiniMeteor_Idle.h"
-#include "DynamicCamera.h"
+#include "FlyingCamera.h"
+#include "CameraManager.h"
+
 CMiniMeteor::CMiniMeteor(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CMonster(pGraphicDev)
 {
@@ -41,12 +43,12 @@ _int CMiniMeteor::Update_Object(const _float& fTimeDelta)
 	Engine::Renderer()->Add_RenderGroup(RENDER_PRIORITY, this);
 	if (SceneManager()->Get_GameStop()) { return 0; }
 	_uint iExit = __super::Update_Object(fTimeDelta);
-	CDynamicCamera& rCamera = *dynamic_cast<CDynamicCamera*>(SceneManager()->Get_ObjectList(LAYERTAG::ENVIRONMENT, OBJECTTAG::CAMERA).front());
+	CFlyingCamera* pCamera = dynamic_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam());
 
 	if (!m_bShake)
 	{
-		rCamera.Set_ShakeForce(0.f, 0.01, 3, 2.f);
-		rCamera.Shake_Camera();
+		pCamera->Set_ShakeForce(0.f, 0.01f, 3, 2.f);
+		pCamera->Shake_Camera();
 	}
 	if ((3.f < m_fDuration) && (!m_bHit))
 	{

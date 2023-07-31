@@ -19,7 +19,9 @@ private:
 	HRESULT		Add_Component(void);
 
 private:
-	_float		m_fMaxScaleRate;
+	_float		m_fCurScaleRate = 0.f;
+	_float		m_fMaxScaleRate = 1.f;
+
 
 public:
 	static		CEffectSwordParticles* Create(LPDIRECT3DDEVICE9 pGraphicDev);

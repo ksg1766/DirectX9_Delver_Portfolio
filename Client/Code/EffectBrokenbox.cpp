@@ -26,9 +26,9 @@ HRESULT CEffectBrokenbox::Ready_Object()
 	else
 		m_fFrame = 1.f;
 	
-
-	m_fLife        = 7.f;
-	m_fEffectScale = .5f;
+	m_fTime			= 0.f;
+	m_fLife			= 7.f;
+	m_fEffectScale	= .5f;
 
 	m_fDownSpeed = 7.f;
 

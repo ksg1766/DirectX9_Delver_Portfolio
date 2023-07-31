@@ -71,7 +71,7 @@ _int CHellDoor::Update_Object(const _float& fTimeDelta)
 	if (m_bBgmChange)
 	{
 		CSoundManager::GetInstance()->StopAll();
-		CSoundManager::GetInstance()->PlayBGM(L"04_swords_and_skulls.mp3", 0.8f);
+		CSoundManager::GetInstance()->PlayBGM(L"DK-5", 0.8f);
 
 		m_bBgmChange = false;
 		m_bDoorOpen = false;
@@ -83,21 +83,18 @@ _int CHellDoor::Update_Object(const _float& fTimeDelta)
 		CSoundManager::GetInstance()->PlaySoundLoop(L"MyDoor.mp3", CHANNELID::SOUND_DOOR, 0.8f);
 	}
 
-
 	if (m_bTriger)
 	{
 		//CDynamicCamera& rCamera = *dynamic_cast<CDynamicCamera*>(SceneManager()->Get_ObjectList(LAYERTAG::ENVIRONMENT, OBJECTTAG::CAMERA).front());
-		CFlyingCamera* refCamera = dynamic_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam());
+		CFlyingCamera* pCamera = dynamic_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam());
 
 		if (m_bShake)
 		{
-			refCamera->Set_ShakeForce(0.f, 0.01, 3, 2.f);
-			refCamera->Shake_Camera();
+			pCamera->Set_ShakeForce(0.f, 0.01f, 3, 2.f);
+			pCamera->Shake_Camera();
 		}
 
-
 		_float fFinalY = m_vecDoorCube[30]->m_pTransform->m_vInfo[INFO_POS].y;
-
 
 		for (auto& iter = m_vecDoorCube.begin(); iter != m_vecDoorCube.end(); ++iter)
 		{
@@ -134,7 +131,7 @@ _int CHellDoor::Update_Object(const _float& fTimeDelta)
 				{
 					if (!m_bBgmStop)
 					{
-						refCamera->Reset_ShakeForce();
+						pCamera->Reset_ShakeForce();
 						m_bShake = false;
 						m_bBgmChange = true;
 						m_bBgmStop = true;

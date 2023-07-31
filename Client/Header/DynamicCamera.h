@@ -41,7 +41,7 @@ public:
 
 public:
 	void		Set_Fix(_bool _Fix) { m_bFix = _Fix; }
-	void		Set_ShakeForce(_float _ShakeTime, _float _Amplitude, _float _Duration, _float _Frequency);
+	//void		Set_ShakeForce(_float _ShakeTime, _float _Amplitude, _float _Duration, _float _Frequency);
 	void		Reset_ShakeForce();
 
 public:

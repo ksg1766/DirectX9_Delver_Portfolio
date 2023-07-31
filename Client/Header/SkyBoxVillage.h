@@ -28,9 +28,8 @@ private:
 	HRESULT		Add_Component(void);
 
 private:
-	CCubeBf*		m_pBufferCom = nullptr;
-	CTexture*		m_pTextureCom = nullptr;
-	CTransform*		m_pTransformCom = nullptr;
+	CCubeBf*		m_pCubeBf = nullptr;
+	CTexture*		m_pTexture = nullptr;
 
 public:
 	static CSkyBoxVillage*	Create(LPDIRECT3DDEVICE9 pGraphicDev);

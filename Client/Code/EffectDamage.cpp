@@ -21,14 +21,15 @@ HRESULT CEffectDamage::Ready_Object(void)
 
 	m_bAnimation = true;
 
-	m_fFrame = 0.f;
-	m_fFrist = 0.f;
-	m_fFinal = 3.f;
-	m_fFrameSpeed  = 3.f;
+	m_fFrame		= 0.f;
+	m_fFrist		= 0.f;
+	m_fFinal		= 3.f;
+	m_fFrameSpeed	= 3.f;
 
-	m_fLife        = 5.f;
+	m_fTime			= 0.f;
+	m_fLife			= 5.f;
 
-	m_fEffectScale = .35f;
+	m_fEffectScale	= .35f;
 
 	return S_OK;
 }

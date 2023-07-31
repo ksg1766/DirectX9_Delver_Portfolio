@@ -1,6 +1,9 @@
 #include "stdafx.h"
 #include "..\Header\EffectSwordLightning.h"
 
+// 이펙트 테스트
+#include "Player.h"
+
 CEffectSwordLightning::CEffectSwordLightning(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CTempEffect(pGraphicDev)
 {
@@ -24,9 +27,10 @@ HRESULT CEffectSwordLightning::Ready_Object()
 	m_fFrame		= 0.f;
 	m_fFrist		= 0.f;
 	m_fFinal		= 5.f;
-	m_fFrameSpeed	= 0.2f;
+	m_fFrameSpeed	= 5.f;
 
-	m_fLife			= 10.f;
+	m_fTime			= 0.f;
+	m_fLife			= 5.f;
 
 	m_fEffectScale = 20.f;
 	m_pTransform->Scale(_vec3(m_fEffectScale, 0.001f, m_fEffectScale));
@@ -45,6 +49,12 @@ _int CEffectSwordLightning::Update_Object(const _float& fTimeDelta)
 	
 	_int iExit = CTempEffect::Update_Object(fTimeDelta);
 
+	if (m_fCurScaleRate < m_fMaxScaleRate)
+	{
+		m_fCurScaleRate += 2.f * fTimeDelta;
+		m_pTransform->Scale(_vec3(m_fEffectScale, 0.1f * m_fEffectScale, m_fEffectScale));
+	}
+
 	return iExit;
 }
 
@@ -52,8 +62,8 @@ void CEffectSwordLightning::LateUpdate_Object(void)
 {
 	CTempEffect::LateUpdate_Object();
 
-	m_pBillBoardCom->LateUpdate_Component();
-	m_pTransform->Scale(_vec3(m_fEffectScale, m_fEffectScale, m_fEffectScale));
+	CPlayer* pPlayer = SceneManager()->Get_Scene()->Get_MainPlayer();
+	m_pTransform->m_vInfo[INFO_POS] = pPlayer->m_pTransform->m_vInfo[INFO_POS] + pPlayer->m_pTransform->m_vInfo[INFO_LOOK] * 45.f;
 }
 
 void CEffectSwordLightning::Render_Object(void)

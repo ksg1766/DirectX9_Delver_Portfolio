@@ -49,10 +49,10 @@ void CTransform::Translate(const _vec3& _vTranslation)
 
 void CTransform::Scale(_vec3& _vScale)
 {
-	_vec3 vScale;
+	/*_vec3 vScale;
 	vScale.x = D3DXVec3Length(&m_vInfo[INFO_RIGHT]);
 	vScale.y = D3DXVec3Length(&m_vInfo[INFO_UP]);
-	vScale.z = D3DXVec3Length(&m_vInfo[INFO_LOOK]);
+	vScale.z = D3DXVec3Length(&m_vInfo[INFO_LOOK]);*/
 
 	for (_int i = 0; i < INFO_POS; ++i)
 	{

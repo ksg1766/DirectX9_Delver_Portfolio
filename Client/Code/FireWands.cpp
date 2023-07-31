@@ -30,18 +30,11 @@ HRESULT CFireWands::Ready_Object(_bool _Item)
 		m_pTransform->Scale(_vec3(0.3f, 0.3f, 0.3f));
 
 		CGameObject* pPlayer = SceneManager()->Get_Scene()->Get_MainPlayer();
-		//CPlayer* pPlayer = dynamic_cast<CPlayer*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
-
-		//m_pTransform->Translate(pPlayer->m_pTransform->m_vInfo[INFO_POS] + *dynamic_cast<CPlayer*>(pPlayer)->Get_Offset());
-
-#pragma region ksg
 
 		CTransform* pPlayerTransform = pPlayer->m_pTransform;
 
-		_vec3 vOffSet = 0.7f * pPlayerTransform->m_vInfo[INFO_RIGHT] + 1.4f * pPlayerTransform->m_vInfo[INFO_LOOK] - 0.4f * pPlayerTransform->m_vInfo[INFO_UP];
+		_vec3 vOffSet = 0.6f * pPlayerTransform->m_vInfo[INFO_RIGHT] + 1.6f * pPlayerTransform->m_vInfo[INFO_LOOK] - 0.4f * pPlayerTransform->m_vInfo[INFO_UP];
 		m_pTransform->m_vInfo[INFO_POS] = (pPlayerTransform->m_vInfo[INFO_POS] + vOffSet);
-
-#pragma endregion ksg
 
 		m_iAttackTick = 10;
 	}
@@ -110,8 +103,8 @@ _int CFireWands::Update_Object(const _float& fTimeDelta)
 
 				CGameObject* pGameObject = CEffectWand::Create(m_pGraphicDev);
 
-				_vec3 vOffSet = -0.5f * m_pTransform->m_vInfo[INFO_RIGHT] + 1.4f * m_pTransform->m_vInfo[INFO_LOOK] + 0.4f * m_pTransform->m_vInfo[INFO_UP];
-				pGameObject->m_pTransform->Translate(m_pTransform->m_vInfo[INFO_POS] + vOffSet);
+				_vec3 vOffSet = 0.6f * m_pTransform->m_vInfo[INFO_RIGHT] + 1.6f * m_pTransform->m_vInfo[INFO_LOOK] - 0.4f * m_pTransform->m_vInfo[INFO_UP];
+				m_pTransform->m_vInfo[INFO_POS] = (m_pTransform->m_vInfo[INFO_POS] + vOffSet);
 				Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 			}
 
@@ -129,7 +122,7 @@ _int CFireWands::Update_Object(const _float& fTimeDelta)
 
 				CTransform* pPlayerTransform = pPlayer->m_pTransform;
 
-				_vec3 vOffSet = 0.7f * pPlayerTransform->m_vInfo[INFO_RIGHT] + 1.4f * pPlayerTransform->m_vInfo[INFO_LOOK] - 0.4f * pPlayerTransform->m_vInfo[INFO_UP];
+				_vec3 vOffSet = 0.6f * pPlayerTransform->m_vInfo[INFO_RIGHT] + 1.6f * pPlayerTransform->m_vInfo[INFO_LOOK] - 0.4f * pPlayerTransform->m_vInfo[INFO_UP];
 				m_pTransform->m_vInfo[INFO_POS] = (pPlayerTransform->m_vInfo[INFO_POS] + vOffSet);
 
 				m_bEffect = false;
@@ -151,8 +144,9 @@ _int CFireWands::Update_Object(const _float& fTimeDelta)
 		{
 			CTransform* pPlayerTransform = pPlayer->m_pTransform;
 
-			_vec3 vOffSet = 0.7f * pPlayerTransform->m_vInfo[INFO_RIGHT] + 1.4f * pPlayerTransform->m_vInfo[INFO_LOOK] - 0.4f * pPlayerTransform->m_vInfo[INFO_UP];
+			_vec3 vOffSet = 0.6f * pPlayerTransform->m_vInfo[INFO_RIGHT] + 1.6f * pPlayerTransform->m_vInfo[INFO_LOOK] - 0.4f * pPlayerTransform->m_vInfo[INFO_UP];
 			m_pTransform->m_vInfo[INFO_POS] = (pPlayerTransform->m_vInfo[INFO_POS] + vOffSet);
+
 			m_iMoveTick = 0;
 		}
 	}

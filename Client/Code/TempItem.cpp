@@ -50,14 +50,10 @@ HRESULT CTempItem::Ready_Object(_bool _Item)
 		CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pTransform->m_pParent->Get_Host());
 		//m_pTransform->Translate(pPlayer->m_pTransform->m_vInfo[INFO_POS] + *dynamic_cast<CPlayer*>(pPlayer)->Get_Offset());
 
-#pragma region ksg
-
 		CTransform* pPlayerTransform = pPlayer->m_pTransform;
 
-		_vec3 vOffSet = 0.7f * pPlayerTransform->m_vInfo[INFO_RIGHT] + 1.4f * pPlayerTransform->m_vInfo[INFO_LOOK] - 0.4f * pPlayerTransform->m_vInfo[INFO_UP];
+		_vec3 vOffSet = 0.6f * pPlayerTransform->m_vInfo[INFO_RIGHT] + 1.6f * pPlayerTransform->m_vInfo[INFO_LOOK] - 0.4f * pPlayerTransform->m_vInfo[INFO_UP];
 		m_pTransform->m_vInfo[INFO_POS] = (pPlayerTransform->m_vInfo[INFO_POS] + vOffSet);
-
-#pragma endregion ksg
 	}
 	else
 	{
@@ -108,9 +104,6 @@ _int CTempItem::Update_Object(const _float& fTimeDelta)
 		else
 			m_pRigidBody->UseGravity(false);
 	}
-		
-
-
 
 	if (ItemType != nullptr)
 		ItemID = ItemType->Get_ItemTag();
@@ -122,11 +115,8 @@ _int CTempItem::Update_Object(const _float& fTimeDelta)
 	{
 		m_pRigidBody->UseGravity(false);
 
-
-#pragma region ksg
 		if (pPlayer->Get_Attack() && pPlayer != nullptr)
 		{
-
 			m_iMoveTick = 0;
 			if (m_iAttackTick > 0)
 			{
@@ -151,7 +141,7 @@ _int CTempItem::Update_Object(const _float& fTimeDelta)
 
 				CTransform* pPlayerTransform = pPlayer->m_pTransform;
 
-				_vec3 vOffSet = 0.7f * pPlayerTransform->m_vInfo[INFO_RIGHT] + 1.4f * pPlayerTransform->m_vInfo[INFO_LOOK] - 0.4f * pPlayerTransform->m_vInfo[INFO_UP];
+				_vec3 vOffSet = 0.6f * pPlayerTransform->m_vInfo[INFO_RIGHT] + 1.6f * pPlayerTransform->m_vInfo[INFO_LOOK] - 0.4f * pPlayerTransform->m_vInfo[INFO_UP];
 				m_pTransform->m_vInfo[INFO_POS] = (pPlayerTransform->m_vInfo[INFO_POS] + vOffSet);
 
 				_vec3 vLocalScale = m_pTransform->LocalScale();
@@ -177,12 +167,11 @@ _int CTempItem::Update_Object(const _float& fTimeDelta)
 		{
 			CTransform* pPlayerTransform = pPlayer->m_pTransform;
 
-			_vec3 vOffSet = 0.7f * pPlayerTransform->m_vInfo[INFO_RIGHT] + 1.4f * pPlayerTransform->m_vInfo[INFO_LOOK] - 0.4f * pPlayerTransform->m_vInfo[INFO_UP];
+			_vec3 vOffSet = 0.6f * pPlayerTransform->m_vInfo[INFO_RIGHT] + 1.6f * pPlayerTransform->m_vInfo[INFO_LOOK] - 0.4f * pPlayerTransform->m_vInfo[INFO_UP];
 			m_pTransform->m_vInfo[INFO_POS] = (pPlayerTransform->m_vInfo[INFO_POS] + vOffSet);
+
 			m_iMoveTick = 0;
 		}
-#pragma endregion ksg
-
 	}
 
 	return iExit;
@@ -381,6 +370,7 @@ void CTempItem::OnCollisionStay(CCollider* _pOther)
 			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 			//////////////////////////////////////////////////////////////////////////////// ÀÌÆåÆ® 
 		}
+
 		else if (!pPlayer.Get_AttackTick() && _pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BLOCK)
 		{
 			pPlayer.Set_AttackTick(true);

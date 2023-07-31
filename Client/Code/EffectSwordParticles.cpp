@@ -1,6 +1,9 @@
 #include "stdafx.h"
 #include "..\Header\EffectSwordParticles.h"
 
+// 이펙트 테스트
+#include "Player.h"
+
 CEffectSwordParticles::CEffectSwordParticles(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CTempEffect(pGraphicDev)
 {
@@ -19,12 +22,14 @@ HRESULT CEffectSwordParticles::Ready_Object()
 	m_EffectTag = EFFECTTAG::EFFECT_HEKIREKIISSEN;
 
 	m_bAnimation = true;
+	m_bLoop = true;
 
 	m_fFrame = 0.f;
 
 	m_fFrameSpeed = 0.2f;
 
-	m_fLife = 10.f;
+	m_fTime = 0.f;
+	m_fLife = 5.f;
 
 	m_fEffectScale = 20.f;
 	m_pTransform->Scale(_vec3(m_fEffectScale, 0.001f, m_fEffectScale));
@@ -43,6 +48,12 @@ _int CEffectSwordParticles::Update_Object(const _float& fTimeDelta)
 
 	_int iExit = CTempEffect::Update_Object(fTimeDelta);
 
+	if (m_fCurScaleRate < m_fMaxScaleRate)
+	{
+		m_fCurScaleRate += .2f * fTimeDelta;
+		m_pTransform->Scale(*D3DXVec3Lerp(&_vec3(), &_vec3(m_fEffectScale, 0.001f, m_fEffectScale), &_vec3(m_fEffectScale, 0.5f * m_fEffectScale, m_fEffectScale), m_fCurScaleRate));
+	}
+
 	return iExit;
 }
 
@@ -50,8 +61,8 @@ void CEffectSwordParticles::LateUpdate_Object(void)
 {
 	CTempEffect::LateUpdate_Object();
 
-	m_pBillBoardCom->LateUpdate_Component();
-	m_pTransform->Scale(_vec3(m_fEffectScale, m_fEffectScale, m_fEffectScale));
+	CPlayer* pPlayer = SceneManager()->Get_Scene()->Get_MainPlayer();
+	m_pTransform->m_vInfo[INFO_POS] = pPlayer->m_pTransform->m_vInfo[INFO_POS] + pPlayer->m_pTransform->m_vInfo[INFO_LOOK] * 45.f;
 }
 
 void CEffectSwordParticles::Render_Object(void)

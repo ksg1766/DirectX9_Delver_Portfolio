@@ -5,7 +5,10 @@
 #include "Player.h"
 #include "BossExplosion.h"
 #include "SoundManager.h"
-#include "DynamicCamera.h"
+
+#include "CameraManager.h"
+#include "FlyingCamera.h"
+
 CBoss_MeteorCube::CBoss_MeteorCube(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CMonster(pGraphicDev)
 {
@@ -113,12 +116,12 @@ void CBoss_MeteorCube::Channeling_Begin()
 
 void CBoss_MeteorCube::Channeling_Now(const _float& fTimeDelta)
 {
-	CDynamicCamera& rCamera = *dynamic_cast<CDynamicCamera*>(SceneManager()->Get_ObjectList(LAYERTAG::ENVIRONMENT, OBJECTTAG::CAMERA).front());
+	CFlyingCamera* pCamera = dynamic_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam());
 
 	if (!m_bShake)
 	{
-		rCamera.Set_ShakeForce(0.f, 0.01, 3, 2.f);
-		rCamera.Shake_Camera();
+		pCamera->Set_ShakeForce(0.f, 0.01, 3, 2.f);
+		pCamera->Shake_Camera();
 	}
 
 	m_pTransform->Translate(_vec3(0.f, 1.5f * fTimeDelta, 0.f));
@@ -193,7 +196,7 @@ void CBoss_MeteorCube::OnCollisionEnter(CCollider* _pOther)
 		m_pTransform->Scale(_vec3(0.6f, 0.6f, 0.6f));
 		Engine::CGameObject* pGameObject = nullptr;
 		pGameObject = CBossExplosion::Create(m_pGraphicDev);
-		m_vTargetPos = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform->m_vInfo[INFO_POS];
+		m_vTargetPos = SceneManager()->Get_Scene()->Get_MainPlayer()->m_pTransform->m_vInfo[INFO_POS];
 		_vec3 m_vDis = (dynamic_cast<CPlayer*>(_pOther->Get_Host())->m_pTransform->m_vInfo[INFO_LOOK] * 0.2f);
 		dynamic_cast<CBossExplosion*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = _vec3(m_vTargetPos.x + m_vDis.x, m_pTransform->m_vInfo[INFO_POS].y, m_vTargetPos.z + m_vDis.z);
 		dynamic_cast<CBossExplosion*>(pGameObject)->Set_Scale(300.f);

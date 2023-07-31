@@ -48,7 +48,7 @@ _int CWater::Update_Object(const _float& fTimeDelta)
 void CWater::LateUpdate_Object(void)
 {
 	//__super::LateUpdate_Object();
-	m_pCollider->SetCenterPos(m_pTransform->m_vInfo[INFO_POS] - _vec3(0.f, 0.3f, 0.f));
+	m_pCollider->SetCenterPos(m_pTransform->m_vInfo[INFO_POS] - _vec3(0.f, 0.1f, 0.f));
 }
 
 void CWater::Render_Object(void)
