@@ -29,7 +29,6 @@ HRESULT CSkyBox::Ready_Object(void)
 
 _int CSkyBox::Update_Object(const _float & fTimeDelta)
 {
-
 	_int iExit = __super::Update_Object(fTimeDelta);
 
 	Engine::Renderer()->Add_RenderGroup(RENDER_PRIORITY, this);

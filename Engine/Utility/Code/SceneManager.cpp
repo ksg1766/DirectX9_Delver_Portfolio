@@ -141,6 +141,8 @@ void CSceneManager::Render_Scene(LPDIRECT3DDEVICE9 pGraphicDev)
 			}
 
 			m_pCurrentScene->Set_MainPlayer(dynamic_cast<CPlayer*>(m_pPlayer));
+
+			m_pCamera->m_pTransform->Copy_RUL_AddPos(m_pPlayer->m_pTransform->m_vInfo);
 			Engine::EventManager()->CreateObject(m_pCamera,    LAYERTAG::ENVIRONMENT);
 			Engine::EventManager()->CreateObject(m_pPlayer,    LAYERTAG::GAMELOGIC);
 			Engine::EventManager()->CreateObject(m_pPlayerRay, LAYERTAG::GAMELOGIC);
