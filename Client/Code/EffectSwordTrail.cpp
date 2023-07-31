@@ -28,9 +28,9 @@ HRESULT CEffectSwordTrail::Ready_Object()
 	m_fFrameSpeed	= 0.2f;
 
 	m_fTime			= 0.f;
-	m_fLife			= 5.f;
+	m_fLife			= 0.33f;
 
-	m_fEffectScale	= 20.f;
+	m_fEffectScale	= 40.f;
 	m_pTransform->Scale(_vec3(0.001f, m_fEffectScale, m_fEffectScale));
 
 	return S_OK;
@@ -49,9 +49,9 @@ _int CEffectSwordTrail::Update_Object(const _float& fTimeDelta)
 
 	if (m_fCurScaleRate < m_fMaxScaleRate)
 	{
-		m_fCurScaleRate += 4.f * fTimeDelta;
+		m_fCurScaleRate += 10.f * fTimeDelta;
 		//_vec3 vLocalScale = m_pTransform->LocalScale();
-		m_pTransform->Scale(*D3DXVec3Lerp(&_vec3(), &_vec3(0.001f, m_fEffectScale, m_fEffectScale), &_vec3(m_fEffectScale, 0.5f * m_fEffectScale, m_fEffectScale), m_fCurScaleRate));
+		m_pTransform->Scale(*D3DXVec3Lerp(&_vec3(), &_vec3(0.001f, m_fEffectScale, m_fEffectScale), &_vec3(2.f * m_fEffectScale, 0.25f * m_fEffectScale, m_fEffectScale), m_fCurScaleRate));
 		//m_pTransform->Scale(vLocalScale);
 	}
 
@@ -62,8 +62,8 @@ void CEffectSwordTrail::LateUpdate_Object(void)
 {
 	CTempEffect::LateUpdate_Object();
 
-	CPlayer* pPlayer = SceneManager()->Get_Scene()->Get_MainPlayer();
-	m_pTransform->m_vInfo[INFO_POS] = pPlayer->m_pTransform->m_vInfo[INFO_POS] + pPlayer->m_pTransform->m_vInfo[INFO_LOOK] * 45.f;
+	//CPlayer* pPlayer = SceneManager()->Get_Scene()->Get_MainPlayer();
+	//m_pTransform->m_vInfo[INFO_POS] = pPlayer->m_pTransform->m_vInfo[INFO_POS] + pPlayer->m_pTransform->m_vInfo[INFO_LOOK] * 45.f;
 }
 
 void CEffectSwordTrail::Render_Object(void)

@@ -49,6 +49,8 @@ _int CFlyingCamera::Update_Object(const _float& fTimeDelta)
 
 		if (m_tCameraShaking.m_fShakeElipsedTime < m_tCameraShaking.m_fDuration)
 		{
+			m_pTransform->m_vInfo[INFO_POS] = m_pTransform->m_pParent->m_vInfo[INFO_POS];
+
 			_float X = m_tCameraShaking.m_fAmplitude * cosf(m_tCameraShaking.m_fShakeElipsedTime * m_tCameraShaking.m_fFrequency + (((_float)rand() / (_float)RAND_MAX) * D3DX_PI));
 			_float Y = m_tCameraShaking.m_fAmplitude * -sinf(m_tCameraShaking.m_fShakeElipsedTime * m_tCameraShaking.m_fFrequency + (((_float)rand() / (_float)RAND_MAX) * D3DX_PI));
 			m_pTransform->Translate(_vec3(X, Y, 0));

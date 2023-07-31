@@ -41,6 +41,7 @@ HRESULT CBossStage::Ready_Scene()
 
 	CSoundManager::GetInstance()->StopAll();
 	CSoundManager::GetInstance()->PlayBGM(L"DK-7.mp3", 0.5f);
+
 	return S_OK;
 }
 
@@ -48,32 +49,54 @@ Engine::_int CBossStage::Update_Scene(const _float& fTimeDelta)
 {
 	__super::Update_Scene(fTimeDelta);
 
+	CPlayer* pPlayer = Engine::SceneManager()->Get_Scene()->Get_MainPlayer();
+
+#pragma region KSG
+
+	if (BOSSPHASE::PHASE3 == m_pBoss->Get_Phase() && m_pBoss->Get_BasicStat()->Get_Stat()->fHP <= 5.f && !m_bExecuteBoss)
+	{
+		if (m_pBoss && D3DXVec3Length(&(m_pBoss->m_pTransform->m_vInfo[INFO_POS] - pPlayer->m_pTransform->m_vInfo[INFO_POS])) < 25.f)
+		{
+			CGameManager::GetInstance()->PlayMode(PD::HekirekiIssen);
+			m_bExecuteBoss = true;
+		}
+	}
+
+	if (m_bExecuteBoss && m_pBoss->Get_BasicStat()->Get_Stat()->fHP == 0.f)
+	{
+		// 보스 사망 처리
+		m_pBoss->Get_StateMachine()->Set_State(STATE::BOSS_DYING);
+	}
+
+#pragma endregion KSG
+
 	CGameManager::GetInstance()->Update_Game(fTimeDelta);
 	CCameraManager::GetInstance()->Update_Camera(fTimeDelta);
 
 	UIManager()->Update_UI(fTimeDelta);
-	if (10.f >= Engine::SceneManager()->Get_Scene()->Get_MainPlayer()->m_pTransform->m_vInfo[INFO_POS].y)
+	if (10.f >= pPlayer->m_pTransform->m_vInfo[INFO_POS].y)
 	{
-		switch (dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_Phase())
+		switch (dynamic_cast<CSkeletonKing*>(m_pBoss)->Get_Phase())
 		{
 		case BOSSPHASE::PHASE1:
-			Engine::SceneManager()->Get_Scene()->Get_MainPlayer()->m_pTransform->m_vInfo[INFO_POS] = _vec3(100.f, 22.f, 0.f);
-			dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_StateMachine()->Set_State(STATE::BOSS_SLEEP);
+			pPlayer->m_pTransform->m_vInfo[INFO_POS] = _vec3(100.f, 22.f, 0.f);
+			m_pBoss->Get_StateMachine()->Set_State(STATE::BOSS_SLEEP);
 			break;
 		case BOSSPHASE::PHASE2:
-			Engine::SceneManager()->Get_Scene()->Get_MainPlayer()->m_pTransform->m_vInfo[INFO_POS] = _vec3(-72.5f, 36.f, 75.5f);
-			dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_StateMachine()->Set_State(STATE::BOSS_SLEEP);
+			pPlayer->m_pTransform->m_vInfo[INFO_POS] = _vec3(-72.5f, 36.f, 75.5f);
+			m_pBoss->Get_StateMachine()->Set_State(STATE::BOSS_SLEEP);
 			break;
 		case BOSSPHASE::PHASE3:
-			Engine::SceneManager()->Get_Scene()->Get_MainPlayer()->m_pTransform->m_vInfo[INFO_POS] = _vec3(-72.f, 36.f, -75.f);
-			dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_StateMachine()->Set_State(STATE::BOSS_SLEEP);
+			pPlayer->m_pTransform->m_vInfo[INFO_POS] = _vec3(-72.f, 36.f, -75.f);
+			m_pBoss->Get_StateMachine()->Set_State(STATE::BOSS_SLEEP);
 			break;
 		case BOSSPHASE::LASTPHASE:
-			Engine::SceneManager()->Get_Scene()->Get_MainPlayer()->m_pTransform->m_vInfo[INFO_POS] = _vec3(100.f, 22.f, 0.f);
-			dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_StateMachine()->Set_State(STATE::BOSS_SLEEP);
+			pPlayer->m_pTransform->m_vInfo[INFO_POS] = _vec3(100.f, 22.f, 0.f);
+			m_pBoss->Get_StateMachine()->Set_State(STATE::BOSS_SLEEP);
 			break;
 		}
 	}
+
 	return 0;
 }
 
@@ -163,6 +186,7 @@ HRESULT CBossStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 
 	// Boss
 	pGameObject = CSkeletonKing::Create(m_pGraphicDev);
+	m_pBoss = static_cast<CSkeletonKing*>(pGameObject);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	pGameObject->m_pTransform->Translate(_vec3(-80.f, 35.f, 0.f));
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);

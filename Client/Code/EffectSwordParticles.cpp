@@ -29,9 +29,9 @@ HRESULT CEffectSwordParticles::Ready_Object()
 	m_fFrameSpeed = 0.2f;
 
 	m_fTime = 0.f;
-	m_fLife = 5.f;
+	m_fLife = 2.f;
 
-	m_fEffectScale = 20.f;
+	m_fEffectScale = 40.f;
 	m_pTransform->Scale(_vec3(m_fEffectScale, 0.001f, m_fEffectScale));
 
 	return S_OK;
@@ -50,7 +50,7 @@ _int CEffectSwordParticles::Update_Object(const _float& fTimeDelta)
 
 	if (m_fCurScaleRate < m_fMaxScaleRate)
 	{
-		m_fCurScaleRate += .2f * fTimeDelta;
+		m_fCurScaleRate += .5f * fTimeDelta;
 		m_pTransform->Scale(*D3DXVec3Lerp(&_vec3(), &_vec3(m_fEffectScale, 0.001f, m_fEffectScale), &_vec3(m_fEffectScale, 0.5f * m_fEffectScale, m_fEffectScale), m_fCurScaleRate));
 	}
 
@@ -61,8 +61,8 @@ void CEffectSwordParticles::LateUpdate_Object(void)
 {
 	CTempEffect::LateUpdate_Object();
 
-	CPlayer* pPlayer = SceneManager()->Get_Scene()->Get_MainPlayer();
-	m_pTransform->m_vInfo[INFO_POS] = pPlayer->m_pTransform->m_vInfo[INFO_POS] + pPlayer->m_pTransform->m_vInfo[INFO_LOOK] * 45.f;
+	//CPlayer* pPlayer = SceneManager()->Get_Scene()->Get_MainPlayer();
+	//m_pTransform->m_vInfo[INFO_POS] = pPlayer->m_pTransform->m_vInfo[INFO_POS] + pPlayer->m_pTransform->m_vInfo[INFO_LOOK] * 45.f;
 }
 
 void CEffectSwordParticles::Render_Object(void)

@@ -55,7 +55,10 @@ STATE CBoss_Phase1::BossSkill(const _float& fTimeDelta)
 {
     if (m_bMeteor)
     {
-        dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Set_Phase(BOSSPHASE::PHASE2);
+        CSkeletonKing* pBoss = dynamic_cast<CSkeletonKing*>(m_pOwner->Get_Host());
+        pBoss->Set_Phase(BOSSPHASE::PHASE2);
+        pBoss->Get_BasicStat()->Get_Stat()->fHP = pBoss->Get_BasicStat()->Get_Stat()->fMaxHP;
+
         return STATE::BOSS_TELEPORT;
     }
 
@@ -82,7 +85,7 @@ STATE CBoss_Phase1::BossSkill(const _float& fTimeDelta)
         return STATE::BOSS_PH1SKILL4;
         break;
     case 4:
-        if ((70.f >= dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_BasicStat()->Get_Stat()->fHP))
+        if ( 70.f >= dynamic_cast<CSkeletonKing*>(m_pOwner->Get_Host())->Get_BasicStat()->Get_Stat()->fHP )
         {
             m_iSkillCount = 0;
             if (!m_bMeteor)
