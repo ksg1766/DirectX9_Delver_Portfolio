@@ -14,6 +14,7 @@ class CTorch :
 private:
     explicit CTorch(LPDIRECT3DDEVICE9 pGraphicDev);
     explicit CTorch(const CTorch& rhs);
+    virtual ~CTorch();
 public:
     virtual HRESULT Ready_Object(void)						override;
     virtual _int	Update_Object(const _float& fTimeDelta)	override;

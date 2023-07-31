@@ -11,6 +11,10 @@ CTorch::CTorch(const CTorch& rhs)
 {
 }
 
+CTorch::~CTorch()
+{
+}
+
 HRESULT CTorch::Ready_Object(void)
 {
 	m_eObjectTag = OBJECTTAG::IMMORTAL;

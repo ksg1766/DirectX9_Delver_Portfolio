@@ -34,7 +34,6 @@ public:
 	_bool			Get_3Phase() { return m_b3Phase; }
 	_uint			Get_CloneCount() { return m_iCloneCount; }
 	BOSSPHASE		Get_Phase() { return m_ePhase; }
-	vector<CSkeletonKing_Clone*>	Get_CloneVector() { return m_vecSkeletonClone; }
 	virtual void	OnCollisionEnter(CCollider* _pOther);
 	virtual void	OnCollisionStay(CCollider* _pOther);
 	virtual void	OnCollisionExit(CCollider* _pOther);
@@ -71,7 +70,6 @@ private:
 	_vec3		m_vTargetPos;
 	_vec3		m_vDir;
 	BOSSPHASE	m_ePhase;
-	vector<CSkeletonKing_Clone*>	m_vecSkeletonClone;
 
 public:
 	static CSkeletonKing* Create(LPDIRECT3DDEVICE9 pGraphicDev);
