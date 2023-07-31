@@ -156,13 +156,16 @@ Engine::_int CPlayer::Update_Object(const _float& fTimeDelta)
 
 	if (m_pCurrentEquipItemLeft)
 	{
-		CTransform* pLeftTrans = m_pCurrentEquipItemLeft->m_pTransform;
-		_vec3 vLocalScale = pLeftTrans->LocalScale();
+		if (!m_bIsAttack)
+		{
+			CTransform* pLeftTrans = m_pCurrentEquipItemLeft->m_pTransform;
+			_vec3 vLocalScale = pLeftTrans->LocalScale();
 
-		pLeftTrans->Copy_RUL(m_pTransform->m_vInfo);
+			pLeftTrans->Copy_RUL(m_pTransform->m_vInfo);
 
-		for (_int i = 0; i < INFO_POS; ++i)
-			pLeftTrans->m_vInfo[i] *= *(((_float*)&vLocalScale) + i);
+			for (_int i = 0; i < INFO_POS; ++i)
+				pLeftTrans->m_vInfo[i] *= *(((_float*)&vLocalScale) + i);
+		}
 	}
 
 #pragma endregion ksg
@@ -286,28 +289,9 @@ if (Engine::InputDev()->Key_Pressing(DIK_LCONTROL) && Engine::InputDev()->Key_Do
 		CGameManager::GetInstance()->PlayMode(PD::HekirekiIssen);
 	}
 
-	if (Engine::InputDev()->Key_Pressing(DIK_LCONTROL) && Engine::InputDev()->Key_Down(DIK_8))
+	if (Engine::InputDev()->Key_Pressing(DIK_LCONTROL) && Engine::InputDev()->Key_Down(DIK_J))
 	{
-		CEffectSwordTrail* pSwordLightning = CEffectSwordTrail::Create(m_pGraphicDev);
-		NULL_CHECK_RETURN(pSwordLightning);
-		pSwordLightning->m_pTransform->m_vInfo[INFO_POS] = (5.f * m_pTransform->m_vInfo[INFO_LOOK]);
-		EventManager()->CreateObject(pSwordLightning, LAYERTAG::GAMELOGIC);
-	}
-
-	if (Engine::InputDev()->Key_Pressing(DIK_LCONTROL) && Engine::InputDev()->Key_Down(DIK_9))
-	{
-		CEffectSwordLightning* pSwordLightning = CEffectSwordLightning::Create(m_pGraphicDev);
-		NULL_CHECK_RETURN(pSwordLightning);
-		pSwordLightning->m_pTransform->m_vInfo[INFO_POS] = (5.f * m_pTransform->m_vInfo[INFO_LOOK]);
-		EventManager()->CreateObject(pSwordLightning, LAYERTAG::GAMELOGIC);
-	}
-
-	if (Engine::InputDev()->Key_Pressing(DIK_LCONTROL) && Engine::InputDev()->Key_Down(DIK_0))
-	{
-		CEffectSwordParticles* pSwordLightning = CEffectSwordParticles::Create(m_pGraphicDev);
-		NULL_CHECK_RETURN(pSwordLightning);
-		pSwordLightning->m_pTransform->m_vInfo[INFO_POS] = (5.f * m_pTransform->m_vInfo[INFO_LOOK]);
-		EventManager()->CreateObject(pSwordLightning, LAYERTAG::GAMELOGIC);
+		CGameManager::GetInstance()->PlayMode(PD::ShowMiniBoss);
 	}
 
 #pragma endregion 연출 테스트

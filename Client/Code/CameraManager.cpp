@@ -63,12 +63,15 @@ void CCameraManager::ZoomInTarget(_vec3& vTargetPoint, const _float& fTimeDelta,
 {// 잘 안되면 _fMag는 빼자
 	_vec3 vStopPoint = (_fMagnific - 1.f) * ((vTargetPoint - m_pCurrentCam->m_pTransform->m_vInfo[INFO_POS]) / _fMagnific);
 
-	D3DXVec3Lerp(&m_pCurrentCam->m_pTransform->m_vInfo[INFO_POS], &m_pCurrentCam->m_pTransform->m_vInfo[INFO_POS], &vStopPoint, fTimeDelta);
+	D3DXVec3Lerp(&m_pCurrentCam->m_pTransform->m_vInfo[INFO_POS], &m_pCurrentCam->m_pTransform->m_vInfo[INFO_POS], &(m_pCurrentCam->m_pTransform->m_vInfo[INFO_POS] + vStopPoint), 3.f * fTimeDelta);
 }
 
 void CCameraManager::ZoomOutToTrans(CTransform* pTransform, const _float& fTimeDelta)
 {
-	D3DXVec3Lerp(&m_pCurrentCam->m_pTransform->m_vInfo[INFO_POS], &m_pCurrentCam->m_pTransform->m_vInfo[INFO_POS], &pTransform->m_vInfo[INFO_POS], fTimeDelta);
+	D3DXVec3Lerp(&m_pCurrentCam->m_pTransform->m_vInfo[INFO_POS], &m_pCurrentCam->m_pTransform->m_vInfo[INFO_POS], &pTransform->m_vInfo[INFO_POS], 8.f * fTimeDelta);
+	D3DXVec3Lerp(&m_pCurrentCam->m_pTransform->m_vInfo[INFO_LOOK], &m_pCurrentCam->m_pTransform->m_vInfo[INFO_LOOK], &pTransform->m_vInfo[INFO_LOOK], 8.f * fTimeDelta);
+	D3DXVec3Cross(&m_pCurrentCam->m_pTransform->m_vInfo[INFO_RIGHT], &_vec3(0.f, 1.f, 0.f), &m_pCurrentCam->m_pTransform->m_vInfo[INFO_LOOK]);
+	D3DXVec3Cross(&m_pCurrentCam->m_pTransform->m_vInfo[INFO_UP], &m_pCurrentCam->m_pTransform->m_vInfo[INFO_LOOK], &m_pCurrentCam->m_pTransform->m_vInfo[INFO_RIGHT]);
 }
 
 void CCameraManager::LookAtTarget(_vec3& vTargetPoint, const _float& fTimeDelta)
@@ -76,6 +79,8 @@ void CCameraManager::LookAtTarget(_vec3& vTargetPoint, const _float& fTimeDelta)
 	_vec3 vToTarget = vTargetPoint - m_pCurrentCam->m_pTransform->m_vInfo[INFO_POS];
 
 	D3DXVec3Lerp(&m_pCurrentCam->m_pTransform->m_vInfo[INFO_LOOK], &m_pCurrentCam->m_pTransform->m_vInfo[INFO_LOOK], &vToTarget, fTimeDelta);
+	D3DXVec3Cross(&m_pCurrentCam->m_pTransform->m_vInfo[INFO_RIGHT], &_vec3(0.f, 1.f, 0.f), &m_pCurrentCam->m_pTransform->m_vInfo[INFO_LOOK]);
+	D3DXVec3Cross(&m_pCurrentCam->m_pTransform->m_vInfo[INFO_UP], &m_pCurrentCam->m_pTransform->m_vInfo[INFO_LOOK], &m_pCurrentCam->m_pTransform->m_vInfo[INFO_RIGHT]);
 }
 
 void CCameraManager::Free()

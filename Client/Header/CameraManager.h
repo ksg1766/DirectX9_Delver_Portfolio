@@ -28,9 +28,10 @@ public:
 	void			Set_CurrentCam(CGameObject* _pCurrentCam)			{ m_pCurrentCam = _pCurrentCam; }
 
 public:
-	void			ZoomInTarget(_vec3& vTargetPoint, const _float& fTimeDelta, _float _fMagnific = 2.f);
+	void			ZoomInTarget(_vec3& vTargetPoint, const _float& fTimeDelta, _float _fMagnific = 1.5f);
 	void			ZoomOutToTrans(CTransform* pTransform, const _float& fTimeDelta);
 	void			LookAtTarget(_vec3& vTargetPoint, const _float& fTimeDelta);
+	//void			FixOnTarget(_vec3& vTargetPoint, const _float& fTimeDelta);
 
 private:
 	map<CAMERA_TYPE, CGameObject*>	m_mapCameras;

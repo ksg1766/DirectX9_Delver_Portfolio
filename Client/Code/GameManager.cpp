@@ -47,6 +47,7 @@ _int CGameManager::Update_Game(const _float& fTimeDelta)
 	case PD::ShowSewer:
 		break;
 	case PD::ShowMiniBoss:
+		ShowMiniBoss(fTimeDelta);
 		break;
 	case PD::ShowBoss:
 		break;
@@ -81,9 +82,14 @@ void CGameManager::ShowMiniBoss(const _float& fTimeDelta)
 	else if (m_fTimer > 8.f)
 	{
 		m_fTimer -= fTimeDelta;
-		CCameraManager::GetInstance()->ZoomInTarget(pBoss->m_pTransform->m_vInfo[INFO_POS], fTimeDelta, 3.f);
+		CCameraManager::GetInstance()->ZoomInTarget(pBoss->m_pTransform->m_vInfo[INFO_POS], fTimeDelta);
 	}
-	else if (m_fTimer > 7.f)
+	else if (m_fTimer > 6.f)
+	{
+		m_fTimer -= fTimeDelta;
+		CCameraManager::GetInstance()->LookAtTarget(pBoss->m_pTransform->m_vInfo[INFO_POS], fTimeDelta);
+	}
+	else if (m_fTimer > 5.f)
 	{
 		m_fTimer -= fTimeDelta;
 		CCameraManager::GetInstance()->ZoomOutToTrans(m_pPlayer->m_pTransform, fTimeDelta);

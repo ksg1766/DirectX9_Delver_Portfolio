@@ -123,7 +123,7 @@ _int CShield::Update_Object(const _float& fTimeDelta)
 			}
 #pragma endregion
 		}
-		else if (pPlayer->Get_StateMachine()->Get_State() == STATE::ROMIMG)
+		else if (pPlayer->Get_StateMachine()->Get_State() == STATE::ROMIMG && !pPlayer->IsJump())
 		{
 			if (m_iMoveTick > 0)
 				m_pTransform->Translate(m_pTransform->m_vInfo[INFO_UP] * 0.01f);
@@ -142,7 +142,7 @@ _int CShield::Update_Object(const _float& fTimeDelta)
 		{
 			CTransform* pPlayerTransform = pPlayer->m_pTransform;
 
-			_vec3 vOffSet = -0.6f * pPlayerTransform->m_vInfo[INFO_RIGHT] + 1.6f * pPlayerTransform->m_vInfo[INFO_LOOK] - 0.4f * pPlayerTransform->m_vInfo[INFO_UP];
+			_vec3 vOffSet = -0.6f * pPlayerTransform->m_vInfo[INFO_RIGHT] + 1.6f * pPlayerTransform->m_vInfo[INFO_LOOK] - 0.5f * pPlayerTransform->m_vInfo[INFO_UP];
 			m_pTransform->m_vInfo[INFO_POS] = (pPlayerTransform->m_vInfo[INFO_POS] + vOffSet);
 
 			m_bSound = false;
@@ -292,7 +292,7 @@ void CShield::OnCollisionExit(CCollider* _pOther)
 		{
 			CTransform* pPlayerTransform = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform;
 
-			_vec3 vOffSet = -0.6f * pPlayerTransform->m_vInfo[INFO_RIGHT] + 1.6f * pPlayerTransform->m_vInfo[INFO_LOOK] - 0.4f * pPlayerTransform->m_vInfo[INFO_UP];
+			_vec3 vOffSet = -0.6f * pPlayerTransform->m_vInfo[INFO_RIGHT] + 1.6f * pPlayerTransform->m_vInfo[INFO_LOOK] - 0.5f * pPlayerTransform->m_vInfo[INFO_UP];
 			m_pTransform->m_vInfo[INFO_POS] = (pPlayerTransform->m_vInfo[INFO_POS] + vOffSet);
 		}
 	}

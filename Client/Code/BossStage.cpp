@@ -55,7 +55,8 @@ Engine::_int CBossStage::Update_Scene(const _float& fTimeDelta)
 
 #pragma region KSG
 
-	if (BOSSPHASE::PHASE3 == m_pBoss->Get_Phase() && m_pBoss->Get_BasicStat()->Get_Stat()->fHP <= 5.f && !m_bExecuteBoss)
+	//if (BOSSPHASE::PHASE3 == m_pBoss->Get_Phase() && m_pBoss->Get_BasicStat()->Get_Stat()->fHP <= 5.f && !m_bExecuteBoss)
+	if (BOSSPHASE::PHASE1 == m_pBoss->Get_Phase() && m_pBoss->Get_BasicStat()->Get_Stat()->fHP <= 5.f && !m_bExecuteBoss)
 	{
 		if (m_pBoss && D3DXVec3Length(&(m_pBoss->m_pTransform->m_vInfo[INFO_POS] - pPlayer->m_pTransform->m_vInfo[INFO_POS])) < 25.f)
 		{

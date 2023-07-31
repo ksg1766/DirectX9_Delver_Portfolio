@@ -364,27 +364,11 @@ HRESULT CVillage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	pGameObject->m_pTransform->Translate(_vec3(-94.f, 1.f, -23.f));
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
-	pGameObject = CBat::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pGameObject->m_pTransform->Translate(_vec3(1.f, 10.f, -55.f));
-	dynamic_cast<CMonster*>(pGameObject)->Set_CenterPos(_vec3(1.f, 10.f, -55.f));
-	dynamic_cast<CMonster*>(pGameObject)->Set_MoveRange(10.f);
-	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-
 	// Boss
-	/*pGameObject = CSkeletonKing::Create(m_pGraphicDev);
+	pGameObject = CSkeletonKing::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	pGameObject->m_pTransform->Translate(_vec3(0.f, 11.f, -30.f));
-	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);*/
-
-	//m_pSpider = dynamic_cast<CDungeonSpider*>(pGameObject);
-	//
-	//pGameObject = CSpiderRay::Create(m_pGraphicDev);
-	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-	//dynamic_cast<CSpiderRay*>(pGameObject)->Set_Host(m_pSpider);
-
-
+	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
 	return S_OK;
 }

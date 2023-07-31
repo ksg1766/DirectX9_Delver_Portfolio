@@ -418,12 +418,6 @@
     <Filter Include="03. GameObject\02. Editor">
       <UniqueIdentifier>{3091335d-8f23-43b4-91d2-ead91ccdf21e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. GameObject\02. Editor\00. FlyingCamera">
-      <UniqueIdentifier>{0887a221-c47d-4625-8b7a-1998f76a7117}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. GameObject\02. Editor\01. OrthoCamera">
-      <UniqueIdentifier>{4238634d-1794-4869-b346-f8041c122087}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03. GameObject\05. Loading">
       <UniqueIdentifier>{7469777e-48bb-483c-9b92-309a885f84dc}</UniqueIdentifier>
     </Filter>
@@ -808,9 +802,6 @@
     <Filter Include="03. GameObject\04. Public\00. Camera">
       <UniqueIdentifier>{80783a13-8054-457e-985d-d4596f67ba30}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. GameObject\04. Public\00. Camera\00. MainCamera">
-      <UniqueIdentifier>{5501f942-c390-4d44-8f14-6904aa60ac89}</UniqueIdentifier>
-    </Filter>
     <Filter Include="01. Managers\01. CameraManager">
       <UniqueIdentifier>{a57827f0-bee6-4f0f-893f-b9133a2e166f}</UniqueIdentifier>
     </Filter>
@@ -952,6 +943,12 @@
     <Filter Include="03. GameObject\01. Stage\05. Monster\02. Spider\01.KingSpider\00.State\03. Attack\05. Grap">
       <UniqueIdentifier>{7a5dcb13-71a5-47ec-962f-b6cbe6596f0d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. GameObject\02. Editor\01. OrthoCamera">
+      <UniqueIdentifier>{4238634d-1794-4869-b346-f8041c122087}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\04. Public\00. Camera\00. FlyingCamera">
+      <UniqueIdentifier>{0887a221-c47d-4625-8b7a-1998f76a7117}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -1078,7 +1075,7 @@
       <Filter>99. Etc\헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\FlyingCamera.h">
-      <Filter>03. GameObject\02. Editor\00. FlyingCamera</Filter>
+      <Filter>03. GameObject\04. Public\00. Camera\00. FlyingCamera</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\DungeonSpider.h">
       <Filter>02. GameObject\01. Stage\05. Monster\02. Spider</Filter>
@@ -1931,7 +1928,7 @@
       <Filter>02. Scene\02. Editor\01. ImGui\00. ImGuiManager</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\FlyingCamera.cpp">
-      <Filter>03. GameObject\02. Editor\00. FlyingCamera</Filter>
+      <Filter>03. GameObject\04. Public\00. Camera\00. FlyingCamera</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\OrthoCamera.cpp">
       <Filter>03. GameObject\02. Editor\01. OrthoCamera</Filter>
