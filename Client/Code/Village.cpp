@@ -87,11 +87,6 @@ HRESULT CVillage::Ready_Scene()
 
 Engine::_int CVillage::Update_Scene(const _float& fTimeDelta)
 {
-	// 레벨업 창 활성화 테스트
-	if (Engine::InputDev()->Key_Down(DIK_COMMA)) {
-		Engine::UIManager()->Show_PopupUI(Engine::UIPOPUPLAYER::POPUP_BOSSHP);
-    }
-
 	__super::Update_Scene(fTimeDelta);
 
 	CGameManager::GetInstance()->Update_Game(fTimeDelta);
@@ -182,7 +177,6 @@ HRESULT CVillage::Ready_Layer_Environment(LAYERTAG _eLayerTag)
 		pGameObject->m_pTransform->Translate(_vec3(0.f, 1.f * i, 0.f));
 		pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 	}
-	//
 
 	// 씬 이동 트리거
 	pGameObject = CVillageTriger::Create(m_pGraphicDev);
@@ -205,11 +199,15 @@ HRESULT CVillage::Ready_Layer_Environment(LAYERTAG _eLayerTag)
 	// 폭포 이펙트
 	pGameObject = CEffectWaterfall::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pGameObject->m_pTransform->Translate(_vec3(-22.f, 1.f, - 70.f));
-	dynamic_cast<CEffectWaterfall*>(pGameObject)->Set_BoundingBox(_vec3(-100.f, -100.f, -100.f), _vec3(100.f, 100.f, 100.f));
-	dynamic_cast<CEffectWaterfall*>(pGameObject)->Set_EffectMoveScale(5, _vec3(1.f, 1.f, 1.f), _vec3(5.f, 5.f, 5.f));
-
-	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+	// 초기 중심 위치
+	pGameObject->m_pTransform->Translate(_vec3(-23.f, 1.f, - 71.f)); 
+	// 이펙트 이동 범위
+	dynamic_cast<CEffectWaterfall*>(pGameObject)->Set_BoundingBox(_vec3(-2.f, 4.f, -1.f), _vec3(2.f, 5.f, 1.f));
+	// 해당 이펙트 개수 / 스케일 최소 / 최대
+	dynamic_cast<CEffectWaterfall*>(pGameObject)->Set_EffectMoveScale(5, _vec3(.2f, .2f, .2f), _vec3(1.5f, 1.5f, 1.5f));
+	dynamic_cast<CEffectWaterfall*>(pGameObject)->Set_EffectBubbleScale(7, _vec3(.2f, .2f, .2f), _vec3(1.f, 1.f, 1.f));
+	dynamic_cast<CEffectWaterfall*>(pGameObject)->Set_EffectMoveSet(1);
+;	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
 #pragma region TREE
 	// 시작 시 왼쪽 그룹
@@ -366,12 +364,12 @@ HRESULT CVillage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	pGameObject->m_pTransform->Translate(_vec3(-94.f, 1.f, -23.f));
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
-	/*pGameObject = CBat::Create(m_pGraphicDev);
+	pGameObject = CBat::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	pGameObject->m_pTransform->Translate(_vec3(1.f, 10.f, -55.f));
 	dynamic_cast<CMonster*>(pGameObject)->Set_CenterPos(_vec3(1.f, 10.f, -55.f));
 	dynamic_cast<CMonster*>(pGameObject)->Set_MoveRange(10.f);
-	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);*/
+	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
 	// Boss
 	/*pGameObject = CSkeletonKing::Create(m_pGraphicDev);

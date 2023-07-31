@@ -880,6 +880,9 @@
     <Filter Include="03. GameObject\07. Effect\24. EffectWaterfall\02. EffectWaterBubble">
       <UniqueIdentifier>{f6733735-e178-41ed-88e5-2f9212b63ce5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. GameObject\06. Particle\01. EffectWater">
+      <UniqueIdentifier>{580f61b6-f5c5-43cc-ac1d-6f1865bd6f30}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -1724,6 +1727,9 @@
     <ClInclude Include="..\Header\EffectWaterBubble.h">
       <Filter>03. GameObject\07. Effect\24. EffectWaterfall\02. EffectWaterBubble</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\EffectWater.h">
+      <Filter>03. GameObject\06. Particle\01. EffectWater</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -2528,6 +2534,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\EffectWaterBubble.cpp">
       <Filter>03. GameObject\07. Effect\24. EffectWaterfall\02. EffectWaterBubble</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\EffectWater.cpp">
+      <Filter>03. GameObject\06. Particle\01. EffectWater</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

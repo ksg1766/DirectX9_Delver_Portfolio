@@ -745,7 +745,11 @@ void CImGuiManager::LateUpdate_ImGui()
     {
         ImGui::Begin("Tool", &map_tool_window);
         
+        _vec3 vCameraPos = CCameraManager::GetInstance()->Get_CurrentCam()->m_pTransform->m_vInfo[INFO_POS];
+
         ImGui::Text("Camera Pos");
+        ImGui::Text("x : %.2f y : %.2f z : %.2f", vCameraPos.x, vCameraPos.y, vCameraPos.z);
+
         ImGui::Text("Mouse Pos");
         ImGui::Text("Texture Info");
 

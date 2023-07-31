@@ -35,13 +35,18 @@ Engine::_int CProgressBar::Update_Object(const _float& fTimeDelta)
 	m_iCurrentBar += 100.f * fTimeDelta * .7f;
 	m_iFinish += 100.f * fTimeDelta * .7f;
 
-	if (100.f < m_iCurrentBar)
-		m_iCurrentBar = 100.f;
-
-	if (130.f < m_iFinish)
+	if (380.f < m_iFinish)
 	{
-		m_iFinish = 130.f;
+		m_iFinish = 380.f;
 		m_IsDead = true;
+	}
+	else if (300.f < m_iFinish)
+	{
+		m_iCurrentBar = 100.f;
+	}
+	else if (100.f < m_iCurrentBar)
+	{
+		m_iCurrentBar = 0.f;
 	}
 
 	//if (Engine::InputDev()->Key_Down(DIK_9))
@@ -105,7 +110,7 @@ void CProgressBar::Key_Input(void)
 void CProgressBar::Update_BarUI()
 {
 	m_flength = (450.f / m_iMaxBar) * (m_iMaxBar - m_iCurrentBar);
-	m_fPosition = (WINCX / 2.f) - (m_flength / 2) - (m_iMaxBar - m_iCurrentBar) * 2.15f;
+	m_fPosition = (WINCX / 2.f) - (m_flength / 2.f) - (m_iMaxBar - m_iCurrentBar) * 2.15f;
 }
 
 void CProgressBar::Free()

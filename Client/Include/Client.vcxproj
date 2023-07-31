@@ -238,6 +238,7 @@
     <ClInclude Include="..\Header\EffectSwordLightning.h" />
     <ClInclude Include="..\Header\EffectSwordParticles.h" />
     <ClInclude Include="..\Header\EffectSwordTrail.h" />
+    <ClInclude Include="..\Header\EffectWater.h" />
     <ClInclude Include="..\Header\EffectWaterBubble.h" />
     <ClInclude Include="..\Header\EffectWaterdrop.h" />
     <ClInclude Include="..\Header\EffectWaterfall.h" />
@@ -499,6 +500,7 @@
     <ClCompile Include="..\Code\EffectSwordLightning.cpp" />
     <ClCompile Include="..\Code\EffectSwordParticles.cpp" />
     <ClCompile Include="..\Code\EffectSwordTrail.cpp" />
+    <ClCompile Include="..\Code\EffectWater.cpp" />
     <ClCompile Include="..\Code\EffectWaterBubble.cpp" />
     <ClCompile Include="..\Code\EffectWaterdrop.cpp" />
     <ClCompile Include="..\Code\EffectWaterfall.cpp" />

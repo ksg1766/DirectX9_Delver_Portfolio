@@ -33,7 +33,7 @@ HRESULT CEffectSquare::Ready_Object(_vec3 vOriginPos, int numParticles, EFFECTCO
 	EffectBox.vMax = { 100.f, 100.f, 100.f };
 
 	m_vOrigin = vOriginPos;
-	m_fSize = 0.00035f;
+	m_fSize = 0.05f;
 	m_vbSize = 2048;
 	m_vbOffset = 0;
 	m_vbBatchSize = 512;
