@@ -99,15 +99,16 @@ namespace Engine
 
 	typedef enum class Production
 	{
-		Normal = 0,
-		ShowVillage = 1,
-		ShowSewer = 2,
+		Normal,
+		ShowVillage,
+		ShowSewer,
 		//
-		ShowBoss = 3,
+		ShowMiniBoss,
+		ShowBoss,
 		//
-		HekirekiIssen = 4,
-		HekirekiIssen_SideView = 5,
-		Boss_Dead = 6,
+		HekirekiIssen,
+		HekirekiIssen_SideView,
+		Boss_Dead,
 	}PD;
 };
 #endif // Engine_Enum_h__

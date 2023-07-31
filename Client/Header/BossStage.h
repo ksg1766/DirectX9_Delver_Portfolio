@@ -23,6 +23,7 @@
 
 #include "SkeletonKing.h"
 #include "DimensionGate.h"
+
 class CBossStage : public Engine::CScene
 {
 private:
@@ -44,6 +45,10 @@ private:
 
 public:
 	static CBossStage*		Create(LPDIRECT3DDEVICE9 pGraphicDev);
+
+private:
+	CSkeletonKing*	m_pBoss			= nullptr;
+	_bool			m_bExecuteBoss	= false;
 
 private:
 	virtual void Free() override;

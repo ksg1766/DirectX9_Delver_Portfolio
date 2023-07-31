@@ -278,7 +278,7 @@ _int CSkeletonKing::Update_Object(const _float& fTimeDelta)
 
 	if (SceneManager()->Get_GameStop()) { return 0; }
 
-	if ((STATE::BOSS_PH2SKILL1 == m_pStateMachine->Get_State())||(STATE::BOSS_SLEEP != m_pStateMachine->Get_State())&&((STATE::BOSS_STURN != m_pStateMachine->Get_State())))
+	if ((STATE::BOSS_PH2SKILL1 == m_pStateMachine->Get_State()) || (STATE::BOSS_SLEEP != m_pStateMachine->Get_State()) && ((STATE::BOSS_STURN != m_pStateMachine->Get_State())))
 		m_pRigidBody->UseGravity(false); 
 
 	else if((STATE::BOSS_PH2SKILL1 != m_pStateMachine->Get_State())&&(!m_b3Phase)&&(STATE::BOSS_SLEEP == m_pStateMachine->Get_State())||((STATE::BOSS_STURN == m_pStateMachine->Get_State())))
@@ -299,12 +299,12 @@ void CSkeletonKing::LateUpdate_Object(void)
 
 	__super::LateUpdate_Object();
 
-	if((BOSSPHASE::PHASE3 == m_ePhase)&&(m_b3Phase))
+	if((BOSSPHASE::PHASE3 == m_ePhase) && (m_b3Phase))
 		m_pTransform->Scale(_vec3(12.f, 12.f, 12.f));
 	else
 		m_pTransform->Scale(_vec3(3.f, 3.f, 3.f));
 
-	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale()*0.9f);
+	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale() * 0.9f);
 }
 
 void CSkeletonKing::Render_Object(void)

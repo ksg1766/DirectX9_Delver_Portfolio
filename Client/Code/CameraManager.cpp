@@ -59,6 +59,25 @@ void CCameraManager::LateUpdate_Camera()
 	}
 }
 
+void CCameraManager::ZoomInTarget(_vec3& vTargetPoint, const _float& fTimeDelta, _float _fMagnific)
+{// 잘 안되면 _fMag는 빼자
+	_vec3 vStopPoint = (_fMagnific - 1.f) * ((vTargetPoint - m_pCurrentCam->m_pTransform->m_vInfo[INFO_POS]) / _fMagnific);
+
+	D3DXVec3Lerp(&m_pCurrentCam->m_pTransform->m_vInfo[INFO_POS], &m_pCurrentCam->m_pTransform->m_vInfo[INFO_POS], &vStopPoint, fTimeDelta);
+}
+
+void CCameraManager::ZoomOutToTrans(CTransform* pTransform, const _float& fTimeDelta)
+{
+	D3DXVec3Lerp(&m_pCurrentCam->m_pTransform->m_vInfo[INFO_POS], &m_pCurrentCam->m_pTransform->m_vInfo[INFO_POS], &pTransform->m_vInfo[INFO_POS], fTimeDelta);
+}
+
+void CCameraManager::LookAtTarget(_vec3& vTargetPoint, const _float& fTimeDelta)
+{
+	_vec3 vToTarget = vTargetPoint - m_pCurrentCam->m_pTransform->m_vInfo[INFO_POS];
+
+	D3DXVec3Lerp(&m_pCurrentCam->m_pTransform->m_vInfo[INFO_LOOK], &m_pCurrentCam->m_pTransform->m_vInfo[INFO_LOOK], &vToTarget, fTimeDelta);
+}
+
 void CCameraManager::Free()
 {
 }

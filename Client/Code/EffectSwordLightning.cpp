@@ -30,9 +30,9 @@ HRESULT CEffectSwordLightning::Ready_Object()
 	m_fFrameSpeed	= 5.f;
 
 	m_fTime			= 0.f;
-	m_fLife			= 5.f;
+	m_fLife			= 2.f;
 
-	m_fEffectScale = 20.f;
+	m_fEffectScale = 40.f;
 	m_pTransform->Scale(_vec3(m_fEffectScale, 0.001f, m_fEffectScale));
 
 	return S_OK;
@@ -51,8 +51,8 @@ _int CEffectSwordLightning::Update_Object(const _float& fTimeDelta)
 
 	if (m_fCurScaleRate < m_fMaxScaleRate)
 	{
-		m_fCurScaleRate += 2.f * fTimeDelta;
-		m_pTransform->Scale(_vec3(m_fEffectScale, 0.1f * m_fEffectScale, m_fEffectScale));
+		m_fCurScaleRate += 3.f * fTimeDelta;
+		m_pTransform->Scale(_vec3(m_fEffectScale, 0.04f * m_fEffectScale, m_fEffectScale));
 	}
 
 	return iExit;
@@ -62,8 +62,8 @@ void CEffectSwordLightning::LateUpdate_Object(void)
 {
 	CTempEffect::LateUpdate_Object();
 
-	CPlayer* pPlayer = SceneManager()->Get_Scene()->Get_MainPlayer();
-	m_pTransform->m_vInfo[INFO_POS] = pPlayer->m_pTransform->m_vInfo[INFO_POS] + pPlayer->m_pTransform->m_vInfo[INFO_LOOK] * 45.f;
+	//CPlayer* pPlayer = SceneManager()->Get_Scene()->Get_MainPlayer();
+	//m_pTransform->m_vInfo[INFO_POS] = pPlayer->m_pTransform->m_vInfo[INFO_POS] + pPlayer->m_pTransform->m_vInfo[INFO_LOOK] * 45.f;
 }
 
 void CEffectSwordLightning::Render_Object(void)

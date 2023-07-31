@@ -8,6 +8,7 @@ BEGIN(Engine)
 END
 
 class CPlayer;
+class CFlyingCamera;
 class CSkeletonKing;
 class CGameManager :
     public CBase
@@ -26,18 +27,26 @@ public:
 public:
 	void	PlayMode(PD _ePD_Mode) {  m_ePrev_PD = m_eCurr_PD; m_eCurr_PD = _ePD_Mode; }
 
+public:
+	void	SetTimer(_float& _fTimer) { m_fTimer = _fTimer; }
+
 private:
+	void	ShowMiniBoss(const _float& fTimeDelta);
 	void	HekirekiIssen(const _float& fTimeDelta);
 
 private:
 	CPlayer*		m_pPlayer;
+	CFlyingCamera*	m_pCamera;
 	CSkeletonKing*	m_pBoss;
 
 	PD m_eCurr_PD = PD::Normal;
 	PD m_ePrev_PD = PD::Normal;
 
+	_float	m_fTimer = 10.f;
+	
+	// HekiRekiIssen
 	_bool	m_bReadyBreath = false;
-	_float	m_fTimer = 0.f;
+	_bool	m_bEffectCreated[3] = {0};
 
 public:
 	virtual void Free() override;

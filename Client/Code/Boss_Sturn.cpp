@@ -29,7 +29,10 @@ HRESULT CBoss_Sturn::Ready_State(CStateMachine* pOwner)
 
 STATE CBoss_Sturn::Update_State(const _float& fTimeDelta)
 {
+    CSkeletonKing* pBoss = dynamic_cast<CSkeletonKing*>(m_pOwner->Get_Host());
+
     m_fCount += fTimeDelta;
+
     if (!m_bSound)
     {
         CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_BOSS);
@@ -48,21 +51,28 @@ STATE CBoss_Sturn::Update_State(const _float& fTimeDelta)
     {
         CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_BOSS);
         CSoundManager::GetInstance()->PlaySound(L"Boss_Attack1.wav", CHANNELID::SOUND_BOSS, 1.f);
-        dynamic_cast<CSkeletonKing*>(m_pOwner->Get_Host())->ReSet_Sturn();
-        dynamic_cast<CSkeletonKing*>(m_pOwner->Get_Host())->Set_Sturn(false);
+
+        pBoss->ReSet_Sturn();
+        pBoss->Set_Sturn(false);
         m_bStar = false;
         m_bSound = false;
         m_fCount = 0.f;
-        if ((45 > dynamic_cast<CSkeletonKing*>(m_pOwner->Get_Host())->Get_BasicStat()->Get_Stat()->fHP)
-            && (BOSSPHASE::PHASE2 == dynamic_cast<CSkeletonKing*>(m_pOwner->Get_Host())->Get_Phase()))
+
+        if ((45 > pBoss->Get_BasicStat()->Get_Stat()->fHP)
+            && (BOSSPHASE::PHASE2 == pBoss->Get_Phase()))
         {
             m_bSound = false;
-            dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Set_Phase(BOSSPHASE::PHASE3);
+           
+            pBoss->Set_Phase(BOSSPHASE::PHASE3);
+            pBoss->Get_BasicStat()->Get_Stat()->fHP = pBoss->Get_BasicStat()->Get_Stat()->fMaxHP;
+
             return STATE::BOSS_TELEPORT;
         }
+
         return STATE::BOSS_IDLE;
     }
-    dynamic_cast<CSkeletonKing*>(m_pOwner->Get_Host())->Set_Sturn(true);
+
+    pBoss->Set_Sturn(true);
 }
 
 void CBoss_Sturn::LateUpdate_State()
