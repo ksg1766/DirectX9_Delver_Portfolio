@@ -14,6 +14,10 @@
 #include "WaterFallTriger.h"
 #include "HellDoor.h"
 #include "DoorCube.h"
+#include "BookCube.h"
+#include "BookDoor.h"
+#include "Puzzle.h"
+#include "Puzzle_Part.h"
 
 #include "SpawningPool.h"
 #include "BoxCube.h"
@@ -212,6 +216,14 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	pGameObject = CHellDoor::Create(m_pGraphicDev, pLayer);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+
+	pGameObject = CBookDoor::Create(m_pGraphicDev, pLayer);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+
+	//pGameObject = CPuzzle::Create(m_pGraphicDev);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
 	//pGameObject = CDungeonSpider::Create(m_pGraphicDev);
 	//NULL_CHECK_RETURN(pGameObject, E_FAIL);

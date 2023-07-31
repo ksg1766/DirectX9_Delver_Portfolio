@@ -880,6 +880,18 @@
     <Filter Include="03. GameObject\07. Effect\24. EffectWaterfall\02. EffectWaterBubble">
       <UniqueIdentifier>{f6733735-e178-41ed-88e5-2f9212b63ce5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. GameObject\01. Stage\05. Cube\02. CubeTrigger\BookDoor">
+      <UniqueIdentifier>{a14f3bd6-1324-4a2f-879a-24f576d8f25a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\01. Stage\05. Cube\02. CubeTrigger\BookDoor\BookCube">
+      <UniqueIdentifier>{c6af5273-f615-4022-9254-cf3193d393f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\01. Stage\02. Item\Quest">
+      <UniqueIdentifier>{348d249f-3fa2-4ac6-a77b-193dba67cf09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\01. Stage\02. Item\Quest\Part">
+      <UniqueIdentifier>{33b6e106-19d2-4637-b721-e2f09f684137}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -1724,6 +1736,18 @@
     <ClInclude Include="..\Header\EffectWaterBubble.h">
       <Filter>03. GameObject\07. Effect\24. EffectWaterfall\02. EffectWaterBubble</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\BookDoor.h">
+      <Filter>03. GameObject\01. Stage\05. Cube\02. CubeTrigger\BookDoor</Filter>
+    </ClInclude>
+    <ClInclude Include="BookCube.h">
+      <Filter>03. GameObject\01. Stage\05. Cube\02. CubeTrigger\BookDoor\BookCube</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Puzzle.h">
+      <Filter>03. GameObject\01. Stage\02. Item\Quest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Puzzle_Part.h">
+      <Filter>03. GameObject\01. Stage\02. Item\Quest\Part</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -2528,6 +2552,18 @@
     </ClCompile>
     <ClCompile Include="..\Code\EffectWaterBubble.cpp">
       <Filter>03. GameObject\07. Effect\24. EffectWaterfall\02. EffectWaterBubble</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\BookDoor.cpp">
+      <Filter>03. GameObject\01. Stage\05. Cube\02. CubeTrigger\BookDoor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\BookCube.cpp">
+      <Filter>03. GameObject\01. Stage\05. Cube\02. CubeTrigger\BookDoor\BookCube</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Puzzle.cpp">
+      <Filter>03. GameObject\01. Stage\02. Item\Quest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Puzzle_Part.cpp">
+      <Filter>03. GameObject\01. Stage\02. Item\Quest\Part</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
