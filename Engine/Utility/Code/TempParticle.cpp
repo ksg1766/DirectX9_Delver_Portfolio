@@ -162,9 +162,9 @@ void CTempParticle::PreRender_Object(void)
 	//m_pGraphicDev->SetRenderState(D3DRS_POINTSIZE_MIN, (DWORD)0.0f);
 
 	// 거리에 따른 파티클의 크기를 제어.
-	m_pGraphicDev->SetRenderState(D3DRS_POINTSCALE_A, *((DWORD*)&m_fSize)); // 해당 변수로 기본 크기 조정함.
+	m_pGraphicDev->SetRenderState(D3DRS_POINTSCALE_A, (DWORD)0.0f); // 해당 변수로 기본 크기 조정함.
 	m_pGraphicDev->SetRenderState(D3DRS_POINTSCALE_B, (DWORD)0.0f);
-	m_pGraphicDev->SetRenderState(D3DRS_POINTSCALE_C, (DWORD)0.0f);
+	m_pGraphicDev->SetRenderState(D3DRS_POINTSCALE_C, *((DWORD*)&m_fSize));
 
 	// 텍스처의 알파를 이용.
 	m_pGraphicDev->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);

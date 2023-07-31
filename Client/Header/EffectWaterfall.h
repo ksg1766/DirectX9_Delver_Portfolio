@@ -12,12 +12,10 @@ private:
 public:
 	void    Set_BoundingBox(_vec3 _vecMin, _vec3 _vecMax) { 
 		m_EffectBoundingBox.vMin = _vecMin;
-		m_EffectBoundingBox.vMin = _vecMax;
+		m_EffectBoundingBox.vMax = _vecMax;
 	}
 
-	void    Set_EffectRotation()
-	{
-	}
+	void    Set_EffectRotation() {}
 
 	void    Set_EffectDropScale(_uint _Count, _vec3 _vecMin, _vec3 _vecMax)   
 	{ 
@@ -37,6 +35,8 @@ public:
 		m_vecBubbleScale[0] = _vecMin;
 		m_vecBubbleScale[1] = _vecMax;
 	}
+	void    Set_EffectMoveSet(_uint _Set) { m_iMoveSet = _Set; }
+	// 큰 순 0 / 작은 순 1
 
 public:
 	HRESULT Ready_Object() override;
@@ -62,8 +62,11 @@ private:
 	_vec3 m_vecMoveScale[2];
 	_vec3 m_vecBubbleScale[2];
 
-	//_float m_fMoveTime = 0.f;
-	//_float m_fChangeTime = 0.f;
+	_float m_fMoveTime;
+	_float m_fChangeTime;
+	_int   m_iParticleNumber;
+
+	_uint  m_iMoveSet;
 
 public:
 	static CEffectWaterfall* Create(LPDIRECT3DDEVICE9 pGraphicDev);

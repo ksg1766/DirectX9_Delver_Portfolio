@@ -1,17 +1,17 @@
 #include "stdafx.h"
-#include "..\Header\EffectSquare.h"
+#include "..\Header\EffectWater.h"
 
-CEffectSquare::CEffectSquare(LPDIRECT3DDEVICE9 pGraphicDev)
+CEffectWater::CEffectWater(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CTempParticle(pGraphicDev)
 {
 }
 
-CEffectSquare::~CEffectSquare()
+CEffectWater::~CEffectWater()
 {
 	Free();
 }
 
-HRESULT CEffectSquare::Ready_Object(_vec3 vOriginPos, int numParticles, EFFECTCOLOR _Color)
+HRESULT CEffectWater::Ready_Object(_vec3 vOriginPos, int numParticles, float fSize, EFFECTCOLOR _Color)
 {
 	CComponent* pComponent = nullptr;
 
@@ -33,7 +33,7 @@ HRESULT CEffectSquare::Ready_Object(_vec3 vOriginPos, int numParticles, EFFECTCO
 	EffectBox.vMax = { 100.f, 100.f, 100.f };
 
 	m_vOrigin = vOriginPos;
-	m_fSize = 0.05f;
+	m_fSize = fSize;
 	m_vbSize = 2048;
 	m_vbOffset = 0;
 	m_vbBatchSize = 512;
@@ -51,7 +51,7 @@ HRESULT CEffectSquare::Ready_Object(_vec3 vOriginPos, int numParticles, EFFECTCO
 	return S_OK;
 }
 
-void CEffectSquare::Read_Path(EFFECTCOLOR _color)
+void CEffectWater::Read_Path(EFFECTCOLOR _color)
 {
 	_tchar* pPath = nullptr;
 
@@ -101,46 +101,7 @@ void CEffectSquare::Read_Path(EFFECTCOLOR _color)
 	CTempParticle::Ready_Object(pPath);
 }
 
-void CEffectSquare::Set_MonsterEffectColor(MONSTERTAG _MonsterTag)
-{
-	switch (_MonsterTag)
-	{
-	case MONSTERTAG::SPIDER:
-		m_ParticleColor = EFFECTCOLOR::ECOLOR_BROWN;
-		break;
-	case MONSTERTAG::WARRIOR:
-		m_ParticleColor = EFFECTCOLOR::ECOLOR_RED;
-		break;
-	case MONSTERTAG::BAT:
-		m_ParticleColor = EFFECTCOLOR::ECOLOR_BROWN;
-		break;
-	case MONSTERTAG::WIZARD:
-		m_ParticleColor = EFFECTCOLOR::ECOLOR_APRICOT;
-		break;
-	case MONSTERTAG::ALIEN:
-		m_ParticleColor = EFFECTCOLOR::ECOLOR_PINK;
-		break;
-	case MONSTERTAG::SLIME:
-		m_ParticleColor = EFFECTCOLOR::ECOLOR_GREEN;
-		break;
-	case MONSTERTAG::SKELETON:
-		m_ParticleColor = EFFECTCOLOR::ECOLOR_APRICOT;
-		break;
-	case MONSTERTAG::SKULLGHOST:
-		m_ParticleColor = EFFECTCOLOR::ECOLOR_WHITE;
-		break;
-	case MONSTERTAG::WORM:
-		m_ParticleColor = EFFECTCOLOR::ECOLOR_RED;
-		break;
-	default:
-		m_ParticleColor = EFFECTCOLOR::ECOLOR_RED;
-		break;
-	}
-
-	Read_Path(m_ParticleColor);
-}
-
-void CEffectSquare::Initial_Particle(ParticleAttribute* _attribute)
+void CEffectWater::Initial_Particle(ParticleAttribute* _attribute)
 {
 	_attribute->bAlive = true;
 
@@ -172,7 +133,7 @@ void CEffectSquare::Initial_Particle(ParticleAttribute* _attribute)
 	_attribute->fLifeTime = 3.0f;
 }
 
-_int CEffectSquare::Update_Object(const _float& fTimeDelta)
+_int CEffectWater::Update_Object(const _float& fTimeDelta)
 {
 	m_fTime += 5.f * fTimeDelta;
 
@@ -183,13 +144,14 @@ _int CEffectSquare::Update_Object(const _float& fTimeDelta)
 	{
 		if (iter.bAlive)
 		{
-			if (m_fTime < .5f)
+			if (m_fTime < 1.f)
 			{
+				iter.vPosition.y += 7.f * fTimeDelta;
 				iter.vPosition += iter.vVelocity * fTimeDelta;
 			}
 			else
 			{
-				iter.vPosition.y -= 10.f * fTimeDelta;
+				iter.vPosition.y -= 13.f * fTimeDelta;
 				iter.vPosition += iter.vVelocity * fTimeDelta;
 			}
 
@@ -214,33 +176,33 @@ _int CEffectSquare::Update_Object(const _float& fTimeDelta)
 	return 0;
 }
 
-void CEffectSquare::LateUpdate_Object(void)
+void CEffectWater::LateUpdate_Object(void)
 {
 	CTempParticle::LateUpdate_Object();
 }
 
-void CEffectSquare::Render_Object()
+void CEffectWater::Render_Object()
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
 
 	CTempParticle::Render_Object();
 }
 
-CEffectSquare* CEffectSquare::Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 vOriginPos, int numParticles, EFFECTCOLOR _Color)
+CEffectWater* CEffectWater::Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 vOriginPos, int numParticles, float fSize, EFFECTCOLOR _Color)
 {
-	CEffectSquare* pInstance = new CEffectSquare(pGraphicDev);
+	CEffectWater* pInstance = new CEffectWater(pGraphicDev);
 
-	if (FAILED(pInstance->Ready_Object(vOriginPos, numParticles, _Color)))
+	if (FAILED(pInstance->Ready_Object(vOriginPos, numParticles, fSize, _Color)))
 	{
 		Safe_Release(pInstance);
-		MSG_BOX("CEffectSquare Create Failed");
+		MSG_BOX("CEffectWater Create Failed");
 		return nullptr;
 	}
 
 	return pInstance;
 }
 
-void CEffectSquare::Free()
+void CEffectWater::Free()
 {
 	__super::Free();
 }

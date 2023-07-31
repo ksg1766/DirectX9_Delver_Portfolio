@@ -53,6 +53,7 @@
 
 // 연출 테스트 // 성공시 보스 씬으로 이동
 #include "GameManager.h"
+#include "EffectWaterfall.h"
 
 CStage::CStage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
@@ -187,7 +188,24 @@ HRESULT CStage::Ready_Layer_Environment(LAYERTAG _eLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
+	// 폭포 이펙트
+	pGameObject = CEffectWaterfall::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	pGameObject->m_pTransform->Translate(_vec3(-38.6, 14.f, 15.f));
+	dynamic_cast<CEffectWaterfall*>(pGameObject)->Set_BoundingBox(_vec3(-2.f, 14.f, -1.f), _vec3(2.f, 20.f, 1.f));
+	dynamic_cast<CEffectWaterfall*>(pGameObject)->Set_EffectMoveScale(5, _vec3(.1f, .1f, .1f), _vec3(.5f, .5f, .5f));
+	dynamic_cast<CEffectWaterfall*>(pGameObject)->Set_EffectBubbleScale(7, _vec3(.2f, .2f, .2f), _vec3(1.f, 1.f, 1.f));
+	dynamic_cast<CEffectWaterfall*>(pGameObject)->Set_EffectMoveSet(2);
+	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
+	pGameObject = CEffectWaterfall::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	pGameObject->m_pTransform->Translate(_vec3(-41., 14.f, 17.f));
+	dynamic_cast<CEffectWaterfall*>(pGameObject)->Set_BoundingBox(_vec3(-2.f, 14.f, -1.f), _vec3(2.f, 20.f, 1.f));
+	dynamic_cast<CEffectWaterfall*>(pGameObject)->Set_EffectMoveScale(5, _vec3(.1f, .1f, .1f), _vec3(.5f, .5f, .5f));
+	dynamic_cast<CEffectWaterfall*>(pGameObject)->Set_EffectBubbleScale(7, _vec3(.2f, .2f, .2f), _vec3(1.f, 1.f, 1.f));
+	dynamic_cast<CEffectWaterfall*>(pGameObject)->Set_EffectMoveSet(2);
+	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
 	// Test SpawningPool
 	/*pGameObject = CSpawningPool::Create(m_pGraphicDev);

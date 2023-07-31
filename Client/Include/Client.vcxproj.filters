@@ -892,6 +892,9 @@
     <Filter Include="03. GameObject\01. Stage\02. Item\Quest\Part">
       <UniqueIdentifier>{33b6e106-19d2-4637-b721-e2f09f684137}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. GameObject\06. Particle\01. EffectWater">
+      <UniqueIdentifier>{580f61b6-f5c5-43cc-ac1d-6f1865bd6f30}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -1748,6 +1751,9 @@
     <ClInclude Include="..\Header\Puzzle_Part.h">
       <Filter>03. GameObject\01. Stage\02. Item\Quest\Part</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\EffectWater.h">
+      <Filter>03. GameObject\06. Particle\01. EffectWater</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -2564,6 +2570,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\Puzzle_Part.cpp">
       <Filter>03. GameObject\01. Stage\02. Item\Quest\Part</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\EffectWater.cpp">
+      <Filter>03. GameObject\06. Particle\01. EffectWater</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
