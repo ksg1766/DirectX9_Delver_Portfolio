@@ -283,7 +283,7 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 
 #pragma region 연출 테스트
 
-if (Engine::InputDev()->Key_Pressing(DIK_LCONTROL) && Engine::InputDev()->Key_Down(DIK_X))
+	if (Engine::InputDev()->Key_Pressing(DIK_LCONTROL) && Engine::InputDev()->Key_Down(DIK_X))
 	{
 		SceneManager()->SlowMode(3.f, 3);
 	}
