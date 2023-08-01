@@ -44,6 +44,7 @@ private:
 
 	vector<CPuzzle_Part*> m_vecPuzzlePart;
 
+
 public:
 	static CPuzzle* Create(LPDIRECT3DDEVICE9 pGraphicDev);
 

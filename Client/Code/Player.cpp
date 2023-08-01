@@ -62,6 +62,9 @@ HRESULT CPlayer::Ready_Object(void)
 	m_fAddictionTime = 0.f;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
+
+	m_iPuzzleCount = 0;
+
 	m_pMainCamera = dynamic_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam());
 	m_pMainCamera->m_pTransform->Copy_RUL_AddPos(m_pTransform->m_vInfo);
 	//CCameraManager::GetInstance()->Get_CurrentCam()->m_pTransform->Translate(_vec3(0.f, 0.5f, 0.f));
@@ -1069,7 +1072,10 @@ void CPlayer::OnCollisionEnter(CCollider* _pOther)
 	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::ITEM)
 	{
 		if (dynamic_cast<CItem*>(_pOther->Get_Host())->Get_WorldItem())
-			Create_Item(_pOther);
+		{
+			if(dynamic_cast<CItem*>(_pOther->Get_Host())->Get_ItemTag().eItemType != ITEMTYPE::ITEMTYPE_QUEST)
+				Create_Item(_pOther);
+		}
 	}
 }
 

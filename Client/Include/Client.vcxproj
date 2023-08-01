@@ -291,6 +291,8 @@
     <ClInclude Include="..\Header\Necklace.h" />
     <ClInclude Include="..\Header\NpcGroup.h" />
     <ClInclude Include="..\Header\Pants.h" />
+    <ClInclude Include="..\Header\Phantom.h" />
+    <ClInclude Include="..\Header\Phantom_Idle.h" />
     <ClInclude Include="..\Header\Pumpkin.h" />
     <ClInclude Include="..\Header\Puzzle.h" />
     <ClInclude Include="..\Header\Puzzle_Part.h" />
@@ -303,6 +305,8 @@
     <ClInclude Include="..\Header\UIbosshp.h" />
     <ClInclude Include="..\Header\UILevelUp.h" />
     <ClInclude Include="..\Header\UILevelUpCard.h" />
+    <ClInclude Include="..\Header\UIPuzzleBack.h" />
+    <ClInclude Include="..\Header\UISpeech_Phantom.h" />
     <ClInclude Include="..\Header\VillageTriger.h" />
     <ClInclude Include="..\Header\Shield.h" />
     <ClInclude Include="..\Header\ShopItem.h" />
@@ -466,6 +470,7 @@
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="UIPuzzle.h" />
     <ClInclude Include="WaterFallTriger.h" />
   </ItemGroup>
   <ItemGroup>
@@ -568,6 +573,8 @@
     <ClCompile Include="..\Code\Mushroom.cpp" />
     <ClCompile Include="..\Code\Necklace.cpp" />
     <ClCompile Include="..\Code\Pants.cpp" />
+    <ClCompile Include="..\Code\Phantom.cpp" />
+    <ClCompile Include="..\Code\Phantom_Idle.cpp" />
     <ClCompile Include="..\Code\Pumpkin.cpp" />
     <ClCompile Include="..\Code\Puzzle.cpp" />
     <ClCompile Include="..\Code\Puzzle_Part.cpp" />
@@ -580,6 +587,9 @@
     <ClCompile Include="..\Code\UIbosshp.cpp" />
     <ClCompile Include="..\Code\UILevelUp.cpp" />
     <ClCompile Include="..\Code\UILevelUpCard.cpp" />
+    <ClCompile Include="..\Code\UIPuzzle.cpp" />
+    <ClCompile Include="..\Code\UIPuzzleBack.cpp" />
+    <ClCompile Include="..\Code\UISpeech_Phantom.cpp" />
     <ClCompile Include="..\Code\VillageTriger.cpp" />
     <ClCompile Include="..\Code\Shield.cpp" />
     <ClCompile Include="..\Code\ShopItem.cpp" />

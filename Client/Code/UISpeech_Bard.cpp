@@ -84,6 +84,10 @@ void CUIspeech_Bard::Render_Object()
 	if (Npciter != vecNpc.end())
 		eTargetNpc = dynamic_cast<CNpc*>(*Npciter);
 
+
+	if (eTargetNpc == nullptr)
+		return;
+
 	if (dynamic_cast<CNpc_Bard*>(eTargetNpc)->IsTalk())
 	{
 		dynamic_cast<CFont*>(m_pFont)->Set_pFont(m_pFontconfig);

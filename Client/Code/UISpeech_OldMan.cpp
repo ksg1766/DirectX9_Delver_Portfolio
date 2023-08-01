@@ -95,6 +95,8 @@ void CUIspeech_OldMan::Render_Object()
 	if (Npciter != vecNpc.end())
 		pTargetNpc = dynamic_cast<CNpc*>(*Npciter);
 
+	if (pTargetNpc == nullptr)
+		return;
 
 	if (dynamic_cast<CNpc_OldMan*>(pTargetNpc)->IsTalk())
 	{

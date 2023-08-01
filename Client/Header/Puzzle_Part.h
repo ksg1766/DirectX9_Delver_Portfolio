@@ -43,6 +43,8 @@ private:
 	CBillBoard* m_pBillBoard = nullptr;
 
 	_uint	m_iPuzzleNumber;
+	_int	m_iMoveTick;
+	_vec3	m_vOriginPos;
 public:
 	static CPuzzle_Part* Create(LPDIRECT3DDEVICE9 pGraphicDev, _uint _PuzzleNumber);
 

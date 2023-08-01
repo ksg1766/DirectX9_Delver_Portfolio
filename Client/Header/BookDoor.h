@@ -43,8 +43,12 @@ private:
 	_bool	  m_bBgmStop = false;
 	_bool	  m_bDoorOpen = false;
 	_bool	  m_bDoorClose = false;
+
+	_bool	  m_bCreate2 = true;
 	
 	_bool	  m_bFrontOpen = false;
+	_vec3	  m_vPushPos;
+	_vec3	  m_vInitPos;
 
 	_float	m_fSound;
 	const _float m_fMaxVolume = 1.f;
