@@ -17,6 +17,7 @@ public:
 
 	void    Set_EffectRotation() {}
 
+	void    Set_EffectDropHeight(_float _height) { m_fHeight = _height; }
 	void    Set_EffectDropScale(_uint _Count, _vec3 _vecMin, _vec3 _vecMax)   
 	{ 
 		m_iDropCount = _Count;
@@ -36,7 +37,7 @@ public:
 		m_vecBubbleScale[1] = _vecMax;
 	}
 	void    Set_EffectMoveSet(_uint _Set) { m_iMoveSet = _Set; }
-	// 큰 순 0 / 작은 순 1
+	// 0 버블만 생성 / 1 기본 // 2 90도 회전
 
 public:
 	HRESULT Ready_Object() override;
@@ -67,6 +68,7 @@ private:
 	_int   m_iParticleNumber;
 
 	_uint  m_iMoveSet;
+	_float m_fHeight;
 
 public:
 	static CEffectWaterfall* Create(LPDIRECT3DDEVICE9 pGraphicDev);

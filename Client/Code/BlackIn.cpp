@@ -33,6 +33,8 @@ HRESULT CBlackIn::Ready_Object(void)
 Engine::_int CBlackIn::Update_Object(const _float& fTimeDelta)
 {
 	//_int iExit = CTempUI::Update_Object(fTimeDelta);
+	if (m_IsDead)
+		return 0;
 
 	m_fFrame -= 20.f * fTimeDelta * 0.0000029f;
 
@@ -40,7 +42,8 @@ Engine::_int CBlackIn::Update_Object(const _float& fTimeDelta)
 	{
 		m_fFrame = 0.f;
 		Engine::UIManager()->Show_PopupUI(POPUP_MOUSE);
-		Engine::UIManager()->Delete_BasicObject(Engine::UILAYER::UI_UP);
+		//Engine::UIManager()->Delete_BasicObject(Engine::UILAYER::UI_UP);
+		m_IsDead = true;
 	}
 
 	return 0;
@@ -48,11 +51,17 @@ Engine::_int CBlackIn::Update_Object(const _float& fTimeDelta)
 
 void CBlackIn::LateUpdate_Object(void)
 {
+	if (m_IsDead)
+		return;
+
 	CTempUI::LateUpdate_Object();
 }
 
 void CBlackIn::Render_Object(void)
 {
+	if (m_IsDead)
+		return;
+
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorld);
 
 	m_pTextureCom->Render_Texture(m_fFrame);

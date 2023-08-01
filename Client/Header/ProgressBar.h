@@ -18,6 +18,9 @@ private:
 	virtual ~CProgressBar();
 
 public:
+	_bool Get_Finish() { return m_bFinish; }
+
+public:
 	HRESULT Ready_Object() override;
 	_int Update_Object(const _float& fTimeDelta) override;
 	void LateUpdate_Object(void) override;
@@ -32,12 +35,12 @@ private:
 	CRcTex*			m_pBufferCom = nullptr;
 	CTexture*		m_pTextureCom = nullptr;
 
-	_int            m_iCurrentBar;
-	_int            m_iMaxBar;
+	_float          m_fCurrentBar;
+	_float          m_fMaxBar;
 	_float          m_fPosition;
 	_float          m_flength;
 
-	_int            m_iFinish;
+	_bool           m_bFinish = false;
 
 public:
 	static CProgressBar*		Create(LPDIRECT3DDEVICE9 pGraphicDev);

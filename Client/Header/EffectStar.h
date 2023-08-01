@@ -10,6 +10,8 @@ private:
 	virtual ~CEffectStar();
 
 public:
+
+public:
 	virtual HRESULT Ready_Object(void) override;
 	virtual _int Update_Object(const _float& fTimeDelta) override;
 	virtual void LateUpdate_Object(void) override;

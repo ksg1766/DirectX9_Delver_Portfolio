@@ -1,33 +1,33 @@
 #include "stdafx.h"
-#include "..\Header\Moon.h"
+#include "..\Header\MoonBoss.h"
 
 #include "Export_Function.h"
 
-CMoon::CMoon(LPDIRECT3DDEVICE9 pGraphicDev)
+CMoonBoss::CMoonBoss(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev)
 {
 }
 
-CMoon::CMoon(const CMoon& rhs)
+CMoonBoss::CMoonBoss(const CMoonBoss& rhs)
 	: CGameObject(rhs)
 {
 }
 
-CMoon::~CMoon()
+CMoonBoss::~CMoonBoss()
 {
 }
 
-HRESULT CMoon::Ready_Object(void)
+HRESULT CMoonBoss::Ready_Object(void)
 {
 	m_eObjectTag = OBJECTTAG::IMMORTAL;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-    m_pTransform->Translate(_vec3(-25.f, 85.f, 80.f));
+	m_pTransform->Translate(_vec3(-115.f, 60.f, 1.f));
 
 	return S_OK;
 }
 
-_int CMoon::Update_Object(const _float& fTimeDelta)
+_int CMoonBoss::Update_Object(const _float& fTimeDelta)
 {
 	_int iExit = __super::Update_Object(fTimeDelta);
 
@@ -36,27 +36,27 @@ _int CMoon::Update_Object(const _float& fTimeDelta)
 	return iExit;
 }
 
-void CMoon::LateUpdate_Object(void)
+void CMoonBoss::LateUpdate_Object(void)
 {
 	__super::LateUpdate_Object();
 
 	m_pBillBoardCom->LateUpdate_Component();
-	m_pTransform->Scale(_vec3(23.f, 23.f, 23.f));
+	m_pTransform->Scale(_vec3(9.f, 9.f, 9.f));
 }
 
-void CMoon::Render_Object(void)
+void CMoonBoss::Render_Object(void)
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
 
 	m_pGraphicDev->SetRenderState(D3DRS_FOGENABLE, FALSE);
 
-	m_pTextureCom->Render_Texture(0);
+	m_pTextureCom->Render_Texture(1);
 	m_pBufferCom->Render_Buffer();
 
 	m_pGraphicDev->SetRenderState(D3DRS_FOGENABLE, TRUE);
 }
 
-HRESULT CMoon::Add_Component(void)
+HRESULT CMoonBoss::Add_Component(void)
 {
 	CComponent* pComponent = nullptr;
 
@@ -83,21 +83,21 @@ HRESULT CMoon::Add_Component(void)
 	return S_OK;
 }
 
-CMoon* CMoon::Create(LPDIRECT3DDEVICE9 pGraphicDev)
+CMoonBoss* CMoonBoss::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 {
-	CMoon* pInstance = new CMoon(pGraphicDev);
+	CMoonBoss* pInstance = new CMoonBoss(pGraphicDev);
 
 	if (FAILED(pInstance->Ready_Object()))
 	{
 		Safe_Release(pInstance);
-		MSG_BOX("CMoon Create Failed");
+		MSG_BOX("CMoonBoss Create Failed");
 		return nullptr;
 	}
 
 	return pInstance;
 }
 
-void CMoon::Free()
+void CMoonBoss::Free()
 {
 	__super::Free();
 }

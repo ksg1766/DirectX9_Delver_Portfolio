@@ -32,18 +32,20 @@ Engine::_int CEffectWaterfall::Update_Object(const _float& fTimeDelta)
 	if (m_RandomSet) {
 		m_RandomSet = false;
 
-		// WaterMove 생성
-		for (_uint i = 0; i < m_iMoveCount; ++i) {
-			CGameObject* pGameObject = CEffectWaterMove::Create(m_pGraphicDev);
-			NULL_CHECK_RETURN(pGameObject, E_FAIL);
-			pGameObject->m_pTransform->Translate(_vec3(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vInfo[INFO_POS].z));
-			dynamic_cast<CEffectWaterMove*>(pGameObject)->Set_OriginPos(m_pTransform->m_vInfo[INFO_POS]);
-			dynamic_cast<CEffectWaterMove*>(pGameObject)->Set_BoundingBox(m_EffectBoundingBox.vMin, m_EffectBoundingBox.vMax);
-			dynamic_cast<CEffectWaterMove*>(pGameObject)->Set_EffectMoveScale(m_vecMoveScale[0], m_vecMoveScale[1]);
-			dynamic_cast<CEffectWaterMove*>(pGameObject)->Set_PickNumber(i, m_iMoveCount);
-			dynamic_cast<CEffectWaterMove*>(pGameObject)->Set_EffectMoveSet(m_iMoveSet);
+		if (m_iMoveSet != 0) {
+			// WaterMove 생성
+			for (_uint i = 0; i < m_iMoveCount; ++i) {
+				CGameObject* pGameObject = CEffectWaterMove::Create(m_pGraphicDev);
+				NULL_CHECK_RETURN(pGameObject, E_FAIL);
+				pGameObject->m_pTransform->Translate(_vec3(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vInfo[INFO_POS].z));
+				dynamic_cast<CEffectWaterMove*>(pGameObject)->Set_OriginPos(m_pTransform->m_vInfo[INFO_POS]);
+				dynamic_cast<CEffectWaterMove*>(pGameObject)->Set_BoundingBox(m_EffectBoundingBox.vMin, m_EffectBoundingBox.vMax);
+				dynamic_cast<CEffectWaterMove*>(pGameObject)->Set_EffectMoveScale(m_vecMoveScale[0], m_vecMoveScale[1]);
+				dynamic_cast<CEffectWaterMove*>(pGameObject)->Set_PickNumber(i, m_iMoveCount);
+				dynamic_cast<CEffectWaterMove*>(pGameObject)->Set_EffectMoveSet(m_iMoveSet);
 
-			m_vecMove.push_back(pGameObject);
+				m_vecMove.push_back(pGameObject);
+			}
 		}
 
 		// WaterBubble 생성
@@ -61,13 +63,13 @@ Engine::_int CEffectWaterfall::Update_Object(const _float& fTimeDelta)
 	// 랜덤 초마다 튀는 물 생성 // 생기는 개수 랜덤
 	m_fMoveTime += 1.f * fTimeDelta;
 
-	if (m_fMoveTime > m_fChangeTime)
+	if (m_iMoveSet != 0 && m_fMoveTime > m_fChangeTime)
 	{
 		m_fMoveTime = 0.f;
 		m_fChangeTime     = CTempEffect::Get_RandomFloat(1.f, 2.f);
 		m_iParticleNumber = (int)CTempEffect::Get_RandomFloat(30.f, 60.f);
 
-		CGameObject* pGameObject = CEffectWater::Create(m_pGraphicDev, _vec3(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y + 1.f, m_pTransform->m_vInfo[INFO_POS].z), m_iParticleNumber, 0.05f, EFFECTCOLOR::ECOLOR_WHITE);
+		CGameObject* pGameObject = CEffectWater::Create(m_pGraphicDev, _vec3(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y + m_fHeight, m_pTransform->m_vInfo[INFO_POS].z), m_iParticleNumber, 0.05f, EFFECTCOLOR::ECOLOR_WHITE);
 		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 	}
 

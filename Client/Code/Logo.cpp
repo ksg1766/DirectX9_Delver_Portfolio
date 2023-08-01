@@ -157,10 +157,8 @@ HRESULT CLogo::Ready_Layer_Environment(LAYERTAG _eLayerTag)
 	pGameObject = CBlackIn::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	dynamic_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_BASIC, 0);
-	Engine::UIManager()->Add_BasicGameobject(Engine::UILAYER::UI_UP, pGameObject);
+	Engine::UIManager()->Add_PopupGameobject(Engine::UIPOPUPLAYER::POPUP_BLACK, Engine::UILAYER::UI_DOWN, pGameObject);
 	//Engine::EventManager()->CreateObject(pGameObject, _eLayerTag);
-
-
 
 	return S_OK;
 }

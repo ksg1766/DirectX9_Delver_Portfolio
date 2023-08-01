@@ -2,7 +2,7 @@
 
 #include "Scene.h"
 #include "DynamicCamera.h"
-#include "SkyBox.h"
+#include "SkyBoxBoss.h"
 #include "Player.h"
 #include "FootRay.h"
 #include "CubeBlock.h"

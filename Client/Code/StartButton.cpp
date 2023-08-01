@@ -2,6 +2,7 @@
 #include "..\Header\StartButton.h"
 
 #include "StageLoading.h"
+#include <BlackIn.h>
 
 CStartButton::CStartButton(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CTempUI(pGraphicDev)

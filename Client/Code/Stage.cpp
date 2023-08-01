@@ -70,7 +70,7 @@ HRESULT CStage::Ready_Scene()
 	Engine::CGameObject* pGameObject = CBlackIn::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	dynamic_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_BASIC, 0);
-	Engine::UIManager()->Add_BasicGameobject(Engine::UILAYER::UI_UP, pGameObject);
+	Engine::UIManager()->Add_PopupGameobject(Engine::UIPOPUPLAYER::POPUP_BLACK, Engine::UILAYER::UI_DOWN, pGameObject);
 
 	m_eSceneTag = SCENETAG::STAGE;
 	m_fSound = 1.f;
@@ -191,19 +191,22 @@ HRESULT CStage::Ready_Layer_Environment(LAYERTAG _eLayerTag)
 	// ÆøÆ÷ ÀÌÆåÆ®
 	pGameObject = CEffectWaterfall::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pGameObject->m_pTransform->Translate(_vec3(-38.6, 14.f, 15.f));
+	pGameObject->m_pTransform->Translate(_vec3(-37, 13.f, 15.f));
 	dynamic_cast<CEffectWaterfall*>(pGameObject)->Set_BoundingBox(_vec3(-2.f, 14.f, -1.f), _vec3(2.f, 20.f, 1.f));
 	dynamic_cast<CEffectWaterfall*>(pGameObject)->Set_EffectMoveScale(5, _vec3(.1f, .1f, .1f), _vec3(.5f, .5f, .5f));
 	dynamic_cast<CEffectWaterfall*>(pGameObject)->Set_EffectBubbleScale(7, _vec3(.2f, .2f, .2f), _vec3(1.f, 1.f, 1.f));
-	dynamic_cast<CEffectWaterfall*>(pGameObject)->Set_EffectMoveSet(2);
+	dynamic_cast<CEffectWaterfall*>(pGameObject)->Set_EffectDropHeight(1.f);
+	dynamic_cast<CEffectWaterfall*>(pGameObject)->Set_EffectMoveSet(0);
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
+	// ÀÛÀº ÆøÆ÷ ÀÌÆåÆ®
 	pGameObject = CEffectWaterfall::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pGameObject->m_pTransform->Translate(_vec3(-41., 14.f, 17.f));
-	dynamic_cast<CEffectWaterfall*>(pGameObject)->Set_BoundingBox(_vec3(-2.f, 14.f, -1.f), _vec3(2.f, 20.f, 1.f));
-	dynamic_cast<CEffectWaterfall*>(pGameObject)->Set_EffectMoveScale(5, _vec3(.1f, .1f, .1f), _vec3(.5f, .5f, .5f));
-	dynamic_cast<CEffectWaterfall*>(pGameObject)->Set_EffectBubbleScale(7, _vec3(.2f, .2f, .2f), _vec3(1.f, 1.f, 1.f));
+	pGameObject->m_pTransform->Translate(_vec3(1.5, 10.f, -46.f));
+	dynamic_cast<CEffectWaterfall*>(pGameObject)->Set_BoundingBox(_vec3(-2.f, 10.f, -1.f), _vec3(2.f, 20.f, 1.f));
+	dynamic_cast<CEffectWaterfall*>(pGameObject)->Set_EffectMoveScale(5, _vec3(.1f, .1f, .1f), _vec3(2.f, 2.f, 2.f));
+	dynamic_cast<CEffectWaterfall*>(pGameObject)->Set_EffectBubbleScale(10, _vec3(.1f, .1f, .1f), _vec3(.5f, .5f, .5f));
+	dynamic_cast<CEffectWaterfall*>(pGameObject)->Set_EffectDropHeight(-2.f);
 	dynamic_cast<CEffectWaterfall*>(pGameObject)->Set_EffectMoveSet(2);
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 

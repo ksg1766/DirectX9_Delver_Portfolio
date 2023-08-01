@@ -19,6 +19,9 @@
 #include "KingSpiderWeb.h"
 #include "KingSpiderGrabWeb.h"
 #include "FlyingCamera.h"
+#include "EffectStar.h"
+#include "MoonBoss.h"
+
 CBossStage::CBossStage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
 {
@@ -33,8 +36,7 @@ HRESULT CBossStage::Ready_Scene()
 	Engine::CGameObject* pGameObject = CBlackIn::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	dynamic_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_BASIC, 0);
-
-	Engine::UIManager()->Add_BasicGameobject(Engine::UILAYER::UI_UP, pGameObject);
+	Engine::UIManager()->Add_PopupGameobject(Engine::UIPOPUPLAYER::POPUP_BLACK, Engine::UILAYER::UI_DOWN, pGameObject);
 
 	m_eSceneTag = SCENETAG::BOSSSTAGE;
 	FAILED_CHECK_RETURN(Ready_Layer_Environment(LAYERTAG::ENVIRONMENT), E_FAIL);
@@ -167,11 +169,23 @@ HRESULT CBossStage::Ready_Layer_Environment(LAYERTAG _eLayerTag)
 	//pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 #pragma endregion 첫 번째 씬에서 받아오는 오브젝트
 
+	// Moon
+	pGameObject = CMoonBoss::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+
 	// SkyBox
-	pGameObject = CSkyBox::Create(m_pGraphicDev);
+	pGameObject = CSkyBoxBoss::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 	m_mapLayer.insert({ _eLayerTag, pLayer });
+
+	for (_uint i = 0; i < 50; ++i)
+	{
+		pGameObject = CEffectStar::Create(m_pGraphicDev);
+		NULL_CHECK_RETURN(pGameObject, E_FAIL);
+		pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+	}
 
 	return S_OK;
 }
