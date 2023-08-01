@@ -39,17 +39,17 @@ int CMainApp::Update_MainApp(const float & fTimeDelta)
 	m_pSceneManager->Update_Scene(fTimeDelta);
 
 	// 스테이지 이동 테스트
-	if (Engine::InputDev()->Key_Down(DIK_F6))
-	{
-		CScene* pScene = CStage::Create(m_pGraphicDev);
-		Engine::SceneManager()->Change_Scene(pScene);
-		CGameManager::GetInstance()->PlayMode(PD::ShowSewer);
-	}
-	else if (Engine::InputDev()->Key_Pressing(DIK_LSHIFT) && Engine::InputDev()->Key_Down(DIK_F6))
+	if (Engine::InputDev()->Key_Pressing(DIK_LSHIFT) && Engine::InputDev()->Key_Down(DIK_F6))
 	{
 		CScene* pScene = CBossStage::Create(m_pGraphicDev);
 		Engine::SceneManager()->Change_Scene(pScene);
 		CGameManager::GetInstance()->PlayMode(PD::ShowBoss);
+	}
+	else if (Engine::InputDev()->Key_Down(DIK_F6))
+	{
+		CScene* pScene = CStage::Create(m_pGraphicDev);
+		Engine::SceneManager()->Change_Scene(pScene);
+		CGameManager::GetInstance()->PlayMode(PD::ShowSewer);
 	}
 
 	return 0;
