@@ -4,7 +4,10 @@
 #include "Player.h"
 #include "PoolManager.h"
 #include "SoundManager.h"
-
+#include "KingSpider_Appear.h"
+#include "KingSpider_Idle.h"
+#include "KingSpider_Run.h"
+#include "KingSpider_Idle.h"
 //#include "SpiderRay.h"
 
 CKingSpider::CKingSpider(LPDIRECT3DDEVICE9 pGrapicDev)
@@ -26,19 +29,40 @@ HRESULT CKingSpider::Ready_Object()
 	Set_ObjectTag(OBJECTTAG::BOSS);
 	Set_MonsterState(MONSTERTAG::SPIDER);
 	m_ePhase = BOSSPHASE::PHASE1;
-
+	m_bJumpRun = false;
+	m_bFloorCollison = false;
+	m_fFloorHeight = 0.f;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 	
-	//CState* pState = CMonster_Move::Create(m_pGraphicDev, m_pStateMachine);
-	//m_pStateMachine->Add_State(STATE::ROMIMG, pState);
+	m_pState = CKingSpider_Appear::Create(m_pGraphicDev, m_pStateMachine);
+	m_pStateMachine->Add_State(STATE::BOSS_WAKEUP, m_pState);
 
-	/*CAnimation* pAnimation = CAnimation::Create(m_pGraphicDev,
-		m_pTexture[(_uint)STATE::ROMIMG], STATE::ROMIMG, 5.f, TRUE);
-	m_pAnimator->Add_Animation(STATE::ROMIMG, pAnimation);*/
+	m_pState = CKingSpider_Idle::Create(m_pGraphicDev, m_pStateMachine);
+	m_pStateMachine->Add_State(STATE::BOSS_IDLE, m_pState);
 
-	//m_pTransform->Scale(_vec3(0.5, 0.5, 0.5));
-	//m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
-	Init_Stat();
+	m_pState = CKingSpider_Run::Create(m_pGraphicDev, m_pStateMachine);
+	m_pStateMachine->Add_State(STATE::BOSS_TELEPORT, m_pState);
+
+	CAnimation* pAnimation = CAnimation::Create(m_pGraphicDev,
+		m_pTexture[(_uint)STATE::ROMIMG], STATE::BOSS_WAKEUP, 5.f, TRUE);
+	m_pAnimator->Add_Animation(STATE::BOSS_WAKEUP, pAnimation);
+
+	pAnimation = CAnimation::Create(m_pGraphicDev,
+		m_pTexture[(_uint)STATE::ROMIMG], STATE::BOSS_IDLE, 5.f, TRUE);
+	m_pAnimator->Add_Animation(STATE::BOSS_IDLE, pAnimation);
+
+	pAnimation = CAnimation::Create(m_pGraphicDev,
+		m_pTexture[(_uint)STATE::ROMIMG], STATE::BOSS_TELEPORT, 5.f, TRUE);
+	m_pAnimator->Add_Animation(STATE::BOSS_TELEPORT, pAnimation);
+
+	m_pStateMachine->Set_Animator(m_pAnimator);
+	m_pStateMachine->Set_State(STATE::BOSS_WAKEUP);
+
+	m_pTransform->Scale(_vec3(4.f, 4.f, 4.f));
+	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale() * 0.8f);
+	
+	m_pRigidBody->UseGravity(false);
+	//Init_Stat();
 	return S_OK;
 }
 
@@ -48,6 +72,12 @@ _int CKingSpider::Update_Object(const _float& fTimeDelta)
 	if (SceneManager()->Get_GameStop()) { return 0; }
 	_int iExit = __super::Update_Object(fTimeDelta);
 	
+	m_pStateMachine->Update_StateMachine(fTimeDelta);
+	if (15.5f > m_pTransform->m_vInfo[INFO_POS].y)
+		m_pTransform->m_vInfo[INFO_POS].y = 15.f;
+
+	if (Engine::InputDev()->Key_Down(DIK_0))
+		m_pStateMachine->Set_State(STATE::BOSS_TELEPORT);
 	return iExit;
 }
 
@@ -56,6 +86,7 @@ void CKingSpider::LateUpdate_Object()
 	if (SceneManager()->Get_GameStop()) { return; }
 	__super::LateUpdate_Object();
 	m_pTransform->Scale(_vec3(4.f, 4.f, 4.f));
+	//m_pCollider->SetCenterPos(m_pTransform->m_vInfo[INFO_POS] - _vec3(0.f, 0.5f, 0.f));
 }
 
 void CKingSpider::Render_Object()
@@ -64,6 +95,9 @@ void CKingSpider::Render_Object()
 
 	m_pStateMachine->Render_StateMachine();
 	m_pBuffer->Render_Buffer();
+#if _DEBUG
+	m_pCollider->Render_Collider();
+#endif
 }
 
 void CKingSpider::Init_Stat()
@@ -80,39 +114,50 @@ void CKingSpider::Init_Stat()
 void CKingSpider::OnCollisionEnter(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
+	//if((OBJECTTAG::BLOCK != _pOther->Get_Host()->Get_ObjectTag()))
+		__super::OnCollisionEnter(_pOther);
 }
 
 void CKingSpider::OnCollisionStay(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
+	//if ((OBJECTTAG::BLOCK != _pOther->Get_Host()->Get_ObjectTag()))
+		__super::OnCollisionStay(_pOther);
+
 }
 
 void CKingSpider::OnCollisionExit(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
+	//if ((OBJECTTAG::BLOCK != _pOther->Get_Host()->Get_ObjectTag()))
+		__super::OnCollisionExit(_pOther);
 }
 
 HRESULT CKingSpider::Add_Component()
 {
 	CComponent* pComponent = nullptr;
 
+	pComponent = m_pTransform = dynamic_cast<CTransform*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Transform"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::TRANSFORM, pComponent);
+
 	pComponent = m_pBuffer = dynamic_cast<CRcTex*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_RcTex"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BUFFER, pComponent);
 
-	pComponent = m_pTexture[(_uint)STATE::ROMIMG] = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_Spider"));
+	pComponent = m_pTexture[(_uint)STATE::ROMIMG] = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_KingSpider"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
 
-	pComponent = m_pTexture[(_uint)STATE::ATTACK] = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_SpiderAttack"));
+	pComponent = m_pTexture[(_uint)STATE::ATTACK] = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_KingSpiderAttack"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
 
-	pComponent = m_pTexture[(_uint)STATE::HIT] = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_SpiderHit"));
+	pComponent = m_pTexture[(_uint)STATE::HIT] = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_KingSpiderHit"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
 
-	pComponent = m_pTexture[(_uint)STATE::DEAD] = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_SpiderDead"));
+	pComponent = m_pTexture[(_uint)STATE::DEAD] = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_KingSpiderDead"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
 
@@ -164,5 +209,6 @@ CKingSpider* CKingSpider::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 
 void CKingSpider::Free()
 {
+	Safe_Release(m_pState);
 	__super::Free();
 }

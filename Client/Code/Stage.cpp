@@ -50,7 +50,7 @@
 #include "Boss_Lightning.h"
 #include "BlackIn.h"
 #include "BossStage.h"
-
+#include "KingSpider.h"
 // 연출 테스트 // 성공시 보스 씬으로 이동
 #include "GameManager.h"
 #include "EffectWaterfall.h"
@@ -219,8 +219,6 @@ HRESULT CStage::Ready_Layer_Environment(LAYERTAG _eLayerTag)
 
 	m_mapLayer.insert({ _eLayerTag, pLayer });
 
-
-
 	return S_OK;
 }
 
@@ -237,6 +235,12 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 
 	pGameObject = CBookDoor::Create(m_pGraphicDev, pLayer);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+
+	pGameObject = CKingSpider::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//static_cast<CKingSpider*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = _vec3(-35.f, 12.f, -12.18f);
+	static_cast<CKingSpider*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = _vec3(-36.f, 68.f, 34.f);
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
 	//pGameObject = CPuzzle::Create(m_pGraphicDev);

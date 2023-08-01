@@ -30,6 +30,8 @@ public:
 public:
 	vector<CBookCube*>& Get_FrontDoor() { return m_vecFrontDoorCube; }
 	vector<CBookCube*>& Get_BackDoor()	{ return m_vecBackDoorCube; }
+
+	_bool				Get_bTrigger() { return m_bTriger; }
 private:
 	HRESULT	Add_Component();
 

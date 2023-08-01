@@ -34,6 +34,8 @@ _int CKingSpiderPoison::Update_Object(const _float& fTimeDelta)
 	if (SceneManager()->Get_GameStop()) { return 0; }
 	_int iExit = __super::Update_Object(fTimeDelta);
 
+
+
 	return iExit;
 }
 
@@ -83,7 +85,9 @@ void CKingSpiderPoison::OnCollisionExit(CCollider* _pOther)
 void CKingSpiderPoison::Set_Dir(_vec3 _vDir)
 {
 	m_vDir = _vDir - m_pTransform->m_vInfo[INFO_POS];
-	D3DXVec3Normalize(&m_vDir, &m_vDir);
+	//D3DXVec3Normalize(&m_vDir, &m_vDir);
+
+	m_pRigidBody->Add_Force(_vec3(m_vDir.x, 10.f, m_vDir.z));
 }
 
 HRESULT CKingSpiderPoison::Add_Component(void)

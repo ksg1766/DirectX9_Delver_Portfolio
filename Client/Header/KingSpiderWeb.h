@@ -42,6 +42,7 @@ private:
 	_bool	m_bDebuff;
 	_bool	m_bFloor;
 	_float	m_fDelay;
+	_float	m_fDebuffDuration;
 	_int	m_iHp;
 private:
 	HRESULT		Add_Component(void);
