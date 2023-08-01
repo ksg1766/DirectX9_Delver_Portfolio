@@ -59,7 +59,7 @@ void CSkyBoxVillage::Render_Object(void)
 
 	m_pGraphicDev->SetRenderState(D3DRS_FOGENABLE, FALSE);
 
-	m_pTexture->Render_Texture(0);
+	m_pTexture->Render_Texture(m_iImage);
 	m_pCubeBf->Render_Buffer();
 
 	m_pGraphicDev->SetRenderState(D3DRS_FOGENABLE, TRUE);

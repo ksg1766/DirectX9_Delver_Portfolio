@@ -88,6 +88,9 @@ HRESULT CStage::Ready_Scene()
 
 	CSoundManager::GetInstance()->StopAll();
 
+	Engine::Renderer()->Set_FogUse(true);
+	Engine::Renderer()->Set_FogColor(1, 10, 35, 50);
+	Engine::Renderer()->Set_FogDistance(1.f, 110.0f);
 
 	return S_OK;
 }

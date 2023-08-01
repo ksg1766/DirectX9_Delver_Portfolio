@@ -81,6 +81,10 @@ HRESULT CVillage::Ready_Scene()
 
 	m_pGraphicDev->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_NONE);
 
+	Engine::Renderer()->Set_FogUse(true);
+	Engine::Renderer()->Set_FogColor(100, 60, 10, 55);
+	Engine::Renderer()->Set_FogDistance(1.f, 130.0f);
+
 	return S_OK;
 }
 
@@ -103,6 +107,40 @@ void CVillage::LateUpdate_Scene()
 	CCameraManager::GetInstance()->LateUpdate_Camera();
 
 	UIManager()->LateUpdate_UI();
+
+	// 분위기 전환 테스트
+	if (Engine::InputDev()->Key_Down(DIK_F1)) // 오브랑 석상이랑 충돌했을 때 
+	{
+		// 해당 씬 클리어상태로 변경
+		 
+		
+		// 오브에 반짝이는 이펙트 생성
+
+
+		// 오브 주변에 빛 이미지 생성
+
+
+		// 스카이 박스 색상 이미지 교체
+		CGameObject* pSkyObject = SceneManager()->Get_ObjectList(LAYERTAG::ENVIRONMENT, OBJECTTAG::SKYBOX).front();
+		if (pSkyObject != nullptr)
+			dynamic_cast<CSkyBoxVillage*>(pSkyObject)->Set_SkyMode(1);
+
+		// 안개 색상 교체
+		Engine::Renderer()->Set_FogColor(100, 255, 170, 150);
+		Engine::Renderer()->Set_FogDistance(1.f, 200.0f);
+
+		// 나뭇잎 이펙트 -> 꽃 이미지로 교체
+
+
+		// 반딧불이 이펙트 -> 나비 이미지로 교체
+
+
+		// 몇초마다 하늘에 폭죽 이펙트 발사
+
+
+		// 클리어 후 몇초 뒤 엔딩 크래딧 씬으로 전환
+
+	}
 }
 
 void CVillage::Render_Scene()
@@ -381,11 +419,6 @@ HRESULT CVillage::Ready_Layer_UI(LAYERTAG _eLayerTag)
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
 
 	Engine::CGameObject*		pGameObject = nullptr;
-
-	pGameObject = CUIPuzzleBack::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	dynamic_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_PICTURE, 0);
-	Engine::UIManager()->Add_PopupGameobject(Engine::UIPOPUPLAYER::POPUP_MAP, Engine::UILAYER::UI_MIDDLE, pGameObject);
 
 	if (!Engine::SceneManager()->Get_VisitScene(m_eSceneTag))
 	{
