@@ -976,6 +976,9 @@
     <Filter Include="03. GameObject\03. UI\20. UIPuzzle\BackGround">
       <UniqueIdentifier>{cdc2851b-289c-40e2-82d5-92a7be52d312}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. GameObject\01. Stage\02. Item\Quest\Orb">
+      <UniqueIdentifier>{5eb6818c-9e03-4a28-8ff3-d8b9a24431b3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -1898,6 +1901,9 @@
     <ClInclude Include="..\Header\UIPuzzleBack.h">
       <Filter>03. GameObject\03. UI\20. UIPuzzle\BackGround</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\Orb.h">
+      <Filter>03. GameObject\01. Stage\02. Item\Quest\Orb</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -2780,6 +2786,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\UIPuzzleBack.cpp">
       <Filter>03. GameObject\03. UI\20. UIPuzzle\BackGround</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Orb.cpp">
+      <Filter>03. GameObject\01. Stage\02. Item\Quest\Orb</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

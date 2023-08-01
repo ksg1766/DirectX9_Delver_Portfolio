@@ -192,6 +192,10 @@ public:
 			m_fCurrentImage = 41;
 			m_UINumber = -1;
 			break;
+		case QUEST_ORB:
+			m_fCurrentImage = 42;
+			m_UINumber = -1;
+			break;
 		}
 	}
 

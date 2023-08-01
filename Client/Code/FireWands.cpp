@@ -72,7 +72,6 @@ _int CFireWands::Update_Object(const _float& fTimeDelta)
 
 	if (Get_WorldItem())
 	{
-
 		if (m_bDropAnItem)
 		{
 			DropanItem(pPlayer);

@@ -43,7 +43,7 @@ void CItem::DropanItem(CGameObject* pOwner)
 {
 	const _float fMaxDistance = 3.f;
 
-	_vec3 vEndPos = this->m_pTransform->m_vInfo[INFO_POS] + pOwner->m_pTransform->m_vInfo[INFO_LOOK] * (fMaxDistance + 0.21f);
+	_vec3 vEndPos = this->m_pTransform->m_vInfo[INFO_POS] + pOwner->m_pTransform->m_vInfo[INFO_LOOK] * (fMaxDistance + 0.21);
 	// 최종목적지
 	_vec3 vStartPos = this->m_pTransform->m_vInfo[INFO_POS];
 	// 시작 위치
@@ -57,7 +57,6 @@ void CItem::DropanItem(CGameObject* pOwner)
 	_vec3 vTest = _vec3(vDir.x, 0.f, vDir.y);
 
 	m_pTransform->m_vInfo[INFO_POS] = vStartPos + vDir * vLerpDistance;
-
 
 	if(vLerpDistance <= 0.02f)
 		m_bDropAnItem = false;

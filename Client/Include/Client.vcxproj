@@ -292,6 +292,7 @@
     <ClInclude Include="..\Header\Mushroom.h" />
     <ClInclude Include="..\Header\Necklace.h" />
     <ClInclude Include="..\Header\NpcGroup.h" />
+    <ClInclude Include="..\Header\Orb.h" />
     <ClInclude Include="..\Header\OrbBlock.h" />
     <ClInclude Include="..\Header\Pants.h" />
     <ClInclude Include="..\Header\Phantom.h" />
@@ -578,6 +579,7 @@
     <ClCompile Include="..\Code\MoonBoss.cpp" />
     <ClCompile Include="..\Code\Mushroom.cpp" />
     <ClCompile Include="..\Code\Necklace.cpp" />
+    <ClCompile Include="..\Code\Orb.cpp" />
     <ClCompile Include="..\Code\OrbBlock.cpp" />
     <ClCompile Include="..\Code\Pants.cpp" />
     <ClCompile Include="..\Code\Phantom.cpp" />
