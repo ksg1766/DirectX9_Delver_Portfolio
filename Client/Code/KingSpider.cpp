@@ -8,6 +8,11 @@
 #include "KingSpider_Idle.h"
 #include "KingSpider_Run.h"
 #include "KingSpider_Idle.h"
+#include "KingSpider_Shoot.h"
+#include "KingSpider_ShootPoison.h"
+#include "KingSpider_MakeNest.h"
+//#include "KingSpider"
+
 //#include "SpiderRay.h"
 
 CKingSpider::CKingSpider(LPDIRECT3DDEVICE9 pGrapicDev)
@@ -59,7 +64,7 @@ HRESULT CKingSpider::Ready_Object()
 	m_pStateMachine->Set_State(STATE::BOSS_WAKEUP);
 
 	m_pTransform->Scale(_vec3(4.f, 4.f, 4.f));
-	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale() * 0.8f);
+	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
 	
 	m_pRigidBody->UseGravity(false);
 	//Init_Stat();

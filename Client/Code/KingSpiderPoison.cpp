@@ -3,6 +3,7 @@
 #include "KingSpiderPoison.h"
 #include "Export_Function.h"
 #include "Player.h"
+#include "EffectSquare.h"
 CKingSpiderPoison::CKingSpiderPoison(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CMonster(pGraphicDev)
 {
@@ -63,6 +64,15 @@ void CKingSpiderPoison::Init_Stat()
 void CKingSpiderPoison::OnCollisionEnter(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
+	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BLOCK)
+	{
+		_matrix      matMonsterWorld = _pOther->Get_Host()->m_pTransform->WorldMatrix();
+		_vec3        vecMonsterPos = _vec3(matMonsterWorld._41, matMonsterWorld._42 + .5f, matMonsterWorld._43);
+		CGameObject* pGameObject = CEffectSquare::Create(m_pGraphicDev, vecMonsterPos, 50, EFFECTCOLOR::ECOLOR_GREEN);
+		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+
+		m_IsDead = true;
+	}
 	if (_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::PLAYER)
 		__super::OnCollisionEnter(_pOther);
 }
@@ -87,7 +97,7 @@ void CKingSpiderPoison::Set_Dir(_vec3 _vDir)
 	m_vDir = _vDir - m_pTransform->m_vInfo[INFO_POS];
 	//D3DXVec3Normalize(&m_vDir, &m_vDir);
 
-	m_pRigidBody->Add_Force(_vec3(m_vDir.x, 10.f, m_vDir.z));
+	m_pRigidBody->Add_Force(_vec3(m_vDir.x, 8.f, m_vDir.z));
 }
 
 HRESULT CKingSpiderPoison::Add_Component(void)

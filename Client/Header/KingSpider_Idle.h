@@ -17,11 +17,6 @@ public:
 	virtual STATE	Key_Input(const _float& fTimeDelta) { return STATE(); }
 public:
 	static CKingSpider_Idle* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
-
-	void	Shoot_Web();
-	void	Shoot_Poison();
-	void	Earthquake();
-	void	Make_Nest();
 private:
 	_bool		m_fJumpAttack;
 	_float		m_fDelay;
