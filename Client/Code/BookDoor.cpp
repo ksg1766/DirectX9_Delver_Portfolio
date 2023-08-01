@@ -4,6 +4,7 @@
 #include "Player.h"
 #include "BookDoor.h"
 #include "BookCube.h"
+#include "Phantom.h"
 
 #include "CameraManager.h"
 #include "FlyingCamera.h"
@@ -36,6 +37,8 @@ HRESULT CBookDoor::Ready_Object(CLayer* pLayer)
 	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT],
 		m_pTransform->LocalScale());
 	m_pTransform->Translate(_vec3(-69.f, 12.f, -9.f));
+
+	m_vPushPos = _vec3(-81.f, 12.f, -11.f);
 
 	m_bShake = true;
 	m_bBgmChange = false;
@@ -202,10 +205,6 @@ void CBookDoor::Render_Object()
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
 
-	//m_pTexture->Render_Texture(39);
-	//m_pCubeBf->Render_Buffer();
-
-
 #if _DEBUG
 	m_pCollider->Render_Collider();
 #endif // _DEBUG
@@ -215,10 +214,24 @@ void CBookDoor::Render_Object()
 void CBookDoor::OnCollisionEnter(CCollider* _pOther)
 {
 	__super::OnCollisionEnter(_pOther);
+	
+	CPlayer& rPlayer = *SceneManager()->Get_Scene()->Get_MainPlayer();
 
 	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::PLAYER)
 	{
-		m_bTriger = true;
+		if (m_bCreate2)
+		{
+			CGameObject* pGameObjet = nullptr;
+
+			pGameObjet = CPhantom::Create(m_pGraphicDev);
+			NULL(pGameObjet, E_FAIL);
+			EventManager()->CreateObject(pGameObjet, LAYERTAG::GAMELOGIC);
+
+			m_bCreate2 = false;
+		}
+
+		if (dynamic_cast<CPlayer*>(_pOther->Get_Host())->Get_PuzzleResult() == 6)
+			m_bTriger = true;
 	}
 }
 

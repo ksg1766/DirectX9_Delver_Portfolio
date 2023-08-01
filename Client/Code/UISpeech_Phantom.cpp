@@ -1,29 +1,31 @@
-#include "UISpeech_Bard.h"
+#include "UISpeech_Phantom.h"
 #include "Export_Function.h"
-#include "Npc_Bard.h"
-CUIspeech_Bard::CUIspeech_Bard(LPDIRECT3DDEVICE9 pGraphicDev)
-	:CTempUI(pGraphicDev)
+#include "Phantom.h"
+#include "Player.h"
+
+CUISpeech_Phantom::CUISpeech_Phantom(LPDIRECT3DDEVICE9 pGraphicDev)
+	: CTempUI(pGraphicDev)
 {
 }
 
-CUIspeech_Bard::~CUIspeech_Bard()
+CUISpeech_Phantom::~CUISpeech_Phantom()
 {
 }
 
-HRESULT CUIspeech_Bard::Ready_Object()
+HRESULT CUISpeech_Phantom::Ready_Object()
 {
 	m_eObjectTag = OBJECTTAG::UI;
 	FAILED_CHECK_RETURN(CTempUI::Ready_Object(), E_FAIL);
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pTransform->m_vInfo[INFO_POS].x = WINCX/2;
-	m_pTransform->m_vInfo[INFO_POS].y = WINCY/4;
+	m_pTransform->m_vInfo[INFO_POS].x = WINCX * 0.5;
+	m_pTransform->m_vInfo[INFO_POS].y = WINCY * 0.25;
 
 	m_pTransform->m_vLocalScale.x = 400.f;
 	m_pTransform->m_vLocalScale.y = 100.f;
 
-	WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);
-
+	WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y,
+		m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);
 
 	m_pFontconfig = dynamic_cast<CFont*>(m_pFont)->Create_3DXFont(32, 13.f, 1000.f, false, TEXT("맑은 고딕"), m_pFontconfig);
 	dynamic_cast<CFont*>(m_pFont)->Set_pFont(m_pFontconfig);
@@ -31,23 +33,20 @@ HRESULT CUIspeech_Bard::Ready_Object()
 	dynamic_cast<CFont*>(m_pFont)->Set_Rect(RECT{ 0, 520, WINCX, WINCY });
 	dynamic_cast<CFont*>(m_pFont)->Set_Anchor(DT_CENTER | DT_NOCLIP);
 
-
-	m_iSpeech = 0;
-	m_bQuest = false;
 	return S_OK;
 }
 
-_int CUIspeech_Bard::Update_Object(const _float& fTimeDelta)
+_int CUISpeech_Phantom::Update_Object(const _float& fTimeDelta)
 {
 	if (m_IsDead)
 		return 0;
 
 	_int iExit = CTempUI::Update_Object(fTimeDelta);
 
-	return iExit;;
+	return iExit;
 }
 
-void CUIspeech_Bard::LateUpdate_Object(void)
+void CUISpeech_Phantom::LateUpdate_Object()
 {
 	if (m_IsDead)
 		return;
@@ -55,7 +54,7 @@ void CUIspeech_Bard::LateUpdate_Object(void)
 	CTempUI::LateUpdate_Object();
 }
 
-void CUIspeech_Bard::Render_Object()
+void CUISpeech_Phantom::Render_Object()
 {
 	if (m_IsDead)
 		return;
@@ -68,7 +67,7 @@ void CUIspeech_Bard::Render_Object()
 	vector<CGameObject*>& vecNpc =
 		SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::NPC);
 
-	NPCTAG eTargetTag = NPCTAG::BARD;
+	NPCTAG eTargetTag = NPCTAG::PAHNTOM;
 	CNpc* eTargetNpc = nullptr;
 
 	auto FindNpcTag = [&eTargetTag](CGameObject* npc)
@@ -84,20 +83,43 @@ void CUIspeech_Bard::Render_Object()
 	if (Npciter != vecNpc.end())
 		eTargetNpc = dynamic_cast<CNpc*>(*Npciter);
 
-
-	if (eTargetNpc == nullptr)
-		return;
-
-	if (dynamic_cast<CNpc_Bard*>(eTargetNpc)->IsTalk())
+	if (eTargetNpc != nullptr && dynamic_cast<CPhantom*>(eTargetNpc)->IsTalk())
 	{
-		dynamic_cast<CFont*>(m_pFont)->Set_pFont(m_pFontconfig);
-		m_pFont->DrawText(L"...");
+
+		CPlayer& rPlayer = *SceneManager()->Get_Scene()->Get_MainPlayer();
+
+		//if(dynamic_cast<CPhantom*>(eTargetNpc)->Get_QuestClear())
+
+		if (dynamic_cast<CPhantom*>(eTargetNpc)->Get_SpeechCount() == 0)
+		{
+			dynamic_cast<CFont*>(m_pFont)->Set_pFont(m_pFontconfig);
+			m_pFont->DrawText(L"영번째 확인용");
+		}
+
+		else if (dynamic_cast<CPhantom*>(eTargetNpc)->Get_SpeechCount() == 1)
+		{
+			dynamic_cast<CFont*>(m_pFont)->Set_pFont(m_pFontconfig);
+			m_pFont->DrawText(L"첫번쨰 확인용");
+		}
+
+		else if (dynamic_cast<CPhantom*>(eTargetNpc)->Get_SpeechCount() == 2)
+		{
+			dynamic_cast<CFont*>(m_pFont)->Set_pFont(m_pFontconfig);
+			m_pFont->DrawText(L"두번쨰 확인용");
+		}
+
+		else if (dynamic_cast<CPhantom*>(eTargetNpc)->Get_SpeechCount() == 3)
+		{
+			dynamic_cast<CFont*>(m_pFont)->Set_pFont(m_pFontconfig);
+			m_pFont->DrawText(L"세번째 확인용");
+		}
 	}
+
 
 
 }
 
-HRESULT CUIspeech_Bard::Add_Component(void)
+HRESULT CUISpeech_Phantom::Add_Component()
 {
 	CComponent* pComponent = nullptr;
 
@@ -124,25 +146,25 @@ HRESULT CUIspeech_Bard::Add_Component(void)
 	return S_OK;
 }
 
-void CUIspeech_Bard::Key_Input(void)
+void CUISpeech_Phantom::Key_Input()
 {
 }
 
-CUIspeech_Bard* CUIspeech_Bard::Create(LPDIRECT3DDEVICE9 pGraphicDev)
+CUISpeech_Phantom* CUISpeech_Phantom::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 {
-	CUIspeech_Bard* pInstance = new CUIspeech_Bard(pGraphicDev);
+	CUISpeech_Phantom* pInstance = new CUISpeech_Phantom(pGraphicDev);
 
 	if (FAILED(pInstance->Ready_Object()))
 	{
-		Safe_Release(pInstance);
-		MSG_BOX("UISoeech Bubble Create Failed");
+		Safe_Release<CUISpeech_Phantom*>(pInstance);
+		MSG_BOX("UITrander Create FAILED");
 		return nullptr;
 	}
 
 	return pInstance;
 }
 
-void CUIspeech_Bard::Free()
+void CUISpeech_Phantom::Free()
 {
-	CTempUI::Free();
+	__super::Free();
 }

@@ -77,10 +77,16 @@ void CUIUseShop_Trander::Render_Object()
 		return false;
 	};
 
+
+
 	auto Npciter = find_if(vecNpc.begin(), vecNpc.end(), FindNpcTag);
 	
 	if (Npciter != vecNpc.end())
 		eTargetNpc = dynamic_cast<CNpc*>(*Npciter);
+
+
+	if (eTargetNpc == nullptr)
+		return;
 
 	if (dynamic_cast<CNpc_Trader*>(eTargetNpc)->IsTalk())
 	{

@@ -3,6 +3,8 @@
 #include "Puzzle_Part.h"
 #include "Export_Function.h"
 #include "Player.h"
+#include "UIPuzzle.h"
+#include "UIPuzzleBack.h"
 
 CPuzzle_Part::CPuzzle_Part(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CItem(pGraphicDev)
@@ -41,7 +43,7 @@ HRESULT CPuzzle_Part::Ready_Object(_uint _PuzzleNumber)
 	}
 	else
 	{
-		m_pTransform->Scale(_vec3(0.3f, 0.3f, 0.3f));
+		m_pTransform->Scale(_vec3(0.5f, 0.5f, 0.5f));
 	}
 
 	Set_PuzzleNumber(_PuzzleNumber);
@@ -49,6 +51,8 @@ HRESULT CPuzzle_Part::Ready_Object(_uint _PuzzleNumber)
 	m_ItemID.eItemType = ITEMTYPE::ITEMTYPE_QUEST;
 	m_ItemID.eItemID = (ITEMID)(QUEST_PART1 + Get_PuzzleNumber());
 	m_ItemID.iCount = 1;
+
+	m_iMoveTick = 10.f;
 
 	return S_OK;
 }
@@ -61,7 +65,6 @@ _int CPuzzle_Part::Update_Object(const _float& fTimeDelta)
 
 	_int iExit = __super::Update_Object(fTimeDelta);
 
-
 	return iExit;
 }
 
@@ -70,7 +73,7 @@ void CPuzzle_Part::LateUpdate_Object(void)
 	if (SceneManager()->Get_GameStop()) { return; }
 
 	__super::LateUpdate_Object();
-	m_pTransform->Scale(_vec3(0.3f, 0.3f, 0.3f));
+	m_pTransform->Scale(_vec3(0.8f, 0.8f, 0.8f));
 	//	__super::Compute_ViewZ(&m_pTransform->m_vInfo[INFO_POS]);
 }
 
@@ -111,12 +114,6 @@ HRESULT CPuzzle_Part::Add_Component(void)
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BASICSTAT, pComponent);
 
-	if (Get_WorldItem())
-	{
-		pComponent = m_pBillBoard = dynamic_cast<CBillBoard*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BillBoard"));
-		NULL_CHECK_RETURN(pComponent, E_FAIL);
-		m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::BILLBOARD, pComponent);
-	}
 
 	for (int i = 0; i < ID_END; ++i)
 		for (auto& iter : m_mapComponent[i])
@@ -130,9 +127,21 @@ void CPuzzle_Part::OnCollisionEnter(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 
-	if (!(_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::MONSTER) &&
-		!(_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::PLAYER))
-		__super::OnCollisionEnter(_pOther);
+	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::PLAYER)
+	{
+		dynamic_cast<CPlayer*>(_pOther->Get_Host())->Grab_Puzzle();
+		CGameObject* pUI = CUIPuzzle::Create(m_pGraphicDev);
+		dynamic_cast<CUIPuzzle*>(pUI)->Set_UIImage(m_iPuzzleNumber);
+
+		CGameObject* pUiObject = nullptr;
+		pUiObject = Engine::UIManager()->Get_PopupObject(UIPOPUPLAYER::POPUP_MAP, UILAYER::UI_MIDDLE, UIID_PICTURE, 0);
+
+		if (pUiObject != nullptr)
+			dynamic_cast<CUIPuzzleBack*>(pUiObject)->Get_UIPuzzle().push_back(dynamic_cast<CUIPuzzle*>(pUI));
+
+
+		EventManager()->DeleteObject(this);
+	}
 }
 
 void CPuzzle_Part::OnCollisionStay(CCollider* _pOther)

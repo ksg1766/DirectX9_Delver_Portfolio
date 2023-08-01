@@ -59,7 +59,7 @@ public:
 
 	_bool			IsThrowShield()			{ return m_bThrowShield; }
 	_bool			IsTalk()				{ return m_bIsTalk; }
-
+	_uint			Get_PuzzleResult()		{ return m_iPuzzleCount; }
 
 public:
 	void			Set_Offset(_vec3 _vOffset)						{ m_vOffset = _vOffset; }
@@ -103,7 +103,10 @@ public:
 	void			IsAddiction(const _float& fTimeDelta);
 	void			Eating(CBasicStat* _foodStat);
 	void			Create_Item(CCollider*	_pOther);
+
 	void			Foot_Sound(const _float& fTimeDelta);
+	void			Grab_Puzzle() { ++m_iPuzzleCount; }
+
 private:
 	CFlyingCamera*	m_pMainCamera = nullptr;
 
@@ -131,6 +134,7 @@ private:
 
 	_bool			m_bInWater = false;
 	_bool			m_bDropWater = false;
+	_uint			m_iPuzzleCount;
 
 	_bool			m_bUseUI;
 	_bool			m_bIsAttack;  // 공격형 아이템의 업데이트에 신호를 줄 불 변수

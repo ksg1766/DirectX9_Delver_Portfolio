@@ -961,6 +961,21 @@
     <Filter Include="03. GameObject\02. Village\09. OrbBlock">
       <UniqueIdentifier>{736f01fc-d870-4ab3-b491-1f4b01600380}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. GameObject\01. Stage\07. NPC\07. Phantom">
+      <UniqueIdentifier>{77b8f726-3bdc-4684-b80f-2b26d7fdee37}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\01. Stage\07. NPC\07. Phantom\01. State">
+      <UniqueIdentifier>{3dd39f7d-6f5c-4129-925b-faa88dc72059}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\03. UI\14. UISpeech\01. NPC\06.Phantom">
+      <UniqueIdentifier>{30ed48e0-8b00-496e-861e-fef41c7453b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\03. UI\20. UIPuzzle">
+      <UniqueIdentifier>{5dea5618-f5fe-4857-9db2-aacc05aeddd2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\03. UI\20. UIPuzzle\BackGround">
+      <UniqueIdentifier>{cdc2851b-289c-40e2-82d5-92a7be52d312}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -1868,6 +1883,21 @@
     <ClInclude Include="..\Header\OrbBlock.h">
       <Filter>03. GameObject\02. Village\09. OrbBlock</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\Phantom.h">
+      <Filter>03. GameObject\01. Stage\07. NPC\07. Phantom</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Phantom_Idle.h">
+      <Filter>03. GameObject\01. Stage\07. NPC\07. Phantom\01. State</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\UISpeech_Phantom.h">
+      <Filter>03. GameObject\03. UI\14. UISpeech\01. NPC\06.Phantom</Filter>
+    </ClInclude>
+    <ClInclude Include="UIPuzzle.h">
+      <Filter>03. GameObject\03. UI\20. UIPuzzle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\UIPuzzleBack.h">
+      <Filter>03. GameObject\03. UI\20. UIPuzzle\BackGround</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -2735,6 +2765,21 @@
     </ClCompile>
     <ClCompile Include="..\Code\OrbBlock.cpp">
       <Filter>03. GameObject\02. Village\09. OrbBlock</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Phantom.cpp">
+      <Filter>03. GameObject\01. Stage\07. NPC\07. Phantom</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Phantom_Idle.cpp">
+      <Filter>03. GameObject\01. Stage\07. NPC\07. Phantom\01. State</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UISpeech_Phantom.cpp">
+      <Filter>03. GameObject\03. UI\14. UISpeech\01. NPC\06.Phantom</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UIPuzzle.cpp">
+      <Filter>03. GameObject\03. UI\20. UIPuzzle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UIPuzzleBack.cpp">
+      <Filter>03. GameObject\03. UI\20. UIPuzzle\BackGround</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

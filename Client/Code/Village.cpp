@@ -13,6 +13,7 @@
 #include "BoxCube.h"
 #include "EquipBox.h"
 #include "DoorCube.h"
+#include "UIPuzzleBack.h"
 
 #include "Blade_Trap_Body.h"
 #include "StrikeDown_Trap_Body.h"
@@ -375,6 +376,11 @@ HRESULT CVillage::Ready_Layer_UI(LAYERTAG _eLayerTag)
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
 
 	Engine::CGameObject*		pGameObject = nullptr;
+
+	pGameObject = CUIPuzzleBack::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	dynamic_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_PICTURE, 0);
+	Engine::UIManager()->Add_PopupGameobject(Engine::UIPOPUPLAYER::POPUP_MAP, Engine::UILAYER::UI_MIDDLE, pGameObject);
 
 	if (!Engine::SceneManager()->Get_VisitScene(m_eSceneTag))
 	{

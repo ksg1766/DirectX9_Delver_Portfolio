@@ -24,26 +24,6 @@ HRESULT CPuzzle::Ready_Object()
 {
 	m_eObjectTag = OBJECTTAG::ITEM;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
-//
-//	if (!Get_WorldItem())
-//	{
-//		m_pTransform->Scale(_vec3(0.3f, 0.3f, 0.3f));
-//		m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT],
-//			m_pTransform->LocalScale());
-//
-//		CGameObject* pPlayer = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front();
-//
-//		if (pPlayer != nullptr)
-//		{
-//#pragma region HpPotion
-//			m_pBasicStat->Get_Stat()->fMaxHP = dynamic_cast<CPlayer*>(pPlayer)->Get_Stat()->Get_Stat()->fMaxHP;
-//#pragma endregion
-//		}
-//	}
-//	else
-//	{
-//		m_pTransform->Scale(_vec3(0.3f, 0.3f, 0.3f));
-//	}
 
 
 	m_ItemID.eItemType = ITEMTYPE::ITEMTYPE_POTIONITEM;
