@@ -31,6 +31,9 @@ public:
 	void	SetTimer(_float& _fTimer) { m_fTimer = _fTimer; }
 
 private:
+	void	ShowVillage(const _float& fTimeDelta);
+	void	ShowSewer(const _float& fTimeDelta);
+	void	ShowBoss(const _float& fTimeDelta);
 	void	ShowMiniBoss(const _float& fTimeDelta);
 	void	HekirekiIssen(const _float& fTimeDelta);
 
@@ -44,6 +47,8 @@ private:
 
 	_float	m_fTimer = 10.f;
 	
+	_uint	m_iVisitCount = 0;
+
 	// HekiRekiIssen
 	_bool	m_bReadyBreath = false;
 	_bool	m_bEffectCreated[3] = {0};

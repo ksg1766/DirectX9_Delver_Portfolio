@@ -54,6 +54,7 @@
 // 연출 테스트 // 성공시 보스 씬으로 이동
 #include "GameManager.h"
 #include "EffectWaterfall.h"
+#include "GameManager.h"
 
 CStage::CStage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
@@ -73,8 +74,6 @@ HRESULT CStage::Ready_Scene()
 
 	m_eSceneTag = SCENETAG::STAGE;
 	m_fSound = 1.f;
-
-	//FAILED_CHECK_RETURN(Ready_Prototype(), E_FAIL);
 
 	FAILED_CHECK_RETURN(Ready_Layer_Environment(LAYERTAG::ENVIRONMENT), E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_GameLogic(LAYERTAG::GAMELOGIC), E_FAIL);
@@ -122,6 +121,7 @@ void CStage::LateUpdate_Scene()
 
 		CScene* pScene = CBossStage::Create(m_pGraphicDev);
 		Engine::SceneManager()->Change_Scene(pScene);
+		CGameManager::GetInstance()->PlayMode(PD::ShowBoss);
 	}
 }
 

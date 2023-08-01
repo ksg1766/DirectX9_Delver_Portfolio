@@ -11,6 +11,8 @@
 #include "BlackIn.h"
 #include "Stage.h"
 
+#include "GameManager.h"
+
 CStageLoading::CStageLoading(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
 {
@@ -51,6 +53,7 @@ Engine::_int CStageLoading::Update_Scene(const _float& fTimeDelta)
 
 		CScene*		pScene = CVillage::Create(m_pGraphicDev);
 		//CScene* pScene = CStage::Create(m_pGraphicDev);
+		CGameManager::GetInstance()->PlayMode(PD::ShowVillage);
 
 		NULL_CHECK_RETURN(pScene, -1);
 

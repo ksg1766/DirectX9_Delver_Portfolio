@@ -5,7 +5,9 @@
 #include "SkeletonKing.h"
 #include "CameraManager.h"
 #include "FlyingCamera.h"
+#include "BlackIn.h"
 //#include "KingSpider.h"
+
 #include "EffectSwordTrail.h"
 #include "EffectSwordLightning.h"
 #include "EffectSwordParticles.h"
@@ -43,17 +45,18 @@ _int CGameManager::Update_Game(const _float& fTimeDelta)
 	case PD::Normal:
 		break;
 	case PD::ShowVillage:
+		ShowVillage(fTimeDelta);
 		break;
 	case PD::ShowSewer:
+		ShowSewer(fTimeDelta);
 		break;
 	case PD::ShowMiniBoss:
 		ShowMiniBoss(fTimeDelta);
 		break;
 	case PD::ShowBoss:
+		ShowBoss(fTimeDelta);
 		break;
 	case PD::HekirekiIssen:
-		HekirekiIssen(fTimeDelta);
-		break;
 	case PD::HekirekiIssen_SideView:
 		HekirekiIssen(fTimeDelta);
 		break;
@@ -68,6 +71,257 @@ void CGameManager::LateUpdate_Game()
 
 void CGameManager::Render_Game(LPDIRECT3DDEVICE9 pGraphicDev)
 {
+}
+
+void CGameManager::ShowVillage(const _float& fTimeDelta)
+{
+	if (!m_iVisitCount && m_fTimer == 10.f)
+	{
+		static_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam())->Change_Mode();
+		m_pCamera->m_pTransform->m_vInfo[INFO_POS] = _vec3(-19.5f, 16.f, -62.f);
+		D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_LOOK], &(_vec3(-22.f, 16.f, -71.f) - m_pCamera->m_pTransform->m_vInfo[INFO_POS]));
+		D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_RIGHT], D3DXVec3Cross(&_vec3(), &_vec3(0.f, 1.f, 0.f), &m_pCamera->m_pTransform->m_vInfo[INFO_LOOK]));
+		D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_UP], D3DXVec3Cross(&_vec3(), &m_pCamera->m_pTransform->m_vInfo[INFO_LOOK], &m_pCamera->m_pTransform->m_vInfo[INFO_RIGHT]));
+
+		++m_iVisitCount;
+	}
+	else if (1 == m_iVisitCount)
+	{
+		if (m_fTimer > 3.f)
+		{
+			m_pCamera->m_pTransform->Translate(fTimeDelta * -m_pCamera->m_pTransform->m_vInfo[INFO_UP]);
+		}
+		else
+		{
+			m_pCamera->m_pTransform->m_vInfo[INFO_POS] = _vec3(-5.f, 7.f, -30.f);
+			// 수치 입력해야 함. 임의 수치.
+			D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_LOOK], &(_vec3(0.f, 3.f, -22.f) - m_pCamera->m_pTransform->m_vInfo[INFO_POS]));
+			D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_RIGHT], D3DXVec3Cross(&_vec3(), &_vec3(0.f, 1.f, 0.f), &m_pCamera->m_pTransform->m_vInfo[INFO_LOOK]));
+			D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_UP], D3DXVec3Cross(&_vec3(), &m_pCamera->m_pTransform->m_vInfo[INFO_LOOK], &m_pCamera->m_pTransform->m_vInfo[INFO_RIGHT]));
+
+			++m_iVisitCount;
+		}
+	}
+	else if(2 == m_iVisitCount)
+	{
+		if(m_fTimer > -2.f)
+		{
+			// Action
+			m_pCamera->m_pTransform->RotateAround(_vec3(0.f, 3.f, -22.f), _vec3(0.f, 1.f, 0.f), -0.3f * fTimeDelta);
+			D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_LOOK], &(_vec3(0.f, 3.f, -22.f) - m_pCamera->m_pTransform->m_vInfo[INFO_POS]));
+			D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_RIGHT], D3DXVec3Cross(&_vec3(), &_vec3(0.f, 1.f, 0.f), &m_pCamera->m_pTransform->m_vInfo[INFO_LOOK]));
+			D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_UP], D3DXVec3Cross(&_vec3(), &m_pCamera->m_pTransform->m_vInfo[INFO_LOOK], &m_pCamera->m_pTransform->m_vInfo[INFO_RIGHT]));
+		}
+		else
+		{
+			m_pCamera->m_pTransform->m_vInfo[INFO_POS] = _vec3(35.f, 20.f, -45.f);
+			D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_LOOK], &(_vec3(0.f, -10.f, 0.f) - m_pCamera->m_pTransform->m_vInfo[INFO_POS]));
+			D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_RIGHT], D3DXVec3Cross(&_vec3(), &_vec3(0.f, 1.f, 0.f), &m_pCamera->m_pTransform->m_vInfo[INFO_LOOK]));
+			D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_UP], D3DXVec3Cross(&_vec3(), &m_pCamera->m_pTransform->m_vInfo[INFO_LOOK], &m_pCamera->m_pTransform->m_vInfo[INFO_RIGHT]));
+			
+			++m_iVisitCount;
+		}
+	}
+	else if (3 == m_iVisitCount)
+	{
+		if (m_fTimer > -9.f)
+		{
+			// Action
+			m_pCamera->m_pTransform->RotateAround(_vec3(0.f, -10.f, 0.f), _vec3(0.f, 1.f, 0.f), 0.1f * fTimeDelta);
+			D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_LOOK], &(_vec3(0.f, -10.f, 0.f) - m_pCamera->m_pTransform->m_vInfo[INFO_POS]));
+			D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_RIGHT], D3DXVec3Cross(&_vec3(), &_vec3(0.f, 1.f, 0.f), &m_pCamera->m_pTransform->m_vInfo[INFO_LOOK]));
+			D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_UP], D3DXVec3Cross(&_vec3(), &m_pCamera->m_pTransform->m_vInfo[INFO_LOOK], &m_pCamera->m_pTransform->m_vInfo[INFO_RIGHT]));
+		}
+		else
+		{
+			m_iVisitCount = 0;
+
+			static_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam())->Change_Mode();
+
+			m_fTimer = 10.f;
+			m_eCurr_PD = PD::Normal;
+			m_ePrev_PD = PD::Normal;
+
+			return;
+		}
+	}
+
+	m_fTimer -= fTimeDelta;
+}
+
+void CGameManager::ShowSewer(const _float& fTimeDelta)
+{
+	if (!m_iVisitCount && m_fTimer == 10.f)
+	{
+		static_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam())->Change_Mode();
+		m_pCamera->m_pTransform->m_vInfo[INFO_POS] = _vec3(32.05f, 14.01f, -76.38f);
+		D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_LOOK], &(_vec3(35.13f, 09.59f, -82.84f) - m_pCamera->m_pTransform->m_vInfo[INFO_POS]));
+		D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_RIGHT], D3DXVec3Cross(&_vec3(), &_vec3(0.f, 1.f, 0.f), &m_pCamera->m_pTransform->m_vInfo[INFO_LOOK]));
+		D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_UP], D3DXVec3Cross(&_vec3(), &m_pCamera->m_pTransform->m_vInfo[INFO_LOOK], &m_pCamera->m_pTransform->m_vInfo[INFO_RIGHT]));
+
+		++m_iVisitCount;
+	}
+	else if (1 == m_iVisitCount)
+	{
+		if (m_fTimer <= 5.f)
+		{
+			m_pCamera->m_pTransform->m_vInfo[INFO_POS] = _vec3(-38.86f, 16.09f, -80.15f);
+			D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_LOOK], &(_vec3(-54.52f, 11.11f, -93.26f) - m_pCamera->m_pTransform->m_vInfo[INFO_POS]));
+			D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_RIGHT], D3DXVec3Cross(&_vec3(), &_vec3(0.f, 1.f, 0.f), &m_pCamera->m_pTransform->m_vInfo[INFO_LOOK]));
+			D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_UP], D3DXVec3Cross(&_vec3(), &m_pCamera->m_pTransform->m_vInfo[INFO_LOOK], &m_pCamera->m_pTransform->m_vInfo[INFO_RIGHT]));
+
+			++m_iVisitCount;
+		}
+	}
+	else if (2 == m_iVisitCount)
+	{
+		if (m_fTimer > -1.f)
+		{
+			m_pCamera->m_pTransform->Translate(0.5f * fTimeDelta * _vec3(0.f, -1.f, 0.f));
+		}
+		else
+		{
+			m_pCamera->m_pTransform->m_vInfo[INFO_POS] = _vec3(-19.79f, 76.00f, -27.22f);
+			D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_LOOK], &(_vec3(32.47f, 167.78f, 31.17f) - m_pCamera->m_pTransform->m_vInfo[INFO_POS]));
+			D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_RIGHT], D3DXVec3Cross(&_vec3(), &_vec3(0.f, 1.f, 0.f), &m_pCamera->m_pTransform->m_vInfo[INFO_LOOK]));
+			D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_UP], D3DXVec3Cross(&_vec3(), &m_pCamera->m_pTransform->m_vInfo[INFO_LOOK], &m_pCamera->m_pTransform->m_vInfo[INFO_RIGHT]));
+
+			++m_iVisitCount;
+		}
+	}
+	else if (3 == m_iVisitCount)
+	{
+		if (m_fTimer > -7.f)
+		{
+			// Action
+			m_pCamera->m_pTransform->RotateAround(_vec3(32.47f, 167.78f, 31.17f), _vec3(0.f, 1.f, 0.f), 0.2f * fTimeDelta);
+			D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_LOOK], &(_vec3(32.47f, 167.78f, 31.17f) - m_pCamera->m_pTransform->m_vInfo[INFO_POS]));
+			D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_RIGHT], D3DXVec3Cross(&_vec3(), &_vec3(0.f, 1.f, 0.f), &m_pCamera->m_pTransform->m_vInfo[INFO_LOOK]));
+			D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_UP], D3DXVec3Cross(&_vec3(), &m_pCamera->m_pTransform->m_vInfo[INFO_LOOK], &m_pCamera->m_pTransform->m_vInfo[INFO_RIGHT]));
+		}
+		else
+		{
+			m_pCamera->m_pTransform->m_vInfo[INFO_POS] = _vec3(-26.13f, 17.30f, 4.75f);
+			D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_LOOK], &(_vec3(-34.97f, 14.01f, 15.04f) - m_pCamera->m_pTransform->m_vInfo[INFO_POS]));
+			D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_RIGHT], D3DXVec3Cross(&_vec3(), &_vec3(0.f, 1.f, 0.f), &m_pCamera->m_pTransform->m_vInfo[INFO_LOOK]));
+			D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_UP], D3DXVec3Cross(&_vec3(), &m_pCamera->m_pTransform->m_vInfo[INFO_LOOK], &m_pCamera->m_pTransform->m_vInfo[INFO_RIGHT]));
+
+			++m_iVisitCount;
+		}
+	}
+	else if (4 == m_iVisitCount)
+	{
+		if (m_fTimer > -14.f)
+		{
+			m_pCamera->m_pTransform->Translate(-20.f * fTimeDelta * m_pCamera->m_pTransform->m_vInfo[INFO_LOOK]);
+		}
+		else
+		{
+			m_iVisitCount = 0;
+
+			static_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam())->Change_Mode();
+
+			m_fTimer = 10.f;
+			m_eCurr_PD = PD::Normal;
+			m_ePrev_PD = PD::Normal;
+
+			return;
+		}
+	}
+
+	m_fTimer -= fTimeDelta;
+}
+
+void CGameManager::ShowBoss(const _float& fTimeDelta)
+{
+	if (!m_iVisitCount && m_fTimer == 10.f)
+	{
+		static_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam())->Change_Mode();
+		m_pCamera->m_pTransform->m_vInfo[INFO_POS] = _vec3(-30.f, 37.f, 93.5f);
+		D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_LOOK], &(_vec3(-70.f, 33.5f, 93.5f) - m_pCamera->m_pTransform->m_vInfo[INFO_POS]));
+		D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_RIGHT], D3DXVec3Cross(&_vec3(), &_vec3(0.f, 1.f, 0.f), &m_pCamera->m_pTransform->m_vInfo[INFO_LOOK]));
+		D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_UP], D3DXVec3Cross(&_vec3(), &m_pCamera->m_pTransform->m_vInfo[INFO_LOOK], &m_pCamera->m_pTransform->m_vInfo[INFO_RIGHT]));
+
+		++m_iVisitCount;
+	}
+	else if (1 == m_iVisitCount)
+	{
+		if (m_fTimer >= 5.f)
+		{
+			m_pCamera->m_pTransform->RotateAround(_vec3(-70.f, 33.5f, 93.5f), _vec3(0.f, 1.f, 0.f), 0.5f * fTimeDelta);
+			D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_LOOK], &(_vec3(-70.f, 33.5f, 93.5f) - m_pCamera->m_pTransform->m_vInfo[INFO_POS]));
+			D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_RIGHT], D3DXVec3Cross(&_vec3(), &_vec3(0.f, 1.f, 0.f), &m_pCamera->m_pTransform->m_vInfo[INFO_LOOK]));
+			D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_UP], D3DXVec3Cross(&_vec3(), &m_pCamera->m_pTransform->m_vInfo[INFO_LOOK], &m_pCamera->m_pTransform->m_vInfo[INFO_RIGHT]));
+		}
+		else
+		{
+			m_pCamera->m_pTransform->m_vInfo[INFO_POS] = _vec3(-110.f, 37.f, -85.5f);
+			D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_LOOK], &(_vec3(-70.f, 33.5f, -85.5f) - m_pCamera->m_pTransform->m_vInfo[INFO_POS]));
+			D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_RIGHT], D3DXVec3Cross(&_vec3(), &_vec3(0.f, 1.f, 0.f), &m_pCamera->m_pTransform->m_vInfo[INFO_LOOK]));
+			D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_UP], D3DXVec3Cross(&_vec3(), &m_pCamera->m_pTransform->m_vInfo[INFO_LOOK], &m_pCamera->m_pTransform->m_vInfo[INFO_RIGHT]));
+
+			++m_iVisitCount;
+		}
+	}
+	else if (2 == m_iVisitCount)
+	{
+		if (m_fTimer > -1.f)
+		{
+			m_pCamera->m_pTransform->RotateAround(_vec3(-70.f, 33.5f, -85.5f), _vec3(0.f, 1.f, 0.f), -0.5f * fTimeDelta);
+			D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_LOOK], &(_vec3(-70.f, 33.5f, -85.5f) - m_pCamera->m_pTransform->m_vInfo[INFO_POS]));
+			D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_RIGHT], D3DXVec3Cross(&_vec3(), &_vec3(0.f, 1.f, 0.f), &m_pCamera->m_pTransform->m_vInfo[INFO_LOOK]));
+			D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_UP], D3DXVec3Cross(&_vec3(), &m_pCamera->m_pTransform->m_vInfo[INFO_LOOK], &m_pCamera->m_pTransform->m_vInfo[INFO_RIGHT]));
+		}
+		else
+		{
+			m_pCamera->m_pTransform->m_vInfo[INFO_POS] = _vec3(-50.f, 40.f, 0.f);
+			D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_LOOK], &(_vec3(-80.f, 35.f, 0.f) - m_pCamera->m_pTransform->m_vInfo[INFO_POS]));
+			D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_RIGHT], D3DXVec3Cross(&_vec3(), &_vec3(0.f, 1.f, 0.f), &m_pCamera->m_pTransform->m_vInfo[INFO_LOOK]));
+			D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_UP], D3DXVec3Cross(&_vec3(), &m_pCamera->m_pTransform->m_vInfo[INFO_LOOK], &m_pCamera->m_pTransform->m_vInfo[INFO_RIGHT]));
+
+			++m_iVisitCount;
+		}
+	}
+	else if (3 == m_iVisitCount)
+	{
+		if (m_fTimer > -7.f)
+		{
+			m_pCamera->m_pTransform->RotateAround(_vec3(-80.f, 35.f, 0.f), _vec3(0.f, 1.f, 0.f), D3DXToRadian(60.f * fTimeDelta));
+			D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_LOOK], &(_vec3(-80.f, 35.f, 0.f) - m_pCamera->m_pTransform->m_vInfo[INFO_POS]));
+			D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_RIGHT], D3DXVec3Cross(&_vec3(), &_vec3(0.f, 1.f, 0.f), &m_pCamera->m_pTransform->m_vInfo[INFO_LOOK]));
+			D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_UP], D3DXVec3Cross(&_vec3(), &m_pCamera->m_pTransform->m_vInfo[INFO_LOOK], &m_pCamera->m_pTransform->m_vInfo[INFO_RIGHT]));
+		}
+		else
+		{
+			m_pCamera->m_pTransform->m_vInfo[INFO_POS] = _vec3(62.f, 21.f, 1.f);
+			D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_LOOK], &(_vec3(62.f, 21.f, 1.f) - _vec3(200.f, 40.f, 1.f)));
+			D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_RIGHT], D3DXVec3Cross(&_vec3(), &_vec3(0.f, 1.f, 0.f), &m_pCamera->m_pTransform->m_vInfo[INFO_LOOK]));
+			D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_UP], D3DXVec3Cross(&_vec3(), &m_pCamera->m_pTransform->m_vInfo[INFO_LOOK], &m_pCamera->m_pTransform->m_vInfo[INFO_RIGHT]));
+
+			++m_iVisitCount;
+		}
+	}
+	else if (4 == m_iVisitCount)
+	{
+		if (m_fTimer > -16.5f)
+		{
+			m_pCamera->m_pTransform->Translate(-20.f * fTimeDelta * m_pCamera->m_pTransform->m_vInfo[INFO_LOOK]);
+		}
+		else
+		{
+			m_iVisitCount = 0;
+
+			static_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam())->Change_Mode();
+
+			m_fTimer = 10.f;
+			m_eCurr_PD = PD::Normal;
+			m_ePrev_PD = PD::Normal;
+
+			return;
+		}
+	}
+
+	m_fTimer -= fTimeDelta;
 }
 
 void CGameManager::ShowMiniBoss(const _float& fTimeDelta)

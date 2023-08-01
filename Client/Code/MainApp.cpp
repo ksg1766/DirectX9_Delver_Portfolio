@@ -7,6 +7,7 @@
 #include "Stage.h"
 #include "Village.h"
 #include "BossStage.h"
+#include "GameManager.h"
 
 float g_fSound = 1.f;
 
@@ -27,10 +28,6 @@ HRESULT CMainApp::Ready_MainApp(void)
 	FAILED_CHECK_RETURN(CSoundManager::GetInstance()->ReadySound(&m_pSoundManager), E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Scene(m_pGraphicDev, &m_pSceneManager), E_FAIL);
 
-	//m_pGraphicDev->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
-	//m_pGraphicDev->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
-	//m_pGraphicDev->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
-
 	return S_OK;
 }
 
@@ -41,34 +38,18 @@ int CMainApp::Update_MainApp(const float & fTimeDelta)
 	NULL_CHECK_RETURN(m_pSceneManager, -1);
 	m_pSceneManager->Update_Scene(fTimeDelta);
 
-	/*_long	dwMouse = 0;
-
-	if (dwMouse = Engine::Get_DIMouseMove(DIMS_Z))
-	{
-		int a = 0;
-	}
-*/
 	// 스테이지 이동 테스트
-	//if (Engine::InputDev()->Key_Down(DIK_F7))
-	//{
-	//	CScene* pScene = CVillage::Create(m_pGraphicDev);
-	//	Engine::SceneManager()->Change_Scene(pScene);
-	//}
-	//else if (Engine::InputDev()->Key_Down(DIK_F8))
-	//{
-	//	CScene* pScene = CStage::Create(m_pGraphicDev);
-	//	Engine::SceneManager()->Change_Scene(pScene);
-	//}
-	//else if (Engine::InputDev()->Key_Down(DIK_F9))
-	//{
-	//	CScene* pScene = CBossStage::Create(m_pGraphicDev);
-	//	Engine::SceneManager()->Change_Scene(pScene);
-	//}
-
-	 if (Engine::InputDev()->Key_Down(DIK_F6))
+	if (Engine::InputDev()->Key_Down(DIK_F6))
 	{
 		CScene* pScene = CStage::Create(m_pGraphicDev);
 		Engine::SceneManager()->Change_Scene(pScene);
+		CGameManager::GetInstance()->PlayMode(PD::ShowSewer);
+	}
+	else if (Engine::InputDev()->Key_Pressing(DIK_LSHIFT) && Engine::InputDev()->Key_Down(DIK_F6))
+	{
+		CScene* pScene = CBossStage::Create(m_pGraphicDev);
+		Engine::SceneManager()->Change_Scene(pScene);
+		CGameManager::GetInstance()->PlayMode(PD::ShowBoss);
 	}
 
 	return 0;

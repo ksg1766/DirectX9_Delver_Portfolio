@@ -4,6 +4,7 @@
 #include "Export_Function.h"
 #include "Player.h"
 #include "Stage.h"
+#include "GameManager.h"
 
 CVillageTriger::CVillageTriger(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CGameObject(pGraphicDev)
@@ -59,6 +60,7 @@ void CVillageTriger::LateUpdate_Object(void)
 
 			CScene* pScene = CStage::Create(m_pGraphicDev);
 			Engine::SceneManager()->Change_Scene(pScene);
+			CGameManager::GetInstance()->PlayMode(PD::ShowSewer);
 		}
 	}
 }
