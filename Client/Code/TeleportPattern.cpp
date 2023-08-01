@@ -44,6 +44,7 @@ HRESULT CTeleportPattern::Ready_State(CStateMachine* pOwner)
 STATE CTeleportPattern::Update_State(const _float& fTimeDelta)
 {
     m_fDelay += fTimeDelta;
+    CGameObject* pGameObject = nullptr;
     switch (dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_Phase())
     {
     case BOSSPHASE::PHASE2:
@@ -70,6 +71,11 @@ STATE CTeleportPattern::Update_State(const _float& fTimeDelta)
         {
             m_bSound = false;
             m_pOwner->Get_Transform()->m_vInfo[INFO_POS] = _vec3(-72.f, 34.f, -105.f);
+           
+            pGameObject = CDimensionGate::Create(m_pGraphicDev);
+            dynamic_cast<CDimensionGate*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = _vec3(-72.5f, 36.f, 94.5f);
+            Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+
             return STATE::BOSS_SLEEP;
         }
         m_vDir = _vec3(-72.f, 33.f, -105.f) - m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
@@ -90,6 +96,11 @@ STATE CTeleportPattern::Update_State(const _float& fTimeDelta)
         {
             m_bSound = false;
             m_pOwner->Get_Transform()->m_vInfo[INFO_POS] = _vec3(-72.f, 34.f, -105.f);
+           
+            pGameObject = CDimensionGate::Create(m_pGraphicDev);
+            dynamic_cast<CDimensionGate*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = _vec3(-72.f, 36.f, -75.f);
+            Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+            
             return STATE::BOSS_SLEEP;
         }
         m_vDir = _vec3(-80.f, 36.f, 0.f) - m_pOwner->Get_Transform()->m_vInfo[INFO_POS];

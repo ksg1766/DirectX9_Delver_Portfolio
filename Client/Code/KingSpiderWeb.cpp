@@ -31,6 +31,7 @@ HRESULT CKingSpiderWeb::Ready_Object(void)
 	m_bFloor = false;
 	m_fDelay = 0.f;
 	m_iHp = 2;
+	m_fDebuffDuration = 0.f;
 	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS],&m_pTransform->m_vInfo[INFO_RIGHT],m_pTransform->LocalScale());
 	return S_OK;
 }
@@ -42,10 +43,11 @@ _int CKingSpiderWeb::Update_Object(const _float& fTimeDelta)
 	_int iExit = __super::Update_Object(fTimeDelta);
 
 	m_fDelay += fTimeDelta;
-	//if((!m_bPlayerHit)&&(!m_bFloor))
-		//m_pTransform->Translate(m_vDir);
+	if((!m_bPlayerHit)&&(!m_bFloor))
+		m_pTransform->Translate(m_vDir);
 	if (m_bDebuff)
 	{
+		m_fDebuffDuration += fTimeDelta;
 		m_vPlayerLook = dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer())->m_pTransform->m_vInfo[INFO_LOOK];
 		m_vPlayerRight = dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer())->m_pTransform->m_vInfo[INFO_RIGHT];
 		m_pTransform->m_vInfo[INFO_POS] = _vec3(m_vPlayerLook.x * 2.f, m_vPlayerLook.y*2.f, m_vPlayerLook.z * 2.f);
@@ -59,6 +61,13 @@ _int CKingSpiderWeb::Update_Object(const _float& fTimeDelta)
 				dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer())->m_pTransform->Translate(-m_vPlayerRight * 4.f * fTimeDelta);
 			if (Engine::InputDev()->Key_Pressing(DIK_A))
 				dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer())->m_pTransform->Translate(m_vPlayerRight * 4.f * fTimeDelta);
+
+			if (3.f < m_fDebuffDuration)
+			{
+				m_fDebuffDuration = 0.f;
+				m_iHp = 0;
+				m_IsDead = true;
+			}
 		}
 		if(dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer())->IsJump())
 			dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer())->Get_RigidBody()->Add_Force(_vec3(0.f, -0.5f, 0.f));
@@ -127,7 +136,7 @@ void CKingSpiderWeb::OnCollisionStay(CCollider* _pOther)
 			m_bDebuff = true;
 			m_bPlayerHit = true;
 		}
-	if (OBJECTTAG::ITEM == _pOther->Get_Host()->Get_ObjectTag() && (!m_bHit))
+	if ((OBJECTTAG::PLAYERBULLET == _pOther->Get_Host()->Get_ObjectTag())||(OBJECTTAG::ITEM == _pOther->Get_Host()->Get_ObjectTag()) && (!m_bHit))
 	{
 		if (dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer())->Get_Attack())
 		{

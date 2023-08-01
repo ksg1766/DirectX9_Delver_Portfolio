@@ -64,24 +64,33 @@ void CDimensionGate::OnCollisionStay(CCollider* _pOther)
 	if (SceneManager()->Get_GameStop()) { return; }
 	if (OBJECTTAG::PLAYER == _pOther->Get_Host()->Get_ObjectTag())
 	{
-		switch (dynamic_cast<CSkeletonKing*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_Phase())
+		if (STATE::BOSS_DEAD != dynamic_cast<CSkeletonKing*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_StateMachine()->Get_State())
 		{
-		case BOSSPHASE::PHASE1:
-			dynamic_cast<CPlayer*>(_pOther->Get_Host())->m_pTransform->m_vInfo[INFO_POS] = _vec3(-10.f, 36.f, 0.f);
-			break;
+			switch (dynamic_cast<CSkeletonKing*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_Phase())
+			{
+			case BOSSPHASE::PHASE1:
+				dynamic_cast<CPlayer*>(_pOther->Get_Host())->m_pTransform->m_vInfo[INFO_POS] = _vec3(-10.f, 36.f, 0.f);
+				break;
 
-		case BOSSPHASE::PHASE2:
-			dynamic_cast<CPlayer*>(_pOther->Get_Host())->m_pTransform->m_vInfo[INFO_POS] = _vec3(-80.f, 36.f, 0.f);
-			break;
+			case BOSSPHASE::PHASE2:
+				dynamic_cast<CPlayer*>(_pOther->Get_Host())->m_pTransform->m_vInfo[INFO_POS] = _vec3(-80.f, 36.f, 0.f);
+				break;
 
-		case BOSSPHASE::PHASE3:
-			dynamic_cast<CPlayer*>(_pOther->Get_Host())->m_pTransform->m_vInfo[INFO_POS] = _vec3(-80.f, 36.f, 0.f);
-			break;
+			case BOSSPHASE::PHASE3:
+				dynamic_cast<CPlayer*>(_pOther->Get_Host())->m_pTransform->m_vInfo[INFO_POS] = _vec3(-80.f, 36.f, 0.f);
+				break;
 
-		case BOSSPHASE::LASTPHASE:
-			dynamic_cast<CPlayer*>(_pOther->Get_Host())->m_pTransform->m_vInfo[INFO_POS] = _vec3(-10.f, 36.f, 0.f);
-			break;
+			case BOSSPHASE::LASTPHASE:
+				dynamic_cast<CPlayer*>(_pOther->Get_Host())->m_pTransform->m_vInfo[INFO_POS] = _vec3(-10.f, 36.f, 0.f);
+				break;
+			}
 		}
+		else if (STATE::BOSS_DEAD != dynamic_cast<CSkeletonKing*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_StateMachine()->Get_State())
+		{
+			//æ¿¿¸»Ø
+
+		}
+
 	}
 }
 

@@ -1,12 +1,12 @@
 #pragma once
 #include "State.h"
-class CKingSpiedr_Appear :
+class CKingSpider_Run :
     public CState
 {
 private:
-	explicit CKingSpiedr_Appear();
-	explicit CKingSpiedr_Appear(LPDIRECT3DDEVICE9 pGraphicDev);
-	virtual ~CKingSpiedr_Appear();
+	explicit CKingSpider_Run();
+	explicit CKingSpider_Run(LPDIRECT3DDEVICE9 pGraphicDev);
+	virtual ~CKingSpider_Run();
 
 public:
 	virtual HRESULT	Ready_State(CStateMachine* pOwner);
@@ -16,17 +16,19 @@ public:
 public:
 	virtual STATE	Key_Input(const _float& fTimeDelta) { return STATE(); }
 
+	_bool			Get_JumpCheck() { return	m_bJumpCheck; }
 private:
-	_bool	m_bAppearTrigger;
-
+	_bool	m_bRunTrigger;
+	_bool	m_bJumpTrigger;
+	_bool	m_bJumpCheck;
 	_float	m_fMoveDelay;
 	_float	m_fFrameDelay;
-	
+	_float	m_fDelay;
 	_vec3	m_vDir;
 	_vec3	m_vTargetPos;
 
 public:
-	static CKingSpiedr_Appear* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
+	static CKingSpider_Run* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
 
 private:
 	virtual void Free();

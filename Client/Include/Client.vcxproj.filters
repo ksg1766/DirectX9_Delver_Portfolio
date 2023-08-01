@@ -1811,10 +1811,10 @@
     <ClInclude Include="..\Header\KingSpider.h">
       <Filter>03. GameObject\01. Stage\05. Monster\02. Spider\01.KingSpider</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\KingSpiedr_Appear.h">
+    <ClInclude Include="..\Header\KingSpider_Appear.h">
       <Filter>03. GameObject\01. Stage\05. Monster\02. Spider\01.KingSpider\00.State\00. Appear</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\KingSpiedr_Run.h">
+    <ClInclude Include="..\Header\KingSpider_Run.h">
       <Filter>03. GameObject\01. Stage\05. Monster\02. Spider\01.KingSpider\00.State\01. Run</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\KingSpider_Shoot.h">
@@ -1843,6 +1843,9 @@
     </ClInclude>
     <ClInclude Include="..\Header\KingSpider_ShootPoison.h">
       <Filter>03. GameObject\01. Stage\05. Monster\02. Spider\01.KingSpider\00.State\03. Attack\03. Poison</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\KingSpider_Idle.h">
+      <Filter>03. GameObject\01. Stage\05. Monster\02. Spider\01.KingSpider\00.State\02. Idle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -2667,10 +2670,10 @@
     <ClCompile Include="..\Code\KingSpider.cpp">
       <Filter>03. GameObject\01. Stage\05. Monster\02. Spider\01.KingSpider</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\KingSpiedr_Appear.cpp">
+    <ClCompile Include="..\Code\KingSpider_Appear.cpp">
       <Filter>03. GameObject\01. Stage\05. Monster\02. Spider\01.KingSpider\00.State\00. Appear</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\KingSpiedr_Run.cpp">
+    <ClCompile Include="..\Code\KingSpider_Run.cpp">
       <Filter>03. GameObject\01. Stage\05. Monster\02. Spider\01.KingSpider\00.State\01. Run</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\KingSpider_Shoot.cpp">
@@ -2699,6 +2702,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\KingSpider_MakeNest.cpp">
       <Filter>03. GameObject\01. Stage\05. Monster\02. Spider\01.KingSpider\00.State\03. Attack\04. SpawnNest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\KingSpider_Idle.cpp">
+      <Filter>03. GameObject\01. Stage\05. Monster\02. Spider\01.KingSpider\00.State\02. Idle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
