@@ -151,9 +151,33 @@ _int CPhantom::Update_Object(const _float& fTimeDelta)
 	{
 		if (Engine::InputDev()->Key_Down(DIK_F))
 		{
-			if (rPlayer.Get_PuzzleResult() != 6)
+			if (rPlayer.Get_PuzzleResult() == 6)
 			{
+				if (Engine::UIManager()->Set_SpeechBubbleUse())
+				{
 
+					rPlayer.Set_Talk(true);
+
+					if (!m_bTalking)
+						m_bTalking = true;
+
+					static_cast<CFlyingCamera*>(pGameObject)->Set_MouseFix(true);
+					CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_UI);
+					CSoundManager::GetInstance()->PlaySound(L"ui_dialogue_open.mp3", CHANNELID::SOUND_UI, 1.f);
+				}
+				else
+				{
+					Engine::UIManager()->Hide_PopupUI(UIPOPUPLAYER::POPUP_SPEECH);
+					SceneManager()->Set_GameStop(false);
+					m_bTalkingBox = false;
+					m_bTalking = false;
+					rPlayer.Set_Talk(false);
+
+					static_cast<CFlyingCamera*>(pGameObject)->Set_MouseFix(false);
+
+					CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_UI);
+					CSoundManager::GetInstance()->PlaySound(L"ui_dialogue_close.mp3", CHANNELID::SOUND_UI, 1.f);
+				}
 			}
 		}
 	}

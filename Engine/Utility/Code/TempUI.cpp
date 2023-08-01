@@ -22,6 +22,7 @@ HRESULT CTempUI::Ready_Object()
 	//m_bPopup = false;
 	m_bCollider = false;
 	m_bSetup = false;
+	m_bSound = false;
 
 	m_fCurrentImage = 0;
 

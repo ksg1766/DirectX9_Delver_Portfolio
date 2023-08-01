@@ -979,6 +979,9 @@
     <Filter Include="03. GameObject\01. Stage\02. Item\Quest\Orb">
       <UniqueIdentifier>{5eb6818c-9e03-4a28-8ff3-d8b9a24431b3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. GameObject\01. Stage\05. Cube\06. Altar">
+      <UniqueIdentifier>{8a195174-eced-4b38-94f9-81b054797a28}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -1904,6 +1907,9 @@
     <ClInclude Include="..\Header\Orb.h">
       <Filter>03. GameObject\01. Stage\02. Item\Quest\Orb</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\Altar.h">
+      <Filter>03. GameObject\01. Stage\05. Cube\06. Altar</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -2789,6 +2795,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\Orb.cpp">
       <Filter>03. GameObject\01. Stage\02. Item\Quest\Orb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Altar.cpp">
+      <Filter>03. GameObject\01. Stage\05. Cube\06. Altar</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

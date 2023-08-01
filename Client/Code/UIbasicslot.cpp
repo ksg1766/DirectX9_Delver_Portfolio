@@ -134,6 +134,7 @@ void CUIbasicslot::Key_Input(void)
 		if(!m_bEquip)
 			m_fCurrentImage = 1;
 		Engine::UIManager()->Set_ColliderSlot(m_UIObjID, m_UINumber, true);
+
 	}
 	else
 	{
