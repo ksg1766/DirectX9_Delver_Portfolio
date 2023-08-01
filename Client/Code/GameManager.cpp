@@ -328,22 +328,27 @@ void CGameManager::ShowMiniBoss(const _float& fTimeDelta)
 {
 	CGameObject* pBoss = SceneManager()->Get_Scene()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front();
 	
-	if (m_fTimer > 9.f)
+	if (m_fTimer > 7.f)
+	{
+		m_fTimer -= fTimeDelta;
+	}
+	else if (m_fTimer > 5.5f)
 	{
 		m_fTimer -= fTimeDelta;
 		CCameraManager::GetInstance()->LookAtTarget(pBoss->m_pTransform->m_vInfo[INFO_POS], fTimeDelta);
 	}
-	else if (m_fTimer > 8.f)
+	else if (m_fTimer > 4.5f)
 	{
 		m_fTimer -= fTimeDelta;
-		CCameraManager::GetInstance()->ZoomInTarget(pBoss->m_pTransform->m_vInfo[INFO_POS], fTimeDelta);
+		//CCameraManager::GetInstance()->LookAtTarget(pBoss->m_pTransform->m_vInfo[INFO_POS], fTimeDelta);
+		CCameraManager::GetInstance()->ZoomInTarget(pBoss->m_pTransform->m_vInfo[INFO_POS], fTimeDelta, 1.2f);
 	}
-	else if (m_fTimer > 6.f)
+	else if (m_fTimer > 3.3f)
 	{
 		m_fTimer -= fTimeDelta;
 		CCameraManager::GetInstance()->LookAtTarget(pBoss->m_pTransform->m_vInfo[INFO_POS], fTimeDelta);
 	}
-	else if (m_fTimer > 5.f)
+	else if (m_fTimer > 2.3f)
 	{
 		m_fTimer -= fTimeDelta;
 		CCameraManager::GetInstance()->ZoomOutToTrans(m_pPlayer->m_pTransform, fTimeDelta);

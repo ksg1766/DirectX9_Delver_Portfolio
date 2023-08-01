@@ -293,11 +293,6 @@ if (Engine::InputDev()->Key_Pressing(DIK_LCONTROL) && Engine::InputDev()->Key_Do
 		CGameManager::GetInstance()->PlayMode(PD::HekirekiIssen);
 	}
 
-	if (Engine::InputDev()->Key_Pressing(DIK_LCONTROL) && Engine::InputDev()->Key_Down(DIK_J))
-	{
-		CGameManager::GetInstance()->PlayMode(PD::ShowMiniBoss);
-	}
-
 #pragma endregion 연출 테스트
 
 	if (0 != (dwMouseMove = Engine::InputDev()->Get_DIMouseMove(DIMS_X)) && !bCameraOn)

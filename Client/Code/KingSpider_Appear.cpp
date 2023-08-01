@@ -7,6 +7,8 @@
 #include "KingSpider.h"
 #include "FlyingCamera.h"
 #include "CameraManager.h"
+#include "GameManager.h"
+
 CKingSpider_Appear::CKingSpider_Appear()
 {
 }
@@ -38,7 +40,10 @@ STATE CKingSpider_Appear::Update_State(const _float& fTimeDelta)
 		pGameObject = dynamic_cast<CBookDoor*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::TRIGERBLOCK).back());
 		m_bAppearTrigger = dynamic_cast<CBookDoor*>(pGameObject)->Get_bTrigger();
 	}
-	
+
+	if (m_bAppearTrigger && !m_bJumpTrigger && 0.f == m_fDelay)
+ 		CGameManager::GetInstance()->PlayMode(PD::ShowMiniBoss);
+
 	if (m_bAppearTrigger)
 		m_fDelay += fTimeDelta;
 
@@ -63,11 +68,10 @@ STATE CKingSpider_Appear::Update_State(const _float& fTimeDelta)
 
 		m_bRending = true;
 	}
-	if ((3.f < m_fDelay)&&m_bRending)
+	if ((3.f < m_fDelay) && m_bRending)
 	{
 		return STATE::BOSS_IDLE;
 	}
-
 }
 
 void CKingSpider_Appear::LateUpdate_State()
