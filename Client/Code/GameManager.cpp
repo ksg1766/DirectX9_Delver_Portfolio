@@ -340,15 +340,14 @@ void CGameManager::ShowMiniBoss(const _float& fTimeDelta)
 	else if (m_fTimer > 4.5f)
 	{
 		m_fTimer -= fTimeDelta;
-		//CCameraManager::GetInstance()->LookAtTarget(pBoss->m_pTransform->m_vInfo[INFO_POS], fTimeDelta);
 		CCameraManager::GetInstance()->ZoomInTarget(pBoss->m_pTransform->m_vInfo[INFO_POS], fTimeDelta, 1.2f);
 	}
-	else if (m_fTimer > 3.3f)
+	else if (m_fTimer > 3.1f)
 	{
 		m_fTimer -= fTimeDelta;
 		CCameraManager::GetInstance()->LookAtTarget(pBoss->m_pTransform->m_vInfo[INFO_POS], fTimeDelta);
 	}
-	else if (m_fTimer > 2.3f)
+	else if (m_fTimer > 2.1f)
 	{
 		m_fTimer -= fTimeDelta;
 		CCameraManager::GetInstance()->ZoomOutToTrans(m_pPlayer->m_pTransform, fTimeDelta);
