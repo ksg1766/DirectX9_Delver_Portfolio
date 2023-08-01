@@ -24,3 +24,4 @@
 #include "HolyWater.h"
 #include "HpPotion.h"
 #include "RandomPotion.h"
+#include "Orb.h"

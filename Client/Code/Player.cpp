@@ -1363,6 +1363,9 @@ void CPlayer::Create_Item(CCollider* _pOther)
 	case ITEMID::GENERAL_BEER:
 		pItem = CBeer::Create(m_pGraphicDev, false);
 		break;
+	case ITEMID::QUEST_ORB:
+		pItem = COrb::Create(m_pGraphicDev, false);
+		break;
 	}
 
 	m_pInventory->Add_ItemObject(pItem);
