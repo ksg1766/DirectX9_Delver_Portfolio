@@ -54,7 +54,6 @@ STATE CKingSpider_Appear::Update_State(const _float& fTimeDelta)
 	if ((!m_bRending) && (15.5f >= m_pOwner->Get_Transform()->m_vInfo[INFO_POS].y))
 	{
 		dynamic_cast<CKingSpider*>(m_pOwner->Get_Host())->Get_RigidBody()->UseGravity(false);
-		//m_pOwner->Get_Transform()->m_vInfo[INFO_POS] = _vec3(m_vDir.x, 15.f, m_vDir.z);
 		m_fDelay = 0.f;
 
 		CFlyingCamera* pCamera = dynamic_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam());

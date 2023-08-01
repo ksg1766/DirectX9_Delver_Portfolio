@@ -17,11 +17,9 @@ public:
 	virtual STATE	Key_Input(const _float& fTimeDelta) { return STATE(); }
 
 private:
-	_bool	m_bAppearTrigger;
 
-	_float	m_fMoveDelay;
-	_float	m_fFrameDelay;
-
+	_float	m_fDelay;
+	_bool	m_bMakeNest;
 	_vec3	m_vDir;
 	_vec3	m_vTargetPos;
 

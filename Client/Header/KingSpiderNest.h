@@ -35,8 +35,12 @@ private:
 
 	_float		m_fScale;
 	_float		m_fDelay;
+	_float		m_fHitCool;
 	_bool		m_bSpawn;
+	_bool		m_bMaxSize;
+	_bool		m_bHit;
 	_vec3		m_vSpawnPos[4];
+	_int		m_iHp;
 private:
 	HRESULT		Add_Component(void);
 

@@ -17,13 +17,11 @@ public:
 	virtual STATE	Key_Input(const _float& fTimeDelta) { return STATE(); }
 
 private:
-	_bool	m_bAppearTrigger;
 
-	_float	m_fMoveDelay;
-	_float	m_fFrameDelay;
 
+	_float	m_fDelay;
+	_int	m_iSkillCount;
 	_vec3	m_vDir;
-	_vec3	m_vTargetPos;
 
 public:
 	static CKingSpider_ShootPoison* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);

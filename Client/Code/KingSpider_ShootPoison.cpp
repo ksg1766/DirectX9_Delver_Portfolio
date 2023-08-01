@@ -3,7 +3,7 @@
 #include "KingSpider_ShootPoison.h"
 #include "Export_Function.h"
 #include "Player.h"
-
+#include "KingSpiderPoison.h"
 CKingSpider_ShootPoison::CKingSpider_ShootPoison()
 {
 }
@@ -20,14 +20,30 @@ CKingSpider_ShootPoison::~CKingSpider_ShootPoison()
 HRESULT CKingSpider_ShootPoison::Ready_State(CStateMachine* pOwner)
 {
 	m_pOwner = pOwner;
-
-
+	m_fDelay = 0.f;
+	m_iSkillCount = 0;
 	return S_OK;
 }
 
 STATE CKingSpider_ShootPoison::Update_State(const _float& fTimeDelta)
 {
-	return STATE();
+	m_fDelay += fTimeDelta;
+	if (0.3f < m_fDelay)
+	{
+		m_fDelay = 0.f;
+		Engine::CGameObject* pGameObject = nullptr;
+		pGameObject = CKingSpiderPoison::Create(m_pGraphicDev);
+		dynamic_cast<CKingSpiderPoison*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
+		dynamic_cast<CKingSpiderPoison*>(pGameObject)->Set_Dir(SceneManager()->Get_Scene()->Get_MainPlayer()->m_pTransform->m_vInfo[INFO_POS]);
+		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+		++m_iSkillCount;
+	}
+	if (5 <= m_iSkillCount)
+	{
+		m_fDelay = 0.f;
+		m_iSkillCount = 0.f;
+		return STATE::BOSS_IDLE;
+	}
 }
 
 void CKingSpider_ShootPoison::LateUpdate_State()
