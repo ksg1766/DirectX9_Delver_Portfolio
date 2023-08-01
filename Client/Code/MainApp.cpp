@@ -47,15 +47,11 @@ int CMainApp::Update_MainApp(const float & fTimeDelta)
 	}
 	else if (Engine::InputDev()->Key_Down(DIK_F6))
 	{
-		CScene* pScene = CVillage::Create(m_pGraphicDev);
+		CScene* pScene = CStage::Create(m_pGraphicDev);
 		Engine::SceneManager()->Change_Scene(pScene);
 		CGameManager::GetInstance()->PlayMode(PD::ShowSewer);
 	}
-	 if (Engine::InputDev()->Key_Down(DIK_F7))
-	 {
-		 CScene* pScene = CBossStage::Create(m_pGraphicDev);
-		 Engine::SceneManager()->Change_Scene(pScene);
-	 }
+
 	return 0;
 }
 
