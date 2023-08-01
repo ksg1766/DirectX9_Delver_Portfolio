@@ -275,6 +275,12 @@ void CPhantom::Create_Puzzle()
 {
 	CGameObject* pGameObject = nullptr;
 
+	pGameObject = CUIPuzzleBack::Create(m_pGraphicDev);
+	NULL(pGameObject, E_FAIL);
+    dynamic_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_PICTURE, 0);
+    Engine::UIManager()->Add_PopupGameobject(Engine::UIPOPUPLAYER::POPUP_MAP, Engine::UILAYER::UI_MIDDLE, pGameObject);
+	Engine::UIManager()->Hide_PopupUI(Engine::UIPOPUPLAYER::POPUP_MAP);
+
 	pGameObject = CPuzzle_Part::Create(m_pGraphicDev, 0);
 	NULL(pGameObject, E_FAIL);
 	pGameObject->m_pTransform->Translate(_vec3(-83.f, 11.2f, -37.f));

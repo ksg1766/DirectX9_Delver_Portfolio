@@ -3,7 +3,7 @@
 
 IMPLEMENT_SINGLETON(CRenderer)
 
-CRenderer::CRenderer()
+CRenderer::CRenderer() : m_bFogUse(false)
 {
 	
 }
@@ -70,60 +70,27 @@ void CRenderer::Clear_RenderGroup()
 
 void CRenderer::Render_Priority(LPDIRECT3DDEVICE9& pGraphicDev)
 {
-	SCENETAG CurrentScene = SceneManager()->Get_Scene()->Get_SceneTag();
-
-	if (SCENETAG::VILLAGE == CurrentScene)
-	{
-		_float fNear = 1.f;
-		_float fFar  = 130.0f;
-
-		pGraphicDev->SetRenderState(D3DRS_FOGENABLE, TRUE);
-		pGraphicDev->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_LINEAR);
-		
-		pGraphicDev->SetRenderState(D3DRS_FOGCOLOR, D3DCOLOR_ARGB(100, 60, 10, 55));
-
-		pGraphicDev->SetRenderState(D3DRS_FOGSTART, *(DWORD*)&fNear);
-		pGraphicDev->SetRenderState(D3DRS_FOGEND, *(DWORD*)&fFar);
-	}
-	else if (SCENETAG::STAGE == CurrentScene)
-	{
-		_float fNear = 1.f;
-		_float fFar = 110.0f;
-
-		//pGraphicDev->SetRenderState(D3DRS_FOGENABLE, FALSE);
-
-		pGraphicDev->SetRenderState(D3DRS_FOGENABLE, TRUE);
-		pGraphicDev->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_LINEAR);
-		// 안개 색상 설정
-		//pGraphicDev->SetRenderState(D3DRS_FOGCOLOR, D3DCOLOR_ARGB(1, 100, 155, 180));
-		pGraphicDev->SetRenderState(D3DRS_FOGCOLOR, D3DCOLOR_ARGB(1, 10, 35, 50));
-		//_float fFar = 140.0f;
-		pGraphicDev->SetRenderState(D3DRS_FOGSTART, *(DWORD*)&fNear);
-		pGraphicDev->SetRenderState(D3DRS_FOGEND, *(DWORD*)&fFar);
-	}
-	else if (SCENETAG::BOSSSTAGE == CurrentScene)
-	{
-		_float fNear = 1.f;
-		_float fFar = 120.0f;
-
+	if (m_bFogUse) {
 		pGraphicDev->SetRenderState(D3DRS_FOGENABLE, TRUE);
 		pGraphicDev->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_LINEAR);
 
-		pGraphicDev->SetRenderState(D3DRS_FOGCOLOR, D3DCOLOR_ARGB(1, 100, 0, 0));
-
-		pGraphicDev->SetRenderState(D3DRS_FOGSTART, *(DWORD*)&fNear);
-		pGraphicDev->SetRenderState(D3DRS_FOGEND, *(DWORD*)&fFar);
+		pGraphicDev->SetRenderState(D3DRS_FOGCOLOR, D3DCOLOR_ARGB(m_iFogColor[0], m_iFogColor[1], m_iFogColor[2], m_iFogColor[3]));
+		pGraphicDev->SetRenderState(D3DRS_FOGSTART, *(DWORD*)&m_fFogNear);
+		pGraphicDev->SetRenderState(D3DRS_FOGEND,   *(DWORD*)&m_fFogFar);
 	}
+	else
+		pGraphicDev->SetRenderState(D3DRS_FOGENABLE, FALSE);
+
 	for (auto iter : m_RenderGroup[RENDER_PRIORITY])
 		iter->Render_Object();
 }
 	
 void CRenderer::Render_Nonalpha(LPDIRECT3DDEVICE9& pGraphicDev)
 {
-	if(SCENETAG::EDITOR == SceneManager()->Get_Scene()->Get_SceneTag())
-		pGraphicDev->SetRenderState(D3DRS_FOGENABLE, FALSE);
-
+	//if(SCENETAG::EDITOR == SceneManager()->Get_Scene()->Get_SceneTag())
+	//	pGraphicDev->SetRenderState(D3DRS_FOGENABLE, FALSE);
 	pGraphicDev->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
+
 	for (auto iter : m_RenderGroup[RENDER_NONALPHA])
 	{
 		/*if (iter->Get_ObjectTag() == OBJECTTAG::TRAP)

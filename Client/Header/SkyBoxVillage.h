@@ -17,6 +17,7 @@ private:
 	virtual ~CSkyBoxVillage();
 
 public:
+	void Set_SkyMode(_uint _Mode) { m_iImage = _Mode; }
 
 public:
 	virtual HRESULT Ready_Object(void) override;
@@ -30,6 +31,7 @@ private:
 private:
 	CCubeBf*		m_pCubeBf = nullptr;
 	CTexture*		m_pTexture = nullptr;
+	_uint           m_iImage = 0;
 
 public:
 	static CSkyBoxVillage*	Create(LPDIRECT3DDEVICE9 pGraphicDev);

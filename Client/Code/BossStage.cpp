@@ -46,6 +46,10 @@ HRESULT CBossStage::Ready_Scene()
 	CSoundManager::GetInstance()->StopAll();
 	CSoundManager::GetInstance()->PlayBGM(L"DK-7.mp3", 0.5f);
 
+	Engine::Renderer()->Set_FogUse(true);
+	Engine::Renderer()->Set_FogColor(1, 100, 0, 0);
+	Engine::Renderer()->Set_FogDistance(1.f, 120.0f);
+
 	return S_OK;
 }
 
