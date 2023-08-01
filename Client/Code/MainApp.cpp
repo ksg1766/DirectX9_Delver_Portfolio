@@ -67,7 +67,7 @@ int CMainApp::Update_MainApp(const float & fTimeDelta)
 
 	 if (Engine::InputDev()->Key_Down(DIK_F6))
 	{
-		CScene* pScene = CStage::Create(m_pGraphicDev);
+		CScene* pScene = CVillage::Create(m_pGraphicDev);
 		Engine::SceneManager()->Change_Scene(pScene);
 	}
 
@@ -113,6 +113,11 @@ HRESULT CMainApp::SetUp_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 
 	(*ppGraphicDev) = m_pDeviceClass->Get_GraphicDev();
 	(*ppGraphicDev)->AddRef();
+
+	// 텍스처 불투명화 설정코드
+	(*ppGraphicDev)->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
+	(*ppGraphicDev)->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
+	(*ppGraphicDev)->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_TFACTOR);
 
 	FAILED_CHECK_RETURN(Engine::InputDev()->Ready_InputDev(g_hInst, g_hWnd), E_FAIL);
 

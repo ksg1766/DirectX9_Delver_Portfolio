@@ -22,7 +22,7 @@ HRESULT CMoon::Ready_Object(void)
 	m_eObjectTag = OBJECTTAG::IMMORTAL;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pTransform->Translate(_vec3(-25.f, 85.f, 80.f));
+    m_pTransform->Translate(_vec3(-25.f, 85.f, 80.f));
 
 	return S_OK;
 }

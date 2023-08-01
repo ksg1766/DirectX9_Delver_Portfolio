@@ -44,7 +44,7 @@ Engine::_int CStageLoading::Update_Scene(const _float& fTimeDelta)
 	UIManager()->Update_UI(fTimeDelta);
 
 	CGameObject* pProgessbar = Engine::UIManager()->Get_BasicObject(UI_MIDDLE, UIID_BASIC, 1);
-	if (true == m_pLoading->Get_Finish() && pProgessbar->IsDead())
+	if (true == m_pLoading->Get_Finish() && dynamic_cast<CProgressBar*>(pProgessbar)->Get_Finish())
 	{
 		Engine::UIManager()->Delete_BasicObject(Engine::UILAYER::UI_DOWN);
 		Engine::UIManager()->Delete_BasicObject(Engine::UILAYER::UI_MIDDLE);

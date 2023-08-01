@@ -40,7 +40,7 @@ Engine::_int CEditLoading::Update_Scene(const _float& fTimeDelta)
 	UIManager()->Update_UI(fTimeDelta);
 
 	CGameObject* pProgessbar = Engine::UIManager()->Get_BasicObject(UI_MIDDLE, UIID_BASIC, 1);
-	if (true == m_pLoading->Get_Finish() && pProgessbar->IsDead())
+	if (true == m_pLoading->Get_Finish() && dynamic_cast<CProgressBar*>(pProgessbar)->Get_Finish())
 	{
 		HCURSOR Cursor = GetCursor();
 		Cursor = nullptr;

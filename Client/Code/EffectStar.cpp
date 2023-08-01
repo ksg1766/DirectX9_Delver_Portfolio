@@ -20,11 +20,12 @@ HRESULT CEffectStar::Ready_Object(void)
 	m_eObjectTag = OBJECTTAG::IMMORTAL;
 	m_EffectTag = EFFECTTAG::EFFECT_STAR;
 
-	m_pTransform->Translate(_vec3(CTempEffect::Get_RandomFloat(-100.f, 100.f), CTempEffect::Get_RandomFloat(80.f, 150.f), CTempEffect::Get_RandomFloat(-100.f, 100.f)));
-	//if ()
-	//{
-
-	//}
+	if (SceneManager()->Get_Scene()->Get_SceneTag() == SCENETAG::BOSSSTAGE)
+	{
+		m_pTransform->Translate(_vec3(CTempEffect::Get_RandomFloat(-300.f, 300.f), CTempEffect::Get_RandomFloat(50.f, 150.f), CTempEffect::Get_RandomFloat(-300.f, 300.f)));
+	}
+	else
+		m_pTransform->Translate(_vec3(CTempEffect::Get_RandomFloat(-100.f, 100.f), CTempEffect::Get_RandomFloat(80.f, 150.f), CTempEffect::Get_RandomFloat(-100.f, 100.f)));
 
 	m_fEffectScale = CTempEffect::Get_RandomFloat(.8f, 1.3f);
 	m_fScaleTime   = CTempEffect::Get_RandomFloat(0.f, 4.0f);
@@ -75,7 +76,11 @@ void CEffectStar::Render_Object(void)
 
 	m_pGraphicDev->SetRenderState(D3DRS_FOGENABLE, FALSE);
 
-	m_pTextureCom->Render_Texture(m_fFrame);
+	if (SceneManager()->Get_Scene()->Get_SceneTag() == SCENETAG::BOSSSTAGE) {
+		m_pTextureCom->Render_Texture(2);
+	}
+	else
+		m_pTextureCom->Render_Texture(m_fFrame);
 	m_pBufferCom->Render_Buffer();
 
 	m_pGraphicDev->SetRenderState(D3DRS_FOGENABLE, TRUE);

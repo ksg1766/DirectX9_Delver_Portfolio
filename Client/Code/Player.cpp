@@ -27,6 +27,7 @@
 #include "EffectSwordTrail.h"
 #include "EffectSwordLightning.h"
 #include "EffectSwordParticles.h"
+#include "EffectWater.h"
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CGameObject(pGraphicDev)
@@ -135,7 +136,7 @@ Engine::_int CPlayer::Update_Object(const _float& fTimeDelta)
 	_int iExit = __super::Update_Object(fTimeDelta);
 	m_pStateMachine->Update_StateMachine(fTimeDelta);
 
-	Foot_Sound();
+	Foot_Sound(fTimeDelta);
 
 
 #pragma region ksg
@@ -1490,8 +1491,10 @@ void CPlayer::Create_Item(CCollider* _pOther)
 	EventManager()->DeleteObject(dynamic_cast<CItem*>(_pOther->Get_Host()));
 }
 
-void CPlayer::Foot_Sound()
+void CPlayer::Foot_Sound(const _float& fTimeDelta)
 {
+	m_fWaterEffectTime += 1.f * fTimeDelta;
+
 	if (SceneManager()->Get_Scene()->Get_SceneTag() == SCENETAG::VILLAGE)
 	{
 		if (!IsJump() && (m_pStateMachine->Get_State() == STATE::ROMIMG || m_pStateMachine->Get_State() == STATE::ATTACK))
@@ -1506,7 +1509,15 @@ void CPlayer::Foot_Sound()
 	else if (SceneManager()->Get_Scene()->Get_SceneTag() == SCENETAG::STAGE)
 	{
 		if (!IsJump() && (m_pStateMachine->Get_State() == STATE::ROMIMG || m_pStateMachine->Get_State() == STATE::ATTACK) && InWater())
+		{
 			CSoundManager::GetInstance()->PlaySound(L"splash2.mp3", CHANNELID::SOUND_PLAYER, 1.f);
+
+			if (m_fWaterEffectTime > 2.f) {
+				m_fWaterEffectTime = 0.f;
+				CGameObject* pGameObject = CEffectWater::Create(m_pGraphicDev, _vec3(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vInfo[INFO_POS].z), 5, 0.05f, EFFECTCOLOR::ECOLOR_WHITE);
+				Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+			}
+		}
 		
 		if (IsJump() && m_bTestJump)
 		{

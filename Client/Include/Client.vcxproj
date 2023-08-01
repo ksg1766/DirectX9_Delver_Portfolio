@@ -287,9 +287,11 @@
     <ClInclude Include="..\Header\Monstergroup.h" />
     <ClInclude Include="..\Header\Moon.h" />
     <ClInclude Include="..\Header\MeteorPh2.h" />
+    <ClInclude Include="..\Header\MoonBoss.h" />
     <ClInclude Include="..\Header\Mushroom.h" />
     <ClInclude Include="..\Header\Necklace.h" />
     <ClInclude Include="..\Header\NpcGroup.h" />
+    <ClInclude Include="..\Header\OrbBlock.h" />
     <ClInclude Include="..\Header\Pants.h" />
     <ClInclude Include="..\Header\Pumpkin.h" />
     <ClInclude Include="..\Header\Puzzle.h" />
@@ -298,6 +300,7 @@
     <ClInclude Include="..\Header\Ring.h" />
     <ClInclude Include="..\Header\Roastmeat.h" />
     <ClInclude Include="..\Header\SkeletonKing_CloneMeteor.h" />
+    <ClInclude Include="..\Header\SkyBoxBoss.h" />
     <ClInclude Include="..\Header\SpiderRay.h" />
     <ClInclude Include="..\Header\Rock.h" />
     <ClInclude Include="..\Header\UIbosshp.h" />
@@ -565,8 +568,10 @@
     <ClCompile Include="..\Code\MiniMetorPattern.cpp" />
     <ClCompile Include="..\Code\Moon.cpp" />
     <ClCompile Include="..\Code\MeteorPh2.cpp" />
+    <ClCompile Include="..\Code\MoonBoss.cpp" />
     <ClCompile Include="..\Code\Mushroom.cpp" />
     <ClCompile Include="..\Code\Necklace.cpp" />
+    <ClCompile Include="..\Code\OrbBlock.cpp" />
     <ClCompile Include="..\Code\Pants.cpp" />
     <ClCompile Include="..\Code\Pumpkin.cpp" />
     <ClCompile Include="..\Code\Puzzle.cpp" />
@@ -575,6 +580,7 @@
     <ClCompile Include="..\Code\Ring.cpp" />
     <ClCompile Include="..\Code\Roastmeat.cpp" />
     <ClCompile Include="..\Code\SkeletonKing_CloneMeteor.cpp" />
+    <ClCompile Include="..\Code\SkyBoxBoss.cpp" />
     <ClCompile Include="..\Code\SpiderRay.cpp" />
     <ClCompile Include="..\Code\Rock.cpp" />
     <ClCompile Include="..\Code\UIbosshp.cpp" />

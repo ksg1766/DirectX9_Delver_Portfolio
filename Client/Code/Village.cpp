@@ -62,7 +62,6 @@ CVillage::~CVillage()
 HRESULT CVillage::Ready_Scene()
 {
 	Engine::CGameObject* pGameObject = CBlackIn::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	dynamic_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_BASIC, 0);
 	Engine::UIManager()->Add_PopupGameobject(Engine::UIPOPUPLAYER::POPUP_BLACK, Engine::UILAYER::UI_DOWN, pGameObject);
 
@@ -78,7 +77,6 @@ HRESULT CVillage::Ready_Scene()
 
 	CSoundManager::GetInstance()->StopAll();
 	CSoundManager::GetInstance()->PlayBGM(L"campfire-guitar.mp3", 0.5f);
-
 
 	m_pGraphicDev->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_NONE);
 
@@ -199,13 +197,11 @@ HRESULT CVillage::Ready_Layer_Environment(LAYERTAG _eLayerTag)
 	// 폭포 이펙트
 	pGameObject = CEffectWaterfall::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	// 초기 중심 위치
 	pGameObject->m_pTransform->Translate(_vec3(-23.f, 1.f, - 71.f)); 
-	// 이펙트 이동 범위
 	dynamic_cast<CEffectWaterfall*>(pGameObject)->Set_BoundingBox(_vec3(-2.f, 4.f, -1.f), _vec3(2.f, 5.f, 1.f));
-	// 해당 이펙트 개수 / 스케일 최소 / 최대
 	dynamic_cast<CEffectWaterfall*>(pGameObject)->Set_EffectMoveScale(5, _vec3(.2f, .2f, .2f), _vec3(1.5f, 1.5f, 1.5f));
 	dynamic_cast<CEffectWaterfall*>(pGameObject)->Set_EffectBubbleScale(7, _vec3(.2f, .2f, .2f), _vec3(1.f, 1.f, 1.f));
+	dynamic_cast<CEffectWaterfall*>(pGameObject)->Set_EffectDropHeight(1.f);
 	dynamic_cast<CEffectWaterfall*>(pGameObject)->Set_EffectMoveSet(1);
 ;	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 

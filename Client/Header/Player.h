@@ -103,7 +103,7 @@ public:
 	void			IsAddiction(const _float& fTimeDelta);
 	void			Eating(CBasicStat* _foodStat);
 	void			Create_Item(CCollider*	_pOther);
-	void			Foot_Sound();
+	void			Foot_Sound(const _float& fTimeDelta);
 private:
 	CFlyingCamera*	m_pMainCamera = nullptr;
 
@@ -173,6 +173,9 @@ private:
 	_vec3			m_vOriginUp;
 	_vec3			m_vOriginLook;
 	_vec3			m_vOriginRight;
+
+	_float          m_fWaterEffectTime = 0.f;
+
 public:
 	static CPlayer*		Create(LPDIRECT3DDEVICE9 pGraphicDev);
 

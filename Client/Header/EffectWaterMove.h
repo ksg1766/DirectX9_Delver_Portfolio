@@ -42,12 +42,14 @@ private:
 	_vec3  m_vecOriginPos;
 	_vec3  m_vecMoveScale[2];
 	_uint  m_PickNumber = 0;
-	_uint  m_MaxNumber = 0;
+	_uint  m_MaxNumber  = 0;
 	_float m_fSpeed;
 	_bool  m_bRight = false;
 	_bool  m_bLeft  = false;
 
 	_uint  m_iMoveSet;
+
+	_float m_fMovingTime = 0.f;
 
 public:
 	static CEffectWaterMove* Create(LPDIRECT3DDEVICE9 pGraphicDev);

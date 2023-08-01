@@ -952,6 +952,18 @@
     <Filter Include="03. GameObject\01. Stage\05. Monster\02. Spider\01.KingSpider\00.State\03. Attack\05. Grap">
       <UniqueIdentifier>{7a5dcb13-71a5-47ec-962f-b6cbe6596f0d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. GameObject\02. BossStage">
+      <UniqueIdentifier>{7b4a9011-72c2-458e-a484-7b294223abc6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\02. BossStage\00. BossSkybox">
+      <UniqueIdentifier>{beedeeb5-f102-4210-854d-ef11cc78d984}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\02. BossStage\01. BossMoon">
+      <UniqueIdentifier>{a55f90be-57b0-477f-afb4-9497ebec6494}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\02. Village\09. OrbBlock">
+      <UniqueIdentifier>{736f01fc-d870-4ab3-b491-1f4b01600380}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -1847,6 +1859,15 @@
     <ClInclude Include="..\Header\KingSpider_ShootPoison.h">
       <Filter>03. GameObject\01. Stage\05. Monster\02. Spider\01.KingSpider\00.State\03. Attack\03. Poison</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\SkyBoxBoss.h">
+      <Filter>03. GameObject\02. BossStage\00. BossSkybox</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\MoonBoss.h">
+      <Filter>03. GameObject\02. BossStage\01. BossMoon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\OrbBlock.h">
+      <Filter>03. GameObject\02. Village\09. OrbBlock</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -2702,6 +2723,15 @@
     </ClCompile>
     <ClCompile Include="..\Code\KingSpider_MakeNest.cpp">
       <Filter>03. GameObject\01. Stage\05. Monster\02. Spider\01.KingSpider\00.State\03. Attack\04. SpawnNest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\SkyBoxBoss.cpp">
+      <Filter>03. GameObject\02. BossStage\00. BossSkybox</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\MoonBoss.cpp">
+      <Filter>03. GameObject\02. BossStage\01. BossMoon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\OrbBlock.cpp">
+      <Filter>03. GameObject\02. Village\09. OrbBlock</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

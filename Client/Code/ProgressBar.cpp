@@ -24,35 +24,20 @@ HRESULT CProgressBar::Ready_Object(void)
 
 	WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);
 	
-	m_iCurrentBar = 0.f;
-	m_iMaxBar = 100.f;
+	m_fCurrentBar = 0.f;
+	m_fMaxBar = 102.f;
 
 	return S_OK;
 }
 
 Engine::_int CProgressBar::Update_Object(const _float& fTimeDelta)
 {
-	m_iCurrentBar += 100.f * fTimeDelta * .7f;
-	m_iFinish += 100.f * fTimeDelta * .7f;
+	m_fCurrentBar += 1.f * fTimeDelta * 20.f;
 
-	if (380.f < m_iFinish)
-	{
-		m_iFinish = 380.f;
-		m_IsDead = true;
+	if (102.f < m_fCurrentBar) {
+		m_fCurrentBar = 102.f;
+		m_bFinish = true;
 	}
-	else if (300.f < m_iFinish)
-	{
-		m_iCurrentBar = 100.f;
-	}
-	else if (100.f < m_iCurrentBar)
-	{
-		m_iCurrentBar = 0.f;
-	}
-
-	//if (Engine::InputDev()->Key_Down(DIK_9))
-	//	m_iCurrentBar -= 1;
-	//else if (Engine::InputDev()->Key_Down(DIK_0))
-	//	m_iCurrentBar += 1;
 
 	_int iExit = CTempUI::Update_Object(fTimeDelta);
 
@@ -109,8 +94,8 @@ void CProgressBar::Key_Input(void)
 
 void CProgressBar::Update_BarUI()
 {
-	m_flength = (450.f / m_iMaxBar) * (m_iMaxBar - m_iCurrentBar);
-	m_fPosition = (WINCX / 2.f) - (m_flength / 2.f) - (m_iMaxBar - m_iCurrentBar) * 2.15f;
+	m_flength = (450.f / m_fMaxBar) * (m_fMaxBar - m_fCurrentBar);
+	m_fPosition = (WINCX / 2.f) - (m_flength / 2.f) - (m_fMaxBar - m_fCurrentBar) * 2.15f;
 }
 
 void CProgressBar::Free()
