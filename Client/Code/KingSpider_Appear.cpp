@@ -8,7 +8,7 @@
 #include "FlyingCamera.h"
 #include "CameraManager.h"
 #include "GameManager.h"
-
+#include "KingSpiderFog.h"
 CKingSpider_Appear::CKingSpider_Appear()
 {
 }
@@ -28,7 +28,15 @@ HRESULT CKingSpider_Appear::Ready_State(CStateMachine* pOwner)
 	m_fDelay = 0.f;
 	m_bAppearTrigger = false;
 	m_bJumpTrigger = false;
-	m_bRending = false;
+	m_bLanding = false;
+	m_vFogPos[0] = _vec3(4.5f, 0.f, 0.f);
+	m_vFogPos[1] = _vec3(-4.5f, 0.f, 0.f);
+	m_vFogPos[2] = _vec3(0., 0.f, 4.5f);
+	m_vFogPos[3] = _vec3(0., 0.f, -4.5f);
+	m_vFogPos[4] = _vec3(4.5f, 0.f, -4.5f);
+	m_vFogPos[5] = _vec3(-4.5f, 0.f, 4.5f);
+	m_vFogPos[6] = _vec3(-4.5f, 0.f, -4.5f);
+	m_vFogPos[7] = _vec3(4.5f, 0.f, 4.5f);
 	return S_OK;
 }
 
@@ -56,18 +64,28 @@ STATE CKingSpider_Appear::Update_State(const _float& fTimeDelta)
 		m_bJumpTrigger = true;
 		m_fDelay = 0.f;
 	}
-	if ((!m_bRending) && (15.5f >= m_pOwner->Get_Transform()->m_vInfo[INFO_POS].y))
+	if ((!m_bLanding) && (15.5f >= m_pOwner->Get_Transform()->m_vInfo[INFO_POS].y))
 	{
 		dynamic_cast<CKingSpider*>(m_pOwner->Get_Host())->Get_RigidBody()->UseGravity(false);
 		m_fDelay = 0.f;
+
+		for (int i = 0; i < 8; ++i)
+		{
+			Engine::CGameObject* pGameObject = nullptr;
+			pGameObject = CKingSpiderFog::Create(m_pGraphicDev);
+			dynamic_cast<CKingSpiderFog*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = m_pOwner->Get_Transform()->m_vInfo[INFO_POS] + m_vFogPos[i];
+			dynamic_cast<CKingSpiderFog*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS].y = 13.f;
+			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+		}
+
 
 		CFlyingCamera* pCamera = dynamic_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam());
 		pCamera->Set_ShakeForce(0.f, 0.5f, 1.5f, 2.f);
 		pCamera->Shake_Camera();
 
-		m_bRending = true;
+		m_bLanding = true;
 	}
-	if ((3.f < m_fDelay) && m_bRending)
+	if ((3.f < m_fDelay) && m_bLanding)
 	{
 		return STATE::BOSS_IDLE;
 	}

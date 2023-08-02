@@ -33,24 +33,45 @@ STATE CKingSpider_Run::Update_State(const _float& fTimeDelta)
 	if (!m_bRunTrigger)
 	{
 		m_vDir = _vec3(-30.f, 20.f, 15.f) - m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
-		//D3DXVec3Normalize(&m_vDir, &m_vDir);
+		D3DXVec3Normalize(&m_vDir, &m_vDir);
 		m_bRunTrigger = true;
 		m_bJumpTrigger = true;
 		m_fDelay = 0.f;
 	}
 	if (m_bJumpTrigger)
 	{
-		dynamic_cast<CKingSpider*>(m_pOwner->Get_Host())->Get_RigidBody()->Add_Force(_vec3(m_vDir.x, 30.f, m_vDir.z));
 		dynamic_cast<CKingSpider*>(m_pOwner->Get_Host())->Get_RigidBody()->UseGravity(true);
+		dynamic_cast<CKingSpider*>(m_pOwner->Get_Host())->Get_RigidBody()->Add_Force(_vec3(0.f, 25.f, 0.f));
 		m_bJumpTrigger = false;
 		m_bJumpCheck = true;
 		m_fDelay = 0.f;
 	}
-	if ((m_bRunTrigger) && (!m_bJumpTrigger) && (dynamic_cast<CKingSpider*>(m_pOwner->Get_Host())->Get_FloorCollison()))
+	if ((m_bJumpCheck) && (1.5f >= m_fDelay))
+		m_pOwner->Get_Transform()->Translate(_vec3(m_vDir.x, 0.f, m_vDir.z));
+
+	if ((m_bJumpCheck)&&(2.f < m_fDelay))
 	{
-		dynamic_cast<CKingSpider*>(m_pOwner->Get_Host())->Get_RigidBody()->UseGravity(false);
-		return STATE::BOSS_TELEPORT;
+		if(73.f >= m_pOwner->Get_Transform()->m_vInfo[INFO_POS].y)
+			m_pOwner->Get_Transform()->Translate(_vec3(0.f, 1.5f*fTimeDelta, 0.f));
+		
+		if (0 >= dynamic_cast<CKingSpider*>(m_pOwner->Get_Host())->Get_CrawlingHP())
+		{
+			dynamic_cast<CKingSpider*>(m_pOwner->Get_Host())->Get_RigidBody()->UseGravity(true);
+			return STATE::BOSS_DEAD;
+		}
+		
+		if (72.5f <= m_pOwner->Get_Transform()->m_vInfo[INFO_POS].y)
+		{
+			dynamic_cast<CKingSpider*>(m_pOwner->Get_Host())->Set_Dead(true);
+			//m_pOwner->Get_Transform()->m_vInfo[INFO_POS] = _vec3(6.f, 75.f, 67.f);
+			//dynamic_cast<CKingSpider*>(m_pOwner->Get_Host())->Set_Phase(BOSSPHASE::PHASE2);
+			//return STATE::BOSS_IDLE;
+		}
+
 	}
+
+	if(dynamic_cast<CKingSpider*>(m_pOwner->Get_Host())->Get_FloorCollison())
+		dynamic_cast<CKingSpider*>(m_pOwner->Get_Host())->Get_RigidBody()->UseGravity(false);
 
 }
 

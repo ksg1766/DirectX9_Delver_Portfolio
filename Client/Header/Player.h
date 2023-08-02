@@ -91,11 +91,16 @@ public:
 	void			Set_Quest(_bool _result)						{ m_bQuestResult = _result; }
 	void			Set_Orb(_bool _On)								{ m_bOrbOnAltar = _On; }
 
+	void			Set_Slow(_bool _Slow)							{ m_bSlow = _Slow; }
+
 	_bool			Get_Parrying()									{ return m_bParrying; }
+	_bool			Get_Slow()										{ return m_bSlow; }
+	void			SlowDuration(const _float& fTimeDelta);
+
 	void			IsDrunk();
 	void			Add_Exp(CGameObject* pExp);
 	void			Equip_Weapon(CGameObject* pWeapon);
-
+	
 public:
 	virtual void	OnCollisionEnter(CCollider* _pOther);
 	virtual void	OnCollisionStay(CCollider* _pOther);
@@ -175,8 +180,10 @@ private:
 	//Msh
 	_bool			m_bParrying = false;
 	_bool			m_bPoisoning = false;
+	_bool			m_bSlow = false;;
 	_float			m_fPoisoningTime = 0.f;
 	_uint			m_iPosingingCount = 0;
+	_float			m_fSlowDuration = 0.f;
 
 	_vec3			m_vOriginUp;
 	_vec3			m_vOriginLook;

@@ -31,7 +31,7 @@ public:
 	vector<CBookCube*>& Get_FrontDoor() { return m_vecFrontDoorCube; }
 	vector<CBookCube*>& Get_BackDoor()	{ return m_vecBackDoorCube; }
 
-	_bool				Get_bTrigger() { return m_bTriger; }
+	_bool				Get_bTrigger() { return m_bKingSpider; }
 private:
 	HRESULT	Add_Component();
 
@@ -66,6 +66,8 @@ private:
 	_float m_fFinalUp = 0.f;
 	_float m_fFinalDown = 0.f;
 
+	_bool	m_bKingSpider = false;
+	_float	m_fSpiderTime = 0.f;
 public:
 	static CBookDoor* Create(LPDIRECT3DDEVICE9 pGraphicDev, CLayer* pLayer);
 

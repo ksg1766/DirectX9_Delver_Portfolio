@@ -61,25 +61,27 @@ STATE CKingSpider_Jump::Update_State(const _float& fTimeDelta)
 		}
 		if (m_bJumpAttack) 
 		{
-			if (15.5f >= m_pOwner->Get_Transform()->m_vInfo[INFO_POS].y)
+			if (14.99f >= m_pOwner->Get_Transform()->m_vInfo[INFO_POS].y)
 			{
+				m_pOwner->Get_Transform()->m_vInfo[INFO_POS].y = 15.f;
 				CFlyingCamera* pCamera = dynamic_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam());
 				pCamera->Set_ShakeForce(0.f, 0.5f, 1.5f, 2.f);
 				pCamera->Shake_Camera();
 
 				dynamic_cast<CKingSpider*>(m_pOwner->Get_Host())->Get_RigidBody()->UseGravity(false);
 
-				if (15 >= SceneManager()->Get_Scene()->Get_MainPlayer()->m_pTransform->m_vInfo[INFO_POS].y)
+				if (13.f >= SceneManager()->Get_Scene()->Get_MainPlayer()->m_pTransform->m_vInfo[INFO_POS].y)
 				{
 					CPlayerStat& PlayerState = *(dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer())->Get_Stat());
 					PlayerState.Take_Damage(3.f);
 				}
 
-				for (int i = 0; i < 7; ++i)
+				for (int i = 0; i < 8; ++i)
 				{
 					Engine::CGameObject* pGameObject = nullptr;
 					pGameObject = CKingSpiderFog::Create(m_pGraphicDev);
 					dynamic_cast<CKingSpiderFog*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = m_pOwner->Get_Transform()->m_vInfo[INFO_POS] + m_vFogPos[i];
+					dynamic_cast<CKingSpiderFog*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS].y = 13.f;
 					Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 				}
 

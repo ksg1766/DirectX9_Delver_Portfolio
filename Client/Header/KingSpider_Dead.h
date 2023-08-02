@@ -1,29 +1,31 @@
 #pragma once
 #include "State.h"
-class CKingSpider_Idle :
+class CKingSpider_Dead :
     public CState
 {
 private:
-	explicit CKingSpider_Idle();
-	explicit CKingSpider_Idle(LPDIRECT3DDEVICE9 pGraphicDev);
-	virtual ~CKingSpider_Idle();
+	explicit CKingSpider_Dead();
+	explicit CKingSpider_Dead(LPDIRECT3DDEVICE9 pGraphicDev);
+	virtual ~CKingSpider_Dead();
+
 
 public:
 	virtual HRESULT	Ready_State(CStateMachine* pOwner);
 	virtual STATE	Update_State(const _float& fTimeDelta);
 	virtual void	LateUpdate_State();
 	virtual void	Render_State();
+
 public:
 	virtual STATE	Key_Input(const _float& fTimeDelta) { return STATE(); }
-public:
-	static CKingSpider_Idle* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
+
 private:
-	_bool		m_bJumpAttack;
-	_bool		m_bJumpRun;
-	_float		m_fDelay;
-	_int		m_iSkillCount;
-	_vec3		m_vFogPos[8];
+	_float	m_fDelay;
+
+public:
+	static CKingSpider_Dead* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
+
 private:
 	virtual void Free();
+
 };
 

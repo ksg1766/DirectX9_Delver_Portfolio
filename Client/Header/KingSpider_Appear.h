@@ -19,13 +19,13 @@ public:
 private:
 	_bool	m_bAppearTrigger;
 	_bool	m_bJumpTrigger;
-	_bool	m_bRending;
+	_bool	m_bLanding;
 	_float	m_fMoveDelay;
 	_float	m_fFrameDelay;
 	_float	m_fDelay;
 	_vec3	m_vDir;
 	_vec3	m_vTargetPos;
-
+	_vec3	m_vFogPos[8];
 public:
 	static CKingSpider_Appear* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
 

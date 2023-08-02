@@ -27,7 +27,7 @@ HRESULT CKingSpiderNest::Ready_Object(void)
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 	m_fScale = 1.f;
 	m_fDelay = 0.f;
-	m_iHp = 5.f;
+	m_iHp = 8.f;
 	m_fHitCool = 0.f;
 	m_bSpawn = false;
 	m_bMaxSize = false;
@@ -45,6 +45,7 @@ _int CKingSpiderNest::Update_Object(const _float& fTimeDelta)
 	Engine::Renderer()->Add_RenderGroup(RENDER_ALPHA, this);
 	if (SceneManager()->Get_GameStop()) { return 0; }
 	_int iExit = __super::Update_Object(fTimeDelta);
+	m_fDelay += fTimeDelta;
 	if (m_bHit)
 	{
 		m_fHitCool += fTimeDelta;
@@ -54,12 +55,13 @@ _int CKingSpiderNest::Update_Object(const _float& fTimeDelta)
 			m_bHit = false;
 		}
 	}
+
 	if ((4.f >= m_fScale) &&(1.5f < m_fDelay))
 	{
-		m_fDelay += fTimeDelta;
+	
 		if (4.f >= m_fScale)
 			m_fScale += fTimeDelta;
-		m_pTransform->Scale(_vec3(m_fScale, m_fScale, m_fScale));
+		
 		m_fDelay = 0.f;
 	}
 	else if ((4.f < m_fScale) && (!m_bSpawn))
@@ -86,6 +88,9 @@ _int CKingSpiderNest::Update_Object(const _float& fTimeDelta)
 
 void CKingSpiderNest::LateUpdate_Object(void)
 {
+	if (SceneManager()->Get_GameStop()) { return; }
+	__super::LateUpdate_Object();
+	m_pTransform->Scale(_vec3(m_fScale, m_fScale, m_fScale));
 }
 
 void CKingSpiderNest::Render_Object(void)

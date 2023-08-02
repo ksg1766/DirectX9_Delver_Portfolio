@@ -57,6 +57,7 @@ HRESULT CPlayer::Ready_Object(void)
 	m_bThrowShield = false;
 	m_bIsAddiction = false;
 	m_bIsTalk = false;
+	m_bSlow = false;
 	m_iDrunkCount = 0.f;
 	m_iAddictionCount = 0.f;
 	m_iRootCount = 0;
@@ -192,6 +193,7 @@ Engine::_int CPlayer::Update_Object(const _float& fTimeDelta)
 		m_bEquipStat = false;
 	}
 	PoisonDamage(fTimeDelta);
+	SlowDuration(fTimeDelta);
 	return iExit;
 }
 
@@ -1149,6 +1151,20 @@ void CPlayer::OnCollisionExit(CCollider* _pOther)
 	//		//m_pRigidBody->UseGravity(true);
 	//	}
 	//}
+}
+
+void CPlayer::SlowDuration(const _float& fTimeDelta)
+{
+	if (m_bSlow)
+	{
+		m_fSlowDuration += fTimeDelta;
+		if (4.f < m_fSlowDuration)
+		{
+			m_fSlowDuration = 0.f;
+			m_bSlow = false;
+		}
+	}
+
 }
 
 void CPlayer::IsDrunk()

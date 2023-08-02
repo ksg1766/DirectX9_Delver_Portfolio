@@ -30,6 +30,7 @@
 #include "MiniMetorPattern.h"
 #include "MeteorPh3.h"
 #include "Player.h"
+#include "Boss_LastPhase.h"
 #include "SkeletonKing_Clone.h"
 CSkeletonKing::CSkeletonKing(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CMonster(pGraphicDev)
@@ -134,10 +135,14 @@ HRESULT CSkeletonKing::Ready_Object(void)
 	m_pStateMachine->Add_State(STATE::BOSS_PH3SKILL5, m_pState);
 #pragma endregion 3Æä
 
+
 	m_pState = CTeleportPattern::Create(m_pGraphicDev, m_pStateMachine);
 	m_pStateMachine->Add_State(STATE::BOSS_TELEPORT, m_pState);
 
-	m_pState = CCrawlPattern::Create(m_pGraphicDev, m_pStateMachine);
+	//m_pState = CCrawlPattern::Create(m_pGraphicDev, m_pStateMachine);
+	//m_pStateMachine->Add_State(STATE::BOSS_CRAWL, m_pState);
+
+	m_pState = CBoss_LastPhase::Create(m_pGraphicDev, m_pStateMachine);
 	m_pStateMachine->Add_State(STATE::BOSS_CRAWL, m_pState);
 
 	m_pState = CBoss_Sturn::Create(m_pGraphicDev, m_pStateMachine);

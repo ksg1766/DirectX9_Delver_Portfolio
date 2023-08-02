@@ -58,6 +58,14 @@ STATE CBoss_Sleep::Update_State(const _float& fTimeDelta)
 			return STATE::BOSS_WAKEUP;
 		}
 	}
+	else if (BOSSPHASE::LASTPHASE == dynamic_cast<CSkeletonKing*>(m_pOwner->Get_Host())->Get_Phase())
+	{
+		dynamic_cast<CSkeletonKing*>(m_pOwner->Get_Host())->Set_3Phase(true);
+		if (fDistance < pow(20, 2))
+		{
+			return STATE::BOSS_WAKEUP;
+		}
+	}
 	return STATE::BOSS_SLEEP;
 }
 

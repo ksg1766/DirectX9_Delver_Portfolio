@@ -62,28 +62,40 @@ STATE CPlayerState_Walk::Key_Input(const _float& fTimeDelta)
 		{
 			_vec3 vFront = vLook;
 			vFront.y = 0.f;
-			m_pOwner->Get_Transform()->Translate(6.f * fTimeDelta * vFront);
+			if(dynamic_cast<CPlayer*>(m_pOwner->Get_Host())->Get_Slow())
+				m_pOwner->Get_Transform()->Translate(2.f * fTimeDelta * vFront);
+			else if (!dynamic_cast<CPlayer*>(m_pOwner->Get_Host())->Get_Slow())
+				m_pOwner->Get_Transform()->Translate(6.f * fTimeDelta * vFront);
 			_eState = STATE::ROMIMG;
 		}
 		if (Engine::InputDev()->Key_Pressing(DIK_S))
 		{
 			_vec3 vFront = vLook;
 			vFront.y = 0.f;
-			m_pOwner->Get_Transform()->Translate(6.f * fTimeDelta * -vFront);
+			if (dynamic_cast<CPlayer*>(m_pOwner->Get_Host())->Get_Slow())
+				m_pOwner->Get_Transform()->Translate(2.f * fTimeDelta * -vFront);
+			else if(!dynamic_cast<CPlayer*>(m_pOwner->Get_Host())->Get_Slow())
+				m_pOwner->Get_Transform()->Translate(6.f * fTimeDelta * -vFront);
 			_eState = STATE::ROMIMG;
 		}
 		if (Engine::InputDev()->Key_Pressing(DIK_A))
 		{
 			_vec3 vSide = vRight;
 			vSide.y = 0.f;
-			m_pOwner->Get_Transform()->Translate(6.f * fTimeDelta * -vSide);
+			if (dynamic_cast<CPlayer*>(m_pOwner->Get_Host())->Get_Slow())
+				m_pOwner->Get_Transform()->Translate(2.f * fTimeDelta * -vSide);
+			else if (!dynamic_cast<CPlayer*>(m_pOwner->Get_Host())->Get_Slow())
+				m_pOwner->Get_Transform()->Translate(6.f * fTimeDelta * -vSide);
 			_eState = STATE::ROMIMG;
 		}
 		if (Engine::InputDev()->Key_Pressing(DIK_D))
 		{
 			_vec3 vSide = vRight;
 			vSide.y = 0.f;
-			m_pOwner->Get_Transform()->Translate(6.f * fTimeDelta * vSide);
+			if (dynamic_cast<CPlayer*>(m_pOwner->Get_Host())->Get_Slow())
+				m_pOwner->Get_Transform()->Translate(2.f * fTimeDelta * vSide);
+			else if (!dynamic_cast<CPlayer*>(m_pOwner->Get_Host())->Get_Slow())
+				m_pOwner->Get_Transform()->Translate(6.f * fTimeDelta * vSide);
 			_eState = STATE::ROMIMG;
 		}
 

@@ -33,6 +33,7 @@ public:
 	BOSSPHASE			Get_Phase() { return m_ePhase; }
 	_bool				Get_FloorCollison() { return m_bFloorCollison; }
 	_float				Get_FloorHeight() { return m_fFloorHeight; }
+	_int				Get_CrawlingHP() { return m_iCrawlingHP; }
 
 	void				Set_Phase(BOSSPHASE _ePhase) {m_ePhase = _ePhase;}
 private:
@@ -44,10 +45,11 @@ private:
 	CAnimator* m_pAnimator = nullptr;
 	CState* m_pState;
 
-	_bool	m_bJumpRun;
-	_bool	m_bFloorCollison;
+	_bool		m_bJumpRun;
+	_bool		m_bFloorCollison;
 	BOSSPHASE	m_ePhase;
 	_float		m_fFloorHeight;
+	_int		m_iCrawlingHP;
 public:
 	static CKingSpider* Create(LPDIRECT3DDEVICE9 pGraphicDev);
 	

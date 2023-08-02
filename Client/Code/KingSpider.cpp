@@ -9,11 +9,10 @@
 #include "KingSpider_Run.h"
 #include "KingSpider_Idle.h"
 #include "KingSpider_Shoot.h"
+#include "KingSpider_Jump.h"
 #include "KingSpider_ShootPoison.h"
 #include "KingSpider_MakeNest.h"
-//#include "KingSpider"
-
-//#include "SpiderRay.h"
+#include "KingSpider_Dead.h"
 
 CKingSpider::CKingSpider(LPDIRECT3DDEVICE9 pGrapicDev)
 	: Engine::CMonster(pGrapicDev)
@@ -37,6 +36,7 @@ HRESULT CKingSpider::Ready_Object()
 	m_bJumpRun = false;
 	m_bFloorCollison = false;
 	m_fFloorHeight = 0.f;
+	m_iCrawlingHP = 3;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 	
 	m_pState = CKingSpider_Appear::Create(m_pGraphicDev, m_pStateMachine);
@@ -45,29 +45,60 @@ HRESULT CKingSpider::Ready_Object()
 	m_pState = CKingSpider_Idle::Create(m_pGraphicDev, m_pStateMachine);
 	m_pStateMachine->Add_State(STATE::BOSS_IDLE, m_pState);
 
+	m_pState = CKingSpider_Shoot::Create(m_pGraphicDev, m_pStateMachine);
+	m_pStateMachine->Add_State(STATE::BOSS_PH1SKILL1, m_pState);
+
+	m_pState = CKingSpider_ShootPoison::Create(m_pGraphicDev, m_pStateMachine);
+	m_pStateMachine->Add_State(STATE::BOSS_PH1SKILL2, m_pState);
+
+	m_pState = CKingSpider_Jump::Create(m_pGraphicDev, m_pStateMachine);
+	m_pStateMachine->Add_State(STATE::BOSS_PH1SKILL3, m_pState);
+
+	m_pState = CKingSpider_MakeNest::Create(m_pGraphicDev, m_pStateMachine);
+	m_pStateMachine->Add_State(STATE::BOSS_PH1SKILL4, m_pState);
+
 	m_pState = CKingSpider_Run::Create(m_pGraphicDev, m_pStateMachine);
 	m_pStateMachine->Add_State(STATE::BOSS_TELEPORT, m_pState);
 
+	m_pState = CKingSpider_Dead::Create(m_pGraphicDev, m_pStateMachine);
+	m_pStateMachine->Add_State(STATE::BOSS_DEAD, m_pState);
+
+	//////////////////////////////////////////////
 	CAnimation* pAnimation = CAnimation::Create(m_pGraphicDev,
-		m_pTexture[(_uint)STATE::ROMIMG], STATE::BOSS_WAKEUP, 5.f, TRUE);
+		m_pTexture[(_uint)STATE::ROMIMG], STATE::BOSS_WAKEUP, 10.f, FALSE);
 	m_pAnimator->Add_Animation(STATE::BOSS_WAKEUP, pAnimation);
 
 	pAnimation = CAnimation::Create(m_pGraphicDev,
-		m_pTexture[(_uint)STATE::ROMIMG], STATE::BOSS_IDLE, 5.f, TRUE);
+		m_pTexture[(_uint)STATE::ROMIMG], STATE::BOSS_IDLE, 10.f, TRUE);
 	m_pAnimator->Add_Animation(STATE::BOSS_IDLE, pAnimation);
 
 	pAnimation = CAnimation::Create(m_pGraphicDev,
-		m_pTexture[(_uint)STATE::ROMIMG], STATE::BOSS_TELEPORT, 5.f, TRUE);
-	m_pAnimator->Add_Animation(STATE::BOSS_TELEPORT, pAnimation);
+		m_pTexture[(_uint)STATE::ATTACK], STATE::BOSS_PH1SKILL1, 10.f, TRUE);
+	m_pAnimator->Add_Animation(STATE::BOSS_PH1SKILL1, pAnimation);
+
+	pAnimation = CAnimation::Create(m_pGraphicDev,
+		m_pTexture[(_uint)STATE::ATTACK], STATE::BOSS_PH1SKILL2, 10.f, TRUE);
+	m_pAnimator->Add_Animation(STATE::BOSS_PH1SKILL2, pAnimation);
+
+	pAnimation = CAnimation::Create(m_pGraphicDev,
+		m_pTexture[(_uint)STATE::ATTACK], STATE::BOSS_PH1SKILL3, 10.f, TRUE);
+	m_pAnimator->Add_Animation(STATE::BOSS_PH1SKILL3, pAnimation);
+
+	pAnimation = CAnimation::Create(m_pGraphicDev,
+		m_pTexture[(_uint)STATE::ATTACK], STATE::BOSS_PH1SKILL4, 10.f, TRUE);
+	m_pAnimator->Add_Animation(STATE::BOSS_PH1SKILL4, pAnimation);
+
+	pAnimation = CAnimation::Create(m_pGraphicDev,
+		m_pTexture[(_uint)STATE::DEAD], STATE::BOSS_DEAD, 10.f, FALSE);
+	m_pAnimator->Add_Animation(STATE::BOSS_DEAD, pAnimation);
 
 	m_pStateMachine->Set_Animator(m_pAnimator);
 	m_pStateMachine->Set_State(STATE::BOSS_WAKEUP);
 
 	m_pTransform->Scale(_vec3(4.f, 4.f, 4.f));
 	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
-	
 	m_pRigidBody->UseGravity(false);
-	//Init_Stat();
+	Init_Stat();
 	return S_OK;
 }
 
@@ -77,12 +108,19 @@ _int CKingSpider::Update_Object(const _float& fTimeDelta)
 	if (SceneManager()->Get_GameStop()) { return 0; }
 	_int iExit = __super::Update_Object(fTimeDelta);
 	
-	m_pStateMachine->Update_StateMachine(fTimeDelta);
-	if (15.5f > m_pTransform->m_vInfo[INFO_POS].y)
-		m_pTransform->m_vInfo[INFO_POS].y = 15.f;
-
-	if (Engine::InputDev()->Key_Down(DIK_0))
+	if (0>=m_pBasicStat->Get_Stat()->fHP)
+		m_pStateMachine->Set_State(STATE::BOSS_DEAD);
+	
+	if (InputDev()->Key_Down(DIK_0))
 		m_pStateMachine->Set_State(STATE::BOSS_TELEPORT);
+
+	if (InputDev()->Key_Down(DIK_9))
+		m_pStateMachine->Set_State(STATE::BOSS_WAKEUP);
+
+	m_pStateMachine->Update_StateMachine(fTimeDelta);
+	
+	if ((14.99f >= m_pTransform->m_vInfo[INFO_POS].y))
+		m_pTransform->m_vInfo[INFO_POS].y = 15.f;
 	return iExit;
 }
 
@@ -91,7 +129,6 @@ void CKingSpider::LateUpdate_Object()
 	if (SceneManager()->Get_GameStop()) { return; }
 	__super::LateUpdate_Object();
 	m_pTransform->Scale(_vec3(4.f, 4.f, 4.f));
-	//m_pCollider->SetCenterPos(m_pTransform->m_vInfo[INFO_POS] - _vec3(0.f, 0.5f, 0.f));
 }
 
 void CKingSpider::Render_Object()
@@ -107,35 +144,54 @@ void CKingSpider::Render_Object()
 
 void CKingSpider::Init_Stat()
 {
-	m_pBasicStat->Get_Stat()->fSpeed = 4.f;
-	m_pBasicStat->Get_Stat()->fAgility = 4.f;
+	m_pBasicStat->Get_Stat()->fMaxHP = 60.f;
+	m_pBasicStat->Get_Stat()->fHP = 60.f;
 	m_pBasicStat->Get_Stat()->fDeffense = 4.f;
-	m_pBasicStat->Get_Stat()->fMagic = 4.f;
 	m_pBasicStat->Get_Stat()->fAttack = 4.f;
-	m_pBasicStat->Get_Stat()->fHealth = 4.f;
-	m_pBasicStat->Get_Stat()->iExp = 6.f;
+	m_pBasicStat->Get_Stat()->iArmorMin = 0.f;
+	m_pBasicStat->Get_Stat()->iArmorMax = 3.f;
+	m_pBasicStat->Get_Stat()->iExp = 15.f;
+
 }
 
 void CKingSpider::OnCollisionEnter(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
-	//if((OBJECTTAG::BLOCK != _pOther->Get_Host()->Get_ObjectTag()))
-		__super::OnCollisionEnter(_pOther);
+	if(OBJECTTAG::PLAYERBULLET != _pOther->Get_Host()->Get_ObjectTag())
+	__super::OnCollisionEnter(_pOther);
+	if (OBJECTTAG::PLAYERBULLET == _pOther->Get_Host()->Get_ObjectTag())
+	{
+		if (STATE::BOSS_TELEPORT == m_pStateMachine->Get_State())
+			--m_iCrawlingHP;
+		if (0 >= m_iCrawlingHP)
+		{
+			m_pRigidBody->UseGravity(true);
+		}
+	}
 }
 
 void CKingSpider::OnCollisionStay(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
-	//if ((OBJECTTAG::BLOCK != _pOther->Get_Host()->Get_ObjectTag()))
-		__super::OnCollisionStay(_pOther);
+	if (OBJECTTAG::PLAYERBULLET != _pOther->Get_Host()->Get_ObjectTag())
+		__super::OnCollisionEnter(_pOther);
+	if (OBJECTTAG::BLOCK == _pOther->Get_Host()->Get_ObjectTag())
+	{
+		if (STATE::BOSS_TELEPORT == m_pStateMachine->Get_State())
+			m_bFloorCollison = true;
 
+	}
 }
 
 void CKingSpider::OnCollisionExit(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
-	//if ((OBJECTTAG::BLOCK != _pOther->Get_Host()->Get_ObjectTag()))
 		__super::OnCollisionExit(_pOther);
+		if (OBJECTTAG::BLOCK == _pOther->Get_Host()->Get_ObjectTag())
+		{
+			if (STATE::BOSS_TELEPORT == m_pStateMachine->Get_State())
+				m_bFloorCollison = false;
+		}
 }
 
 HRESULT CKingSpider::Add_Component()

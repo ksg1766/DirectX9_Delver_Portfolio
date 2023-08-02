@@ -22,7 +22,7 @@ private:
 	_bool	m_bMakeNest;
 	_vec3	m_vDir;
 	_vec3	m_vTargetPos;
-
+	_vec3	m_vSpawnPos[4];
 public:
 	static CKingSpider_MakeNest* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
 

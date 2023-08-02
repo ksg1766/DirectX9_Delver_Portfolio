@@ -10,6 +10,7 @@
 #include "FlyingCamera.h"
 #include "Scene.h"
 #include "Stage.h"
+#include "KingSpider.h"
 //#include "CameraManager.h"
 
 CBookDoor::CBookDoor(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -101,13 +102,27 @@ _int CBookDoor::Update_Object(const _float& fTimeDelta)
 
 	if (m_bTriger)
 	{
-
 	//	if (m_bShake)
 	//	{
 	//		pCamera->Set_ShakeForce(0.f, 0.01f, 3, 2.f);
 	//		pCamera->Shake_Camera();
 	//	}
+		if (!m_bKingSpider)
+			m_fSpiderTime += fTimeDelta;
+		if (3.5f < m_fSpiderTime)
+		{
+			if (!m_bKingSpider)
+			{
+				CGameObject* pGameObject = nullptr;
+				pGameObject = CKingSpider::Create(m_pGraphicDev);
+				NULL_CHECK_RETURN(pGameObject, E_FAIL);
+				static_cast<CKingSpider*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = _vec3(-36.f, 68.f, 34.f);
+				Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+				m_bKingSpider = true;
+				m_fSpiderTime = 0.f;
+			}
 
+		}
 		for (auto& iter = m_vecFrontDoorCube.begin(); iter != m_vecFrontDoorCube.end(); ++iter)
 		{
 			_uint iCurrentIndex = std::distance(m_vecFrontDoorCube.begin(), iter);
