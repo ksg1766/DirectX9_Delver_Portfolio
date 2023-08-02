@@ -18,7 +18,8 @@ public:
 public:
 	static CKingSpider_Idle* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
 private:
-	_bool		m_fJumpAttack;
+	_bool		m_bJumpAttack;
+	_bool		m_bJumpRun;
 	_float		m_fDelay;
 	_int		m_iSkillCount;
 	_vec3		m_vFogPos[8];

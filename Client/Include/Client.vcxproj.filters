@@ -979,6 +979,9 @@
     <Filter Include="03. GameObject\01. Stage\02. Item\Quest\Orb">
       <UniqueIdentifier>{5eb6818c-9e03-4a28-8ff3-d8b9a24431b3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. GameObject\01. Stage\05. Monster\02. Spider\01.KingSpider\00.State\05. 2PhScream">
+      <UniqueIdentifier>{c0d80460-5520-4d2c-934e-b7062093ac05}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -1904,6 +1907,15 @@
     <ClInclude Include="..\Header\Orb.h">
       <Filter>03. GameObject\01. Stage\02. Item\Quest\Orb</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\KingSpider_Dead.h">
+      <Filter>03. GameObject\01. Stage\05. Monster\02. Spider\01.KingSpider\00.State\04. Dead</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\KingSpiderScream.h">
+      <Filter>03. GameObject\01. Stage\05. Monster\02. Spider\01.KingSpider\00.State\05. 2PhScream</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Boss_LastPhase.h">
+      <Filter>03. GameObject\01. Stage\999. Boss\02. State\03. Attack\03. LastPhase</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -2789,6 +2801,15 @@
     </ClCompile>
     <ClCompile Include="..\Code\Orb.cpp">
       <Filter>03. GameObject\01. Stage\02. Item\Quest\Orb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\KingSpider_Dead.cpp">
+      <Filter>03. GameObject\01. Stage\05. Monster\02. Spider\01.KingSpider\00.State\04. Dead</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\KingSpiderScream.cpp">
+      <Filter>03. GameObject\01. Stage\05. Monster\02. Spider\01.KingSpider\00.State\05. 2PhScream</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Boss_LastPhase.cpp">
+      <Filter>03. GameObject\01. Stage\999. Boss\02. State\03. Attack\03. LastPhase</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

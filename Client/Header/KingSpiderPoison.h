@@ -28,14 +28,17 @@ public:
 	virtual void	OnCollisionStay(CCollider* _pOther);
 	virtual void	OnCollisionExit(CCollider* _pOther);
 
-	void			Set_Dir(_vec3 _vDir);
+	void Set_DirParabola(_vec3 _vDir);
+	void Set_DirStraight(_vec3 _vDir);
+
+	
 private:
 	CRcTex* m_pBuffer = nullptr;
 	CTexture* m_pTexture = nullptr;
 
 	_vec3	m_vDir;
 	_bool	m_bHit;
-
+	_bool	m_bStraight;
 private:
 	HRESULT		Add_Component(void);
 

@@ -217,6 +217,7 @@
     <ClInclude Include="..\Header\Boss_GrabBat.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="..\Header\Boss_LastPhase.h" />
     <ClInclude Include="..\Header\Boss_Lightning.h" />
     <ClInclude Include="..\Header\Boss_Meteor1Ph.h" />
     <ClInclude Include="..\Header\Boss_MeteorCube3Ph.h" />
@@ -267,7 +268,9 @@
     <ClInclude Include="..\Header\KingSpiderGrabWeb.h" />
     <ClInclude Include="..\Header\KingSpiderNest.h" />
     <ClInclude Include="..\Header\KingSpiderPoison.h" />
+    <ClInclude Include="..\Header\KingSpiderScream.h" />
     <ClInclude Include="..\Header\KingSpiderWeb.h" />
+    <ClInclude Include="..\Header\KingSpider_Dead.h" />
     <ClInclude Include="..\Header\KingSpider_Idle.h" />
     <ClInclude Include="..\Header\KingSpider_Jump.h" />
     <ClInclude Include="..\Header\KingSpider_MakeNest.h" />
@@ -506,6 +509,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\Code\Bonfire.cpp" />
+    <ClCompile Include="..\Code\Boss_LastPhase.cpp" />
     <ClCompile Include="..\Code\Boss_MeteorCube3Ph.cpp" />
     <ClCompile Include="..\Code\Boss_Phase2.cpp" />
     <ClCompile Include="..\Code\Boss_Phase3.cpp" />
@@ -555,7 +559,9 @@
     <ClCompile Include="..\Code\KingSpiderGrabWeb.cpp" />
     <ClCompile Include="..\Code\KingSpiderNest.cpp" />
     <ClCompile Include="..\Code\KingSpiderPoison.cpp" />
+    <ClCompile Include="..\Code\KingSpiderScream.cpp" />
     <ClCompile Include="..\Code\KingSpiderWeb.cpp" />
+    <ClCompile Include="..\Code\KingSpider_Dead.cpp" />
     <ClCompile Include="..\Code\KingSpider_Idle.cpp" />
     <ClCompile Include="..\Code\KingSpider_Jump.cpp" />
     <ClCompile Include="..\Code\KingSpider_MakeNest.cpp" />

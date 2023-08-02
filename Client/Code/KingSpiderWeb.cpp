@@ -45,34 +45,35 @@ _int CKingSpiderWeb::Update_Object(const _float& fTimeDelta)
 	m_fDelay += fTimeDelta;
 	if((!m_bPlayerHit)&&(!m_bFloor))
 		m_pTransform->Translate(m_vDir);
-	if (m_bDebuff)
-	{
-		m_fDebuffDuration += fTimeDelta;
-		m_vPlayerLook = dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer())->m_pTransform->m_vInfo[INFO_LOOK];
-		m_vPlayerRight = dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer())->m_pTransform->m_vInfo[INFO_RIGHT];
-		m_pTransform->m_vInfo[INFO_POS] = _vec3(m_vPlayerLook.x * 2.f, m_vPlayerLook.y*2.f, m_vPlayerLook.z * 2.f);
-		if (STATE::ROMIMG == dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer())->Get_StateMachine()->Get_State())
-		{
-			if(Engine::InputDev()->Key_Pressing(DIK_W))
-				dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer())->m_pTransform->Translate(-m_vPlayerLook * 4.f * fTimeDelta);
-			if (Engine::InputDev()->Key_Pressing(DIK_S))
-				dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer())->m_pTransform->Translate(m_vPlayerLook * 4.f * fTimeDelta);
-			if (Engine::InputDev()->Key_Pressing(DIK_D))
-				dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer())->m_pTransform->Translate(-m_vPlayerRight * 4.f * fTimeDelta);
-			if (Engine::InputDev()->Key_Pressing(DIK_A))
-				dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer())->m_pTransform->Translate(m_vPlayerRight * 4.f * fTimeDelta);
 
-			if (3.f < m_fDebuffDuration)
-			{
-				m_fDebuffDuration = 0.f;
-				m_iHp = 0;
-				m_IsDead = true;
-			}
-		}
-		if(dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer())->IsJump())
-			dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer())->Get_RigidBody()->Add_Force(_vec3(0.f, -0.5f, 0.f));
-		
-	}
+	//if (m_bDebuff)
+	//{
+	//	m_fDebuffDuration += fTimeDelta;
+	//	m_vPlayerLook = dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer())->m_pTransform->m_vInfo[INFO_LOOK];
+	//	m_vPlayerRight = dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer())->m_pTransform->m_vInfo[INFO_RIGHT];
+	//	m_pTransform->m_vInfo[INFO_POS] = _vec3(m_vPlayerLook.x * 2.f, m_vPlayerLook.y*2.f, m_vPlayerLook.z * 2.f);
+	//	if (STATE::ROMIMG == dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer())->Get_StateMachine()->Get_State())
+	//	{
+	//		if(Engine::InputDev()->Key_Pressing(DIK_W))
+	//			dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer())->m_pTransform->Translate(-m_vPlayerLook * 4.f * fTimeDelta);
+	//		if (Engine::InputDev()->Key_Pressing(DIK_S))
+	//			dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer())->m_pTransform->Translate(m_vPlayerLook * 4.f * fTimeDelta);
+	//		if (Engine::InputDev()->Key_Pressing(DIK_D))
+	//			dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer())->m_pTransform->Translate(-m_vPlayerRight * 4.f * fTimeDelta);
+	//		if (Engine::InputDev()->Key_Pressing(DIK_A))
+	//			dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer())->m_pTransform->Translate(m_vPlayerRight * 4.f * fTimeDelta);
+
+	//		if (4.f < m_fDebuffDuration)
+	//		{
+	//			m_fDebuffDuration = 0.f;
+	//			m_iHp = 0;
+	//			m_IsDead = true;
+	//		}
+	//	}
+	//	if(dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer())->IsJump())
+	//		dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer())->Get_RigidBody()->Add_Force(_vec3(0.f, -0.5f, 0.f));
+	//	
+	//}
 	if ((1.f < m_fDelay) && (m_bHit))
 	{
 		m_fDelay = 0.f;
@@ -131,18 +132,21 @@ void CKingSpiderWeb::OnCollisionEnter(CCollider* _pOther)
 void CKingSpiderWeb::OnCollisionStay(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
-	if ((_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::PLAYER)&&(!m_bPlayerHit))
-		{
-			m_bDebuff = true;
-			m_bPlayerHit = true;
-		}
+	if ((_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::PLAYER) && (!m_bPlayerHit))
+	{
+		dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer())->Set_Slow(false);
+		dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer())->Set_Slow(true);
+		m_bPlayerHit  = true;
+		EventManager()->DeleteObject(this);
+	}
 	if ((OBJECTTAG::PLAYERBULLET == _pOther->Get_Host()->Get_ObjectTag())||(OBJECTTAG::ITEM == _pOther->Get_Host()->Get_ObjectTag()) && (!m_bHit))
 	{
 		if (dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer())->Get_Attack())
 		{
 			--m_iHp;
-			m_bHit = 0.f;
 			m_bHit = true;
+			if (0 >= m_iHp)
+				EventManager()->DeleteObject(this);
 		}
 	}
 }

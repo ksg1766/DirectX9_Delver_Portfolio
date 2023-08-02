@@ -30,7 +30,7 @@ HRESULT CKingSpider_Shoot::Ready_State(CStateMachine* pOwner)
 STATE CKingSpider_Shoot::Update_State(const _float& fTimeDelta)
 {
 	m_fDelay += fTimeDelta;
-	if (1.f < m_fDelay)
+	if (1.5f < m_fDelay)
 	{
 		Engine::CGameObject* pGameObject = nullptr;
 		pGameObject = CKingSpiderWeb::Create(m_pGraphicDev);

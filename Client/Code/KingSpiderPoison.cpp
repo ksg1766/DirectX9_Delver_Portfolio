@@ -25,6 +25,7 @@ HRESULT CKingSpiderPoison::Ready_Object(void)
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	m_bHit = false;
+	m_bStraight = false;
 	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
 	return S_OK;
 }
@@ -34,6 +35,8 @@ _int CKingSpiderPoison::Update_Object(const _float& fTimeDelta)
 	Engine::Renderer()->Add_RenderGroup(RENDER_ALPHA, this);
 	if (SceneManager()->Get_GameStop()) { return 0; }
 	_int iExit = __super::Update_Object(fTimeDelta);
+	if (m_bStraight)
+		m_pTransform->Translate(m_vDir);
 
 
 
@@ -64,26 +67,32 @@ void CKingSpiderPoison::Init_Stat()
 void CKingSpiderPoison::OnCollisionEnter(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
-	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BLOCK)
-	{
-		_matrix      matMonsterWorld = _pOther->Get_Host()->m_pTransform->WorldMatrix();
-		_vec3        vecMonsterPos = _vec3(matMonsterWorld._41, matMonsterWorld._42 + .5f, matMonsterWorld._43);
-		CGameObject* pGameObject = CEffectSquare::Create(m_pGraphicDev, vecMonsterPos, 50, EFFECTCOLOR::ECOLOR_GREEN);
-		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 
-		m_IsDead = true;
-	}
-	if (_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::PLAYER)
-		__super::OnCollisionEnter(_pOther);
 }
 
 void CKingSpiderPoison::OnCollisionStay(CCollider* _pOther)
 {
+
+	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BLOCK)
+	{
+		_matrix      matMonsterWorld = m_pTransform->WorldMatrix();
+		_vec3        vecMonsterPos = _vec3(matMonsterWorld._41, matMonsterWorld._42 + .5f, matMonsterWorld._43);
+		CGameObject* pGameObject = CEffectSquare::Create(m_pGraphicDev, vecMonsterPos, 50, EFFECTCOLOR::ECOLOR_GREEN);
+		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+		m_bStraight = false;
+		EventManager()->DeleteObject(this);
+	}
+
 	if ((_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::PLAYER)&&(!m_bHit))
 	{
+		_matrix      matMonsterWorld = _pOther->Get_Host()->m_pTransform->WorldMatrix();
+		_vec3        vecMonsterPos = _vec3(matMonsterWorld._41, matMonsterWorld._42 + .5f, matMonsterWorld._43);
+		CGameObject* pGameObject = CEffectSquare::Create(m_pGraphicDev, vecMonsterPos, 50, EFFECTCOLOR::ECOLOR_GREEN);
+
 		dynamic_cast<CPlayer*>(_pOther->Get_Host())->Set_Poisoning(true);
 		m_bHit = true;
-		m_IsDead = true;
+		m_bStraight = false;
+		EventManager()->DeleteObject(this);
 	}
 }
 
@@ -92,13 +101,20 @@ void CKingSpiderPoison::OnCollisionExit(CCollider* _pOther)
 	if (SceneManager()->Get_GameStop()) { return; }
 }
 
-void CKingSpiderPoison::Set_Dir(_vec3 _vDir)
+void CKingSpiderPoison::Set_DirParabola(_vec3 _vDir)
 {
 	m_vDir = _vDir - m_pTransform->m_vInfo[INFO_POS];
 	//D3DXVec3Normalize(&m_vDir, &m_vDir);
-
 	m_pRigidBody->Add_Force(_vec3(m_vDir.x, 8.f, m_vDir.z));
 }
+
+void CKingSpiderPoison::Set_DirStraight(_vec3 _vDir)
+{
+	m_vDir = _vDir - m_pTransform->m_vInfo[INFO_POS];
+	D3DXVec3Normalize(&m_vDir, &m_vDir);
+	m_bStraight = true;
+}
+
 
 HRESULT CKingSpiderPoison::Add_Component(void)
 {

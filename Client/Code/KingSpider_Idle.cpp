@@ -6,11 +6,7 @@
 #include "KingSpider.h"
 #include "FlyingCamera.h"
 #include "CameraManager.h"
-#include "KingSpiderWeb.h"
-#include "KingSpiderFog.h"
-#include "KingSpiderPoison.h"
-#include "KingSpiderNest.h"
-#include "KingSpider_Jump.h"
+
 CKingSpider_Idle::CKingSpider_Idle()
 {
 }
@@ -29,7 +25,8 @@ HRESULT CKingSpider_Idle::Ready_State(CStateMachine* pOwner)
 	m_pOwner = pOwner;
 	m_fDelay = 0.f;
 	m_iSkillCount = 0.f;
-	m_fJumpAttack = false;
+	m_bJumpAttack = false;
+	m_bJumpRun = false;
 	m_vFogPos[0] = _vec3(4.5f, 0.f, 0.f);
 	m_vFogPos[1] = _vec3(-4.5f, 0.f, 0.f);
 	m_vFogPos[2] = _vec3(0., 0.f, 4.5f);
@@ -45,8 +42,15 @@ HRESULT CKingSpider_Idle::Ready_State(CStateMachine* pOwner)
 STATE CKingSpider_Idle::Update_State(const _float& fTimeDelta)
 {
 	m_fDelay += fTimeDelta;
+	/*if (0 >= dynamic_cast<CKingSpider*>(m_pOwner->Get_Host())->Get_BasicStat()->Get_Stat()->fHP)
+		return STATE::BOSS_DEAD;*/
+	if ((!m_bJumpRun)&&(0 >= dynamic_cast<CKingSpider*>(m_pOwner->Get_Host())->Get_BasicStat()->Get_Stat()->fHP))
+	{
+		m_bJumpRun = true;
+		return STATE::BOSS_TELEPORT;
+	}
 
-	if (10.f < m_fDelay)
+	if (3.f < m_fDelay)
 	{
 		m_fDelay = 0.f;
 		if (BOSSPHASE::PHASE1 == dynamic_cast<CKingSpider*>(m_pOwner->Get_Host())->Get_Phase())
@@ -55,18 +59,33 @@ STATE CKingSpider_Idle::Update_State(const _float& fTimeDelta)
 			{
 			case 0:
 				++m_iSkillCount;
-			
+				return STATE::BOSS_PH1SKILL1;
 				break;
 
 			case 1:
 				++m_iSkillCount;
-				
+				return STATE::BOSS_PH1SKILL2;
 				break;
 
 			case 2:
 				m_iSkillCount = 0;
-			
-				
+				return STATE::BOSS_PH1SKILL3;
+				break;
+			}
+		}
+
+		else if (BOSSPHASE::PHASE2 == dynamic_cast<CKingSpider*>(m_pOwner->Get_Host())->Get_Phase()) 
+		{
+			switch (m_iSkillCount)
+			{
+			case 0:
+				++m_iSkillCount;
+				return STATE::BOSS_PH1SKILL1;
+				break;
+
+			case 1:
+				m_iSkillCount = 0;
+				return STATE::BOSS_PH1SKILL2;
 				break;
 			}
 		}
