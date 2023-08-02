@@ -22,7 +22,7 @@ HRESULT CMoonBoss::Ready_Object(void)
 	m_eObjectTag = OBJECTTAG::IMMORTAL;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pTransform->Translate(_vec3(-115.f, 60.f, 1.f));
+	m_pTransform->Translate(_vec3(-125.f, 75.f, 1.f));
 
 	return S_OK;
 }
@@ -41,7 +41,7 @@ void CMoonBoss::LateUpdate_Object(void)
 	__super::LateUpdate_Object();
 
 	m_pBillBoardCom->LateUpdate_Component();
-	m_pTransform->Scale(_vec3(9.f, 9.f, 9.f));
+	m_pTransform->Scale(_vec3(13.f, 13.f, 13.f));
 }
 
 void CMoonBoss::Render_Object(void)

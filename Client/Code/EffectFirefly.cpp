@@ -28,11 +28,25 @@ HRESULT CEffectFirefly::Ready_Object(void)
 	m_fChangeTime = CTempEffect::Get_RandomFloat(5.f, 10.f);
 	m_fLifeTime = 0.f;
 
+	m_fFrame = 0.f;
+
 	return S_OK;
 }
 
 Engine::_int CEffectFirefly::Update_Object(const _float& fTimeDelta)
 {
+	if (m_bChangeMode) {
+		m_bChangeMode = false;
+
+		m_bAnimation = true;
+		m_bLoop      = true;
+
+		m_fFrame = 1.f;
+		m_fFrist = 1.f;
+		m_fFinal = 3.f;
+		m_fFrameSpeed = 5.f;
+	}
+
 	Engine::Renderer()->Add_RenderGroup(RENDER_ALPHA, this);
 
 	m_fLifeTime += 1.f * fTimeDelta;
@@ -91,7 +105,7 @@ void CEffectFirefly::Render_Object(void)
 
 	m_pGraphicDev->SetRenderState(D3DRS_FOGENABLE, FALSE);
 
-	m_pTextureCom->Render_Texture(0);
+	m_pTextureCom->Render_Texture(m_fFrame);
 	m_pBufferCom->Render_Buffer();
 
 	m_pGraphicDev->SetRenderState(D3DRS_FOGENABLE, TRUE);

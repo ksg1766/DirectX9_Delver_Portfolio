@@ -111,9 +111,6 @@ void CVillage::LateUpdate_Scene()
 	// 분위기 전환 테스트
 	if (Engine::InputDev()->Key_Down(DIK_F1)) // 오브랑 석상이랑 충돌했을 때 
 	{
-		// 해당 씬 클리어상태로 변경
-		 
-		
 		// 오브에 반짝이는 이펙트 생성
 
 
@@ -129,12 +126,19 @@ void CVillage::LateUpdate_Scene()
 		Engine::Renderer()->Set_FogColor(100, 255, 170, 150);
 		Engine::Renderer()->Set_FogDistance(1.f, 200.0f);
 
-		// 나뭇잎 이펙트 -> 꽃 이미지로 교체
+		vector<CGameObject*> pEffectList = SceneManager()->Get_ObjectList(LAYERTAG::ENVIRONMENT, OBJECTTAG::EFFECT);
+		for (auto& iter : pEffectList) {
+			// 나뭇잎 이펙트 -> 꽃 이미지로 교체
+			if (dynamic_cast<CTempEffect*>(iter)->Get_EffectTag() == EFFECTTAG::EFFECT_LEAVES) {
+				dynamic_cast<CEffectFallingleaves*>(iter)->Set_ChangeMode(true);
+			}
+			// 반딧불이 이펙트 -> 나비 이미지로 교체
+			else if (dynamic_cast<CTempEffect*>(iter)->Get_EffectTag() == EFFECTTAG::EFFECT_FIREFLY) {
+				dynamic_cast<CEffectFirefly*>(iter)->Set_ChangeMode(true);
+			}
+		}
 
-
-		// 반딧불이 이펙트 -> 나비 이미지로 교체
-
-
+		// 해당 씬 클리어상태로 변경
 		// 몇초마다 하늘에 폭죽 이펙트 발사
 
 

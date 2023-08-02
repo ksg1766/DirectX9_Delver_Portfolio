@@ -10,6 +10,9 @@ private:
 	virtual ~CEffectFallingleaves();
 
 public:
+	void    Set_ChangeMode(_bool _bChange) { m_bChange = _bChange; }
+
+public:
 	HRESULT Ready_Object() override;
 	_int    Update_Object(const _float& fTimeDelta) override;
 	void    LateUpdate_Object(void) override;
@@ -22,6 +25,7 @@ private:
 	vector<CGameObject*> m_vecLeaf;
 	_float m_fMoveTime   = 0.f;
 	_float m_fChangeTime = 0.f;
+	_bool  m_bChange = false;
 
 public:
 	static CEffectFallingleaves*		Create(LPDIRECT3DDEVICE9 pGraphicDev);

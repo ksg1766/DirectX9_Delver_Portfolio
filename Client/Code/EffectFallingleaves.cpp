@@ -40,6 +40,14 @@ HRESULT CEffectFallingleaves::Ready_Object(void)
 
 Engine::_int CEffectFallingleaves::Update_Object(const _float& fTimeDelta)
 {
+	if (m_bChange) {
+		m_bChange = false;
+
+		for (auto& iter : m_vecLeaf) {
+			dynamic_cast<CEffectleaf*>(iter)->Set_ChangeMode(true);
+		}
+	}
+
 	Engine::Renderer()->Add_RenderGroup(RENDER_ALPHA, this);
 
 	m_fMoveTime += 1.f * fTimeDelta;

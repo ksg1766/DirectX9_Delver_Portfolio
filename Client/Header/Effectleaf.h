@@ -10,6 +10,7 @@ private:
 	virtual ~CEffectleaf();
 
 public:
+	void    Set_ChangeMode(_bool _bChange) { m_bChangeMode = _bChange; }
 	void    Change_Move(_vec3 _NewDir, _float _Speed)
 	{ 
 		m_vecMoveDir = _NewDir;
@@ -30,6 +31,8 @@ private:
 	_float m_fCount = 0.f;
 	_bool  m_bFall = false;
 	_vec3  m_vecMoveDir;
+	_bool  m_bChangeMode = false;
+	_bool  m_bChangeImage = false;
 
 public:
 	static CEffectleaf*		Create(LPDIRECT3DDEVICE9 pGraphicDev);
