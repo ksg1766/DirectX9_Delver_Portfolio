@@ -114,9 +114,9 @@ void CBoxCube::Create_Consum()
 {
 	CItem* pItem = nullptr;
 
-	_int iRamdom = rand() % 9;
+	_int iRamdom = rand() % 8;
 	const _int iApple = 0, iBread = 1, iCheese = 2, iMeat = 3,
-		iRoastMeat = 4, iBeer = 5, iHolyWater = 6, iHpPotion = 7, iRandomPotion = 8;
+		iRoastMeat = 4, iHolyWater = 5, iHpPotion = 6, iRandomPotion = 7;
 
 	switch (iRamdom)
 	{
@@ -134,9 +134,6 @@ void CBoxCube::Create_Consum()
 		break;
 	case iRoastMeat:
 		pItem = CRoastmeat::Create(m_pGraphicDev, true);
-		break;
-	case iBeer:
-		pItem = CBeer::Create(m_pGraphicDev, true);
 		break;
 	case iHolyWater:
 		pItem = CHolyWater::Create(m_pGraphicDev, true);

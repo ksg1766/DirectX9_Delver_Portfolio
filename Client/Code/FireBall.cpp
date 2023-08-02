@@ -149,6 +149,7 @@ void CFireBall::OnCollisionEnter(CCollider* _pOther)
 
 	CPlayer& pPlayer = *dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer());
 
+
 	if ((_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::MONSTER &&
 		dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_StateMachine()->Get_State() != STATE::DEAD) ||
 		(_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BOSS) ||
@@ -172,10 +173,12 @@ void CFireBall::OnCollisionEnter(CCollider* _pOther)
 		pGameObject->m_pTransform->Translate(m_pTransform->m_vInfo[INFO_POS]);
 		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 		//////////////////////////////////////////////////////////////////////////////// ÀÌÆåÆ® 
+
+		Set_State(STATE::DEAD);
+		EventManager()->DeleteObject(this);
 	}
 
-	Set_State(STATE::DEAD);
-	EventManager()->DeleteObject(this);
+
 }
 
 void CFireBall::OnCollisionStay(CCollider* _pOther)
