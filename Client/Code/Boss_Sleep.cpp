@@ -31,7 +31,7 @@ STATE CBoss_Sleep::Update_State(const _float& fTimeDelta)
 	_float fDistance = D3DXVec3LengthSq(&vDir);
 	if (BOSSPHASE::PHASE1 == dynamic_cast<CSkeletonKing*>(m_pOwner->Get_Host())->Get_Phase())
 	{
-		if ((!m_bMusic)&&(fDistance < pow(50, 2)))
+		if ((!m_bMusic)&&(fDistance < pow(30, 2)))
 		{
 			CSoundManager::GetInstance()->StopAll();
 			//CSoundManager::GetInstance()->PlayBGM(L"Test_BossTheme.mp3", 0.3f);
@@ -60,9 +60,9 @@ STATE CBoss_Sleep::Update_State(const _float& fTimeDelta)
 	}
 	else if (BOSSPHASE::LASTPHASE == dynamic_cast<CSkeletonKing*>(m_pOwner->Get_Host())->Get_Phase())
 	{
-		if (fDistance < pow(20, 2))
+		if (fDistance < pow(25, 2))
 		{
-			return STATE::BOSS_WAKEUP;
+			return STATE::BOSS_CRAWL;
 		}
 	}
 	return STATE::BOSS_SLEEP;

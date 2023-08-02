@@ -25,7 +25,7 @@ HRESULT CBossFireWave::Ready_Object(void)
 	m_eObjectTag = OBJECTTAG::MONSTERBULLET;
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
-	m_pBasicStat->Get_Stat()->fAttack = 1.5f;
+	m_pBasicStat->Get_Stat()->fAttack = 0.5f;
 	m_fDuration = 0.f;
 	m_fSpeed = 20.f;
 	m_fAngle = 0.f;
@@ -98,7 +98,7 @@ void CBossFireWave::OnCollisionStay(CCollider* _pOther)
 	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::PLAYER)
 	{
 		CFlyingCamera* pCamera = dynamic_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam());
-		pCamera->Set_ShakeForce(0.f, 0.05f, 1.f, 2.f);
+		pCamera->Set_ShakeForce(0.f, 0.05f, 0.2f, 2.f);
 		pCamera->Shake_Camera();
 
 		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_SPIDER);

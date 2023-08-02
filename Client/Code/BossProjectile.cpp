@@ -96,7 +96,7 @@ void CBossProjectile::OnCollisionStay(CCollider* _pOther)
 	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::PLAYER)
 	{
 		CFlyingCamera* pCamera = dynamic_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam());
-		pCamera->Set_ShakeForce(0.f, 0.05f, 1.f, 2.f);
+		pCamera->Set_ShakeForce(0.f, 0.05f, 0.2f, 2.f);
 		pCamera->Shake_Camera();
 
 		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_DOOR);

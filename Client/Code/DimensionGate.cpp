@@ -36,6 +36,8 @@ _int CDimensionGate::Update_Object(const _float& fTimeDelta)
 	m_fFrame += 5.f * fTimeDelta;
 	if (5.f < m_fFrame)
 		m_fFrame = 0.f;
+	//if (35.f >= m_pTransform->m_vInfo[INFO_POS].y)
+	//	m_pTransform->Translate(_vec3(0.f, fTimeDelta, 0.f));
 	return iExit;
 }
 

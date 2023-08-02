@@ -1565,6 +1565,18 @@ void CPlayer::Foot_Sound(const _float& fTimeDelta)
 			m_bTestJump = false;
 		}
 	}
+
+	else if (SceneManager()->Get_Scene()->Get_SceneTag() == SCENETAG::BOSSSTAGE)
+	{
+		if (!IsJump() && (m_pStateMachine->Get_State() == STATE::ROMIMG || m_pStateMachine->Get_State() == STATE::ATTACK))
+			CSoundManager::GetInstance()->PlaySound(L"feet_wood_01.mp3", CHANNELID::SOUND_PLAYER, 1.f);
+
+		if (IsJump() && m_bTestJump)
+		{
+			CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_PLAYER);
+			m_bTestJump = false;
+		}
+	}
 }
 
 void CPlayer::Free()

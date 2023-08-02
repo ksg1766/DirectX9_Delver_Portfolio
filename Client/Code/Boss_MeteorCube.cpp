@@ -117,7 +117,7 @@ void CBoss_MeteorCube::Channeling_Begin()
 void CBoss_MeteorCube::Channeling_Now(const _float& fTimeDelta)
 {
 	CFlyingCamera* pCamera = dynamic_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam());
-	pCamera->Set_ShakeForce(0.f, 0.05f, 1.f, 2.f);
+	pCamera->Set_ShakeForce(0.f, 0.05f, 0.3f, 2.f);
 	pCamera->Shake_Camera();
 
 	m_pTransform->Translate(_vec3(0.f, 1.5f * fTimeDelta, 0.f));
@@ -139,7 +139,7 @@ void CBoss_MeteorCube::Channeling_End(const _float& fTimeDelta)
 	if (3.5f < m_fExplosionTime)
 	{
 		CFlyingCamera* pCamera = dynamic_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam());
-		pCamera->Set_ShakeForce(0.f, 0.5f, 1.5f, 2.f);
+		pCamera->Set_ShakeForce(0.f, 0.5f, 0.3f, 2.f);
 		pCamera->Shake_Camera();
 
 		m_fMeteorExplosionTime = 0.f;
@@ -178,7 +178,7 @@ void CBoss_MeteorCube::OnCollisionEnter(CCollider* _pOther)
 	if (OBJECTTAG::PLAYER == _pOther->Get_ObjectTag())
 	{
 		CFlyingCamera* pCamera = dynamic_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam());
-		pCamera->Set_ShakeForce(0.f, 0.5f, 1.5f, 2.f);
+		pCamera->Set_ShakeForce(0.f, 0.5f, 0.3f, 2.f);
 		pCamera->Shake_Camera();
 
 
