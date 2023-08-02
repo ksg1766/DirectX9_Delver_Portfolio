@@ -233,7 +233,8 @@
     <ClInclude Include="..\Header\CrossPattern.h" />
     <ClInclude Include="..\Header\EffectBonfire.h" />
     <ClInclude Include="..\Header\EffectFallingleaves.h" />
-    <ClInclude Include="..\Header\EffectFirecrackerWreckage.h" />
+    <ClInclude Include="..\Header\EffectFirework.h" />
+    <ClInclude Include="..\Header\EffectFireworkTrace.h" />
     <ClInclude Include="..\Header\EffectFirefly.h" />
     <ClInclude Include="..\Header\Effectleaf.h" />
     <ClInclude Include="..\Header\EffectPastTrace.h" />
@@ -528,7 +529,8 @@
     <ClCompile Include="..\Code\CrossPattern.cpp" />
     <ClCompile Include="..\Code\EffectBonfire.cpp" />
     <ClCompile Include="..\Code\EffectFallingleaves.cpp" />
-    <ClCompile Include="..\Code\EffectFirecrackerWreckage.cpp" />
+    <ClCompile Include="..\Code\EffectFirework.cpp" />
+    <ClCompile Include="..\Code\EffectFireworkTrace.cpp" />
     <ClCompile Include="..\Code\EffectFirefly.cpp" />
     <ClCompile Include="..\Code\Effectleaf.cpp" />
     <ClCompile Include="..\Code\EffectPastTrace.cpp" />

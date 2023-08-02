@@ -3,11 +3,11 @@
 #include "Export_Function.h"
 #include "TempParticle.h"
 
-class CEffectFirecrackerWreckage : public CTempParticle
+class CEffectFireworkTrace : public CTempParticle
 {
 private:
-	explicit CEffectFirecrackerWreckage(LPDIRECT3DDEVICE9 pGraphicDev);
-	virtual ~CEffectFirecrackerWreckage();
+	explicit CEffectFireworkTrace(LPDIRECT3DDEVICE9 pGraphicDev);
+	virtual ~CEffectFireworkTrace();
 
 public:
 	HRESULT		Ready_Object(_vec3 vOriginPos, int numParticles);
@@ -23,7 +23,7 @@ private:
 	_float      m_fSpeed = 0.f;
 
 public:
-	static CEffectFirecrackerWreckage* Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 vOriginPos, int numParticles);
+	static CEffectFireworkTrace* Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 vOriginPos, int numParticles);
 
 private:
 	virtual void Free();

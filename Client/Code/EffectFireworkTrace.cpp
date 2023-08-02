@@ -1,17 +1,18 @@
 #include "stdafx.h"
-#include "..\Header\EffectFirecrackerWreckage.h"
+#include "..\Header\EffectFireworkTrace.h"
+#include "SoundManager.h"
 
-CEffectFirecrackerWreckage::CEffectFirecrackerWreckage(LPDIRECT3DDEVICE9 pGraphicDev)
+CEffectFireworkTrace::CEffectFireworkTrace(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CTempParticle(pGraphicDev)
 {
 }
 
-CEffectFirecrackerWreckage::~CEffectFirecrackerWreckage()
+CEffectFireworkTrace::~CEffectFireworkTrace()
 {
 	Free();
 }
 
-HRESULT CEffectFirecrackerWreckage::Ready_Object(_vec3 vOriginPos, int numParticles)
+HRESULT CEffectFireworkTrace::Ready_Object(_vec3 vOriginPos, int numParticles)
 {
 	CComponent* pComponent = nullptr;
 
@@ -42,13 +43,17 @@ HRESULT CEffectFirecrackerWreckage::Ready_Object(_vec3 vOriginPos, int numPartic
 	for (int i = 0; i < numParticles; i++)
 		Add_Particle();
 
-	_tchar* pPath = L"../Bin/SRSource/Effect/Square_effect/Square_effect_White.png";
+	_tchar* pPath = L"../Bin/SRSource/Village/Effect_White.png";
 	CTempParticle::Ready_Object(pPath);
+
+	// 사운드 재생
+	CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_EFFECT);
+	CSoundManager::GetInstance()->PlaySound(L"Firework_02", CHANNELID::SOUND_EFFECT, 1.f);
 
 	return S_OK;
 }
 
-void CEffectFirecrackerWreckage::Initial_Particle(ParticleAttribute* _attribute)
+void CEffectFireworkTrace::Initial_Particle(ParticleAttribute* _attribute)
 {
 	_attribute->bAlive = true;
 
@@ -67,7 +72,7 @@ void CEffectFirecrackerWreckage::Initial_Particle(ParticleAttribute* _attribute)
 		&_attribute->vVelocity,
 		&_attribute->vVelocity);
 
-	_attribute->vVelocity *= 10.0f;
+	_attribute->vVelocity *= 5.0f;
 
 	_attribute->Color = D3DXCOLOR(
 		Get_RandomFloat(0.0f, 1.0f),
@@ -80,11 +85,11 @@ void CEffectFirecrackerWreckage::Initial_Particle(ParticleAttribute* _attribute)
 	_attribute->fLifeTime = 3.0f;
 }
 
-_int CEffectFirecrackerWreckage::Update_Object(const _float& fTimeDelta)
+_int CEffectFireworkTrace::Update_Object(const _float& fTimeDelta)
 {
 	m_fTime += 5.f * fTimeDelta;
 
-	if (m_fTime > 3.f)
+	if (m_fTime > 2.f)
 		Engine::EventManager()->DeleteObject(this);
 
 	for (auto& iter : m_ParticleList)
@@ -114,12 +119,12 @@ _int CEffectFirecrackerWreckage::Update_Object(const _float& fTimeDelta)
 	return 0;
 }
 
-void CEffectFirecrackerWreckage::LateUpdate_Object(void)
+void CEffectFireworkTrace::LateUpdate_Object(void)
 {
 	CTempParticle::LateUpdate_Object();
 }
 
-void CEffectFirecrackerWreckage::Render_Object()
+void CEffectFireworkTrace::Render_Object()
 {
 	m_pGraphicDev->SetRenderState(D3DRS_FOGENABLE, FALSE);
 
@@ -129,9 +134,9 @@ void CEffectFirecrackerWreckage::Render_Object()
 	m_pGraphicDev->SetRenderState(D3DRS_FOGENABLE, TRUE);
 }
 
-CEffectFirecrackerWreckage* CEffectFirecrackerWreckage::Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 vOriginPos, int numParticles)
+CEffectFireworkTrace* CEffectFireworkTrace::Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 vOriginPos, int numParticles)
 {
-	CEffectFirecrackerWreckage* pInstance = new CEffectFirecrackerWreckage(pGraphicDev);
+	CEffectFireworkTrace* pInstance = new CEffectFireworkTrace(pGraphicDev);
 
 	if (FAILED(pInstance->Ready_Object(vOriginPos, numParticles)))
 	{
@@ -143,7 +148,7 @@ CEffectFirecrackerWreckage* CEffectFirecrackerWreckage::Create(LPDIRECT3DDEVICE9
 	return pInstance;
 }
 
-void CEffectFirecrackerWreckage::Free()
+void CEffectFireworkTrace::Free()
 {
 	__super::Free();
 }

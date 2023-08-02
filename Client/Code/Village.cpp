@@ -52,7 +52,7 @@
 #include "EffectWaterfall.h"
 #include "EffectWaterMove.h"
 #include "UIOrbClearLight.h"
-#include "EffectFirecrackerWreckage.h"
+#include "EffectFireworkTrace.h"
 
 CVillage::CVillage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
@@ -114,7 +114,7 @@ void CVillage::LateUpdate_Scene()
 
 	//if (Engine::InputDev()->Key_Down(DIK_F1))
 	//{
-	//	CGameObject* pGameObject = CEffectFirecrackerWreckage::Create(m_pGraphicDev, _vec3(0.f, 5.f, - 20.f), 500);
+	//	CGameObject* pGameObject = CEffectFireworkTrace::Create(m_pGraphicDev, _vec3(0.f, 5.f, - 20.f), 1500);
 	//	Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 	//}
 }
