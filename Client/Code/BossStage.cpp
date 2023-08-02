@@ -90,6 +90,11 @@ Engine::_int CBossStage::Update_Scene(const _float& fTimeDelta)
 		pGameObject = CDimensionGate::Create(m_pGraphicDev);
 		dynamic_cast<CDimensionGate*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = _vec3(-95.f, 35.f, 0.f);
 		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+
+		pGameObject = COrb::Create(m_pGraphicDev, true);
+		NULL_CHECK_RETURN(pGameObject, E_FAIL);
+		dynamic_cast<COrb*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = _vec3(-77.f, 34.5f, 2.f);
+		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 	}
 
 #pragma endregion KSG

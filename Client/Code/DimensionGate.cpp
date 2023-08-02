@@ -1,7 +1,13 @@
+#include "stdafx.h"
 #include "DimensionGate.h"
 #include "Export_Function.h"
 #include "SkeletonKing.h"
 #include "Player.h"
+#include "SoundManager.h"
+#include "CameraManager.h"
+#include "FlyingCamera.h"
+#include "Village.h"
+
 CDimensionGate::CDimensionGate(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CGameObject(pGraphicDev)
 {
@@ -57,15 +63,23 @@ void CDimensionGate::Render_Object(void)
 void CDimensionGate::OnCollisionEnter(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
+	if (OBJECTTAG::PLAYER == _pOther->Get_Host()->Get_ObjectTag())
+	{
+		CSoundManager::GetInstance()->PlaySound(L"door_beginning.mp3", CHANNELID::SOUND_ENVIRONMENT, 1.f);
+
+		SceneManager()->Get_Scene()->Get_MainPlayer()->Get_RigidBody()->Set_Force(_vec3(0.f, 0.f, 0.f));
+		CScene* pScene = CVillage::Create(m_pGraphicDev);
+		Engine::SceneManager()->Change_Scene(pScene);
+		//CFlyingCamera* pCamera = static_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam());
+		//pCamera->m_pTransform->Copy_RUL_AddPos(SceneManager()->Get_Scene()->Get_MainPlayer()->m_pTransform->m_vInfo);
+		//static_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam())->Change_Mode();
+	}
 }
 
 void CDimensionGate::OnCollisionStay(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
-	if (OBJECTTAG::PLAYER == _pOther->Get_Host()->Get_ObjectTag())
-	{
-		//씬전환추가
-	}
+	
 }
 
 void CDimensionGate::OnCollisionExit(CCollider* _pOther)

@@ -10,9 +10,9 @@ class CDimensionGate :
     public CGameObject
 {
 private:
-	explicit	CDimensionGate(LPDIRECT3DDEVICE9	pGraphicDev);
-	explicit	CDimensionGate(const CDimensionGate& rhs);
-	virtual		~CDimensionGate();
+	explicit		CDimensionGate(LPDIRECT3DDEVICE9	pGraphicDev);
+	explicit		CDimensionGate(const CDimensionGate& rhs);
+	virtual			~CDimensionGate();
 public:
 	virtual HRESULT Ready_Object(void)						override;
 	virtual _int	Update_Object(const _float& fTimeDelta)	override;
@@ -25,19 +25,19 @@ public:
 	virtual void	OnCollisionExit(CCollider* _pOther);
 
 private:
-	CRcTex* m_pBuffer = nullptr;
-	CTexture* m_pTexture = nullptr;
+	CRcTex*			m_pBuffer = nullptr;
+	CTexture*		m_pTexture = nullptr;
 
 	_float			m_fTime;
 	_float			m_fScale;
 	_float			m_fFrame;
 private:
-	HRESULT		Add_Component(void);
+	HRESULT			Add_Component(void);
 
 public:
 	static CDimensionGate* Create(LPDIRECT3DDEVICE9 pGraphicDev);
 private:
-	virtual void Free() override;
+	virtual void	Free() override;
 
 
 };

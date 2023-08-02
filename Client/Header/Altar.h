@@ -32,7 +32,7 @@ private:
 	HRESULT	Add_Component();
 
 private:
-	CCubeBf* m_pCubeBf = nullptr;
+	CCubeBf*  m_pCubeBf = nullptr;
 	CTexture* m_pTexture = nullptr;
 	_bool     m_bOrbCollision = false;
 	_uint     m_iCurrentImage = 45;

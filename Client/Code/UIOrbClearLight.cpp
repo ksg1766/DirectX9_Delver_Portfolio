@@ -12,7 +12,9 @@
 #include <Altar.h>
 #include "FlyingCamera.h"
 #include "CameraManager.h"
+#include "GameManager.h"
 #include "Player.h"
+
 CUIOrbClearLight::CUIOrbClearLight(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CTempUI(pGraphicDev)
 {
@@ -54,20 +56,23 @@ _int CUIOrbClearLight::Update_Object(const _float & fTimeDelta)
 
 	m_fLifeTime += 1.f * fTimeDelta * m_fFrameSpeed;
 
-	if (m_bAnimation) {
+	if (m_bAnimation){
 		m_fFrame += 1.f * fTimeDelta * m_fFrameSpeed;
-		if (m_fFrame > m_fFinal) {
+		if (m_fFrame > m_fFinal)
+		{
 			m_fFrame = m_fFinal;
 			m_bAnimation = false;
 		}
 	}
 
-	if (!m_bClear && m_fLifeTime > 14.f) {
+	if (!m_bClear && m_fLifeTime > 14.f)
+	{
 		m_bClear = true;
 
 		// 오브에 반짝이는 이펙트 생성
 		CGameObject* pGameObject = nullptr;
-		for (_uint i = 0; i < 3; ++i) {
+		for (_uint i = 0; i < 3; ++i)
+		{
 			pGameObject = CEffectTwinkle::Create(m_pGraphicDev);
 			pGameObject->m_pTransform->m_vInfo[INFO_POS] = _vec3(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y + 1.f, m_pTransform->m_vInfo[INFO_POS].z);
 			dynamic_cast<CEffectTwinkle*>(pGameObject)->Set_Distance(.1f);
@@ -88,11 +93,14 @@ _int CUIOrbClearLight::Update_Object(const _float & fTimeDelta)
 
 		// 나무 블럭 이미지 교체
 		vector<CGameObject*> pEffectBlock = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BLOCK);
-		for (auto& iter : pEffectBlock) {
-			if (dynamic_cast<CCubeBlock*>(iter)->Get_TextureNumber() == 53) {
+		for (auto& iter : pEffectBlock)
+		{
+			if (dynamic_cast<CCubeBlock*>(iter)->Get_TextureNumber() == 53)
+			{
 				dynamic_cast<CCubeBlock*>(iter)->Set_TextureNumber(51);
 			}
-			else if (iter->m_pTransform->m_vInfo[INFO_POS].y > 50.f) {
+			else if (iter->m_pTransform->m_vInfo[INFO_POS].y > 50.f)
+			{
 				dynamic_cast<CCubeBlock*>(iter)->Set_TextureNumber(15);
 			}
 		}
@@ -107,25 +115,30 @@ _int CUIOrbClearLight::Update_Object(const _float & fTimeDelta)
 		Engine::Renderer()->Set_FogDistance(1.f, 200.0f);
 
 		vector<CGameObject*> pEffectList = SceneManager()->Get_ObjectList(LAYERTAG::ENVIRONMENT, OBJECTTAG::EFFECT);
-		for (auto& iter : pEffectList) {
+		for (auto& iter : pEffectList)
+		{
 			// 나뭇잎 이펙트 -> 꽃 이미지로 교체
-			if (dynamic_cast<CTempEffect*>(iter)->Get_EffectTag() == EFFECTTAG::EFFECT_LEAVES) {
+			if (dynamic_cast<CTempEffect*>(iter)->Get_EffectTag() == EFFECTTAG::EFFECT_LEAVES)
+			{
 				dynamic_cast<CEffectFallingleaves*>(iter)->Set_ChangeMode(true);
 			}
 			// 반딧불이 이펙트 -> 나비 이미지로 교체
-			else if (dynamic_cast<CTempEffect*>(iter)->Get_EffectTag() == EFFECTTAG::EFFECT_FIREFLY) {
+			else if (dynamic_cast<CTempEffect*>(iter)->Get_EffectTag() == EFFECTTAG::EFFECT_FIREFLY)
+			{
 				dynamic_cast<CEffectFirefly*>(iter)->Set_ChangeMode(true);
 			}
 		}
 
 		// 플레이어 움직임 및 카메라 고정 해제
-		CGameObject* pPlayerObject = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front();
-		if (pPlayerObject != nullptr) {
+		CGameObject* pPlayerObject = SceneManager()->Get_Scene()->Get_MainPlayer();
+		if (pPlayerObject != nullptr)
+		{
 			CPlayer& rPlayer = *dynamic_cast<CPlayer*>(pPlayerObject);
 			rPlayer.Set_UseUI(false);
 		}
 		CGameObject* pCameraGameObject = CCameraManager::GetInstance()->Get_CurrentCam();
-		if (pCameraGameObject != nullptr && m_pOrb != nullptr) {
+		if (pCameraGameObject != nullptr && m_pOrb != nullptr)
+		{
 			_vec3 vOrbPos = m_pOrb->m_pTransform->m_vInfo[INFO_POS] - pCameraGameObject->m_pTransform->m_vInfo[INFO_POS];
 			D3DXVec3Normalize(&pCameraGameObject->m_pTransform->m_vInfo[INFO_LOOK], &vOrbPos);
 			D3DXVec3Normalize(&pCameraGameObject->m_pTransform->m_vInfo[INFO_RIGHT], D3DXVec3Cross(&_vec3(), &_vec3(0.f, 1.f, 0.f), &pCameraGameObject->m_pTransform->m_vInfo[INFO_LOOK]));
@@ -138,6 +151,7 @@ _int CUIOrbClearLight::Update_Object(const _float & fTimeDelta)
 
 
 		// 엔딩 연출 재생
+		CGameManager::GetInstance()->PlayMode(PD::ClearGame);
 
 		// 엔딩 연출 끝날 시 엔딩 크래딧 씬으로 전환
 

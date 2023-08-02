@@ -23,12 +23,13 @@ CLayer * CSceneManager::Get_Layer(LAYERTAG eLayerTag)
 	return m_pCurrentScene->Get_Layer(eLayerTag);
 }
 
-HRESULT CSceneManager::Set_Scene(CScene * pScene)
+HRESULT CSceneManager::Set_Scene(CScene* pScene)
 {
 	Safe_Release(m_pCurrentScene);
 	Renderer()->Clear_RenderGroup();
 
 	m_pCurrentScene = pScene;
+	m_bStageVisit[(unsigned long long)pScene->Get_SceneTag()] = true;
 
 	return S_OK;
 }
@@ -36,14 +37,14 @@ HRESULT CSceneManager::Set_Scene(CScene * pScene)
 HRESULT CSceneManager::Change_Scene(CScene* pScene)
 {
 	m_bSceneChange = true;
-		
+
 	m_pBeforScene = m_pCurrentScene;
-	m_pNextScene  = pScene;
+	m_pNextScene = pScene;
 
 	// 이전 씬을 방문 여부를 기록
 	m_bStageVisit[(unsigned long long)pScene->Get_SceneTag() - 1] = true;
 
- 	return S_OK;
+	return S_OK;
 }
 
 _int CSceneManager::Update_Scene(const _float & fTimeDelta)

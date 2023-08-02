@@ -99,6 +99,7 @@ Engine::_int CVillage::Update_Scene(const _float& fTimeDelta)
 	CCameraManager::GetInstance()->Update_Camera(fTimeDelta);
 
 	UIManager()->Update_UI(fTimeDelta);
+
 	return 0;
 }
 
@@ -380,10 +381,10 @@ HRESULT CVillage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	//pGameObject->m_pTransform->Translate(_vec3(0.f, 11.f, -30.f));
 	//pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
-	pGameObject = COrb::Create(m_pGraphicDev, true);
+	/*pGameObject = COrb::Create(m_pGraphicDev, true);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	pGameObject->m_pTransform->Translate(_vec3(0.f, 3.5f, -30.f));
-	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);*/
 
 	pGameObject = CAltar::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);

@@ -55,7 +55,7 @@ private:
 	_float			m_fSlowDuration = 0;
 	_uint			m_iUpdateCount = 0;
 
-	_bool           m_bStageVisit[(unsigned long long)SCENETAG::SCENE_END];
+	_bool           m_bStageVisit[(_uint)SCENETAG::SCENE_END];
 
 public:
 	virtual void		Free();
