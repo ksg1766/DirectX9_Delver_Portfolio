@@ -104,25 +104,21 @@ _int CBat::Update_Object(const _float& fTimeDelta)
 
 	if (m_pBasicStat->Get_Stat()->fHP <= 0)
 	{
-		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_BAT);
-		CSoundManager::GetInstance()->PlaySound(L"en_bat_death_01.mp3", CHANNELID::SOUND_BAT, 1.f);
-
+		m_pStateMachine->Set_State(STATE::DEAD);
 
 		if (m_pAnimator->Get_Animation()->Get_Frame() >= 3)
 			m_pAnimator->Get_Animation()->Set_Loop(FALSE);
 		{
-			m_pStateMachine->Set_State(STATE::DEAD);
 			
 			//////////////////////////////////////////////////////////////////////////////// ÀÌÆåÆ® 
-			if (!m_bDieEffect)
+			if (m_bDieEffect)
 			{
 				CGameObject* pGameObject = CEffectBlood::Create(m_pGraphicDev);
 				pGameObject->m_pTransform->Translate(_vec3(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y - .95f, m_pTransform->m_vInfo[INFO_POS].z));
 				dynamic_cast<CTempEffect*>(pGameObject)->Set_EffectColor(ECOLOR_RED);
 				Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 
-				m_bDieEffect = true;
-				rPlayer.Add_Exp(this);
+				m_bDieEffect = false;
 			}
 			//////////////////////////////////////////////////////////////////////////////// ÀÌÆåÆ® 
 			
@@ -176,8 +172,7 @@ void CBat::OnCollisionEnter(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 
-	if (this->Get_StateMachine()->Get_State() != STATE::DEAD &&
-		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::ITEM &&
+	if (_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::ITEM &&
 		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::PLAYER)
 		__super::OnCollisionEnter(_pOther);
 			
@@ -197,8 +192,7 @@ void CBat::OnCollisionStay(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 
-	if (this->Get_StateMachine()->Get_State() != STATE::DEAD &&
-		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::ITEM &&
+	if (_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::ITEM &&
 		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::PLAYER)
 		__super::OnCollisionStay(_pOther);
 
@@ -213,8 +207,7 @@ void CBat::OnCollisionStay(CCollider* _pOther)
 			//cout << "¹ÚÁã °ø°Ý" << endl;
 		}
 
-	if (_pOther->Get_ObjectTag() == OBJECTTAG::BLOCK)
-		m_bBlockOn = true;
+
 }
 
 void CBat::OnCollisionExit(CCollider* _pOther)
@@ -222,8 +215,6 @@ void CBat::OnCollisionExit(CCollider* _pOther)
 	if (SceneManager()->Get_GameStop()) { return; }
 
 
-	if (_pOther->Get_ObjectTag() == OBJECTTAG::BLOCK)
-		m_bBlockOn = false;
 }
 
 HRESULT CBat::Add_Component(void)

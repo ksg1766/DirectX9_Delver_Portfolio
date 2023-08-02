@@ -93,13 +93,15 @@ STATE CMonster_Move::Update_State(const _float& fTimeDelta)
 
 		if (m_fReturnTime >= 2.5f)
 		{
-			dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Set_CenterPos(m_pOwner->Get_Transform()->m_vInfo[INFO_POS]);
+			//dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Set_CenterPos(m_pOwner->Get_Transform()->m_vInfo[INFO_POS]);
 			m_fReturnTime = 0.f;
 			m_bCheck = false;
 		}
 	}
 	else
 	{
+		m_fReturnTime = 0.f;
+
 		if (m_bCheck)
 			Lerp_Move(vMonsterPos, fTimeDelta);
 		else
@@ -202,7 +204,7 @@ void CMonster_Move::Lerp_Move(_vec3& vDir, const _float& fTimeDelta)
 
 		if (m_fLerpTime >= 2.5f)
 		{
-			dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Set_CenterPos(m_pOwner->Get_Transform()->m_vInfo[INFO_POS]);
+			//dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Set_CenterPos(m_pOwner->Get_Transform()->m_vInfo[INFO_POS]);
 			m_fLerpTime = 0.f;
 			m_bCheck = false;
 		}

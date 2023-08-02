@@ -111,7 +111,8 @@ namespace Engine
 		ShowBossP3,
 		HekirekiIssen,
 		HekirekiIssen_SideView,
-		ClearGame
+		ClearGame,
+		Boss_Dead,
 	}PD;
 };
 #endif // Engine_Enum_h__

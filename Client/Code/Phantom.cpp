@@ -105,6 +105,7 @@ _int CPhantom::Update_Object(const _float& fTimeDelta)
 			{
 
 				rPlayer.Set_Talk(true);
+		
 
 				if (!m_bTalking)
 					m_bTalking = true;
@@ -168,6 +169,7 @@ _int CPhantom::Update_Object(const _float& fTimeDelta)
 					if (Engine::UIManager()->Set_SpeechBubbleUse())
 					{
 						rPlayer.Set_Talk(true);
+						m_bTalkingBox = true;
 
 						if (!m_bTalking)
 							m_bTalking = true;

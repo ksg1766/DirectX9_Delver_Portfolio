@@ -70,9 +70,9 @@ _int CGameManager::Update_Game(const _float& fTimeDelta)
 		case PD::HekirekiIssen_SideView:
 			HekirekiIssen(fTimeDelta);
 			break;
-		case PD::ClearGame:
-			ClearGame(fTimeDelta);
-			break;
+		//case PD::ClearGame:
+		//	ClearGame(fTimeDelta);
+		//	break;
 		}
 	}
 

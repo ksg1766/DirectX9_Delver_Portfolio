@@ -108,8 +108,8 @@ _int CKingSpider::Update_Object(const _float& fTimeDelta)
 	if (SceneManager()->Get_GameStop()) { return 0; }
 	_int iExit = __super::Update_Object(fTimeDelta);
 	
-	if (0>=m_pBasicStat->Get_Stat()->fHP)
-		m_pStateMachine->Set_State(STATE::BOSS_DEAD);
+	//if (0>=m_pBasicStat->Get_Stat()->fHP)
+	//	m_pStateMachine->Set_State(STATE::BOSS_DEAD);
 	
 	if (InputDev()->Key_Down(DIK_0))
 		m_pStateMachine->Set_State(STATE::BOSS_TELEPORT);
@@ -121,6 +121,7 @@ _int CKingSpider::Update_Object(const _float& fTimeDelta)
 	
 	if ((14.99f >= m_pTransform->m_vInfo[INFO_POS].y))
 		m_pTransform->m_vInfo[INFO_POS].y = 15.f;
+
 	return iExit;
 }
 

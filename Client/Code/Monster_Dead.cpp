@@ -32,19 +32,16 @@ STATE CMonster_Dead::Update_State(const _float& fTimeDelta)
 	{
 		Monster_Dead();
 		m_bDead = true;
+
+		CPlayer& rPlayer = *SceneManager()->Get_Scene()->Get_MainPlayer();
+
+		rPlayer.Add_Exp(m_pOwner->Get_Host());
+
 	}
 
 	if (dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Get_MonsterTag() == MONSTERTAG::BAT || dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Get_MonsterTag() == MONSTERTAG::ALIEN)
-	{
 		dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Get_RigidBody()->UseGravity(true);
 
-		//m_pOwner->Get_Transform()->m_vInfo[INFO_POS].y += m_fFlyDown * fTimeDelta;
-
-		//m_fFlyDown -= 0.5f * fTimeDelta * fTimeDelta * 3000.f;
-
-		//if (m_pOwner->Get_Transform()->m_vInfo[INFO_POS].y < 1.f)
-		//	m_pOwner->Get_Transform()->m_vInfo[INFO_POS].y = 0.5f;
-	}
 
 	return STATE::DEAD;
 }

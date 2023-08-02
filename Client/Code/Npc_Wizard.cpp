@@ -75,8 +75,6 @@ _int CNpc_Wizard::Update_Object(const _float& fTimeDelta)
 	{
 		m_bTalkButton = true;
 
-		m_bTalkButton = true;
-
 		if (Engine::InputDev()->Key_Down(DIK_F))
 		{
 			if (!m_bFirstTalk)
@@ -84,7 +82,7 @@ _int CNpc_Wizard::Update_Object(const _float& fTimeDelta)
 				if (Engine::UIManager()->Set_SpeechBubbleUse())
 				{
 					rPlayer.Set_Talk(true);
-					m_bTalkButton = false;
+					m_bTalkBoX = true;
 
 					if (!m_bTalking)
 						m_bTalking = true;

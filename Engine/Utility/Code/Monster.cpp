@@ -66,9 +66,14 @@ void CMonster::OnCollisionEnter(CCollider* _pOther)
 			m_pRigidBody->Set_Force(_vec3(0.f, 0.f, 0.f));
 
 			m_pTransform->Translate(_vec3(0.f, fRadiusY - 0.000001f, 0.f));
+			m_bDieEffect = true;
 		}
 		else
+		{
 			m_pTransform->Translate(_vec3(0.f, -fRadiusY, 0.f));
+			//m_bDieEffect = false;
+		}
+		
 	}
 	else if (fRadiusZ == fMinAxis)
 	{
@@ -113,9 +118,13 @@ void CMonster::OnCollisionStay(CCollider* _pOther)
 				m_pRigidBody->Set_Force(_vec3(0.f, 0.f, 0.f));
 
 			m_pTransform->Translate(_vec3(0.f, fRadiusY - 0.000001f, 0.f));
+			//m_bDieEffect = true;
 		}
 		else
+		{
 			m_pTransform->Translate(_vec3(0.f, -fRadiusY, 0.f));
+			//m_bDieEffect = false;
+		}
 	}
 	else if (fRadiusZ == fMinAxis)
 	{

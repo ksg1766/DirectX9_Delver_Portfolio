@@ -106,15 +106,14 @@ _int CWorm::Update_Object(const _float& fTimeDelta)
 			m_pAnimator->Get_Animation()->Set_Loop(FALSE);
 
 			//////////////////////////////////////////////////////////////////////////////// 이펙트 
-			if (!m_bDieEffect)
+			if (m_bDieEffect)
 			{
 				CGameObject* pGameObject = CEffectBlood::Create(m_pGraphicDev);
 				pGameObject->m_pTransform->Translate(_vec3(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y - .95f, m_pTransform->m_vInfo[INFO_POS].z));
 				dynamic_cast<CTempEffect*>(pGameObject)->Set_EffectColor(ECOLOR_RED);
 				Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 
-				m_bDieEffect = true;
-				rPlayer.Add_Exp(this);
+				m_bDieEffect = false;
 			}
 			//////////////////////////////////////////////////////////////////////////////// 이펙트 
 
@@ -177,8 +176,7 @@ void CWorm::OnCollisionEnter(CCollider* _pOther)
 	// 충돌 밀어내기 후 이벤트 : 구현하시면 됩니다.
 	if (SceneManager()->Get_GameStop()) { return; }
 
-	if (this->Get_StateMachine()->Get_State() != STATE::DEAD &&
-		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::ITEM &&
+	if (_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::ITEM &&
 		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::PLAYER)
 		__super::OnCollisionEnter(_pOther);
 
@@ -193,26 +191,15 @@ void CWorm::OnCollisionEnter(CCollider* _pOther)
 
 			//cout << "벌레 공격" << endl;
 		}
-
-	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BLOCK)
-	{
-		Set_WallTouch(true);
-	}
 }
 
 void CWorm::OnCollisionStay(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 
-	if (this->Get_StateMachine()->Get_State() != STATE::DEAD &&
-		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::ITEM &&
+	if (_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::ITEM &&
 		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::PLAYER)
 	__super::OnCollisionStay(_pOther);
-
-	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BLOCK)
-	{
-		Set_WallTouch(true);
-	}
 
 	// 충돌 밀어내기 후 이벤트 : 구현하시면 됩니다.
 }
