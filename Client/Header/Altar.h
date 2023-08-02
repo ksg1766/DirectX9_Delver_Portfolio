@@ -15,6 +15,9 @@ private:
 	virtual ~CAltar();
 
 public:
+	void Set_ImageMode(_uint _iNum) { m_iCurrentImage = _iNum; }
+
+public:
 	virtual HRESULT	Ready_Object() override;
 	virtual _int Update_Object(const _float& fTimeDelta) override;
 	virtual void LateUpdate_Object() override;

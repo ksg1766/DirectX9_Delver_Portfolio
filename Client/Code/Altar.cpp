@@ -2,16 +2,10 @@
 #include "Export_Function.h"
 #include "Orb.h"
 #include "Player.h"
-#include "SkyBoxVillage.h"
-#include "TempEffect.h"
-#include "EffectFallingleaves.h"
-#include "EffectFirefly.h"
-#include "EffectTwinkle.h"
 #include "FlyingCamera.h"
 #include "CameraManager.h"
 #include "SoundManager.h"
-#include <Orb.h>
-#include <OrbBlockLight.h>
+#include <UIOrbClearLight.h>
 
 CAltar::CAltar(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CCubeBlock(pGraphicDev)
@@ -74,16 +68,30 @@ void CAltar::OnCollisionEnter(CCollider* _pOther)
 	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::ITEM) {
 		if (dynamic_cast<CItem*>(_pOther->Get_Host())->Get_ItemTag().eItemID == ITEMID::QUEST_ORB)
 		{
+			CPlayer& rPlayer = *SceneManager()->Get_Scene()->Get_MainPlayer();
+			if (m_bOrbCollision || rPlayer.Get_ItemEquipRight())
+				return;
+
 			_vec3 vPos = m_pTransform->m_vInfo[INFO_POS] + _vec3(0.f, 1.f, 0.f);
 			_pOther->Get_Host()->m_pTransform->m_vInfo[INFO_POS] = vPos;
-
 			dynamic_cast<COrb*>(_pOther->Get_Host())->Set_Altar(true);
-
-			CPlayer& rPlayer = *SceneManager()->Get_Scene()->Get_MainPlayer();
 			rPlayer.Set_Orb(true);
 
-			if (m_bOrbCollision)
-				return;
+			// 플레이어 움직임 및 카메라 고정
+			CGameObject* pPlayerObject = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front();
+			if (pPlayerObject != nullptr) {
+				CPlayer& rPlayer = *dynamic_cast<CPlayer*>(pPlayerObject);
+				rPlayer.Set_UseUI(true);
+			}
+			CGameObject* pCameraGameObject = CCameraManager::GetInstance()->Get_CurrentCam();
+			if (pCameraGameObject != nullptr) {
+				_vec3 vOrbPos = _pOther->Get_Host()->m_pTransform->m_vInfo[INFO_POS] - pCameraGameObject->m_pTransform->m_vInfo[INFO_POS];
+				D3DXVec3Normalize(&pCameraGameObject->m_pTransform->m_vInfo[INFO_LOOK], &vOrbPos);
+				D3DXVec3Normalize(&pCameraGameObject->m_pTransform->m_vInfo[INFO_RIGHT], D3DXVec3Cross(&_vec3(), &_vec3(0.f, 1.f, 0.f), &pCameraGameObject->m_pTransform->m_vInfo[INFO_LOOK]));
+				D3DXVec3Normalize(&pCameraGameObject->m_pTransform->m_vInfo[INFO_UP], D3DXVec3Cross(&_vec3(), &pCameraGameObject->m_pTransform->m_vInfo[INFO_LOOK], &pCameraGameObject->m_pTransform->m_vInfo[INFO_RIGHT]));
+				
+				static_cast<CFlyingCamera*>(pCameraGameObject)->Set_MouseFix(true);
+			}
 
 			// 배경 사운드 변경
 			CSoundManager::GetInstance()->StopAll();
@@ -96,68 +104,11 @@ void CAltar::OnCollisionEnter(CCollider* _pOther)
 				pCamera->Shake_Camera();
 			}
 
-            // 오브에 반짝이는 이펙트 생성
-			CGameObject* pGameObject = nullptr;
-			for (_uint i = 0; i < 3; ++i) {
-				pGameObject = CEffectTwinkle::Create(m_pGraphicDev);
-				pGameObject->m_pTransform->m_vInfo[INFO_POS] = _vec3(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y + 1.f, m_pTransform->m_vInfo[INFO_POS].z);
-				dynamic_cast<CEffectTwinkle*>(pGameObject)->Set_Distance(.1f);
-				Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
-			}
-			
-			// 오브 색상 밝게 변경
-			dynamic_cast<COrb*>(_pOther->Get_Host())->Set_CurrentImage(43);
-			// 오브 제단 색상 밝게 변경
-			m_iCurrentImage = 52;
-
-			// 제단 주변 땅 색상 밝게 변경 : 원 이미지 출력
-			CGameObject* pAltarLight = COrbBlockLight::Create(m_pGraphicDev);
-			pAltarLight->m_pTransform->m_vInfo[INFO_POS] = _vec3(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y + 0.0001f, m_pTransform->m_vInfo[INFO_POS].z);
-			Engine::EventManager()->CreateObject(pAltarLight, LAYERTAG::GAMELOGIC);
-
-			// UI 빛 이미지 출력 및 소멸
-			// 
-
-
-			// 오브 객체 주소를 넘겨서 nullptr != 때 오브 좌표를 뷰포트 상 좌표로 바꿔서 해당 위치에 출력 및 애니메이션 재생/ 재생 후 몇초 후 소멸
-
-
-			// 나무 블럭 이미지 교체
-			vector<CGameObject*> pEffectBlock = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BLOCK);
-			for (auto& iter : pEffectBlock) {
-				if (dynamic_cast<CCubeBlock*>(iter)->Get_TextureNumber() == 53) {
-					dynamic_cast<CCubeBlock*>(iter)->Set_TextureNumber(51);
-				}
-				else if (iter->m_pTransform->m_vInfo[INFO_POS].y > 50.f) {
-					dynamic_cast<CCubeBlock*>(iter)->Set_TextureNumber(15);
-				}
-			}
-
-            // 스카이 박스 색상 이미지 교체
-			CGameObject* pSkyObject = SceneManager()->Get_ObjectList(LAYERTAG::ENVIRONMENT, OBJECTTAG::SKYBOX).front();
-			if (pSkyObject != nullptr)
-				dynamic_cast<CSkyBoxVillage*>(pSkyObject)->Set_SkyMode(1);
-
-			// 안개 색상 교체
-			Engine::Renderer()->Set_FogColor(100, 255, 170, 150);
-			Engine::Renderer()->Set_FogDistance(1.f, 200.0f);
-
-			vector<CGameObject*> pEffectList = SceneManager()->Get_ObjectList(LAYERTAG::ENVIRONMENT, OBJECTTAG::EFFECT);
-			for (auto& iter : pEffectList) {
-				// 나뭇잎 이펙트 -> 꽃 이미지로 교체
-				if (dynamic_cast<CTempEffect*>(iter)->Get_EffectTag() == EFFECTTAG::EFFECT_LEAVES) {
-					dynamic_cast<CEffectFallingleaves*>(iter)->Set_ChangeMode(true);
-				}
-				// 반딧불이 이펙트 -> 나비 이미지로 교체
-				else if (dynamic_cast<CTempEffect*>(iter)->Get_EffectTag() == EFFECTTAG::EFFECT_FIREFLY) {
-					dynamic_cast<CEffectFirefly*>(iter)->Set_ChangeMode(true);
-				}
-			}
-
-			// 해당 씬 클리어상태로 변경
-			// 몇초마다 하늘에 폭죽 이펙트 발사
-
-			// 클리어 후 몇초 뒤 엔딩 크래딧 씬으로 전환
+			// UI 빛 이미지 출력 (내부에서 변경 효과 적용 및 생성)
+			CGameObject* pGameObjectUI = CUIOrbClearLight::Create(m_pGraphicDev);
+			dynamic_cast<CUIOrbClearLight*>(pGameObjectUI)->Set_AltarObject(this);
+			dynamic_cast<CUIOrbClearLight*>(pGameObjectUI)->Set_OrbObject(_pOther->Get_Host());
+			Engine::UIManager()->Add_BasicGameobject(Engine::UILAYER::UI_DOWN, pGameObjectUI);
 
 			m_bOrbCollision = true;
 		}

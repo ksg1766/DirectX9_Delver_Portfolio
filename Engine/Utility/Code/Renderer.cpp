@@ -53,6 +53,7 @@ void CRenderer::Render_GameObject(LPDIRECT3DDEVICE9& pGraphicDev)
 	Render_Nonalpha(pGraphicDev);
 	Render_Alpha(pGraphicDev);
 	//pGraphicDev->SetRenderState(D3DRS_LIGHTING, FALSE);
+	Render_Item(pGraphicDev);
 	Render_UI(pGraphicDev);
 
 //	if(!SceneManager()->Is_TickPassed())
@@ -66,6 +67,12 @@ void CRenderer::Clear_RenderGroup()
 		for_each(m_RenderGroup[i].begin(), m_RenderGroup[i].end(), CDeleteObj());
 		m_RenderGroup[i].clear();
 	}
+}
+
+void CRenderer::Remder_Effect(LPDIRECT3DDEVICE9& pGraphicDev)
+{
+	for (auto iter : m_RenderGroup[RENDER_EFFECT])
+		iter->Render_Object();
 }
 
 void CRenderer::Render_Priority(LPDIRECT3DDEVICE9& pGraphicDev)
@@ -124,19 +131,17 @@ void CRenderer::Render_Alpha(LPDIRECT3DDEVICE9& pGraphicDev)
 	for (auto iter : m_RenderGroup[RENDER_ALPHA])
 		iter->Render_Object();
 
-	pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
-
 	//pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
-	// 
-	pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
-	// 
 	//pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 }
 
-void CRenderer::Remder_Effect(LPDIRECT3DDEVICE9& pGraphicDev)
+void CRenderer::Render_Item(LPDIRECT3DDEVICE9& pGraphicDev)
 {
-	for (auto iter : m_RenderGroup[RENDER_EFFECT])
+	for (auto iter : m_RenderGroup[RENDER_ITEM])
 		iter->Render_Object();
+
+	pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+	pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
 
 void CRenderer::Render_UI(LPDIRECT3DDEVICE9& pGraphicDev)
