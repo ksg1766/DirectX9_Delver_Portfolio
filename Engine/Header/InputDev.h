@@ -32,6 +32,9 @@ public:
 
 	_bool   Get_AnyKeyDown();
 
+	void	Lock_Input(_bool _bLock) { m_bInputLocked = _bLock; }
+
+
 public:
 	HRESULT Ready_InputDev(HINSTANCE hInst, HWND hWnd);
 	void	Update_InputDev(void);
@@ -49,6 +52,8 @@ private:
 
 	DIMOUSESTATE			m_tMouseState;
 	_byte					m_ubyMouseStateBF[4];
+
+	_bool					m_bInputLocked = false;
 
 public:
 	virtual void	Free(void);

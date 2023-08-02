@@ -125,6 +125,7 @@ void CStage::LateUpdate_Scene()
 		// 하수도 -> 보스 씬 이동
 		//CSoundManager::GetInstance()->PlaySound(L"door_beginning.mp3", CHANNELID::SOUND_ENVIRONMENT, 1.f);
 
+		m_pPlayer->Get_RigidBody()->Set_Force(_vec3(0.f, 0.f, 0.f));
 		CScene* pScene = CBossStage::Create(m_pGraphicDev);
 		Engine::SceneManager()->Change_Scene(pScene);
 		CGameManager::GetInstance()->PlayMode(PD::ShowBoss);

@@ -273,6 +273,8 @@ HRESULT Engine::CInputDev::Ready_InputDev(HINSTANCE hInst, HWND hWnd)
 
 void Engine::CInputDev::Update_InputDev(void)
 {
+	if (m_bInputLocked) return;
+
 	m_pKeyBoard->GetDeviceState(256, m_byKeyState);
 	m_pMouse->GetDeviceState(sizeof(m_tMouseState), &m_tMouseState);
 }

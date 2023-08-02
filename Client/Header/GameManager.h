@@ -33,9 +33,13 @@ public:
 private:
 	void	ShowVillage(const _float& fTimeDelta);
 	void	ShowSewer(const _float& fTimeDelta);
+	void	ShowTower(const _float& fTimeDelta);
 	void	ShowBoss(const _float& fTimeDelta);
+	void	ShowBossP2(const _float& fTimeDelta);
+	void	ShowBossP3(const _float& fTimeDelta);
 	void	ShowMiniBoss(const _float& fTimeDelta);
 	void	HekirekiIssen(const _float& fTimeDelta);
+	void	ClearGame(const _float& fTimeDelta);
 
 private:
 	CPlayer*		m_pPlayer;

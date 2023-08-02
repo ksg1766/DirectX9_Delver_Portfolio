@@ -5,6 +5,8 @@
 #include "Boss_SturnEffect.h"
 #include "Boss_MeteorReady.h"
 #include "SoundManager.h"
+#include "GameManager.h"
+
 CBoss_Sturn::CBoss_Sturn()
 {
 }
@@ -65,6 +67,7 @@ STATE CBoss_Sturn::Update_State(const _float& fTimeDelta)
            
             pBoss->Set_Phase(BOSSPHASE::PHASE3);
             pBoss->Get_BasicStat()->Get_Stat()->fHP = pBoss->Get_BasicStat()->Get_Stat()->fMaxHP;
+            CGameManager::GetInstance()->PlayMode(PD::ShowBossP3);
 
             return STATE::BOSS_TELEPORT;
         }

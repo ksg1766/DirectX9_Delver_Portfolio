@@ -380,6 +380,7 @@ _uint CLoading::Loading_ForStage()
 		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/DK-5.mp3", "DK-5"), E_FAIL);
 		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/MyDoor.mp3", "MyDoor.mp3"), E_FAIL);
 		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/Boss/Test_BossTheme.mp3", "Test_BossTheme.mp3"), E_FAIL);
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/Boss/AstalgiaofPhantam.mp3", "AstalgiaofPhantam.mp3"), E_FAIL);
 
 		// Inventory
 		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/grab_item.mp3", "grab_item.mp3"), E_FAIL);
@@ -403,6 +404,7 @@ _uint CLoading::Loading_ForStage()
 
 		//HekiRekiIssen
 		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/Production/HekiRekiIssen.mp3", "HekiRekiIssen"), E_FAIL);
+
 		//Boss
 		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/Boss/Boss_Attack1.wav", "Boss_Attack1.wav"), E_FAIL);
 		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/Boss/Boss_Attack2.wav", "Boss_Attack2.wav"), E_FAIL);
@@ -440,6 +442,9 @@ _uint CLoading::Loading_ForStage()
 		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/Boss/Boss_Roar3.wav", "Boss_Roar3.wav"), E_FAIL);
 		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/Boss/.wav", ".wav"), E_FAIL);
 		//FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/Boss/.wav", ".wav"), E_FAIL);
+
+		// Ending
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/Production/vol1_05_Silian'sTheme.mp3", "Silian'sTheme"), E_FAIL);
 #pragma endregion SOUND
 
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_BossSkyBox",    CTexture::Create(m_pGraphicDev, TEX_CUBE,   L"../Bin/SRSource/SkyBox/BossSkybox.dds", 1)), E_FAIL);

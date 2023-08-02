@@ -40,26 +40,40 @@ _int CGameManager::Update_Game(const _float& fTimeDelta)
 	if (!m_pBoss &&SCENETAG::BOSSSTAGE == SceneManager()->Get_Scene()->Get_SceneTag())
 		m_pBoss = static_cast<CSkeletonKing*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front());
 
-	switch (m_eCurr_PD)
+	if (PD::Normal != m_eCurr_PD)
 	{
-	case PD::Normal:
-		break;
-	case PD::ShowVillage:
-		ShowVillage(fTimeDelta);
-		break;
-	case PD::ShowSewer:
-		ShowSewer(fTimeDelta);
-		break;
-	case PD::ShowMiniBoss:
-		ShowMiniBoss(fTimeDelta);
-		break;
-	case PD::ShowBoss:
-		ShowBoss(fTimeDelta);
-		break;
-	case PD::HekirekiIssen:
-	case PD::HekirekiIssen_SideView:
-		HekirekiIssen(fTimeDelta);
-		break;
+		CInputDev::GetInstance()->Lock_Input(true);
+		switch (m_eCurr_PD)
+		{
+		case PD::ShowVillage:
+			ShowVillage(fTimeDelta);
+			break;
+		case PD::ShowSewer:
+			ShowSewer(fTimeDelta);
+			break;
+		case PD::ShowTower:
+			ShowTower(fTimeDelta);
+			break;
+		case PD::ShowMiniBoss:
+			ShowMiniBoss(fTimeDelta);
+			break;
+		case PD::ShowBoss:
+			ShowBoss(fTimeDelta);
+			break;
+		case PD::ShowBossP2:
+			ShowBossP2(fTimeDelta);
+			break;
+		case PD::ShowBossP3:
+			ShowBossP3(fTimeDelta);
+			break;
+		case PD::HekirekiIssen:
+		case PD::HekirekiIssen_SideView:
+			HekirekiIssen(fTimeDelta);
+			break;
+		case PD::ClearGame:
+			ClearGame(fTimeDelta);
+			break;
+		}
 	}
 
 	return _int();
@@ -141,6 +155,8 @@ void CGameManager::ShowVillage(const _float& fTimeDelta)
 			m_fTimer = 10.f;
 			m_eCurr_PD = PD::Normal;
 			m_ePrev_PD = PD::Normal;
+
+			CInputDev::GetInstance()->Lock_Input(false);
 
 			return;
 		}
@@ -225,8 +241,47 @@ void CGameManager::ShowSewer(const _float& fTimeDelta)
 			m_eCurr_PD = PD::Normal;
 			m_ePrev_PD = PD::Normal;
 
+			CInputDev::GetInstance()->Lock_Input(false);
+
 			return;
 		}
+	}
+
+	m_fTimer -= fTimeDelta;
+}
+
+void CGameManager::ShowTower(const _float& fTimeDelta)
+{
+	if (m_fTimer == 10.f)
+	{
+		m_pCamera->Change_Mode();
+		m_pCamera->m_pTransform->m_vInfo[INFO_POS] = _vec3(48.f, 72.f, 47.5f);
+	}
+	else if (m_fTimer > 3.f)
+	{
+		CCameraManager::GetInstance()->LookAtTarget(_vec3(32.f, 194.f, 34.f), fTimeDelta);
+		m_pCamera->m_pTransform->Translate(4.f * fTimeDelta * _vec3(0.f, 1.f, 0.f));
+		m_pCamera->m_pTransform->RotateAround(_vec3(32.f, 77.f, 34.f), _vec3(0.f, 1.f, 0.f), 0.5f * fTimeDelta);
+		D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_LOOK], &(_vec3(32.f, 194.f, 34.f) - m_pCamera->m_pTransform->m_vInfo[INFO_POS]));
+		D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_RIGHT], D3DXVec3Cross(&_vec3(), &_vec3(0.f, 1.f, 0.f), &m_pCamera->m_pTransform->m_vInfo[INFO_LOOK]));
+		D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_UP], D3DXVec3Cross(&_vec3(), &m_pCamera->m_pTransform->m_vInfo[INFO_LOOK], &m_pCamera->m_pTransform->m_vInfo[INFO_RIGHT]));
+	}
+	else if (m_fTimer > 0.5f)
+	{
+		CCameraManager::GetInstance()->ZoomOutToTrans(m_pPlayer->m_pTransform, fTimeDelta);
+	}
+	else
+	{
+		static_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam())->Change_Mode();
+
+		m_pCamera->m_pTransform->Copy_RUL_AddPos(m_pPlayer->m_pTransform->m_vInfo);
+		m_fTimer = 10.f;
+		m_eCurr_PD = PD::Normal;
+		m_ePrev_PD = PD::Normal;
+
+		CInputDev::GetInstance()->Lock_Input(false);
+
+		return;
 	}
 
 	m_fTimer -= fTimeDelta;
@@ -303,7 +358,7 @@ void CGameManager::ShowBoss(const _float& fTimeDelta)
 	}
 	else if (4 == m_iVisitCount)
 	{
-		if (m_fTimer > -16.5f)
+		if (m_fTimer > -15.5f)
 		{
 			m_pCamera->m_pTransform->Translate(-20.f * fTimeDelta * m_pCamera->m_pTransform->m_vInfo[INFO_LOOK]);
 		}
@@ -317,8 +372,81 @@ void CGameManager::ShowBoss(const _float& fTimeDelta)
 			m_eCurr_PD = PD::Normal;
 			m_ePrev_PD = PD::Normal;
 
+			CInputDev::GetInstance()->Lock_Input(false);
+
 			return;
 		}
+	}
+
+	m_fTimer -= fTimeDelta;
+}
+
+void CGameManager::ShowBossP2(const _float& fTimeDelta)
+{
+	CGameObject* pBoss = SceneManager()->Get_Scene()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front();
+
+	if (m_fTimer > 7.f)
+	{
+		CCameraManager::GetInstance()->LookAtTarget(pBoss->m_pTransform->m_vInfo[INFO_POS], fTimeDelta);
+		CCameraManager::GetInstance()->ZoomInTarget(pBoss->m_pTransform->m_vInfo[INFO_POS], fTimeDelta, 1.2f);
+	}
+	else if (m_fTimer > 5.5f)
+	{
+		CCameraManager::GetInstance()->ZoomOutToTrans(m_pPlayer->m_pTransform, fTimeDelta);
+	}
+	else if (m_fTimer > 3.3f)
+	{
+		CCameraManager::GetInstance()->LookAtTarget(_vec3(-72.f, 34.f, 33.f), fTimeDelta);
+		CCameraManager::GetInstance()->ZoomInTarget(_vec3(-72.f, 34.f ,33.f), fTimeDelta, 1.5f);
+	}
+	else if (m_fTimer > 1.8f)
+	{
+		CCameraManager::GetInstance()->ZoomOutToTrans(m_pPlayer->m_pTransform, fTimeDelta);
+	}
+	else
+	{
+		m_pCamera->m_pTransform->Copy_RUL_AddPos(m_pPlayer->m_pTransform->m_vInfo);
+		m_fTimer = 10.f;
+		m_eCurr_PD = PD::Normal;
+		m_ePrev_PD = PD::Normal;
+
+		CInputDev::GetInstance()->Lock_Input(false);
+
+		return;
+	}
+
+	m_fTimer -= fTimeDelta;
+}
+
+void CGameManager::ShowBossP3(const _float& fTimeDelta)
+{
+	CGameObject* pBoss = SceneManager()->Get_Scene()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front();
+
+	if (m_fTimer > 8.5f)
+	{
+		m_pCamera->m_pTransform->Translate(0.3f * fTimeDelta * m_pCamera->m_pTransform->m_vInfo[INFO_RIGHT]);
+		CCameraManager::GetInstance()->ZoomInTarget(pBoss->m_pTransform->m_vInfo[INFO_POS], fTimeDelta, 1.2f);
+		CCameraManager::GetInstance()->LookAtTarget(pBoss->m_pTransform->m_vInfo[INFO_POS], fTimeDelta);
+	}
+	else if (m_fTimer > 4.0f)
+	{
+		m_pCamera->m_pTransform->RotateAround(pBoss->m_pTransform->m_vInfo[INFO_POS], _vec3(0.f, 1.f, 0.f), -1.4f * fTimeDelta);
+		CCameraManager::GetInstance()->LookAtTarget(pBoss->m_pTransform->m_vInfo[INFO_POS], fTimeDelta);
+	}
+	else if (m_fTimer > 2.5f)
+	{
+		CCameraManager::GetInstance()->ZoomOutToTrans(m_pPlayer->m_pTransform, fTimeDelta);
+	}
+	else
+	{
+		m_pCamera->m_pTransform->Copy_RUL_AddPos(m_pPlayer->m_pTransform->m_vInfo);
+		m_fTimer = 10.f;
+		m_eCurr_PD = PD::Normal;
+		m_ePrev_PD = PD::Normal;
+
+		CInputDev::GetInstance()->Lock_Input(false);
+
+		return;
 	}
 
 	m_fTimer -= fTimeDelta;
@@ -330,26 +458,21 @@ void CGameManager::ShowMiniBoss(const _float& fTimeDelta)
 	
 	if (m_fTimer > 7.f)
 	{
-		m_fTimer -= fTimeDelta;
 	}
 	else if (m_fTimer > 5.5f)
 	{
-		m_fTimer -= fTimeDelta;
 		CCameraManager::GetInstance()->LookAtTarget(pBoss->m_pTransform->m_vInfo[INFO_POS], fTimeDelta);
 	}
 	else if (m_fTimer > 4.5f)
 	{
-		m_fTimer -= fTimeDelta;
 		CCameraManager::GetInstance()->ZoomInTarget(pBoss->m_pTransform->m_vInfo[INFO_POS], fTimeDelta, 1.2f);
 	}
 	else if (m_fTimer > 3.1f)
 	{
-		m_fTimer -= fTimeDelta;
 		CCameraManager::GetInstance()->LookAtTarget(pBoss->m_pTransform->m_vInfo[INFO_POS], fTimeDelta);
 	}
 	else if (m_fTimer > 2.1f)
 	{
-		m_fTimer -= fTimeDelta;
 		CCameraManager::GetInstance()->ZoomOutToTrans(m_pPlayer->m_pTransform, fTimeDelta);
 	}
 	else
@@ -358,7 +481,13 @@ void CGameManager::ShowMiniBoss(const _float& fTimeDelta)
 		m_fTimer = 10.f;
 		m_eCurr_PD = PD::Normal;
 		m_ePrev_PD = PD::Normal;
+
+		CInputDev::GetInstance()->Lock_Input(false);
+
+		return;
 	}
+
+	m_fTimer -= fTimeDelta;
 }
 
 void CGameManager::HekirekiIssen(const _float& fTimeDelta)	// 일단 절차지향으로 구현해보자
@@ -498,8 +627,165 @@ void CGameManager::HekirekiIssen(const _float& fTimeDelta)	// 일단 절차지향으로 
 			m_pCamera->Change_Mode();
 			m_eCurr_PD = PD::Normal;
 			m_ePrev_PD = PD::Normal;
+
+			CInputDev::GetInstance()->Lock_Input(false);
+
+			return;
 		}
 	}
+}
+
+void CGameManager::ClearGame(const _float& fTimeDelta)
+{
+	if (!m_iVisitCount && m_fTimer == 10.f)
+	{
+		static_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam())->Change_Mode();
+		m_pCamera->m_pTransform->m_vInfo[INFO_POS] = _vec3(26.f, 112.f, -39.f);
+		D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_LOOK], &(_vec3(46.f, 27.5f, 3.5f) - m_pCamera->m_pTransform->m_vInfo[INFO_POS]));
+		D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_RIGHT], D3DXVec3Cross(&_vec3(), &_vec3(0.f, 1.f, 0.f), &m_pCamera->m_pTransform->m_vInfo[INFO_LOOK]));
+		D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_UP], D3DXVec3Cross(&_vec3(), &m_pCamera->m_pTransform->m_vInfo[INFO_LOOK], &m_pCamera->m_pTransform->m_vInfo[INFO_RIGHT]));
+
+		CSoundManager::GetInstance()->StopAll();
+		CSoundManager::GetInstance()->PlayBGM(L"Silian'sTheme", 1.f);
+
+		++m_iVisitCount;
+	}
+	else if (1 == m_iVisitCount)
+	{
+		if (m_fTimer > 3.f)
+		{
+			m_pCamera->m_pTransform->Translate(5.f * fTimeDelta * -m_pCamera->m_pTransform->m_vInfo[INFO_RIGHT]);
+			m_pCamera->m_pTransform->Translate(5.f * fTimeDelta * -m_pCamera->m_pTransform->m_vInfo[INFO_UP]);
+		}
+		else
+		{
+			m_pCamera->m_pTransform->m_vInfo[INFO_POS] = _vec3(0.f, 100.f, -70.f);
+			D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_LOOK], &(_vec3(0.f, 100.f, 0.f) - m_pCamera->m_pTransform->m_vInfo[INFO_POS]));
+			D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_RIGHT], D3DXVec3Cross(&_vec3(), &_vec3(0.f, 1.f, 0.f), &m_pCamera->m_pTransform->m_vInfo[INFO_LOOK]));
+			D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_UP], D3DXVec3Cross(&_vec3(), &m_pCamera->m_pTransform->m_vInfo[INFO_LOOK], &m_pCamera->m_pTransform->m_vInfo[INFO_RIGHT]));
+
+			++m_iVisitCount;
+		}
+	}
+	else if (2 == m_iVisitCount)
+	{
+		if (m_fTimer > -6.f)
+		{
+			m_pCamera->m_pTransform->Translate(10.f * fTimeDelta * -m_pCamera->m_pTransform->m_vInfo[INFO_UP]);
+		}
+		else
+		{
+			// 바드
+			m_pCamera->m_pTransform->m_vInfo[INFO_POS] = _vec3(8.f, 4.5f, -27.f);
+			D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_LOOK], &(_vec3(5.f, 4.f, -22.f) - m_pCamera->m_pTransform->m_vInfo[INFO_POS]));
+			D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_RIGHT], D3DXVec3Cross(&_vec3(), &_vec3(0.f, 1.f, 0.f), &m_pCamera->m_pTransform->m_vInfo[INFO_LOOK]));
+			D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_UP], D3DXVec3Cross(&_vec3(), &m_pCamera->m_pTransform->m_vInfo[INFO_LOOK], &m_pCamera->m_pTransform->m_vInfo[INFO_RIGHT]));
+
+			++m_iVisitCount;
+		}
+	}
+	else if (3 == m_iVisitCount)
+	{
+		if (m_fTimer > -10.f)
+		{
+			m_pCamera->m_pTransform->RotateAround(_vec3(5.f, 4.f, -22.f), _vec3(0.f, 1.f, 0.f), 0.3f * fTimeDelta);
+			D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_LOOK], &(_vec3(5.f, 4.f, -22.f) - m_pCamera->m_pTransform->m_vInfo[INFO_POS]));
+			D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_RIGHT], D3DXVec3Cross(&_vec3(), &_vec3(0.f, 1.f, 0.f), &m_pCamera->m_pTransform->m_vInfo[INFO_LOOK]));
+			D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_UP], D3DXVec3Cross(&_vec3(), &m_pCamera->m_pTransform->m_vInfo[INFO_LOOK], &m_pCamera->m_pTransform->m_vInfo[INFO_RIGHT]));
+		}
+		else
+		{
+			// 멍멍이
+			m_pCamera->m_pTransform->m_vInfo[INFO_POS] = _vec3(0.f, 4.5f, -23.f);
+			D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_LOOK], &(_vec3(-3.f, 4.f, -18.f) - m_pCamera->m_pTransform->m_vInfo[INFO_POS]));
+			D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_RIGHT], D3DXVec3Cross(&_vec3(), &_vec3(0.f, 1.f, 0.f), &m_pCamera->m_pTransform->m_vInfo[INFO_LOOK]));
+			D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_UP], D3DXVec3Cross(&_vec3(), &m_pCamera->m_pTransform->m_vInfo[INFO_LOOK], &m_pCamera->m_pTransform->m_vInfo[INFO_RIGHT]));
+
+			++m_iVisitCount;
+		}
+	}
+	else if (4 == m_iVisitCount)
+	{
+		if (m_fTimer > -14.f)
+		{
+			m_pCamera->m_pTransform->RotateAround(_vec3(-3.f, 4.f, -18.f), _vec3(0.f, 1.f, 0.f), 0.3f * fTimeDelta);
+			D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_LOOK], &(_vec3(-3.f, 4.f, -18.f) - m_pCamera->m_pTransform->m_vInfo[INFO_POS]));
+			D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_RIGHT], D3DXVec3Cross(&_vec3(), &_vec3(0.f, 1.f, 0.f), &m_pCamera->m_pTransform->m_vInfo[INFO_LOOK]));
+			D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_UP], D3DXVec3Cross(&_vec3(), &m_pCamera->m_pTransform->m_vInfo[INFO_LOOK], &m_pCamera->m_pTransform->m_vInfo[INFO_RIGHT]));
+		}
+		else
+		{
+			// 입구 유령
+			m_pCamera->m_pTransform->m_vInfo[INFO_POS] = _vec3(-88.f, 4.f, -25.f);
+			D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_LOOK], &(_vec3(-94.f, 4.f, -23.f) - m_pCamera->m_pTransform->m_vInfo[INFO_POS]));
+			D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_RIGHT], D3DXVec3Cross(&_vec3(), &_vec3(0.f, 1.f, 0.f), &m_pCamera->m_pTransform->m_vInfo[INFO_LOOK]));
+			D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_UP], D3DXVec3Cross(&_vec3(), &m_pCamera->m_pTransform->m_vInfo[INFO_LOOK], &m_pCamera->m_pTransform->m_vInfo[INFO_RIGHT]));
+
+			++m_iVisitCount;
+		}
+	}
+	else if (5 == m_iVisitCount)
+	{
+		if (m_fTimer > -18.f)
+		{
+			m_pCamera->m_pTransform->RotateAround(_vec3(-94.f, 4.f, -23.f), _vec3(0.f, 1.f, 0.f), 0.3f * fTimeDelta);
+			D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_LOOK], &(_vec3(-94.f, 4.f, -23.f) - m_pCamera->m_pTransform->m_vInfo[INFO_POS]));
+			D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_RIGHT], D3DXVec3Cross(&_vec3(), &_vec3(0.f, 1.f, 0.f), &m_pCamera->m_pTransform->m_vInfo[INFO_LOOK]));
+			D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_UP], D3DXVec3Cross(&_vec3(), &m_pCamera->m_pTransform->m_vInfo[INFO_LOOK], &m_pCamera->m_pTransform->m_vInfo[INFO_RIGHT]));
+		}
+		else
+		{
+			// 전체 보면서 공전
+			m_pCamera->m_pTransform->m_vInfo[INFO_POS] = _vec3(-41.f, 8.f, -37.f);
+			D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_LOOK], &(_vec3(0.f, 7.f, 0.f) - m_pCamera->m_pTransform->m_vInfo[INFO_POS]));
+			D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_RIGHT], D3DXVec3Cross(&_vec3(), &_vec3(0.f, 1.f, 0.f), &m_pCamera->m_pTransform->m_vInfo[INFO_LOOK]));
+			D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_UP], D3DXVec3Cross(&_vec3(), &m_pCamera->m_pTransform->m_vInfo[INFO_LOOK], &m_pCamera->m_pTransform->m_vInfo[INFO_RIGHT]));
+
+			++m_iVisitCount;
+		}
+	}
+	else if (6 == m_iVisitCount)
+	{
+		if (m_fTimer > -26.f)
+		{
+			// 전체 보면서 공전
+			m_pCamera->m_pTransform->RotateAround(_vec3(0.f, 7.f, 0.f), _vec3(0.f, 1.f, 0.f), -0.15f * fTimeDelta);
+			D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_LOOK], &(_vec3(0.f, 7.f, 0.f) - m_pCamera->m_pTransform->m_vInfo[INFO_POS]));
+			D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_RIGHT], D3DXVec3Cross(&_vec3(), &_vec3(0.f, 1.f, 0.f), &m_pCamera->m_pTransform->m_vInfo[INFO_LOOK]));
+			D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_UP], D3DXVec3Cross(&_vec3(), &m_pCamera->m_pTransform->m_vInfo[INFO_LOOK], &m_pCamera->m_pTransform->m_vInfo[INFO_RIGHT]));
+		}
+		else
+		{
+			// 위로 올려다 보면서 끝나고 엔딩
+			m_pCamera->m_pTransform->m_vInfo[INFO_POS] = _vec3(-30.f, 5.f, -37.5f);
+			D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_LOOK], &(_vec3(11.5f, 3.f, -22.f) - m_pCamera->m_pTransform->m_vInfo[INFO_POS]));
+			D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_RIGHT], D3DXVec3Cross(&_vec3(), &_vec3(0.f, 1.f, 0.f), &m_pCamera->m_pTransform->m_vInfo[INFO_LOOK]));
+			D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_UP], D3DXVec3Cross(&_vec3(), &m_pCamera->m_pTransform->m_vInfo[INFO_LOOK], &m_pCamera->m_pTransform->m_vInfo[INFO_RIGHT]));
+
+			++m_iVisitCount;
+		}
+	}
+	else if (7 == m_iVisitCount)
+	{
+		if (m_fTimer > -210.f)
+		{
+			CCameraManager::GetInstance()->LookAtTarget(_vec3(11.5f, 100.f, -22.f), 0.001f * fTimeDelta);
+		}
+		else
+		{
+			m_iVisitCount = 0;
+
+			m_fTimer = 10.f;
+			m_eCurr_PD = PD::Normal;
+			m_ePrev_PD = PD::Normal;
+
+			CInputDev::GetInstance()->Lock_Input(false);
+
+			return;
+		}
+	}
+
+	m_fTimer -= fTimeDelta;
 }
 
 void CGameManager::Free()

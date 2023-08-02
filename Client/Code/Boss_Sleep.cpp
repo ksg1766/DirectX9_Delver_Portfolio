@@ -34,7 +34,8 @@ STATE CBoss_Sleep::Update_State(const _float& fTimeDelta)
 		if ((!m_bMusic)&&(fDistance < pow(100, 2)))
 		{
 			CSoundManager::GetInstance()->StopAll();
-			CSoundManager::GetInstance()->PlayBGM(L"Test_BossTheme.mp3", 0.3f);
+			//CSoundManager::GetInstance()->PlayBGM(L"Test_BossTheme.mp3", 0.3f);
+			CSoundManager::GetInstance()->PlayBGM(L"AstalgiaofPhantam.mp3", 0.3f);
 			m_bMusic = true;
 		}
 		if (fDistance < pow(20, 2))

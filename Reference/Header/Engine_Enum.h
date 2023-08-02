@@ -104,13 +104,14 @@ namespace Engine
 		Normal,
 		ShowVillage,
 		ShowSewer,
-		//
+		ShowTower,
 		ShowMiniBoss,
 		ShowBoss,
-		//
+		ShowBossP2,
+		ShowBossP3,
 		HekirekiIssen,
 		HekirekiIssen_SideView,
-		Boss_Dead,
+		ClearGame
 	}PD;
 };
 #endif // Engine_Enum_h__

@@ -58,6 +58,7 @@ void CVillageTriger::LateUpdate_Object(void)
 			// 마을 -> 스테이지 씬 이동
 			CSoundManager::GetInstance()->PlaySound(L"door_beginning.mp3", CHANNELID::SOUND_ENVIRONMENT, 1.f);
 
+			SceneManager()->Get_Scene()->Get_MainPlayer()->Get_RigidBody()->Set_Force(_vec3(0.f, 0.f, 0.f));
 			CScene* pScene = CStage::Create(m_pGraphicDev);
 			Engine::SceneManager()->Change_Scene(pScene);
 			CGameManager::GetInstance()->PlayMode(PD::ShowSewer);

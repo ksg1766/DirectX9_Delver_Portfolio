@@ -6,6 +6,7 @@
 #include "BossExplosion.h"
 #include "SkeletonKing_Clone.h"
 #include "SoundManager.h"
+#include "GameManager.h"
 
 CBoss_Phase1::CBoss_Phase1()
 {
@@ -58,6 +59,7 @@ STATE CBoss_Phase1::BossSkill(const _float& fTimeDelta)
         CSkeletonKing* pBoss = dynamic_cast<CSkeletonKing*>(m_pOwner->Get_Host());
         pBoss->Set_Phase(BOSSPHASE::PHASE2);
         pBoss->Get_BasicStat()->Get_Stat()->fHP = pBoss->Get_BasicStat()->Get_Stat()->fMaxHP;
+        CGameManager::GetInstance()->PlayMode(PD::ShowBossP2);
 
         return STATE::BOSS_TELEPORT;
     }

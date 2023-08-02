@@ -70,7 +70,8 @@ void CRenderer::Clear_RenderGroup()
 
 void CRenderer::Render_Priority(LPDIRECT3DDEVICE9& pGraphicDev)
 {
-	if (m_bFogUse) {
+	if (m_bFogUse)
+	{
 		pGraphicDev->SetRenderState(D3DRS_FOGENABLE, TRUE);
 		pGraphicDev->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_LINEAR);
 
@@ -87,8 +88,9 @@ void CRenderer::Render_Priority(LPDIRECT3DDEVICE9& pGraphicDev)
 	
 void CRenderer::Render_Nonalpha(LPDIRECT3DDEVICE9& pGraphicDev)
 {
-	//if(SCENETAG::EDITOR == SceneManager()->Get_Scene()->Get_SceneTag())
-	//	pGraphicDev->SetRenderState(D3DRS_FOGENABLE, FALSE);
+	if(SCENETAG::EDITOR == SceneManager()->Get_Scene()->Get_SceneTag())
+		pGraphicDev->SetRenderState(D3DRS_FOGENABLE, FALSE);
+
 	pGraphicDev->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
 
 	for (auto iter : m_RenderGroup[RENDER_NONALPHA])

@@ -826,9 +826,6 @@
     <Filter Include="03. GameObject\01. Stage\05. Cube\02. CubeTrigger\WaterFall">
       <UniqueIdentifier>{0ae52d99-1cf7-40b7-a2c3-cf494087734b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. GameObject\01. Stage\05. Cube\05.Lava">
-      <UniqueIdentifier>{00f3d79b-2d8d-457d-8bef-6886eed7b41e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03. GameObject\07. Effect\99. EffectHekiRekiIssen">
       <UniqueIdentifier>{c068519c-12a9-4cbc-96e4-596d8a231941}</UniqueIdentifier>
     </Filter>
@@ -978,6 +975,9 @@
     </Filter>
     <Filter Include="03. GameObject\01. Stage\02. Item\Quest\Orb">
       <UniqueIdentifier>{5eb6818c-9e03-4a28-8ff3-d8b9a24431b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\01. Stage\05. Cube\05. Lava">
+      <UniqueIdentifier>{00f3d79b-2d8d-457d-8bef-6886eed7b41e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1785,7 +1785,7 @@
       <Filter>03. GameObject\03. UI\18. UILevelUp</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Lava.h">
-      <Filter>03. GameObject\01. Stage\05. Cube\05.Lava</Filter>
+      <Filter>03. GameObject\01. Stage\05. Cube\05. Lava</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\EffectSwordTrail.h">
       <Filter>03. GameObject\07. Effect\99. EffectHekiRekiIssen\00. SwordTrail</Filter>
@@ -2671,7 +2671,7 @@
       <Filter>03. GameObject\03. UI\18. UILevelUp\00. UILevelUpCard</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Lava.cpp">
-      <Filter>03. GameObject\01. Stage\05. Cube\05.Lava</Filter>
+      <Filter>03. GameObject\01. Stage\05. Cube\05. Lava</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\EffectSwordTrail.cpp">
       <Filter>03. GameObject\07. Effect\99. EffectHekiRekiIssen\00. SwordTrail</Filter>

@@ -117,7 +117,6 @@ private:
 	CAnimator*		m_pAnimator = nullptr;
 	CInventory*     m_pInventory = nullptr;
 	_matrix			m_matPlayerWorld;
-	// 게임아이템
 
 	//CGameObject*	m_pItem[(_uint)ITEMTAG::ITEM_END];      //-> 인벤토리로 이동
 	_bool			m_bItemEquipRight;                      // 플레이어의 들고있는 아이템 장착 여부 : 오른손
@@ -127,7 +126,6 @@ private:
 	CGameObject*    m_pCurrentEquipItemLeft = nullptr;      // 현재 플레이어가 들고 있는 아이템     : 왼손
 	CGameObject*	m_pPrevEquipItemLeft = nullptr;			// 이전 플레이어가 들고 있는 아이템		: 왼손
 	//ITEMTAG		m_eItem = ITEMTAG::ITEM_END;
-
 
 	// Player 
 	STATE			m_eState = STATE::STATE_END;

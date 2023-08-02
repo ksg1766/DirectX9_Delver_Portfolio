@@ -7,9 +7,9 @@
 
 #include "CameraManager.h"
 #include "FlyingCamera.h"
+#include "GameManager.h"
 #include "Scene.h"
 #include "Stage.h"
-//#include "CameraManager.h"
 
 CHellDoor::CHellDoor(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CGameObject(pGraphicDev)
@@ -85,7 +85,6 @@ _int CHellDoor::Update_Object(const _float& fTimeDelta)
 
 	if (m_bTriger)
 	{
-		//CDynamicCamera& rCamera = *dynamic_cast<CDynamicCamera*>(SceneManager()->Get_ObjectList(LAYERTAG::ENVIRONMENT, OBJECTTAG::CAMERA).front());
 		CFlyingCamera* pCamera = dynamic_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam());
 
 		if (m_bShake)
@@ -108,7 +107,6 @@ _int CHellDoor::Update_Object(const _float& fTimeDelta)
 			else if (iCurrentIndex >= 20 && iCurrentIndex < 30)
 				fNormalizeIndex = static_cast<_float>(30 - iCurrentIndex) / 10.f;
 
-
 			_float fNewY = (*iter)->m_pTransform->m_vInfo[INFO_POS].y +
 				fNormalizeIndex * (fFinalY - m_pTransform->m_vInfo[INFO_POS].y);
 
@@ -119,11 +117,8 @@ _int CHellDoor::Update_Object(const _float& fTimeDelta)
 			else if (iCurrentIndex >= 20 && iCurrentIndex < 30)
 				fNewY *= ((_float)30 - iCurrentIndex) + 1;
 
-
-
 			if (iCurrentIndex < 30 && fFinalY >= (*iter)->m_pTransform->m_vInfo[INFO_POS].y)
 				(*iter)->m_pTransform->m_vInfo[INFO_POS].y += fNewY * fTimeDelta * fTimeDelta * 0.05f;
-
 
 			if (iCurrentIndex == 17)
 			{
@@ -135,6 +130,7 @@ _int CHellDoor::Update_Object(const _float& fTimeDelta)
 						m_bShake = false;
 						m_bBgmChange = true;
 						m_bBgmStop = true;
+						CGameManager::GetInstance()->PlayMode(PD::ShowTower);
 					}
 				}
 			}
@@ -153,7 +149,6 @@ _int CHellDoor::Update_Object(const _float& fTimeDelta)
 				m_bDoorClose = true;
 				m_bDoorOpen = true;
 			}
-		
 		}
 
 		for (auto iter = m_vecDoorCube.begin(); iter != m_vecDoorCube.end(); ++iter)
@@ -184,8 +179,6 @@ _int CHellDoor::Update_Object(const _float& fTimeDelta)
 void CHellDoor::LateUpdate_Object()
 {
 	__super::LateUpdate_Object();
-
-
 }
 
 void CHellDoor::Render_Object()
