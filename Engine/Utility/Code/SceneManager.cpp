@@ -29,6 +29,7 @@ HRESULT CSceneManager::Set_Scene(CScene * pScene)
 	Renderer()->Clear_RenderGroup();
 
 	m_pCurrentScene = pScene;
+	m_bStageVisit[(unsigned long long)pScene->Get_SceneTag()] = true;
 
 	return S_OK;
 }

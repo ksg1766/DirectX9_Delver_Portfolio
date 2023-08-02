@@ -69,7 +69,7 @@ _int CUIOrbClearLight::Update_Object(const _float & fTimeDelta)
 		CGameObject* pGameObject = nullptr;
 		for (_uint i = 0; i < 3; ++i) {
 			pGameObject = CEffectTwinkle::Create(m_pGraphicDev);
-			pGameObject->m_pTransform->m_vInfo[INFO_POS] = _vec3(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y + 1.f, m_pTransform->m_vInfo[INFO_POS].z);
+			pGameObject->m_pTransform->m_vInfo[INFO_POS] = _vec3(m_pAltar->m_pTransform->m_vInfo[INFO_POS].x, m_pAltar->m_pTransform->m_vInfo[INFO_POS].y + 1.f, m_pAltar->m_pTransform->m_vInfo[INFO_POS].z);
 			dynamic_cast<CEffectTwinkle*>(pGameObject)->Set_Distance(.1f);
 			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 		}
@@ -83,7 +83,7 @@ _int CUIOrbClearLight::Update_Object(const _float & fTimeDelta)
 
 		// 제단 주변 땅 색상 밝게 변경 : 원 이미지 출력
 		CGameObject* pAltarLight = COrbBlockLight::Create(m_pGraphicDev);
-		pAltarLight->m_pTransform->m_vInfo[INFO_POS] = _vec3(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y + 0.0001f, m_pTransform->m_vInfo[INFO_POS].z);
+		pAltarLight->m_pTransform->m_vInfo[INFO_POS] = _vec3(m_pAltar->m_pTransform->m_vInfo[INFO_POS].x, m_pAltar->m_pTransform->m_vInfo[INFO_POS].y + 0.0001f, m_pAltar->m_pTransform->m_vInfo[INFO_POS].z);
 		Engine::EventManager()->CreateObject(pAltarLight, LAYERTAG::GAMELOGIC);
 
 		// 나무 블럭 이미지 교체
