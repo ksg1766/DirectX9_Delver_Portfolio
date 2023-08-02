@@ -1,6 +1,7 @@
 #include "Boss_Dying.h"
 #include "Export_Function.h"
 #include "SkeletonKing.h"
+#include "GameManager.h"
 CBoss_Dying::CBoss_Dying()
 {
 }
@@ -17,16 +18,19 @@ CBoss_Dying::~CBoss_Dying()
 HRESULT CBoss_Dying::Ready_State(CStateMachine* pOwner)
 {
     m_pOwner = pOwner;
+    m_fDelay = 0.f;
     return S_OK;
 }
 
 STATE CBoss_Dying::Update_State(const _float& fTimeDelta)
 {
+    m_fDelay += fTimeDelta;
+    if (2.f >= m_fDelay)
+        m_pOwner->Get_Animator()->Get_Animation()->Set_Frame(0);
+
     _float fFrame = m_pOwner->Get_Animator()->Get_Animation()->Get_Frame();
-    if (11.f < fFrame)
+    if (11.f <= fFrame)
         return STATE::BOSS_DEAD;
-    else 
-        return STATE::BOSS_DYING;
 }
 
 void CBoss_Dying::LateUpdate_State()

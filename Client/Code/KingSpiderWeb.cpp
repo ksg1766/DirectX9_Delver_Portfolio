@@ -74,11 +74,12 @@ _int CKingSpiderWeb::Update_Object(const _float& fTimeDelta)
 	//		dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer())->Get_RigidBody()->Add_Force(_vec3(0.f, -0.5f, 0.f));
 	//	
 	//}
-	if ((1.f < m_fDelay) && (m_bHit))
+	if ((!m_bPlayerHit)&&(5.f < m_fDelay))
 	{
 		m_fDelay = 0.f;
-		m_bHit = false;
+		EventManager()->DeleteObject(this);
 	}
+
 
 	return iExit;
 }
@@ -137,6 +138,8 @@ void CKingSpiderWeb::OnCollisionStay(CCollider* _pOther)
 		dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer())->Set_Slow(false);
 		dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer())->Set_Slow(true);
 		m_bPlayerHit  = true;
+		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_KINGSPIDER);
+		CSoundManager::GetInstance()->PlaySound(L"KingSpider_Web.wav", CHANNELID::SOUND_KINGSPIDER, 1.f);
 		EventManager()->DeleteObject(this);
 	}
 	if ((OBJECTTAG::PLAYERBULLET == _pOther->Get_Host()->Get_ObjectTag())||(OBJECTTAG::ITEM == _pOther->Get_Host()->Get_ObjectTag()) && (!m_bHit))

@@ -23,7 +23,7 @@ private:
     //클래스 내에서만 쓸 함수
 private:
     //변수
-
+    _bool       m_bSpawnGate;
 public:
     static CBoss_Dead* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
 

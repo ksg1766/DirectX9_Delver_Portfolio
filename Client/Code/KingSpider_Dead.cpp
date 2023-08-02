@@ -1,3 +1,5 @@
+#include "stdafx.h"
+#include "SoundManager.h"
 #include "KingSpider_Dead.h"
 #include "KingSpider.h"
 #include "Export_Function.h"
@@ -18,12 +20,19 @@ HRESULT CKingSpider_Dead::Ready_State(CStateMachine* pOwner)
 {
 	m_pOwner = pOwner;
 	m_fDelay = 0.f;
+	m_bSound = false;
 	return S_OK;
 }
 
 STATE CKingSpider_Dead::Update_State(const _float& fTimeDelta)
 {
 	m_fDelay += fTimeDelta;
+	if (!m_bSound)
+	{
+		m_bSound = true;
+		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_BOSS);
+		CSoundManager::GetInstance()->PlaySound(L"KingSpider_Dead.wav", CHANNELID::SOUND_BOSS, 1.f);
+	}
 	if (10.f < m_fDelay)
 		m_pOwner->Get_Host()->Set_Dead(true);
 

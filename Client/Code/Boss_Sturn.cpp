@@ -35,14 +35,17 @@ STATE CBoss_Sturn::Update_State(const _float& fTimeDelta)
 
     m_fCount += fTimeDelta;
 
-    if (!m_bSound)
+   /* if (!m_bSound)
     {
         CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_BOSS);
         CSoundManager::GetInstance()->PlaySound(L"Boss_Death1.wav", CHANNELID::SOUND_BOSS, 1.f);
         m_bSound = true;
-    }
+    }*/
     if (!m_bStar)
     {
+        CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_BOSS);
+        CSoundManager::GetInstance()->PlaySound(L"Boss_Death1.wav", CHANNELID::SOUND_BOSS, 1.f);
+
         Engine::CGameObject* pGameObject = nullptr;
         pGameObject = CBoss_SturnEffect::Create(m_pGraphicDev);
         dynamic_cast<CBoss_SturnEffect*>(pGameObject)->m_pTransform->Translate(_vec3(3.f,0.f,0.f));
@@ -68,6 +71,17 @@ STATE CBoss_Sturn::Update_State(const _float& fTimeDelta)
             pBoss->Set_Phase(BOSSPHASE::PHASE3);
             pBoss->Get_BasicStat()->Get_Stat()->fHP = pBoss->Get_BasicStat()->Get_Stat()->fMaxHP;
             CGameManager::GetInstance()->PlayMode(PD::ShowBossP3);
+
+            return STATE::BOSS_TELEPORT;
+        }
+
+        if ((30 > pBoss->Get_BasicStat()->Get_Stat()->fHP)
+            && (BOSSPHASE::PHASE3 == pBoss->Get_Phase()))
+        {
+            m_bSound = false;
+
+            pBoss->Set_Phase(BOSSPHASE::LASTPHASE);
+           // CGameManager::GetInstance()->PlayMode(PD::ShowBoss);
 
             return STATE::BOSS_TELEPORT;
         }

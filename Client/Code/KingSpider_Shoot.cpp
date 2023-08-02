@@ -32,6 +32,9 @@ STATE CKingSpider_Shoot::Update_State(const _float& fTimeDelta)
 	m_fDelay += fTimeDelta;
 	if (1.5f < m_fDelay)
 	{
+		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_BOSS);
+		CSoundManager::GetInstance()->PlaySound(L"KingSpider_Attack1.wav", CHANNELID::SOUND_BOSS, 1.f);
+
 		Engine::CGameObject* pGameObject = nullptr;
 		pGameObject = CKingSpiderWeb::Create(m_pGraphicDev);
 		dynamic_cast<CKingSpiderWeb*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = m_pOwner->Get_Transform()->m_vInfo[INFO_POS];

@@ -117,12 +117,8 @@ void CBoss_MeteorCube::Channeling_Begin()
 void CBoss_MeteorCube::Channeling_Now(const _float& fTimeDelta)
 {
 	CFlyingCamera* pCamera = dynamic_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam());
-
-	if (!m_bShake)
-	{
-		pCamera->Set_ShakeForce(0.f, 0.01, 3, 2.f);
-		pCamera->Shake_Camera();
-	}
+	pCamera->Set_ShakeForce(0.f, 0.05f, 1.f, 2.f);
+	pCamera->Shake_Camera();
 
 	m_pTransform->Translate(_vec3(0.f, 1.5f * fTimeDelta, 0.f));
 	m_pTransform->Rotate(_vec3(0.f, 0.f, 3.f));
@@ -135,7 +131,6 @@ void CBoss_MeteorCube::Channeling_End(const _float& fTimeDelta)
 	
 	if (!m_bTargetSet)
 	{
-		m_bShake = true;
 		Set_PlayerPos();
 	}
 	m_pTransform->Translate(m_vDir * fTimeDelta);
@@ -143,7 +138,9 @@ void CBoss_MeteorCube::Channeling_End(const _float& fTimeDelta)
 	m_vDir = m_vTargetPos - m_pTransform->m_vInfo[INFO_POS];
 	if (3.5f < m_fExplosionTime)
 	{
-		m_bShake = false;
+		CFlyingCamera* pCamera = dynamic_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam());
+		pCamera->Set_ShakeForce(0.f, 0.5f, 1.5f, 2.f);
+		pCamera->Shake_Camera();
 
 		m_fMeteorExplosionTime = 0.f;
 		m_bHit = true;
@@ -180,6 +177,11 @@ void CBoss_MeteorCube::OnCollisionEnter(CCollider* _pOther)
 	if (m_bHit) { return; }
 	if (OBJECTTAG::PLAYER == _pOther->Get_ObjectTag())
 	{
+		CFlyingCamera* pCamera = dynamic_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam());
+		pCamera->Set_ShakeForce(0.f, 0.5f, 1.5f, 2.f);
+		pCamera->Shake_Camera();
+
+
 		m_bShake = false;
 		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_ALIEN);
 		CSoundManager::GetInstance()->PlaySound(L"Boss_MeteorExplosion3.wav", CHANNELID::SOUND_ALIEN, 1.f);

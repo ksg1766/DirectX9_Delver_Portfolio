@@ -126,8 +126,7 @@ void CSkeletonKing_CloneMeteor::Render_Object(void)
 {
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
-	if(STATE::DEAD == m_pStateMachine->Get_State())
-		m_pStateMachine->Ready_StateMachine();
+
 	m_pBuffer->Render_Buffer();
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 }

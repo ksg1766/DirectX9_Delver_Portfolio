@@ -1,9 +1,13 @@
 
+#include "stdafx.h"
+#include "SoundManager.h"
 #include "Boss_MeteorCube3Ph.h"
 #include "Export_Function.h"
 #include "SkeletonKing.h"
 #include "Player.h"
 #include "BossExplosion.h"
+#include "FlyingCamera.h"
+#include "CameraManager.h"
 CBoss_MeteorCube3Ph::CBoss_MeteorCube3Ph(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CMonster(pGraphicDev)
 {
@@ -27,6 +31,7 @@ HRESULT CBoss_MeteorCube3Ph::Ready_Object()
 	m_bChanneling_End = false;
 	m_bTargetSet = false;
 	m_bHit = false;
+	m_bSound = false;
 	m_bMaxHeight = 20.f;
 	m_fMeteorExplosionTime = 0.f;
 	m_fScale = 0;
@@ -61,6 +66,12 @@ _int CBoss_MeteorCube3Ph::Update_Object(const _float& fTimeDelta)
 	}
 	if (m_bChanneling_Start)
 	{
+		if (!m_bSound)
+		{
+			CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_ALIEN);
+			CSoundManager::GetInstance()->PlaySound(L"Boss_MeteorCharging.wav", CHANNELID::SOUND_ALIEN, 0.4f);
+			m_bSound = true;
+		}
 		Channeling_Now(fTimeDelta);
 		m_pTransform->Translate(_vec3(-fTimeDelta / 4.f, 0.f, 0.f));
 	}
@@ -101,6 +112,10 @@ void CBoss_MeteorCube3Ph::Channeling_Begin()
 
 void CBoss_MeteorCube3Ph::Channeling_Now(const _float& fTimeDelta)
 {
+	CFlyingCamera* pCamera = dynamic_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam());
+	pCamera->Set_ShakeForce(0.f, 0.1f, 1.f, 2.f);
+	pCamera->Shake_Camera();
+
 	m_pTransform->Translate(_vec3(0.f, 4.f * fTimeDelta, 0.f));
 	m_pTransform->Rotate(_vec3(0.f, 0.f, 3.f));
 	m_pTransform->RotateAround(m_vCenter, _vec3(0.f, 3.f, 0.f), 3.f * fTimeDelta / 2.f);
@@ -127,6 +142,10 @@ void CBoss_MeteorCube3Ph::OnCollisionEnter(CCollider* _pOther)
 	if (SceneManager()->Get_GameStop()) { return; }
 	if (OBJECTTAG::PLAYER == _pOther->Get_ObjectTag())
 	{
+		CFlyingCamera* pCamera = dynamic_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam());
+		pCamera->Set_ShakeForce(0.f, 0.5f, 1.5f, 2.f);
+		pCamera->Shake_Camera();
+		m_bSound = false;
 
 			m_fMeteorExplosionTime = 0.f;
 			m_bHit = true;

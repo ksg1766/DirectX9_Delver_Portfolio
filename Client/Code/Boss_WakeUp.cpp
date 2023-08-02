@@ -21,6 +21,7 @@ HRESULT CBoss_WakeUp::Ready_State(CStateMachine* pOwner)
     m_pOwner = pOwner;
     m_bWakeUp = false;
     m_fDelay = 0.f;
+    m_fTest = 0.f;
     return S_OK;
 }
 
@@ -45,20 +46,20 @@ STATE CBoss_WakeUp::Update_State(const _float& fTimeDelta)
         }
     }
 
-    if (BOSSPHASE::LASTPHASE == dynamic_cast<CSkeletonKing*>(m_pOwner->Get_Host())->Get_Phase())
+    else if (BOSSPHASE::LASTPHASE == dynamic_cast<CSkeletonKing*>(m_pOwner->Get_Host())->Get_Phase())
     {
-        if ((0.1f > m_fDelay) && (!m_bWakeUp))
+        if ((0.1f > m_fTest) && (!m_bWakeUp))
         {
             CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_BOSS);
             CSoundManager::GetInstance()->PlaySound(L"Boss_Death1.wav", CHANNELID::SOUND_BOSS, 1.f);
             dynamic_cast<CSkeletonKing*>(m_pOwner->Get_Host())->Get_StateMachine()->Get_Animator()->Get_Animation()->Set_Frame(0.f);
         }
-        m_fDelay += fTimeDelta;
-        if ((1.42f > m_fDelay) && (!m_bWakeUp))
+        m_fTest += fTimeDelta;
+        if ((1.42f > m_fTest) && (!m_bWakeUp))
             m_bWakeUp = true;
-        if ((1.42f <= m_fDelay) && (m_bWakeUp))
+        if ((1.42f <= m_fTest) && (m_bWakeUp))
         {
-            m_fDelay = 0.f;
+            m_fTest = 0.f;
             m_bWakeUp = false;
             return STATE::BOSS_CRAWL;
         }

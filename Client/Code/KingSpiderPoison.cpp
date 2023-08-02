@@ -80,6 +80,10 @@ void CKingSpiderPoison::OnCollisionStay(CCollider* _pOther)
 		CGameObject* pGameObject = CEffectSquare::Create(m_pGraphicDev, vecMonsterPos, 50, EFFECTCOLOR::ECOLOR_GREEN);
 		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 		m_bStraight = false;
+
+		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_KINGSPIDER);
+		CSoundManager::GetInstance()->PlaySound(L"KingSpider_Poison.wav", CHANNELID::SOUND_KINGSPIDER, 1.f);
+
 		EventManager()->DeleteObject(this);
 	}
 
@@ -92,6 +96,10 @@ void CKingSpiderPoison::OnCollisionStay(CCollider* _pOther)
 		dynamic_cast<CPlayer*>(_pOther->Get_Host())->Set_Poisoning(true);
 		m_bHit = true;
 		m_bStraight = false;
+
+		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_KINGSPIDER);
+		CSoundManager::GetInstance()->PlaySound(L"KingSpider_Poison.wav", CHANNELID::SOUND_KINGSPIDER, 1.f);
+
 		EventManager()->DeleteObject(this);
 	}
 }

@@ -3,6 +3,8 @@
 #include "Export_Function.h"
 #include "Player.h"
 #include "SoundManager.h"
+#include "FlyingCamera.h"
+#include "CameraManager.h"
 CBossProjectile::CBossProjectile(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CMonster(pGraphicDev), m_fFrame(0.f)
 {
@@ -93,6 +95,10 @@ void CBossProjectile::OnCollisionStay(CCollider* _pOther)
 	if (m_bHit) { return; }
 	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::PLAYER)
 	{
+		CFlyingCamera* pCamera = dynamic_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam());
+		pCamera->Set_ShakeForce(0.f, 0.05f, 1.f, 2.f);
+		pCamera->Shake_Camera();
+
 		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_DOOR);
 		CSoundManager::GetInstance()->PlaySound(L"Fire_Hit1.wav", CHANNELID::SOUND_DOOR, 1.f);
 

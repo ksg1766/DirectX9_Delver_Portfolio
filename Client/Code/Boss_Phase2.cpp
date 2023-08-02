@@ -6,6 +6,8 @@
 #include "BossExplosion.h"
 #include "SkeletonKing_Clone.h"
 #include "SoundManager.h"
+#include "CameraManager.h"
+#include "FlyingCamera.h"
 
 CBoss_Phase2::CBoss_Phase2()
 {
@@ -36,6 +38,8 @@ STATE CBoss_Phase2::Update_State(const _float& fTimeDelta)
     m_fDelay += fTimeDelta;
     if (3.f < m_fDelay)
     {
+        CFlyingCamera* pCamera = dynamic_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam());
+        pCamera->Reset_ShakeForce();
         m_fDelay = 0.f;
         return BossSkill(fTimeDelta);
     }

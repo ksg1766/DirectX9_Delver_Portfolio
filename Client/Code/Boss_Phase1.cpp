@@ -7,7 +7,8 @@
 #include "SkeletonKing_Clone.h"
 #include "SoundManager.h"
 #include "GameManager.h"
-
+#include "CameraManager.h"
+#include "FlyingCamera.h"
 CBoss_Phase1::CBoss_Phase1()
 {
 }
@@ -38,6 +39,8 @@ STATE CBoss_Phase1::Update_State(const _float& fTimeDelta)
     dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_RigidBody()->UseGravity(true);
     if (3.f < m_fDelay)
     {
+        CFlyingCamera* pCamera = dynamic_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam());
+        pCamera->Reset_ShakeForce();
         m_fDelay = 0.f;
         return BossSkill(fTimeDelta);
     }
@@ -60,7 +63,6 @@ STATE CBoss_Phase1::BossSkill(const _float& fTimeDelta)
         pBoss->Set_Phase(BOSSPHASE::PHASE2);
         pBoss->Get_BasicStat()->Get_Stat()->fHP = pBoss->Get_BasicStat()->Get_Stat()->fMaxHP;
         CGameManager::GetInstance()->PlayMode(PD::ShowBossP2);
-
         return STATE::BOSS_TELEPORT;
     }
 

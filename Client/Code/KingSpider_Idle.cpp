@@ -59,16 +59,21 @@ STATE CKingSpider_Idle::Update_State(const _float& fTimeDelta)
 			{
 			case 0:
 				++m_iSkillCount;
+				
 				return STATE::BOSS_PH1SKILL1;
 				break;
 
 			case 1:
 				++m_iSkillCount;
+				CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_BOSS);
+				CSoundManager::GetInstance()->PlaySound(L"KingSpider_Attack2.wav", CHANNELID::SOUND_BOSS, 1.f);
 				return STATE::BOSS_PH1SKILL2;
 				break;
 
 			case 2:
 				m_iSkillCount = 0;
+				CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_BOSS);
+				CSoundManager::GetInstance()->PlaySound(L"KingSpider_Attack3.wav", CHANNELID::SOUND_BOSS, 1.f);
 				return STATE::BOSS_PH1SKILL3;
 				break;
 			}

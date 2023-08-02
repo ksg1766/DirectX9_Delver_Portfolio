@@ -36,7 +36,7 @@ HRESULT CKingSpider::Ready_Object()
 	m_bJumpRun = false;
 	m_bFloorCollison = false;
 	m_fFloorHeight = 0.f;
-	m_iCrawlingHP = 3;
+	m_iCrawlingHP = 10;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 	
 	m_pState = CKingSpider_Appear::Create(m_pGraphicDev, m_pStateMachine);
@@ -108,8 +108,8 @@ _int CKingSpider::Update_Object(const _float& fTimeDelta)
 	if (SceneManager()->Get_GameStop()) { return 0; }
 	_int iExit = __super::Update_Object(fTimeDelta);
 	
-	if (0>=m_pBasicStat->Get_Stat()->fHP)
-		m_pStateMachine->Set_State(STATE::BOSS_DEAD);
+	//if (0>=m_pBasicStat->Get_Stat()->fHP)
+	//	m_pStateMachine->Set_State(STATE::BOSS_DEAD);
 	
 	if (InputDev()->Key_Down(DIK_0))
 		m_pStateMachine->Set_State(STATE::BOSS_TELEPORT);

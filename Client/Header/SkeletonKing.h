@@ -34,6 +34,8 @@ public:
 	_bool			Get_3Phase() { return m_b3Phase; }
 	_uint			Get_CloneCount() { return m_iCloneCount; }
 	BOSSPHASE		Get_Phase() { return m_ePhase; }
+	_bool			Get_HekiReki() { return m_bHekiReki; }
+
 	virtual void	OnCollisionEnter(CCollider* _pOther);
 	virtual void	OnCollisionStay(CCollider* _pOther);
 	virtual void	OnCollisionExit(CCollider* _pOther);
@@ -41,6 +43,7 @@ public:
 	void			Set_CloneCount(_int _Clone) { m_iCloneCount = _Clone; }
 	void			Set_Phase(BOSSPHASE _PHASE) { m_ePhase = _PHASE; }
 	void			Set_3Phase(_bool _3phase) { m_b3Phase = _3phase; }
+	void			Set_HekiReki(_bool _bHekiReki) { m_bHekiReki = _bHekiReki; }
 
 	void			Add_CloneCount(_int _Hit);
 	void			Add_HitCount();
@@ -66,6 +69,7 @@ private:
 	_bool		m_bSturn;
 	_bool		m_b3Phase;
 	_bool		m_bMove;
+	_bool		m_bHekiReki = false;
 	_uint		m_iCloneCount;
 	_vec3		m_vTargetPos;
 	_vec3		m_vDir;

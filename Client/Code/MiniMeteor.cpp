@@ -44,15 +44,11 @@ _int CMiniMeteor::Update_Object(const _float& fTimeDelta)
 	if (SceneManager()->Get_GameStop()) { return 0; }
 	_uint iExit = __super::Update_Object(fTimeDelta);
 	CFlyingCamera* pCamera = dynamic_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam());
+	pCamera->Set_ShakeForce(0.f, 0.05f, 1.f, 2.f);
+	pCamera->Shake_Camera();
 
-	if (!m_bShake)
-	{
-		pCamera->Set_ShakeForce(0.f, 0.01f, 3, 2.f);
-		pCamera->Shake_Camera();
-	}
 	if ((3.f < m_fDuration) && (!m_bHit))
 	{
-		m_bShake = true;
 		m_fDuration = 0.f;
 		Engine::CGameObject* pGameObject = nullptr;
 		pGameObject = CBossExplosion::Create(m_pGraphicDev);
