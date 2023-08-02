@@ -1010,7 +1010,6 @@ void CPlayer::OnCollisionEnter(CCollider* _pOther)
 		if (dynamic_cast<CNpc*>(_pOther->Get_Host())->Get_NPCTag() == NPCTAG::PAHNTOM)
 			return;
 
-
 	if (_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::MONSTER
 		&& _pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::MONSTERBULLET
 		&& _pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::ITEM
@@ -1082,7 +1081,6 @@ void CPlayer::OnCollisionStay(CCollider* _pOther)
 	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::NPC)
 		if (dynamic_cast<CNpc*>(_pOther->Get_Host())->Get_NPCTag() == NPCTAG::PAHNTOM)
 			return;
-
 
 	if (_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::MONSTER
 		&& _pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::MONSTERBULLET
@@ -1164,7 +1162,6 @@ void CPlayer::SlowDuration(const _float& fTimeDelta)
 			m_bSlow = false;
 		}
 	}
-
 }
 
 void CPlayer::IsDrunk()
@@ -1188,7 +1185,6 @@ void CPlayer::IsDrunk()
 	{
 		_matrix matRot;
 
-
 		_vec3 vUp = *D3DXVec3Cross(&vUp, &m_pTransform->m_vInfo[INFO_LOOK], &m_pTransform->m_vInfo[INFO_RIGHT]);
 		_vec3 vRight = *D3DXVec3Cross(&vRight, &m_pTransform->m_vInfo[INFO_UP], &m_pTransform->m_vInfo[INFO_LOOK]);
 		_vec3 vLook = m_pTransform->m_vInfo[INFO_LOOK];
@@ -1209,7 +1205,6 @@ void CPlayer::IsDrunk()
 
 		_float fRightDistance = D3DXVec3Length(&vDirRight);
 		_float fUpDistance = D3DXVec3Length(&vDirUp);
-
 
 		if (m_iDrunkCount < 10)
 		{

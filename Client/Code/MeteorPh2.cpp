@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "SkeletonKing.h"
 #include "SkeletonKing_CloneMeteor.h"
+#include "GameManager.h"
 #include "Boss_LostSoul.h"
 #include "Boss_MeteorCube.h"
 
@@ -88,6 +89,7 @@ STATE CBoss_Meteor2Ph::Update_State(const _float& fTimeDelta)
             if (45 >= dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_BasicStat()->Get_Stat()->fHP)
             { 
                 dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Set_Phase(BOSSPHASE::PHASE3);
+                CGameManager::GetInstance()->PlayMode(PD::ShowBossP3);
                 return STATE::BOSS_TELEPORT; 
             }
             else

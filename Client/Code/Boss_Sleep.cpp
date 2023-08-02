@@ -31,11 +31,11 @@ STATE CBoss_Sleep::Update_State(const _float& fTimeDelta)
 	_float fDistance = D3DXVec3LengthSq(&vDir);
 	if (BOSSPHASE::PHASE1 == dynamic_cast<CSkeletonKing*>(m_pOwner->Get_Host())->Get_Phase())
 	{
-		if ((!m_bMusic)&&(fDistance < pow(100, 2)))
+		if ((!m_bMusic)&&(fDistance < pow(50, 2)))
 		{
 			CSoundManager::GetInstance()->StopAll();
 			//CSoundManager::GetInstance()->PlayBGM(L"Test_BossTheme.mp3", 0.3f);
-			CSoundManager::GetInstance()->PlayBGM(L"AstalgiaofPhantam.mp3", 0.3f);
+			CSoundManager::GetInstance()->PlayBGM(L"AstalgiaofPhantam", 1.f);
 			m_bMusic = true;
 		}
 		if (fDistance < pow(20, 2))

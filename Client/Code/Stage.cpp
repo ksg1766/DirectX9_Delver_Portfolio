@@ -89,7 +89,7 @@ HRESULT CStage::Ready_Scene()
 	CSoundManager::GetInstance()->StopAll();
 
 	Engine::Renderer()->Set_FogUse(true);
-	Engine::Renderer()->Set_FogColor(1, 10, 35, 50);
+	Engine::Renderer()->Set_FogColor(1, 5, 25, 40);
 	Engine::Renderer()->Set_FogDistance(1.f, 110.0f);
 
 	return S_OK;
@@ -126,8 +126,10 @@ void CStage::LateUpdate_Scene()
 		//CSoundManager::GetInstance()->PlaySound(L"door_beginning.mp3", CHANNELID::SOUND_ENVIRONMENT, 1.f);
 
 		m_pPlayer->Get_RigidBody()->Set_Force(_vec3(0.f, 0.f, 0.f));
+
 		CScene* pScene = CBossStage::Create(m_pGraphicDev);
 		Engine::SceneManager()->Change_Scene(pScene);
+
 		CGameManager::GetInstance()->PlayMode(PD::ShowBoss);
 	}
 }
@@ -139,7 +141,7 @@ void CStage::Render_Scene()
 
 void CStage::Free()
 {
-	CSoundManager::GetInstance()->StopAll();
+	//CSoundManager::GetInstance()->StopAll();
 	//CPoolManager::DestroyInstance();
 	__super::Free();
 }
@@ -290,8 +292,6 @@ HRESULT CStage::Ready_Layer_UI(LAYERTAG _eLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	Engine::UIManager()->Add_PopupGameobject(Engine::UIPOPUPLAYER::POPUP_SPEECH, Engine::UILAYER::UI_DOWN, pGameObject);
 
-
-
 	Engine::UIManager()->Hide_PopupUI(Engine::UIPOPUPLAYER::POPUP_EQUIPMENT);
 	Engine::UIManager()->Hide_PopupUI(Engine::UIPOPUPLAYER::POPUP_INVEN);
 	Engine::UIManager()->Hide_PopupUI(Engine::UIPOPUPLAYER::POPUP_STAT);
@@ -319,7 +319,7 @@ HRESULT CStage::Load_Data()
 		for_each(refObjectList.begin(), refObjectList.end(), [&](CGameObject* pObj) { EventManager()->DeleteObject(pObj); });
 		refObjectList.clear();
 	}
-	HANDLE hFile = CreateFile(L"../Bin/Data/Sewer_TrapTest_v1.0.dat", GENERIC_READ, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
+	HANDLE hFile = CreateFile(L"../Bin/Data/Sewer_Test_v1.0.dat", GENERIC_READ, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
 	//HANDLE hFile = CreateFile(L"../Bin/Data/Sewer.dat", GENERIC_READ, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
 	//HANDLE hFile = CreateFile(L"../Bin/Data/TempData.dat", GENERIC_READ, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
 	//HANDLE hFile = CreateFile(L"../Bin/Data/TerrainGiantTree10.dat", GENERIC_READ,	0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);

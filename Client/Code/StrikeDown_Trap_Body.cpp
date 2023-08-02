@@ -133,7 +133,7 @@ void CStrikeDown_Trap::OnCollisionEnter(CCollider* _pOther)
 	{
 		if (!m_bPlayerHit) {return;}
 		CPlayerStat& PlayerState = *static_cast<CPlayer*>(_pOther->Get_Host())->Get_Stat();
-		PlayerState.Take_Damage(10.f);
+		PlayerState.Take_Damage(3.f);
 		m_bPlayerHit = false;
 
 		_vec3	vDir = _pOther->Get_Host()->m_pTransform->m_vInfo[INFO_POS] - m_pTransform->m_vInfo[INFO_POS];

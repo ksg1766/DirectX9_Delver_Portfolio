@@ -181,8 +181,8 @@ void CBat::OnCollisionEnter(CCollider* _pOther)
 		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::PLAYER)
 		__super::OnCollisionEnter(_pOther);
 			
-	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::PLAYER
-		&& this->Get_State() == STATE::ATTACK)
+	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::PLAYER && this->Get_State() == STATE::ATTACK)
+	{
 		if (!this->Get_AttackTick())
 		{
 			CPlayerStat& PlayerStat = *static_cast<CPlayer*>(_pOther->Get_Host())->Get_Stat();
@@ -191,6 +191,7 @@ void CBat::OnCollisionEnter(CCollider* _pOther)
 
 			//cout << "¹ÚÁã °ø°Ý" << endl;
 		}
+	}
 }
 
 void CBat::OnCollisionStay(CCollider* _pOther)
@@ -202,8 +203,8 @@ void CBat::OnCollisionStay(CCollider* _pOther)
 		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::PLAYER)
 		__super::OnCollisionStay(_pOther);
 
-	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::PLAYER
-		&& this->Get_State() == STATE::ATTACK)
+	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::PLAYER && this->Get_State() == STATE::ATTACK)
+	{
 		if (!this->Get_AttackTick())
 		{
 			CPlayerStat& PlayerStat = *static_cast<CPlayer*>(_pOther->Get_Host())->Get_Stat();
@@ -212,6 +213,7 @@ void CBat::OnCollisionStay(CCollider* _pOther)
 
 			//cout << "¹ÚÁã °ø°Ý" << endl;
 		}
+	}
 
 	if (_pOther->Get_ObjectTag() == OBJECTTAG::BLOCK)
 		m_bBlockOn = true;
@@ -220,7 +222,6 @@ void CBat::OnCollisionStay(CCollider* _pOther)
 void CBat::OnCollisionExit(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
-
 
 	if (_pOther->Get_ObjectTag() == OBJECTTAG::BLOCK)
 		m_bBlockOn = false;

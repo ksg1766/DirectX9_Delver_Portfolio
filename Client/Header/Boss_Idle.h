@@ -9,13 +9,13 @@ private:
     virtual ~CBoss_Idle();
 
 public:
-    virtual HRESULT	Ready_State(CStateMachine* pOwner);
+    virtual HRESULT	    Ready_State(CStateMachine* pOwner);
     virtual STATE		Update_State(const _float& fTimeDelta);
     virtual  void		LateUpdate_State();
     virtual  void		Render_State();
 
 public:
-    virtual STATE	Key_Input(const _float& fTimeDelta) { return STATE(); }
+    virtual STATE	    Key_Input(const _float& fTimeDelta) { return STATE(); }
 
 private:
     //클래스 내에서만 쓸 함수

@@ -68,6 +68,7 @@ _int CGameManager::Update_Game(const _float& fTimeDelta)
 			break;
 		case PD::HekirekiIssen:
 		case PD::HekirekiIssen_SideView:
+			CInputDev::GetInstance()->Lock_Input(false);
 			HekirekiIssen(fTimeDelta);
 			break;
 		case PD::ClearGame:
@@ -390,16 +391,16 @@ void CGameManager::ShowBossP2(const _float& fTimeDelta)
 		CCameraManager::GetInstance()->LookAtTarget(pBoss->m_pTransform->m_vInfo[INFO_POS], fTimeDelta);
 		CCameraManager::GetInstance()->ZoomInTarget(pBoss->m_pTransform->m_vInfo[INFO_POS], fTimeDelta, 1.2f);
 	}
-	else if (m_fTimer > 5.5f)
+	else if (m_fTimer > 6.0f)
 	{
 		CCameraManager::GetInstance()->ZoomOutToTrans(m_pPlayer->m_pTransform, fTimeDelta);
 	}
-	else if (m_fTimer > 3.3f)
+	else if (m_fTimer > 3.8f)
 	{
 		CCameraManager::GetInstance()->LookAtTarget(_vec3(-72.f, 34.f, 33.f), fTimeDelta);
 		CCameraManager::GetInstance()->ZoomInTarget(_vec3(-72.f, 34.f ,33.f), fTimeDelta, 1.5f);
 	}
-	else if (m_fTimer > 1.8f)
+	else if (m_fTimer > 2.3f)
 	{
 		CCameraManager::GetInstance()->ZoomOutToTrans(m_pPlayer->m_pTransform, fTimeDelta);
 	}
@@ -424,7 +425,7 @@ void CGameManager::ShowBossP3(const _float& fTimeDelta)
 
 	if (m_fTimer > 8.5f)
 	{
-		m_pCamera->m_pTransform->Translate(0.3f * fTimeDelta * m_pCamera->m_pTransform->m_vInfo[INFO_RIGHT]);
+		m_pCamera->m_pTransform->Translate(0.1f * fTimeDelta * m_pCamera->m_pTransform->m_vInfo[INFO_RIGHT]);
 		CCameraManager::GetInstance()->ZoomInTarget(pBoss->m_pTransform->m_vInfo[INFO_POS], fTimeDelta, 1.2f);
 		CCameraManager::GetInstance()->LookAtTarget(pBoss->m_pTransform->m_vInfo[INFO_POS], fTimeDelta);
 	}
@@ -456,6 +457,11 @@ void CGameManager::ShowMiniBoss(const _float& fTimeDelta)
 {
 	CGameObject* pBoss = SceneManager()->Get_Scene()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front();
 	
+	if (m_fTimer == 10.f)
+	{
+		m_pCamera->Change_Mode();
+		//m_pCamera->m_pTransform->m_vInfo[INFO_POS] = _vec3(48.f, 72.f, 47.5f);
+	}
 	if (m_fTimer > 7.f)
 	{
 	}
@@ -477,6 +483,7 @@ void CGameManager::ShowMiniBoss(const _float& fTimeDelta)
 	}
 	else
 	{
+		m_pCamera->Change_Mode();
 		m_pCamera->m_pTransform->Copy_RUL_AddPos(m_pPlayer->m_pTransform->m_vInfo);
 		m_fTimer = 10.f;
 		m_eCurr_PD = PD::Normal;
@@ -499,7 +506,7 @@ void CGameManager::HekirekiIssen(const _float& fTimeDelta)	// 일단 절차지향으로 
 		SceneManager()->SlowMode(m_fTimer, 5);
 		m_ePrev_PD = m_eCurr_PD;
 
-		CSoundManager::GetInstance()->StopAll();
+		CSoundManager::GetInstance()->SetChannelVolume(SOUND_BGM, 0.15f);
 		CSoundManager::GetInstance()->PlaySound(L"HekiRekiIssen", SOUND_HEKIREKIISSEN, 1.f);
 
 		return;
@@ -605,7 +612,7 @@ void CGameManager::HekirekiIssen(const _float& fTimeDelta)	// 일단 절차지향으로 
 				m_bEffectCreated[2] = true;
 			}
 		}
-		else if (m_fTimer > -1.f)
+		else if (m_fTimer > 0.5f)
 		{
 			m_fTimer -= fTimeDelta;
 		}
@@ -629,6 +636,7 @@ void CGameManager::HekirekiIssen(const _float& fTimeDelta)	// 일단 절차지향으로 
 			m_ePrev_PD = PD::Normal;
 
 			CInputDev::GetInstance()->Lock_Input(false);
+			CSoundManager::GetInstance()->SetChannelVolume(SOUND_BGM, 1.f);
 
 			return;
 		}

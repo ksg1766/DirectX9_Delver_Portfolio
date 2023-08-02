@@ -4,6 +4,7 @@
 #include "..\Header\Bow.h"
 #include "Export_Function.h"
 #include "EffectDamage.h"
+#include "CameraManager.h"
 
 static _int iCount = 0;
 
@@ -112,7 +113,6 @@ _int CBow::Update_Object(const _float& fTimeDelta)
 
 	if (Get_WorldItem())
 	{
-
 		if (m_bDropAnItem)
 		{
 			DropanItem(pPlayer);

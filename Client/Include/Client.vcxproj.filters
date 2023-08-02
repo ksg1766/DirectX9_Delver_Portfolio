@@ -562,9 +562,6 @@
     <Filter Include="03. GameObject\03. UI\17. UIShopItem">
       <UniqueIdentifier>{40917384-4568-476e-bda8-543d524776b1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01. Managers\02. SoundManager">
-      <UniqueIdentifier>{c2bdc8f7-7c35-443c-9cd6-7bd289c3a95b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. Scene\05. Village">
       <UniqueIdentifier>{cdb9d315-6627-4acc-8612-173ceac1078f}</UniqueIdentifier>
     </Filter>
