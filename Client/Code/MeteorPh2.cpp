@@ -86,7 +86,7 @@ STATE CBoss_Meteor2Ph::Update_State(const _float& fTimeDelta)
             m_fDelay = 0.f;
             m_bSkillStart = false;
             m_fChannel_Count = 0.f;
-            if (45 >= dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_BasicStat()->Get_Stat()->fHP)
+            if (10 >= dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_BasicStat()->Get_Stat()->fHP)
             { 
                 dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Set_Phase(BOSSPHASE::PHASE3);
                 CGameManager::GetInstance()->PlayMode(PD::ShowBossP3);

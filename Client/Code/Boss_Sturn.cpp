@@ -63,28 +63,28 @@ STATE CBoss_Sturn::Update_State(const _float& fTimeDelta)
         m_bSound = false;
         m_fCount = 0.f;
 
-        if ((45 > pBoss->Get_BasicStat()->Get_Stat()->fHP)
-            && (BOSSPHASE::PHASE2 == pBoss->Get_Phase()))
-        {
-            m_bSound = false;
-           
-            pBoss->Set_Phase(BOSSPHASE::PHASE3);
-            pBoss->Get_BasicStat()->Get_Stat()->fHP = pBoss->Get_BasicStat()->Get_Stat()->fMaxHP;
-            CGameManager::GetInstance()->PlayMode(PD::ShowBossP3);
+        //if ((45 > pBoss->Get_BasicStat()->Get_Stat()->fHP)
+        //    && (BOSSPHASE::PHASE2 == pBoss->Get_Phase()))
+        //{
+        //    m_bSound = false;
+        //   
+        //    pBoss->Set_Phase(BOSSPHASE::PHASE3);
+        //    pBoss->Get_BasicStat()->Get_Stat()->fHP = pBoss->Get_BasicStat()->Get_Stat()->fMaxHP;
+        //    CGameManager::GetInstance()->PlayMode(PD::ShowBossP3);
 
-            return STATE::BOSS_TELEPORT;
-        }
+        //    return STATE::BOSS_TELEPORT;
+        //}
 
-        if ((30 > pBoss->Get_BasicStat()->Get_Stat()->fHP)
-            && (BOSSPHASE::PHASE3 == pBoss->Get_Phase()))
-        {
-            m_bSound = false;
+        //if ((30 > pBoss->Get_BasicStat()->Get_Stat()->fHP)
+        //    && (BOSSPHASE::PHASE3 == pBoss->Get_Phase()))
+        //{
+        //    m_bSound = false;
 
-            pBoss->Set_Phase(BOSSPHASE::LASTPHASE);
-           // CGameManager::GetInstance()->PlayMode(PD::ShowBoss);
+        //    pBoss->Set_Phase(BOSSPHASE::LASTPHASE);
+        //   // CGameManager::GetInstance()->PlayMode(PD::ShowBoss);
 
-            return STATE::BOSS_TELEPORT;
-        }
+        //    return STATE::BOSS_TELEPORT;
+        //}
 
         return STATE::BOSS_IDLE;
     }

@@ -41,7 +41,7 @@ STATE CLostSoulPattern::Update_State(const _float& fTimeDelta)
 	++m_iSkillCount;
 	}
 
-	if (3 <= m_iSkillCount)
+	if (4 <= m_iSkillCount)
 	{
 		m_iSkillCount = 0.f;
 		return STATE::BOSS_IDLE;

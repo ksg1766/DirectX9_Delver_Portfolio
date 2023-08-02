@@ -35,7 +35,7 @@ private:
 
 	_float      m_fPosition;
 	_float      m_flength;
-		
+	CGameObject* m_pObject;
 public:
 	static CUIbosshp* Create(LPDIRECT3DDEVICE9 pGraphicDev);
 	

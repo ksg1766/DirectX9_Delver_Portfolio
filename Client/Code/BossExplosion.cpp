@@ -90,7 +90,7 @@ void CBossExplosion::OnCollisionStay(CCollider* _pOther)
 	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::PLAYER)
 	{
 		CFlyingCamera* pCamera = dynamic_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam());
-		pCamera->Set_ShakeForce(0.f, 0.5f, 1.f, 2.f);
+		pCamera->Set_ShakeForce(0.f, 0.2f, 0.35f, 2.f);
 		pCamera->Shake_Camera();
 
 		CPlayerStat& PlayerState = *(dynamic_cast<CPlayer*>(_pOther->Get_Host())->Get_Stat());

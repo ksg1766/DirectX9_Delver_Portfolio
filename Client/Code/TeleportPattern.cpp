@@ -51,6 +51,7 @@ STATE CTeleportPattern::Update_State(const _float& fTimeDelta)
     case BOSSPHASE::PHASE2:
         if ((1.5f >= fabs(-72.5f - m_pOwner->Get_Transform()->m_vInfo[INFO_POS].x)) && (1.5f >= fabs(94.5f - m_pOwner->Get_Transform()->m_vInfo[INFO_POS].z)))
         {
+            dynamic_cast<CSkeletonKing*>(m_pOwner->Get_Host())->Get_BasicStat()->Get_Stat()->fHP = 100.f;
             m_bSound = false;
             m_pOwner->Get_Transform()->m_vInfo[INFO_POS] = _vec3(-72.5f, 38.f, 94.5f);
             return STATE::BOSS_SLEEP;
@@ -70,6 +71,7 @@ STATE CTeleportPattern::Update_State(const _float& fTimeDelta)
     case BOSSPHASE::PHASE3:
         if ((3.f >= fabs(-72.f - m_pOwner->Get_Transform()->m_vInfo[INFO_POS].x)) && (3.f >= fabs(-105.f - m_pOwner->Get_Transform()->m_vInfo[INFO_POS].z)))
         {
+            dynamic_cast<CSkeletonKing*>(m_pOwner->Get_Host())->Get_BasicStat()->Get_Stat()->fHP = 100.f;
             m_bSound = false;
             m_pOwner->Get_Transform()->m_vInfo[INFO_POS] = _vec3(-72.f, 34.f, -105.f);
            

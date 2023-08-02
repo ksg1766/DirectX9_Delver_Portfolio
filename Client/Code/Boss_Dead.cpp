@@ -2,7 +2,8 @@
 #include "Export_Function.h"
 #include "SkeletonKing.h"
 #include "DimensionGate.h"
-
+#include "UIbosshp.h"
+#include "UIManager.h"
 CBoss_Dead::CBoss_Dead()
 {
 }
@@ -25,15 +26,7 @@ HRESULT CBoss_Dead::Ready_State(CStateMachine* pOwner)
 
 STATE CBoss_Dead::Update_State(const _float& fTimeDelta)
 {
-    if (!m_bSpawnGate)
-    {
-        m_bSpawnGate = true;
-        CGameObject* pGameObject = nullptr;
-        pGameObject = CDimensionGate::Create(m_pGraphicDev);
-        dynamic_cast<CDimensionGate*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = _vec3(-95.f, 35.f, 0.f);
-        Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
-    }
-
+ 
     return STATE::BOSS_DEAD;
 
 }

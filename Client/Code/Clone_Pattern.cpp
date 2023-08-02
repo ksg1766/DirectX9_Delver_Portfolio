@@ -45,6 +45,7 @@ STATE CClone_Pattern::Update_State(const _float& fTimeDelta)
         {
             m_pOwner->Get_Transform()->m_vInfo[INFO_POS] = _vec3(-72.5f, 38.f, 94.5f);
             m_bPosReset = true;
+            m_fDelay = 0.f;//기존에 없던 코드임
         }
         m_vResetPos = _vec3(-72.5f, 38.f, 94.5f) - m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
         D3DXVec3Normalize(&m_vResetPos, &m_vResetPos);
@@ -52,7 +53,8 @@ STATE CClone_Pattern::Update_State(const _float& fTimeDelta)
         dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Set_CloneCount(0);
 
     }
-    if ((m_bPosReset) && (!m_bSkill))
+    //if ((m_bPosReset) && (!m_bSkill))
+    if ((m_bPosReset) && (2.f < m_fDelay))
     {
         std::random_device rd;
         mt19937 engine(rd());
@@ -114,7 +116,12 @@ STATE CClone_Pattern::Update_State(const _float& fTimeDelta)
             }
         }
     }
-    if ((2.f< m_fDelay)&&(m_bSkill))
+    /*if ((2.f< m_fDelay)&&(m_bSkill))
+    {
+        m_fMoveDelay += fTimeDelta;
+        return Move_DIr();
+    }*/
+    if (m_bSkill)
     {
         m_fMoveDelay += fTimeDelta;
         return Move_DIr();

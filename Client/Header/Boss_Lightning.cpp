@@ -88,7 +88,7 @@ void CBoss_Lightning::OnCollisionStay(CCollider* _pOther)
 	if (OBJECTTAG::PLAYER == _pOther->Get_Host()->Get_ObjectTag())
 	{
 		CFlyingCamera* pCamera = dynamic_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam());
-		pCamera->Set_ShakeForce(0.f, 0.3f, 1.f, 2.f);
+		pCamera->Set_ShakeForce(0.f, 0.2f, 0.3f, 2.f);
 		pCamera->Shake_Camera();
 
 		CPlayerStat& PlayerState = *(dynamic_cast<CPlayer*>(_pOther->Get_Host())->Get_Stat());

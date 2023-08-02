@@ -63,7 +63,13 @@ _int CSkeletonKing_Clone::Update_Object(const _float& fTimeDelta)
 	_int iExit = __super::Update_Object(fTimeDelta);
 	m_pStateMachine->Update_StateMachine(fTimeDelta);
 	m_fDelay += fTimeDelta;
-	if ((2.f < m_fDelay)&&(!m_bMove))
+	/*if ((2.f < m_fDelay)&&(!m_bMove))
+	{
+		m_fMoveDelay += fTimeDelta;
+		MoveToDir();
+	}*/
+
+	if ((!m_bMove))
 	{
 		m_fMoveDelay += fTimeDelta;
 		MoveToDir();

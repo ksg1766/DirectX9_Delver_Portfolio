@@ -3,6 +3,8 @@
 #include "Export_Function.h"
 #include "SkeletonKing.h"
 #include "SoundManager.h"
+#include "UIbosshp.h"
+#include "UIManager.h"
 CBoss_WakeUp::CBoss_WakeUp()
 {
 }
@@ -31,6 +33,9 @@ STATE CBoss_WakeUp::Update_State(const _float& fTimeDelta)
     {
         if ((0.1f > m_fDelay) && (!m_bWakeUp))
         {
+            Engine::UIManager()->Show_PopupUI(Engine::UIPOPUPLAYER::POPUP_BOSSHP);
+
+
             CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_BOSS);
             CSoundManager::GetInstance()->PlaySound(L"Boss_Laugh1.wav", CHANNELID::SOUND_BOSS, 1.f);
             dynamic_cast<CSkeletonKing*>(m_pOwner->Get_Host())->Get_StateMachine()->Get_Animator()->Get_Animation()->Set_Frame(0.f);

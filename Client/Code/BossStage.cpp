@@ -21,7 +21,7 @@
 #include "FlyingCamera.h"
 #include "EffectStar.h"
 #include "MoonBoss.h"
-
+#include "UIbosshp.h"
 CBossStage::CBossStage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
 {
@@ -369,6 +369,10 @@ HRESULT CBossStage::Ready_Layer_UI(LAYERTAG _eLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	Engine::UIManager()->Add_PopupGameobject(Engine::UIPOPUPLAYER::POPUP_SHOP, Engine::UILAYER::UI_DOWN, pGameObject);
 
+	//BossHPBar
+	pGameObject = CUIbosshp::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	Engine::UIManager()->Add_PopupGameobject(Engine::UIPOPUPLAYER::POPUP_BOSSHP, Engine::UILAYER::UI_DOWN, pGameObject);
 
 	// Speech Bubble Test
 	pGameObject = CUIspeech_OldMan::Create(m_pGraphicDev);

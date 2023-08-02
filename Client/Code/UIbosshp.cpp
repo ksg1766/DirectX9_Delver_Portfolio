@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "..\Header\UIbosshp.h"
-#include "Player.h"
+#include "SkeletonKing.h"
 
 CUIbosshp::CUIbosshp(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CTempUI(pGraphicDev)
@@ -53,16 +53,16 @@ void CUIbosshp::LateUpdate_Object(void)
 	CTempUI::LateUpdate_Object();
 
 	// 보스 hp 가져와서 할당
-	//CGameObject* pObject = nullptr;// SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front();
-	//if (pObject != nullptr)
-	//{
-	//	//CPlayer& rPlayer = *dynamic_cast<CPlayer*>(pObject);
+	m_pObject =  dynamic_cast<CSkeletonKing*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front());
+	if (m_pObject != nullptr)
+	{
+		CSkeletonKing& rBoss = *dynamic_cast<CSkeletonKing*>(m_pObject);
 
-	//	//m_iMaxHp = rPlayer.Get_Stat()->Get_Stat()->fMaxHP;
-	//	//m_iCurrentHp = rPlayer.Get_Stat()->Get_Stat()->fHP;
+		m_fMaxHp = rBoss.Get_BasicStat()->Get_Stat()->fMaxHP;
+		m_fCurrentHp = rBoss.Get_BasicStat()->Get_Stat()->fHP;
 
-	//	Update_NumverUI();
-	//}
+		Update_NumverUI();
+	}
 }
 
 void CUIbosshp::Render_Object()
@@ -187,5 +187,6 @@ CUIbosshp* CUIbosshp::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 
 void CUIbosshp::Free()
 {
+	Safe_Release(m_pObject);
 	CTempUI::Free();
 }
