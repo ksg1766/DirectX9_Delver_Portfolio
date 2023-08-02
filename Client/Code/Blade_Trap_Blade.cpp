@@ -59,7 +59,8 @@ _int CBlade_Trap_Blade::Update_Object(const _float& fTimeDelta)
 	if (SceneManager()->Get_GameStop()) { return 0; }
 	iExit = __super::Update_Object(fTimeDelta);
 
-	//m_pStateMachine->Update_StateMachine(fTimeDelta);
+	m_pStateMachine->Update_StateMachine(fTimeDelta);
+
 	m_fHitTime += fTimeDelta;
 	if ((m_bHit)&&(1.5f < m_fHitTime))
 	{

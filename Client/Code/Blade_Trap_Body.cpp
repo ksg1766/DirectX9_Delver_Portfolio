@@ -64,6 +64,19 @@ _int CBlade_Trap::Update_Object(const _float& fTimeDelta)
 	if (SceneManager()->Get_GameStop()) { return 0; }
 	iExit = __super::Update_Object(fTimeDelta);
 	
+	CPlayer& rPlayer = *SceneManager()->Get_Scene()->Get_MainPlayer();
+
+	_vec3 vDir = rPlayer.m_pTransform->m_vInfo[INFO_POS] - m_pTransform->m_vInfo[INFO_POS];
+	_float fDistance = D3DXVec3Length(&vDir);
+
+
+	if (fDistance > 20.f)
+		return iExit;
+
+	for (_uint i = 0; i < 9; ++i)
+		static_cast<CBlade_Trap_Blade*>(m_vecTrapBlade[i])->Update_Object(fTimeDelta);
+
+
 	return iExit;
 }
 
@@ -105,12 +118,6 @@ void CBlade_Trap::OnCollisionEnter(CCollider* _pOther)
 	CGameObject* pOtherObj = _pOther->Get_Host();
 	if (OBJECTTAG::PLAYER == pOtherObj->Get_ObjectTag())
 	{
-		for (int i = 0; i < 9; ++i)
-		{
-			static_cast<CStateMachine*>(static_cast<CBlade_Trap_Blade*>(m_vecTrapBlade[i])
-				->Get_Component(COMPONENTTAG::STATEMACHINE, ID_STATIC))->Set_State(STATE::ATTACK);
-			static_cast<CBlade_Trap_Blade*>(m_vecTrapBlade[i])->Update_Object(0.02f);
-		}
 
 		if (OBJECTTAG::PLAYER == pOtherObj->Get_ObjectTag())
 		{
@@ -122,26 +129,10 @@ void CBlade_Trap::OnCollisionEnter(CCollider* _pOther)
 
 void CBlade_Trap::OnCollisionStay(CCollider* _pOther)
 {
-	if (OBJECTTAG::PLAYER == _pOther->Get_Host()->Get_ObjectTag())
-	{
-		for (int i = 0; i < 9; ++i)
-		{
-			static_cast<CStateMachine*>(static_cast<CBlade_Trap_Blade*>(m_vecTrapBlade[i])
-				->Get_Component(COMPONENTTAG::STATEMACHINE, ID_STATIC))->Update_StateMachine(0.02f);
-			static_cast<CBlade_Trap_Blade*>(m_vecTrapBlade[i])->Update_Object(0.02f);
-		}
-	}
 }
 
 void CBlade_Trap::OnCollisionExit(CCollider* _pOther)
 {
-	for (int i = 0; i < 9; ++i)
-	{
-		m_vecTrapBlade[i]->m_pTransform->m_vInfo[INFO_POS].y = m_pTransform->m_vInfo[INFO_POS].y - 1.f;
-		static_cast<CStateMachine*>(static_cast<CBlade_Trap_Blade*>(m_vecTrapBlade[i])
-			->Get_Component(COMPONENTTAG::STATEMACHINE, ID_STATIC))->Set_State(STATE::IDLE);
-		static_cast<CBlade_Trap_Blade*>(m_vecTrapBlade[i])->Update_Object(0.02f);
-	}
 }
 
 HRESULT CBlade_Trap::Add_Component(void)

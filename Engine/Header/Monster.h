@@ -72,6 +72,7 @@ protected:
     _bool               m_bWallTouch;
     _bool               m_bKnockback;
     _bool		        m_bIsJump;
+    _bool               m_bDeadCheck = false;
 
     _vec3               m_vCenterPos;
     _float              m_fMoveReturnRange;

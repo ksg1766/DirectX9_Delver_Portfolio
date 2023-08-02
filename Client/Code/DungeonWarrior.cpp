@@ -123,12 +123,16 @@ _int CDungeonWarrior::Update_Object(const _float& fTimeDelta)
 		//////////////////////////////////////////////////////////////////////////////// ÀÌÆåÆ® 
 			if (m_bDieEffect)
 			{
-				CGameObject* pGameObject = CEffectBlood::Create(m_pGraphicDev);
-				pGameObject->m_pTransform->Translate(_vec3(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y - .95f, m_pTransform->m_vInfo[INFO_POS].z));
-				dynamic_cast<CTempEffect*>(pGameObject)->Set_EffectColor(ECOLOR_RED);
-				Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
-				
-				m_bDieEffect = false;
+				if (!m_bDeadCheck)
+				{
+					CGameObject* pGameObject = CEffectBlood::Create(m_pGraphicDev);
+					pGameObject->m_pTransform->Translate(_vec3(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y - .95f, m_pTransform->m_vInfo[INFO_POS].z));
+					dynamic_cast<CTempEffect*>(pGameObject)->Set_EffectColor(ECOLOR_RED);
+					Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+
+					m_bDeadCheck = true;
+				}
+				//m_bDieEffect = false;
 			}
 		//////////////////////////////////////////////////////////////////////////////// ÀÌÆåÆ® 
 			
@@ -186,6 +190,8 @@ void CDungeonWarrior::Init_Stat()
 void CDungeonWarrior::OnCollisionEnter(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
+
+
 
 	if (_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::PLAYER &&
 		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::ITEM &&

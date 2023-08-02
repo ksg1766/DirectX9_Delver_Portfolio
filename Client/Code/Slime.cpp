@@ -111,12 +111,16 @@ _int CSlime::Update_Object(const _float& fTimeDelta)
 			//////////////////////////////////////////////////////////////////////////////// 이펙트 
 			if (m_bDieEffect)
 			{
-				CGameObject* pGameObject = CEffectBlood::Create(m_pGraphicDev);
-				pGameObject->m_pTransform->Translate(_vec3(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y - .95f, m_pTransform->m_vInfo[INFO_POS].z));
-				dynamic_cast<CTempEffect*>(pGameObject)->Set_EffectColor(ECOLOR_GREEN);
-				Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+				if (!m_bDeadCheck)
+				{
+					CGameObject* pGameObject = CEffectBlood::Create(m_pGraphicDev);
+					pGameObject->m_pTransform->Translate(_vec3(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y - .95f, m_pTransform->m_vInfo[INFO_POS].z));
+					dynamic_cast<CTempEffect*>(pGameObject)->Set_EffectColor(ECOLOR_RED);
+					Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 
-				m_bDieEffect = false;
+					m_bDeadCheck = true;
+				}
+				//m_bDieEffect = false;
 			}
 			//////////////////////////////////////////////////////////////////////////////// 이펙트 
 			
@@ -175,8 +179,9 @@ void CSlime::OnCollisionEnter(CCollider* _pOther)
 	// 충돌 밀어내기 후 이벤트 : 구현하시면 됩니다.
 	if (SceneManager()->Get_GameStop()) { return; }
 
-	if (_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::PLAYER&&
-		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::ITEM)
+	if (_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::PLAYER &&
+		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::ITEM &&
+		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::PLAYERBULLET)
 		__super::OnCollisionEnter(_pOther);
 
 	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::PLAYER
@@ -195,8 +200,9 @@ void CSlime::OnCollisionStay(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 
-	if (_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::PLAYER&&
-		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::ITEM)
+	if (_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::PLAYER &&
+		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::ITEM &&
+		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::PLAYERBULLET)
 		__super::OnCollisionStay(_pOther);
 
 

@@ -28,6 +28,7 @@ STATE CBlade_Trap_Attack::Update_State(const _float& fTimeDelta)
 {
 	//해당 상태일 때 업데이트 할 것들
 	m_fCool += fTimeDelta;
+
 	if (!m_bAttack)
 	{
 		m_pOwner->Get_Transform()->Translate(_vec3(0.f, 0.2f, 0.f));
