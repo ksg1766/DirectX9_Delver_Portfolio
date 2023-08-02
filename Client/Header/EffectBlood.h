@@ -3,6 +3,12 @@
 #include "Export_Function.h"
 #include "TempEffect.h"
 
+BEGIN(Engine)
+
+class CRigidBody;
+
+END
+
 class CEffectBlood : public CTempEffect
 {
 private:
@@ -19,6 +25,7 @@ private:
 	HRESULT	Add_Component(void);
 
 private:
+	CRigidBody* m_pRigidBody = nullptr;
 
 public:
 	static CEffectBlood*		Create(LPDIRECT3DDEVICE9 pGraphicDev);

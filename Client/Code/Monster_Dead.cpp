@@ -34,14 +34,16 @@ STATE CMonster_Dead::Update_State(const _float& fTimeDelta)
 		m_bDead = true;
 	}
 
-	if (dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Get_MonsterTag() == MONSTERTAG::BAT)
+	if (dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Get_MonsterTag() == MONSTERTAG::BAT || dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Get_MonsterTag() == MONSTERTAG::ALIEN)
 	{
-		m_pOwner->Get_Transform()->m_vInfo[INFO_POS].y += m_fFlyDown * fTimeDelta;
+		dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Get_RigidBody()->UseGravity(true);
 
-		m_fFlyDown -= 0.5f * fTimeDelta * fTimeDelta * 3000.f;
+		//m_pOwner->Get_Transform()->m_vInfo[INFO_POS].y += m_fFlyDown * fTimeDelta;
 
-		if (m_pOwner->Get_Transform()->m_vInfo[INFO_POS].y < 1.f)
-			m_pOwner->Get_Transform()->m_vInfo[INFO_POS].y = 0.5f;
+		//m_fFlyDown -= 0.5f * fTimeDelta * fTimeDelta * 3000.f;
+
+		//if (m_pOwner->Get_Transform()->m_vInfo[INFO_POS].y < 1.f)
+		//	m_pOwner->Get_Transform()->m_vInfo[INFO_POS].y = 0.5f;
 	}
 
 	return STATE::DEAD;

@@ -1,6 +1,7 @@
 #include "UISpeech_Alchemist.h"
 #include "Export_Function.h"
 #include "Npc_Alchemist.h"
+#include "Player.h"
 
 CUISpeech_Alchemist::CUISpeech_Alchemist(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CTempUI(pGraphicDev)
@@ -26,11 +27,24 @@ HRESULT CUISpeech_Alchemist::Ready_Object()
 	WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y,
 		m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);
 
-	m_pFontconfig = dynamic_cast<CFont*>(m_pFont)->Create_3DXFont(32, 13.f, 1000.f, false, TEXT("맑은 고딕"), m_pFontconfig);
-	dynamic_cast<CFont*>(m_pFont)->Set_pFont(m_pFontconfig);
-	dynamic_cast<CFont*>(m_pFont)->Set_FontColor(_uint(0xffffffff));
-	dynamic_cast<CFont*>(m_pFont)->Set_Rect(RECT{ 0, 520, WINCX, WINCY });
-	dynamic_cast<CFont*>(m_pFont)->Set_Anchor(DT_CENTER | DT_NOCLIP);
+
+	m_pFontconfig[0] = dynamic_cast<CFont*>(m_pFont[0])->Create_3DXFont(32, 15.f, 1000.f, false, TEXT("둥근모꼴"), m_pFontconfig[0]);
+	dynamic_cast<CFont*>(m_pFont[0])->Set_pFont(m_pFontconfig[0]);
+	dynamic_cast<CFont*>(m_pFont[0])->Set_FontColor(_uint(0xffffffff));
+	dynamic_cast<CFont*>(m_pFont[0])->Set_Rect(RECT{ 0, 490, WINCX, 540 });
+	dynamic_cast<CFont*>(m_pFont[0])->Set_Anchor(DT_CENTER | DT_NOCLIP);
+
+	m_pFontconfig[1] = dynamic_cast<CFont*>(m_pFont[1])->Create_3DXFont(32, 15.f, 1000.f, false, TEXT("둥근모꼴"), m_pFontconfig[1]);
+	dynamic_cast<CFont*>(m_pFont[1])->Set_pFont(m_pFontconfig[1]);
+	dynamic_cast<CFont*>(m_pFont[1])->Set_FontColor(_uint(0xffffffff));
+	dynamic_cast<CFont*>(m_pFont[1])->Set_Rect(RECT{ 0, 545, WINCX, 600 });
+	dynamic_cast<CFont*>(m_pFont[1])->Set_Anchor(DT_CENTER | DT_NOCLIP);
+
+	m_pFontconfig[2] = dynamic_cast<CFont*>(m_pFont[2])->Create_3DXFont(32, 15.f, 1000.f, false, TEXT("둥근모꼴"), m_pFontconfig[2]);
+	dynamic_cast<CFont*>(m_pFont[2])->Set_pFont(m_pFontconfig[2]);
+	dynamic_cast<CFont*>(m_pFont[2])->Set_FontColor(_uint(0xffffffff));
+	dynamic_cast<CFont*>(m_pFont[2])->Set_Rect(RECT{ 0, 520, WINCX, WINCY });
+	dynamic_cast<CFont*>(m_pFont[2])->Set_Anchor(DT_CENTER | DT_NOCLIP);
 
 	return S_OK;
 }
@@ -66,6 +80,8 @@ void CUISpeech_Alchemist::Render_Object()
 	vector<CGameObject*>& vecNpc =
 		SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::NPC);
 
+	CPlayer& rPlayer = *SceneManager()->Get_Scene()->Get_MainPlayer();
+
 	NPCTAG eTargetTag = NPCTAG::ALCHEMIST;
 	CNpc* eTargetNpc = nullptr;
 
@@ -85,13 +101,46 @@ void CUISpeech_Alchemist::Render_Object()
 	if (eTargetNpc == nullptr)
 		return;
 
-	if (dynamic_cast<CNpc_Alchemist*>(eTargetNpc)->IsTalk())
+	if (dynamic_cast<CNpc_Alchemist*>(eTargetNpc)->IsTalk() && !rPlayer.AltarOnOrb())
 	{
-		dynamic_cast<CFont*>(m_pFont)->Set_pFont(m_pFontconfig);
-		m_pFont->DrawText(L"일단 만들어 놨음");
+
+		if (dynamic_cast<CNpc_Alchemist*>(eTargetNpc)->Get_SpeechCount() == 0)
+		{
+			dynamic_cast<CFont*>(m_pFont[0])->Set_pFont(m_pFontconfig[2]);
+			m_pFont[2]->DrawText(L"왕년에는 내가 마법으로 전 세계를 날아다녔는데..");
+		}
+		else if (1 == dynamic_cast<CNpc_Alchemist*>(eTargetNpc)->Get_SpeechCount())
+		{
+			dynamic_cast<CFont*>(m_pFont[0])->Set_pFont(m_pFontconfig[0]);
+			m_pFont[0]->DrawText(L"몬스터들에게 오브를 빼앗기고,");
+
+			dynamic_cast<CFont*>(m_pFont[1])->Set_pFont(m_pFontconfig[1]);
+			m_pFont[1]->DrawText(L"마을을 지켜주던 나무가 죽어가니 잘 되던 마법이 안되기 시작했어..");
+		}
+		else if (2 == dynamic_cast<CNpc_Alchemist*>(eTargetNpc)->Get_SpeechCount())
+		{
+			dynamic_cast<CFont*>(m_pFont[2])->Set_pFont(m_pFontconfig[2]);
+			m_pFont[2]->DrawText(L"...이제 마법을 못 쓰면 뭐하고 살아야 할 지 모르겠어");
+		}
+		else if (3 == dynamic_cast<CNpc_Alchemist*>(eTargetNpc)->Get_SpeechCount())
+		{
+			dynamic_cast<CFont*>(m_pFont[2])->Set_pFont(m_pFontconfig[2]);
+			m_pFont[2]->DrawText(L".....");
+		}
 	}
-
-
+	else if (dynamic_cast<CNpc_Alchemist*>(eTargetNpc)->IsTalk() && rPlayer.AltarOnOrb())
+	{
+		if (dynamic_cast<CNpc_Alchemist*>(eTargetNpc)->Get_SpeechCount() == 0)
+		{
+			dynamic_cast<CFont*>(m_pFont[0])->Set_pFont(m_pFontconfig[2]);
+			m_pFont[2]->DrawText(L"마법이 다시 나오기 시작했어...!");
+		}
+		else if (1 == dynamic_cast<CNpc_Alchemist*>(eTargetNpc)->Get_SpeechCount())
+		{
+			dynamic_cast<CFont*>(m_pFont[2])->Set_pFont(m_pFontconfig[2]);
+			m_pFont[2]->DrawText(L"정말 다행이야...");
+		}
+	}
 }
 
 HRESULT CUISpeech_Alchemist::Add_Component()
@@ -110,9 +159,12 @@ HRESULT CUISpeech_Alchemist::Add_Component()
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
 
-	pComponent = m_pFont = dynamic_cast<CFont*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Font"));
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::FONT, pComponent);
+	for (_uint i = 0; i < 3; ++i)
+	{
+		pComponent = m_pFont[i] = dynamic_cast<CFont*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Font"));
+		NULL_CHECK_RETURN(pComponent, E_FAIL);
+		m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::FONT, pComponent);
+	}
 
 	for (int i = 0; i < ID_END; ++i)
 		for (auto& iter : m_mapComponent[i])

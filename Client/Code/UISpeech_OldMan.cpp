@@ -1,6 +1,7 @@
 #include "UISpeech_OldMan.h"
 #include "Export_Function.h"
 #include "Npc_OldMan.h"
+#include "Player.h"
 CUIspeech_OldMan::CUIspeech_OldMan(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CTempUI(pGraphicDev)
 {
@@ -25,17 +26,23 @@ HRESULT CUIspeech_OldMan::Ready_Object()
 	WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);
 
 
-	m_pFontconfig[0] = dynamic_cast<CFont*>(m_pFont)->Create_3DXFont(32, 13.f, 1000.f, false, TEXT("맑은 고딕"), m_pFontconfig[0]);
-	dynamic_cast<CFont*>(m_pFont)->Set_pFont(m_pFontconfig[0]);
-	dynamic_cast<CFont*>(m_pFont)->Set_FontColor(_uint(0xffffffff));
-	dynamic_cast<CFont*>(m_pFont)->Set_Rect(RECT{ 0, 520, WINCX, WINCY });
-	dynamic_cast<CFont*>(m_pFont)->Set_Anchor(DT_CENTER | DT_NOCLIP);
+	m_pFontconfig[0] = dynamic_cast<CFont*>(m_pFont[0])->Create_3DXFont(32, 15.f, 1000.f, false, TEXT("둥근모꼴"), m_pFontconfig[0]);
+	dynamic_cast<CFont*>(m_pFont[0])->Set_pFont(m_pFontconfig[0]);
+	dynamic_cast<CFont*>(m_pFont[0])->Set_FontColor(_uint(0xffffffff));
+	dynamic_cast<CFont*>(m_pFont[0])->Set_Rect(RECT{ 0, 490, WINCX, 540 });
+	dynamic_cast<CFont*>(m_pFont[0])->Set_Anchor(DT_CENTER | DT_NOCLIP);
 
-	m_pFontconfig[1] = dynamic_cast<CFont*>(m_pFont)->Create_3DXFont(32, 15.f, 1000.f, false, TEXT("맑은 고딕"), m_pFontconfig[1]);
-	dynamic_cast<CFont*>(m_pFont)->Set_pFont(m_pFontconfig[1]);
-	dynamic_cast<CFont*>(m_pFont)->Set_FontColor(_uint(0xffffffff));
-	dynamic_cast<CFont*>(m_pFont)->Set_Rect(RECT{ 0, 520, WINCX, WINCY });
-	dynamic_cast<CFont*>(m_pFont)->Set_Anchor(DT_CENTER | DT_NOCLIP);
+	m_pFontconfig[1] = dynamic_cast<CFont*>(m_pFont[1])->Create_3DXFont(32, 15.f, 1000.f, false, TEXT("둥근모꼴"), m_pFontconfig[1]);
+	dynamic_cast<CFont*>(m_pFont[1])->Set_pFont(m_pFontconfig[1]);
+	dynamic_cast<CFont*>(m_pFont[1])->Set_FontColor(_uint(0xffffffff));
+	dynamic_cast<CFont*>(m_pFont[1])->Set_Rect(RECT{ 0, 545, WINCX, 600 });
+	dynamic_cast<CFont*>(m_pFont[1])->Set_Anchor(DT_CENTER | DT_NOCLIP);
+
+	m_pFontconfig[2] = dynamic_cast<CFont*>(m_pFont[2])->Create_3DXFont(32, 15.f, 1000.f, false, TEXT("둥근모꼴"), m_pFontconfig[2]);
+	dynamic_cast<CFont*>(m_pFont[2])->Set_pFont(m_pFontconfig[2]);
+	dynamic_cast<CFont*>(m_pFont[2])->Set_FontColor(_uint(0xffffffff));
+	dynamic_cast<CFont*>(m_pFont[2])->Set_Rect(RECT{ 0, 520, WINCX, WINCY });
+	dynamic_cast<CFont*>(m_pFont[2])->Set_Anchor(DT_CENTER | DT_NOCLIP);
 
 	m_iSpeech = 0;
 	m_bQuest = false;
@@ -72,8 +79,8 @@ void CUIspeech_OldMan::Render_Object()
 
 	srand(_uint(time(nullptr)));
 
-	/*dynamic_cast<CFont*>(m_pFont)->Set_pFont(m_pFontconfig[1]);
-	m_pFont->DrawText(L"");*/
+	CPlayer& rPlayer = *SceneManager()->Get_Scene()->Get_MainPlayer();
+
 	m_pGameObject = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::NPC).front();
 
 	vector<CGameObject*>& vecNpc =
@@ -98,33 +105,78 @@ void CUIspeech_OldMan::Render_Object()
 	if (pTargetNpc == nullptr)
 		return;
 
-	if (dynamic_cast<CNpc_OldMan*>(pTargetNpc)->IsTalk())
+
+	CInventory* PlayerInven = rPlayer.Get_Inventory();
+
+
+	CItem* pItem = dynamic_cast<CItem*>(PlayerInven->Get_IDItem(ITEMID::QUEST_ORB));
+
+
+	if (dynamic_cast<CNpc_OldMan*>(pTargetNpc)->IsTalk() && pItem == nullptr)
 	{
-		if (!dynamic_cast<CNpc_OldMan*>(m_pGameObject)->Get_Quest())
+
+		if (dynamic_cast<CNpc_OldMan*>(pTargetNpc)->Get_SpeechCount() == 0)
 		{
-			dynamic_cast<CFont*>(m_pFont)->Set_pFont(m_pFontconfig[1]);
-			m_pFont->DrawText(L"나무좀 고쳐주게잉");
+			dynamic_cast<CFont*>(m_pFont[0])->Set_pFont(m_pFontconfig[2]);
+			m_pFont[2]->DrawText(L"이렇게 다 죽어가는 마을에 새로운 손님은 오랜만이네");
+
+			//dynamic_cast<CFont*>(m_pFont[1])->Set_pFont(m_pFontconfig[1]);
+			//m_pFont[1]->DrawText(L"몬스터들을 무찌르고 오브를 찾아주신다니 정말 감사합니다.");
 		}
-		else
+		else if (1 == dynamic_cast<CNpc_OldMan*>(pTargetNpc)->Get_SpeechCount())
 		{
-			switch (dynamic_cast<CNpc_OldMan*>(m_pGameObject)->Get_Speech())
-			{
-			case 0:
-				dynamic_cast<CFont*>(m_pFont)->Set_pFont(m_pFontconfig[1]);
-				m_pFont->DrawText(L"빨리 가서 해줘잉");
-				break;
-			case 1:	dynamic_cast<CFont*>(m_pFont)->Set_pFont(m_pFontconfig[1]);
-				m_pFont->DrawText(L"여기서 뭘 하고 있나");
-				break;
-			case 2:
-				dynamic_cast<CFont*>(m_pFont)->Set_pFont(m_pFontconfig[1]);
-				m_pFont->DrawText(L"에잇 빨리 꺼져잉");
-				break;
-			}
+			dynamic_cast<CFont*>(m_pFont[0])->Set_pFont(m_pFontconfig[0]);
+			m_pFont[0]->DrawText(L"낯선 젊은이,");
+
+			dynamic_cast<CFont*>(m_pFont[1])->Set_pFont(m_pFontconfig[1]);
+			m_pFont[1]->DrawText(L"이것도 인연인데 잠시 내 이야기 좀 들어주게나.");
+		}
+		else if (2 == dynamic_cast<CNpc_OldMan*>(pTargetNpc)->Get_SpeechCount())
+		{
+			dynamic_cast<CFont*>(m_pFont[0])->Set_pFont(m_pFontconfig[0]);
+			m_pFont[2]->DrawText(L"이 마을에는 옛날부터 대대로 내려오던 오브라는 것이 있었다네");
+
+	/*		dynamic_cast<CFont*>(m_pFont[1])->Set_pFont(m_pFontconfig[1]);
+			m_pFont[1]->DrawText(L"이것도 인연인데 잠시 내 이야기 좀 들어주게나.");*/
+		}
+		else if (3 == dynamic_cast<CNpc_OldMan*>(pTargetNpc)->Get_SpeechCount())
+		{
+			dynamic_cast<CFont*>(m_pFont[0])->Set_pFont(m_pFontconfig[0]);
+			m_pFont[0]->DrawText(L"오브는 이 뒤에 있는 마을을 지켜주던 큰 나무의 심장이자 원동력이었는데,");
+
+			dynamic_cast<CFont*>(m_pFont[1])->Set_pFont(m_pFontconfig[1]);
+			m_pFont[1]->DrawText(L"어느 날 몬스터들이 마을에 쳐들어와서 뺏어가고 말았다네..");
+		}
+		else if (4 == dynamic_cast<CNpc_OldMan*>(pTargetNpc)->Get_SpeechCount())
+		{
+			dynamic_cast<CFont*>(m_pFont[0])->Set_pFont(m_pFontconfig[0]);
+			m_pFont[0]->DrawText(L"그 뒤로 마을을 지켜주던 나무는 오브가 사라져 조금씩 죽어가고 있으며,");
+
+			dynamic_cast<CFont*>(m_pFont[1])->Set_pFont(m_pFontconfig[1]);
+			m_pFont[1]->DrawText(L"이 마을은 그로인해 생기를 잃어가며 새로운 손님들의 발길도 끊어지고 말았지..");
+		}
+		else if (5 == dynamic_cast<CNpc_OldMan*>(pTargetNpc)->Get_SpeechCount())
+		{
+			dynamic_cast<CFont*>(m_pFont[0])->Set_pFont(m_pFontconfig[0]);
+			m_pFont[2]->DrawText(L"이것도 인연인데, 몬스터를 무찌르고 오브를 찾아 우리 마을을 구해주게.");
 		}
 	}
+	else if (dynamic_cast<CNpc_OldMan*>(pTargetNpc)->IsTalk() && pItem != nullptr)
+	{
+		if (dynamic_cast<CNpc_OldMan*>(pTargetNpc)->Get_SpeechCount() == 0)
+		{
+			dynamic_cast<CFont*>(m_pFont[0])->Set_pFont(m_pFontconfig[2]);
+			m_pFont[2]->DrawText(L"그 많은 몬스터들을 무찌르고 오브를 찾아오다니 정말 대단하네.");
+		}
+		else if (1 == dynamic_cast<CNpc_OldMan*>(pTargetNpc)->Get_SpeechCount())
+		{
+			dynamic_cast<CFont*>(m_pFont[0])->Set_pFont(m_pFontconfig[0]);
+			m_pFont[0]->DrawText(L"내 뒤에 있는 제단에 오브를 올려놔주게,");
 
-	
+			dynamic_cast<CFont*>(m_pFont[1])->Set_pFont(m_pFontconfig[1]);
+			m_pFont[1]->DrawText(L"그러면 이 마을의 생기는 다시 돌아올걸세");
+		}
+	}
 }
 
 HRESULT CUIspeech_OldMan::Add_Component(void)
@@ -143,9 +195,13 @@ HRESULT CUIspeech_OldMan::Add_Component(void)
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
 
-	pComponent = m_pFont = dynamic_cast<CFont*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Font"));
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::FONT, pComponent);
+	for (_uint i = 0; i < 3; ++i)
+	{
+		pComponent = m_pFont[i] = dynamic_cast<CFont*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Font"));
+		NULL_CHECK_RETURN(pComponent, E_FAIL);
+		m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::FONT, pComponent);
+	}
+
 
 	for (int i = 0; i < ID_END; ++i)
 		for (auto& iter : m_mapComponent[i])

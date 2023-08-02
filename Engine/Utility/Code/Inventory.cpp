@@ -837,6 +837,8 @@ CGameObject* CInventory::Get_IDItem(ITEMID _eID)
 			}
 		}
 	}
+
+	return nullptr;
 }
 
 void CInventory::GoSwitch_InvenItem(ITEMTYPEID  _ItemID, UIOBJECTTTAG _StartslotId, _uint _StartUINumber, UIOBJECTTTAG _EndslotId, _uint _EndUINumber)

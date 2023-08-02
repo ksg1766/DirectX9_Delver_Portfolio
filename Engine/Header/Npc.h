@@ -27,6 +27,8 @@ public:
     CBasicStat*         Get_BasicStat() { return m_pBasicStat; }
     NPCTAG	            Get_NPCTag() { return m_eNPCTag; }
     STATE	            Get_State() { return m_eState; }
+
+    _uint		        Get_SpeechCount() { return m_iCount; }
    // _bool				Get_AttackTick() { return m_bAttackTick; }
 
 protected:
@@ -34,6 +36,9 @@ protected:
     CBasicStat*     m_pBasicStat = nullptr;
     NPCTAG		    m_eNPCTag;
     STATE			m_eState;
+
+    _uint			m_iCount;
+    _uint			m_iMaxCount;
 
     _bool			m_bAttackTick;
     //NPC를 때릴 수 있도록 일단 만들어봄

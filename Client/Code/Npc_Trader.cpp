@@ -38,12 +38,14 @@ HRESULT CNpc_Trader::Ready_Object()
 	m_pStateMachine->Set_Animator(m_pAnimator);
 	m_pStateMachine->Set_State(STATE::IDLE);
 
+	m_iCount = 0;
+	m_iMaxCount = 2;
 
 	m_bTalkBox = false;
 	m_bTalkButton = false;
 	m_bTalking = false;
 	m_bUse = false;
-	m_pFontconfig = dynamic_cast<CFont*>(m_pFont)->Create_3DXFont(35, 28.f, 1000.f, false, L"Times New Roman", m_pFontconfig);
+	m_pFontconfig = dynamic_cast<CFont*>(m_pFont)->Create_3DXFont(35, 20.f, 1000.f, false, L"µÕ±Ù¸ð²Ã", m_pFontconfig);
 	dynamic_cast<CFont*>(m_pFont)->Set_pFont(m_pFontconfig);
 	dynamic_cast<CFont*>(m_pFont)->Set_FontColor(_uint(0xffffffff));
 	dynamic_cast<CFont*>(m_pFont)->Set_Rect(RECT{ 0, 350, WINCX, 650 });
@@ -68,52 +70,113 @@ _int CNpc_Trader::Update_Object(const _float& fTimeDelta)
 
 	CGameObject* pGameObject = SceneManager()->
 		Get_ObjectList(LAYERTAG::ENVIRONMENT, OBJECTTAG::CAMERA).front();
+
+	CInventory* PlayerInven = rPlayer.Get_Inventory();
+
+	CItem* pItem = dynamic_cast<CItem*>(PlayerInven->Get_IDItem(ITEMID::QUEST_ORB));
 	
 	if (fDistance < 3.f)
 	{
 		m_bTalkButton = true;
 
+
 		if (Engine::InputDev()->Key_Down(DIK_F))
 		{
-			if (m_bUse)
+
+			if (pItem == nullptr)
 			{
-				Engine::UIManager()->Set_Shop();
-				rPlayer.Set_Talk(false);
-				static_cast<CFlyingCamera*>(pGameObject)->Set_MouseFix(false);
-				m_bUse = false;
-
-				CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_UI);
-				CSoundManager::GetInstance()->PlaySound(L"ui_dialogue_close.mp3", CHANNELID::SOUND_UI, 1.f);
-			}
-			else if (Engine::UIManager()->Set_SpeechBubbleUse())
-			{
-				m_bTalkBox = true;
-
-				CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_UI);
-				CSoundManager::GetInstance()->PlaySound(L"ui_dialogue_open.mp3", CHANNELID::SOUND_UI, 1.f);
-
-				rPlayer.Set_Talk(true);
-				if (!m_bTalking)
-					m_bTalking = true;
-
-
-			}
-			else
-			{
-				Engine::UIManager()->Hide_PopupUI(UIPOPUPLAYER::POPUP_SPEECH);
-				SceneManager()->Set_GameStop(false);
-				m_bTalkBox = false;
-				m_bTalking = false;
-				m_bUse = true;
-			
-				if (Engine::UIManager()->Set_Shop())
+				if (!m_bFirstTalk)
 				{
+					if (Engine::UIManager()->Set_SpeechBubbleUse())
+					{
+						rPlayer.Set_Talk(true);
+						m_bTalkButton = false;
+
+						if (!m_bTalking)
+							m_bTalking = true;
+
+						static_cast<CFlyingCamera*>(pGameObject)->Set_MouseFix(true);
+						CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_UI);
+						CSoundManager::GetInstance()->PlaySound(L"ui_dialogue_open.mp3", CHANNELID::SOUND_UI, 1.f);
+					}
+					m_bFirstTalk = true;
+
+					return iExit;
+				}
+
+
+				if (m_bUse)
+				{
+					m_bUse = false;
+					rPlayer.Set_Talk(false);
+					Engine::UIManager()->Set_Shop();
+					static_cast<CFlyingCamera*>(pGameObject)->Set_MouseFix(false);
+
+					CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_UI);
+					CSoundManager::GetInstance()->PlaySound(L"ui_dialogue_open.mp3", CHANNELID::SOUND_UI, 1.f);
+
+					m_iCount = 0;
+					m_bFirstTalk = false;
+
+					return iExit;
+				}
+
+				if (m_iCount < m_iMaxCount)
+				{
+					CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_UI);
+					CSoundManager::GetInstance()->PlaySound(L"ui_dialogue_open.mp3", CHANNELID::SOUND_UI, 1.f);
+
+					++m_iCount;
+				}
+				else if (m_iCount >= m_iMaxCount)
+				{
+					Engine::UIManager()->Set_SpeechBubbleUse();
+					Engine::UIManager()->Hide_PopupUI(UIPOPUPLAYER::POPUP_SPEECH);
+					SceneManager()->Set_GameStop(false);
+					m_bTalkBox = false;
+					m_bTalking = false;
+					rPlayer.Set_Talk(true);
+
+					static_cast<CFlyingCamera*>(pGameObject)->Set_MouseFix(true);
+
+					CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_UI);
+					CSoundManager::GetInstance()->PlaySound(L"ui_dialogue_close.mp3", CHANNELID::SOUND_UI, 1.f);
+
+					m_bUse = true;
+					Engine::UIManager()->Set_Shop();
+				}
+
+
+			}
+			else if (pItem != nullptr)
+			{
+				if (Engine::UIManager()->Set_SpeechBubbleUse())
+				{
+					rPlayer.Set_Talk(true);
+					m_bTalkButton = false;
+
+					if (!m_bTalking)
+						m_bTalking = true;
+
 					static_cast<CFlyingCamera*>(pGameObject)->Set_MouseFix(true);
 					CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_UI);
 					CSoundManager::GetInstance()->PlaySound(L"ui_dialogue_open.mp3", CHANNELID::SOUND_UI, 1.f);
 				}
-					
+				else
+				{
+					Engine::UIManager()->Hide_PopupUI(UIPOPUPLAYER::POPUP_SPEECH);
+					SceneManager()->Set_GameStop(false);
+					m_bTalkBox = false;
+					m_bTalking = false;
+					rPlayer.Set_Talk(false);
+
+					static_cast<CFlyingCamera*>(pGameObject)->Set_MouseFix(false);
+
+					CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_UI);
+					CSoundManager::GetInstance()->PlaySound(L"ui_dialogue_close.mp3", CHANNELID::SOUND_UI, 1.f);
+				}
 			}
+			
 		}
 	}
 	else
@@ -145,7 +208,7 @@ void CNpc_Trader::Render_Object()
 
 	if (!SceneManager()->Get_GameStop())
 	{
-		if ((!m_bTalkBox) && (m_bTalkButton) && !rPlayer.IsTalk())
+		if ((!m_bTalkBox) && (m_bTalkButton) && !rPlayer.IsTalk() && !m_bUse)
 		{
 			m_pFont->Set_pFont(m_pFontconfig);
 			m_pFont->DrawText(L"F : SHOP");

@@ -38,7 +38,7 @@ HRESULT CNpc_Bard::Ready_Object()
 	m_pStateMachine->Set_Animator(m_pAnimator);
 	m_pStateMachine->Set_State(STATE::IDLE);
 
-	m_pFontconfig = dynamic_cast<CFont*>(m_pFont)->Create_3DXFont(35, 28.f, 1000.f, false, L"Times New Roman", m_pFontconfig);
+	m_pFontconfig = dynamic_cast<CFont*>(m_pFont)->Create_3DXFont(35, 20.f, 1000.f, false, L"µÕ±Ù¸ð²Ã", m_pFontconfig);
 	dynamic_cast<CFont*>(m_pFont)->Set_pFont(m_pFontconfig);
 	dynamic_cast<CFont*>(m_pFont)->Set_FontColor(_uint(0xffffffff));
 	dynamic_cast<CFont*>(m_pFont)->Set_Rect(RECT{ 0, 350, WINCX, 650 });

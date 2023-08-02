@@ -3,7 +3,7 @@
 #include "Npc_OldMan.h"
 #include "Export_Function.h"
 #include "OldMan_Idle.h"
-#include "DynamicCamera.h"
+#include "FlyingCamera.h"
 #include "UIspeech_OldMan.h"
 #include "Player.h"
 CNpc_OldMan::CNpc_OldMan(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -38,11 +38,14 @@ HRESULT CNpc_OldMan::Ready_Object()
 	m_pStateMachine->Set_Animator(m_pAnimator);
 	m_pStateMachine->Set_State(STATE::IDLE);
 
+	m_iCount = 0;
+	m_iMaxCount = 5;
+
 	m_bTalkButton = false;
 	m_bTalkingBox = false;
 	m_bQuest =		false;
 	m_bSpeech = false;
-	m_pFontconfig = dynamic_cast<CFont*>(m_pFont)->Create_3DXFont(35, 28.f, 1000.f, false, L"Times New Roman", m_pFontconfig);
+	m_pFontconfig = dynamic_cast<CFont*>(m_pFont)->Create_3DXFont(32, 20.f, 1000.f, false, L"µÕ±Ù¸ð²Ã", m_pFontconfig);
 	dynamic_cast<CFont*>(m_pFont)->Set_pFont(m_pFontconfig);
 	dynamic_cast<CFont*>(m_pFont)->Set_FontColor(_uint(0xffffffff));
 	dynamic_cast<CFont*>(m_pFont)->Set_Rect(RECT { 0, 350, WINCX, 650 });
@@ -68,45 +71,110 @@ _int CNpc_OldMan::Update_Object(const _float& fTimeDelta)
 	m_vDir = m_vPlayerPos - m_pTransform->m_vInfo[INFO_POS];
 	m_fDistance = D3DXVec3LengthSq(&m_vDir);
 
+	CGameObject* pGameObject = SceneManager()->
+		Get_ObjectList(LAYERTAG::ENVIRONMENT, OBJECTTAG::CAMERA).front();
+
+	CInventory* PlayerInven = rPlayer.Get_Inventory();
+
+	CItem* pItem = dynamic_cast<CItem*>(PlayerInven->Get_IDItem(ITEMID::QUEST_ORB));
 
 	if (m_fDistance < 3.f)
 	{
 		m_bTalkButton = true;
-	
+
 		if (Engine::InputDev()->Key_Down(DIK_F))
 		{
-			m_pGameObject = SceneManager()->Get_ObjectList(LAYERTAG::ENVIRONMENT, OBJECTTAG::CAMERA).front();
-		
-			//if ((!m_bTalkingBox) && (m_bTalkButton))
-
-			if (Engine::UIManager()->Set_SpeechBubbleUse())
+			if (pItem == nullptr)
 			{
-				//static_cast<CDynamicCamera*>(m_pGameObject)->Set_Fix(true);
-				rPlayer.Set_Talk(true);
-
-				m_bTalkingBox = true;
-				if (!m_bSpeech)
+				if (!m_bFirstTalk)
 				{
-					srand(_uint(time(NULL)));
-					m_iSpeech = rand() % 3;
-					m_bSpeech = true;
-				}
-				CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_UI);
-				CSoundManager::GetInstance()->PlaySound(L"ui_dialogue_open.mp3", CHANNELID::SOUND_UI, 1.f);
-				
-			}
-			else
-			{
-				//static_cast<CDynamicCamera*>(m_pGameObject)->Set_Fix(false);
-				Engine::UIManager()->Hide_PopupUI(UIPOPUPLAYER::POPUP_SPEECH);
-				SceneManager()->Set_GameStop(false);
-				m_bQuest = true;
-				m_bSpeech = false;
-				m_bTalkingBox = false;
-				rPlayer.Set_Talk(false);
+					if (Engine::UIManager()->Set_SpeechBubbleUse())
+					{
+						rPlayer.Set_Talk(true);
+						m_bTalkButton = false;
 
-				CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_UI);
-				CSoundManager::GetInstance()->PlaySound(L"ui_dialogue_close.mp3", CHANNELID::SOUND_UI, 1.f);
+						if (!m_bSpeech)
+							m_bSpeech = true;
+
+						static_cast<CFlyingCamera*>(pGameObject)->Set_MouseFix(true);
+						CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_UI);
+						CSoundManager::GetInstance()->PlaySound(L"ui_dialogue_open.mp3", CHANNELID::SOUND_UI, 1.f);
+					}
+					m_bFirstTalk = true;
+
+					return iExit;
+				}
+
+				if (m_iCount < m_iMaxCount)
+				{
+					CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_UI);
+					CSoundManager::GetInstance()->PlaySound(L"ui_dialogue_open.mp3", CHANNELID::SOUND_UI, 1.f);
+
+					++m_iCount;
+				}
+				else if (m_iCount >= m_iMaxCount)
+				{
+					Engine::UIManager()->Set_SpeechBubbleUse();
+					Engine::UIManager()->Hide_PopupUI(UIPOPUPLAYER::POPUP_SPEECH);
+					SceneManager()->Set_GameStop(false);
+					m_bTalkingBox = false;
+					m_bSpeech = false;
+					rPlayer.Set_Talk(false);
+
+					static_cast<CFlyingCamera*>(pGameObject)->Set_MouseFix(false);
+
+					CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_UI);
+					CSoundManager::GetInstance()->PlaySound(L"ui_dialogue_close.mp3", CHANNELID::SOUND_UI, 1.f);
+
+					m_iCount = 0;
+					m_bFirstTalk = false;
+				}
+			}
+			else if (pItem != nullptr)
+			{
+				if (!m_bFirstTalk)
+				{
+					if (Engine::UIManager()->Set_SpeechBubbleUse())
+					{
+						rPlayer.Set_Talk(true);
+						m_bTalkButton = false;
+
+						if (!m_bSpeech)
+							m_bSpeech = true;
+
+						static_cast<CFlyingCamera*>(pGameObject)->Set_MouseFix(true);
+						CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_UI);
+						CSoundManager::GetInstance()->PlaySound(L"ui_dialogue_open.mp3", CHANNELID::SOUND_UI, 1.f);
+					}
+					m_bFirstTalk = true;
+
+					return iExit;
+				}
+
+				if (m_iCount < m_iMaxCount - 4)
+				{
+					CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_UI);
+					CSoundManager::GetInstance()->PlaySound(L"ui_dialogue_open.mp3", CHANNELID::SOUND_UI, 1.f);
+
+					++m_iCount;
+				}
+				else if (m_iCount >= m_iMaxCount - 4)
+				{
+					Engine::UIManager()->Set_SpeechBubbleUse();
+					Engine::UIManager()->Hide_PopupUI(UIPOPUPLAYER::POPUP_SPEECH);
+					SceneManager()->Set_GameStop(false);
+					m_bTalkingBox = false;
+					m_bSpeech = false;
+					rPlayer.Set_Talk(false);
+
+					static_cast<CFlyingCamera*>(pGameObject)->Set_MouseFix(false);
+
+					CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_UI);
+					CSoundManager::GetInstance()->PlaySound(L"ui_dialogue_close.mp3", CHANNELID::SOUND_UI, 1.f);
+
+					m_iCount = 0;
+					m_bFirstTalk = false;
+				}
 			}
 		}
 	}

@@ -27,8 +27,8 @@ private:
 	void	Key_Input();
 
 private:
-	CFont*	   m_pFont = nullptr;
-	ID3DXFont* m_pFontconfig;
+	CFont*		m_pFont[3] = {};
+	ID3DXFont* m_pFontconfig[4];
 
 public:
 	static CUIUseShop_Trander* Create(LPDIRECT3DDEVICE9 pGraphicDev);

@@ -47,9 +47,9 @@ HRESULT CPhantom::Ready_Object()
 	m_vPushPos = _vec3(-81.f, 12.f, -11.f);
 
 	m_iCount = 0;
-	m_iMaxCount = 3;
+	m_iMaxCount = 8;
 
-	m_pFontconfig = dynamic_cast<CFont*>(m_pFont)->Create_3DXFont(35, 28.f, 1000.f, false, L"Times New Roman", m_pFontconfig);
+	m_pFontconfig = dynamic_cast<CFont*>(m_pFont)->Create_3DXFont(35, 20.f, 1000.f, false, L"µÕ±Ù¸ð²Ã", m_pFontconfig);
 	dynamic_cast<CFont*>(m_pFont)->Set_pFont(m_pFontconfig);
 	dynamic_cast<CFont*>(m_pFont)->Set_FontColor(_uint(0xffffffff));
 	dynamic_cast<CFont*>(m_pFont)->Set_Rect(RECT{ 0, 350, WINCX, 650 });
@@ -92,7 +92,11 @@ _int CPhantom::Update_Object(const _float& fTimeDelta)
 
 
 			if (fDistance <= 0.3f)
+			{
 				m_bPush = false;
+				m_bShake = false;
+			}
+				
 		}
 
 		if (!m_bFirstCollision)
@@ -120,15 +124,16 @@ _int CPhantom::Update_Object(const _float& fTimeDelta)
 		{
 			if (Engine::InputDev()->Key_Down(DIK_F))
 			{
-				if (m_iCount < m_iMaxCount)
+				if (m_iCount < m_iMaxCount - 3)
 				{
 					CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_UI);
 					CSoundManager::GetInstance()->PlaySound(L"ui_dialogue_open.mp3", CHANNELID::SOUND_UI, 1.f);
 
 					++m_iCount;
 				}
-				else if (m_iCount >= m_iMaxCount)
+				else if (m_iCount >= m_iMaxCount - 3)
 				{
+					Engine::UIManager()->Set_SpeechBubbleUse();
 					Engine::UIManager()->Hide_PopupUI(UIPOPUPLAYER::POPUP_SPEECH);
 					SceneManager()->Set_GameStop(false);
 					m_bTalkingBox = false;
@@ -143,6 +148,8 @@ _int CPhantom::Update_Object(const _float& fTimeDelta)
 					m_bQusetStart = true;
 					Create_Puzzle();
 
+
+					++m_iCount;
 				}
 			}
 		}
@@ -156,21 +163,31 @@ _int CPhantom::Update_Object(const _float& fTimeDelta)
 		{
 			if (Engine::InputDev()->Key_Down(DIK_F))
 			{
-				if (Engine::UIManager()->Set_SpeechBubbleUse())
+				if (!m_bQuestClearTalk)
 				{
-					++m_iCount;
+					if (Engine::UIManager()->Set_SpeechBubbleUse())
+					{
+						rPlayer.Set_Talk(true);
 
-					rPlayer.Set_Talk(true);
+						if (!m_bTalking)
+							m_bTalking = true;
 
-					if (!m_bTalking)
-						m_bTalking = true;
-
-					static_cast<CFlyingCamera*>(pGameObject)->Set_MouseFix(true);
+						static_cast<CFlyingCamera*>(pGameObject)->Set_MouseFix(false);
+						CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_UI);
+						CSoundManager::GetInstance()->PlaySound(L"ui_dialogue_open.mp3", CHANNELID::SOUND_UI, 1.f);
+					}
+					m_bQuestClearTalk = true;
+				}
+				else if (m_iCount < m_iMaxCount)
+				{
 					CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_UI);
 					CSoundManager::GetInstance()->PlaySound(L"ui_dialogue_open.mp3", CHANNELID::SOUND_UI, 1.f);
+
+					++m_iCount;
 				}
-				else
+				else if (m_iCount >= m_iMaxCount)
 				{
+					Engine::UIManager()->Set_SpeechBubbleUse();
 					Engine::UIManager()->Hide_PopupUI(UIPOPUPLAYER::POPUP_SPEECH);
 					SceneManager()->Set_GameStop(false);
 					m_bTalkingBox = false;
@@ -192,10 +209,21 @@ _int CPhantom::Update_Object(const _float& fTimeDelta)
 	{
 		m_pTransform->m_vInfo[INFO_POS].y += fTimeDelta * 2.f;
 
+		static_cast<CFlyingCamera*>(pGameObject)->Set_MouseFix(false);
+
 		if (m_pTransform->m_vInfo[INFO_POS].y >= 18.f)
 		{
 			rPlayer.Set_Quest(true);
 			EventManager()->DeleteObject(this);
+
+			Engine::UIManager()->Hide_PopupUI(UIPOPUPLAYER::POPUP_SPEECH);
+			SceneManager()->Set_GameStop(false);
+			m_bTalkingBox = false;
+			m_bTalking = false;
+			rPlayer.Set_Talk(false);
+
+			CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_UI);
+			CSoundManager::GetInstance()->PlaySound(L"ui_dialogue_close.mp3", CHANNELID::SOUND_UI, 1.f);
 		}
 	}
 

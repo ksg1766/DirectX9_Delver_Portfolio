@@ -34,7 +34,9 @@ public:
 	virtual void	OnCollisionStay(CCollider* _pOther);
 	virtual void	OnCollisionExit(CCollider* _pOther);
 
-private:
+public:
+	void	Set_Altar(_bool _On) { m_bOnAltar = _On; }
+	_bool	Get_Altar()			 { return m_bOnAltar; }
 
 private:
 	CRcTex*		m_pBuffer		= nullptr;
@@ -42,7 +44,7 @@ private:
 	CRigidBody* m_pRigidBody	= nullptr;
 
 	_int m_iMoveTick;
-
+	_bool m_bOnAltar = false;
 
 
 public:
