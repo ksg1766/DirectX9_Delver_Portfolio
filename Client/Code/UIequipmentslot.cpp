@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "Export_Function.h"
 #include "UIitem.h"
+#include "SoundManager.h"
 
 CUIequipmentslot::CUIequipmentslot(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CTempUI(pGraphicDev)
@@ -184,6 +185,8 @@ void CUIequipmentslot::Key_Input(void)
 
 	if (OnCollision(pt, m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y))
 	{
+
+
 		Engine::UIManager()->Set_ColliderSlot(m_UIObjID, m_UINumber, true);
 
 		if (!m_bFind)

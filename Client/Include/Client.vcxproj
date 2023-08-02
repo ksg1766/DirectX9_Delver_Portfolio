@@ -191,6 +191,7 @@
     <ClInclude Include="..\fmode\inc\fmod_output.h" />
     <ClInclude Include="..\Header\Alchemist_Idle.h" />
     <ClInclude Include="..\Header\Alien.h" />
+    <ClInclude Include="..\Header\Altar.h" />
     <ClInclude Include="..\Header\Apple.h" />
     <ClInclude Include="..\Header\Arrow.h" />
     <ClInclude Include="..\Header\BackGround.h" />
@@ -481,6 +482,7 @@
   <ItemGroup>
     <ClCompile Include="..\Code\Alchemist_Idle.cpp" />
     <ClCompile Include="..\Code\Alien.cpp" />
+    <ClCompile Include="..\Code\Altar.cpp" />
     <ClCompile Include="..\Code\Apple.cpp" />
     <ClCompile Include="..\Code\Arrow.cpp" />
     <ClCompile Include="..\Code\BackGround.cpp" />

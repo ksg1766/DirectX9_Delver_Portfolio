@@ -113,6 +113,11 @@ void CUISpeech_Phantom::Render_Object()
 			dynamic_cast<CFont*>(m_pFont)->Set_pFont(m_pFontconfig);
 			m_pFont->DrawText(L"세번째 확인용");
 		}
+		else if (dynamic_cast<CPhantom*>(eTargetNpc)->Get_SpeechCount() == 4)
+		{
+			dynamic_cast<CFont*>(m_pFont)->Set_pFont(m_pFontconfig);
+			m_pFont->DrawText(L"네번째 확인용");
+		}
 	}
 
 

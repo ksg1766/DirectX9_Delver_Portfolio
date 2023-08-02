@@ -10,6 +10,7 @@ private:
 	virtual ~CEffectFirefly();
 
 public:
+	void    Set_ChangeMode(_bool _bChange) { m_bChangeMode = _bChange; }
 
 public:
 	HRESULT Ready_Object() override;
@@ -26,6 +27,7 @@ private:
 	_float m_fChangeTime = 0.f;
 	_float m_fMoveSpeed  = 0.f;
 	_vec3  m_vecMoveDir;
+	_bool  m_bChangeMode = false;
 
 public:
 	static CEffectFirefly*		Create(LPDIRECT3DDEVICE9 pGraphicDev);

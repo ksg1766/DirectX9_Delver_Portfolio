@@ -28,16 +28,24 @@ HRESULT CEffectleaf::Ready_Object(void)
 
 Engine::_int CEffectleaf::Update_Object(const _float& fTimeDelta)
 {
+	if (m_bChangeMode){
+		m_bChangeMode  = false;
+		m_fFrame = CTempEffect::Get_RandomFloat(3.f, 5.f);
+		m_bChangeImage = true;
+	}
+
 	if (m_bFall)
 	{
 		m_fCount += 1.f * fTimeDelta;
 		if (m_fCount > 5.f) {
 			m_fCount = 0.f;
 			m_bFall = false;
-			m_fFrame = CTempEffect::Get_RandomFloat(0.f, 2.f);
+			if(m_bChangeImage)
+				m_fFrame = CTempEffect::Get_RandomFloat(3.f, 5.f);
+			else
+				m_fFrame = CTempEffect::Get_RandomFloat(0.f, 2.f);
 			m_fEffectScale = CTempEffect::Get_RandomFloat(0.5f, 2.f);
 			CTempEffect::Get_RandomVector(&m_pTransform->m_vInfo[INFO_POS], &_vec3(-100.f, 90.f, -100.f), &_vec3(100.f, 100.f, 100.f));
-
 		}
 	}
 

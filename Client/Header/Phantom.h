@@ -31,6 +31,7 @@ public:
 
 public:
 	_bool		IsTalk() { return m_bTalking; }
+	_bool		PhantomDead() { return m_bDead; }
 
 	_bool		Get_QuestClear()	{ return m_bQuestClear; }
 	_uint		Get_SpeechCount()	{ return m_iCount; }
@@ -58,6 +59,7 @@ private:
 	_bool			m_bQuestClear = false;
 	_bool			m_bQusetStart = false;
 	_bool			m_bFirstCollision = false;
+	_bool			m_bDead = false;
 
 public:
 	static CPhantom* Create(LPDIRECT3DDEVICE9 pGraphicDev);
