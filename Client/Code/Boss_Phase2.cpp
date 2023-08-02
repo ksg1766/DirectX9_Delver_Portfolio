@@ -8,6 +8,7 @@
 #include "SoundManager.h"
 #include "CameraManager.h"
 #include "FlyingCamera.h"
+#include "GameManager.h"
 
 CBoss_Phase2::CBoss_Phase2()
 {
@@ -43,6 +44,7 @@ STATE CBoss_Phase2::Update_State(const _float& fTimeDelta)
         {
             m_fDelay = 0.f;
             dynamic_cast<CSkeletonKing*>(m_pOwner->Get_Host())->Set_Phase(BOSSPHASE::PHASE3);
+            CGameManager::GetInstance()->PlayMode(PD::ShowBossP3);
             return STATE::BOSS_TELEPORT;
         }
 

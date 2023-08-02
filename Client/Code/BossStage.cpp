@@ -22,6 +22,7 @@
 #include "EffectStar.h"
 #include "MoonBoss.h"
 #include "UIbosshp.h"
+
 CBossStage::CBossStage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
 {

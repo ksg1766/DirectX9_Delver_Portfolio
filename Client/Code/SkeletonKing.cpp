@@ -32,6 +32,7 @@
 #include "Player.h"
 #include "Boss_LastPhase.h"
 #include "SkeletonKing_Clone.h"
+
 CSkeletonKing::CSkeletonKing(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CMonster(pGraphicDev)
 {
@@ -273,8 +274,8 @@ HRESULT CSkeletonKing::Ready_Object(void)
 #pragma endregion 애니메이션
 
 	m_pStateMachine->Set_Animator(m_pAnimator);
-	//m_pStateMachine->Set_State(STATE::BOSS_SLEEP);
-	m_pStateMachine->Set_State(STATE::BOSS_DEAD);
+	m_pStateMachine->Set_State(STATE::BOSS_SLEEP);
+	//m_pStateMachine->Set_State(STATE::BOSS_DEAD);
 	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
 	return S_OK;
 }
