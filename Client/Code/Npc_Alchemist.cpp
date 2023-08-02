@@ -82,7 +82,7 @@ _int CNpc_Alchemist::Update_Object(const _float& fTimeDelta)
 					if (Engine::UIManager()->Set_SpeechBubbleUse())
 					{
 						rPlayer.Set_Talk(true);
-						m_bTalkButton = false;
+						m_bTalkingBox = true;
 
 						if (!m_bTalking)
 							m_bTalking = true;
@@ -128,7 +128,7 @@ _int CNpc_Alchemist::Update_Object(const _float& fTimeDelta)
 					if (Engine::UIManager()->Set_SpeechBubbleUse())
 					{
 						rPlayer.Set_Talk(true);
-						m_bTalkButton = false;
+						m_bTalkingBox = true;
 
 						if (!m_bTalking)
 							m_bTalking = true;

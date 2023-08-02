@@ -295,10 +295,10 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 		CGameManager::GetInstance()->PlayMode(PD::HekirekiIssen);
 	}
 
-	if (Engine::InputDev()->Key_Pressing(DIK_LCONTROL) && Engine::InputDev()->Key_Down(DIK_J))
-	{
-		CGameManager::GetInstance()->PlayMode(PD::ClearGame);
-	}
+	//if (Engine::InputDev()->Key_Pressing(DIK_LCONTROL) && Engine::InputDev()->Key_Down(DIK_J))
+	//{
+	//	CGameManager::GetInstance()->PlayMode(PD::ClearGame);
+	//}
 
 #pragma endregion 연출 테스트
 
@@ -352,12 +352,16 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 				static_cast<CFlyingCamera*>(pGameObject)->Set_MouseFix(true);
 				SceneManager()->Set_GameStop(false);
 				Set_UseUI(true);
+				CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_INVENTORY);
+				CSoundManager::GetInstance()->PlaySound(L"open_inventory.mp3", CHANNELID::SOUND_INVENTORY, 1.f);
 				// 사용자 마우스 못 받게.
 			}
 			else
 			{
 				static_cast<CFlyingCamera*>(pGameObject)->Set_MouseFix(false);
 				Set_UseUI(false);
+				CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_INVENTORY);
+				CSoundManager::GetInstance()->PlaySound(L"open_inventory.mp3", CHANNELID::SOUND_INVENTORY, 1.f);
 			}
 		}
 		else if (Engine::InputDev()->Key_Down(DIK_C))
@@ -367,11 +371,15 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 				static_cast<CFlyingCamera*>(pGameObject)->Set_MouseFix(true);
 				SceneManager()->Set_GameStop(false);
 				Set_UseUI(true);
+				CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_INVENTORY);
+				CSoundManager::GetInstance()->PlaySound(L"open_inventory.mp3", CHANNELID::SOUND_INVENTORY, 1.f);
 			}
 			else
 			{
 				static_cast<CFlyingCamera*>(pGameObject)->Set_MouseFix(false);
 				Set_UseUI(false);
+				CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_INVENTORY);
+				CSoundManager::GetInstance()->PlaySound(L"open_inventory.mp3", CHANNELID::SOUND_INVENTORY, 1.f);
 			}
 
 		}
@@ -948,6 +956,11 @@ void CPlayer::Use_SlotItem(INVENKEYSLOT _SlotNum)
 		{
 			// 해당 아이템의 회복 값에 따른 HP 회복 및 아이템 소멸
 			// 아이템 효과 적용
+
+
+			CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_INVENTORY);
+			CSoundManager::GetInstance()->PlaySound(L"cons_food.mp3", CHANNELID::SOUND_INVENTORY, 1.f);
+
 			Eating(dynamic_cast<CItem*>(SlotItemObj)->Get_ItemStat());
 
 			if (ItemType.iCount == 1)
@@ -966,6 +979,10 @@ void CPlayer::Use_SlotItem(INVENKEYSLOT _SlotNum)
 		{
 			// 해당 아이템 능력 및 효과 적용 후 아이템 소멸
 			// 아이템 효과 적용
+			CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_INVENTORY);
+			CSoundManager::GetInstance()->PlaySound(L"cons_drink.mp3", CHANNELID::SOUND_INVENTORY, 1.f);
+
+
 			switch (ItemType.eItemID)
 			{
 			case ITEMID::EAT_POTION2:
@@ -1070,6 +1087,9 @@ void CPlayer::OnCollisionEnter(CCollider* _pOther)
 	{
 		if (dynamic_cast<CItem*>(_pOther->Get_Host())->Get_WorldItem())
 		{
+			CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_INVENTORY);
+			CSoundManager::GetInstance()->PlaySound(L"grab_item.mp3", CHANNELID::SOUND_INVENTORY, 1.f);
+
 			if(dynamic_cast<CItem*>(_pOther->Get_Host())->Get_ItemTag().eItemType != ITEMTYPE::ITEMTYPE_QUEST)
 				Create_Item(_pOther);
 		}

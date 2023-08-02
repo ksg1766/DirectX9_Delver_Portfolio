@@ -117,7 +117,6 @@ _int CDungeonSpider::Update_Object(const _float& fTimeDelta)
 			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 
 			m_bDieEffect = false;
-			rPlayer.Add_Exp(this);
 		}
 
 		//////////////////////////////////////////////////////////////////////////////// ÀÌÆåÆ® 
@@ -198,7 +197,7 @@ void CDungeonSpider::OnCollisionStay(CCollider* _pOther)
 
 	if (_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::ITEM &&
 		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::PLAYER)
-	__super::OnCollisionStay(_pOther);
+		__super::OnCollisionStay(_pOther);
 
 	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::ITEM)
 	{

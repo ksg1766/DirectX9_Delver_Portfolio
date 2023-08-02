@@ -114,21 +114,21 @@ _int CDungeonWarrior::Update_Object(const _float& fTimeDelta)
 
 	if (m_pBasicStat->Get_Stat()->fHP <= 0)
 	{
+		m_pStateMachine->Set_State(STATE::DEAD);
+
 		if (m_pAnimator->Get_Animation()->Get_Frame() >= 1) // ? ) È®ÀÎ ºÎÅ¹µå¸³´Ï´Ù
 			m_pAnimator->Get_Animation()->Set_Loop(FALSE);
 		{
-		m_pStateMachine->Set_State(STATE::DEAD);
 		
 		//////////////////////////////////////////////////////////////////////////////// ÀÌÆåÆ® 
-			if (!m_bDieEffect)
+			if (m_bDieEffect)
 			{
 				CGameObject* pGameObject = CEffectBlood::Create(m_pGraphicDev);
 				pGameObject->m_pTransform->Translate(_vec3(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y - .95f, m_pTransform->m_vInfo[INFO_POS].z));
 				dynamic_cast<CTempEffect*>(pGameObject)->Set_EffectColor(ECOLOR_RED);
 				Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 				
-				m_bDieEffect = true;
-				rPlayer.Add_Exp(this);
+				m_bDieEffect = false;
 			}
 		//////////////////////////////////////////////////////////////////////////////// ÀÌÆåÆ® 
 			
@@ -138,6 +138,10 @@ _int CDungeonWarrior::Update_Object(const _float& fTimeDelta)
 			CPoolManager::GetInstance()->Delete_Object(this);
 		}
 	}
+
+
+	if (m_pStateMachine->Get_State() == STATE::DEAD)
+		m_pRigidBody->UseGravity(false);
 
 	m_pStateMachine->Update_StateMachine(fTimeDelta);
 	//ForceHeight(m_pTransform->m_vInfo[INFO_POS]);
@@ -211,10 +215,6 @@ void CDungeonWarrior::OnCollisionStay(CCollider* _pOther)
 		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::PLAYERBULLET)
 		__super::OnCollisionStay(_pOther);
 
-	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BLOCK)
-	{
-		this->Set_BlockOn(true);
-	}
 
 	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::ITEM)
 	{

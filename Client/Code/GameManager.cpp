@@ -71,9 +71,9 @@ _int CGameManager::Update_Game(const _float& fTimeDelta)
 			CInputDev::GetInstance()->Lock_Input(false);
 			HekirekiIssen(fTimeDelta);
 			break;
-		case PD::ClearGame:
-			ClearGame(fTimeDelta);
-			break;
+		//case PD::ClearGame:
+		//	ClearGame(fTimeDelta);
+		//	break;
 		}
 	}
 

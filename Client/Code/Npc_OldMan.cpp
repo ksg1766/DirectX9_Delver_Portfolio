@@ -91,6 +91,7 @@ _int CNpc_OldMan::Update_Object(const _float& fTimeDelta)
 					if (Engine::UIManager()->Set_SpeechBubbleUse())
 					{
 						rPlayer.Set_Talk(true);
+						m_bTalkingBox = true;
 						m_bTalkButton = false;
 
 						if (!m_bSpeech)
@@ -137,7 +138,7 @@ _int CNpc_OldMan::Update_Object(const _float& fTimeDelta)
 					if (Engine::UIManager()->Set_SpeechBubbleUse())
 					{
 						rPlayer.Set_Talk(true);
-						m_bTalkButton = false;
+						m_bTalkingBox = true;
 
 						if (!m_bSpeech)
 							m_bSpeech = true;
@@ -164,6 +165,7 @@ _int CNpc_OldMan::Update_Object(const _float& fTimeDelta)
 					Engine::UIManager()->Hide_PopupUI(UIPOPUPLAYER::POPUP_SPEECH);
 					SceneManager()->Set_GameStop(false);
 					m_bTalkingBox = false;
+					m_bTalkButton = false;
 					m_bSpeech = false;
 					rPlayer.Set_Talk(false);
 
