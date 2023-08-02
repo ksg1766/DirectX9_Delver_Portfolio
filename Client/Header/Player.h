@@ -60,6 +60,7 @@ public:
 	_bool			IsThrowShield()			{ return m_bThrowShield; }
 	_bool			IsTalk()				{ return m_bIsTalk; }
 	_uint			Get_PuzzleResult()		{ return m_iPuzzleCount; }
+	_bool			QuestClear()			{ return m_bQuestResult; }
 
 public:
 	void			Set_Offset(_vec3 _vOffset)						{ m_vOffset = _vOffset; }
@@ -86,6 +87,7 @@ public:
 	void			Set_Poisoning(_bool	_bPoisoning)				{ m_bPoisoning = _bPoisoning; }
 	void			Set_Parrying(_bool	_bParrying)					{ m_bParrying = _bParrying; }
 	void			Set_Talk(_bool _talk)							{ m_bIsTalk = _talk; }
+	void			Set_Quest(_bool _result)						{ m_bQuestResult = _result; }
 
 	_bool			Get_Parrying()									{ return m_bParrying; }
 	void			IsDrunk();
@@ -134,6 +136,7 @@ private:
 
 	_bool			m_bInWater = false;
 	_bool			m_bDropWater = false;
+	_bool			m_bQuestResult = false;
 	_uint			m_iPuzzleCount;
 
 	_bool			m_bUseUI;

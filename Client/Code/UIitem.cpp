@@ -174,20 +174,27 @@ void CUIitem::Key_Input(void)
 				Engine::UIManager()->m_bMouse = true;
 				Engine::UIManager()->Set_PickingItemUI(this);
 
-	/*			CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_INVENTORY);
-				CSoundManager::GetInstance()->PlaySound(L"grab_item.mp3", CHANNELID::SOUND_INVENTORY, 1.f);*/
+				if (m_ItemID.eItemType == ITEMTYPE::ITEMTYPE_WEAPONITEM)
+				{
+					CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_INVENTORY);
+					CSoundManager::GetInstance()->PlaySound(L"ui_equip_weapon.mp3", CHANNELID::SOUND_INVENTORY, 1.f);
+
+				}
+				else if (m_ItemID.eItemType == ITEMTYPE::ITEMTYPE_EQUIPITEM)
+				{
+					CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_INVENTORY);
+					CSoundManager::GetInstance()->PlaySound(L"ui_equip_armor.mp3", CHANNELID::SOUND_INVENTORY, 1.f);
+				}
+				else
+				{
+					CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_INVENTORY);
+					CSoundManager::GetInstance()->PlaySound(L"ui_equip_item.mp3", CHANNELID::SOUND_INVENTORY, 1.f);
+				}
 
 				// 아이템 장착 아이템 타입인 경우 해당 UINumber 슬롯을 찾고 해당 슬롯 이미지 변경
 				if (m_ItemID.eItemType == ITEMTYPE_GENERALITEM || m_ItemID.eItemType == ITEMTYPE_EQUIPITEM) {
 					CGameObject* SlotObj = Engine::UIManager()->Get_PopupObject(Engine::UIPOPUPLAYER::POPUP_EQUIPMENT, Engine::UILAYER::UI_DOWN, UIID_SLOTEQUIPMENT, m_UINumber);
 					dynamic_cast<CUIequipmentslot*>(dynamic_cast<CTempUI*>(SlotObj))->Set_FindSlot(true);
-
-		/*			if (dynamic_cast<CItem*>(SlotObj)->Get_ItemTag().eItemType == ITEMTYPE::ITEMTYPE_WEAPONITEM)
-					{
-
-						CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_INVENTORY);
-						CSoundManager::GetInstance()->PlaySound(L"ui_equip_weapon.mp3", CHANNELID::SOUND_INVENTORY, 1.f);
-					}*/
 				}
 			}
 		}

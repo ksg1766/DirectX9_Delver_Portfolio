@@ -36,7 +36,7 @@ HRESULT CBookDoor::Ready_Object(CLayer* pLayer)
 	m_pTransform->Scale(_vec3(1.f, 1.f, 5.f));
 	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT],
 		m_pTransform->LocalScale());
-	m_pTransform->Translate(_vec3(-69.f, 12.f, -9.f));
+	m_pTransform->Translate(_vec3(-69.f, 12.f, -10.f));
 
 	m_vPushPos = _vec3(-81.f, 12.f, -11.f);
 
@@ -230,14 +230,19 @@ void CBookDoor::OnCollisionEnter(CCollider* _pOther)
 			m_bCreate2 = false;
 		}
 
-		if (dynamic_cast<CPlayer*>(_pOther->Get_Host())->Get_PuzzleResult() == 6)
+		if (dynamic_cast<CPlayer*>(_pOther->Get_Host())->QuestClear())
 			m_bTriger = true;
+			
 	}
 }
 
 void CBookDoor::OnCollisionStay(CCollider* _pOther)
 {
 	__super::OnCollisionStay(_pOther);
+
+	if (dynamic_cast<CPlayer*>(_pOther->Get_Host())->QuestClear())
+		m_bTriger = true;
+		
 }
 
 void CBookDoor::OnCollisionExit(CCollider* _pOther)
