@@ -29,7 +29,7 @@ public:
 
 public:
 	void	SetTimer(_float& _fTimer) { m_fTimer = _fTimer; }
-
+	PD	Get_PlayMode() {return m_ePrev_PD;}
 private:
 	void	ShowVillage(const _float& fTimeDelta);
 	void	ShowSewer(const _float& fTimeDelta);

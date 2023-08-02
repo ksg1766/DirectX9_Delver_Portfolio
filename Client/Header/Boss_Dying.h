@@ -24,7 +24,7 @@ private:
     //STATE 
 private:
     //º¯¼ö
-
+    _float          m_fDelay;
 public:
     static CBoss_Dying* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
 

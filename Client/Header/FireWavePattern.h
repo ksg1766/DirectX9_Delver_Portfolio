@@ -27,6 +27,7 @@ private:
     _int    m_iCount;
     _bool  m_bCool;
     _bool   m_bWarning;
+    _bool   m_bSound;
     _vec3 m_vWavePos;
 public:
     static CFireWavePattern* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);

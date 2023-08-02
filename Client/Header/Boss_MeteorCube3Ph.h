@@ -54,6 +54,7 @@ private:
     _bool   m_bChanneling_End;
     _bool   m_bTargetSet;
     _bool   m_bHit;
+    _bool   m_bSound;
     _vec3    m_vCenter;
     _float m_fAttack;
     _float  m_fDistance;

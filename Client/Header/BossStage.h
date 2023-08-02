@@ -49,7 +49,8 @@ public:
 private:
 	CSkeletonKing*	m_pBoss			= nullptr;
 	_bool			m_bExecuteBoss	= false;
-
+	_bool			m_bHekiReki = false;
+	_bool			m_bGate = false;
 private:
 	virtual void Free() override;
 

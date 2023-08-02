@@ -20,6 +20,7 @@ private:
 	_bool	m_bAppearTrigger;
 	_bool	m_bJumpTrigger;
 	_bool	m_bLanding;
+	_bool	m_bSound;
 	_float	m_fMoveDelay;
 	_float	m_fFrameDelay;
 	_float	m_fDelay;

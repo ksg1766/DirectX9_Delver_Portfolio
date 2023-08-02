@@ -25,7 +25,7 @@ private:
     _float  m_fDelay = 0;
     _float  m_fPatternDelay;
     _uint   m_iSkillCount;
-
+    _bool   m_bMeteor;
 public:
     static CBoss_Phase3* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
 

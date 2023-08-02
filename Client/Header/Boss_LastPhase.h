@@ -19,6 +19,7 @@ public:
 
 private:
     _float m_fDelay;
+    _float m_fHekiRekiDelay;
     _vec3   m_vDir;
     _bool   m_bSound;
 public:

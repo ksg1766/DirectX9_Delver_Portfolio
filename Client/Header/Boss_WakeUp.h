@@ -25,6 +25,7 @@ private:
 private:
     //º¯¼ö
     _float  m_fDelay;
+    _float  m_fTest;
     _bool   m_bWakeUp;
 public:
     static CBoss_WakeUp* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);

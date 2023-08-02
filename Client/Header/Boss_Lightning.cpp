@@ -3,6 +3,8 @@
 #include "Export_Function.h"
 #include "Player.h"
 #include "SoundManager.h"
+#include "FlyingCamera.h"
+#include "CameraManager.h"
 CBoss_Lightning::CBoss_Lightning(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CMonster(pGraphicDev)
 {
@@ -85,6 +87,10 @@ void CBoss_Lightning::OnCollisionStay(CCollider* _pOther)
 	if (m_bHit) { return; }
 	if (OBJECTTAG::PLAYER == _pOther->Get_Host()->Get_ObjectTag())
 	{
+		CFlyingCamera* pCamera = dynamic_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam());
+		pCamera->Set_ShakeForce(0.f, 0.3f, 1.f, 2.f);
+		pCamera->Shake_Camera();
+
 		CPlayerStat& PlayerState = *(dynamic_cast<CPlayer*>(_pOther->Get_Host())->Get_Stat());
 		PlayerState.Take_Damage(this->Get_BasicStat()->Get_Stat()->fAttack);
 		this->Set_AttackTick(true);

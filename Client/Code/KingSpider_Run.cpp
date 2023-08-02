@@ -40,6 +40,9 @@ STATE CKingSpider_Run::Update_State(const _float& fTimeDelta)
 	}
 	if (m_bJumpTrigger)
 	{
+		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_BOSS);
+		CSoundManager::GetInstance()->PlaySound(L"KingSpider_Spawn.mp3", CHANNELID::SOUND_BOSS, 1.f);
+
 		dynamic_cast<CKingSpider*>(m_pOwner->Get_Host())->Get_RigidBody()->UseGravity(true);
 		dynamic_cast<CKingSpider*>(m_pOwner->Get_Host())->Get_RigidBody()->Add_Force(_vec3(0.f, 25.f, 0.f));
 		m_bJumpTrigger = false;

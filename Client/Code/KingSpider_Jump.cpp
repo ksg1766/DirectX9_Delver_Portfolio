@@ -65,10 +65,13 @@ STATE CKingSpider_Jump::Update_State(const _float& fTimeDelta)
 			{
 				m_pOwner->Get_Transform()->m_vInfo[INFO_POS].y = 15.f;
 				CFlyingCamera* pCamera = dynamic_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam());
-				pCamera->Set_ShakeForce(0.f, 0.5f, 1.5f, 2.f);
+				pCamera->Set_ShakeForce(0.f, 0.2f, 1.5f, 2.f);
 				pCamera->Shake_Camera();
 
 				dynamic_cast<CKingSpider*>(m_pOwner->Get_Host())->Get_RigidBody()->UseGravity(false);
+
+				CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_BOSS);
+				CSoundManager::GetInstance()->PlaySound(L"KingSpider_Landing.wav", CHANNELID::SOUND_BOSS, 1.f);
 
 				if (13.f >= SceneManager()->Get_Scene()->Get_MainPlayer()->m_pTransform->m_vInfo[INFO_POS].y)
 				{
@@ -84,7 +87,7 @@ STATE CKingSpider_Jump::Update_State(const _float& fTimeDelta)
 					dynamic_cast<CKingSpiderFog*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS].y = 13.f;
 					Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 				}
-
+				pCamera->Reset_ShakeForce();
 				m_bJumpStart = false;
 				m_bJumpAttack = false;
 				return STATE::BOSS_IDLE;

@@ -20,7 +20,7 @@ public:
 
 private:
 	_float	m_fDelay;
-
+	_bool	m_bSound;
 public:
 	static CKingSpider_Dead* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
 

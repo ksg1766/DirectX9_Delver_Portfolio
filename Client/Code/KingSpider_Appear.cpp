@@ -29,6 +29,7 @@ HRESULT CKingSpider_Appear::Ready_State(CStateMachine* pOwner)
 	m_bAppearTrigger = false;
 	m_bJumpTrigger = false;
 	m_bLanding = false;
+	m_bSound = false;
 	m_vFogPos[0] = _vec3(4.5f, 0.f, 0.f);
 	m_vFogPos[1] = _vec3(-4.5f, 0.f, 0.f);
 	m_vFogPos[2] = _vec3(0., 0.f, 4.5f);
@@ -42,6 +43,8 @@ HRESULT CKingSpider_Appear::Ready_State(CStateMachine* pOwner)
 
 STATE CKingSpider_Appear::Update_State(const _float& fTimeDelta)
 {
+	CFlyingCamera* pCamera = dynamic_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam());
+
 	if (!m_bAppearTrigger)
 	{
 		CGameObject* pGameObject = nullptr;
@@ -63,6 +66,10 @@ STATE CKingSpider_Appear::Update_State(const _float& fTimeDelta)
 
 		m_bJumpTrigger = true;
 		m_fDelay = 0.f;
+
+			CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_BOSS);
+			CSoundManager::GetInstance()->PlaySound(L"KingSpider_Spawn.wav", CHANNELID::SOUND_BOSS, 1.f);
+
 	}
 	if ((!m_bLanding) && (15.5f >= m_pOwner->Get_Transform()->m_vInfo[INFO_POS].y))
 	{
@@ -78,15 +85,21 @@ STATE CKingSpider_Appear::Update_State(const _float& fTimeDelta)
 			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 		}
 
-
-		CFlyingCamera* pCamera = dynamic_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam());
-		pCamera->Set_ShakeForce(0.f, 0.5f, 1.5f, 2.f);
+		if (!m_bSound)
+		{
+			CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_KINGSPIDER);
+			CSoundManager::GetInstance()->PlaySound(L"KingSpider_Appear.mp3", CHANNELID::SOUND_KINGSPIDER, 1.f);
+			m_bSound = true;
+		}
+		
+		pCamera->Set_ShakeForce(0.f, 0.15f, 1.5f, 2.f);
 		pCamera->Shake_Camera();
 
 		m_bLanding = true;
 	}
 	if ((3.f < m_fDelay) && m_bLanding)
 	{
+		pCamera->Reset_ShakeForce();
 		return STATE::BOSS_IDLE;
 	}
 }

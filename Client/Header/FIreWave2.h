@@ -27,6 +27,7 @@ private:
     _float  m_fPatternDelay;
     _bool  m_bSkill;
     _bool   m_bWarning;
+    _bool   m_bSound;
     _int    m_iCount;
 
 public:

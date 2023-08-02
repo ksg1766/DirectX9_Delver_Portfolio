@@ -29,6 +29,7 @@ private:
     _float  m_fSpawnHeight;
     _float  m_fSpawnWeight;
     _float m_fDelay;
+    _float  m_bLastDelay;
     _bool    m_bSkillCount;
     _bool   m_bSound;
 public:

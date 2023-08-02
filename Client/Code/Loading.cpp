@@ -1,4 +1,4 @@
-#include "stdafx.h"
+flthtm#include "stdafx.h"
 #include "Loading.h"
 #include "Export_Function.h"
 #include "SoundManager.h"
@@ -450,6 +450,17 @@ _uint CLoading::Loading_ForStage()
 		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/Boss/Boss_Roar3.wav", "Boss_Roar3.wav"), E_FAIL);
 		//FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/Boss/.wav", ".wav"), E_FAIL);
 		//FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/Boss/.wav", ".wav"), E_FAIL);
+
+		//KingSpider
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/KingSpider/KingSpider_Appear.mp3", ".KingSpider_Appearwav.mp3"), E_FAIL);
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/KingSpider/KingSpider_Attack1.wav", "KingSpider_Attack1.wav"), E_FAIL);
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/KingSpider/KingSpider_Attack2.wav", "KingSpider_Attack2.wav"), E_FAIL);
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/KingSpider/KingSpider_Attack3.wav", "KingSpider_Attack3.wav"), E_FAIL);
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/KingSpider/KingSpider_Dead.wav", "KingSpider_Dead.wav"), E_FAIL);
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/KingSpider/KingSpider_Landing.wav", "KingSpider_Landing.wav"), E_FAIL);
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/KingSpider/KingSpider_Poison.wav", "KingSpider_Poison.wav"), E_FAIL);
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/KingSpider/KingSpider_Spawn.wav", "KingSpider_Spawn.wav"), E_FAIL);
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/KingSpider/KingSpider_Web.wav", "KingSpider_Web.wav"), E_FAIL);
 
 		// Ending
 		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/Production/vol1_05_SiliansTheme.mp3", "Silian'sTheme"), E_FAIL);

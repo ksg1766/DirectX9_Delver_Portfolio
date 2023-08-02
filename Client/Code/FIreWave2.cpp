@@ -1,3 +1,5 @@
+#include "stdafx.h"
+#include "SoundManager.h"
 #include "FIreWave2.h"
 #include "Export_Function.h"
 #include "SkeletonKing.h"
@@ -23,6 +25,7 @@ HRESULT CFIreWave2::Ready_State(CStateMachine* pOwner)
 	m_fPatternDelay = 0.f;
 	m_iCount = 0;
 	m_bWarning = false;
+	m_bSound = false;
 	return S_OK;
 }
 
@@ -48,6 +51,12 @@ STATE CFIreWave2::Update_State(const _float& fTimeDelta)
 	}
 	if ((1.5f < m_fDelay)&&(m_bWarning))
 	{
+		if (!m_bSound)
+		{
+			m_bSound = true;
+			CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_KINGSPIDER);
+			CSoundManager::GetInstance()->PlaySound(L"Boss_FireWave1.wav", CHANNELID::SOUND_KINGSPIDER, 1.f);
+		}
 		for (int i = 0; i < 18; ++i)
 		{
 			pGameObject = CBossFireWave::Create(m_pGraphicDev);
@@ -63,6 +72,7 @@ STATE CFIreWave2::Update_State(const _float& fTimeDelta)
 			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 		}
 		m_fDelay = 0.f;
+		m_bSound = false;
 		++m_iCount;
 	}
 	if (3 < m_iCount)

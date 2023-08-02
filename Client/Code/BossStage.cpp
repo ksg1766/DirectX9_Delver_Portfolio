@@ -63,7 +63,8 @@ Engine::_int CBossStage::Update_Scene(const _float& fTimeDelta)
 
 	//if (BOSSPHASE::PHASE3 == m_pBoss->Get_Phase() && m_pBoss->Get_BasicStat()->Get_Stat()->fHP <= 5.f && !m_bExecuteBoss)
 	//if (BOSSPHASE::PHASE1 == m_pBoss->Get_Phase() && m_pBoss->Get_BasicStat()->Get_Stat()->fHP <= 5.f && !m_bExecuteBoss)
-	if (BOSSPHASE::LASTPHASE == m_pBoss->Get_Phase() && m_pBoss->Get_BasicStat()->Get_Stat()->fHP <= 5.f && !m_bExecuteBoss)
+	//if (BOSSPHASE::LASTPHASE == m_pBoss->Get_Phase() && m_pBoss->Get_BasicStat()->Get_Stat()->fHP <= 5.f && !m_bExecuteBoss)
+	if (BOSSPHASE::LASTPHASE == m_pBoss->Get_Phase() && STATE::BOSS_CRAWL == m_pBoss->Get_StateMachine()->Get_State() && m_pBoss->Get_HekiReki() && !m_bExecuteBoss)
 	{
 		if (m_pBoss && D3DXVec3Length(&(m_pBoss->m_pTransform->m_vInfo[INFO_POS] - pPlayer->m_pTransform->m_vInfo[INFO_POS])) < 25.f)
 		{
@@ -72,10 +73,23 @@ Engine::_int CBossStage::Update_Scene(const _float& fTimeDelta)
 		}
 	}
 
-	if (m_bExecuteBoss && m_pBoss->Get_BasicStat()->Get_Stat()->fHP == 0.f)
+	if (!m_bHekiReki)
 	{
-		// 보스 사망 처리
-		m_pBoss->Get_StateMachine()->Set_State(STATE::BOSS_DYING);
+		if (m_bExecuteBoss && m_pBoss->Get_BasicStat()->Get_Stat()->fHP == 0.f)
+		{
+			// 보스 사망 처리
+			m_pBoss->Get_StateMachine()->Set_State(STATE::BOSS_DYING);
+			m_bHekiReki = true;
+		}
+	}
+
+	if ((!m_bGate)&&(STATE::BOSS_DEAD == m_pBoss->Get_StateMachine()->Get_State()))
+	{
+		m_bGate = true;
+		CGameObject* pGameObject = nullptr;
+		pGameObject = CDimensionGate::Create(m_pGraphicDev);
+		dynamic_cast<CDimensionGate*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = _vec3(-95.f, 35.f, 0.f);
+		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 	}
 
 #pragma endregion KSG
@@ -101,7 +115,7 @@ Engine::_int CBossStage::Update_Scene(const _float& fTimeDelta)
 			m_pBoss->Get_StateMachine()->Set_State(STATE::BOSS_SLEEP);
 			break;
 		case BOSSPHASE::LASTPHASE:
-			pPlayer->m_pTransform->m_vInfo[INFO_POS] = _vec3(100.f, 22.f, 0.f);
+			pPlayer->m_pTransform->m_vInfo[INFO_POS] = _vec3(-60.f, 35.f, 0.f);
 			m_pBoss->Get_StateMachine()->Set_State(STATE::BOSS_SLEEP);
 			break;
 		}

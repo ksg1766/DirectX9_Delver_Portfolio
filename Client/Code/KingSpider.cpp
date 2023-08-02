@@ -36,7 +36,7 @@ HRESULT CKingSpider::Ready_Object()
 	m_bJumpRun = false;
 	m_bFloorCollison = false;
 	m_fFloorHeight = 0.f;
-	m_iCrawlingHP = 3;
+	m_iCrawlingHP = 10;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 	
 	m_pState = CKingSpider_Appear::Create(m_pGraphicDev, m_pStateMachine);
