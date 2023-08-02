@@ -27,8 +27,8 @@ private:
 	void	Key_Input();
 
 private:
-	CFont* m_pFont = nullptr;
-	ID3DXFont* m_pFontconfig;
+	CFont* m_pFont[3];
+	ID3DXFont* m_pFontconfig[3];
 
 public:
 	static CUISpeech_Phantom* Create(LPDIRECT3DDEVICE9 pGraphicDev);

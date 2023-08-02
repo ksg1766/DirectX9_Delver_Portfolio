@@ -30,6 +30,8 @@ HRESULT CEffectBlood::Ready_Object(void)
 
 Engine::_int CEffectBlood::Update_Object(const _float& fTimeDelta)
 {
+
+	
 	if (m_bParent && !m_bScaleSet) {
 		m_bScaleSet = true;
 		switch (m_EffectColor)

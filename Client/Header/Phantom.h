@@ -34,7 +34,6 @@ public:
 	_bool		PhantomDead() { return m_bDead; }
 
 	_bool		Get_QuestClear()	{ return m_bQuestClear; }
-	_uint		Get_SpeechCount()	{ return m_iCount; }
 private:
 	HRESULT	Add_Component();
 	void	Create_Puzzle();
@@ -48,18 +47,17 @@ private:
 	_bool			m_bTalking;
 	_bool			m_bTalkButton;
 	_bool			m_bTalkingBox;
-	
-	_uint			m_iCount;
-	_uint			m_iMaxCount;
 
 	_vec3			m_vPushPos;
 	_vec3			m_vInitPos;
-
+	
+	_bool			m_bShake = false;
 	_bool			m_bPush = false;
 	_bool			m_bQuestClear = false;
 	_bool			m_bQusetStart = false;
 	_bool			m_bFirstCollision = false;
 	_bool			m_bDead = false;
+	_bool			m_bQuestClearTalk = false;
 
 public:
 	static CPhantom* Create(LPDIRECT3DDEVICE9 pGraphicDev);

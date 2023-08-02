@@ -44,6 +44,7 @@ private:
 	_bool			m_bTalking;
 	_bool			m_bTalkButton;
 	_bool			m_bTalkingBox;
+	_bool			m_bFirstTalk;
 
 public:
 	static CNpc_Alchemist* Create(LPDIRECT3DDEVICE9 pGraphicDev);

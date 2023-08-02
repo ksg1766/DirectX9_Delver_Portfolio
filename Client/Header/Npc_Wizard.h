@@ -45,6 +45,7 @@ private:
 	_bool	m_bTalkButton;
 	_bool	m_bTalkBoX;
 	_bool	m_bTalking;
+	_bool	m_bFirstTalk = false;
 
 public:
 	static CNpc_Wizard* Create(LPDIRECT3DDEVICE9 pGraphicDev);

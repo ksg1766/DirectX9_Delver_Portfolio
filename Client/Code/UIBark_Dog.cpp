@@ -26,7 +26,7 @@ HRESULT CUIBark_Dog::Ready_Object()
 	WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y,
 		m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);
 
-	m_pFontconfig = dynamic_cast<CFont*>(m_pFont)->Create_3DXFont(32, 13.f, 1000.f, false, TEXT("¸¼Àº °íµñ"), m_pFontconfig);
+	m_pFontconfig = dynamic_cast<CFont*>(m_pFont)->Create_3DXFont(32, 15.f, 1000.f, false, TEXT("µÕ±Ù¸ð²Ã"), m_pFontconfig);
 	dynamic_cast<CFont*>(m_pFont)->Set_pFont(m_pFontconfig);
 	dynamic_cast<CFont*>(m_pFont)->Set_FontColor(_uint(0xffffffff));
 	dynamic_cast<CFont*>(m_pFont)->Set_Rect(RECT{ 0, 520, WINCX, WINCY });
@@ -85,7 +85,7 @@ void CUIBark_Dog::Render_Object()
 	if (eTargetNpc != nullptr && dynamic_cast<CNpc_Dog*>(eTargetNpc)->IsTalk())
 	{
 		dynamic_cast<CFont*>(m_pFont)->Set_pFont(m_pFontconfig);
-		m_pFont->DrawText(L"¸Û¸Û");
+		m_pFont->DrawText(L"¸Û¸Û.. ¸Û");
 	}
 
 

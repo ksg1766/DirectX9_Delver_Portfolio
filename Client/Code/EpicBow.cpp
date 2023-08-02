@@ -77,8 +77,8 @@ HRESULT CEpicBow::Ready_Object(_bool _Item)
 	m_ItemID.iCount = 1;
 
 #pragma region EpicBow
-	m_pBasicStat->Get_Stat()->iDamageMax = 10.f;
-	m_pBasicStat->Get_Stat()->iDamageMin = 8.f;
+	m_pBasicStat->Get_Stat()->iDamageMax = 15.f;
+	m_pBasicStat->Get_Stat()->iDamageMin = 10.f;
 #pragma endregion
 
 	return S_OK;

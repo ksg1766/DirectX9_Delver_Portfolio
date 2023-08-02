@@ -52,6 +52,7 @@ private:
 	_bool			m_bTalkingBox;
 	_bool			m_bQuest;//퀘스트를 줬는지 확인
 	_bool			m_bSpeech;//rand가 자동없데이트 되는걸 막음.
+	_bool			m_bFirstTalk = false;
 
 	_float			m_fFontTime;
 	_uint			m_iSpeech;

@@ -1,5 +1,7 @@
 #include "..\Header\Altar.h"
 #include "Export_Function.h"
+#include "Orb.h"
+#include "Player.h"
 
 CAltar::CAltar(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CCubeBlock(pGraphicDev)
@@ -65,6 +67,11 @@ void CAltar::OnCollisionEnter(CCollider* _pOther)
 		{
 			_vec3 vPos = m_pTransform->m_vInfo[INFO_POS] + _vec3(0.f, 1.f, 0.f);
 			_pOther->Get_Host()->m_pTransform->m_vInfo[INFO_POS] = vPos;
+
+			dynamic_cast<COrb*>(_pOther->Get_Host())->Set_Altar(true);
+
+			CPlayer& rPlayer = *SceneManager()->Get_Scene()->Get_MainPlayer();
+			rPlayer.Set_Orb(true);
 		}
 	}
 }

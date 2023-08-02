@@ -38,7 +38,10 @@ HRESULT CNpc_Alchemist::Ready_Object()
 	m_pStateMachine->Set_Animator(m_pAnimator);
 	m_pStateMachine->Set_State(STATE::IDLE);
 
-	m_pFontconfig = dynamic_cast<CFont*>(m_pFont)->Create_3DXFont(35, 28.f, 1000.f, false, L"Times New Roman", m_pFontconfig);
+	m_iCount = 0;
+	m_iMaxCount = 3;
+
+	m_pFontconfig = dynamic_cast<CFont*>(m_pFont)->Create_3DXFont(35, 20.f, 1000.f, false, L"µÕ±Ù¸ð²Ã", m_pFontconfig);
 	dynamic_cast<CFont*>(m_pFont)->Set_pFont(m_pFontconfig);
 	dynamic_cast<CFont*>(m_pFont)->Set_FontColor(_uint(0xffffffff));
 	dynamic_cast<CFont*>(m_pFont)->Set_Rect(RECT{ 0, 350, WINCX, 650 });
@@ -72,30 +75,97 @@ _int CNpc_Alchemist::Update_Object(const _float& fTimeDelta)
 
 		if (Engine::InputDev()->Key_Down(DIK_F))
 		{
-			if (Engine::UIManager()->Set_SpeechBubbleUse())
+			if (!rPlayer.AltarOnOrb())
 			{
-				m_bTalkingBox = true;
+				if (!m_bFirstTalk)
+				{
+					if (Engine::UIManager()->Set_SpeechBubbleUse())
+					{
+						rPlayer.Set_Talk(true);
+						m_bTalkButton = false;
 
-				rPlayer.Set_Talk(true);
-				if (!m_bTalking)
-					m_bTalking = true;
+						if (!m_bTalking)
+							m_bTalking = true;
 
-				static_cast<CFlyingCamera*>(pGameObject)->Set_MouseFix(true);
-				CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_UI);
-				CSoundManager::GetInstance()->PlaySound(L"ui_dialogue_open.mp3", CHANNELID::SOUND_UI, 1.f);
+						static_cast<CFlyingCamera*>(pGameObject)->Set_MouseFix(true);
+						CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_UI);
+						CSoundManager::GetInstance()->PlaySound(L"ui_dialogue_open.mp3", CHANNELID::SOUND_UI, 1.f);
+					}
+					m_bFirstTalk = true;
+
+					return iExit;
+				}
+
+				if (m_iCount < m_iMaxCount)
+				{
+					CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_UI);
+					CSoundManager::GetInstance()->PlaySound(L"ui_dialogue_open.mp3", CHANNELID::SOUND_UI, 1.f);
+
+					++m_iCount;
+				}
+				else if (m_iCount >= m_iMaxCount)
+				{
+					Engine::UIManager()->Set_SpeechBubbleUse();
+					Engine::UIManager()->Hide_PopupUI(UIPOPUPLAYER::POPUP_SPEECH);
+					SceneManager()->Set_GameStop(false);
+					m_bTalkingBox = false;
+					m_bTalking = false;
+					rPlayer.Set_Talk(false);
+
+					static_cast<CFlyingCamera*>(pGameObject)->Set_MouseFix(false);
+
+					CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_UI);
+					CSoundManager::GetInstance()->PlaySound(L"ui_dialogue_close.mp3", CHANNELID::SOUND_UI, 1.f);
+
+					m_iCount = 0;
+					m_bFirstTalk = false;
+				}
 			}
-			else
+			else if (rPlayer.AltarOnOrb())
 			{
-				Engine::UIManager()->Hide_PopupUI(UIPOPUPLAYER::POPUP_SPEECH);
-				SceneManager()->Set_GameStop(false);
-				m_bTalkingBox = false;
-				m_bTalking = false;
-				rPlayer.Set_Talk(false);
+				if (!m_bFirstTalk)
+				{
+					if (Engine::UIManager()->Set_SpeechBubbleUse())
+					{
+						rPlayer.Set_Talk(true);
+						m_bTalkButton = false;
 
-				static_cast<CFlyingCamera*>(pGameObject)->Set_MouseFix(false);
+						if (!m_bTalking)
+							m_bTalking = true;
 
-				CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_UI);
-				CSoundManager::GetInstance()->PlaySound(L"ui_dialogue_close.mp3", CHANNELID::SOUND_UI, 1.f);
+						static_cast<CFlyingCamera*>(pGameObject)->Set_MouseFix(true);
+						CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_UI);
+						CSoundManager::GetInstance()->PlaySound(L"ui_dialogue_open.mp3", CHANNELID::SOUND_UI, 1.f);
+					}
+					m_bFirstTalk = true;
+
+					return iExit;
+				}
+				
+				if (m_iCount < m_iMaxCount - 2)
+				{
+					CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_UI);
+					CSoundManager::GetInstance()->PlaySound(L"ui_dialogue_open.mp3", CHANNELID::SOUND_UI, 1.f);
+
+					++m_iCount;
+				}
+				else if (m_iCount >= m_iMaxCount - 2)
+				{
+					Engine::UIManager()->Set_SpeechBubbleUse();
+					Engine::UIManager()->Hide_PopupUI(UIPOPUPLAYER::POPUP_SPEECH);
+					SceneManager()->Set_GameStop(false);
+					m_bTalkingBox = false;
+					m_bTalking = false;
+					rPlayer.Set_Talk(false);
+
+					static_cast<CFlyingCamera*>(pGameObject)->Set_MouseFix(false);
+
+					CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_UI);
+					CSoundManager::GetInstance()->PlaySound(L"ui_dialogue_close.mp3", CHANNELID::SOUND_UI, 1.f);
+
+					m_iCount = 0;
+					m_bFirstTalk = false;
+				}
 			}
 		}
 	}
