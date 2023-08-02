@@ -1,4 +1,4 @@
-flthtm#include "stdafx.h"
+#include "stdafx.h"
 #include "Loading.h"
 #include "Export_Function.h"
 #include "SoundManager.h"
@@ -452,7 +452,7 @@ _uint CLoading::Loading_ForStage()
 		//FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/Boss/.wav", ".wav"), E_FAIL);
 
 		//KingSpider
-		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/KingSpider/KingSpider_Appear.mp3", ".KingSpider_Appearwav.mp3"), E_FAIL);
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/KingSpider/KingSpider_Appear.mp3", ".KingSpider_Appear.mp3"), E_FAIL);
 		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/KingSpider/KingSpider_Attack1.wav", "KingSpider_Attack1.wav"), E_FAIL);
 		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/KingSpider/KingSpider_Attack2.wav", "KingSpider_Attack2.wav"), E_FAIL);
 		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/KingSpider/KingSpider_Attack3.wav", "KingSpider_Attack3.wav"), E_FAIL);
@@ -463,7 +463,7 @@ _uint CLoading::Loading_ForStage()
 		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/KingSpider/KingSpider_Web.wav", "KingSpider_Web.wav"), E_FAIL);
 
 		// Ending
-		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/Production/vol1_05_SiliansTheme.mp3", "Silian'sTheme"), E_FAIL);
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/Production/vol1_05_Silian'sTheme.mp3", "Silian'sTheme"), E_FAIL);
 #pragma endregion SOUND
 
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_BossSkyBox",    CTexture::Create(m_pGraphicDev, TEX_CUBE,   L"../Bin/SRSource/SkyBox/BossSkybox.dds", 1)), E_FAIL);
