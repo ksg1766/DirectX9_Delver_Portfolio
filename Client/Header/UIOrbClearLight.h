@@ -18,6 +18,10 @@ private:
 	virtual ~CUIOrbClearLight();
 
 public:
+	void Set_OrbObject(CGameObject* pObject)   { m_pOrb = pObject; }
+	void Set_AltarObject(CGameObject* pObject) { m_pAltar = pObject; }
+
+public:
 	HRESULT		Ready_Object();
 	_int		Update_Object(const _float& fTimeDelta);
 	void		LateUpdate_Object(void);
@@ -28,6 +32,11 @@ private:
 	void	    Key_Input(void);
 
 private:
+	CGameObject* m_pOrb   = nullptr;
+	CGameObject* m_pAltar = nullptr;
+	_float m_fLifeTime = 0.f;
+	_bool  m_bClear = false;
+
 	float m_fFrame; 
 	float m_fFrist; 
 	float m_fFinal; 

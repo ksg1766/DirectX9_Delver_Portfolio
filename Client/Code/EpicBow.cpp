@@ -86,7 +86,12 @@ HRESULT CEpicBow::Ready_Object(_bool _Item)
 
 _int CEpicBow::Update_Object(const _float& fTimeDelta)
 {
-	Engine::Renderer()->Add_RenderGroup(RENDER_ALPHA, this);
+	if (m_bWorldItem) {
+		Engine::Renderer()->Add_RenderGroup(RENDER_ALPHA, this);
+	}
+	else if (!m_bWorldItem) {
+		Engine::Renderer()->Add_RenderGroup(RENDER_ITEM, this);
+	}
 
 	if (SceneManager()->Get_GameStop()) { return 0; }
 
@@ -194,6 +199,10 @@ void CEpicBow::LateUpdate_Object(void)
 
 void CEpicBow::Render_Object(void)
 {
+	if (!m_bWorldItem) {
+		m_pGraphicDev->SetRenderState(D3DRS_ZENABLE, FALSE);
+	}
+
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
 
 	CPlayer* pPlayer = dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer());
@@ -225,7 +234,9 @@ void CEpicBow::Render_Object(void)
 #endif
 	}
 
-
+	if (!m_bWorldItem) {
+		m_pGraphicDev->SetRenderState(D3DRS_ZENABLE, TRUE);
+	}
 }
 
 HRESULT CEpicBow::Add_Component(void)

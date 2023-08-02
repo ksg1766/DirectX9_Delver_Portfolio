@@ -45,7 +45,12 @@ HRESULT CBeer::Ready_Object(_bool _Item)
 
 _int CBeer::Update_Object(const _float& fTimeDelta)
 {
-	Engine::Renderer()->Add_RenderGroup(RENDER_ALPHA, this);
+	if (m_bWorldItem) {
+		Engine::Renderer()->Add_RenderGroup(RENDER_ALPHA, this);
+	}
+	else if (!m_bWorldItem) {
+		Engine::Renderer()->Add_RenderGroup(RENDER_ITEM, this);
+	}
 
 	if (SceneManager()->Get_GameStop()) { return 0; }
 
@@ -89,6 +94,10 @@ void CBeer::LateUpdate_Object(void)
 
 void CBeer::Render_Object(void)
 {
+	if (!m_bWorldItem) {
+		m_pGraphicDev->SetRenderState(D3DRS_ZENABLE, FALSE);
+	}
+
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
 	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CW);
 
@@ -115,6 +124,10 @@ void CBeer::Render_Object(void)
 	{
 		m_pTexture->Render_Texture();
 		m_pBuffer->Render_Buffer();
+	}
+
+	if (!m_bWorldItem) {
+		m_pGraphicDev->SetRenderState(D3DRS_ZENABLE, TRUE);
 	}
 
 	//m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);

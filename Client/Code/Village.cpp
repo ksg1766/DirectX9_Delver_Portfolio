@@ -52,6 +52,7 @@
 #include "EffectWaterfall.h"
 #include "EffectWaterMove.h"
 #include "UIOrbClearLight.h"
+#include "EffectFirecrackerWreckage.h"
 
 CVillage::CVillage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
@@ -109,6 +110,12 @@ void CVillage::LateUpdate_Scene()
 	CCameraManager::GetInstance()->LateUpdate_Camera();
 
 	UIManager()->LateUpdate_UI();
+
+	//if (Engine::InputDev()->Key_Down(DIK_F1))
+	//{
+	//	CGameObject* pGameObject = CEffectFirecrackerWreckage::Create(m_pGraphicDev, _vec3(0.f, 5.f, - 20.f), 500);
+	//	Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+	//}
 }
 
 void CVillage::Render_Scene()
@@ -392,10 +399,6 @@ HRESULT CVillage::Ready_Layer_UI(LAYERTAG _eLayerTag)
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
 
 	Engine::CGameObject*		pGameObject = nullptr;
-
-	//pGameObject = CUIOrbClearLight::Create(m_pGraphicDev);
-	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//Engine::UIManager()->Add_BasicGameobject(Engine::UILAYER::UI_DOWN, pGameObject);
 
 	if (!Engine::SceneManager()->Get_VisitScene(m_eSceneTag))
 	{

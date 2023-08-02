@@ -985,6 +985,12 @@
     <Filter Include="03. GameObject\03. UI\21. UIOrbClearLight">
       <UniqueIdentifier>{7cb859d5-0615-4058-801c-2649a6b84340}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. GameObject\07. Effect\25. EffectFirecracker">
+      <UniqueIdentifier>{a32f08c2-1b82-46ee-86a8-3776ffabad82}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\06. Particle\02. EffectFirecrackerWreckage">
+      <UniqueIdentifier>{2cdaa040-9435-446e-9da0-9f91b2ecbfe0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -1925,6 +1931,9 @@
     <ClInclude Include="..\Header\UIOrbClearLight.h">
       <Filter>03. GameObject\03. UI\21. UIOrbClearLight</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\EffectFirecrackerWreckage.h">
+      <Filter>03. GameObject\06. Particle\02. EffectFirecrackerWreckage</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -2825,6 +2834,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\UIOrbClearLight.cpp">
       <Filter>03. GameObject\03. UI\21. UIOrbClearLight</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\EffectFirecrackerWreckage.cpp">
+      <Filter>03. GameObject\06. Particle\02. EffectFirecrackerWreckage</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
