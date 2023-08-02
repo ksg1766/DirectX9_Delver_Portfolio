@@ -66,6 +66,7 @@ protected:
 	_bool        m_bCollider;
 	_bool        m_bSetup;
 	_bool        m_bEmpty;
+	_bool		 m_bSound;
 
 	_matrix      m_matWorld;
 	_uint        m_fCurrentImage;

@@ -174,8 +174,22 @@ void CUIitem::Key_Input(void)
 				Engine::UIManager()->m_bMouse = true;
 				Engine::UIManager()->Set_PickingItemUI(this);
 
-				CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_INVENTORY);
-				CSoundManager::GetInstance()->PlaySound(L"grab_item.mp3", CHANNELID::SOUND_INVENTORY, 1.f);
+				if (m_ItemID.eItemType == ITEMTYPE::ITEMTYPE_WEAPONITEM)
+				{
+					CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_INVENTORY);
+					CSoundManager::GetInstance()->PlaySound(L"ui_equip_weapon.mp3", CHANNELID::SOUND_INVENTORY, 1.f);
+
+				}
+				else if (m_ItemID.eItemType == ITEMTYPE::ITEMTYPE_EQUIPITEM)
+				{
+					CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_INVENTORY);
+					CSoundManager::GetInstance()->PlaySound(L"ui_equip_armor.mp3", CHANNELID::SOUND_INVENTORY, 1.f);
+				}
+				else
+				{
+					CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_INVENTORY);
+					CSoundManager::GetInstance()->PlaySound(L"ui_equip_item.mp3", CHANNELID::SOUND_INVENTORY, 1.f);
+				}
 
 				// 아이템 장착 아이템 타입인 경우 해당 UINumber 슬롯을 찾고 해당 슬롯 이미지 변경
 				if (m_ItemID.eItemType == ITEMTYPE_GENERALITEM || m_ItemID.eItemType == ITEMTYPE_EQUIPITEM) {
@@ -345,6 +359,10 @@ void CUIitem::Key_Input(void)
 						dynamic_cast<CTempUI*>(Get_Parent())->Set_Child(this);
 						dynamic_cast<CTempUI*>(Get_Parent())->Set_EmptyBool(false);
 
+
+						//CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_INVENTORY);
+						//CSoundManager::GetInstance()->PlaySound(L"ui_equip_weapon.mp3", CHANNELID::SOUND_INVENTORY, 1.f);
+
 						// 장착하고 있는 아이템을 이동한 경우에 사용하고 있다는 슬롯 표시 이동
 						if (m_ItemID.eItemType == ITEMTYPE_WEAPONITEM) {
 							CGameObject* pRightItem = pPlayer->Get_CurrentEquipRight();
@@ -355,6 +373,7 @@ void CUIitem::Key_Input(void)
 									UIOBJECTTTAG UIFindObjID{};
 									_uint        UIFindNumber;
 									dynamic_cast<CTempUI*>(Get_Parent())->Get_UIObjID(UIFindObjID, UIFindNumber);
+
 
 									if (UIFindObjID == UIID_SLOTBASIC)
 										dynamic_cast<CUIbasicslot*>(dynamic_cast<CTempUI*>(Get_Parent()))->Set_FindSlot(true);

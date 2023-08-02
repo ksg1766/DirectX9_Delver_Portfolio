@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "..\Header\UIResumeButton.h"
-
+#include "SoundManager.h"
 #include "FlyingCamera.h"
 
 CUIResumeButton::CUIResumeButton(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -93,6 +93,15 @@ void CUIResumeButton::Key_Input(void)
 	if (OnCollision(pt, m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y))
 	{
 		m_fCurrentImage = 1;
+
+		if (!m_bSound)
+		{
+			CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_UI);
+			CSoundManager::GetInstance()->PlaySound(L"ui_button_click.mp3", CHANNELID::SOUND_UI, 1.f);
+
+			m_bSound = true;
+		}
+
 		if (Engine::InputDev()->Mouse_Down(DIM_LB)) {
 			CGameObject* pGameObject = SceneManager()->Get_ObjectList(LAYERTAG::ENVIRONMENT, OBJECTTAG::CAMERA).front();
 			static_cast<CFlyingCamera*>(pGameObject)->Set_MouseFix(false);
@@ -100,10 +109,13 @@ void CUIResumeButton::Key_Input(void)
 
 			UIManager()->m_bEsc = false;
 			UIManager()->Hide_PopupUI(UIPOPUPLAYER::POPUP_ESC);
+
+		
 		}
 	}
 	else
 	{
+		m_bSound = false;
 		m_fCurrentImage = 0;
 	}
 }

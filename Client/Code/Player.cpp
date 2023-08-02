@@ -6,7 +6,7 @@
 // 임시 아이템
 #include "DynamicCamera.h"
 #include "Itemgroup.h"
-
+#include "Phantom.h"
 // State
 #include "PlayerState_Walk.h"
 #include "PlayerState_Idle.h"
@@ -374,12 +374,17 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 				static_cast<CFlyingCamera*>(pGameObject)->Set_MouseFix(true);
 				SceneManager()->Set_GameStop(true);
 				Set_UseUI(true);
+
+				CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_UI);
+				CSoundManager::GetInstance()->PlaySound(L"ui_map_open.mp3", CHANNELID::SOUND_UI, 1.f);
 			}
 			else
 			{
 				static_cast<CFlyingCamera*>(pGameObject)->Set_MouseFix(false);
 				SceneManager()->Set_GameStop(false);
 				Set_UseUI(false);
+				CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_UI);
+				CSoundManager::GetInstance()->PlaySound(L"ui_map_close.mp3", CHANNELID::SOUND_UI, 1.f);
 			}
 		}
 		else if (Engine::InputDev()->Key_Down(DIK_ESCAPE))
@@ -993,6 +998,12 @@ void CPlayer::PoisonDamage(const _float& fTimeDelta)
 
 void CPlayer::OnCollisionEnter(CCollider* _pOther)
 {
+
+	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::NPC)
+		if (dynamic_cast<CNpc*>(_pOther->Get_Host())->Get_NPCTag() == NPCTAG::PAHNTOM)
+			return;
+
+
 	if (_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::MONSTER
 		&& _pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::MONSTERBULLET
 		&& _pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::ITEM
@@ -1061,6 +1072,11 @@ void CPlayer::OnCollisionEnter(CCollider* _pOther)
 
 void CPlayer::OnCollisionStay(CCollider* _pOther)
 {
+	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::NPC)
+		if (dynamic_cast<CNpc*>(_pOther->Get_Host())->Get_NPCTag() == NPCTAG::PAHNTOM)
+			return;
+
+
 	if (_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::MONSTER
 		&& _pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::MONSTERBULLET
 		&& _pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::ITEM

@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "..\Header\UIOptionsButton.h"
+#include "SoundManager.h"
 
 CUIOptionButton::CUIOptionButton(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CTempUI(pGraphicDev)
@@ -90,14 +91,26 @@ void CUIOptionButton::Key_Input(void)
 
 	if (OnCollision(pt, m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y))
 	{
+
+		if (!m_bSound)
+		{
+			CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_UI);
+			CSoundManager::GetInstance()->PlaySound(L"ui_button_click.mp3", CHANNELID::SOUND_UI, 1.f);
+
+			m_bSound = true;
+		}
+
 		m_fCurrentImage = 3;
 		if (Engine::InputDev()->Mouse_Down(DIM_LB)) {
 			//DestroyWindow(g_hWnd);
 		}
+
 	}
 	else
 	{
 		m_fCurrentImage = 2;
+
+		m_bSound = false;
 	}
 }
 
