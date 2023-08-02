@@ -21,6 +21,9 @@ private:
 	virtual ~COrb();
 
 public:
+	void Set_CurrentImage(_uint _iNumber) { m_iCurrentImage = _iNumber; }
+
+public:
 	virtual HRESULT Ready_Object(_bool _Item);
 	virtual _int	Update_Object(const _float& fTimeDelta) override;
 	virtual void	LateUpdate_Object(void) override;
@@ -37,6 +40,9 @@ public:
 public:
 	void	Set_Altar(_bool _On) { m_bOnAltar = _On; }
 	_bool	Get_Altar()			 { return m_bOnAltar; }
+
+private:
+	_uint m_iCurrentImage = 42;
 
 private:
 	CRcTex*		m_pBuffer		= nullptr;

@@ -31,15 +31,19 @@ HRESULT CSoundManager::LoadSound(const char* pPath, const char* pKey)
 	FMOD_SOUND* pSound = nullptr;
 	FMOD_RESULT eRes = FMOD_System_CreateSound(m_pSystem, pPath, FMOD_HARDWARE, 0, &pSound);
 
-	int iLength = strlen(pKey) + 1;
-	TCHAR* pSoundKey = new TCHAR[iLength];
-	ZeroMemory(pSoundKey, sizeof(TCHAR) * iLength);
+	if (pSound != nullptr) {
+		int iLength = strlen(pKey) + 1;
+		TCHAR* pSoundKey = new TCHAR[iLength];
+		ZeroMemory(pSoundKey, sizeof(TCHAR) * iLength);
 
-	MultiByteToWideChar(CP_ACP, 0, pKey, iLength, pSoundKey, iLength);
+		MultiByteToWideChar(CP_ACP, 0, pKey, iLength, pSoundKey, iLength);
 
-	m_mapSound.emplace(pSoundKey, pSound);
+		m_mapSound.emplace(pSoundKey, pSound);
 
-	return S_OK;
+		return S_OK;
+	}
+
+	return E_FAIL;
 }
 
 void CSoundManager::PlaySound(TCHAR * pSoundKey, CHANNELID eID, float fVolume)

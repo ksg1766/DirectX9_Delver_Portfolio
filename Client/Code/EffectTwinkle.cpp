@@ -22,7 +22,7 @@ HRESULT CEffectTwinkle::Ready_Object(void)
 	m_bAnimation = true;
 	m_bLoop      = true;
 
-	m_fFrame = 0.f;
+	m_fFrame = CTempEffect::Get_RandomFloat(0.f, 3.f);
 	m_fFrist = 0.f;
 	m_fFinal = 3.f;
 	m_fFrameSpeed  = 1.5f;
@@ -44,10 +44,10 @@ Engine::_int CEffectTwinkle::Update_Object(const _float& fTimeDelta)
 
 	Engine::Renderer()->Add_RenderGroup(RENDER_ALPHA, this);
 
-	if (m_fTime > m_fLife || m_fFrame == m_fFinal && m_bAnimation && !m_bLoop)
-	{
-		CPoolManager::GetInstance()->Delete_Object(this);
-	}
+	//if (m_fTime > m_fLife || m_fFrame == m_fFinal && m_bAnimation && !m_bLoop)
+	//{
+	//	CPoolManager::GetInstance()->Delete_Object(this);
+	//}
 
 	_int iExit = CTempEffect::Update_Object(fTimeDelta);
 

@@ -955,9 +955,6 @@
     <Filter Include="03. GameObject\02. BossStage\01. BossMoon">
       <UniqueIdentifier>{a55f90be-57b0-477f-afb4-9497ebec6494}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. GameObject\02. Village\09. OrbBlock">
-      <UniqueIdentifier>{736f01fc-d870-4ab3-b491-1f4b01600380}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03. GameObject\01. Stage\07. NPC\07. Phantom">
       <UniqueIdentifier>{77b8f726-3bdc-4684-b80f-2b26d7fdee37}</UniqueIdentifier>
     </Filter>
@@ -984,6 +981,12 @@
     </Filter>
     <Filter Include="03. GameObject\01. Stage\05. Monster\02. Spider\01.KingSpider\00.State\05. 2PhScream">
       <UniqueIdentifier>{c0d80460-5520-4d2c-934e-b7062093ac05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\02. Village\09. OrbBlockLight">
+      <UniqueIdentifier>{736f01fc-d870-4ab3-b491-1f4b01600380}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\03. UI\21. UIOrbClearLight">
+      <UniqueIdentifier>{7cb859d5-0615-4058-801c-2649a6b84340}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1889,8 +1892,8 @@
     <ClInclude Include="..\Header\MoonBoss.h">
       <Filter>03. GameObject\02. BossStage\01. BossMoon</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\OrbBlock.h">
-      <Filter>03. GameObject\02. Village\09. OrbBlock</Filter>
+    <ClInclude Include="..\Header\OrbBlockLight.h">
+      <Filter>03. GameObject\02. Village\09. OrbBlockLight</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Phantom.h">
       <Filter>03. GameObject\01. Stage\07. NPC\07. Phantom</Filter>
@@ -1921,6 +1924,9 @@
     </ClInclude>
     <ClInclude Include="..\Header\Boss_LastPhase.h">
       <Filter>03. GameObject\01. Stage\999. Boss\02. State\03. Attack\03. LastPhase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\UIOrbClearLight.h">
+      <Filter>03. GameObject\03. UI\21. UIOrbClearLight</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -2787,8 +2793,8 @@
     <ClCompile Include="..\Code\MoonBoss.cpp">
       <Filter>03. GameObject\02. BossStage\01. BossMoon</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\OrbBlock.cpp">
-      <Filter>03. GameObject\02. Village\09. OrbBlock</Filter>
+    <ClCompile Include="..\Code\OrbBlockLight.cpp">
+      <Filter>03. GameObject\02. Village\09. OrbBlockLight</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Phantom.cpp">
       <Filter>03. GameObject\01. Stage\07. NPC\07. Phantom</Filter>
@@ -2819,6 +2825,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\Boss_LastPhase.cpp">
       <Filter>03. GameObject\01. Stage\999. Boss\02. State\03. Attack\03. LastPhase</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UIOrbClearLight.cpp">
+      <Filter>03. GameObject\03. UI\21. UIOrbClearLight</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
