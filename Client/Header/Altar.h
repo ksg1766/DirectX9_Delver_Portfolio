@@ -31,6 +31,8 @@ private:
 private:
 	CCubeBf* m_pCubeBf = nullptr;
 	CTexture* m_pTexture = nullptr;
+	_bool     m_bOrbCollision = false;
+	_uint     m_iCurrentImage = 45;
 
 public:
 	static CAltar* Create(LPDIRECT3DDEVICE9 pGraphicDev);

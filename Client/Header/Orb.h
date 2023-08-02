@@ -21,6 +21,9 @@ private:
 	virtual ~COrb();
 
 public:
+	void Set_CurrentImage(_uint _iNumber) { m_iCurrentImage = _iNumber; }
+
+public:
 	virtual HRESULT Ready_Object(_bool _Item);
 	virtual _int	Update_Object(const _float& fTimeDelta) override;
 	virtual void	LateUpdate_Object(void) override;
@@ -35,6 +38,7 @@ public:
 	virtual void	OnCollisionExit(CCollider* _pOther);
 
 private:
+	_uint m_iCurrentImage = 42;
 
 private:
 	CRcTex*		m_pBuffer		= nullptr;

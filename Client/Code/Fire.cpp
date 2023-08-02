@@ -30,7 +30,7 @@ _int CFire::Update_Object(const _float& fTimeDelta)
 {
 	Engine::Renderer()->Add_RenderGroup(RENDER_ALPHA, this);
 
-	m_fFrame += 7.f * fTimeDelta * 2.f;
+	m_fFrame += 7.f * fTimeDelta * 1.f;
 
 	if (m_fFrame > 7.f)
 	{

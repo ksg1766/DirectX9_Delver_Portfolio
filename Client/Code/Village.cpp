@@ -50,7 +50,8 @@
 #include "UILevelUpCard.h"
 #include "UIbosshp.h"
 #include "EffectWaterfall.h"
-#include <EffectWaterMove.h>
+#include "EffectWaterMove.h"
+#include "UIOrbClearLight.h"
 
 CVillage::CVillage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
@@ -108,44 +109,6 @@ void CVillage::LateUpdate_Scene()
 	CCameraManager::GetInstance()->LateUpdate_Camera();
 
 	UIManager()->LateUpdate_UI();
-
-	// 분위기 전환 테스트
-	if (Engine::InputDev()->Key_Down(DIK_F1)) // 오브랑 석상이랑 충돌했을 때 
-	{
-		// 오브에 반짝이는 이펙트 생성
-
-
-		// 오브 주변에 빛 이미지 생성
-
-
-		// 스카이 박스 색상 이미지 교체
-		CGameObject* pSkyObject = SceneManager()->Get_ObjectList(LAYERTAG::ENVIRONMENT, OBJECTTAG::SKYBOX).front();
-		if (pSkyObject != nullptr)
-			dynamic_cast<CSkyBoxVillage*>(pSkyObject)->Set_SkyMode(1);
-
-		// 안개 색상 교체
-		Engine::Renderer()->Set_FogColor(100, 255, 170, 150);
-		Engine::Renderer()->Set_FogDistance(1.f, 200.0f);
-
-		vector<CGameObject*> pEffectList = SceneManager()->Get_ObjectList(LAYERTAG::ENVIRONMENT, OBJECTTAG::EFFECT);
-		for (auto& iter : pEffectList) {
-			// 나뭇잎 이펙트 -> 꽃 이미지로 교체
-			if (dynamic_cast<CTempEffect*>(iter)->Get_EffectTag() == EFFECTTAG::EFFECT_LEAVES) {
-				dynamic_cast<CEffectFallingleaves*>(iter)->Set_ChangeMode(true);
-			}
-			// 반딧불이 이펙트 -> 나비 이미지로 교체
-			else if (dynamic_cast<CTempEffect*>(iter)->Get_EffectTag() == EFFECTTAG::EFFECT_FIREFLY) {
-				dynamic_cast<CEffectFirefly*>(iter)->Set_ChangeMode(true);
-			}
-		}
-
-		// 해당 씬 클리어상태로 변경
-		// 몇초마다 하늘에 폭죽 이펙트 발사
-
-
-		// 클리어 후 몇초 뒤 엔딩 크래딧 씬으로 전환
-
-	}
 }
 
 void CVillage::Render_Scene()
@@ -430,6 +393,10 @@ HRESULT CVillage::Ready_Layer_UI(LAYERTAG _eLayerTag)
 
 	Engine::CGameObject*		pGameObject = nullptr;
 
+	//pGameObject = CUIOrbClearLight::Create(m_pGraphicDev);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//Engine::UIManager()->Add_BasicGameobject(Engine::UILAYER::UI_DOWN, pGameObject);
+
 	if (!Engine::SceneManager()->Get_VisitScene(m_eSceneTag))
 	{
 		// 기본 인벤토리 5칸
@@ -673,11 +640,23 @@ HRESULT CVillage::Load_Data()
 				pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 				//EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 			}
+			else if (51 == byTextureNumber)
+			{
+				pGameObject = CCubeBlock::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+				NULL_CHECK_RETURN(pGameObject, E_FAIL);
+				dynamic_cast<CCubeBlock*>(pGameObject)->Set_TextureNumber(53);
+				pGameObject->m_pTransform->Translate(_vec3(fX, fY + 1.f, fZ));
+				pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
+			}
 			else
 			{
 				pGameObject = CCubeBlock::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
 				NULL_CHECK_RETURN(pGameObject, E_FAIL);
-				dynamic_cast<CCubeBlock*>(pGameObject)->Set_TextureNumber(byTextureNumber);
+				if (fY > 50.f) {
+					dynamic_cast<CCubeBlock*>(pGameObject)->Set_TextureNumber(54);
+				}
+				else
+					dynamic_cast<CCubeBlock*>(pGameObject)->Set_TextureNumber(byTextureNumber);
 				pGameObject->m_pTransform->Translate(_vec3(fX, fY + 1.f, fZ));
 				pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 				//EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);

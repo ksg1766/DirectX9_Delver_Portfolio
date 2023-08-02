@@ -157,13 +157,13 @@ void COrb::Render_Object(void)
 
 		if (ItemID.eItemID == ITEMID::QUEST_ORB && pPlayer->Get_ItemEquipRight())
 		{
-			m_pTexture->Render_Texture(42);
+			m_pTexture->Render_Texture(m_iCurrentImage);
 			m_pBuffer->Render_Buffer();
 		}
 	}
 	else
 	{
-		m_pTexture->Render_Texture(42);
+		m_pTexture->Render_Texture(m_iCurrentImage);
 		m_pBuffer->Render_Buffer();
 
 #if _DEBUG
