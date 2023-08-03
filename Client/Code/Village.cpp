@@ -89,9 +89,6 @@ HRESULT CVillage::Ready_Scene()
 	Engine::Renderer()->Set_FogColor(100, 60, 10, 55);
 	Engine::Renderer()->Set_FogDistance(1.f, 130.0f);
 
-	pGameObject = CUICredit::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
-	Engine::UIManager()->Add_PopupGameobject(Engine::UIPOPUPLAYER::POPUP_BLACK, Engine::UILAYER::UI_DOWN, pGameObject);
-
 	return S_OK;
 }
 
@@ -322,32 +319,6 @@ HRESULT CVillage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 		//pGameObject->m_pTransform->Translate(m_pPlayer->m_pTransform->m_vInfo[INFO_POS] + _vec3(0.f, -1.25f, 0.f));
 	}
 
-	// EpicWeapon
-	//CItem* pItem = CEpicBow::Create(m_pGraphicDev, true);
-	//NULL_CHECK_RETURN(pItem, E_FAIL);
-	//pItem->m_pTransform->Translate(_vec3(0, 1.5f, -22.f));
-	//dynamic_cast<CEpicBow*>(pItem)->Set_WorldItem(true);
-	//pLayer->Add_GameObject(pItem->Get_ObjectTag(), pItem);
-
-	for (_uint i = 0; i < 5; ++i)
-	{
-		pGameObject = CBoxCube::Create(m_pGraphicDev);
-		NULL_CHECK_RETURN(pGameObject, E_FAIL);
-		_vec3 vPos = _vec3(-30.f, 3.5f, -30.f - (i * 5));
-		pGameObject->m_pTransform->Translate(vPos);
-		pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-	}
-
-	for (_uint i = 0; i < 5; ++i)
-	{
-		pGameObject = CEquipBox::Create(m_pGraphicDev);
-		NULL_CHECK_RETURN(pGameObject, E_FAIL);
-		_vec3 vPos = _vec3(-30.f, 3.5f, -30.f + (i * 5));
-		pGameObject->m_pTransform->Translate(vPos);
-		pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-	}
-
-
 	// Npc Test
 	pGameObject = CNpc_OldMan::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
@@ -377,17 +348,6 @@ HRESULT CVillage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	pGameObject = CNpc_Wizard::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	pGameObject->m_pTransform->Translate(_vec3(-94.f, 1.f, -23.f));
-	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-
-	// Boss
-	//pGameObject = CSkeletonKing::Create(m_pGraphicDev);
-	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//pGameObject->m_pTransform->Translate(_vec3(0.f, 11.f, -30.f));
-	//pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-
-	pGameObject = COrb::Create(m_pGraphicDev, true);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pGameObject->m_pTransform->Translate(_vec3(0.f, 3.5f, -30.f));
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
 	pGameObject = CAltar::Create(m_pGraphicDev);

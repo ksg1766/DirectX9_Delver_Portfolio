@@ -515,8 +515,8 @@ void CGameManager::MeteorExplosion(const _float& fTimeDelta)
 	if (m_fTimer == 10.f)
 	{
 		SceneManager()->SlowMode(2.f, 2.f);
-		CSoundManager::GetInstance()->SetChannelVolume(SOUND_BGM, 0.2f);
-		CSoundManager::GetInstance()->PlaySound(L"BassDrop", SOUND_EFFECT2, 2.0f);
+		CSoundManager::GetInstance()->SetChannelVolume(CHANNELID::SOUND_BGM, 0.2f);
+		CSoundManager::GetInstance()->PlaySound(L"BassDrop", CHANNELID::SOUND_EFFECT2, 1.0f);
 	}
 	else if (m_fTimer > 7.5f)
 	{
