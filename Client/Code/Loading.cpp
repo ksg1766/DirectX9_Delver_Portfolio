@@ -144,116 +144,116 @@ _uint CLoading::Loading_ForStage()
 
 #pragma region Cube
 		//FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Terrain", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/Resource/Texture/Terrain/Grass_%d.tga", 2)), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Tile", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Tile/Stage/tile%d.png", 55)), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Cube", CTexture::Create(m_pGraphicDev, TEX_CUBE, L"../Bin/SRSource/Cube/Stage/cube%d.dds", 55)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Tile",					CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Tile/Stage/tile%d.png", 55)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Cube",					CTexture::Create(m_pGraphicDev, TEX_CUBE, L"../Bin/SRSource/Cube/Stage/cube%d.dds", 55)), E_FAIL);
 		//FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_SkyBox", CTexture::Create(m_pGraphicDev, TEX_CUBE, L"../Bin/Resource/Texture/SkyBox/burger%d.dds", 4)), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_SkyBox", CTexture::Create(m_pGraphicDev, TEX_CUBE, L"../Bin/SRSource/SkyBox/NightSky%d.dds", 2)), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_BladeTrapBody", CTexture::Create(m_pGraphicDev, TEX_CUBE, L"../Bin/SRSource/Entities/Trap/Blade_Trap_Body.dds")), E_FAIL); //트랩용
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_ProjectileTrapBody", CTexture::Create(m_pGraphicDev, TEX_CUBE, L"../Bin/SRSource/Entities/Trap/Projectile_Trap_Body.dds")), E_FAIL); //트랩용
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_PlateTrapBody", CTexture::Create(m_pGraphicDev, TEX_CUBE, L"../Bin/SRSource/Entities/Trap/Plate_Trap.dds")), E_FAIL); //트랩용
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_WoodBox", CTexture::Create(m_pGraphicDev, TEX_CUBE, L"../Bin/SRSource/Fragile/Box/Box_Cube0.dds")), E_FAIL); //상자용
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_EquipBox", CTexture::Create(m_pGraphicDev, TEX_CUBE, L"../Bin/SRSource/Fragile/Box/Box_Cube1.dds")), E_FAIL); //상자용
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Meteor", CTexture::Create(m_pGraphicDev, TEX_CUBE, L"../Bin/SRSource/Entities/Boss/Meteor.dds")), E_FAIL); //보스용
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_SkyBox",				CTexture::Create(m_pGraphicDev, TEX_CUBE, L"../Bin/SRSource/SkyBox/NightSky%d.dds", 2)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_BladeTrapBody",			CTexture::Create(m_pGraphicDev, TEX_CUBE, L"../Bin/SRSource/Entities/Trap/Blade_Trap_Body.dds")), E_FAIL); //트랩용
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_ProjectileTrapBody",	CTexture::Create(m_pGraphicDev, TEX_CUBE, L"../Bin/SRSource/Entities/Trap/Projectile_Trap_Body.dds")), E_FAIL); //트랩용
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_PlateTrapBody",			CTexture::Create(m_pGraphicDev, TEX_CUBE, L"../Bin/SRSource/Entities/Trap/Plate_Trap.dds")), E_FAIL); //트랩용
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_WoodBox",				CTexture::Create(m_pGraphicDev, TEX_CUBE, L"../Bin/SRSource/Fragile/Box/Box_Cube0.dds")), E_FAIL); //상자용
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_EquipBox",				CTexture::Create(m_pGraphicDev, TEX_CUBE, L"../Bin/SRSource/Fragile/Box/Box_Cube1.dds")), E_FAIL); //상자용
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Meteor",				CTexture::Create(m_pGraphicDev, TEX_CUBE, L"../Bin/SRSource/Entities/Boss/Meteor.dds")), E_FAIL); //보스용
 
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Water", CTexture::Create(m_pGraphicDev, TEX_CUBE, L"../Bin/SRSource/Cube/Stage/water/water%d.dds", 32)), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_WaterFall", CTexture::Create(m_pGraphicDev, TEX_CUBE, L"../Bin/SRSource/Cube/Stage/waterfall/waterfall%d.dds", 32)), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Lava", CTexture::Create(m_pGraphicDev, TEX_CUBE, L"../Bin/SRSource/Cube/Stage/lava/lavaCube%d.dds", 32)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Water",					CTexture::Create(m_pGraphicDev, TEX_CUBE, L"../Bin/SRSource/Cube/Stage/water/water%d.dds", 32)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_WaterFall",				CTexture::Create(m_pGraphicDev, TEX_CUBE, L"../Bin/SRSource/Cube/Stage/waterfall/waterfall%d.dds", 32)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Lava",					CTexture::Create(m_pGraphicDev, TEX_CUBE, L"../Bin/SRSource/Cube/Stage/lava/lavaCube%d.dds", 32)), E_FAIL);
 #pragma endregion Cube
 
 		// Weapon
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Sword", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Equip/Weapon/Sword/BasicSword1.png")), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_BowIdle", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Equip/Weapon/Bow/BowIDLE.png")), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_BowRoming", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Equip/Weapon/Bow/BowRoming%d.png", 2)), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_BowAttack", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Equip/Weapon/Bow/BowAttack.png")), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Sword",					CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Equip/Weapon/Sword/BasicSword1.png")), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_BowIdle",				CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Equip/Weapon/Bow/BowIDLE.png")), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_BowRoming",				CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Equip/Weapon/Bow/BowRoming%d.png", 2)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_BowAttack",				CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Equip/Weapon/Bow/BowAttack.png")), E_FAIL);
 
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_EpicBowIdle", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Equip/Weapon/Bow/EpicBowIDLE.png")), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_EpicBowRoming", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Equip/Weapon/Bow/EpicBowRoming%d.png", 2)), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_EpicBowAttack", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Equip/Weapon/Bow/EpicBowAttack%d.png", 5)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_EpicBowIdle",			CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Equip/Weapon/Bow/EpicBowIDLE.png")), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_EpicBowRoming",			CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Equip/Weapon/Bow/EpicBowRoming%d.png", 2)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_EpicBowAttack",			CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Equip/Weapon/Bow/EpicBowAttack%d.png", 5)), E_FAIL);
 
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Arrow", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Equip/Weapon/Arrow/Arrow.png")), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_FireWands", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Equip/Weapon/Wands/Unique2.png")), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_FireBullet", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Effect/Bullet/Sphere_Bullet/Sphere_Bullet%d.png", 8)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Arrow",					CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Equip/Weapon/Arrow/Arrow.png")), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_FireWands",				CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Equip/Weapon/Wands/Unique2.png")), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_FireBullet",			CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Effect/Bullet/Sphere_Bullet/Sphere_Bullet%d.png", 8)), E_FAIL);
 
 		// Armor
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Helmet", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Equip/Armor/Helmet/Helmet2.png")), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Pants", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Equip/Armor/Pants/Pants2.png")), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Shield", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Equip/Armor/Shield/Shield4.png")), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Shoes", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Equip/Armor/Shoes/Shoes1.png")), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Top", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Equip/Armor/Top/Top2.png")), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Helmet",				CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Equip/Armor/Helmet/Helmet2.png")), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Pants",					CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Equip/Armor/Pants/Pants2.png")), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Shield",				CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Equip/Armor/Shield/Shield4.png")), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Shoes",					CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Equip/Armor/Shoes/Shoes1.png")), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Top",					CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Equip/Armor/Top/Top2.png")), E_FAIL);
 		
 
 		// Accessories
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Necklace", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/Inventory/item/itemUI3.png")), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Ring", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/Inventory/item/itemUI5.png")), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Lamp", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/Inventory/item/itemUI17.png")), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Necklace",				CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/Inventory/item/itemUI3.png")), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Ring",					CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/Inventory/item/itemUI5.png")), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Lamp",					CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/Inventory/item/itemUI17.png")), E_FAIL);
 
 
 		// Consumable
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Beer", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/Inventory/item/itemUI18.png")), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Pot", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Fragile/Pot/Pot%d.png", 3)), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Bread", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/Inventory/item/itemUI12.png")), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Apple", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/Inventory/item/itemUI13.png")), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Cheese", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/Inventory/item/itemUI14.png")), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Meat", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/Inventory/item/itemUI15.png")), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_RoastMeat", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/Inventory/item/itemUI16.png")), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Beer",					CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/Inventory/item/itemUI18.png")), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Pot",					CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Fragile/Pot/Pot%d.png", 3)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Bread",					CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/Inventory/item/itemUI12.png")), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Apple",					CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/Inventory/item/itemUI13.png")), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Cheese",				CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/Inventory/item/itemUI14.png")), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Meat",					CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/Inventory/item/itemUI15.png")), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_RoastMeat",				CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/Inventory/item/itemUI16.png")), E_FAIL);
 
 		// Potion
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_HolyWater", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/Inventory/item/itemUI29.png")), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_HpPotion", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/Inventory/item/itemUI24.png")), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_RandomPotion", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/Inventory/item/itemUI27.png")), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_HolyWater",				CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/Inventory/item/itemUI29.png")), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_HpPotion",				CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/Inventory/item/itemUI24.png")), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_RandomPotion",			CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/Inventory/item/itemUI27.png")), E_FAIL);
 
 #pragma region UI
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_HpBarUI",             CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/HPbar/healthbar%d.png", 5)), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_PoisionHpBarUI",	  CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/HPbar/helthPoisonbar%d.png", 2)), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_EmptyslotUI",         CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/Inventory/emptyslot/emptyslot%d.png", 27)), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_itemUI",              CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/Inventory/item/itemUI%d.png", 44)), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_tooltipUI",           CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/Inventory/tooltip/tooltip%d.png", 43)), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_InvenButtonUI",       CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/Inventory/button/inventory_button%d.png", 4)), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_playerstatUI",        CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/Inventory/playerstat.png", 1)), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_mapUI",               CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/Inventory/map/map%d.png", 2)), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_aimpointUI",          CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/aimpoint.png", 1)), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_NumberUI",            CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/Number/%d.png", 18)), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_EscButtonUI",         CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/EscUI/Button%d.png", 6)), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_EscBackgroundUI",     CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/EscUI/EscBase.png", 1)), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_ShopUI",			  CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/ShopBackGround.png", 1)), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_ShopFont",			  CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/ShopFont/Font%d.png", 20)), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_LevelUpBackground",   CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/Levelup/LevelUpBackGround%d.png", 2)), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_LevelUpCard",         CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/Levelup/LevelUp%d.png", 6)), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_LevelUpNumber",       CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/Levelup/Number/Number%d.png", 10)), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_BossHpUI",            CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/BossHPbar/BossHPbar%d.png", 2)), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_QuestItem",           CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/QuestItem/Puzzle%d.png", 6)), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_QuestItemBackGround", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/UIQuestItem/PuzzleBackground.png")), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_UIQuestItem",		  CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/UIQuestItem/Puzzle%d.png", 6)), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_UIOrbLight",          CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/OrbClearLight/OrbClearLight%d.png", 15)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_HpBarUI",				CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/HPbar/healthbar%d.png", 5)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_PoisonHpBarUI",			CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/HPbar/helthPoisonbar%d.png", 2)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_EmptyslotUI",			CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/Inventory/emptyslot/emptyslot%d.png", 27)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_itemUI",				CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/Inventory/item/itemUI%d.png", 44)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_tooltipUI",				CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/Inventory/tooltip/tooltip%d.png", 43)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_InvenButtonUI",			CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/Inventory/button/inventory_button%d.png", 4)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_playerstatUI",			CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/Inventory/playerstat.png", 1)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_mapUI",					CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/Inventory/map/map%d.png", 2)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_aimpointUI",			CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/aimpoint.png", 1)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_NumberUI",				CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/Number/%d.png", 18)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_EscButtonUI",			CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/EscUI/Button%d.png", 6)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_EscBackgroundUI",		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/EscUI/EscBase.png", 1)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_ShopUI",				CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/ShopBackGround.png", 1)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_ShopFont",				CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/ShopFont/Font%d.png", 20)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_LevelUpBackground",		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/Levelup/LevelUpBackGround%d.png", 2)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_LevelUpCard",			CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/Levelup/LevelUp%d.png", 6)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_LevelUpNumber",			CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/Levelup/Number/Number%d.png", 10)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_BossHpUI",				CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/BossHPbar/BossHPbar%d.png", 2)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_QuestItem",				CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/QuestItem/Puzzle%d.png", 6)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_QuestItemBackGround",	CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/UIQuestItem/PuzzleBackground.png")), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_UIQuestItem",			CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/UIQuestItem/Puzzle%d.png", 6)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_UIOrbLight",			CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/OrbClearLight/OrbClearLight%d.png", 15)), E_FAIL);
 
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_UIWhite",             CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/WhiteOutIn/white%d.png", 38)), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_UITitle",			  CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/UITitle/UITitle%d.png", 9)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_UIWhite",				CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/WhiteOutIn/white%d.png", 38)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_UITitle",				CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/UITitle/UITitle%d.png", 9)), E_FAIL);
 
 		//Test SpeechBubble
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_SpeechBubbleUI",	CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/Inventory/tooltip/tooltip43.png")), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_SpeechBubbleUI",		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/Inventory/tooltip/tooltip43.png")), E_FAIL);
 		//FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_PaperUI", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/Paper.png", 1)), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_CreditUI", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/Credit.png")), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_CreditUI",				CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/Credit.png")), E_FAIL);
 #pragma endregion UI
 
 #pragma region Boss
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Boss",				CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Entities/Boss/Idle/Boss_Idle%d.png", 8)), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_BossAttack",		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Entities/Boss/Attack/Boss_Attack%d.png", 8)), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_BossHit",			CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Entities/Boss/Hit/Hit%d.png", 4)), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_BossSleep",			CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Entities/Boss/Sleep/Boss_Sleep.png")), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_BossCrawl",			CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Entities/Boss/Crawl/Boss_Crawl%d.png", 7)), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Boss_StandUp",		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Entities/Boss/Stand/Boss_Standing %d.png", 16)), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_BossDying",			CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Entities/Boss/Dead/Dead%d.png", 12)), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_BossBatSwarm",		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Entities/Boss/Bat_Swarm/Bat_Swarm%d.png", 2)), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_BossExplosion",		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Effect/Explosion/Explosion%d.png", 16)), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_BossFire",			CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Effect/Fire/Fire%d.png", 8)), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_BossDead",			CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Entities/Boss/Wreck/Boss_Wreck.png")), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_BossChanneling",	CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Entities/Boss/Channeling/Boss_Channeling%d.png",5)), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Sturn",				CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Effect/Star/Star%d.png", 9)), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_LostSoul",			CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Entities/Boss/LostSoul/LostSoul%d.png", 7)), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_BossLightning",		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Entities/Boss/BossLightning.png")), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_BossCaution", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Entities/Boss/Caution.png")), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_BossWarning", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Entities/Boss/Warning.png")), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_BossPortal", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Entities/Boss/Portal/Portal%d.png",5)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Boss",					CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Entities/Boss/Idle/Boss_Idle%d.png", 8)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_BossAttack",			CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Entities/Boss/Attack/Boss_Attack%d.png", 8)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_BossHit",				CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Entities/Boss/Hit/Hit%d.png", 4)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_BossSleep",				CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Entities/Boss/Sleep/Boss_Sleep.png")), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_BossCrawl",				CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Entities/Boss/Crawl/Boss_Crawl%d.png", 7)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Boss_StandUp",			CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Entities/Boss/Stand/Boss_Standing %d.png", 16)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_BossDying",				CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Entities/Boss/Dead/Dead%d.png", 12)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_BossBatSwarm",			CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Entities/Boss/Bat_Swarm/Bat_Swarm%d.png", 2)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_BossExplosion",			CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Effect/Explosion/Explosion%d.png", 16)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_BossFire",				CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Effect/Fire/Fire%d.png", 8)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_BossDead",				CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Entities/Boss/Wreck/Boss_Wreck.png")), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_BossChanneling",		CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Entities/Boss/Channeling/Boss_Channeling%d.png",5)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_Sturn",					CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Effect/Star/Star%d.png", 9)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_LostSoul",				CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Entities/Boss/LostSoul/LostSoul%d.png", 7)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_BossLightning",			CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Entities/Boss/BossLightning.png")), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_BossCaution",			CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Entities/Boss/Caution.png")), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_BossWarning",			CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Entities/Boss/Warning.png")), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_BossPortal",			CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Entities/Boss/Portal/Portal%d.png",5)), E_FAIL);
 #pragma endregion Boss
 
 #pragma region Collider
@@ -473,7 +473,7 @@ _uint CLoading::Loading_ForStage()
 		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/KingSpider/KingSpider_Web.wav", "KingSpider_Web.wav"), E_FAIL);
 
 		// Ending
-		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/Production/vol1_05_SiliansTheme.mp3", "Silian'sTheme"), E_FAIL);
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/Production/vol1_05_Silian'sTheme.mp3", "Silian'sTheme"), E_FAIL);
 
 		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/Firework_01.wav", "Firework_01"), E_FAIL);
 		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/Firework_02.wav", "Firework_02"), E_FAIL);

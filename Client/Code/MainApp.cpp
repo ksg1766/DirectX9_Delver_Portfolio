@@ -51,7 +51,7 @@ int CMainApp::Update_MainApp(const float & fTimeDelta)
 		CScene* pScene = CStage::Create(m_pGraphicDev);
 		SceneManager()->Get_Scene()->Get_MainPlayer()->Get_RigidBody()->Set_Force(_vec3(0.f, 0.f, 0.f));
 		Engine::SceneManager()->Change_Scene(pScene);
-		//CGameManager::GetInstance()->PlayMode(PD::ShowSewer);
+		CGameManager::GetInstance()->PlayMode(PD::ShowSewer);
 	}
 
 	return 0;
