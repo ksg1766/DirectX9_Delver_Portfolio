@@ -133,7 +133,7 @@ void CStrikeDown_Trap::OnCollisionEnter(CCollider* _pOther)
 	{
 		if (!m_bPlayerHit) {return;}
 		CPlayerStat& PlayerState = *static_cast<CPlayer*>(_pOther->Get_Host())->Get_Stat();
-		PlayerState.Take_Damage(3.f);
+		PlayerState.Take_Damage(2.f);
 		m_bPlayerHit = false;
 
 		_vec3	vDir = _pOther->Get_Host()->m_pTransform->m_vInfo[INFO_POS] - m_pTransform->m_vInfo[INFO_POS];
@@ -141,6 +141,15 @@ void CStrikeDown_Trap::OnCollisionEnter(CCollider* _pOther)
 		(dynamic_cast<CPlayer*>(_pOther->Get_Host())->Get_RigidBody()->UseGravity(true));
 		(dynamic_cast<CPlayer*>(_pOther->Get_Host())->Set_JumpState(true));
 	}*/
+
+	if (OBJECTTAG::PLAYER == _pOther->Get_Host()->Get_ObjectTag())
+	{
+		if (!m_bUp)
+		{
+			CPlayerStat& PlayerState = *static_cast<CPlayer*>(_pOther->Get_Host())->Get_Stat();
+			PlayerState.Take_Damage(2.f);
+		}
+	}
 }
 
 void CStrikeDown_Trap::OnCollisionStay(CCollider* _pOther)

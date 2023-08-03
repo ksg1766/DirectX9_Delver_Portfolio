@@ -57,7 +57,8 @@ HRESULT CSkeletonKing::Ready_Object(void)
 	m_pTransform->Scale(_vec3(3.f, 3.f, 3.f));
 	//m_pBasicStat->Get_Stat()->fHP = 100.f;
 	Init_Stat();
-	m_ePhase = BOSSPHASE::PHASE1;
+	//m_ePhase = BOSSPHASE::PHASE1;
+	m_ePhase = BOSSPHASE::LASTPHASE;
 	m_iHitCount = 0;
 	m_fHitCool = 0.f;
 	m_fMoveDelay = 0.f;
@@ -66,6 +67,7 @@ HRESULT CSkeletonKing::Ready_Object(void)
 	m_b3Phase = false;
 	m_bMove = false;
 	m_iCloneCount = 0;
+	m_bHekiReki = true;//
 #pragma region 상태
 
 	//상태추가
@@ -252,7 +254,7 @@ HRESULT CSkeletonKing::Ready_Object(void)
 	m_pAnimator->Add_Animation(STATE::BOSS_TELEPORT, pAnimation);
 
 	pAnimation = CAnimation::Create(m_pGraphicDev,
-		m_pTexture[(_uint)STATE::BOSS_CRAWL], STATE::BOSS_CRAWL, 4.f, TRUE);
+		m_pTexture[(_uint)STATE::BOSS_WAKEUP], STATE::BOSS_CRAWL, 4.f, FALSE);
 	m_pAnimator->Add_Animation(STATE::BOSS_CRAWL, pAnimation);
 
 	pAnimation = CAnimation::Create(m_pGraphicDev,

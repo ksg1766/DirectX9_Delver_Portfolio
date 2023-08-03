@@ -10,6 +10,7 @@
 
 #include "SoundManager.h"
 #include "PoolManager.h"
+#include "GameManager.h"
 
 CSkeleton::CSkeleton(LPDIRECT3DDEVICE9 pGrapicDev)
 	: Engine::CMonster(pGrapicDev), m_fFrame(0.f), m_bAttackTick(false)
@@ -99,6 +100,40 @@ _int CSkeleton::Update_Object(const _float& fTimeDelta)
 			CSoundManager::GetInstance()->PlaySound(L"en_skel_idle_01.mp3", CHANNELID::SOUND_SKELETON, 1.f);
 		}
 	}
+
+	if (PD::HekirekiIssen_SideView == CGameManager::GetInstance()->Get_PlayMode())
+	{
+		m_fHekiRekiTime += fTimeDelta;
+		if (!m_bFasten)
+		{
+			m_bFasten = true;
+			m_vPosFasten = m_pTransform->m_vInfo[INFO_POS];
+		}
+		if (2.f >= m_fHekiRekiTime)
+			m_pStateMachine->Set_State(STATE::HIT);
+
+		m_pTransform->m_vInfo[INFO_POS] = m_vPosFasten;
+		if ((2.f< m_fHekiRekiTime)&&(m_bDieEffect))
+		{
+			if (!m_bDeadCheck)
+			{
+				CGameObject* pGameObject = CEffectBlood::Create(m_pGraphicDev);
+				pGameObject->m_pTransform->Translate(_vec3(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y - .95f, m_pTransform->m_vInfo[INFO_POS].z));
+				dynamic_cast<CTempEffect*>(pGameObject)->Set_EffectColor(ECOLOR_RED);
+				Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+				m_pStateMachine->Set_State(STATE::DEAD);
+
+				m_bDeadCheck = true;
+			}
+		}
+		m_fDeadCoolTime += fTimeDelta;
+
+		if (m_fDeadCoolTime > 3.f)
+			CPoolManager::GetInstance()->Delete_Object(this);
+	}
+	else if (PD::HekirekiIssen == CGameManager::GetInstance()->Get_PlayMode())
+		m_pStateMachine->Set_State(STATE::ROMIMG);
+
 
 
 	if (m_pBasicStat->Get_Stat()->fHP <= 0)

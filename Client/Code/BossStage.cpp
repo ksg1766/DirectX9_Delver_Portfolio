@@ -76,26 +76,42 @@ Engine::_int CBossStage::Update_Scene(const _float& fTimeDelta)
 
 	if (!m_bHekiReki)
 	{
-		if (m_bExecuteBoss && m_pBoss->Get_BasicStat()->Get_Stat()->fHP == 0.f)
+		//if (m_bExecuteBoss && m_pBoss->Get_BasicStat()->Get_Stat()->fHP == 0.f)
+		if((PD::HekirekiIssen_SideView == CGameManager::GetInstance()->Get_PlayMode())&&(m_bExecuteBoss))
 		{
 			// 보스 사망 처리
 			m_pBoss->Get_StateMachine()->Set_State(STATE::BOSS_DYING);
 			m_bHekiReki = true;
+			m_pBoss->Get_BasicStat()->Get_Stat()->fHP = 0.f;
 		}
 	}
 
 	if ((!m_bGate)&&(STATE::BOSS_DEAD == m_pBoss->Get_StateMachine()->Get_State()))
 	{
-		m_bGate = true;
+		m_fGateTime += fTimeDelta;
 		CGameObject* pGameObject = nullptr;
-		pGameObject = CDimensionGate::Create(m_pGraphicDev);
-		dynamic_cast<CDimensionGate*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = _vec3(-95.f, 35.f, 0.f);
-		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+		if(3.f< m_fGateTime)
+		{	
+			CFlyingCamera* pCamera = dynamic_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam());
+			pCamera->Set_ShakeForce(0.f, 0.02f, 1.f, 2.f);
+			pCamera->Shake_Camera();
 
-		pGameObject = COrb::Create(m_pGraphicDev, true);
-		NULL_CHECK_RETURN(pGameObject, E_FAIL);
-		dynamic_cast<COrb*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = _vec3(-77.f, 34.5f, 2.f);
-		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+			CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_BOSS);
+			CSoundManager::GetInstance()->PlaySound(L"KingSpider_Appear.mp3", CHANNELID::SOUND_BOSS, 1.f);
+
+			pGameObject = CDimensionGate::Create(m_pGraphicDev);
+			dynamic_cast<CDimensionGate*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = _vec3(-100.f, 32.f, 1.f);
+			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+			m_bGate = true;
+		}
+		if (!m_bOrbSPawn)
+		{
+			m_bOrbSPawn = true;
+			pGameObject = COrb::Create(m_pGraphicDev, true);
+			NULL_CHECK_RETURN(pGameObject, E_FAIL);
+			dynamic_cast<COrb*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = _vec3(-77.f, 34.5f, 2.f);
+			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+		}
 	}
 
 #pragma endregion KSG
@@ -232,16 +248,6 @@ HRESULT CBossStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	pGameObject->m_pTransform->Translate(_vec3(-80.f, 35.f, 0.f));
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-
-	//pGameObject = CDimensionGate::Create(m_pGraphicDev);
-	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//pGameObject->m_pTransform->Translate(_vec3(95.f, 22.f, 0.f));
-	//pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-
-	//pGameObject = CKingSpiderWeb::Create(m_pGraphicDev);
-	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//pGameObject->m_pTransform->Translate(_vec3(95.f, 21.5f, 0.f));
-	//pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
 	return S_OK;
 }

@@ -51,6 +51,8 @@ private:
 	_bool			m_bExecuteBoss	= false;
 	_bool			m_bHekiReki = false;
 	_bool			m_bGate = false;
+	_bool			m_bOrbSPawn = false;
+	_float			m_fGateTime = 0.f;
 private:
 	virtual void Free() override;
 

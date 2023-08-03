@@ -42,8 +42,13 @@ _int CDimensionGate::Update_Object(const _float& fTimeDelta)
 	m_fFrame += 5.f * fTimeDelta;
 	if (5.f < m_fFrame)
 		m_fFrame = 0.f;
-	//if (35.f >= m_pTransform->m_vInfo[INFO_POS].y)
-	//	m_pTransform->Translate(_vec3(0.f, fTimeDelta, 0.f));
+
+	if(InputDev()->Key_Down(DIK_0))
+	{
+
+	}
+	if (37.f >= m_pTransform->m_vInfo[INFO_POS].y)
+		m_pTransform->Translate(_vec3(0.f, fTimeDelta, 0.f));
 	return iExit;
 }
 
@@ -51,15 +56,26 @@ void CDimensionGate::LateUpdate_Object(void)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 	__super::LateUpdate_Object();
+	m_pTransform->Scale(_vec3(3.f, 3.f, 3.f));
+	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS] + _vec3(-0.5f, 0.f, -0.5f), &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
+	m_pCollider->SetCenterPos(m_pTransform->m_vInfo[INFO_POS] -  _vec3(0.f, 0.f, 3.f));
 }
 
 void CDimensionGate::Render_Object(void)
 {
-	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
+
+	//m_pTexture->Render_Texture(_int(m_fFrame));
+	//m_pBuffer->Render_Buffer();
+
+	//////////////////////////////////////////////////////////////////////
+	m_pTransform->Rotate(ROT_Y, D3DXToRadian(90.f));
+	_matrix matWorld = m_pTransform->WorldMatrix();
+	m_pTransform->Rotate(ROT_Y, D3DXToRadian(-90.f));
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, &matWorld);
 	m_pTexture->Render_Texture(_int(m_fFrame));
 	m_pBuffer->Render_Buffer();
-	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+
 }
 
 void CDimensionGate::OnCollisionEnter(CCollider* _pOther)
@@ -105,9 +121,9 @@ HRESULT CDimensionGate::Add_Component(void)
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
 
-	pComponent = dynamic_cast<CBillBoard*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BillBoard"));
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::BILLBOARD, pComponent);
+	//pComponent = dynamic_cast<CBillBoard*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BillBoard"));
+	//NULL_CHECK_RETURN(pComponent, E_FAIL);
+	//m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::BILLBOARD, pComponent);
 
 	pComponent = m_pCollider = dynamic_cast<CCollider*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Collider"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);

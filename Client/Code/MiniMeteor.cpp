@@ -44,7 +44,7 @@ _int CMiniMeteor::Update_Object(const _float& fTimeDelta)
 	if (SceneManager()->Get_GameStop()) { return 0; }
 	_uint iExit = __super::Update_Object(fTimeDelta);
 	CFlyingCamera* pCamera = dynamic_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam());
-	pCamera->Set_ShakeForce(0.f, 0.05f, 0.2f, 2.f);
+	pCamera->Set_ShakeForce(0.f, 0.02f, 0.15f, 2.f);
 	pCamera->Shake_Camera();
 
 	if ((3.f < m_fDuration) && (!m_bHit))

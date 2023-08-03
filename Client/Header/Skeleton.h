@@ -49,7 +49,11 @@ private:
 
 	_bool		m_bSearch = false;
 	STATE		m_eState;
-
+	
+	//HekiReki
+	_float		m_fHekiRekiTime = 0.f;
+	_vec3		m_vPosFasten;
+	_bool		m_bFasten = false;
 public:
 	static CSkeleton* Create(LPDIRECT3DDEVICE9 pGraphicDev);
 
