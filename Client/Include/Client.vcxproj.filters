@@ -700,9 +700,6 @@
     <Filter Include="03. GameObject\01. Stage\06. Fragile\02. EquipBox">
       <UniqueIdentifier>{170e14a5-db4c-4c54-9936-eb8f21414919}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. GameObject\01. Stage\999. Boss\01. AttackEff\08.Lightning">
-      <UniqueIdentifier>{31e7e37a-7b4d-43c4-8953-56eb434b9ea2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03. GameObject\01. Stage\999. Boss\02. State\03. Attack\02. 3Phase\02. LostSoulPattern">
       <UniqueIdentifier>{aa0aece2-17e2-49ac-8e30-cdae79f35061}</UniqueIdentifier>
     </Filter>
@@ -757,15 +754,6 @@
     <Filter Include="03. GameObject\07. Effect\23. EffectFirefly">
       <UniqueIdentifier>{084b351c-5601-4c22-85da-910fb4e34b87}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. GameObject\01. Stage\999. Boss\01. AttackEff\99.Etc">
-      <UniqueIdentifier>{93e91c58-892e-44ef-a000-b0aaf721a8e5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. GameObject\01. Stage\999. Boss\01. AttackEff\99.Etc\Warning">
-      <UniqueIdentifier>{735217e7-273f-4032-b37a-c7dac628dacf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. GameObject\01. Stage\999. Boss\01. AttackEff\99.Etc\Caution">
-      <UniqueIdentifier>{0627297c-4c2f-4031-ad39-2507ed97c2a7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03. GameObject\01. Stage\999. Boss\01. AttackEff\03. Create_Clone\State">
       <UniqueIdentifier>{1c7f051e-1cee-45c9-a31e-5471a139c2ed}</UniqueIdentifier>
     </Filter>
@@ -792,9 +780,6 @@
     </Filter>
     <Filter Include="03. GameObject\01. Stage\05. Cube\02. CubeTrigger\HellDoor\DoorCube">
       <UniqueIdentifier>{f548ed28-0113-41da-a920-3f1e37be69ab}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. GameObject\01. Stage\999. Boss\01. AttackEff\99.Etc\Potal">
-      <UniqueIdentifier>{ba503226-b9dc-4361-b383-d90ae2bd87ee}</UniqueIdentifier>
     </Filter>
     <Filter Include="03. GameObject\04. Public\00. Camera">
       <UniqueIdentifier>{80783a13-8054-457e-985d-d4596f67ba30}</UniqueIdentifier>
@@ -990,6 +975,21 @@
     </Filter>
     <Filter Include="03. GameObject\07. Effect\25. EffectFirework">
       <UniqueIdentifier>{a32f08c2-1b82-46ee-86a8-3776ffabad82}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\01. Stage\999. Boss\01. AttackEff\08. Lightning">
+      <UniqueIdentifier>{31e7e37a-7b4d-43c4-8953-56eb434b9ea2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\01. Stage\999. Boss\01. AttackEff\99. Etc">
+      <UniqueIdentifier>{93e91c58-892e-44ef-a000-b0aaf721a8e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\01. Stage\999. Boss\01. AttackEff\99. Etc\Warning">
+      <UniqueIdentifier>{735217e7-273f-4032-b37a-c7dac628dacf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\01. Stage\999. Boss\01. AttackEff\99. Etc\Caution">
+      <UniqueIdentifier>{0627297c-4c2f-4031-ad39-2507ed97c2a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\01. Stage\999. Boss\01. AttackEff\99. Etc\Potal">
+      <UniqueIdentifier>{ba503226-b9dc-4361-b383-d90ae2bd87ee}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1689,7 +1689,7 @@
       <Filter>03. GameObject\01. Stage\999. Boss\02. State\03. Attack\00. 1Phase\01. FirePattern</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Boss_Lightning.h">
-      <Filter>03. GameObject\01. Stage\999. Boss\01. AttackEff\08.Lightning</Filter>
+      <Filter>03. GameObject\01. Stage\999. Boss\01. AttackEff\08. Lightning</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\LostSoulPattern2.h">
       <Filter>03. GameObject\01. Stage\999. Boss\02. State\03. Attack\02. 3Phase\02. LostSoulPattern</Filter>
@@ -1746,10 +1746,10 @@
       <Filter>03. GameObject\07. Effect\23. EffectFirefly</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Boss_WarningEff.h">
-      <Filter>03. GameObject\01. Stage\999. Boss\01. AttackEff\99.Etc\Warning</Filter>
+      <Filter>03. GameObject\01. Stage\999. Boss\01. AttackEff\99. Etc\Warning</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Boss_CautionEff.h">
-      <Filter>03. GameObject\01. Stage\999. Boss\01. AttackEff\99.Etc\Caution</Filter>
+      <Filter>03. GameObject\01. Stage\999. Boss\01. AttackEff\99. Etc\Caution</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Boss_Phase1.h">
       <Filter>03. GameObject\01. Stage\999. Boss\02. State\03. Attack\00. 1Phase</Filter>
@@ -1785,7 +1785,7 @@
       <Filter>03. GameObject\01. Stage\05. Cube\04. Water</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\DimensionGate.h">
-      <Filter>03. GameObject\01. Stage\999. Boss\01. AttackEff\99.Etc\Potal</Filter>
+      <Filter>03. GameObject\01. Stage\999. Boss\01. AttackEff\99. Etc\Potal</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\GameManager.h">
       <Filter>01. Managers\00. GameManager</Filter>
@@ -2596,7 +2596,7 @@
       <Filter>03. GameObject\01. Stage\999. Boss\02. State\03. Attack\00. 1Phase\01. FirePattern</Filter>
     </ClCompile>
     <ClCompile Include="..\Header\Boss_Lightning.cpp">
-      <Filter>03. GameObject\01. Stage\999. Boss\01. AttackEff\08.Lightning</Filter>
+      <Filter>03. GameObject\01. Stage\999. Boss\01. AttackEff\08. Lightning</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\LostSoulPattern2.cpp">
       <Filter>03. GameObject\01. Stage\999. Boss\02. State\03. Attack\02. 3Phase\02. LostSoulPattern</Filter>
@@ -2653,10 +2653,10 @@
       <Filter>03. GameObject\07. Effect\23. EffectFirefly</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Boss_WarningEff.cpp">
-      <Filter>03. GameObject\01. Stage\999. Boss\01. AttackEff\99.Etc\Warning</Filter>
+      <Filter>03. GameObject\01. Stage\999. Boss\01. AttackEff\99. Etc\Warning</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Boss_CautionEff.cpp">
-      <Filter>03. GameObject\01. Stage\999. Boss\01. AttackEff\99.Etc\Caution</Filter>
+      <Filter>03. GameObject\01. Stage\999. Boss\01. AttackEff\99. Etc\Caution</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Boss_Phase1.cpp">
       <Filter>03. GameObject\01. Stage\999. Boss\02. State\03. Attack\00. 1Phase</Filter>
@@ -2692,7 +2692,7 @@
       <Filter>03. GameObject\01. Stage\05. Cube\04. Water</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\DimensionGate.cpp">
-      <Filter>03. GameObject\01. Stage\999. Boss\01. AttackEff\99.Etc\Potal</Filter>
+      <Filter>03. GameObject\01. Stage\999. Boss\01. AttackEff\99. Etc\Potal</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\GameManager.cpp">
       <Filter>01. Managers\00. GameManager</Filter>

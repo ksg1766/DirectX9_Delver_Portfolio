@@ -5,6 +5,8 @@
 #include "SoundManager.h"
 #include "FlyingCamera.h"
 #include "CameraManager.h"
+#include "GameManager.h"
+
 CBossExplosion::CBossExplosion(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CMonster(pGraphicDev)
 {
@@ -28,8 +30,8 @@ HRESULT CBossExplosion::Ready_Object(void)
 	m_fFrame = 0.f;
 	m_iCount = 0.f;
 	m_pBasicStat->Get_Stat()->fAttack = 2.0;
-	m_fSclae = 1.f;
-	m_pTransform->Scale(_vec3(m_fSclae, m_fSclae, m_fSclae));
+	m_fScale = 1.f;
+	m_pTransform->Scale(_vec3(m_fScale, m_fScale, m_fScale));
 	m_bHit = false;
 	CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_WIZARD);
 	CSoundManager::GetInstance()->PlaySound(L"explode.mp3", CHANNELID::SOUND_WIZARD, 1.f);
@@ -59,7 +61,7 @@ void CBossExplosion::LateUpdate_Object(void)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
 	__super::LateUpdate_Object();
-	m_pTransform->Scale(_vec3(m_fSclae, m_fSclae, m_fSclae));
+	m_pTransform->Scale(_vec3(m_fScale, m_fScale, m_fScale));
 }
 
 void CBossExplosion::Render_Object(void)
@@ -87,7 +89,7 @@ void CBossExplosion::OnCollisionStay(CCollider* _pOther)
 	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::PLAYER)
 	{
 		CFlyingCamera* pCamera = dynamic_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam());
-		pCamera->Set_ShakeForce(0.f, 0.2f, 0.35f, 2.f);
+		pCamera->Set_ShakeForce(0.f, 0.15f, 0.2f, 3.f);
 		pCamera->Shake_Camera();
 
 		CPlayerStat& PlayerState = *(dynamic_cast<CPlayer*>(_pOther->Get_Host())->Get_Stat());
@@ -98,6 +100,9 @@ void CBossExplosion::OnCollisionStay(CCollider* _pOther)
 		(dynamic_cast<CPlayer*>(_pOther->Get_Host())->Get_RigidBody()->UseGravity(true));
 		(dynamic_cast<CPlayer*>(_pOther->Get_Host())->Set_JumpState(true));
 		m_bHit = true;
+
+		if(CGameManager::GetInstance()->Get_PlayOnce())
+			CGameManager::GetInstance()->PlayMode(PD::MeteorExplosion);
 	}
 }
 
@@ -118,8 +123,8 @@ void CBossExplosion::Set_StartPosY(float _fY)
 
 void CBossExplosion::Set_Scale(_float _fSclae)
 {
-	m_fSclae = _fSclae;
-	m_pTransform->Scale(_vec3(m_fSclae, m_fSclae, m_fSclae));
+	m_fScale = _fSclae;
+	m_pTransform->Scale(_vec3(m_fScale, m_fScale, m_fScale));
 	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
 }
 

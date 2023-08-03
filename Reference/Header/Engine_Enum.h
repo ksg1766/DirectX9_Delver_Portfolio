@@ -92,7 +92,7 @@ namespace Engine
 
 	enum CHANNELID          
 	{
-		SOUND_EFFECT, SOUND_BGM, SOUND_WEAPON, SOUND_UI, SOUND_PLAYER, 
+		SOUND_EFFECT, SOUND_EFFECT2, SOUND_BGM, SOUND_WEAPON, SOUND_UI, SOUND_PLAYER,
 		SOUND_CONSUMABLE, SOUND_INVENTORY, SOUND_ENVIRONMENT, SOUND_BREAK, 
 		SOUND_WARRIOR, SOUND_SPIDER, SOUND_BAT, SOUND_WIZARD, SOUND_ALIEN, 
 		SOUND_SLIME, SOUND_SKELETON, SOUND_SKULL, SOUND_WORM, SOUND_DOOR,
@@ -109,10 +109,11 @@ namespace Engine
 		ShowBoss,
 		ShowBossP2,
 		ShowBossP3,
+		MeteorExplosion,
+		ShowBossClone,
 		HekirekiIssen,
 		HekirekiIssen_SideView,
 		ClearGame,
-		Boss_Dead,
 	}PD;
 };
 #endif // Engine_Enum_h__

@@ -28,7 +28,7 @@ HRESULT CBossProjectile::Ready_Object(void)
 	m_fTime = 0.f;
 	m_fSpeed = 20.f;
 	m_bHit = false;
-	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale()*0.8f);
+	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale()*0.4f);
 	CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_WARRIOR);
 	CSoundManager::GetInstance()->PlaySound(L"Boss_FireBall1.wav", CHANNELID::SOUND_WARRIOR, 1.f);
 	return S_OK;
@@ -93,7 +93,7 @@ void CBossProjectile::OnCollisionStay(CCollider* _pOther)
 	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::PLAYER)
 	{
 		CFlyingCamera* pCamera = dynamic_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam());
-		pCamera->Set_ShakeForce(0.f, 0.05f, 0.2f, 2.f);
+		pCamera->Set_ShakeForce(0.f, 0.1f, 0.2f, 2.f);
 		pCamera->Shake_Camera();
 
 		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_DOOR);

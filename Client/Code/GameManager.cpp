@@ -66,6 +66,13 @@ _int CGameManager::Update_Game(const _float& fTimeDelta)
 		case PD::ShowBossP3:
 			ShowBossP3(fTimeDelta);
 			break;
+		case PD::MeteorExplosion:
+			CInputDev::GetInstance()->Lock_Input(false);
+			MeteorExplosion(fTimeDelta);
+			break;
+		case PD::ShowBossClone:
+			ShowBossClone(fTimeDelta);
+			break;
 		case PD::HekirekiIssen:
 		case PD::HekirekiIssen_SideView:
 			CInputDev::GetInstance()->Lock_Input(false);
@@ -497,6 +504,76 @@ void CGameManager::ShowMiniBoss(const _float& fTimeDelta)
 	m_fTimer -= fTimeDelta;
 }
 
+void CGameManager::MeteorExplosion(const _float& fTimeDelta)
+{
+	m_bPlayOnce = false;
+
+	CGameObject* pBoss = SceneManager()->Get_Scene()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front();
+
+	if (m_fTimer == 10.f)
+	{
+		SceneManager()->SlowMode(2.f, 2.f);
+		CSoundManager::GetInstance()->SetChannelVolume(SOUND_BGM, 0.2f);
+		CSoundManager::GetInstance()->PlaySound(L"BassDrop", SOUND_EFFECT2, 2.0f);
+	}
+	else if (m_fTimer > 7.5f)
+	{
+		m_fTimer -= fTimeDelta;
+	}
+	else
+	{
+		m_pCamera->m_pTransform->Copy_RUL_AddPos(m_pPlayer->m_pTransform->m_vInfo);
+		m_fTimer = 10.f;
+		m_eCurr_PD = PD::Normal;
+		m_ePrev_PD = PD::Normal;
+
+		CSoundManager::GetInstance()->SetChannelVolume(SOUND_BGM, 1.f);
+
+		return;
+	}
+
+	m_fTimer -= fTimeDelta;
+}
+
+void CGameManager::ShowBossClone(const _float& fTimeDelta)
+{
+	if (m_fTimer == 10.f)
+	{
+		m_pCamera->Change_Mode();
+	}
+	if (m_fTimer > 9.2f)
+	{
+		CCameraManager::GetInstance()->LookAtTarget(_vec3(-72.5f, 49.f, 124.f), 4.f * fTimeDelta);
+		CCameraManager::GetInstance()->ZoomInTarget(_vec3(-72.5f, 49.f, 124.f), fTimeDelta, 1.05f);
+	}
+	else if (m_fTimer > 8.4f)
+	{
+		CCameraManager::GetInstance()->LookAtTarget(_vec3(-104.f, 49.f, 94.5f), 4.f * fTimeDelta);
+	}
+	else if (m_fTimer > 7.6f)
+	{
+		CCameraManager::GetInstance()->LookAtTarget(_vec3(-38.f, 49.f, 94.5f), 4.f * fTimeDelta);
+	}
+	else if (m_fTimer > 7.f)
+	{
+		CCameraManager::GetInstance()->ZoomOutToTrans(m_pPlayer->m_pTransform, fTimeDelta);
+	}
+	else
+	{
+		m_pCamera->Change_Mode();
+		m_pCamera->m_pTransform->Copy_RUL_AddPos(m_pPlayer->m_pTransform->m_vInfo);
+		m_fTimer = 10.f;
+		m_eCurr_PD = PD::Normal;
+		m_ePrev_PD = PD::Normal;
+
+		CInputDev::GetInstance()->Lock_Input(false);
+
+		return;
+	}
+
+	m_fTimer -= fTimeDelta;
+}
+
 void CGameManager::HekirekiIssen(const _float& fTimeDelta)	// 일단 절차지향으로 구현해보자
 {
 	if (PD::Normal == m_ePrev_PD && !m_bReadyBreath)
@@ -635,7 +712,6 @@ void CGameManager::HekirekiIssen(const _float& fTimeDelta)	// 일단 절차지향으로 
 			m_eCurr_PD = PD::Normal;
 			m_ePrev_PD = PD::Normal;
 
-			CInputDev::GetInstance()->Lock_Input(false);
 			CSoundManager::GetInstance()->SetChannelVolume(SOUND_BGM, 1.f);
 
 			return;

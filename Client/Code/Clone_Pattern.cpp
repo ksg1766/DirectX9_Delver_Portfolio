@@ -4,6 +4,7 @@
 #include "SkeletonKing.h"
 #include "SkeletonKing_Clone.h"
 #include "SoundManager.h"
+#include "GameManager.h"
 
 CClone_Pattern::CClone_Pattern()
 {
@@ -20,16 +21,17 @@ CClone_Pattern::~CClone_Pattern()
 
 HRESULT CClone_Pattern::Ready_State(CStateMachine* pOwner)
 {
-    m_pOwner = pOwner;
-    m_fDelay = 0.f;
-    m_fMoveDelay = 0.f;
-    m_bSkill = false;
-    m_bPosReset = false;
-    m_bSound = false;
-    m_vPillarPos[0] = _vec3(-72.5f, 49.f, 124.f);//困
-    m_vPillarPos[1] = _vec3(-104.f, 49.f, 94.5f);//谅
-    m_vPillarPos[2] = _vec3(-38.f, 49.f, 94.5f);//快
-    m_iIndex = 0.f;
+    m_pOwner        = pOwner;
+    m_fDelay        = 0.f;
+    m_fMoveDelay    = 0.f;
+    m_bSkill        = false;
+    m_bPosReset     = false;
+    m_bSound        = false;
+    m_vPillarPos[0] = _vec3(-72.5f, 49.f, 124.f);   //困
+    m_vPillarPos[1] = _vec3(-104.f, 49.f, 94.5f);   //谅
+    m_vPillarPos[2] = _vec3(-38.f, 49.f, 94.5f);    //快
+    m_iIndex        = 0.f;
+
     return S_OK;
 }
 
@@ -61,6 +63,7 @@ STATE CClone_Pattern::Update_State(const _float& fTimeDelta)
         uniform_int_distribution<__int64> distribution(0, 2); // 积己 裹困
         auto generator = bind(distribution, engine);
         m_iIndex = generator();
+
         m_fDelay = 0.f;
         Engine::CGameObject* pGameObject = nullptr;
         Engine::CGameObject* pGameObject2 = nullptr;
@@ -114,6 +117,8 @@ STATE CClone_Pattern::Update_State(const _float& fTimeDelta)
                 m_bSkill = true;
                 break;
             }
+
+            CGameManager::GetInstance()->PlayMode(PD::ShowBossClone);
         }
     }
     /*if ((2.f< m_fDelay)&&(m_bSkill))

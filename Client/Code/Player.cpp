@@ -64,7 +64,6 @@ HRESULT CPlayer::Ready_Object(void)
 	m_fAddictionTime = 0.f;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-
 	m_iPuzzleCount = 0;
 
 	m_pMainCamera = dynamic_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam());
@@ -278,6 +277,11 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 		CGameManager::GetInstance()->PlayMode(PD::HekirekiIssen);
 	}
 
+	if (Engine::InputDev()->Key_Pressing(DIK_LCONTROL) && Engine::InputDev()->Key_Down(DIK_J))
+	{
+		CGameManager::GetInstance()->PlayMode(PD::ShowBossClone);
+	}
+	
 #pragma endregion 연출 테스트
 
 	if (0 != (dwMouseMove = Engine::InputDev()->Get_DIMouseMove(DIMS_X)) && !bCameraOn)

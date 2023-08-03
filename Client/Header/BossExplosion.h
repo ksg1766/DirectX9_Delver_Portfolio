@@ -37,7 +37,7 @@ private:
 	CRcTex*		m_pBuffer = nullptr;
 	CTexture*	m_pTexture = nullptr;
 	_float		m_fFrame;
-	_float		m_fSclae;
+	_float		m_fScale;
 	_uint		m_iCount;
 	_bool		m_bHit;
 private:

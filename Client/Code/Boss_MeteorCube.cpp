@@ -9,6 +9,8 @@
 #include "CameraManager.h"
 #include "FlyingCamera.h"
 
+#include "GameManager.h"
+
 CBoss_MeteorCube::CBoss_MeteorCube(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CMonster(pGraphicDev)
 {
@@ -176,7 +178,6 @@ void CBoss_MeteorCube::OnCollisionEnter(CCollider* _pOther)
 		CFlyingCamera* pCamera = dynamic_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam());
 		pCamera->Set_ShakeForce(0.f, 0.5f, 0.3f, 2.f);
 		pCamera->Shake_Camera();
-
 
 		m_bShake = false;
 		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_ALIEN);
