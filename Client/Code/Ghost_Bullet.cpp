@@ -110,8 +110,6 @@ void CGhost_Bullet::LateUpdate_Object()
 	if (SceneManager()->Get_GameStop()) { return; }
 
 	__super::LateUpdate_Object();
-	//__super::Compute_ViewZ(&m_pTransform->m_vInfo[INFO_POS]);
-
 }
 
 void CGhost_Bullet::Render_Object()
@@ -120,10 +118,6 @@ void CGhost_Bullet::Render_Object()
 
 	m_pAnimator->Render_Animator();
 	m_pBuffer->Render_Buffer();
-
-#if _DEBUG
-	m_pCollider->Render_Collider();
-#endif
 }
 
 void CGhost_Bullet::Init_Stat()

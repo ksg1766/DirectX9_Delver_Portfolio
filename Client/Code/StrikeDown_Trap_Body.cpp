@@ -83,10 +83,6 @@ void CStrikeDown_Trap::Render_Object(void)
 
 	m_pTexture->Render_Texture();
 	m_pCubeBf->Render_Buffer();
-
-#if _DEBUG
-	m_pCollider->Render_Collider();
-#endif
 }
 
 void CStrikeDown_Trap::Ground_Pounding(const _float& fTimeDelta)
@@ -146,7 +142,6 @@ void CStrikeDown_Trap::OnCollisionEnter(CCollider* _pOther)
 void CStrikeDown_Trap::OnCollisionStay(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
-	//__super::OnCollisionStay(_pOther);
 }
 
 void CStrikeDown_Trap::OnCollisionExit(CCollider* _pOther)

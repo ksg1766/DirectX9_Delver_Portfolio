@@ -142,17 +142,11 @@ void CMagic_Ball::Render_Object()
 
 	m_pAnimator->Render_Animator();
 	m_pBuffer->Render_Buffer();
-
-#if _DEBUG
-	m_pCollider->Render_Collider();
-#endif
 }
 
 void CMagic_Ball::Init_Stat()
 {
 }
-
-
 
 void CMagic_Ball::OnCollisionEnter(CCollider* _pOther)
 {

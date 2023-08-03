@@ -228,13 +228,10 @@ void CEpicBow::Render_Object(void)
 	{
 		m_pTexture[(_uint)STATE::IDLE]->Render_Texture();
 		m_pBuffer->Render_Buffer();
-
-#if _DEBUG
-		m_pCollider->Render_Collider();
-#endif
 	}
 
-	if (!m_bWorldItem) {
+	if (!m_bWorldItem)
+	{
 		m_pGraphicDev->SetRenderState(D3DRS_ZENABLE, TRUE);
 	}
 }

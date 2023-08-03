@@ -100,11 +100,7 @@ void CBoss_MeteorCube::Render_Object(void)
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
 
 	m_pTexture->Render_Texture(40);
-	m_pCubeBf->Render_Buffer();//큐브버퍼
-
-#if _DEBUG
-	m_pCollider->Render_Collider();
-#endif
+	m_pCubeBf->Render_Buffer();
 }
 
 void CBoss_MeteorCube::Channeling_Begin()

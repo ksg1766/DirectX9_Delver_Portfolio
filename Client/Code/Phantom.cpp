@@ -246,9 +246,6 @@ void CPhantom::Render_Object()
 	m_pStateMachine->Render_StateMachine();
 	m_pBuffer->Render_Buffer();
 
-#if _DEBUG
-	m_pCollider->Render_Collider();
-#endif
 	if (!SceneManager()->Get_GameStop())
 	{
 		if ((!m_bTalkingBox) && m_bQuestClear && !m_bDead)

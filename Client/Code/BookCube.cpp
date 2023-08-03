@@ -52,11 +52,6 @@ void CBookCube::Render_Object()
 
 	m_pTexture->Render_Texture(23);
 	m_pCubeBf->Render_Buffer();
-
-#if _DEBUG
-	m_pCollider->Render_Collider();
-#endif // _DEBUG
-
 }
 
 void CBookCube::OnCollisionEnter(CCollider* _pOther)

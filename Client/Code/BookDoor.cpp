@@ -219,11 +219,6 @@ void CBookDoor::LateUpdate_Object()
 void CBookDoor::Render_Object()
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
-
-#if _DEBUG
-	m_pCollider->Render_Collider();
-#endif // _DEBUG
-
 }
 
 void CBookDoor::OnCollisionEnter(CCollider* _pOther)

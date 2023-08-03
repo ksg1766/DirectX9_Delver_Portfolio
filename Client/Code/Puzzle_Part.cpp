@@ -83,11 +83,6 @@ void CPuzzle_Part::Render_Object(void)
 
 	m_pTexture->Render_Texture(m_iPuzzleNumber);
 	m_pBuffer->Render_Buffer();
-
-#if _DEBUG
-	m_pCollider->Render_Collider();
-#endif // _DEBUG
-
 }
 
 HRESULT CPuzzle_Part::Add_Component(void)

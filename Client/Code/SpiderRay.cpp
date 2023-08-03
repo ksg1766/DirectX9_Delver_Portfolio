@@ -57,11 +57,7 @@ void CSpiderRay::LateUpdate_Object(void)
 
 void CSpiderRay::Render_Object(void)
 {
-#if _DEBUG
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
-	m_pCollider->Render_Collider();
-#endif // _DEBUG
-
 }
 
 void CSpiderRay::OnCollisionEnter(CCollider* _pOther)

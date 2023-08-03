@@ -108,9 +108,6 @@ _int CKingSpider::Update_Object(const _float& fTimeDelta)
 	if (SceneManager()->Get_GameStop()) { return 0; }
 	_int iExit = __super::Update_Object(fTimeDelta);
 	
-	//if (0>=m_pBasicStat->Get_Stat()->fHP)
-	//	m_pStateMachine->Set_State(STATE::BOSS_DEAD);
-	
 	if (InputDev()->Key_Down(DIK_0))
 		m_pStateMachine->Set_State(STATE::BOSS_TELEPORT);
 
@@ -138,9 +135,6 @@ void CKingSpider::Render_Object()
 
 	m_pStateMachine->Render_StateMachine();
 	m_pBuffer->Render_Buffer();
-#if _DEBUG
-	m_pCollider->Render_Collider();
-#endif
 }
 
 void CKingSpider::Init_Stat()
@@ -187,12 +181,14 @@ void CKingSpider::OnCollisionStay(CCollider* _pOther)
 void CKingSpider::OnCollisionExit(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
-		__super::OnCollisionExit(_pOther);
-		if (OBJECTTAG::BLOCK == _pOther->Get_Host()->Get_ObjectTag())
-		{
-			if (STATE::BOSS_TELEPORT == m_pStateMachine->Get_State())
-				m_bFloorCollison = false;
-		}
+
+	__super::OnCollisionExit(_pOther);
+
+	if (OBJECTTAG::BLOCK == _pOther->Get_Host()->Get_ObjectTag())
+	{
+		if (STATE::BOSS_TELEPORT == m_pStateMachine->Get_State())
+			m_bFloorCollison = false;
+	}
 }
 
 HRESULT CKingSpider::Add_Component()

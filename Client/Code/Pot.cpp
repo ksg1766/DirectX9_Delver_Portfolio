@@ -53,10 +53,6 @@ void CPot::Render_Object()
 
 	m_pTexture->Render_Texture(0);
 	m_pBuffer->Render_Buffer();
-
-#if _DEBUG
-	m_pCollider->Render_Collider();
-#endif
 }
 
 void CPot::OnCollisionEnter(CCollider* _pOther)

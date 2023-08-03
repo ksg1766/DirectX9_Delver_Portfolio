@@ -57,10 +57,6 @@ void CAltar::Render_Object()
 
 	m_pTexture->Render_Texture(m_iCurrentImage);
 	m_pCubeBf->Render_Buffer();
-
-#if _DEBUG
-	m_pCollider->Render_Collider();
-#endif // _DEBUG
 }
 
 void CAltar::OnCollisionEnter(CCollider* _pOther)

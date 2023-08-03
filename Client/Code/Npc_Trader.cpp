@@ -200,9 +200,6 @@ void CNpc_Trader::Render_Object()
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
 	m_pStateMachine->Render_StateMachine();
 	m_pBuffer->Render_Buffer();
-#if _DEBUG
-	m_pCollider->Render_Collider();
-#endif
 
 	CPlayer& rPlayer = *dynamic_cast<CPlayer*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
 

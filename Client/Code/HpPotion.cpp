@@ -71,7 +71,6 @@ void CHpPotion::LateUpdate_Object(void)
 
 	__super::LateUpdate_Object();
 	m_pTransform->Scale(_vec3(0.3f, 0.3f, 0.3f));
-
 }
 
 void CHpPotion::Render_Object(void)
@@ -80,11 +79,6 @@ void CHpPotion::Render_Object(void)
 
 	m_pTexture->Render_Texture();
 	m_pBuffer->Render_Buffer();
-
-#if _DEBUG
-	m_pCollider->Render_Collider();
-#endif // _DEBUG
-
 }
 
 HRESULT CHpPotion::Add_Component(void)

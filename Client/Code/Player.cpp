@@ -69,15 +69,12 @@ HRESULT CPlayer::Ready_Object(void)
 
 	m_pMainCamera = dynamic_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam());
 	m_pMainCamera->m_pTransform->Copy_RUL_AddPos(m_pTransform->m_vInfo);
-	//CCameraManager::GetInstance()->Get_CurrentCam()->m_pTransform->Translate(_vec3(0.f, 0.5f, 0.f));
 	m_pMainCamera->m_pTransform->Set_Parent(m_pTransform);
 
 	m_pTransform->Scale(_vec3(0.9f, 0.9f, 0.9f));
 	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
 
 	m_pTransform->Translate(_vec3(0.f, 10.f, 0.f));
-	//m_vOffset	  =	_vec3(0.7f, -0.6f, 1.5f);
-	//m_vLeftOffset = _vec3(-0.7, -0.6f, 1.5f);
 
 	// 걷기 상태 추가
 	CState* pState = CPlayerState_Walk::Create(m_pGraphicDev, m_pStateMachine);
@@ -207,24 +204,11 @@ void CPlayer::LateUpdate_Object(void)
 		IsDrunk();
 
 	m_pStateMachine->LateUpdate_StateMachine();
-
-	/*cout << m_pTransform->m_vInfo[INFO_POS].x << endl;
-	cout << m_pTransform->m_vInfo[INFO_POS].y << endl;
-	cout << m_pTransform->m_vInfo[INFO_POS].z << endl;*/
 }
 
 void CPlayer::Render_Object(void)
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
-	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-
-	//m_pBuffer->Render_Buffer();
-
-
-#if _DEBUG
-	m_pCollider->Render_Collider();
-#endif
-	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
 
 HRESULT CPlayer::Add_Component(void)
@@ -272,7 +256,6 @@ HRESULT CPlayer::Add_Component(void)
 
 void CPlayer::Key_Input(const _float& fTimeDelta)
 {
-	//CGameObject* pGameObject = SceneManager()->Get_ObjectList(LAYERTAG::ENVIRONMENT, OBJECTTAG::CAMERA).front();
 	CGameObject* pGameObject = CCameraManager::GetInstance()->Get_CurrentCam();
 
 	_long dwMouseMove;
@@ -294,11 +277,6 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 	{
 		CGameManager::GetInstance()->PlayMode(PD::HekirekiIssen);
 	}
-
-	//if (Engine::InputDev()->Key_Pressing(DIK_LCONTROL) && Engine::InputDev()->Key_Down(DIK_J))
-	//{
-	//	CGameManager::GetInstance()->PlayMode(PD::ClearGame);
-	//}
 
 #pragma endregion 연출 테스트
 
@@ -339,7 +317,6 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 					m_pRigidBody->UseGravity(true);
 
 					m_bTestJump = true;
-					//m_IsJump = true;
 				}
 			}
 		}
@@ -453,7 +430,6 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 					dynamic_cast<CItem*>(*Itemiter)->Set_BillBoard();
 					vecWorldItem.erase(Itemiter);
 				}
-
 
 				m_pCurrentEquipItemRight = nullptr;
 				m_pPrevEquipItemRight    = nullptr;
@@ -1158,17 +1134,7 @@ void CPlayer::OnCollisionStay(CCollider* _pOther)
 
 void CPlayer::OnCollisionExit(CCollider* _pOther)
 {
-	//if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BLOCK)
-	//{
-	//	_vec3 vThisPos = m_pTransform->m_vInfo[INFO_POS];
-	//	_vec3 vOtherPos = _pOther->Get_Transform()->m_vInfo[INFO_POS];
 
-	//	if (1.5f < vThisPos.y - vOtherPos.y && 2.5f > vThisPos.y - vOtherPos.y)
-	//	{
-	//		//m_IsJump = true;
-	//		//m_pRigidBody->UseGravity(true);
-	//	}
-	//}
 }
 
 void CPlayer::SlowDuration(const _float& fTimeDelta)
@@ -1248,7 +1214,6 @@ void CPlayer::IsDrunk()
 void CPlayer::Add_Exp(CGameObject* pExp)
 {
 	// 몬스터를 잡았을 시 Exp 추가 -> 몬스터당 exp 6.
-
 	BASICSTAT eStat = *dynamic_cast<CMonster*>(pExp)->Get_BasicStat()->Get_Stat();
 	
 	m_pStat->Get_Stat()->iExp += eStat.iExp;
@@ -1310,8 +1275,6 @@ void CPlayer::IsAttack(CBasicStat* _MonsterStat)
 
 	if (iResultDamage <= 0)
 		iResultDamage = 1;
-
-	//cout << iResultDamage << " 데미지" << endl;
 
 	Set_AttackTick(true);
 	_MonsterStat->Take_Damage(iResultDamage);
@@ -1438,89 +1401,6 @@ void CPlayer::Create_Item(CCollider* _pOther)
 		Engine::CGameObject* FindSlotObj = Engine::UIManager()->Get_PopupObjectBasicSlot(ItemType);
 		dynamic_cast<CUIbasicslot*>(dynamic_cast<CTempUI*>(FindSlotObj))->Set_FindSlot(true);
 	}
-//	else if (ItemType.eItemType == ITEMTYPE::ITEMTYPE_GENERALITEM && !m_bItemEquipLeft)
-//	{
-//		m_bItemEquipLeft = true;
-//
-//		Set_CurrentEquipLeft(pItem);
-//		Set_PrevEquipLeft(pItem);
-//		Engine::EventManager()->CreateObject(pItem, LAYERTAG::GAMELOGIC);
-//
-//#pragma region 해당 슬롯을 찾아서 비었을 시 해당 슬롯에 할당 및 스왑
-//		_uint ItemSlotNumber = 0;
-//		switch (ItemType.eItemID)
-//		{
-//		case GENERAL_SHIELD:
-//			ItemSlotNumber = 1;
-//			break;
-//		case GENERAL_LAMP:
-//			ItemSlotNumber = 1;
-//			break;
-//		case GENERAL_BEER:
-//			ItemSlotNumber = 1;
-//			break;
-//		case EQUIP_OLDHELMET:
-//			ItemSlotNumber = 0;
-//			break;
-//		case EQUIP_OLDARMOR:
-//			ItemSlotNumber = 2;
-//			break;
-//		case EQUIP_OLDTROUSERS:
-//			ItemSlotNumber = 4;
-//			break;
-//		case EQUIP_IRONHELMET:
-//			ItemSlotNumber = 0;
-//			break;
-//		case EQUIP_IRONARMOR:
-//			ItemSlotNumber = 2;
-//			break;
-//		case EQUIP_IRONTROUSERS:
-//			ItemSlotNumber = 4;
-//			break;
-//		case EQUIP_SMALLSILVERRING:
-//			ItemSlotNumber = 3;
-//			break;
-//		case EQUIP_BIGSILVERRING:
-//			ItemSlotNumber = 3;
-//			break;
-//		case EQUIP_SILVERNECKLACE:
-//			ItemSlotNumber = 5;
-//			break;
-//		case EQUIP_SMALLGOLDRING:
-//			ItemSlotNumber = 3;
-//			break;
-//		case EQUIP_BIGGOLDRING:
-//			ItemSlotNumber = 3;
-//			break;
-//		case EQUIP_GOLDNECKLACE:
-//			ItemSlotNumber = 5;
-//			break;
-//		}
-//
-//		CGameObject* SlotObject = Engine::UIManager()->Get_PopupObject(Engine::UIPOPUPLAYER::POPUP_EQUIPMENT, Engine::UILAYER::UI_DOWN, UIID_SLOTEQUIPMENT, ItemSlotNumber);
-//
-//		if (dynamic_cast<CTempUI*>(SlotObject)->Get_EmptyBool()) // 해당 슬롯이 비어있으면
-//		{
-//			// 들어온 아이템 ui 포지션을 비어있는 해당 슬롯 포지션 값으로 대입 후 월드 행렬 셋팅
-//			pGameObjectUI->m_pTransform->m_vInfo[INFO_POS].x = SlotObject->m_pTransform->m_vInfo[INFO_POS].x;
-//			pGameObjectUI->m_pTransform->m_vInfo[INFO_POS].y = SlotObject->m_pTransform->m_vInfo[INFO_POS].y;
-//			dynamic_cast<CTempUI*>(pGameObjectUI)->WorldMatrix(pGameObjectUI->m_pTransform->m_vInfo[INFO_POS].x, pGameObjectUI->m_pTransform->m_vInfo[INFO_POS].y, pGameObjectUI->m_pTransform->m_vLocalScale.x, pGameObjectUI->m_pTransform->m_vLocalScale.y);
-//
-//			// 아이템의 부모 오브젝트로 해당 슬롯 등록
-//			dynamic_cast<CTempUI*>(pGameObjectUI)->Set_Parent(SlotObject);
-//			// 슬롯 자식 오브젝트로 해당 아이템 등록 후 비어있지 않다는 상태로 변경
-//			dynamic_cast<CTempUI*>(SlotObject)->Set_Child(pGameObjectUI);
-//			dynamic_cast<CTempUI*>(SlotObject)->Set_EmptyBool(false);
-//
-//			Engine::UIManager()->AddPopupGameobject_UI(Engine::UIPOPUPLAYER::POPUP_ITEM, Engine::UILAYER::UI_DOWN, pGameObjectUI);
-//			Engine::UIManager()->Hide_InvenItem(0);
-//		}
-//		else // 비어 있지 않으면 그냥 추가
-//		{
-//			Engine::UIManager()->AddItemGameobject_UI(pGameObjectUI);
-//		}
-//#pragma endregion 
-//	}
 	else
 	{
 		Engine::EventManager()->CreateObject(pItem, LAYERTAG::GAMELOGIC);

@@ -72,10 +72,6 @@ void CVillageTriger::Render_Object(void)
 
 	m_pTexture->Render_Texture(0);
 	m_pCubeBf->Render_Buffer();
-
-#if _DEBUG
-	m_pCollider->Render_Collider();
-#endif
 }
 
 void CVillageTriger::OnCollisionEnter(CCollider* _pOther)

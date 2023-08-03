@@ -59,22 +59,11 @@ void CFootRay::LateUpdate_Object(void)
 			static_cast<CPlayer*>(m_pHost)->Get_RigidBody()->UseGravity(true);
 		}
 	}
-	/*else
-	{
-		if (static_cast<CPlayer*>(m_pHost)->IsJump())
-		{
-			static_cast<CPlayer*>(m_pHost)->Set_JumpState(true);
-			static_cast<CPlayer*>(m_pHost)->Get_RigidBody()->UseGravity(true);
-		}
-	}*/
 }
 
 void CFootRay::Render_Object(void)
 {
-#if _DEBUG
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
-	m_pCollider->Render_Collider();
-#endif
 }
 
 void CFootRay::OnCollisionEnter(CCollider* _pOther)

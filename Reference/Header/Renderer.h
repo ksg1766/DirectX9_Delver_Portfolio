@@ -18,7 +18,8 @@ public:
 	void		Clear_RenderGroup();
 
 	void        Set_FogUse(_bool _bUse) { m_bFogUse = _bUse; }
-	void        Set_FogColor(_int _A, _int _R, _int _G, _int _B) {
+	void        Set_FogColor(_int _A, _int _R, _int _G, _int _B)
+	{
 		m_iFogColor[0] = _A;
 		m_iFogColor[1] = _R;
 		m_iFogColor[2] = _G;

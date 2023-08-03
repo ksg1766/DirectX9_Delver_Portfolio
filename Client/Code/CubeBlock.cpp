@@ -65,47 +65,10 @@ void CCubeBlock::LateUpdate_Object(void)
 
 void CCubeBlock::Render_Object(void)
 {
-	//D3DLIGHT9 light;
-	//ZeroMemory(&light, sizeof(D3DLIGHT9));
-	//light.Type = D3DLIGHT_DIRECTIONAL;
-	//light.Diffuse = D3DXCOLOR( 1.f, 1.f, 1.f, 1.f );
-	//light.Ambient = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
-	//light.Specular = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
-	//_vec3 vDir(1.f, -1.f, -1.f);
-	//D3DXVec3Normalize((D3DXVECTOR3*)&light.Direction, &vDir);
-	//light.Range=1000.f;
-
-	//m_pGraphicDev->SetLight(0, &light);
-	//m_pGraphicDev->LightEnable(0, TRUE);
-	//m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, TRUE);
-	//m_pGraphicDev->SetRenderState(D3DRS_SPECULARENABLE, TRUE);
-	//m_pGraphicDev->SetRenderState(D3DRS_NORMALIZENORMALS, TRUE);
-
-	//m_pGraphicDev->SetRenderState(D3DRS_AMBIENT, D3DCOLOR_ARGB(0, 255, 255, 255));
-	//D3DMATERIAL9 mtrl;
-	//ZeroMemory(&mtrl, sizeof(D3DMATERIAL9));
-
-	//mtrl.Diffuse = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
-	//mtrl.Ambient = D3DXCOLOR(0.1f, 0.1f, 0.1f, 1.f);
-	//mtrl.Specular = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
-	//mtrl.Emissive = D3DXCOLOR(0.2f, 0.2f, 0.2f, 1.f);
-	//mtrl.Power = 1.f;
-	//m_pGraphicDev->SetMaterial(&mtrl);
-
-
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
-	
-	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-	//m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+
 	m_pTexture->Render_Texture(m_byTextureNumber);
 	m_pBuffer->Render_Buffer();
-	//m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
-	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
-
-#if _DEBUG
-	//m_pCollider->Render_Collider();
-#endif _DEBUG
-
 }
 
 void CCubeBlock::OnCollisionEnter(CCollider* _pOther)

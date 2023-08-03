@@ -157,10 +157,6 @@ void CWizard::Render_Object()
 
 	m_pStateMachine->Render_StateMachine();
 	m_pBuffer->Render_Buffer();
-
-#if _DEBUG
-	m_pCollider->Render_Collider();
-#endif
 }
 
 void CWizard::Init_Stat()

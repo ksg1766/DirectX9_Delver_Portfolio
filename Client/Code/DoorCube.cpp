@@ -52,11 +52,6 @@ void CDoorCube::Render_Object()
 
 	m_pTexture->Render_Texture(39);
 	m_pCubeBf->Render_Buffer();
-
-#if _DEBUG
-	m_pCollider->Render_Collider();
-#endif // _DEBUG
-
 }
 
 void CDoorCube::OnCollisionEnter(CCollider* _pOther)

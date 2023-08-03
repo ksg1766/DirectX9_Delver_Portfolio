@@ -5,7 +5,8 @@ IMPLEMENT_SINGLETON(CSceneManager)
 
 CSceneManager::CSceneManager() : m_pBeforScene(nullptr), m_pCurrentScene(nullptr), m_pNextScene(nullptr), m_bGameStop(false), m_bSceneChange(false)
 {
-	for (_uint i = 0; (SCENETAG)i < SCENETAG::SCENE_END; ++i) {
+	for (_uint i = 0; (SCENETAG)i < SCENETAG::SCENE_END; ++i)
+	{
 		m_bStageVisit[i] = false;
 	}
 }
@@ -42,7 +43,7 @@ HRESULT CSceneManager::Change_Scene(CScene* pScene)
 	m_pNextScene = pScene;
 
 	// 이전 씬을 방문 여부를 기록
-	m_bStageVisit[(unsigned long long)pScene->Get_SceneTag() - 1] = true;
+	m_bStageVisit[(_uint)pScene->Get_SceneTag() - 1] = true;
 
 	return S_OK;
 }
@@ -101,13 +102,10 @@ void CSceneManager::Render_Scene(LPDIRECT3DDEVICE9 pGraphicDev)
 	//if(SCENETAG::STAGE == m_pScene->Get_SceneTag())	Octree()->Render_Octree(pGraphicDev);
 #endif
 
-	//if (!m_bPassTick)
-	//{
-		if (SCENETAG::VILLAGE == m_pCurrentScene->Get_SceneTag() || SCENETAG::STAGE == m_pCurrentScene->Get_SceneTag() || SCENETAG::BOSSSTAGE == m_pCurrentScene->Get_SceneTag())
-			Octree()->Render_Octree(pGraphicDev);
+	if (SCENETAG::VILLAGE == m_pCurrentScene->Get_SceneTag() || SCENETAG::STAGE == m_pCurrentScene->Get_SceneTag() || SCENETAG::BOSSSTAGE == m_pCurrentScene->Get_SceneTag())
+		Octree()->Render_Octree(pGraphicDev);
 
-		Renderer()->Render_GameObject(pGraphicDev);
-	//}
+	Renderer()->Render_GameObject(pGraphicDev);
 
 	if (m_pCurrentScene)
 		m_pCurrentScene->Render_Scene();
@@ -135,7 +133,6 @@ void CSceneManager::Render_Scene(LPDIRECT3DDEVICE9 pGraphicDev)
 				break;
 			case SCENETAG::STAGE:
 				m_pPlayer->m_pTransform->m_vInfo[INFO_POS] = _vec3(0.f, 11.f, 0.f);  // 시작 위치 지정해주세요
-				//m_pPlayer->m_pTransform->m_vInfo[INFO_POS] = _vec3(6.f, 75.f, 70.f);
 				break;
 			case SCENETAG::BOSSSTAGE:
 				m_pPlayer->m_pTransform->m_vInfo[INFO_POS] = _vec3(100.f, 20.f, 0.f); // 시작 위치 지정해주세요
@@ -148,6 +145,7 @@ void CSceneManager::Render_Scene(LPDIRECT3DDEVICE9 pGraphicDev)
 			Engine::EventManager()->CreateObject(m_pCamera,    LAYERTAG::ENVIRONMENT);
 			Engine::EventManager()->CreateObject(m_pPlayer,    LAYERTAG::GAMELOGIC);
 			Engine::EventManager()->CreateObject(m_pPlayerRay, LAYERTAG::GAMELOGIC);
+
 			for (auto& iter : m_vecItem)
 			{
 				Engine::EventManager()->CreateObject(iter, LAYERTAG::GAMELOGIC);

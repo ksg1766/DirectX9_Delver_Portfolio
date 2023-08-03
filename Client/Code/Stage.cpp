@@ -82,10 +82,6 @@ HRESULT CStage::Ready_Scene()
 	FAILED_CHECK_RETURN(Ready_Layer_GameLogic(LAYERTAG::GAMELOGIC), E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_UI(LAYERTAG::UI), E_FAIL);
 
-	//m_pGraphicDev->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
-	//m_pGraphicDev->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
-	//m_pGraphicDev->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
-
 	CSoundManager::GetInstance()->StopAll();
 
 	Engine::Renderer()->Set_FogUse(true);
@@ -111,7 +107,6 @@ void CStage::LateUpdate_Scene()
 {
 	__super::LateUpdate_Scene();
 
-	//CPlayer& rPlayer = *SceneManager()->Get_Scene()->Get_MainPlayer();
 	if(m_bSoundOn)
 		CSoundManager::GetInstance()->PlaySoundLoop(L"chase_sewers.mp3", CHANNELID::SOUND_BGM, m_fSound);
 
@@ -122,9 +117,6 @@ void CStage::LateUpdate_Scene()
 
 	if (m_pPlayer && m_pPlayer->m_pTransform->m_vInfo[INFO_POS].y > 250)
 	{
-		// 하수도 -> 보스 씬 이동
-		//CSoundManager::GetInstance()->PlaySound(L"door_beginning.mp3", CHANNELID::SOUND_ENVIRONMENT, 1.f);
-
 		m_pPlayer->Get_RigidBody()->Set_Force(_vec3(0.f, 0.f, 0.f));
 
 		CScene* pScene = CBossStage::Create(m_pGraphicDev);
@@ -141,8 +133,6 @@ void CStage::Render_Scene()
 
 void CStage::Free()
 {
-	//CSoundManager::GetInstance()->StopAll();
-	//CPoolManager::DestroyInstance();
 	__super::Free();
 }
 
@@ -163,7 +153,6 @@ CStage* CStage::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 
 HRESULT CStage::Ready_Prototype()
 {
-
 	return S_OK;
 }
 
@@ -173,20 +162,6 @@ HRESULT CStage::Ready_Layer_Environment(LAYERTAG _eLayerTag)
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
 
 	Engine::CGameObject*		pGameObject = nullptr;
-
-#pragma region 첫 번째 씬에서 받아오는 오브젝트
-	// DynamicCamera
-	//pGameObject = CDynamicCamera::Create(m_pGraphicDev, 
-	//										&_vec3(0.f, 0.f, 0.f),
-	//										&_vec3(0.f, 0.f, 1.f),
-	//										&_vec3(0.f, 1.f, 0.f),
-	//										D3DXToRadian(90.f), 
-	//										(_float)WINCX / WINCY,
-	//										0.1f, 
-	//										1000.f);
-	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-#pragma endregion 첫 번째 씬에서 받아오는 오브젝트
 
 	// SkyBox
 	pGameObject = CSkyBox::Create(m_pGraphicDev);
@@ -219,16 +194,6 @@ HRESULT CStage::Ready_Layer_Environment(LAYERTAG _eLayerTag)
 	dynamic_cast<CEffectWaterfall*>(pGameObject)->Set_EffectMoveSet(2);
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
-	// Test SpawningPool
-	/*pGameObject = CSpawningPool::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pGameObject->m_pTransform->Translate(_vec3(-50.f, 0.f, -50.f));
-	dynamic_cast<CSpawningPool*>(pGameObject)->Set_SpawnTime(5.f);
-	dynamic_cast<CSpawningPool*>(pGameObject)->Set_MonsterTag(MONSTERTAG::WIZARD);
-	dynamic_cast<CSpawningPool*>(pGameObject)->Set_PoolCapacity(7);
-	dynamic_cast<CSpawningPool*>(pGameObject)->Set_SpawnRadius(30.f);
-	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);*/
-
 	m_mapLayer.insert({ _eLayerTag, pLayer });
 
 	return S_OK;
@@ -241,10 +206,6 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 
 	Engine::CGameObject* pGameObject = nullptr;
 
-	/*pGameObject = CPhantom::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);*/
-
 	pGameObject = CHellDoor::Create(m_pGraphicDev, pLayer);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
@@ -253,26 +214,9 @@ HRESULT CStage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
-	//pGameObject = CKingSpider::Create(m_pGraphicDev);
-	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//static_cast<CKingSpider*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = _vec3(-36.f, 68.f, 34.f);
-	//pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-
-	//pGameObject = CPuzzle::Create(m_pGraphicDev);
-	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-
-	//pGameObject = CDungeonSpider::Create(m_pGraphicDev);
-	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-
 	m_mapLayer.insert({ _eLayerTag, pLayer });
 
 	CPoolManager::GetInstance()->Ready_Pool();
-
-#pragma region 첫 번째 씬에서 받아오는 오브젝트
-
-#pragma endregion 첫 번째 씬에서 받아오는 오브젝트
 
 	return S_OK;
 }
@@ -283,10 +227,6 @@ HRESULT CStage::Ready_Layer_UI(LAYERTAG _eLayerTag)
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
 
 	Engine::CGameObject* pGameObject = nullptr;
-
-	//pGameObject = CUIPuzzleBack::Create(m_pGraphicDev);
-	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//Engine::UIManager()->Add_BasicGameobject(UILAYER::UI_DOWN, pGameObject);
 
 	pGameObject = CUISpeech_Phantom::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
@@ -320,9 +260,6 @@ HRESULT CStage::Load_Data()
 		refObjectList.clear();
 	}
 	HANDLE hFile = CreateFile(L"../Bin/Data/Sewer_Test_v1.0.dat", GENERIC_READ, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
-	//HANDLE hFile = CreateFile(L"../Bin/Data/Sewer.dat", GENERIC_READ, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
-	//HANDLE hFile = CreateFile(L"../Bin/Data/TempData.dat", GENERIC_READ, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
-	//HANDLE hFile = CreateFile(L"../Bin/Data/TerrainGiantTree10.dat", GENERIC_READ,	0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
 	//HANDLE hFile = CreateFile(L"../Bin/Data/BossStage_3rd.dat", GENERIC_READ, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
 
 	if (INVALID_HANDLE_VALUE == hFile)
@@ -334,7 +271,7 @@ HRESULT CStage::Load_Data()
 	_float		fX, fY, fZ;
 	_ubyte		byTextureNumber = 0;
 
-	MONSTERTAG	eSpawnerTag = MONSTERTAG::MONSTER_END;  //
+	MONSTERTAG	eSpawnerTag = MONSTERTAG::MONSTER_END;
 	_int		iSpawnerLife = 10;
 	_int		iPoolCapacity = 5;
 	_float		fSpawnRadius = 10.0f;
@@ -370,7 +307,6 @@ HRESULT CStage::Load_Data()
 				dynamic_cast<CWaterFall*>(pGameObject)->Set_TextureNumber(0);
 				pGameObject->m_pTransform->Translate(_vec3(fX, fY + 1.f, fZ));
 				pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-				//EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 			}
 			else if(31 == byTextureNumber)
 			{
@@ -379,7 +315,6 @@ HRESULT CStage::Load_Data()
 				dynamic_cast<CWater*>(pGameObject)->Set_TextureNumber(byTextureNumber);
 				pGameObject->m_pTransform->Translate(_vec3(fX, fY + 1.f, fZ));
 				pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-				//EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 			}
 			else
 			{
@@ -388,7 +323,6 @@ HRESULT CStage::Load_Data()
 				dynamic_cast<CCubeBlock*>(pGameObject)->Set_TextureNumber(byTextureNumber);
 				pGameObject->m_pTransform->Translate(_vec3(fX, fY + 1.f, fZ));
 				pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-				//EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 			}
 		}
 		else if (OBJECTTAG::SPAWNINGPOOL == eTag)
@@ -416,7 +350,6 @@ HRESULT CStage::Load_Data()
 			dynamic_cast<CSpawningPool*>(pGameObject)->Set_SpawnTime(fSpawnTime);
 			pGameObject->m_pTransform->Translate(_vec3(fX, fY + 1.f, fZ));
 			pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-			//EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 		}
 		else if (OBJECTTAG::TRAP == eTag)
 		{
@@ -458,7 +391,6 @@ HRESULT CStage::Load_Data()
 			}
 
 			pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-			//EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 		}
 		else if (OBJECTTAG::IMMORTAL == eTag)
 		{
@@ -482,74 +414,73 @@ HRESULT CStage::Load_Data()
 
 			switch (eEnvTag)
 			{
-			case ENVIRONMENTTAG::TREE:
-			{
-				_uint iTreeNumber = 0;
+				case ENVIRONMENTTAG::TREE:
+				{
+					_uint iTreeNumber = 0;
 
-				ReadFile(hFile, &iTreeNumber, sizeof(_uint), &dwByte, nullptr);
+					ReadFile(hFile, &iTreeNumber, sizeof(_uint), &dwByte, nullptr);
 
-				pGameObject = CTree::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
-				dynamic_cast<CTree*>(pGameObject)->Set_TreeNumber(iTreeNumber);
-			}
-			break;
-
-			case ENVIRONMENTTAG::ROCK:
-			{
-				_uint iRockNumber = 0;
-
-				ReadFile(hFile, &iRockNumber, sizeof(_uint), &dwByte, nullptr);
-
-				pGameObject = CRock::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
-				dynamic_cast<CRock*>(pGameObject)->Set_RockNumber(iRockNumber);
+					pGameObject = CTree::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+					dynamic_cast<CTree*>(pGameObject)->Set_TreeNumber(iTreeNumber);
+				}
 				break;
+
+				case ENVIRONMENTTAG::ROCK:
+				{
+					_uint iRockNumber = 0;
+
+					ReadFile(hFile, &iRockNumber, sizeof(_uint), &dwByte, nullptr);
+
+					pGameObject = CRock::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+					dynamic_cast<CRock*>(pGameObject)->Set_RockNumber(iRockNumber);
+					break;
+				}
+				case ENVIRONMENTTAG::GRASS:
+				{
+					_uint iGrassNumber = 0;
+
+					ReadFile(hFile, &iGrassNumber, sizeof(_uint), &dwByte, nullptr);
+
+					pGameObject = CGrass::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+					dynamic_cast<CGrass*>(pGameObject)->Set_GrassNumber(iGrassNumber);
+					break;
+				}
+				case ENVIRONMENTTAG::MUSHROOM:
+				{
+					_uint iMushroomNumber = 0;
+
+					ReadFile(hFile, &iMushroomNumber, sizeof(_uint), &dwByte, nullptr);
+
+					pGameObject = CMushroom::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+					dynamic_cast<CMushroom*>(pGameObject)->Set_MushroomNumber(iMushroomNumber);
+					break;
+				}
+				case ENVIRONMENTTAG::PUMPKIN:
+				{
+					_uint iPumpkinNumber = 0;
+
+					ReadFile(hFile, &iPumpkinNumber, sizeof(_uint), &dwByte, nullptr);
+
+					pGameObject = CPumpkin::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+					dynamic_cast<CPumpkin*>(pGameObject)->Set_PumpkinNumber(iPumpkinNumber);
+					break;
+				}
+				case ENVIRONMENTTAG::ETC:
+				{
+					_uint iSpriteNumber = 0;
+
+					ReadFile(hFile, &iSpriteNumber, sizeof(_uint), &dwByte, nullptr);
+
+					pGameObject = CImmortalSprite::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+					dynamic_cast<CImmortalSprite*>(pGameObject)->Set_SpriteNumber(iSpriteNumber);
+					break;
+				}
 			}
-			case ENVIRONMENTTAG::GRASS:
-			{
-				_uint iGrassNumber = 0;
 
-				ReadFile(hFile, &iGrassNumber, sizeof(_uint), &dwByte, nullptr);
-
-				pGameObject = CGrass::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
-				dynamic_cast<CGrass*>(pGameObject)->Set_GrassNumber(iGrassNumber);
-				break;
-			}
-			case ENVIRONMENTTAG::MUSHROOM:
-			{
-				_uint iMushroomNumber = 0;
-
-				ReadFile(hFile, &iMushroomNumber, sizeof(_uint), &dwByte, nullptr);
-
-				pGameObject = CMushroom::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
-				dynamic_cast<CMushroom*>(pGameObject)->Set_MushroomNumber(iMushroomNumber);
-				break;
-			}
-			case ENVIRONMENTTAG::PUMPKIN:
-			{
-				_uint iPumpkinNumber = 0;
-
-				ReadFile(hFile, &iPumpkinNumber, sizeof(_uint), &dwByte, nullptr);
-
-				pGameObject = CPumpkin::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
-				dynamic_cast<CPumpkin*>(pGameObject)->Set_PumpkinNumber(iPumpkinNumber);
-				break;
-			}
-			case ENVIRONMENTTAG::ETC:
-			{
-				_uint iSpriteNumber = 0;
-
-				ReadFile(hFile, &iSpriteNumber, sizeof(_uint), &dwByte, nullptr);
-
-				pGameObject = CImmortalSprite::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
-				dynamic_cast<CImmortalSprite*>(pGameObject)->Set_SpriteNumber(iSpriteNumber);
-				break;
-			}
-			}
-			//pGameObject->m_pTransform->m_vInfo[INFO_POS] = _vec3(fX, fY, fZ);
 			NULL_CHECK_RETURN(pGameObject, E_FAIL);
 			pGameObject->m_pTransform->Scale(_vec3(fCX, fCY, fCZ));
 			pGameObject->m_pTransform->Translate(_vec3(fX, fY + 1.f, fZ));
 			pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-			//EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 		}
 		else if (OBJECTTAG::FRAGILE == eTag)
 		{
@@ -568,22 +499,21 @@ HRESULT CStage::Load_Data()
 
 		switch (eFragileTag)
 		{
-		case FRAGILETAG::RANDOMBOX:
-		{
-			pGameObject = CBoxCube::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
-			break;
-		}
-		case FRAGILETAG::EQUIPBOX:
-		{
-			pGameObject = CEquipBox::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
-			break;
-		}
+			case FRAGILETAG::RANDOMBOX:
+			{
+				pGameObject = CBoxCube::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+				break;
+			}
+			case FRAGILETAG::EQUIPBOX:
+			{
+				pGameObject = CEquipBox::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+				break;
+			}
 		}
 		NULL_CHECK_RETURN(pGameObject, E_FAIL);
 
 		pGameObject->m_pTransform->Translate(_vec3(fX, fY + 1.f, fZ));
 		pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-		//EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 		}
 	}
 	CloseHandle(hFile);

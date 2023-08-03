@@ -72,11 +72,6 @@ void CMeat::Render_Object(void)
 
 	m_pTexture->Render_Texture();
 	m_pBuffer->Render_Buffer();
-
-#if _DEBUG
-	m_pCollider->Render_Collider();
-#endif // _DEBUG
-
 }
 
 HRESULT CMeat::Add_Component(void)

@@ -78,18 +78,10 @@ void CBlade_Trap_Blade::LateUpdate_Object(void)
 
 void CBlade_Trap_Blade::Render_Object(void)
 {
-	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
 
 	m_pStateMachine->Render_StateMachine();
 	m_pBuffer->Render_Buffer();
-
-	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
-
-#if _DEBUG
-		m_pCollider->Render_Collider();
-#endif
 }
 
 HRESULT CBlade_Trap_Blade::Ready_Object2(_vec3 vCenterPos)

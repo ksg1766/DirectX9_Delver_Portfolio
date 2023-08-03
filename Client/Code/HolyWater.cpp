@@ -84,11 +84,6 @@ void CHolyWater::Render_Object(void)
 
 	m_pTexture->Render_Texture();
 	m_pBuffer->Render_Buffer();
-
-#if _DEBUG
-	m_pCollider->Render_Collider();
-#endif // _DEBUG
-
 }
 
 HRESULT CHolyWater::Add_Component(void)

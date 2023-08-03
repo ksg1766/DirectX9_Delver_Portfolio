@@ -138,7 +138,6 @@ _int CDungeonSpider::Update_Object(const _float& fTimeDelta)
 	if (m_pStateMachine->Get_State() == STATE::DEAD)
 		m_pRigidBody->UseGravity(true);
 
-
 	return iExit;
 }
 
@@ -147,8 +146,6 @@ void CDungeonSpider::LateUpdate_Object()
 	if (SceneManager()->Get_GameStop()) { return; } // ! Esc 및 M키 누를 시 업데이트 멈추게 하는 용도 입니다.
 
 	__super::LateUpdate_Object();
-
-	//__super::Compute_ViewZ(&m_pTransform->m_vInfo[INFO_POS]);
 }
 
 void CDungeonSpider::Render_Object()
@@ -157,10 +154,6 @@ void CDungeonSpider::Render_Object()
 
 	m_pStateMachine->Render_StateMachine();
 	m_pBuffer->Render_Buffer();
-
-#if _DEBUG
-	m_pCollider->Render_Collider();
-#endif
 }
 
 void CDungeonSpider::Init_Stat()

@@ -55,9 +55,6 @@ void CKingSpiderPoison::Render_Object(void)
 
 	m_pTexture->Render_Texture(2);
 	m_pBuffer->Render_Buffer();
-#if _DEBUG
-	m_pCollider->Render_Collider();
-#endif
 }
 
 void CKingSpiderPoison::Init_Stat()

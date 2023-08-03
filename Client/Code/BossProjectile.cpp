@@ -66,9 +66,6 @@ void CBossProjectile::Render_Object(void)
 	m_pTexture->Render_Texture((_uint)m_fFrame);
 	m_pBuffer->Render_Buffer();
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-#if _DEBUG
-	m_pCollider->Render_Collider();
-#endif
 }
 
 void CBossProjectile::Init_Stat()

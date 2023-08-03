@@ -64,7 +64,6 @@ void CPuzzle::LateUpdate_Object(void)
 
 	__super::LateUpdate_Object();
 	m_pTransform->Scale(_vec3(0.3f, 0.3f, 0.3f));
-	//	__super::Compute_ViewZ(&m_pTransform->m_vInfo[INFO_POS]);
 }
 
 void CPuzzle::Render_Object(void)
@@ -73,11 +72,6 @@ void CPuzzle::Render_Object(void)
 
 	m_pTexture->Render_Texture();
 	m_pBuffer->Render_Buffer();
-
-#if _DEBUG
-	m_pCollider->Render_Collider();
-#endif // _DEBUG
-
 }
 
 HRESULT CPuzzle::Add_Component(void)

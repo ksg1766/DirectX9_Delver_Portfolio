@@ -87,10 +87,6 @@ void CEquipBox::Render_Object(void)
 
 	m_pTexture->Render_Texture(0);
 	m_pCubeBf->Render_Buffer();
-
-#if _DEBUG
-	m_pCollider->Render_Collider();
-#endif
 }
 
 void CEquipBox::Drop_RandomItem()

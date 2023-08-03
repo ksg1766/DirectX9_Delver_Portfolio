@@ -79,10 +79,6 @@ void CMiniMeteor::Render_Object(void)
 
 	m_pTexture->Render_Texture(40);
 	m_pCubeBf->Render_Buffer();//큐브버퍼
-
-#if _DEBUG
-	m_pCollider->Render_Collider();
-#endif
 }
 
 void CMiniMeteor::Init_Stat()

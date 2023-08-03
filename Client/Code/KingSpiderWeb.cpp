@@ -113,10 +113,6 @@ void CKingSpiderWeb::Render_Object(void)
 
 	m_pTexture->Render_Texture(11);
 	m_pBuffer->Render_Buffer();
-
-#if _DEBUG
-	m_pCollider->Render_Collider();
-#endif
 }
 
 void CKingSpiderWeb::Init_Stat()

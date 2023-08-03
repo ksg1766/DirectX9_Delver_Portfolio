@@ -56,10 +56,6 @@ void CJump_Plate::Render_Object(void)
 
 	m_pTexture->Render_Texture();
 	m_pCubeBf->Render_Buffer();
-
-#if _DEBUG
-	m_pCollider->Render_Collider();
-#endif
 }
 
 void CJump_Plate::Trap_On()

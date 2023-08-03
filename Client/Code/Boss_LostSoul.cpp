@@ -100,9 +100,6 @@ void CBossLostSoul::Render_Object(void)
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
 	m_pTexture->Render_Texture((_uint)m_fFrame);
 	m_pBuffer->Render_Buffer();
-#if _DEBUG
-	m_pCollider->Render_Collider();
-#endif
 }
 
 void CBossLostSoul::Init_Stat()
