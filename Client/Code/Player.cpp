@@ -986,12 +986,16 @@ void CPlayer::PoisonDamage(const _float& fTimeDelta)
 {
 	if (!m_bPoisoning) { return; }
 	m_fPoisoningTime += fTimeDelta;
+
+
 	if (1.5f < m_fPoisoningTime)
 	{
 		m_fPoisoningTime = 0.f;
 		m_pStat->Get_Stat()->fHP -= 1.f;
 		m_fPoisoningTime = 0.f;
 		++m_iPosingingCount;
+		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_UI);
+		CSoundManager::GetInstance()->PlaySound(L"mg_pass_poison.mp3", CHANNELID::SOUND_UI, 1.f);
 	}
 	if (2 < m_iPosingingCount)
 	{

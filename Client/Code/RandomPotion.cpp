@@ -1,6 +1,9 @@
+#include "stdafx.h"
 #include "RandomPotion.h"
 #include "Export_Function.h"
 #include "Player.h"
+#include "EffectExplosion.h"
+#include "SoundManager.h"
 
 CRandomPotion::CRandomPotion(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CItem(pGraphicDev)
@@ -158,23 +161,11 @@ void CRandomPotion::Random_Usage(const _float& fTimeDelta)
 		*dynamic_cast<CPlayer*>(SceneManager()->
 			Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
 
-	switch (1)
+	switch (iRandomVal)
 	{
 	case iAddiction:
-		m_fAddictionTick += fTimeDelta;
-
-		if (m_fAddictionTick > 2)
-		{
-			if (this->Get_ItemStat()->Get_Stat()->fMaxHP > 0)
-			{
-				rPlayer.Get_Stat()->Get_Stat()->fHP -= 1.f;
-				--this->Get_ItemStat()->Get_Stat()->fMaxHP;
-			}
-			else
-				m_bRandomUsage = false;
-
-			m_fAddictionTick = 0.f;
-		}
+		rPlayer.Set_Poisoning(true);
+		m_bRandomUsage = false;
 		break;
 	case iHeal:
 		rPlayer.Get_Stat()->Get_Stat()->fHP += m_pBasicStat->Get_Stat()->fHP;
@@ -185,6 +176,15 @@ void CRandomPotion::Random_Usage(const _float& fTimeDelta)
 		break;
 	case iExplosion:
 		rPlayer.Get_Stat()->Get_Stat()->fHP -= m_pBasicStat->Get_Stat()->iDamageMax;
+
+		CGameObject* pGameObject = nullptr;
+
+		pGameObject = CEffectExplosion::Create(m_pGraphicDev);
+		pGameObject->m_pTransform->Translate(rPlayer.m_pTransform->m_vInfo[INFO_POS] + _vec3(0.f,0.f,1.f));
+		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
+
+		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_CONSUMABLE);
+		CSoundManager::GetInstance()->PlaySound(L"sfx_explode.mp3", CHANNELID::SOUND_CONSUMABLE, 1.f);
 
 		m_bRandomUsage = false;
 		break;

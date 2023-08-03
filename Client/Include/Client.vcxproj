@@ -320,6 +320,7 @@
     <ClInclude Include="..\Header\UIOrbClearLight.h" />
     <ClInclude Include="..\Header\UIPuzzleBack.h" />
     <ClInclude Include="..\Header\UISpeech_Phantom.h" />
+    <ClInclude Include="..\Header\UITitle.h" />
     <ClInclude Include="..\Header\VillageTriger.h" />
     <ClInclude Include="..\Header\Shield.h" />
     <ClInclude Include="..\Header\ShopItem.h" />
@@ -617,6 +618,7 @@
     <ClCompile Include="..\Code\UIPuzzle.cpp" />
     <ClCompile Include="..\Code\UIPuzzleBack.cpp" />
     <ClCompile Include="..\Code\UISpeech_Phantom.cpp" />
+    <ClCompile Include="..\Code\UITitle.cpp" />
     <ClCompile Include="..\Code\VillageTriger.cpp" />
     <ClCompile Include="..\Code\Shield.cpp" />
     <ClCompile Include="..\Code\ShopItem.cpp" />

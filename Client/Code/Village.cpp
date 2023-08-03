@@ -39,6 +39,7 @@
 #include "EffectFallingleaves.h"
 #include "EffectFirefly.h"
 #include "HellDoor.h"
+#include "UITitle.h"
 
 // 연출 테스트 // 성공시 보스 씬으로 이동
 #include "GameManager.h"
@@ -88,6 +89,9 @@ HRESULT CVillage::Ready_Scene()
 	Engine::Renderer()->Set_FogUse(true);
 	Engine::Renderer()->Set_FogColor(100, 60, 10, 55);
 	Engine::Renderer()->Set_FogDistance(1.f, 130.0f);
+
+
+
 
 	return S_OK;
 }
@@ -364,6 +368,14 @@ HRESULT CVillage::Ready_Layer_UI(LAYERTAG _eLayerTag)
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
 
 	Engine::CGameObject*		pGameObject = nullptr;
+
+	if (SceneManager()->Get_VisitScene(m_eSceneTag))
+	{
+		CGameObject* pGameObject = CUITitle::Create(Engine::CGraphicDev::GetInstance()->Get_GraphicDev());
+		NULL_CHECK_RETURN(pGameObject, E_FAIL);
+		Engine::UIManager()->Add_BasicGameobject(Engine::UILAYER::UI_UP, pGameObject);
+		dynamic_cast<CTempUI*>(pGameObject)->Set_UIImage(3);
+	}
 
 	if (!Engine::SceneManager()->Get_VisitScene(m_eSceneTag))
 	{

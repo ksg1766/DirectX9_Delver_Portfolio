@@ -1,7 +1,9 @@
 #include "stdafx.h"
 #include "WaterFall.h"
-
+#include "Player.h"
 #include "Export_Function.h"
+#include "SoundManager.h"
+#include "FootRay.h"
 
 CWaterFall::CWaterFall(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CCubeBlock(pGraphicDev)
@@ -60,6 +62,18 @@ void CWaterFall::Render_Object(void)
 
 void CWaterFall::OnCollisionEnter(CCollider* _pOther)
 {
+
+	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::PLAYER)
+	{
+		CPlayer& rPlayer = *SceneManager()->Get_Scene()->Get_MainPlayer();
+
+		if (!rPlayer.DropWater())
+			rPlayer.Set_DropWather(true);
+		else
+		{
+
+		}
+	}
 }
 
 void CWaterFall::OnCollisionStay(CCollider* _pOther)

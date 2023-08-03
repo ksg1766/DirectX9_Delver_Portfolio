@@ -6,6 +6,7 @@
 #include "CameraManager.h"
 #include "FlyingCamera.h"
 #include "BlackIn.h"
+#include "UITitle.h"
 //#include "KingSpider.h"
 
 #include "EffectSwordTrail.h"
@@ -168,6 +169,13 @@ void CGameManager::ShowVillage(const _float& fTimeDelta)
 
 			CInputDev::GetInstance()->Lock_Input(false);
 
+			
+
+			CGameObject* pGameObject = CUITitle::Create(Engine::CGraphicDev::GetInstance()->Get_GraphicDev());
+			NULL_CHECK(pGameObject, E_FAIL);
+			Engine::UIManager()->Add_BasicGameobject(Engine::UILAYER::UI_UP, pGameObject);
+			dynamic_cast<CTempUI*>(pGameObject)->Set_UIImage(0);
+
 			return;
 		}
 	}
@@ -253,6 +261,12 @@ void CGameManager::ShowSewer(const _float& fTimeDelta)
 
 			CInputDev::GetInstance()->Lock_Input(false);
 
+
+			CGameObject* pGameObject = CUITitle::Create(Engine::CGraphicDev::GetInstance()->Get_GraphicDev());
+			NULL_CHECK(pGameObject, E_FAIL);
+			Engine::UIManager()->Add_BasicGameobject(Engine::UILAYER::UI_UP, pGameObject);
+			dynamic_cast<CTempUI*>(pGameObject)->Set_UIImage(1);
+
 			return;
 		}
 	}
@@ -290,6 +304,11 @@ void CGameManager::ShowTower(const _float& fTimeDelta)
 		m_ePrev_PD = PD::Normal;
 
 		CInputDev::GetInstance()->Lock_Input(false);
+
+		CGameObject* pGameObject = CUITitle::Create(Engine::CGraphicDev::GetInstance()->Get_GraphicDev());
+		NULL_CHECK(pGameObject, E_FAIL);
+		Engine::UIManager()->Add_BasicGameobject(Engine::UILAYER::UI_UP, pGameObject);
+		dynamic_cast<CTempUI*>(pGameObject)->Set_UIImage(6);
 
 		return;
 	}
@@ -383,6 +402,12 @@ void CGameManager::ShowBoss(const _float& fTimeDelta)
 			m_ePrev_PD = PD::Normal;
 
 			CInputDev::GetInstance()->Lock_Input(false);
+
+
+			CGameObject* pGameObject = CUITitle::Create(Engine::CGraphicDev::GetInstance()->Get_GraphicDev());
+			NULL_CHECK(pGameObject, E_FAIL);
+			Engine::UIManager()->Add_BasicGameobject(Engine::UILAYER::UI_UP, pGameObject);
+			dynamic_cast<CTempUI*>(pGameObject)->Set_UIImage(2);
 
 			return;
 		}
@@ -499,6 +524,11 @@ void CGameManager::ShowMiniBoss(const _float& fTimeDelta)
 		m_ePrev_PD = PD::Normal;
 
 		CInputDev::GetInstance()->Lock_Input(false);
+
+		CGameObject* pGameObject = CUITitle::Create(Engine::CGraphicDev::GetInstance()->Get_GraphicDev());
+		NULL_CHECK(pGameObject, E_FAIL);
+		Engine::UIManager()->Add_BasicGameobject(Engine::UILAYER::UI_UP, pGameObject);
+		dynamic_cast<CTempUI*>(pGameObject)->Set_UIImage(4);
 
 		return;
 	}

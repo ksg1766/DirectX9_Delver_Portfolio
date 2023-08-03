@@ -49,6 +49,7 @@ public:
 	_bool			Get_AttackTick()		{ return m_bAttackTick; }
 	_bool			Get_UseUI()				{ return m_bUseUI; }
 	_bool			Get_Drunk()				{ return m_bDrunk; }
+	_bool			Poisoned_State()		{ return m_bPoisoning; }
 	_bool			InWater()				{ return m_bInWater; }
 	_bool			DropWater()				{ return m_bDropWater; }
 
