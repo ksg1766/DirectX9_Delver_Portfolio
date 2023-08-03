@@ -29,7 +29,8 @@ private:
 	void        Update_NumverUI(void);
 
 private:
-	CTexture*   m_pNumberTextureCom;
+	CTexture*	m_pNumberTextureCom;
+	CTexture*	m_pPoisionTexture;
 	_float      m_fCurrentHp;
 	_float      m_fMaxHp;
 

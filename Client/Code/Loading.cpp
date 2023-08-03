@@ -204,6 +204,7 @@ _uint CLoading::Loading_ForStage()
 
 #pragma region UI
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_HpBarUI",             CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/HPbar/healthbar%d.png", 5)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_PoisionHpBarUI",	  CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/HPbar/helthPoisonbar%d.png", 2)), E_FAIL);
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_EmptyslotUI",         CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/Inventory/emptyslot/emptyslot%d.png", 27)), E_FAIL);
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_itemUI",              CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/Inventory/item/itemUI%d.png", 44)), E_FAIL);
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_tooltipUI",           CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/Inventory/tooltip/tooltip%d.png", 43)), E_FAIL);
@@ -224,6 +225,8 @@ _uint CLoading::Loading_ForStage()
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_QuestItemBackGround", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/UIQuestItem/PuzzleBackground.png")), E_FAIL);
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_UIQuestItem",		  CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/UIQuestItem/Puzzle%d.png", 6)), E_FAIL);
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_UIOrbLight",          CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/OrbClearLight/OrbClearLight%d.png", 15)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_UITitle",			  CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/UITitle/UITitle%d.png", 9)), E_FAIL);
+
 
 		//Test SpeechBubble
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_SpeechBubbleUI",	CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/Inventory/tooltip/tooltip43.png")), E_FAIL);
@@ -392,6 +395,7 @@ _uint CLoading::Loading_ForStage()
 		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/drop_item.mp3", "drop_item.mp3"), E_FAIL);
 
 		// Collision && Break 
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/trap_spike.mp3", "trap_spike.mp3"), E_FAIL);
 		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/break_wood_01.mp3", "break_wood_01.mp3"), E_FAIL);
 		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/torch.mp3", "torch.mp3"), E_FAIL);
 		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/clang_02.mp3", "clang_02.mp3"), E_FAIL);
@@ -408,7 +412,8 @@ _uint CLoading::Loading_ForStage()
 		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/ui_button_click.mp3", "ui_button_click.mp3"), E_FAIL);
 		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/ui_map_close.mp3", "ui_map_close.mp3"), E_FAIL);
 		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/ui_map_open.mp3", "ui_map_open.mp3"), E_FAIL);
-
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/mg_pass_poison.mp3", "mg_pass_poison.mp3"), E_FAIL);
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/sfx_explode.mp3", "sfx_explode.mp3"), E_FAIL);
 
 		//HekiRekiIssen
 		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/Production/HekiRekiIssen.mp3", "HekiRekiIssen"), E_FAIL);
@@ -463,7 +468,7 @@ _uint CLoading::Loading_ForStage()
 		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/KingSpider/KingSpider_Web.wav", "KingSpider_Web.wav"), E_FAIL);
 
 		// Ending
-		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/Production/vol1_05_Silian'sTheme.mp3", "Silian'sTheme"), E_FAIL);
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/Production/vol1_05_SiliansTheme.mp3", "Silian'sTheme"), E_FAIL);
 
 		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/Firework_01.wav", "Firework_01"), E_FAIL);
 		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/Firework_02.wav", "Firework_02"), E_FAIL);

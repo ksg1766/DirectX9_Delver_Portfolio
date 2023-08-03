@@ -95,18 +95,8 @@ _int CBookDoor::Update_Object(const _float& fTimeDelta)
 
 	}
 
-	//if (m_bDoorOpen)
-	//{
-	//	CSoundManager::GetInstance()->PlaySoundLoop(L"MyDoor.mp3", CHANNELID::SOUND_DOOR, 0.8f);
-	//}
-
 	if (m_bTriger)
 	{
-	//	if (m_bShake)
-	//	{
-	//		pCamera->Set_ShakeForce(0.f, 0.01f, 3, 2.f);
-	//		pCamera->Shake_Camera();
-	//	}
 		if (!m_bKingSpider)
 			m_fSpiderTime += fTimeDelta;
 		if (3.5f < m_fSpiderTime)
@@ -176,8 +166,7 @@ _int CBookDoor::Update_Object(const _float& fTimeDelta)
 					// TODO
 					// : YÃà ÇÏ°­
 
-					_float fNewDownPos = (*iter)->m_pTransform->m_vInfo[INFO_POS].y - 1 *
-						(m_fFinalDown - (*iter)->m_pTransform->m_vInfo[INFO_POS].y);
+					_float fNewDownPos = (*iter)->m_pTransform->m_vInfo[INFO_POS].y - 1 * (m_fFinalDown - (*iter)->m_pTransform->m_vInfo[INFO_POS].y);
 
 					if (m_fFinalDown <= (*iter)->m_pTransform->m_vInfo[INFO_POS].y)
 						(*iter)->m_pTransform->m_vInfo[INFO_POS].y -= fNewDownPos * fTimeDelta * 0.05f;

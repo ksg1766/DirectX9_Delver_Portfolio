@@ -83,6 +83,9 @@ void CUIplayerhp::LateUpdate_Object(void)
 
 void CUIplayerhp::Render_Object()
 {
+	CPlayer& rPlayer = *SceneManager()->Get_Scene()->Get_MainPlayer();
+
+
 	// 위급 상태 붉은 표시 이미지
 	if (m_fCurrentHp <= m_fMaxHp / 3 && m_fCurrentHp <= 6.f)
 	{
@@ -99,28 +102,61 @@ void CUIplayerhp::Render_Object()
 	}
 
 	// 내부 이미지
-	m_pTransform->m_vInfo[INFO_POS].x = m_fPosition; // 위치값도 뺀다.
-	m_pTransform->m_vInfo[INFO_POS].y = 35.f;
-	m_pTransform->m_vLocalScale.x = 110.f - m_flength; // 줄어든만큼
-	m_pTransform->m_vLocalScale.y = 25.f;
+	if (!rPlayer.Poisoned_State())
+	{
+		m_pTransform->m_vInfo[INFO_POS].x = m_fPosition; // 위치값도 뺀다.
+		m_pTransform->m_vInfo[INFO_POS].y = 35.f;
+		m_pTransform->m_vLocalScale.x = 110.f - m_flength; // 줄어든만큼
+		m_pTransform->m_vLocalScale.y = 25.f;
 
-	WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorld);
+		WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);
+		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorld);
 
-	m_pTextureCom->Render_Texture(2);
-	m_pBufferCom->Render_Buffer();
+		m_pTextureCom->Render_Texture(2);
+		m_pBufferCom->Render_Buffer();
+	}
+	else if (rPlayer.Poisoned_State())
+	{
+		m_pTransform->m_vInfo[INFO_POS].x = m_fPosition; // 위치값도 뺀다.
+		m_pTransform->m_vInfo[INFO_POS].y = 35.f;
+		m_pTransform->m_vLocalScale.x = 110.f - m_flength; // 줄어든만큼
+		m_pTransform->m_vLocalScale.y = 25.f;
+
+		WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);
+		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorld);
+
+
+		m_pPoisionTexture->Render_Texture(0);
+		m_pBufferCom->Render_Buffer();
+	}
 
 	// 외부 이미지
-	m_pTransform->m_vInfo[INFO_POS].x = 140.f;
-	m_pTransform->m_vInfo[INFO_POS].y = 35.f;
-	m_pTransform->m_vLocalScale.x = 110.f;
-	m_pTransform->m_vLocalScale.y = 25.f;
+	if (!rPlayer.Poisoned_State())
+	{
+		m_pTransform->m_vInfo[INFO_POS].x = 140.f;
+		m_pTransform->m_vInfo[INFO_POS].y = 35.f;
+		m_pTransform->m_vLocalScale.x = 110.f;
+		m_pTransform->m_vLocalScale.y = 25.f;
 
-	WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorld);
+		WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);
+		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorld);
 
-	m_pTextureCom->Render_Texture(0);
-	m_pBufferCom->Render_Buffer();
+		m_pTextureCom->Render_Texture(0);
+		m_pBufferCom->Render_Buffer();
+	}
+	else if (rPlayer.Poisoned_State())
+	{
+		m_pTransform->m_vInfo[INFO_POS].x = 140.f;
+		m_pTransform->m_vInfo[INFO_POS].y = 35.f;
+		m_pTransform->m_vLocalScale.x = 110.f;
+		m_pTransform->m_vLocalScale.y = 25.f;
+
+		WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);
+		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorld);
+
+		m_pPoisionTexture->Render_Texture(1);
+		m_pBufferCom->Render_Buffer();
+	}
 
 
 	// 숫자 이미지
@@ -135,7 +171,7 @@ void CUIplayerhp::Render_Object()
 		WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);
 		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorld);
 
-		m_pNumberTextureCom->Render_Texture(m_iCurrentOneNum);
+		m_pNumberTextureCom ->Render_Texture(m_iCurrentOneNum);
 		m_pBufferCom->Render_Buffer();
 	}
 
@@ -201,6 +237,10 @@ HRESULT CUIplayerhp::Add_Component(void)
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::TRANSFORM, pComponent);
 
 	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_HpBarUI"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
+
+	pComponent = m_pPoisionTexture = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_PoisionHpBarUI"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
 

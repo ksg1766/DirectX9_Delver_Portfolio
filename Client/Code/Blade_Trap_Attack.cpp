@@ -1,3 +1,5 @@
+#include "stdafx.h"
+#include "SoundManager.h"
 #include "Blade_Trap_Attack.h"
 #include "Export_Function.h"
 #include "Blade_Trap_Body.h"
@@ -37,6 +39,9 @@ STATE CBlade_Trap_Attack::Update_State(const _float& fTimeDelta)
 			m_pOwner->Get_Transform()->m_vInfo[INFO_POS].y = m_fTrapHeight+1.f;
 			m_fCool = 0.f;
 			m_bAttack = true;
+
+			CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_BREAK);
+			CSoundManager::GetInstance()->PlaySound(L"trap_spike.mp3", CHANNELID::SOUND_BREAK, 1.f);
 		}
 	}
 
