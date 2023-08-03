@@ -101,6 +101,12 @@ HRESULT CBlade_Trap_Blade::Ready_Object2(_vec3 vCenterPos)
 		m_pTexture[(_uint)STATE::IDLE], STATE::IDLE, 8.f, FALSE);
 	m_pAnimator->Add_Animation(STATE::IDLE, pAnimation);
 
+	pAnimation = CAnimation::Create(m_pGraphicDev,
+		m_pTexture[(_uint)STATE::IDLE], STATE::ATTACK, 8.f, FALSE);
+	m_pAnimator->Add_Animation(STATE::ATTACK, pAnimation);
+
+
+
 	m_pStateMachine->Set_Animator(m_pAnimator);
 	m_pStateMachine->Set_State(STATE::IDLE);
 

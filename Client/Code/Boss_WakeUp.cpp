@@ -5,6 +5,7 @@
 #include "SoundManager.h"
 #include "UIbosshp.h"
 #include "UIManager.h"
+#include "UITitle.h"
 CBoss_WakeUp::CBoss_WakeUp()
 {
 }
@@ -47,6 +48,12 @@ STATE CBoss_WakeUp::Update_State(const _float& fTimeDelta)
         {
             m_fDelay = 0.f;
             m_bWakeUp = false;
+
+            CGameObject* pGameObject = CUITitle::Create(Engine::CGraphicDev::GetInstance()->Get_GraphicDev());
+           // NULL_CHECK_RETURN(pGameObject, E_FAIL);
+            dynamic_cast<CTempUI*>(pGameObject)->Set_UIImage(5);
+            Engine::UIManager()->Add_BasicGameobject(Engine::UILAYER::UI_UP, pGameObject);
+
             return STATE::BOSS_IDLE;
         }
     }
