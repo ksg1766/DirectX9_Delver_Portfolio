@@ -1,3 +1,5 @@
+#include "stdafx.h"
+#include "SoundManager.h"
 #include "Boss_Dead.h"
 #include "Export_Function.h"
 #include "SkeletonKing.h"
@@ -21,12 +23,23 @@ HRESULT CBoss_Dead::Ready_State(CStateMachine* pOwner)
 {
     m_pOwner = pOwner;
     m_bSpawnGate = false;
+    m_fSound = 1.f;
     return S_OK;
 }
 
 STATE CBoss_Dead::Update_State(const _float& fTimeDelta)
 {
- 
+    if (0.f < m_fSound)
+    {
+        m_fSound -= (fTimeDelta / 10.f);
+        CSoundManager::GetInstance()->SetChannelVolume(CHANNELID::SOUND_BGM, m_fSound);
+    }
+    if (0.f >= m_fSound)
+    {
+        CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_BGM);
+
+    }
+
     return STATE::BOSS_DEAD;
 
 }

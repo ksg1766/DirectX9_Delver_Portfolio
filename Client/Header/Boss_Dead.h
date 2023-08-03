@@ -24,6 +24,7 @@ private:
 private:
     //º¯¼ö
     _bool       m_bSpawnGate;
+    _float      m_fSound;
 public:
     static CBoss_Dead* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
 

@@ -81,13 +81,21 @@ void CDimensionGate::Render_Object(void)
 void CDimensionGate::OnCollisionEnter(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
+
 	if (OBJECTTAG::PLAYER == _pOther->Get_Host()->Get_ObjectTag())
 	{
-		CSoundManager::GetInstance()->PlaySound(L"door_beginning.mp3", CHANNELID::SOUND_ENVIRONMENT, 1.f);
+		CPlayer& rPlayer = *SceneManager()->Get_Scene()->Get_MainPlayer();
+		CInventory* PlayerInven = rPlayer.Get_Inventory();
+		CItem* pItem = dynamic_cast<CItem*>(PlayerInven->Get_IDItem(ITEMID::QUEST_ORB));
 
-		SceneManager()->Get_Scene()->Get_MainPlayer()->Get_RigidBody()->Set_Force(_vec3(0.f, 0.f, 0.f));
-		CScene* pScene = CVillage::Create(m_pGraphicDev);
-		Engine::SceneManager()->Change_Scene(pScene);
+		if (pItem != nullptr)
+		{
+			CSoundManager::GetInstance()->PlaySound(L"door_beginning.mp3", CHANNELID::SOUND_ENVIRONMENT, 1.f);
+
+			SceneManager()->Get_Scene()->Get_MainPlayer()->Get_RigidBody()->Set_Force(_vec3(0.f, 0.f, 0.f));
+			CScene* pScene = CVillage::Create(m_pGraphicDev);
+			Engine::SceneManager()->Change_Scene(pScene);
+		}
 		//CFlyingCamera* pCamera = static_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam());
 		//pCamera->m_pTransform->Copy_RUL_AddPos(SceneManager()->Get_Scene()->Get_MainPlayer()->m_pTransform->m_vInfo);
 		//static_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam())->Change_Mode();

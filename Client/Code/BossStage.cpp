@@ -93,7 +93,7 @@ Engine::_int CBossStage::Update_Scene(const _float& fTimeDelta)
 		if(3.f< m_fGateTime)
 		{	
 			CFlyingCamera* pCamera = dynamic_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam());
-			pCamera->Set_ShakeForce(0.f, 0.02f, 1.f, 2.f);
+			pCamera->Set_ShakeForce(0.f, 0.02f, 2.f, 2.f);
 			pCamera->Shake_Camera();
 
 			CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_BOSS);
