@@ -21,6 +21,8 @@ private:
 private:
 	_float	    m_fTime = 0.f;
 	_float      m_fSpeed = 0.f;
+	_float      m_fDieTime = 0.f;
+	_float      m_fMoveTime = 0.f;
 
 public:
 	static CEffectFireworkTrace* Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 vOriginPos, int numParticles);

@@ -11,14 +11,15 @@ class CTransform;
 
 END
 
-class CBlackOutIn : public CTempUI
+class CWhiteOutIn : public CTempUI
 {
 private:
-	explicit CBlackOutIn(LPDIRECT3DDEVICE9 pGraphicDev);
-	virtual ~CBlackOutIn();
+	explicit CWhiteOutIn(LPDIRECT3DDEVICE9 pGraphicDev);
+	virtual ~CWhiteOutIn();
 
 public:
 	_bool Get_Middle() { return m_bMiddle; }
+
 public:
 	HRESULT Ready_Object() override;
 	_int Update_Object(const _float& fTimeDelta) override;
@@ -32,11 +33,12 @@ private:
 private:
 	CRcTex*			m_pBufferCom = nullptr;
 	CTexture*		m_pTextureCom = nullptr;
-	_float          m_fFrame;
+	_float          m_fFrame = 0.f;
+	_float          m_fPlayModeTime = 0.f;
 	_bool           m_bMiddle = false;
 
 public:
-	static CBlackOutIn*		Create(LPDIRECT3DDEVICE9 pGraphicDev);
+	static CWhiteOutIn*		Create(LPDIRECT3DDEVICE9 pGraphicDev);
 
 private:
 	virtual void Free() override;

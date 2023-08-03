@@ -53,6 +53,7 @@
 #include "EffectWaterMove.h"
 #include "UIOrbClearLight.h"
 #include "EffectFireworkTrace.h"
+#include <UICredit.h>
 
 CVillage::CVillage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
@@ -87,6 +88,9 @@ HRESULT CVillage::Ready_Scene()
 	Engine::Renderer()->Set_FogUse(true);
 	Engine::Renderer()->Set_FogColor(100, 60, 10, 55);
 	Engine::Renderer()->Set_FogDistance(1.f, 130.0f);
+
+	pGameObject = CUICredit::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+	Engine::UIManager()->Add_PopupGameobject(Engine::UIPOPUPLAYER::POPUP_BLACK, Engine::UILAYER::UI_DOWN, pGameObject);
 
 	return S_OK;
 }
@@ -381,10 +385,10 @@ HRESULT CVillage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 	//pGameObject->m_pTransform->Translate(_vec3(0.f, 11.f, -30.f));
 	//pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
-	/*pGameObject = COrb::Create(m_pGraphicDev, true);
+	pGameObject = COrb::Create(m_pGraphicDev, true);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	pGameObject->m_pTransform->Translate(_vec3(0.f, 3.5f, -30.f));
-	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);*/
+	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
 	pGameObject = CAltar::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);

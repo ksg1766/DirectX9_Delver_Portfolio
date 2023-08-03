@@ -224,10 +224,11 @@ _uint CLoading::Loading_ForStage()
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_QuestItemBackGround", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/UIQuestItem/PuzzleBackground.png")), E_FAIL);
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_UIQuestItem",		  CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/UIQuestItem/Puzzle%d.png", 6)), E_FAIL);
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_UIOrbLight",          CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/OrbClearLight/OrbClearLight%d.png", 15)), E_FAIL);
-
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_UIWhite",             CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/WhiteOutIn/white%d.png", 38)), E_FAIL);
 		//Test SpeechBubble
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_SpeechBubbleUI",	CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/Inventory/tooltip/tooltip43.png")), E_FAIL);
 		//FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_PaperUI", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/Paper.png", 1)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_CreditUI", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/UI/Credit.png")), E_FAIL);
 #pragma endregion UI
 
 #pragma region Boss
@@ -295,6 +296,7 @@ _uint CLoading::Loading_ForStage()
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_EffectWaterMove",   CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Effect/Water_effect/Water_effect%d.png", 4)), E_FAIL);
 		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_EffectWaterBubble", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Effect/Water_Bubble/Water_bubble%d.png", 6)), E_FAIL);
 
+		FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Texture_EffectFireWorkMain", CTexture::Create(m_pGraphicDev, TEX_NORMAL, L"../Bin/SRSource/Village/Effect_White.png", 1)), E_FAIL);
 #pragma endregion EFFECT
 
 		//FAILED_CHECK_RETURN(Engine::PrototypeManager()->Ready_Proto(L"Proto_Shader_Cube",				CShader::Create(m_pGraphicDev, TEXT("../Bin/ShaderFiles/Shader_Rect.hlsl"))), E_FAIL);

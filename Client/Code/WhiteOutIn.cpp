@@ -1,16 +1,17 @@
 #include "stdafx.h"
-#include "..\Header\BlackOutIn.h"
+#include "..\Header\WhiteOutIn.h"
+#include "GameManager.h"
 
-CBlackOutIn::CBlackOutIn(LPDIRECT3DDEVICE9 pGraphicDev)
+CWhiteOutIn::CWhiteOutIn(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CTempUI(pGraphicDev)
 {
 }
 
-CBlackOutIn::~CBlackOutIn()
+CWhiteOutIn::~CWhiteOutIn()
 {
 }
 
-HRESULT CBlackOutIn::Ready_Object(void)
+HRESULT CWhiteOutIn::Ready_Object(void)
 {
 	m_eObjectTag = OBJECTTAG::UI;
 	FAILED_CHECK_RETURN(CTempUI::Ready_Object(), E_FAIL); // 초기화
@@ -29,11 +30,14 @@ HRESULT CBlackOutIn::Ready_Object(void)
 	return S_OK;
 }
 
-Engine::_int CBlackOutIn::Update_Object(const _float& fTimeDelta)
+Engine::_int CWhiteOutIn::Update_Object(const _float& fTimeDelta)
 {
 	//_int iExit = CTempUI::Update_Object(fTimeDelta);
+	if (m_IsDead)
+		return 0;
 
-	m_fFrame -= 37.f * fTimeDelta * 2.f;
+	m_fPlayModeTime += 1.f * fTimeDelta;
+	m_fFrame -= 37.f * fTimeDelta;
 
 	if (19.f >= m_fFrame) {
 		m_bMiddle = true;
@@ -41,26 +45,37 @@ Engine::_int CBlackOutIn::Update_Object(const _float& fTimeDelta)
 
 	if (0.f >= m_fFrame) {
 		m_fFrame = 0.f;
+	}
+
+	if (m_fPlayModeTime > 1.5f) {
+		// 엔딩 연출 재생
+		CGameManager::GetInstance()->PlayMode(PD::ClearGame);
+
+		// 엔딩 연출 끝날 시 엔딩 크래딧 씬으로 전환
+
 		m_IsDead = true;
 	}
 
 	return 0;
 }
 
-void CBlackOutIn::LateUpdate_Object(void)
+void CWhiteOutIn::LateUpdate_Object(void)
 {
 	CTempUI::LateUpdate_Object();
 }
 
-void CBlackOutIn::Render_Object(void)
+void CWhiteOutIn::Render_Object(void)
 {
+	//m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB((int)m_fFrame, 255, 255, 255));
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_matWorld);
 
 	m_pTextureCom->Render_Texture(m_fFrame);
 	m_pBufferCom->Render_Buffer();
+
+	//m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
 }
 
-HRESULT CBlackOutIn::Add_Component(void)
+HRESULT CWhiteOutIn::Add_Component(void)
 {
 	CComponent*			pComponent = nullptr;
 
@@ -72,7 +87,7 @@ HRESULT CBlackOutIn::Add_Component(void)
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::TRANSFORM, pComponent);
 
-	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_FadeOut"));
+	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_UIWhite"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
 
@@ -84,24 +99,24 @@ HRESULT CBlackOutIn::Add_Component(void)
 }
 
 
-void CBlackOutIn::Key_Input(void)
+void CWhiteOutIn::Key_Input(void)
 {
 }
 
-void CBlackOutIn::Free()
+void CWhiteOutIn::Free()
 {
 	CTempUI::Free();
 }
 
-CBlackOutIn* CBlackOutIn::Create(LPDIRECT3DDEVICE9 pGraphicDev)
+CWhiteOutIn* CWhiteOutIn::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 {
-	CBlackOutIn*	pInstance = new CBlackOutIn(pGraphicDev);
+	CWhiteOutIn*	pInstance = new CWhiteOutIn(pGraphicDev);
 
 	if (FAILED(pInstance->Ready_Object()))
 	{
 		Safe_Release(pInstance);
 
-		MSG_BOX("BackGround Create Failed");
+		MSG_BOX("CWhiteOutIn Create Failed");
 		return nullptr;
 	}
 

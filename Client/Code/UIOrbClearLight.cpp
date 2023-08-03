@@ -14,6 +14,8 @@
 #include "CameraManager.h"
 #include "GameManager.h"
 #include "Player.h"
+#include <EffectFirework.h>
+#include "WhiteOutIn.h"
 
 CUIOrbClearLight::CUIOrbClearLight(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CTempUI(pGraphicDev)
@@ -65,6 +67,15 @@ _int CUIOrbClearLight::Update_Object(const _float & fTimeDelta)
 		}
 	}
 
+	if (!m_bPadeOutIn && m_fLifeTime > 12.f)
+	{
+		// 흰색 페이드 아웃 인
+		CGameObject* pGameObject = CWhiteOutIn::Create(m_pGraphicDev);
+		dynamic_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_BASIC, 7);
+		Engine::UIManager()->Add_PopupGameobject(Engine::UIPOPUPLAYER::POPUP_BLACK, Engine::UILAYER::UI_DOWN, pGameObject);
+	
+		m_bPadeOutIn = true;
+	}
 	if (!m_bClear && m_fLifeTime > 14.f)
 	{
 		m_bClear = true;
@@ -88,7 +99,7 @@ _int CUIOrbClearLight::Update_Object(const _float & fTimeDelta)
 
 		// 제단 주변 땅 색상 밝게 변경 : 원 이미지 출력
 		CGameObject* pAltarLight = COrbBlockLight::Create(m_pGraphicDev);
-		pAltarLight->m_pTransform->m_vInfo[INFO_POS] = _vec3(m_pAltar->m_pTransform->m_vInfo[INFO_POS].x, m_pAltar->m_pTransform->m_vInfo[INFO_POS].y + 0.0001f, m_pAltar->m_pTransform->m_vInfo[INFO_POS].z);
+		pAltarLight->m_pTransform->m_vInfo[INFO_POS] = _vec3(m_pAltar->m_pTransform->m_vInfo[INFO_POS].x, m_pAltar->m_pTransform->m_vInfo[INFO_POS].y + 0.001f, m_pAltar->m_pTransform->m_vInfo[INFO_POS].z);
 		Engine::EventManager()->CreateObject(pAltarLight, LAYERTAG::GAMELOGIC);
 
 		// 나무 블럭 이미지 교체
@@ -148,12 +159,12 @@ _int CUIOrbClearLight::Update_Object(const _float & fTimeDelta)
 		}
 
 		// 몇초마다 하늘에 폭죽 이펙트 발사
-
-
-		// 엔딩 연출 재생
-		CGameManager::GetInstance()->PlayMode(PD::ClearGame);
-
-		// 엔딩 연출 끝날 시 엔딩 크래딧 씬으로 전환
+		CGameObject* pFirework = nullptr;
+		for (_uint i = 0; i < 7; ++i) {
+			pFirework = CEffectFirework::Create(m_pGraphicDev);
+			pFirework->m_pTransform->m_vInfo[INFO_POS] = _vec3(m_pAltar->m_pTransform->m_vInfo[INFO_POS].x, m_pAltar->m_pTransform->m_vInfo[INFO_POS].y + 0.0001f, m_pAltar->m_pTransform->m_vInfo[INFO_POS].z);
+			Engine::EventManager()->CreateObject(pFirework, LAYERTAG::GAMELOGIC);
+		}
 
 		m_IsDead = true;
 	}

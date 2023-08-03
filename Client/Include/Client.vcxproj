@@ -314,6 +314,7 @@
     <ClInclude Include="..\Header\SpiderRay.h" />
     <ClInclude Include="..\Header\Rock.h" />
     <ClInclude Include="..\Header\UIbosshp.h" />
+    <ClInclude Include="..\Header\UICredit.h" />
     <ClInclude Include="..\Header\UILevelUp.h" />
     <ClInclude Include="..\Header\UILevelUpCard.h" />
     <ClInclude Include="..\Header\UIOrbClearLight.h" />
@@ -463,6 +464,7 @@
     <ClInclude Include="..\Header\WakeUp_BossSkeleton.h" />
     <ClInclude Include="..\Header\Water.h" />
     <ClInclude Include="..\Header\WaterFall.h" />
+    <ClInclude Include="..\Header\WhiteOutIn.h" />
     <ClInclude Include="..\Header\Worm.h" />
     <ClInclude Include="..\Header\Warrior_Attack.h" />
     <ClInclude Include="..\Header\Wizard.h" />
@@ -608,6 +610,7 @@
     <ClCompile Include="..\Code\SpiderRay.cpp" />
     <ClCompile Include="..\Code\Rock.cpp" />
     <ClCompile Include="..\Code\UIbosshp.cpp" />
+    <ClCompile Include="..\Code\UICredit.cpp" />
     <ClCompile Include="..\Code\UILevelUp.cpp" />
     <ClCompile Include="..\Code\UILevelUpCard.cpp" />
     <ClCompile Include="..\Code\UIOrbClearLight.cpp" />
@@ -759,6 +762,7 @@
     <ClCompile Include="..\Code\Water.cpp" />
     <ClCompile Include="..\Code\WaterFall.cpp" />
     <ClCompile Include="..\Code\WaterFallTriger.cpp" />
+    <ClCompile Include="..\Code\WhiteOutIn.cpp" />
     <ClCompile Include="..\Code\Worm.cpp" />
     <ClCompile Include="..\Code\Warrior_Attack.cpp" />
     <ClCompile Include="..\Code\Wizard.cpp" />

@@ -58,8 +58,7 @@ Engine::_int CLogo::Update_Scene(const _float& fTimeDelta)
 	if (m_bClick)
 	{
 		CGameObject* pBlackOut = Engine::UIManager()->Get_BasicObject(UI_UP, UIID_BASIC, 1);
-
-		if (pBlackOut != nullptr && pBlackOut->IsDead() && !m_bFadeEnd)
+		if (pBlackOut != nullptr && dynamic_cast<CBlackOutIn*>(pBlackOut)->Get_Middle() && !m_bFadeEnd)
 		{
 			m_bFadeEnd = true;
 
