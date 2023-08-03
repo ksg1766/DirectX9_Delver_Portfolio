@@ -87,11 +87,6 @@ void CBossFireWave::Set_Dir(_vec3 _vDir)
 void CBossFireWave::OnCollisionEnter(CCollider* _pOther)
 {
 	if (SceneManager()->Get_GameStop()) { return; }
-}
-
-void CBossFireWave::OnCollisionStay(CCollider* _pOther)
-{
-	if (SceneManager()->Get_GameStop()) { return; }
 	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::PLAYER)
 	{
 		CFlyingCamera* pCamera = dynamic_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam());
@@ -105,6 +100,12 @@ void CBossFireWave::OnCollisionStay(CCollider* _pOther)
 		this->Set_AttackTick(true);
 		//Engine::EventManager()->DeleteObject(this);
 	}
+}
+
+void CBossFireWave::OnCollisionStay(CCollider* _pOther)
+{
+	if (SceneManager()->Get_GameStop()) { return; }
+	
 }
 
 void CBossFireWave::OnCollisionExit(CCollider* _pOther)

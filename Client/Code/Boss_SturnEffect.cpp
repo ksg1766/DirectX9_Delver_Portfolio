@@ -49,7 +49,7 @@ _int CBoss_SturnEffect::Update_Object(const _float& fTimeDelta)
 	if (9.f < m_fFrame)
 		m_fFrame = 0.f;
 
-	if (10.f < m_fTime)
+	if (6.f < m_fTime)
 	{
 		m_fTime = 0.f;
 		Engine::EventManager()->DeleteObject(this);

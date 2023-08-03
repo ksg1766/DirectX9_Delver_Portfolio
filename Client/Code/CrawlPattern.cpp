@@ -2,7 +2,7 @@
 #include "Export_Function.h"
 #include "SkeletonKing.h"
 #include "Player.h"
-
+#include "GameManager.h"
 CCrawlPattern::CCrawlPattern()
 {
 }
@@ -27,13 +27,15 @@ HRESULT CCrawlPattern::Ready_State(CStateMachine* pOwner)
 
 STATE CCrawlPattern::Update_State(const _float& fTimeDelta)
 {
-    m_iSkillCount += fTimeDelta;
+   /* m_iSkillCount += fTimeDelta;
     m_fDelay += fTimeDelta;
     m_vTargetPos = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform->m_vInfo[INFO_POS];
     m_vDir = m_vTargetPos - m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
 
-    dynamic_cast<CSkeletonKing*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->m_pTransform->Translate(m_vDir * fTimeDelta * m_fSpeed);
-	return STATE::BOSS_CRAWL;
+    dynamic_cast<CSkeletonKing*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->m_pTransform->Translate(m_vDir * fTimeDelta * m_fSpeed);*/
+    m_fDelay += fTimeDelta;
+    if(PD::HekirekiIssen_SideView == CGameManager::GetInstance()->Get_PlayMode())
+        return STATE::BOSS_DYING;
 }
 
 void CCrawlPattern::LateUpdate_State()

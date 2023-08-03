@@ -24,6 +24,8 @@ private:
 private:
     //º¯¼ö
     _bool   m_bMusic;
+    _bool   m_bSummon;
+    _vec3   m_vSummonPos[8];
 public:
     static CBoss_Sleep* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
 

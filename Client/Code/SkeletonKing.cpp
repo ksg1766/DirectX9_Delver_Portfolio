@@ -55,7 +55,7 @@ HRESULT CSkeletonKing::Ready_Object(void)
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 	m_pRigidBody->UseGravity(false);
 	m_pTransform->Scale(_vec3(3.f, 3.f, 3.f));
-	//m_pBasicStat->Get_Stat()->fHP = 100.f;
+	m_pBasicStat->Get_Stat()->fHP = 100.f;
 	Init_Stat();
 	m_ePhase = BOSSPHASE::PHASE1;
 	m_iHitCount = 0;
@@ -66,6 +66,7 @@ HRESULT CSkeletonKing::Ready_Object(void)
 	m_b3Phase = false;
 	m_bMove = false;
 	m_iCloneCount = 0;
+	m_bHekiReki = true;//
 #pragma region 상태
 
 	//상태추가
@@ -252,7 +253,7 @@ HRESULT CSkeletonKing::Ready_Object(void)
 	m_pAnimator->Add_Animation(STATE::BOSS_TELEPORT, pAnimation);
 
 	pAnimation = CAnimation::Create(m_pGraphicDev,
-		m_pTexture[(_uint)STATE::BOSS_CRAWL], STATE::BOSS_CRAWL, 4.f, TRUE);
+		m_pTexture[(_uint)STATE::BOSS_WAKEUP], STATE::BOSS_CRAWL, 4.f, FALSE);
 	m_pAnimator->Add_Animation(STATE::BOSS_CRAWL, pAnimation);
 
 	pAnimation = CAnimation::Create(m_pGraphicDev,
@@ -275,7 +276,6 @@ HRESULT CSkeletonKing::Ready_Object(void)
 
 	m_pStateMachine->Set_Animator(m_pAnimator);
 	m_pStateMachine->Set_State(STATE::BOSS_SLEEP);
-	//m_pStateMachine->Set_State(STATE::BOSS_DEAD);
 	m_pCollider->InitOBB(m_pTransform->m_vInfo[INFO_POS], &m_pTransform->m_vInfo[INFO_RIGHT], m_pTransform->LocalScale());
 	return S_OK;
 }

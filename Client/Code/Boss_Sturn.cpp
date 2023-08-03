@@ -52,7 +52,7 @@ STATE CBoss_Sturn::Update_State(const _float& fTimeDelta)
         Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
         m_bStar = true;
     }
-    if (10.f < m_fCount)
+    if (6.f < m_fCount)
     {
         CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_BOSS);
         CSoundManager::GetInstance()->PlaySound(L"Boss_Attack1.wav", CHANNELID::SOUND_BOSS, 1.f);

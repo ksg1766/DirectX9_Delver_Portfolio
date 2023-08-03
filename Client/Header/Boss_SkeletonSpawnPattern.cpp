@@ -86,6 +86,8 @@ void CBoss_SkeletonSpawnPattern::Spawn_Skeleton()
         pGameObject = CSkeleton::Create(m_pGraphicDev);
        // dynamic_cast<CSkeleton*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = m_pOwner->Get_Transform()->m_vInfo[INFO_POS] + m_vSpawnPos1[i];
         dynamic_cast<CSkeleton*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = Engine::SceneManager()->Get_Scene()->Get_MainPlayer()->m_pTransform->m_vInfo[INFO_POS] + m_vSpawnPos1[i];
+        dynamic_cast<CSkeleton*>(pGameObject)->Get_BasicStat()->Get_Stat()->iExpMax = 0.f;
+        dynamic_cast<CSkeleton*>(pGameObject)->Get_BasicStat()->Get_Stat()->iExp = 0.f;
         dynamic_cast<CSkeleton*>(pGameObject)->Get_BasicStat()->Get_Stat()->fHP = 3.f;
         dynamic_cast<CSkeleton*>(pGameObject)->Set_CenterPos(_vec3(m_pOwner->Get_Transform()->m_vInfo[INFO_POS].x + m_vSpawnPos1[i].x/2 ,35.f, m_pOwner->Get_Transform()->m_vInfo[INFO_POS].z + m_vSpawnPos1[i].z/2));
         dynamic_cast<CSkeleton*>(pGameObject)->Set_MoveRange(10.f);

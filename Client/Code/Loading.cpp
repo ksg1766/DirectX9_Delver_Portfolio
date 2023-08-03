@@ -452,7 +452,7 @@ _uint CLoading::Loading_ForStage()
 		//FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/Boss/.wav", ".wav"), E_FAIL);
 
 		//KingSpider
-		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/KingSpider/KingSpider_Appear.mp3", ".KingSpider_Appear.mp3"), E_FAIL);
+		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/KingSpider/KingSpider_Appear.mp3", "KingSpider_Appear.mp3"), E_FAIL);
 		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/KingSpider/KingSpider_Attack1.wav", "KingSpider_Attack1.wav"), E_FAIL);
 		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/KingSpider/KingSpider_Attack2.wav", "KingSpider_Attack2.wav"), E_FAIL);
 		FAILED_CHECK_RETURN(CSoundManager::GetInstance()->LoadSound("../Bin/SRSource/Sound/KingSpider/KingSpider_Attack3.wav", "KingSpider_Attack3.wav"), E_FAIL);

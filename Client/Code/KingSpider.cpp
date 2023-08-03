@@ -107,12 +107,6 @@ _int CKingSpider::Update_Object(const _float& fTimeDelta)
 	Engine::Renderer()->Add_RenderGroup(RENDER_ALPHA, this); 
 	if (SceneManager()->Get_GameStop()) { return 0; }
 	_int iExit = __super::Update_Object(fTimeDelta);
-	
-	if (InputDev()->Key_Down(DIK_0))
-		m_pStateMachine->Set_State(STATE::BOSS_TELEPORT);
-
-	if (InputDev()->Key_Down(DIK_9))
-		m_pStateMachine->Set_State(STATE::BOSS_WAKEUP);
 
 	m_pStateMachine->Update_StateMachine(fTimeDelta);
 	

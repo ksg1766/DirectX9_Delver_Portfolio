@@ -25,6 +25,7 @@ private:
 private:
     //º¯¼ö
     _float          m_fDelay;
+    _bool           m_bSound;
 public:
     static CBoss_Dying* Create(LPDIRECT3DDEVICE9 pGraphicDev, CStateMachine* pOwner);
 
