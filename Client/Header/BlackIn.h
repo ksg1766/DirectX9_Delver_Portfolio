@@ -30,7 +30,7 @@ private:
 private:
 	CRcTex*			m_pBufferCom = nullptr;
 	CTexture*		m_pTextureCom = nullptr;
-	_int            m_fFrame = 19.f;
+	_float          m_fFrame = 19.f;
 
 public:
 	static CBlackIn*		Create(LPDIRECT3DDEVICE9 pGraphicDev);

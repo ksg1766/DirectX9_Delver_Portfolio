@@ -219,10 +219,7 @@ _bool CInputDev::Get_AnyKeyDown()
 		|| Key_Down(DIK_VOLUMEUP)
 		|| Key_Down(DIK_WEBHOME)
 		|| Key_Down(DIK_NUMPADCOMMA)
-		|| Key_Down(DIK_DIVIDE)
-		|| Mouse_Down(DIM_LB)
-		|| Mouse_Down(DIM_RB)
-		|| Mouse_Down(DIM_MB))
+		|| Key_Down(DIK_DIVIDE))
 	{
 		return true;
 	}

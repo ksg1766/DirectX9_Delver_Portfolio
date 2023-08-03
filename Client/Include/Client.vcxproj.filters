@@ -991,6 +991,12 @@
     <Filter Include="03. GameObject\07. Effect\25. EffectFirework">
       <UniqueIdentifier>{a32f08c2-1b82-46ee-86a8-3776ffabad82}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. GameObject\02. Village\10. WhiteOutIn">
+      <UniqueIdentifier>{d60724cf-3a28-4ff4-a286-8921ac56c7c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\03. UI\22. UICredit">
+      <UniqueIdentifier>{8903f16b-7e77-41ce-8796-47e46e3ba5f7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -1937,6 +1943,12 @@
     <ClInclude Include="..\Header\EffectFirework.h">
       <Filter>03. GameObject\07. Effect\25. EffectFirework</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\WhiteOutIn.h">
+      <Filter>03. GameObject\02. Village\10. WhiteOutIn</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\UICredit.h">
+      <Filter>03. GameObject\03. UI\22. UICredit</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -2843,6 +2855,12 @@
     </ClCompile>
     <ClCompile Include="..\Code\EffectFirework.cpp">
       <Filter>03. GameObject\07. Effect\25. EffectFirework</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\WhiteOutIn.cpp">
+      <Filter>03. GameObject\02. Village\10. WhiteOutIn</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UICredit.cpp">
+      <Filter>03. GameObject\03. UI\22. UICredit</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

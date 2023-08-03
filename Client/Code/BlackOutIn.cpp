@@ -36,11 +36,12 @@ Engine::_int CBlackOutIn::Update_Object(const _float& fTimeDelta)
 	m_fFrame -= 37.f * fTimeDelta * 2.f;
 
 	if (19.f >= m_fFrame) {
-		m_IsDead = true;
+		m_bMiddle = true;
 	}
 
 	if (0.f >= m_fFrame) {
 		m_fFrame = 0.f;
+		m_IsDead = true;
 	}
 
 	return 0;

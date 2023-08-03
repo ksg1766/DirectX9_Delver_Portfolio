@@ -42,6 +42,7 @@ private:
 	float m_fFinal; 
 	float m_fFrameSpeed;
 	_bool m_bAnimation = true;
+	_bool m_bPadeOutIn = false;
 
 public:
 	static CUIOrbClearLight*	Create(LPDIRECT3DDEVICE9 pGraphicDev);

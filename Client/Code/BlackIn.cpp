@@ -36,7 +36,7 @@ Engine::_int CBlackIn::Update_Object(const _float& fTimeDelta)
 	if (m_IsDead)
 		return 0;
 
-	m_fFrame -= 20.f * fTimeDelta * 0.0000029f;
+	m_fFrame -= 1.f * fTimeDelta * 10.f;
 
 	if (0.f >= m_fFrame)
 	{

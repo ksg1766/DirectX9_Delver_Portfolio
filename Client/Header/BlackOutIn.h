@@ -18,6 +18,8 @@ private:
 	virtual ~CBlackOutIn();
 
 public:
+	_bool Get_Middle() { return m_bMiddle; }
+public:
 	HRESULT Ready_Object() override;
 	_int Update_Object(const _float& fTimeDelta) override;
 	void LateUpdate_Object(void) override;
@@ -30,7 +32,8 @@ private:
 private:
 	CRcTex*			m_pBufferCom = nullptr;
 	CTexture*		m_pTextureCom = nullptr;
-	_int            m_fFrame;
+	_float          m_fFrame;
+	_bool           m_bMiddle = false;
 
 public:
 	static CBlackOutIn*		Create(LPDIRECT3DDEVICE9 pGraphicDev);

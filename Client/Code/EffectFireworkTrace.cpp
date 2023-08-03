@@ -34,7 +34,7 @@ HRESULT CEffectFireworkTrace::Ready_Object(_vec3 vOriginPos, int numParticles)
 	EffectBox.vMax = { 100.f, 100.f, 100.f };
 
 	m_vOrigin = vOriginPos;
-	m_fSize = 0.05f;
+	m_fSize = 0.1f;
 	m_vbSize = 2048;
 	m_vbOffset = 0;
 	m_vbBatchSize = 512;
@@ -47,8 +47,8 @@ HRESULT CEffectFireworkTrace::Ready_Object(_vec3 vOriginPos, int numParticles)
 	CTempParticle::Ready_Object(pPath);
 
 	// 사운드 재생
-	CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_EFFECT);
-	CSoundManager::GetInstance()->PlaySound(L"Firework_02", CHANNELID::SOUND_EFFECT, 1.f);
+	CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_EFFECT2);
+	CSoundManager::GetInstance()->PlaySound(L"Firework_02", CHANNELID::SOUND_EFFECT2, 1.f);
 
 	return S_OK;
 }
@@ -72,7 +72,7 @@ void CEffectFireworkTrace::Initial_Particle(ParticleAttribute* _attribute)
 		&_attribute->vVelocity,
 		&_attribute->vVelocity);
 
-	_attribute->vVelocity *= 5.0f;
+	_attribute->vVelocity *= Get_RandomFloat(2.0f, 4.0f),
 
 	_attribute->Color = D3DXCOLOR(
 		Get_RandomFloat(0.0f, 1.0f),
@@ -83,20 +83,25 @@ void CEffectFireworkTrace::Initial_Particle(ParticleAttribute* _attribute)
 
 	_attribute->fAge = 0.0f;
 	_attribute->fLifeTime = 3.0f;
+	m_fDieTime  = Get_RandomFloat(3.f, 10.f);
+	m_fMoveTime = Get_RandomFloat(.1f, .5f);
 }
 
 _int CEffectFireworkTrace::Update_Object(const _float& fTimeDelta)
 {
-	m_fTime += 5.f * fTimeDelta;
+	m_fTime += 1.f * fTimeDelta;
 
-	if (m_fTime > 2.f)
+	if (m_fTime > m_fDieTime)
 		Engine::EventManager()->DeleteObject(this);
 
 	for (auto& iter : m_ParticleList)
 	{
 		if (iter.bAlive)
 		{
-			iter.vPosition += iter.vVelocity * fTimeDelta;
+			if(m_fTime < m_fMoveTime)
+				iter.vPosition += iter.vVelocity * fTimeDelta;
+			else
+				iter.vPosition += (iter.vVelocity / 2) * fTimeDelta;
 
 			iter.fAge += fTimeDelta;
 

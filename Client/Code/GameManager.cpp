@@ -11,6 +11,8 @@
 #include "EffectSwordTrail.h"
 #include "EffectSwordLightning.h"
 #include "EffectSwordParticles.h"
+#include <BlackOutIn.h>
+#include <UICredit.h>
 
 IMPLEMENT_SINGLETON(CGameManager)
 
@@ -653,7 +655,7 @@ void CGameManager::ClearGame(const _float& fTimeDelta)
 		D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_RIGHT], D3DXVec3Cross(&_vec3(), &_vec3(0.f, 1.f, 0.f), &m_pCamera->m_pTransform->m_vInfo[INFO_LOOK]));
 		D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_UP], D3DXVec3Cross(&_vec3(), &m_pCamera->m_pTransform->m_vInfo[INFO_LOOK], &m_pCamera->m_pTransform->m_vInfo[INFO_RIGHT]));
 
-		CSoundManager::GetInstance()->StopAll();
+		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_BGM);
 		CSoundManager::GetInstance()->PlayBGM(L"Silian'sTheme", 1.f);
 
 		++m_iVisitCount;
@@ -775,12 +777,27 @@ void CGameManager::ClearGame(const _float& fTimeDelta)
 	}
 	else if (7 == m_iVisitCount)
 	{
-		if (m_fTimer > -210.f)
+		if (m_fTimer > - 55.f) //-210
 		{
 			CCameraManager::GetInstance()->LookAtTarget(_vec3(11.5f, 100.f, -22.f), 0.001f * fTimeDelta);
 		}
 		else
 		{
+			Engine::CGameObject* pGameObject = CBlackOutIn::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+			dynamic_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_BASIC, 10);
+			Engine::UIManager()->Add_PopupGameobject(Engine::UIPOPUPLAYER::POPUP_BLACK, Engine::UILAYER::UI_UP, pGameObject);
+
+			++m_iVisitCount;
+		}
+	}
+	else if (8 == m_iVisitCount)
+	{
+	    CGameObject* pBlackOut = Engine::UIManager()->Get_PopupObject(POPUP_BLACK, UI_UP, UIID_BASIC, 10);
+	    if (pBlackOut != nullptr && dynamic_cast<CBlackOutIn*>(pBlackOut)->Get_Middle()) {
+	    	// 农饭调 UI 积己
+			Engine::CGameObject* pGameObject = CUICredit::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
+	    	Engine::UIManager()->Add_PopupGameobject(Engine::UIPOPUPLAYER::POPUP_BLACK, Engine::UILAYER::UI_DOWN, pGameObject);
+	    
 			m_iVisitCount = 0;
 
 			m_fTimer = 10.f;
@@ -788,9 +805,8 @@ void CGameManager::ClearGame(const _float& fTimeDelta)
 			m_ePrev_PD = PD::Normal;
 
 			CInputDev::GetInstance()->Lock_Input(false);
-
-			return;
-		}
+	    	return;
+	    }
 	}
 
 	m_fTimer -= fTimeDelta;
