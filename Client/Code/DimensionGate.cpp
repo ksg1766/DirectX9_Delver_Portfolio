@@ -90,6 +90,7 @@ void CDimensionGate::OnCollisionEnter(CCollider* _pOther)
 
 		if (pItem != nullptr)
 		{
+			Engine::UIManager()->Hide_PopupUI(Engine::UIPOPUPLAYER::POPUP_BOSSHP);
 			CSoundManager::GetInstance()->PlaySound(L"door_beginning.mp3", CHANNELID::SOUND_ENVIRONMENT, 1.f);
 
 			SceneManager()->Get_Scene()->Get_MainPlayer()->Get_RigidBody()->Set_Force(_vec3(0.f, 0.f, 0.f));

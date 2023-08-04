@@ -37,9 +37,9 @@ STATE CBoss_Dead::Update_State(const _float& fTimeDelta)
     if (0.f >= m_fSound)
     {
         CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_BGM);
-
+        Engine::UIManager()->Hide_PopupUI(Engine::UIPOPUPLAYER::POPUP_BOSSHP);
     }
-
+    
     return STATE::BOSS_DEAD;
 
 }

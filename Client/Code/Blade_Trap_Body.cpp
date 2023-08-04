@@ -55,7 +55,7 @@ HRESULT CBlade_Trap::Ready_Object(void)
 
 _int CBlade_Trap::Update_Object(const _float& fTimeDelta)
 {
-	Engine::Renderer()->Add_RenderGroup(RENDER_NONALPHA, this);
+	Engine::Renderer()->Add_RenderGroup(RENDER_ALPHA, this);
 
 	_uint iExit = 0;
 	if (SCENETAG::EDITOR == SceneManager()->Get_Scene()->Get_SceneTag())

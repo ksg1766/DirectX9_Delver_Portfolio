@@ -33,8 +33,8 @@ _int CUICredit::Update_Object(const _float& fTimeDelta)
 	if (m_IsDead)
 		return 0;
 
-	//if(m_pTransform->m_vInfo[INFO_POS].y < 2880.f)
-		//m_pTransform->m_vInfo[INFO_POS].y += 1.f * fTimeDelta * 100.f;
+	if(m_pTransform->m_vInfo[INFO_POS].y < 2880.f)
+		m_pTransform->m_vInfo[INFO_POS].y += 1.f * fTimeDelta * 100.f;
 
 	_int iExit = CTempUI::Update_Object(fTimeDelta);
 
