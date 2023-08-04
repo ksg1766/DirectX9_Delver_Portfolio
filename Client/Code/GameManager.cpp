@@ -187,7 +187,7 @@ void CGameManager::ShowSewer(const _float& fTimeDelta)
 {
 	if (!m_iVisitCount && m_fTimer == 10.f)
 	{
-		Engine::Renderer()->Set_FogDistance(1.f, 140.0f);
+		Engine::Renderer()->Set_FogDistance(1.f, 170.0f);
 
 		static_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam())->Change_Mode();
 		m_pCamera->m_pTransform->m_vInfo[INFO_POS] = _vec3(32.05f, 14.01f, -76.38f);
@@ -262,7 +262,7 @@ void CGameManager::ShowSewer(const _float& fTimeDelta)
 			m_ePrev_PD = PD::Normal;
 
 			CInputDev::GetInstance()->Lock_Input(false);
-			Engine::Renderer()->Set_FogDistance(1.f, 110.0f);
+			Engine::Renderer()->Set_FogDistance(1.f, 50.0f);
 
 			CGameObject* pGameObject = CUITitle::Create(Engine::CGraphicDev::GetInstance()->Get_GraphicDev());
 			NULL_CHECK(pGameObject, E_FAIL);
@@ -283,7 +283,7 @@ void CGameManager::ShowTower(const _float& fTimeDelta)
 		m_pCamera->Change_Mode();
 		m_pCamera->m_pTransform->m_vInfo[INFO_POS] = _vec3(48.f, 72.f, 47.5f);
 	}
-	else if (m_fTimer > 3.f)
+	else if (m_fTimer > 5.f)
 	{
 		CCameraManager::GetInstance()->LookAtTarget(_vec3(32.f, 194.f, 34.f), fTimeDelta);
 		m_pCamera->m_pTransform->Translate(4.f * fTimeDelta * _vec3(0.f, 1.f, 0.f));
@@ -292,7 +292,7 @@ void CGameManager::ShowTower(const _float& fTimeDelta)
 		D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_RIGHT], D3DXVec3Cross(&_vec3(), &_vec3(0.f, 1.f, 0.f), &m_pCamera->m_pTransform->m_vInfo[INFO_LOOK]));
 		D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_UP], D3DXVec3Cross(&_vec3(), &m_pCamera->m_pTransform->m_vInfo[INFO_LOOK], &m_pCamera->m_pTransform->m_vInfo[INFO_RIGHT]));
 	}
-	else if (m_fTimer > 0.5f)
+	else if (m_fTimer > 2.5f)
 	{
 		CCameraManager::GetInstance()->ZoomOutToTrans(m_pPlayer->m_pTransform, fTimeDelta);
 	}

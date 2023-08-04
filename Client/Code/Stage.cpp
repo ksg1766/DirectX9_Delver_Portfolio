@@ -86,7 +86,7 @@ HRESULT CStage::Ready_Scene()
 
 	Engine::Renderer()->Set_FogUse(true);
 	Engine::Renderer()->Set_FogColor(1, 5, 25, 40);
-	Engine::Renderer()->Set_FogDistance(1.f, 110.0f);
+	Engine::Renderer()->Set_FogDistance(1.f, 80.0f);
 
 	return S_OK;
 }
