@@ -93,8 +93,8 @@ void CBlade_Trap::Render_Object(void)
 	m_pTexture->Render_Texture();
 	m_pCubeBf->Render_Buffer();
 
-	for (int i = 0; i < 9; ++i)
-		m_vecTrapBlade[i]->Render_Object();
+	//for (int i = 0; i < 9; ++i)
+	//	m_vecTrapBlade[i]->Render_Object();
 }
 
 void CBlade_Trap::Create_Blade()

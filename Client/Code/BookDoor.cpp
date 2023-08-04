@@ -80,7 +80,7 @@ _int CBookDoor::Update_Object(const _float& fTimeDelta)
 		m_fFinalRight = m_vecFrontDoorCube[0]->m_pTransform->m_vInfo[INFO_POS].z - 2.f;
 		m_fFinalLeft = m_vecFrontDoorCube[3]->m_pTransform->m_vInfo[INFO_POS].z + 2.f;
 
-		m_fFinalUp = m_vecBackDoorCube[15]->m_pTransform->m_vInfo[INFO_POS].y + 2.f;
+		m_fFinalUp = m_vecBackDoorCube[15]->m_pTransform->m_vInfo[INFO_POS].y + 1;
 		m_fFinalDown = m_vecBackDoorCube[0]->m_pTransform->m_vInfo[INFO_POS].y - 2.f;
 
 	}
@@ -149,7 +149,10 @@ _int CBookDoor::Update_Object(const _float& fTimeDelta)
 			if (iCurrentIndex == 2)
 			{
 				if (m_fFinalLeft <= (*iter)->m_pTransform->m_vInfo[INFO_POS].z)
+				{
 					m_bTriger = false;
+					m_bDelete = true;
+				}
 			}
 		}
 
@@ -165,25 +168,29 @@ _int CBookDoor::Update_Object(const _float& fTimeDelta)
 				{
 					// TODO
 					// : Y축 하강
-
+	
 					_float fNewDownPos = (*iter)->m_pTransform->m_vInfo[INFO_POS].y - 1 * (m_fFinalDown - (*iter)->m_pTransform->m_vInfo[INFO_POS].y);
 
-					if (m_fFinalDown <= (*iter)->m_pTransform->m_vInfo[INFO_POS].y)
-						(*iter)->m_pTransform->m_vInfo[INFO_POS].y -= fNewDownPos * fTimeDelta * 0.05f;
-
+					if (fNewDownPos >= 0.05f)
+						(*iter)->m_pTransform->m_vInfo[INFO_POS].y -= 0.5 * fTimeDelta;
 				}
-
 				if (iCurrentIndex == 8 || iCurrentIndex == 9 || iCurrentIndex == 10 || iCurrentIndex == 11
 					|| iCurrentIndex == 12 || iCurrentIndex == 13 || iCurrentIndex == 14 || iCurrentIndex == 15)
 				{
 					// TODO
 					// : Y축 상승 
 
-					_float fNewUpPos = (*iter)->m_pTransform->m_vInfo[INFO_POS].y + 1 *
-						(m_fFinalUp - (*iter)->m_pTransform->m_vInfo[INFO_POS].y);
+					_float fNewDownPos = (*iter)->m_pTransform->m_vInfo[INFO_POS].y + 1 * (m_fFinalUp - (*iter)->m_pTransform->m_vInfo[INFO_POS].y);
 
-					if (m_fFinalUp >= (*iter)->m_pTransform->m_vInfo[INFO_POS].y)
-						(*iter)->m_pTransform->m_vInfo[INFO_POS].y += fNewUpPos * fTimeDelta * 0.05f;
+					if (fNewDownPos >= 0.05f)
+						(*iter)->m_pTransform->m_vInfo[INFO_POS].y += 0.5 * fTimeDelta;
+
+
+					//_float fNewUpPos = (*iter)->m_pTransform->m_vInfo[INFO_POS].y + 1 *
+					//	(m_fFinalUp - (*iter)->m_pTransform->m_vInfo[INFO_POS].y);
+
+					//if (m_fFinalUp >= (*iter)->m_pTransform->m_vInfo[INFO_POS].y)
+					//	(*iter)->m_pTransform->m_vInfo[INFO_POS].y += fNewUpPos * fTimeDelta * 0.05f;
 				}
 			}
 		}
@@ -193,6 +200,20 @@ _int CBookDoor::Update_Object(const _float& fTimeDelta)
 
 		for (auto iter = m_vecBackDoorCube.begin(); iter != m_vecBackDoorCube.end(); ++iter)
 			(*iter)->LateUpdate_Object();
+	}
+
+
+	if (m_bDelete)
+	{
+
+		for_each(m_vecFrontDoorCube.begin(), m_vecFrontDoorCube.end(), CDeleteObj());
+		m_vecFrontDoorCube.clear();
+
+
+		for_each(m_vecBackDoorCube.begin(), m_vecBackDoorCube.end(), CDeleteObj());
+		m_vecBackDoorCube.clear();
+
+		m_bDelete = false;
 	}
 	
 	return iExit;

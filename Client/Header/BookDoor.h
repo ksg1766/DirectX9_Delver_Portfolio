@@ -45,6 +45,9 @@ private:
 	_bool	  m_bBgmStop = false;
 	_bool	  m_bDoorOpen = false;
 	_bool	  m_bDoorClose = false;
+	_bool	  m_bDelete = false;
+
+	_float	  m_fCurrentDistance;
 
 	_bool	  m_bCreate2 = true;
 	

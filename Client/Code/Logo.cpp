@@ -105,7 +105,7 @@ void CLogo::Free()
 
 CLogo* CLogo::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 {
-	CLogo*	pInstance = new CLogo(pGraphicDev);
+ 	CLogo*	pInstance = new CLogo(pGraphicDev);
 
 	if (FAILED(pInstance->Ready_Scene()))
 	{
