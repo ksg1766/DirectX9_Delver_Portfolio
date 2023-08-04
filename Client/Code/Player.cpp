@@ -1239,7 +1239,7 @@ void CPlayer::Add_Exp(CGameObject* pExp)
 		m_pStat->Get_Stat()->fHP = m_pStat->Get_Stat()->fMaxHP;
 
 		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_PLAYER);
-		CSoundManager::GetInstance()->PlaySound(L"levelup.mp3", CHANNELID::SOUND_PLAYER, 0.7f);
+		CSoundManager::GetInstance()->PlaySound(L"levelup.mp3", CHANNELID::SOUND_PLAYER, 1.f);
 
 		Engine::UIManager()->Show_PopupUI(Engine::UIPOPUPLAYER::POPUP_LEVELUP);
 	}

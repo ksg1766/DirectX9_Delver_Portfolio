@@ -187,6 +187,8 @@ void CGameManager::ShowSewer(const _float& fTimeDelta)
 {
 	if (!m_iVisitCount && m_fTimer == 10.f)
 	{
+		Engine::Renderer()->Set_FogDistance(1.f, 140.0f);
+
 		static_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam())->Change_Mode();
 		m_pCamera->m_pTransform->m_vInfo[INFO_POS] = _vec3(32.05f, 14.01f, -76.38f);
 		D3DXVec3Normalize(&m_pCamera->m_pTransform->m_vInfo[INFO_LOOK], &(_vec3(35.13f, 09.59f, -82.84f) - m_pCamera->m_pTransform->m_vInfo[INFO_POS]));
@@ -260,7 +262,7 @@ void CGameManager::ShowSewer(const _float& fTimeDelta)
 			m_ePrev_PD = PD::Normal;
 
 			CInputDev::GetInstance()->Lock_Input(false);
-
+			Engine::Renderer()->Set_FogDistance(1.f, 110.0f);
 
 			CGameObject* pGameObject = CUITitle::Create(Engine::CGraphicDev::GetInstance()->Get_GraphicDev());
 			NULL_CHECK(pGameObject, E_FAIL);
@@ -546,6 +548,7 @@ void CGameManager::MeteorExplosion(const _float& fTimeDelta)
 	{
 		SceneManager()->SlowMode(2.f, 2.f);
 		CSoundManager::GetInstance()->SetChannelVolume(CHANNELID::SOUND_BGM, 0.2f);
+		CSoundManager::GetInstance()->SetChannelVolume(CHANNELID::SOUND_WIZARD, 0.2f);
 		CSoundManager::GetInstance()->PlaySound(L"BassDrop", CHANNELID::SOUND_EFFECT2, 1.0f);
 	}
 	else if (m_fTimer > 7.5f)
@@ -560,6 +563,7 @@ void CGameManager::MeteorExplosion(const _float& fTimeDelta)
 		m_ePrev_PD = PD::Normal;
 
 		CSoundManager::GetInstance()->SetChannelVolume(SOUND_BGM, 1.f);
+		CSoundManager::GetInstance()->SetChannelVolume(CHANNELID::SOUND_WIZARD, 1.f);
 
 		return;
 	}

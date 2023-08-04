@@ -45,7 +45,7 @@ HRESULT CBossStage::Ready_Scene()
 	m_pGraphicDev->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
 
 	CSoundManager::GetInstance()->StopAll();
-	CSoundManager::GetInstance()->PlayBGM(L"DK-7.mp3", 0.7f);
+	CSoundManager::GetInstance()->PlayBGM(L"DK-7.mp3", 1.f);
 
 	Engine::Renderer()->Set_FogUse(true);
 	Engine::Renderer()->Set_FogColor(1, 100, 0, 0);
