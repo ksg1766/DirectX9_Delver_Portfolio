@@ -36,7 +36,7 @@ HRESULT CBossStage::Ready_Scene()
 {
 	Engine::CGameObject* pGameObject = CBlackIn::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	dynamic_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_BASIC, 0);
+	static_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_BASIC, 0);
 	Engine::UIManager()->Add_PopupGameobject(Engine::UIPOPUPLAYER::POPUP_BLACK, Engine::UILAYER::UI_DOWN, pGameObject);
 
 	m_eSceneTag = SCENETAG::BOSSSTAGE;
@@ -92,7 +92,7 @@ Engine::_int CBossStage::Update_Scene(const _float& fTimeDelta)
 		CGameObject* pGameObject = nullptr;
 		if(3.f< m_fGateTime)
 		{	
-			CFlyingCamera* pCamera = dynamic_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam());
+			CFlyingCamera* pCamera = static_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam());
 			pCamera->Set_ShakeForce(0.f, 0.02f, 2.f, 2.f);
 			pCamera->Shake_Camera();
 
@@ -100,7 +100,7 @@ Engine::_int CBossStage::Update_Scene(const _float& fTimeDelta)
 			CSoundManager::GetInstance()->PlaySound(L"KingSpider_Appear.mp3", CHANNELID::SOUND_BOSS, 1.f);
 
 			pGameObject = CDimensionGate::Create(m_pGraphicDev);
-			dynamic_cast<CDimensionGate*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = _vec3(-100.f, 32.f, 1.f);
+			static_cast<CDimensionGate*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = _vec3(-100.f, 32.f, 1.f);
 			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 			m_bGate = true;
 		}
@@ -109,7 +109,7 @@ Engine::_int CBossStage::Update_Scene(const _float& fTimeDelta)
 			m_bOrbSPawn = true;
 			pGameObject = COrb::Create(m_pGraphicDev, true);
 			NULL_CHECK_RETURN(pGameObject, E_FAIL);
-			dynamic_cast<COrb*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = _vec3(-77.f, 34.5f, 2.f);
+			static_cast<COrb*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = _vec3(-77.f, 34.5f, 2.f);
 			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 		}
 	}
@@ -122,7 +122,7 @@ Engine::_int CBossStage::Update_Scene(const _float& fTimeDelta)
 	UIManager()->Update_UI(fTimeDelta);
 	if (10.f >= pPlayer->m_pTransform->m_vInfo[INFO_POS].y)
 	{
-		switch (dynamic_cast<CSkeletonKing*>(m_pBoss)->Get_Phase())
+		switch (static_cast<CSkeletonKing*>(m_pBoss)->Get_Phase())
 		{
 		case BOSSPHASE::PHASE1:
 			pPlayer->m_pTransform->m_vInfo[INFO_POS] = _vec3(100.f, 22.f, 0.f);
@@ -267,9 +267,9 @@ HRESULT CBossStage::Ready_Layer_UI(LAYERTAG _eLayerTag)
 		NULL_CHECK_RETURN(pGameObject, E_FAIL);
 		pGameObject->m_pTransform->m_vInfo[INFO_POS].x = 520.f + (60.f * i);
 		pGameObject->m_pTransform->m_vInfo[INFO_POS].y = WINCY - 30.f;
-		dynamic_cast<CTempUI*>(pGameObject)->WorldMatrix(pGameObject->m_pTransform->m_vInfo[INFO_POS].x, pGameObject->m_pTransform->m_vInfo[INFO_POS].y, pGameObject->m_pTransform->m_vLocalScale.x, pGameObject->m_pTransform->m_vLocalScale.y);
-		dynamic_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_SLOTBASIC, i);
-		dynamic_cast<CTempUI*>(pGameObject)->Set_Setup(true);
+		static_cast<CTempUI*>(pGameObject)->WorldMatrix(pGameObject->m_pTransform->m_vInfo[INFO_POS].x, pGameObject->m_pTransform->m_vInfo[INFO_POS].y, pGameObject->m_pTransform->m_vLocalScale.x, pGameObject->m_pTransform->m_vLocalScale.y);
+		static_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_SLOTBASIC, i);
+		static_cast<CTempUI*>(pGameObject)->Set_Setup(true);
 		Engine::UIManager()->Add_BasicGameobject(Engine::UILAYER::UI_DOWN, pGameObject);
 	}
 
@@ -285,9 +285,9 @@ HRESULT CBossStage::Ready_Layer_UI(LAYERTAG _eLayerTag)
 			NULL_CHECK_RETURN(pGameObject, E_FAIL);
 			pGameObject->m_pTransform->m_vInfo[INFO_POS].x = 350.f + (60.f * ix);
 			pGameObject->m_pTransform->m_vInfo[INFO_POS].y = WINCY - 135.f - (60.f * iy);
-			dynamic_cast<CTempUI*>(pGameObject)->WorldMatrix(pGameObject->m_pTransform->m_vInfo[INFO_POS].x, pGameObject->m_pTransform->m_vInfo[INFO_POS].y, pGameObject->m_pTransform->m_vLocalScale.x, pGameObject->m_pTransform->m_vLocalScale.y);
-			dynamic_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_SLOTEQUIPMENT, Index);
-			dynamic_cast<CTempUI*>(pGameObject)->Set_Setup(true);
+			static_cast<CTempUI*>(pGameObject)->WorldMatrix(pGameObject->m_pTransform->m_vInfo[INFO_POS].x, pGameObject->m_pTransform->m_vInfo[INFO_POS].y, pGameObject->m_pTransform->m_vLocalScale.x, pGameObject->m_pTransform->m_vLocalScale.y);
+			static_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_SLOTEQUIPMENT, Index);
+			static_cast<CTempUI*>(pGameObject)->Set_Setup(true);
 			Engine::UIManager()->Add_PopupGameobject(Engine::UIPOPUPLAYER::POPUP_EQUIPMENT, Engine::UILAYER::UI_DOWN, pGameObject);
 		}
 	}
@@ -302,9 +302,9 @@ HRESULT CBossStage::Ready_Layer_UI(LAYERTAG _eLayerTag)
 			NULL_CHECK_RETURN(pGameObject, E_FAIL);
 			pGameObject->m_pTransform->m_vInfo[INFO_POS].x = 490.f + (60.f * ix);
 			pGameObject->m_pTransform->m_vInfo[INFO_POS].y = WINCY - 135.f - (60.f * iy);
-			dynamic_cast<CTempUI*>(pGameObject)->WorldMatrix(pGameObject->m_pTransform->m_vInfo[INFO_POS].x, pGameObject->m_pTransform->m_vInfo[INFO_POS].y, pGameObject->m_pTransform->m_vLocalScale.x, pGameObject->m_pTransform->m_vLocalScale.y);
-			dynamic_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_SLOTEMPTY, iy * 6 + ix);
-			dynamic_cast<CTempUI*>(pGameObject)->Set_Setup(true);
+			static_cast<CTempUI*>(pGameObject)->WorldMatrix(pGameObject->m_pTransform->m_vInfo[INFO_POS].x, pGameObject->m_pTransform->m_vInfo[INFO_POS].y, pGameObject->m_pTransform->m_vLocalScale.x, pGameObject->m_pTransform->m_vLocalScale.y);
+			static_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_SLOTEMPTY, iy * 6 + ix);
+			static_cast<CTempUI*>(pGameObject)->Set_Setup(true);
 			Engine::UIManager()->Add_PopupGameobject(Engine::UIPOPUPLAYER::POPUP_INVEN, Engine::UILAYER::UI_DOWN, pGameObject);
 		}
 	}
@@ -316,15 +316,15 @@ HRESULT CBossStage::Ready_Layer_UI(LAYERTAG _eLayerTag)
 		NULL_CHECK_RETURN(pGameObject, E_FAIL);
 		pGameObject->m_pTransform->m_vInfo[INFO_POS].x = 850.f;
 		pGameObject->m_pTransform->m_vInfo[INFO_POS].y = 595.f - (40 * iy);
-		dynamic_cast<CTempUI*>(pGameObject)->WorldMatrix(pGameObject->m_pTransform->m_vInfo[INFO_POS].x, pGameObject->m_pTransform->m_vInfo[INFO_POS].y, pGameObject->m_pTransform->m_vLocalScale.x, pGameObject->m_pTransform->m_vLocalScale.y);
-		dynamic_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_INVENBUTTON, iy);
+		static_cast<CTempUI*>(pGameObject)->WorldMatrix(pGameObject->m_pTransform->m_vInfo[INFO_POS].x, pGameObject->m_pTransform->m_vInfo[INFO_POS].y, pGameObject->m_pTransform->m_vLocalScale.x, pGameObject->m_pTransform->m_vLocalScale.y);
+		static_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_INVENBUTTON, iy);
 		if (iy == 0)
 		{
-			dynamic_cast<CTempUI*>(pGameObject)->Set_UIImage(1);
+			static_cast<CTempUI*>(pGameObject)->Set_UIImage(1);
 		}
 		else
 		{
-			dynamic_cast<CTempUI*>(pGameObject)->Set_UIImage(3);
+			static_cast<CTempUI*>(pGameObject)->Set_UIImage(3);
 		}
 
 		Engine::UIManager()->Add_PopupGameobject(Engine::UIPOPUPLAYER::POPUP_EQUIPMENT, Engine::UILAYER::UI_DOWN, pGameObject);
@@ -464,7 +464,7 @@ HRESULT CBossStage::Load_Data()
 			{
 				pGameObject = CLava::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
 				NULL_CHECK_RETURN(pGameObject, E_FAIL);
-				dynamic_cast<CLava*>(pGameObject)->Set_TextureNumber(0);
+				static_cast<CLava*>(pGameObject)->Set_TextureNumber(0);
 				pGameObject->m_pTransform->Translate(_vec3(fX, fY + 1.f, fZ));
 				pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 				//EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
@@ -473,7 +473,7 @@ HRESULT CBossStage::Load_Data()
 			{
 				pGameObject = CCubeBlock::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
 				NULL_CHECK_RETURN(pGameObject, E_FAIL);
-				dynamic_cast<CCubeBlock*>(pGameObject)->Set_TextureNumber(byTextureNumber);
+				static_cast<CCubeBlock*>(pGameObject)->Set_TextureNumber(byTextureNumber);
 				pGameObject->m_pTransform->Translate(_vec3(fX, fY + 1.f, fZ));
 				pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 				//EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
@@ -496,10 +496,10 @@ HRESULT CBossStage::Load_Data()
 
 			CGameObject* pGameObject = CSpawningPool::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
 			NULL_CHECK_RETURN(pGameObject, E_FAIL);
-			dynamic_cast<CSpawningPool*>(pGameObject)->Set_MonsterTag(eSpawnerTag);
-			dynamic_cast<CSpawningPool*>(pGameObject)->Set_PoolCapacity(iPoolCapacity);
-			dynamic_cast<CSpawningPool*>(pGameObject)->Set_SpawnRadius(fSpawnRadius);
-			dynamic_cast<CSpawningPool*>(pGameObject)->Set_SpawnTime(fSpawnTime);
+			static_cast<CSpawningPool*>(pGameObject)->Set_MonsterTag(eSpawnerTag);
+			static_cast<CSpawningPool*>(pGameObject)->Set_PoolCapacity(iPoolCapacity);
+			static_cast<CSpawningPool*>(pGameObject)->Set_SpawnRadius(fSpawnRadius);
+			static_cast<CSpawningPool*>(pGameObject)->Set_SpawnTime(fSpawnTime);
 			pGameObject->m_pTransform->Translate(_vec3(fX, fY + 1.f, fZ));
 			pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 			//EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
@@ -523,13 +523,13 @@ HRESULT CBossStage::Load_Data()
 			{
 			case TRAPTAG::BLADE:
 				pGameObject = CBlade_Trap::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
-				dynamic_cast<CBlade_Trap*>(pGameObject)->Create_Blade();
+				static_cast<CBlade_Trap*>(pGameObject)->Create_Blade();
 				NULL_CHECK_RETURN(pGameObject, E_FAIL);
 				break;
 
 			case TRAPTAG::STRIKEDOWN:
 				pGameObject = CStrikeDown_Trap::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
-				dynamic_cast<CStrikeDown_Trap*>(pGameObject)->Set_InitailHeight(15.f);
+				static_cast<CStrikeDown_Trap*>(pGameObject)->Set_InitailHeight(15.f);
 				NULL_CHECK_RETURN(pGameObject, E_FAIL);
 				break;
 
@@ -563,15 +563,15 @@ HRESULT CBossStage::Load_Data()
 			case TRAPTAG::BLADE:
 				pGameObject = CBlade_Trap::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
 				pGameObject->m_pTransform->Translate(_vec3(fX, fY + 1.f, fZ));
-				dynamic_cast<CBlade_Trap*>(pGameObject)->Create_Blade();
+				static_cast<CBlade_Trap*>(pGameObject)->Create_Blade();
 				NULL_CHECK_RETURN(pGameObject, E_FAIL);
 				break;
 
 			case TRAPTAG::STRIKEDOWN:
 				pGameObject = CStrikeDown_Trap::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
 				pGameObject->m_pTransform->Translate(_vec3(fX, fY + 1.f, fZ));
-				dynamic_cast<CStrikeDown_Trap*>(pGameObject)->Set_InitailHeight(10.f);
-				dynamic_cast<CStrikeDown_Trap*>(pGameObject)->Set_MinHeight(10.f);
+				static_cast<CStrikeDown_Trap*>(pGameObject)->Set_InitailHeight(10.f);
+				static_cast<CStrikeDown_Trap*>(pGameObject)->Set_MinHeight(10.f);
 				NULL_CHECK_RETURN(pGameObject, E_FAIL);
 				break;
 

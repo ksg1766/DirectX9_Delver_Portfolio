@@ -49,19 +49,19 @@ _int CKingSpiderWeb::Update_Object(const _float& fTimeDelta)
 	//if (m_bDebuff)
 	//{
 	//	m_fDebuffDuration += fTimeDelta;
-	//	m_vPlayerLook = dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer())->m_pTransform->m_vInfo[INFO_LOOK];
-	//	m_vPlayerRight = dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer())->m_pTransform->m_vInfo[INFO_RIGHT];
+	//	m_vPlayerLook = static_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer())->m_pTransform->m_vInfo[INFO_LOOK];
+	//	m_vPlayerRight = static_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer())->m_pTransform->m_vInfo[INFO_RIGHT];
 	//	m_pTransform->m_vInfo[INFO_POS] = _vec3(m_vPlayerLook.x * 2.f, m_vPlayerLook.y*2.f, m_vPlayerLook.z * 2.f);
-	//	if (STATE::ROMIMG == dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer())->Get_StateMachine()->Get_State())
+	//	if (STATE::ROMIMG == static_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer())->Get_StateMachine()->Get_State())
 	//	{
 	//		if(Engine::InputDev()->Key_Pressing(DIK_W))
-	//			dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer())->m_pTransform->Translate(-m_vPlayerLook * 4.f * fTimeDelta);
+	//			static_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer())->m_pTransform->Translate(-m_vPlayerLook * 4.f * fTimeDelta);
 	//		if (Engine::InputDev()->Key_Pressing(DIK_S))
-	//			dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer())->m_pTransform->Translate(m_vPlayerLook * 4.f * fTimeDelta);
+	//			static_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer())->m_pTransform->Translate(m_vPlayerLook * 4.f * fTimeDelta);
 	//		if (Engine::InputDev()->Key_Pressing(DIK_D))
-	//			dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer())->m_pTransform->Translate(-m_vPlayerRight * 4.f * fTimeDelta);
+	//			static_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer())->m_pTransform->Translate(-m_vPlayerRight * 4.f * fTimeDelta);
 	//		if (Engine::InputDev()->Key_Pressing(DIK_A))
-	//			dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer())->m_pTransform->Translate(m_vPlayerRight * 4.f * fTimeDelta);
+	//			static_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer())->m_pTransform->Translate(m_vPlayerRight * 4.f * fTimeDelta);
 
 	//		if (4.f < m_fDebuffDuration)
 	//		{
@@ -70,8 +70,8 @@ _int CKingSpiderWeb::Update_Object(const _float& fTimeDelta)
 	//			m_IsDead = true;
 	//		}
 	//	}
-	//	if(dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer())->IsJump())
-	//		dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer())->Get_RigidBody()->Add_Force(_vec3(0.f, -0.5f, 0.f));
+	//	if(static_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer())->IsJump())
+	//		static_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer())->Get_RigidBody()->Add_Force(_vec3(0.f, -0.5f, 0.f));
 	//	
 	//}
 	if ((!m_bPlayerHit)&&(5.f < m_fDelay))
@@ -131,8 +131,8 @@ void CKingSpiderWeb::OnCollisionStay(CCollider* _pOther)
 	if (SceneManager()->Get_GameStop()) { return; }
 	if ((_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::PLAYER) && (!m_bPlayerHit))
 	{
-		dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer())->Set_Slow(false);
-		dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer())->Set_Slow(true);
+		static_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer())->Set_Slow(false);
+		static_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer())->Set_Slow(true);
 		m_bPlayerHit  = true;
 		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_KINGSPIDER);
 		CSoundManager::GetInstance()->PlaySound(L"KingSpider_Web.wav", CHANNELID::SOUND_KINGSPIDER, 1.f);
@@ -140,7 +140,7 @@ void CKingSpiderWeb::OnCollisionStay(CCollider* _pOther)
 	}
 	if ((OBJECTTAG::PLAYERBULLET == _pOther->Get_Host()->Get_ObjectTag())||(OBJECTTAG::ITEM == _pOther->Get_Host()->Get_ObjectTag()) && (!m_bHit))
 	{
-		if (dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer())->Get_Attack())
+		if (static_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer())->Get_Attack())
 		{
 			--m_iHp;
 			m_bHit = true;
@@ -165,27 +165,27 @@ HRESULT CKingSpiderWeb::Add_Component(void)
 {
 	CComponent* pComponent = nullptr;
 
-	pComponent = m_pBuffer = dynamic_cast<CRcTex*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_RcTex"));
+	pComponent = m_pBuffer = static_cast<CRcTex*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_RcTex"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BUFFER, pComponent);
 
-	pComponent = m_pTransform = dynamic_cast<CTransform*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Transform"));
+	pComponent = m_pTransform = static_cast<CTransform*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Transform"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::TRANSFORM, pComponent);
 
-	pComponent = m_pTexture = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_ImmortalSprite"));
+	pComponent = m_pTexture = static_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_ImmortalSprite"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
 
-	/*pComponent = dynamic_cast<CBillBoard*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BillBoard"));
+	/*pComponent = static_cast<CBillBoard*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BillBoard"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::BILLBOARD, pComponent);*/
 
-	pComponent = m_pCollider = dynamic_cast<CCollider*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Collider"));
+	pComponent = m_pCollider = static_cast<CCollider*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Collider"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::COLLIDER, pComponent);
 
-	pComponent = m_pBasicStat = dynamic_cast<CBasicStat*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BasicStat"));
+	pComponent = m_pBasicStat = static_cast<CBasicStat*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BasicStat"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BASICSTAT, pComponent);
 

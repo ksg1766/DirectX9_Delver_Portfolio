@@ -27,7 +27,7 @@ STATE CExplosion_BossSkeleton::Update_State(const _float& fTimeDelta)
 {
     Engine::CGameObject* pGameObject = nullptr;
     pGameObject = CBossExplosion::Create(m_pGraphicDev);
-    dynamic_cast<CBossExplosion*>(pGameObject)->Set_StartPos(m_pOwner->Get_Transform()->m_vInfo[INFO_POS]);
+    static_cast<CBossExplosion*>(pGameObject)->Set_StartPos(m_pOwner->Get_Transform()->m_vInfo[INFO_POS]);
     Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 	    return STATE::DEAD;
 }

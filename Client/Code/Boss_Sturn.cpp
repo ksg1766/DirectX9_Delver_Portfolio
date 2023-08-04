@@ -31,7 +31,7 @@ HRESULT CBoss_Sturn::Ready_State(CStateMachine* pOwner)
 
 STATE CBoss_Sturn::Update_State(const _float& fTimeDelta)
 {
-    CSkeletonKing* pBoss = dynamic_cast<CSkeletonKing*>(m_pOwner->Get_Host());
+    CSkeletonKing* pBoss = static_cast<CSkeletonKing*>(m_pOwner->Get_Host());
 
     m_fCount += fTimeDelta;
 
@@ -48,7 +48,7 @@ STATE CBoss_Sturn::Update_State(const _float& fTimeDelta)
 
         Engine::CGameObject* pGameObject = nullptr;
         pGameObject = CBoss_SturnEffect::Create(m_pGraphicDev);
-        dynamic_cast<CBoss_SturnEffect*>(pGameObject)->m_pTransform->Translate(_vec3(3.f,0.f,0.f));
+        static_cast<CBoss_SturnEffect*>(pGameObject)->m_pTransform->Translate(_vec3(3.f,0.f,0.f));
         Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
         m_bStar = true;
     }

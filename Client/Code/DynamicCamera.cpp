@@ -94,7 +94,7 @@ HRESULT CDynamicCamera::Add_Component()
 {
 	CComponent* pComponent = nullptr;
 
-	pComponent = m_pTransform = dynamic_cast<CTransform*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Transform"));
+	pComponent = m_pTransform = static_cast<CTransform*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Transform"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::TRANSFORM, pComponent);
 
@@ -238,13 +238,13 @@ void CDynamicCamera::First_Camera()
 {
 	CTransform* pPlayerTrans = SceneManager()->Get_Scene()->Get_MainPlayer()->m_pTransform;
 
-	const _matrix& matPlayerWorld = dynamic_cast<CTransform*>(pPlayerTrans)->WorldMatrix();
+	const _matrix& matPlayerWorld = static_cast<CTransform*>(pPlayerTrans)->WorldMatrix();
 
-	_vec3&	vPlayerLook = dynamic_cast<CTransform*>(pPlayerTrans)->m_vInfo[INFO_LOOK];
-	_vec3&	vPlayerUp = dynamic_cast<CTransform*>(pPlayerTrans)->m_vInfo[INFO_UP];
+	_vec3&	vPlayerLook = static_cast<CTransform*>(pPlayerTrans)->m_vInfo[INFO_LOOK];
+	_vec3&	vPlayerUp = static_cast<CTransform*>(pPlayerTrans)->m_vInfo[INFO_UP];
 
 	//_vec3 vCameraOffset = vPlayerUp * 1.0f + vPlayerLook * 1.0f;
-	//_vec3 vCameraPosition = dynamic_cast<CTransform*>(pComponent)->m_vInfo[INFO_POS] + vCameraOffset;
+	//_vec3 vCameraPosition = static_cast<CTransform*>(pComponent)->m_vInfo[INFO_POS] + vCameraOffset;
 
 	m_vAt = { matPlayerWorld._41 + vPlayerLook.x, matPlayerWorld._42 + vPlayerLook.y , matPlayerWorld._43 + vPlayerLook.z };
 	m_vEye = { matPlayerWorld._41, matPlayerWorld._42, matPlayerWorld._43 };
@@ -294,7 +294,7 @@ void CDynamicCamera::Shake_Camera()
 {
 	CComponent* pComponent = SceneManager()->Get_Scene()->Get_MainPlayer()->m_pTransform;
 
-	_vec3	vPlayerPos = dynamic_cast<CTransform*>(pComponent)->m_vInfo[INFO_POS];
+	_vec3	vPlayerPos = static_cast<CTransform*>(pComponent)->m_vInfo[INFO_POS];
 
 	m_fShakeElipsedTime = 0.f;
 	m_vOriginPos = vPlayerPos;
@@ -305,7 +305,7 @@ void CDynamicCamera::Drunk_Camera()
 {
 	CComponent* pComponent = SceneManager()->Get_Scene()->Get_MainPlayer()->m_pTransform;
 
-	_vec3	vPlayerPos = dynamic_cast<CTransform*>(pComponent)->m_vInfo[INFO_POS];
+	_vec3	vPlayerPos = static_cast<CTransform*>(pComponent)->m_vInfo[INFO_POS];
 
 	m_fShakeElipsedTime = 0.f;
 	m_vOriginPos = vPlayerPos;

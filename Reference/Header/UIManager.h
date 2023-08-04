@@ -30,7 +30,7 @@ public:
 			Hide_PopupUI(UIPOPUPLAYER::POPUP_EQUIPMENT);
 			CGameObject* Obj = nullptr;
 			Obj = Get_PopupObject(Engine::UIPOPUPLAYER::POPUP_EQUIPMENT, Engine::UILAYER::UI_DOWN, UIOBJECTTTAG::UIID_INVENBUTTON, 0);
-			dynamic_cast<CTempUI*>(Obj)->Set_UIImage(1);
+			static_cast<CTempUI*>(Obj)->Set_UIImage(1);
 		}
 		else { // 인벤 열 때
 			m_bStat = false;
@@ -50,10 +50,10 @@ public:
 			Show_PopupUI(UIPOPUPLAYER::POPUP_EQUIPMENT);
 			CGameObject* Obj = nullptr;
 			Obj = Get_PopupObject(Engine::UIPOPUPLAYER::POPUP_EQUIPMENT, Engine::UILAYER::UI_DOWN, UIOBJECTTTAG::UIID_INVENBUTTON, 0);
-			dynamic_cast<CTempUI*>(Obj)->Set_UIImage(0);
+			static_cast<CTempUI*>(Obj)->Set_UIImage(0);
 			CGameObject* Obj2 = nullptr;
 			Obj2 = Get_PopupObject(Engine::UIPOPUPLAYER::POPUP_EQUIPMENT, Engine::UILAYER::UI_DOWN, UIOBJECTTTAG::UIID_INVENBUTTON, 1);
-			dynamic_cast<CTempUI*>(Obj2)->Set_UIImage(3);
+			static_cast<CTempUI*>(Obj2)->Set_UIImage(3);
 		}
 
 		SetCursor(Cursor);
@@ -71,7 +71,7 @@ public:
 			Hide_InvenItem(0);
 			CGameObject* Obj = nullptr;
 			Obj = Get_PopupObject(Engine::UIPOPUPLAYER::POPUP_EQUIPMENT, Engine::UILAYER::UI_DOWN, UIOBJECTTTAG::UIID_INVENBUTTON, 1);
-			dynamic_cast<CTempUI*>(Obj)->Set_UIImage(3);
+			static_cast<CTempUI*>(Obj)->Set_UIImage(3);
 		}
 		else { // 스탯창 열 때
 			m_bInven = false;
@@ -93,10 +93,10 @@ public:
 			Show_PopupUI(UIPOPUPLAYER::POPUP_EQUIPMENT);
 			CGameObject* Obj = nullptr;
 			Obj = Get_PopupObject(Engine::UIPOPUPLAYER::POPUP_EQUIPMENT, Engine::UILAYER::UI_DOWN, UIOBJECTTTAG::UIID_INVENBUTTON, 0);
-			dynamic_cast<CTempUI*>(Obj)->Set_UIImage(1);
+			static_cast<CTempUI*>(Obj)->Set_UIImage(1);
 			CGameObject* Obj2 = nullptr;
 			Obj2 = Get_PopupObject(Engine::UIPOPUPLAYER::POPUP_EQUIPMENT, Engine::UILAYER::UI_DOWN, UIOBJECTTTAG::UIID_INVENBUTTON, 1);
-			dynamic_cast<CTempUI*>(Obj2)->Set_UIImage(2);
+			static_cast<CTempUI*>(Obj2)->Set_UIImage(2);
 		}
 
 		SetCursor(Cursor);
@@ -259,7 +259,7 @@ public:
 
 		for (auto iter : m_mapPpopupUI[ePopupLayer][eType])
 		{
-			dynamic_cast<CTempUI*>(iter)->Get_UIObjID(UIObjID, UINumber);
+			static_cast<CTempUI*>(iter)->Get_UIObjID(UIObjID, UINumber);
 			if (UIObjID == eObjID && UINumber == eUINumber)
 			{
 				return iter;
@@ -274,7 +274,7 @@ public:
 
 		for (auto iter : m_vecUIbasic[eType])
 		{
-			dynamic_cast<CTempUI*>(iter)->Get_UIObjID(UIObjID, UINumber);
+			static_cast<CTempUI*>(iter)->Get_UIObjID(UIObjID, UINumber);
 			if (UIObjID == eObjID && UINumber == eUINumber)
 			{
 				return iter;

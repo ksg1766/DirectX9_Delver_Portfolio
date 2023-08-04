@@ -43,13 +43,13 @@ HRESULT CKingSpider_Appear::Ready_State(CStateMachine* pOwner)
 
 STATE CKingSpider_Appear::Update_State(const _float& fTimeDelta)
 {
-	CFlyingCamera* pCamera = dynamic_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam());
+	CFlyingCamera* pCamera = static_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam());
 
 	if (!m_bAppearTrigger)
 	{
 		CGameObject* pGameObject = nullptr;
-		pGameObject = dynamic_cast<CBookDoor*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::TRIGERBLOCK).back());
-		m_bAppearTrigger = dynamic_cast<CBookDoor*>(pGameObject)->Get_bTrigger();
+		pGameObject = static_cast<CBookDoor*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::TRIGERBLOCK).back());
+		m_bAppearTrigger = static_cast<CBookDoor*>(pGameObject)->Get_bTrigger();
 	}
 
 	if (m_bAppearTrigger && !m_bJumpTrigger && 0.f == m_fDelay)
@@ -61,8 +61,8 @@ STATE CKingSpider_Appear::Update_State(const _float& fTimeDelta)
 	if ((4.5f < m_fDelay) && (!m_bJumpTrigger))
 	{
 		m_vDir = _vec3(-42.f, 12.f, -18.18f) - m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
-		dynamic_cast<CKingSpider*>(m_pOwner->Get_Host())->Get_RigidBody()->Add_Force(_vec3(m_vDir.x * 0.175f, 15.f, m_vDir.z * 0.175f));
-		dynamic_cast<CKingSpider*>(m_pOwner->Get_Host())->Get_RigidBody()->UseGravity(true);
+		static_cast<CKingSpider*>(m_pOwner->Get_Host())->Get_RigidBody()->Add_Force(_vec3(m_vDir.x * 0.175f, 15.f, m_vDir.z * 0.175f));
+		static_cast<CKingSpider*>(m_pOwner->Get_Host())->Get_RigidBody()->UseGravity(true);
 
 		m_bJumpTrigger = true;
 		m_fDelay = 0.f;
@@ -73,15 +73,15 @@ STATE CKingSpider_Appear::Update_State(const _float& fTimeDelta)
 	}
 	if ((!m_bLanding) && (15.5f >= m_pOwner->Get_Transform()->m_vInfo[INFO_POS].y))
 	{
-		dynamic_cast<CKingSpider*>(m_pOwner->Get_Host())->Get_RigidBody()->UseGravity(false);
+		static_cast<CKingSpider*>(m_pOwner->Get_Host())->Get_RigidBody()->UseGravity(false);
 		m_fDelay = 0.f;
 
 		for (int i = 0; i < 8; ++i)
 		{
 			Engine::CGameObject* pGameObject = nullptr;
 			pGameObject = CKingSpiderFog::Create(m_pGraphicDev);
-			dynamic_cast<CKingSpiderFog*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = m_pOwner->Get_Transform()->m_vInfo[INFO_POS] + m_vFogPos[i];
-			dynamic_cast<CKingSpiderFog*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS].y = 13.f;
+			static_cast<CKingSpiderFog*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = m_pOwner->Get_Transform()->m_vInfo[INFO_POS] + m_vFogPos[i];
+			static_cast<CKingSpiderFog*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS].y = 13.f;
 			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 		}
 

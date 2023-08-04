@@ -40,7 +40,7 @@ STATE CWizard_Attack::Update_State(const _float& fTimeDelta)
 	// 어떤 객체를 소환.
 	// 본인 위치값 -> 아마도 오브젝트 생성할 위치겠지
 	CPlayer& pPlayer =
-		*dynamic_cast<CPlayer*>
+		*static_cast<CPlayer*>
 		(SceneManager()->GetInstance()->Get_ObjectList
 		(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
 
@@ -52,7 +52,7 @@ STATE CWizard_Attack::Update_State(const _float& fTimeDelta)
 
 			Attack_Sound();
 
-			_float fSpeed = dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Get_Speed();
+			_float fSpeed = static_cast<CMonster*>(m_pOwner->Get_Host())->Get_Speed();
 
 			m_pOwner->Get_Animator()->Get_Animation()->Set_Frame(0.f);
 
@@ -66,7 +66,7 @@ STATE CWizard_Attack::Update_State(const _float& fTimeDelta)
 
 	m_bIsAttack = false;
 
-	dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Set_State(STATE::ATTACK);
+	static_cast<CMonster*>(m_pOwner->Get_Host())->Set_State(STATE::ATTACK);
 }
 
 void CWizard_Attack::LateUpdate_State()
@@ -80,7 +80,7 @@ void CWizard_Attack::Render_State()
 void CWizard_Attack::Attack_Sound()
 {
 
-	MONSTERTAG _eMonsterTag = dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Get_MonsterTag();
+	MONSTERTAG _eMonsterTag = static_cast<CMonster*>(m_pOwner->Get_Host())->Get_MonsterTag();
 
 	switch (_eMonsterTag)
 	{

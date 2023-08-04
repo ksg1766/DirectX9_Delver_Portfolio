@@ -38,6 +38,7 @@ private:
 	CGameObject*	m_pCurrentCam;
 
 	_bool           m_bToggleMap = false;
+	_bool			m_bMakeFrustum = true;
 
 public:
 	virtual void Free() override;

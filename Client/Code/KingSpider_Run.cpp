@@ -43,8 +43,8 @@ STATE CKingSpider_Run::Update_State(const _float& fTimeDelta)
 		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_BOSS);
 		CSoundManager::GetInstance()->PlaySound(L"KingSpider_Spawn.mp3", CHANNELID::SOUND_BOSS, 1.f);
 
-		dynamic_cast<CKingSpider*>(m_pOwner->Get_Host())->Get_RigidBody()->UseGravity(true);
-		dynamic_cast<CKingSpider*>(m_pOwner->Get_Host())->Get_RigidBody()->Add_Force(_vec3(0.f, 25.f, 0.f));
+		static_cast<CKingSpider*>(m_pOwner->Get_Host())->Get_RigidBody()->UseGravity(true);
+		static_cast<CKingSpider*>(m_pOwner->Get_Host())->Get_RigidBody()->Add_Force(_vec3(0.f, 25.f, 0.f));
 		m_bJumpTrigger = false;
 		m_bJumpCheck = true;
 		m_fDelay = 0.f;
@@ -57,24 +57,24 @@ STATE CKingSpider_Run::Update_State(const _float& fTimeDelta)
 		if(73.f >= m_pOwner->Get_Transform()->m_vInfo[INFO_POS].y)
 			m_pOwner->Get_Transform()->Translate(_vec3(0.f, 1.5f*fTimeDelta, 0.f));
 		
-		if (0 >= dynamic_cast<CKingSpider*>(m_pOwner->Get_Host())->Get_CrawlingHP())
+		if (0 >= static_cast<CKingSpider*>(m_pOwner->Get_Host())->Get_CrawlingHP())
 		{
-			dynamic_cast<CKingSpider*>(m_pOwner->Get_Host())->Get_RigidBody()->UseGravity(true);
+			static_cast<CKingSpider*>(m_pOwner->Get_Host())->Get_RigidBody()->UseGravity(true);
 			return STATE::BOSS_DEAD;
 		}
 		
 		if (72.5f <= m_pOwner->Get_Transform()->m_vInfo[INFO_POS].y)
 		{
-			dynamic_cast<CKingSpider*>(m_pOwner->Get_Host())->Set_Dead(true);
+			static_cast<CKingSpider*>(m_pOwner->Get_Host())->Set_Dead(true);
 			//m_pOwner->Get_Transform()->m_vInfo[INFO_POS] = _vec3(6.f, 75.f, 67.f);
-			//dynamic_cast<CKingSpider*>(m_pOwner->Get_Host())->Set_Phase(BOSSPHASE::PHASE2);
+			//static_cast<CKingSpider*>(m_pOwner->Get_Host())->Set_Phase(BOSSPHASE::PHASE2);
 			//return STATE::BOSS_IDLE;
 		}
 
 	}
 
-	if(dynamic_cast<CKingSpider*>(m_pOwner->Get_Host())->Get_FloorCollison())
-		dynamic_cast<CKingSpider*>(m_pOwner->Get_Host())->Get_RigidBody()->UseGravity(false);
+	if(static_cast<CKingSpider*>(m_pOwner->Get_Host())->Get_FloorCollison())
+		static_cast<CKingSpider*>(m_pOwner->Get_Host())->Get_RigidBody()->UseGravity(false);
 
 }
 

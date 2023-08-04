@@ -164,7 +164,7 @@ HRESULT CMonsterAI::Ready_MonsterAI()
 	m_fSightRange = 3.f;
 	m_fAttackRange = 2.f;
 	
-	//m_vRoamingCenter = dynamic_cast<CTransform*>(m_pHost->m_pTransform)->m_vInfo[INFO_POS];
+	//m_vRoamingCenter = static_cast<CTransform*>(m_pHost->m_pTransform)->m_vInfo[INFO_POS];
 	m_fRoamingRadius = 5.f;
 
 	return S_OK;

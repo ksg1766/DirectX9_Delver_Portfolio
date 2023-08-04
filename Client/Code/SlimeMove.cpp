@@ -47,10 +47,10 @@ STATE CSlimeMove::Update_State(const _float& fTimeDelta)
 
 	if (fDistanceLength >= fSight)
 	{
-		if (dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Get_WallTouch())
+		if (static_cast<CMonster*>(m_pOwner->Get_Host())->Get_WallTouch())
 		{
 			Set_NewPos();
-			dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Set_WallTouch(false);
+			static_cast<CMonster*>(m_pOwner->Get_Host())->Set_WallTouch(false);
 		}
 		else
 			Move_RandomPos(fTimeDelta);
@@ -74,7 +74,7 @@ STATE CSlimeMove::Update_State(const _float& fTimeDelta)
 		{
 			m_bJumCoolDown = false;
 			m_fJumpCoolTimer = 0.f;
-			dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Set_AttackTick(false);
+			static_cast<CMonster*>(m_pOwner->Get_Host())->Set_AttackTick(false);
 			return STATE::ATTACK;
 		}
 		else

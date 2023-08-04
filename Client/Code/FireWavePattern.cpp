@@ -44,7 +44,7 @@ STATE CFireWavePattern::Update_State(const _float& fTimeDelta)
 		for (int i = 0; i < 36; ++i)
 		{
 			pGameObject = CBoss_WarningEff::Create(m_pGraphicDev);
-			dynamic_cast<CBoss_WarningEff*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = _vec3(-72.5f, 36.f, 110.f) + (_vec3(-18 + (i * 1.5f), -1.f, 0.f));
+			static_cast<CBoss_WarningEff*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = _vec3(-72.5f, 36.f, 110.f) + (_vec3(-18 + (i * 1.5f), -1.f, 0.f));
 			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 		}
 		m_bWarning = true;
@@ -62,8 +62,8 @@ STATE CFireWavePattern::Update_State(const _float& fTimeDelta)
 			for (int i = 0; i < 36; ++i)
 			{
 				pGameObject = CBossFireWave::Create(m_pGraphicDev);
-				dynamic_cast<CBossFireWave*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = _vec3(-72.5f, 36.f, 110.f) + (_vec3(-24 + (i * 1.5f), -1.f, 0.f));
-				dynamic_cast<CBossFireWave*>(pGameObject)->Set_Dir(_vec3(0.f, 0.f, -0.5f));
+				static_cast<CBossFireWave*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = _vec3(-72.5f, 36.f, 110.f) + (_vec3(-24 + (i * 1.5f), -1.f, 0.f));
+				static_cast<CBossFireWave*>(pGameObject)->Set_Dir(_vec3(0.f, 0.f, -0.5f));
 				Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 			}
 			m_fFirstWaveDelay = 0.f;
@@ -73,9 +73,9 @@ STATE CFireWavePattern::Update_State(const _float& fTimeDelta)
 			for (int i = 0; i < 36; ++i)
 			{
 				pGameObject = CBossFireWave::Create(m_pGraphicDev);
-				dynamic_cast<CBossFireWave*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = _vec3(-72.5f, 36.f, 110.f) + (_vec3(-24 + (i * 1.5), -1.f, 0.f));
-				dynamic_cast<CBossFireWave*>(pGameObject)->Set_Dir(_vec3(0.f, 0.f, -0.5f));
-				dynamic_cast<CBossFireWave*>(pGameObject)->Set_Scale(1.f);
+				static_cast<CBossFireWave*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = _vec3(-72.5f, 36.f, 110.f) + (_vec3(-24 + (i * 1.5), -1.f, 0.f));
+				static_cast<CBossFireWave*>(pGameObject)->Set_Dir(_vec3(0.f, 0.f, -0.5f));
+				static_cast<CBossFireWave*>(pGameObject)->Set_Scale(1.f);
 				Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 			}
 			m_fSecondWaveDelay = 0.f;
@@ -85,9 +85,9 @@ STATE CFireWavePattern::Update_State(const _float& fTimeDelta)
 			for (int i = 0; i < 36; ++i)
 			{
 				pGameObject = CBossFireWave::Create(m_pGraphicDev);
-				dynamic_cast<CBossFireWave*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = _vec3(-72.5f, 36.f, 110.f) + (_vec3(-24 + (i * 1.5), -1.f, 0.f));
-				dynamic_cast<CBossFireWave*>(pGameObject)->Set_Dir(_vec3(0.f, 0.f, -0.5f));
-				dynamic_cast<CBossFireWave*>(pGameObject)->Set_Scale(0.5f);
+				static_cast<CBossFireWave*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = _vec3(-72.5f, 36.f, 110.f) + (_vec3(-24 + (i * 1.5), -1.f, 0.f));
+				static_cast<CBossFireWave*>(pGameObject)->Set_Dir(_vec3(0.f, 0.f, -0.5f));
+				static_cast<CBossFireWave*>(pGameObject)->Set_Scale(0.5f);
 				Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 			}
 			m_fFirstWaveDelay = 0.f;

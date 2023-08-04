@@ -18,7 +18,7 @@ public:
 	void            delete_FindItem(ITEMTYPEID _itemId);      // 해당 아이디의 아이템 인벤토리에서 삭제 또는 카운트 감소
 
 	CGameObject*    Get_KeySlotObject(INVENKEYSLOT _key) { return m_mapKeySlot[_key]; }
-	ITEMTYPEID      Get_KeySlotObjID(INVENKEYSLOT _key)  { return dynamic_cast<CItem*>(m_mapKeySlot[_key])->Get_ItemTag(); }
+	ITEMTYPEID      Get_KeySlotObjID(INVENKEYSLOT _key)  { return static_cast<CItem*>(m_mapKeySlot[_key])->Get_ItemTag(); }
 
 
 	CGameObject*	Get_ItemSlot(INVENITEMSLOT _Key)	 { return m_mapItemSlot[_Key]; }

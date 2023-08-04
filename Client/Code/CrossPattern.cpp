@@ -57,7 +57,7 @@ STATE CCrossPattern::Update_State(const _float& fTimeDelta)
 				for (int j = 0; j < 4; ++j)
 				{
 					pGameObject = CBoss_CautionEff::Create(m_pGraphicDev);
-					dynamic_cast<CBoss_CautionEff*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = (_vec3(-72.5f, 35.f + (i * 2), 94.5f) + (m_vCrossDir[j] * (m_iCautionCount + 1.f)));
+					static_cast<CBoss_CautionEff*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = (_vec3(-72.5f, 35.f + (i * 2), 94.5f) + (m_vCrossDir[j] * (m_iCautionCount + 1.f)));
 					Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 				}
 			}
@@ -77,7 +77,7 @@ STATE CCrossPattern::Update_State(const _float& fTimeDelta)
 				for (int j = 0; j < 4; ++j)
 				{
 					pGameObject = CBoss_CautionEff::Create(m_pGraphicDev);
-					dynamic_cast<CBoss_CautionEff*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = (_vec3(-72.5f, 35.f + (i * 2), 94.5f) + (m_vCrossDir[j + 4] * (m_iCautionCount + 1.f)));
+					static_cast<CBoss_CautionEff*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = (_vec3(-72.5f, 35.f + (i * 2), 94.5f) + (m_vCrossDir[j + 4] * (m_iCautionCount + 1.f)));
 					Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 				}
 			}
@@ -104,7 +104,7 @@ STATE CCrossPattern::Update_State(const _float& fTimeDelta)
 				for (int j = 0; j < 4; ++j)
 				{
 					pGameObject = CBoss_Lightning::Create(m_pGraphicDev);
-					dynamic_cast<CBoss_Lightning*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = (_vec3(-72.5f, 35.f + (i * 2), 94.5f) + (m_vCrossDir[j] * (m_iSkillCount + 1.f)));
+					static_cast<CBoss_Lightning*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = (_vec3(-72.5f, 35.f + (i * 2), 94.5f) + (m_vCrossDir[j] * (m_iSkillCount + 1.f)));
 					Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 				}
 			}
@@ -127,7 +127,7 @@ STATE CCrossPattern::Update_State(const _float& fTimeDelta)
 				for (int j = 0; j < 4; ++j)
 				{
 					pGameObject = CBoss_Lightning::Create(m_pGraphicDev);
-					dynamic_cast<CBoss_Lightning*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = (_vec3(-72.5f, 35.f + (i * 2), 94.5f) + (m_vCrossDir[j+4] * (m_iSkillCount + 1.f)));
+					static_cast<CBoss_Lightning*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = (_vec3(-72.5f, 35.f + (i * 2), 94.5f) + (m_vCrossDir[j+4] * (m_iSkillCount + 1.f)));
 					Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 				}
 			}

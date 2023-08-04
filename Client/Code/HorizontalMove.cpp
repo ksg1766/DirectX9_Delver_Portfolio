@@ -30,7 +30,7 @@ STATE CHorizontalMove::Update_State(const _float& fTimeDelta)
 	_vec3 vLook = m_pOwner->Get_Host()->m_pTransform->m_vInfo[INFO_LOOK];
 
 	CPlayer& pPlayer =
-		*dynamic_cast<CPlayer*>
+		*static_cast<CPlayer*>
 		(SceneManager()->GetInstance()->Get_ObjectList
 		(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
 

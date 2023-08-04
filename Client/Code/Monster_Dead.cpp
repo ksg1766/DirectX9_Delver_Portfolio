@@ -39,8 +39,8 @@ STATE CMonster_Dead::Update_State(const _float& fTimeDelta)
 
 	}
 
-	if (dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Get_MonsterTag() == MONSTERTAG::BAT || dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Get_MonsterTag() == MONSTERTAG::ALIEN)
-		dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Get_RigidBody()->UseGravity(true);
+	if (static_cast<CMonster*>(m_pOwner->Get_Host())->Get_MonsterTag() == MONSTERTAG::BAT || static_cast<CMonster*>(m_pOwner->Get_Host())->Get_MonsterTag() == MONSTERTAG::ALIEN)
+		static_cast<CMonster*>(m_pOwner->Get_Host())->Get_RigidBody()->UseGravity(true);
 
 
 	return STATE::DEAD;
@@ -56,7 +56,7 @@ void CMonster_Dead::Render_State()
 
 void CMonster_Dead::Monster_Dead()
 {
-	MONSTERTAG _eMonsterTag = dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Get_MonsterTag();
+	MONSTERTAG _eMonsterTag = static_cast<CMonster*>(m_pOwner->Get_Host())->Get_MonsterTag();
 
 	switch (_eMonsterTag)
 	{

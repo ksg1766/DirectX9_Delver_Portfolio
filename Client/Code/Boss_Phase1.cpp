@@ -33,13 +33,13 @@ HRESULT CBoss_Phase1::Ready_State(CStateMachine* pOwner)
 
 STATE CBoss_Phase1::Update_State(const _float& fTimeDelta)
 {
-    if (BOSSPHASE::PHASE1 != dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_Phase())
+    if (BOSSPHASE::PHASE1 != static_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_Phase())
         return STATE::BOSS_IDLE;
     m_fDelay += fTimeDelta;
-    dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_RigidBody()->UseGravity(true);
+    static_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_RigidBody()->UseGravity(true);
     if (3.f < m_fDelay)
     {
-        CFlyingCamera* pCamera = dynamic_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam());
+        CFlyingCamera* pCamera = static_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam());
         pCamera->Reset_ShakeForce();
         m_fDelay = 0.f;
         return BossSkill(fTimeDelta);
@@ -59,7 +59,7 @@ STATE CBoss_Phase1::BossSkill(const _float& fTimeDelta)
 {
     if (m_bMeteor)
     {
-        CSkeletonKing* pBoss = dynamic_cast<CSkeletonKing*>(m_pOwner->Get_Host());
+        CSkeletonKing* pBoss = static_cast<CSkeletonKing*>(m_pOwner->Get_Host());
         pBoss->Set_Phase(BOSSPHASE::PHASE2);
         pBoss->Get_BasicStat()->Get_Stat()->fHP = pBoss->Get_BasicStat()->Get_Stat()->fMaxHP;
         CGameManager::GetInstance()->PlayMode(PD::ShowBossP2);
@@ -89,7 +89,7 @@ STATE CBoss_Phase1::BossSkill(const _float& fTimeDelta)
         return STATE::BOSS_PH1SKILL4;
         break;
     case 4:
-        if ( 70.f >= dynamic_cast<CSkeletonKing*>(m_pOwner->Get_Host())->Get_BasicStat()->Get_Stat()->fHP )
+        if ( 70.f >= static_cast<CSkeletonKing*>(m_pOwner->Get_Host())->Get_BasicStat()->Get_Stat()->fHP )
         {
             m_iSkillCount = 0;
             if (!m_bMeteor)

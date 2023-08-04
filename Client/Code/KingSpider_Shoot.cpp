@@ -37,8 +37,8 @@ STATE CKingSpider_Shoot::Update_State(const _float& fTimeDelta)
 
 		Engine::CGameObject* pGameObject = nullptr;
 		pGameObject = CKingSpiderWeb::Create(m_pGraphicDev);
-		dynamic_cast<CKingSpiderWeb*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
-		dynamic_cast<CKingSpiderWeb*>(pGameObject)->Set_Dir(SceneManager()->Get_Scene()->Get_MainPlayer()->m_pTransform->m_vInfo[INFO_POS]);
+		static_cast<CKingSpiderWeb*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
+		static_cast<CKingSpiderWeb*>(pGameObject)->Set_Dir(SceneManager()->Get_Scene()->Get_MainPlayer()->m_pTransform->m_vInfo[INFO_POS]);
 		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 		m_fDelay = 0.f;
 		++m_iSkillCount;

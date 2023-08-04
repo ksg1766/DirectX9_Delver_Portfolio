@@ -67,13 +67,13 @@ _int CBookDoor::Update_Object(const _float& fTimeDelta)
 				pFrontDoor = CBookCube::Create(m_pGraphicDev);
 				pFrontDoor->m_pTransform->Translate(_vec3(-67.f, 12 + (2 * i), -13.f + (j * 2)));
 				EventManager()->CreateObject(pFrontDoor, LAYERTAG::GAMELOGIC);
-				m_vecFrontDoorCube.push_back(dynamic_cast<CBookCube*>(pFrontDoor));
+				m_vecFrontDoorCube.push_back(static_cast<CBookCube*>(pFrontDoor));
 
 				CGameObject* pBackDoor = nullptr;
 				pBackDoor = CBookCube::Create(m_pGraphicDev);
 				pBackDoor->m_pTransform->Translate(_vec3(-65.f, 12 + (2 * i), -13.f + (j * 2)));
 				EventManager()->CreateObject(pBackDoor, LAYERTAG::GAMELOGIC);
-				m_vecBackDoorCube.push_back(dynamic_cast<CBookCube*>(pBackDoor));
+				m_vecBackDoorCube.push_back(static_cast<CBookCube*>(pBackDoor));
 			}
 
 		m_bCreate = true;
@@ -250,7 +250,7 @@ void CBookDoor::OnCollisionEnter(CCollider* _pOther)
 			m_bCreate2 = false;
 		}
 
-		if (dynamic_cast<CPlayer*>(_pOther->Get_Host())->QuestClear())
+		if (static_cast<CPlayer*>(_pOther->Get_Host())->QuestClear())
 			m_bTriger = true;
 			
 	}
@@ -260,7 +260,7 @@ void CBookDoor::OnCollisionStay(CCollider* _pOther)
 {
 	__super::OnCollisionStay(_pOther);
 
-	if (dynamic_cast<CPlayer*>(_pOther->Get_Host())->QuestClear())
+	if (static_cast<CPlayer*>(_pOther->Get_Host())->QuestClear())
 		m_bTriger = true;
 		
 }
@@ -273,15 +273,15 @@ void CBookDoor::OnCollisionExit(CCollider* _pOther)
 HRESULT CBookDoor::Add_Component()
 {
 	CComponent* pComponent = nullptr;
-	pComponent = m_pCubeBf = dynamic_cast<CCubeBf*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_CubeBf"));
+	pComponent = m_pCubeBf = static_cast<CCubeBf*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_CubeBf"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BUFFER, pComponent);
 
-	pComponent = m_pTransform = dynamic_cast<CTransform*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Transform"));
+	pComponent = m_pTransform = static_cast<CTransform*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Transform"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::TRANSFORM, pComponent);
 
-	pComponent = m_pTexture = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_Cube"));
+	pComponent = m_pTexture = static_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_Cube"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
 

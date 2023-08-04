@@ -31,7 +31,7 @@ STATE CLongitudinal::Update_State(const _float& fTimeDelta)
 	m_pOwner->Get_Animator()->Get_Animation()->Set_Loop(true);
 
 	CPlayer& pPlayer =
-		*dynamic_cast<CPlayer*>
+		*static_cast<CPlayer*>
 		(SceneManager()->GetInstance()->Get_ObjectList
 		(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
 

@@ -83,7 +83,7 @@ void CPlate_Trap::OnCollisionStay(CCollider* _pOther)
 	if (OBJECTTAG::PLAYER == m_pOtherObj->Get_ObjectTag())
 	{
 		//µ∂«‘¡§
-		/*dynamic_cast<CPlayer*>(m_pOtherObj)->Set_Poisoning(true);
+		/*static_cast<CPlayer*>(m_pOtherObj)->Set_Poisoning(true);
 		m_pTransform->Scale(_vec3(0.4f, 0.05f, 0.4f));
 		m_bAttack = true;*/
 
@@ -97,7 +97,7 @@ void CPlate_Trap::OnCollisionStay(CCollider* _pOther)
 	}
 	if (OBJECTTAG::ITEM == m_pOtherObj->Get_ObjectTag())
 	{
-		if (dynamic_cast<CItem*>(m_pOtherObj)->Get_WorldItem())
+		if (static_cast<CItem*>(m_pOtherObj)->Get_WorldItem())
 		{
 			CGameObject* pGameObject = CBossExplosion::Create(m_pGraphicDev);
 			m_pTransform->Scale(_vec3(0.4f, 0.05f, 0.4f));
@@ -116,19 +116,19 @@ void CPlate_Trap::OnCollisionExit(CCollider* _pOther)
 HRESULT CPlate_Trap::Add_Component(void)
 {
 	CComponent* pComponent = nullptr;
-	pComponent = m_pCubeBf = dynamic_cast<CCubeBf*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_CubeBf"));
+	pComponent = m_pCubeBf = static_cast<CCubeBf*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_CubeBf"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BUFFER, pComponent);
 
-	pComponent = m_pTexture = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_PlateTrapBody"));
+	pComponent = m_pTexture = static_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_PlateTrapBody"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
 
-	pComponent = m_pTransform = dynamic_cast<CTransform*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Transform"));
+	pComponent = m_pTransform = static_cast<CTransform*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Transform"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::TRANSFORM, pComponent);
 
-	pComponent = m_pCollider = dynamic_cast<CCollider*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Collider"));
+	pComponent = m_pCollider = static_cast<CCollider*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Collider"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::COLLIDER, pComponent);
 

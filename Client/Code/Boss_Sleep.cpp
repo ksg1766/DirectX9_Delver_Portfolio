@@ -40,7 +40,7 @@ STATE CBoss_Sleep::Update_State(const _float& fTimeDelta)
 	_vec3 vBossPos = m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
 	_vec3 vDir = vPlayerPos - vBossPos;
 	_float fDistance = D3DXVec3LengthSq(&vDir);
-	if (BOSSPHASE::PHASE1 == dynamic_cast<CSkeletonKing*>(m_pOwner->Get_Host())->Get_Phase())
+	if (BOSSPHASE::PHASE1 == static_cast<CSkeletonKing*>(m_pOwner->Get_Host())->Get_Phase())
 	{
 		if ((!m_bMusic)&&(fDistance < pow(30, 2)))
 		{
@@ -54,22 +54,22 @@ STATE CBoss_Sleep::Update_State(const _float& fTimeDelta)
 			return STATE::BOSS_WAKEUP;
 		}
 	}
-	else if (BOSSPHASE::PHASE2 == dynamic_cast<CSkeletonKing*>(m_pOwner->Get_Host())->Get_Phase())
+	else if (BOSSPHASE::PHASE2 == static_cast<CSkeletonKing*>(m_pOwner->Get_Host())->Get_Phase())
 	{
 		if (fDistance < pow(40, 2))
 		{
 			return STATE::BOSS_WAKEUP;
 		}
 	}
-	else if (BOSSPHASE::PHASE3 == dynamic_cast<CSkeletonKing*>(m_pOwner->Get_Host())->Get_Phase())
+	else if (BOSSPHASE::PHASE3 == static_cast<CSkeletonKing*>(m_pOwner->Get_Host())->Get_Phase())
 	{
-		dynamic_cast<CSkeletonKing*>(m_pOwner->Get_Host())->Set_3Phase(true);
+		static_cast<CSkeletonKing*>(m_pOwner->Get_Host())->Set_3Phase(true);
 		if (fDistance < pow(40, 2))
 		{
 			return STATE::BOSS_WAKEUP;
 		}
 	}
-	else if (BOSSPHASE::LASTPHASE == dynamic_cast<CSkeletonKing*>(m_pOwner->Get_Host())->Get_Phase())
+	else if (BOSSPHASE::LASTPHASE == static_cast<CSkeletonKing*>(m_pOwner->Get_Host())->Get_Phase())
 	{
 		//여기에 해골들소환
 		if (!m_bSummon)
@@ -80,12 +80,12 @@ STATE CBoss_Sleep::Update_State(const _float& fTimeDelta)
 				for (int j = 0; j < 2; ++j)
 				{
 					pGameObject = CSkeleton::Create(m_pGraphicDev);
-					dynamic_cast<CSkeleton*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = m_pOwner->Get_Transform()->m_vInfo[INFO_POS] + (m_vSummonPos[i]*(j+1));
-					dynamic_cast<CSkeleton*>(pGameObject)->Get_BasicStat()->Get_Stat()->iExpMax = 0.f;
-					dynamic_cast<CSkeleton*>(pGameObject)->Get_BasicStat()->Get_Stat()->iExp = 0.f;
-					dynamic_cast<CSkeleton*>(pGameObject)->Get_BasicStat()->Get_Stat()->fHP = 3.f;
-					dynamic_cast<CSkeleton*>(pGameObject)->Set_CenterPos(_vec3(m_pOwner->Get_Transform()->m_vInfo[INFO_POS].x + m_vSummonPos[i].x / 2, 35.f, m_pOwner->Get_Transform()->m_vInfo[INFO_POS].z + m_vSummonPos[i].z / 2));
-					dynamic_cast<CSkeleton*>(pGameObject)->Set_MoveRange(5.f);
+					static_cast<CSkeleton*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = m_pOwner->Get_Transform()->m_vInfo[INFO_POS] + (m_vSummonPos[i]*(j+1));
+					static_cast<CSkeleton*>(pGameObject)->Get_BasicStat()->Get_Stat()->iExpMax = 0.f;
+					static_cast<CSkeleton*>(pGameObject)->Get_BasicStat()->Get_Stat()->iExp = 0.f;
+					static_cast<CSkeleton*>(pGameObject)->Get_BasicStat()->Get_Stat()->fHP = 3.f;
+					static_cast<CSkeleton*>(pGameObject)->Set_CenterPos(_vec3(m_pOwner->Get_Transform()->m_vInfo[INFO_POS].x + m_vSummonPos[i].x / 2, 35.f, m_pOwner->Get_Transform()->m_vInfo[INFO_POS].z + m_vSummonPos[i].z / 2));
+					static_cast<CSkeleton*>(pGameObject)->Set_MoveRange(5.f);
 					Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 				}
 

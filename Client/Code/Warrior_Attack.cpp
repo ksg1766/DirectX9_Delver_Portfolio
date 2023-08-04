@@ -35,7 +35,7 @@ HRESULT CWarror_Attack::Ready_State(CStateMachine* pOwner)
 STATE CWarror_Attack::Update_State(const _float& fTimeDelta)
 {
 	CPlayer& pPlayer = 
-		*dynamic_cast<CPlayer*>
+		*static_cast<CPlayer*>
 		(SceneManager()->GetInstance()->Get_ObjectList
 		(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
 	
@@ -51,7 +51,7 @@ STATE CWarror_Attack::Update_State(const _float& fTimeDelta)
 		}
 		else
 		{
-			dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Set_AttackTick(false);
+			static_cast<CMonster*>(m_pOwner->Get_Host())->Set_AttackTick(false);
 			m_pOwner->Get_Animator()->Get_Animation()->Set_Loop(true);
 			m_vPrevPos = pPlayer.m_pTransform->m_vInfo[INFO_POS];
 			m_bIsAttack = true;
@@ -102,7 +102,7 @@ void CWarror_Attack::Render_State()
 
 void CWarror_Attack::Attack_Sound()
 {
-	MONSTERTAG _eMonsterTag = dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Get_MonsterTag();
+	MONSTERTAG _eMonsterTag = static_cast<CMonster*>(m_pOwner->Get_Host())->Get_MonsterTag();
 
 
 	switch (_eMonsterTag)

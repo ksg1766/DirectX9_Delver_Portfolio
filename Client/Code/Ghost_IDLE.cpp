@@ -27,7 +27,7 @@ STATE CGhost_IDLE::Update_State(const _float& fTimeDelta)
 {
 
 	CPlayer& pPlayer =
-		*dynamic_cast<CPlayer*>
+		*static_cast<CPlayer*>
 		(SceneManager()->GetInstance()->Get_ObjectList
 		(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
 

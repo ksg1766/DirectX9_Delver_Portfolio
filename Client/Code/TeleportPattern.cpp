@@ -46,12 +46,12 @@ STATE CTeleportPattern::Update_State(const _float& fTimeDelta)
 {
     m_fDelay += fTimeDelta;
     CGameObject* pGameObject = nullptr;
-    switch (dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_Phase())
+    switch (static_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_Phase())
     {
     case BOSSPHASE::PHASE2:
         if ((1.5f >= fabs(-72.5f - m_pOwner->Get_Transform()->m_vInfo[INFO_POS].x)) && (1.5f >= fabs(94.5f - m_pOwner->Get_Transform()->m_vInfo[INFO_POS].z)))
         {
-            dynamic_cast<CSkeletonKing*>(m_pOwner->Get_Host())->Get_BasicStat()->Get_Stat()->fHP = 100.f;
+            static_cast<CSkeletonKing*>(m_pOwner->Get_Host())->Get_BasicStat()->Get_Stat()->fHP = 100.f;
             m_bSound = false;
             m_pOwner->Get_Transform()->m_vInfo[INFO_POS] = _vec3(-72.5f, 38.f, 94.5f);
             return STATE::BOSS_SLEEP;
@@ -71,12 +71,12 @@ STATE CTeleportPattern::Update_State(const _float& fTimeDelta)
     case BOSSPHASE::PHASE3:
         if ((3.f >= fabs(-72.f - m_pOwner->Get_Transform()->m_vInfo[INFO_POS].x)) && (3.f >= fabs(-105.f - m_pOwner->Get_Transform()->m_vInfo[INFO_POS].z)))
         {
-            dynamic_cast<CSkeletonKing*>(m_pOwner->Get_Host())->Get_BasicStat()->Get_Stat()->fHP = 100.f;
+            static_cast<CSkeletonKing*>(m_pOwner->Get_Host())->Get_BasicStat()->Get_Stat()->fHP = 100.f;
             m_bSound = false;
             m_pOwner->Get_Transform()->m_vInfo[INFO_POS] = _vec3(-72.f, 34.f, -105.f);
            
            /* pGameObject = CDimensionGate::Create(m_pGraphicDev);
-            dynamic_cast<CDimensionGate*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = _vec3(-72.5f, 36.f, 94.5f);
+            static_cast<CDimensionGate*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = _vec3(-72.5f, 36.f, 94.5f);
             Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);*/
 
             return STATE::BOSS_SLEEP;
@@ -94,13 +94,13 @@ STATE CTeleportPattern::Update_State(const _float& fTimeDelta)
         break;
     
     case BOSSPHASE::LASTPHASE:
-        dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Set_3Phase(false);
+        static_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Set_3Phase(false);
         m_bLastDelay += fTimeDelta;
         /* if ((10.f >= fabs(80.f - m_pOwner->Get_Transform()->m_vInfo[INFO_POS].x)) && (10.f >= fabs(0.f - m_pOwner->Get_Transform()->m_vInfo[INFO_POS].z)))
         {
             m_bSound = false;
             m_pOwner->Get_Transform()->m_vInfo[INFO_POS] = _vec3(-72.f, 36.f, -105.f);
-            dynamic_cast<CSkeletonKing*>(m_pOwner->Get_Host())->Set_HekiReki(true);
+            static_cast<CSkeletonKing*>(m_pOwner->Get_Host())->Set_HekiReki(true);
            
             return STATE::BOSS_SLEEP;
         }*/
@@ -108,7 +108,7 @@ STATE CTeleportPattern::Update_State(const _float& fTimeDelta)
         {
             m_bSound = false;
             m_pOwner->Get_Transform()->m_vInfo[INFO_POS] = _vec3(-80.f, 36.f, 0.f);
-            dynamic_cast<CSkeletonKing*>(m_pOwner->Get_Host())->Set_HekiReki(true);
+            static_cast<CSkeletonKing*>(m_pOwner->Get_Host())->Set_HekiReki(true);
             m_bLastDelay = 0.f;
             return STATE::BOSS_SLEEP;
         }

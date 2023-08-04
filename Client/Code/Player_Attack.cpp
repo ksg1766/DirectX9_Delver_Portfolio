@@ -33,7 +33,7 @@ STATE CPlayer_Attack::Update_State(const _float& fTimeDelta)
 {
 	STATE eState = STATE::IDLE;
 
-	if(!dynamic_cast<CPlayer*>(m_pOwner->Get_Host())->Get_UseUI())
+	if(!static_cast<CPlayer*>(m_pOwner->Get_Host())->Get_UseUI())
 		eState = Key_Input(fTimeDelta);
 
 	return eState;
@@ -55,7 +55,7 @@ STATE CPlayer_Attack::Key_Input(const _float& fTimeDelta)
 
 	STATE	_eState = STATE::ROMIMG;
 
-	CPlayer& pPlayer = *dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer());
+	CPlayer& pPlayer = *static_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer());
 
 	if (!pPlayer.IsTalk())
 	{
@@ -89,7 +89,7 @@ STATE CPlayer_Attack::Key_Input(const _float& fTimeDelta)
 
 		if (!pPlayer.Get_Attack() && pPlayer.Get_CurrentEquipRight() != nullptr)
 		{
-			ITEMTYPEID _eID = dynamic_cast<CItem*>(pPlayer.Get_CurrentEquipRight())->Get_ItemTag();
+			ITEMTYPEID _eID = static_cast<CItem*>(pPlayer.Get_CurrentEquipRight())->Get_ItemTag();
 
 			switch (_eID.eItemID)
 			{
@@ -129,7 +129,7 @@ STATE CPlayer_Attack::Key_Input(const _float& fTimeDelta)
 					{
 						CGameObject* pGameObject = nullptr;
 						pGameObject = CArrow::Create(m_pGraphicDev,
-							dynamic_cast<CBow*>(pPlayer.Get_CurrentEquipRight())->m_pTransform,
+							static_cast<CBow*>(pPlayer.Get_CurrentEquipRight())->m_pTransform,
 							m_pOwner->Get_Transform(), m_fSpeed);
 
 						Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
@@ -156,7 +156,7 @@ STATE CPlayer_Attack::Key_Input(const _float& fTimeDelta)
 
 					CGameObject* pGameObject = nullptr;
 					pGameObject = CFireBall::Create(m_pGraphicDev,
-						dynamic_cast<CFireWands*>(pPlayer.Get_CurrentEquipRight())->m_pTransform,
+						static_cast<CFireWands*>(pPlayer.Get_CurrentEquipRight())->m_pTransform,
 						m_pOwner->Get_Transform(), 10.f);
 
 					Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
@@ -188,7 +188,7 @@ STATE CPlayer_Attack::Key_Input(const _float& fTimeDelta)
 					{
 						CGameObject* pGameObject = nullptr;
 						pGameObject = CArrow::Create(m_pGraphicDev,
-							dynamic_cast<CEpicBow*>(pPlayer.Get_CurrentEquipRight())->m_pTransform,
+							static_cast<CEpicBow*>(pPlayer.Get_CurrentEquipRight())->m_pTransform,
 							m_pOwner->Get_Transform(), m_fSpeed);
 
 						Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);

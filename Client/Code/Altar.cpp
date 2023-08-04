@@ -62,7 +62,7 @@ void CAltar::Render_Object()
 void CAltar::OnCollisionEnter(CCollider* _pOther)
 {
 	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::ITEM) {
-		if (dynamic_cast<CItem*>(_pOther->Get_Host())->Get_ItemTag().eItemID == ITEMID::QUEST_ORB)
+		if (static_cast<CItem*>(_pOther->Get_Host())->Get_ItemTag().eItemID == ITEMID::QUEST_ORB)
 		{
 			CPlayer& rPlayer = *SceneManager()->Get_Scene()->Get_MainPlayer();
 			if (m_bOrbCollision || rPlayer.Get_ItemEquipRight())
@@ -70,13 +70,13 @@ void CAltar::OnCollisionEnter(CCollider* _pOther)
 
 			_vec3 vPos = m_pTransform->m_vInfo[INFO_POS] + _vec3(0.f, 1.f, 0.f);
 			_pOther->Get_Host()->m_pTransform->m_vInfo[INFO_POS] = vPos;
-			dynamic_cast<COrb*>(_pOther->Get_Host())->Set_Altar(true);
+			static_cast<COrb*>(_pOther->Get_Host())->Set_Altar(true);
 			rPlayer.Set_Orb(true);
 
 			// 플레이어 움직임 및 카메라 고정
 			CGameObject* pPlayerObject = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front();
 			if (pPlayerObject != nullptr) {
-				CPlayer& rPlayer = *dynamic_cast<CPlayer*>(pPlayerObject);
+				CPlayer& rPlayer = *static_cast<CPlayer*>(pPlayerObject);
 				rPlayer.Set_UseUI(true);
 			}
 			CGameObject* pCameraGameObject = CCameraManager::GetInstance()->Get_CurrentCam();
@@ -94,7 +94,7 @@ void CAltar::OnCollisionEnter(CCollider* _pOther)
 			CSoundManager::GetInstance()->PlayBGM(L"win.mp3", 0.5f);
 
 			// 몇초간의 카메라 쉐이킹
-			CFlyingCamera* pCamera = dynamic_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam());
+			CFlyingCamera* pCamera = static_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam());
 			if (pCamera != nullptr) {
 				pCamera->Set_ShakeForce(0.f, 0.05, 4.f, 5.f);
 				pCamera->Shake_Camera();
@@ -102,8 +102,8 @@ void CAltar::OnCollisionEnter(CCollider* _pOther)
 
 			// UI 빛 이미지 출력 (내부에서 변경 효과 적용 및 생성)
 			CGameObject* pGameObjectUI = CUIOrbClearLight::Create(m_pGraphicDev);
-			dynamic_cast<CUIOrbClearLight*>(pGameObjectUI)->Set_AltarObject(this);
-			dynamic_cast<CUIOrbClearLight*>(pGameObjectUI)->Set_OrbObject(_pOther->Get_Host());
+			static_cast<CUIOrbClearLight*>(pGameObjectUI)->Set_AltarObject(this);
+			static_cast<CUIOrbClearLight*>(pGameObjectUI)->Set_OrbObject(_pOther->Get_Host());
 			Engine::UIManager()->Add_BasicGameobject(Engine::UILAYER::UI_DOWN, pGameObjectUI);
 
 			m_bOrbCollision = true;
@@ -123,15 +123,15 @@ HRESULT CAltar::Add_Component()
 {
 	CComponent* pComponent = nullptr;
 
-	pComponent = m_pCubeBf = dynamic_cast<CCubeBf*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_CubeBf"));
+	pComponent = m_pCubeBf = static_cast<CCubeBf*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_CubeBf"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BUFFER, pComponent);
 
-	pComponent = m_pTransform = dynamic_cast<CTransform*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Transform"));
+	pComponent = m_pTransform = static_cast<CTransform*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Transform"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TRANSFORM, pComponent);
 
-	pComponent = m_pTexture = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_Cube"));
+	pComponent = m_pTexture = static_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_Cube"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
 

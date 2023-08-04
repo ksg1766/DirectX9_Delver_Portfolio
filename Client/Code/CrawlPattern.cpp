@@ -32,7 +32,7 @@ STATE CCrawlPattern::Update_State(const _float& fTimeDelta)
     m_vTargetPos = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform->m_vInfo[INFO_POS];
     m_vDir = m_vTargetPos - m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
 
-    dynamic_cast<CSkeletonKing*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->m_pTransform->Translate(m_vDir * fTimeDelta * m_fSpeed);*/
+    static_cast<CSkeletonKing*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->m_pTransform->Translate(m_vDir * fTimeDelta * m_fSpeed);*/
     m_fDelay += fTimeDelta;
     if(PD::HekirekiIssen_SideView == CGameManager::GetInstance()->Get_PlayMode())
         return STATE::BOSS_DYING;
@@ -51,7 +51,7 @@ void CCrawlPattern::Dash(const _float& fTimeDelta)
 {
     if (!m_bTarget)
     {
-        m_vTargetPos = dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer())->m_pTransform->m_vInfo[INFO_POS];
+        m_vTargetPos = static_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer())->m_pTransform->m_vInfo[INFO_POS];
         m_bTarget = true;
    }
     else if ((m_bTarget)&&(1.5f< m_fDelay))

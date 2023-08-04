@@ -134,11 +134,11 @@ HRESULT CSpawningPool::Add_Component()
     CComponent* pComponent = nullptr;
 
     //if(SCENETAG::EDITOR == SceneManager()->Get_Scene()->Get_SceneTag())
-    pComponent = m_pBuffer = dynamic_cast<CCubeColBf*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_CubeColBf"));
+    pComponent = m_pBuffer = static_cast<CCubeColBf*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_CubeColBf"));
     NULL_CHECK_RETURN(pComponent, E_FAIL);
     m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BUFFER, pComponent);
 
-    pComponent = m_pTransform = dynamic_cast<CTransform*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Transform"));
+    pComponent = m_pTransform = static_cast<CTransform*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Transform"));
     NULL_CHECK_RETURN(pComponent, E_FAIL);
     m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::TRANSFORM, pComponent);
 

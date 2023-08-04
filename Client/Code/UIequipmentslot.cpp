@@ -35,9 +35,9 @@ HRESULT CUIequipmentslot::Ready_Object()
 
 _int CUIequipmentslot::Update_Object(const _float & fTimeDelta)
 {
-	CPlayer*    pPlayer = dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer());
+	CPlayer*    pPlayer = static_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer());
 	if (pPlayer != nullptr) {
-		CInventory* pInventory = dynamic_cast<CInventory*>(pPlayer->Get_Component(COMPONENTTAG::INVENTORY, ID_DYNAMIC));
+		CInventory* pInventory = static_cast<CInventory*>(pPlayer->Get_Component(COMPONENTTAG::INVENTORY, ID_DYNAMIC));
 
 		if (m_bChildEntrance && !m_bEntrance || m_bNextItem) // 해당 아이템 슬롯을 사용할 시 효과 적용
 		{
@@ -48,11 +48,11 @@ _int CUIequipmentslot::Update_Object(const _float & fTimeDelta)
 				m_bChildExit = false;
 			}
 
-			ITEMTYPEID   eItemId = dynamic_cast<CUIitem*>(m_pChild)->Get_ItemTag();
+			ITEMTYPEID   eItemId = static_cast<CUIitem*>(m_pChild)->Get_ItemTag();
 			CGameObject* pGameObject = pInventory->Get_IDItem(eItemId.eItemID);
 
 			if (pGameObject != nullptr) {
-				CBasicStat* pStat = dynamic_cast<CItem*>(pGameObject)->Get_ItemStat();
+				CBasicStat* pStat = static_cast<CItem*>(pGameObject)->Get_ItemStat();
 				if (pStat != nullptr)
 				{
 					pPlayer->Get_Stat()->Get_Stat()->iArmorMax += pStat->Get_Stat()->iArmorMax;
@@ -68,17 +68,17 @@ _int CUIequipmentslot::Update_Object(const _float & fTimeDelta)
 		}
 		else if (m_bChildExit && m_bEntrance || m_pNextChild != nullptr) // 해당 아이템 슬롯을 사용했다가 비었을 시 효과 적용 해제
 		{
-			ITEMTYPEID   eItemId = dynamic_cast<CUIitem*>(m_pBeforeChild)->Get_ItemTag();
+			ITEMTYPEID   eItemId = static_cast<CUIitem*>(m_pBeforeChild)->Get_ItemTag();
 			CGameObject* pGameObject = pInventory->Get_IDItem(eItemId.eItemID);
 
 			if (pGameObject != nullptr && pGameObject->Get_ObjectTag() != OBJECTTAG::BACKGROUND) {
-				CBasicStat* pStat = dynamic_cast<CItem*>(pGameObject)->Get_ItemStat();
+				CBasicStat* pStat = static_cast<CItem*>(pGameObject)->Get_ItemStat();
 				if (pStat != nullptr)
 				{
 					pPlayer->Get_Stat()->Get_Stat()->iArmorMax -= pStat->Get_Stat()->iArmorMax;
 					pPlayer->Get_Stat()->Get_Stat()->iArmorMin -= pStat->Get_Stat()->iArmorMin;
 
-					if (pPlayer->Get_CurrentEquipLeft() != nullptr && dynamic_cast<CItem*>(pPlayer->Get_CurrentEquipLeft())->Get_ItemTag().eItemID == eItemId.eItemID) {
+					if (pPlayer->Get_CurrentEquipLeft() != nullptr && static_cast<CItem*>(pPlayer->Get_CurrentEquipLeft())->Get_ItemTag().eItemID == eItemId.eItemID) {
 						pPlayer->Set_PrevEquipLeft(pPlayer->Get_CurrentEquipLeft());
 						pPlayer->Set_CurrentEquipLeft(nullptr);
 						pPlayer->Set_ItemEquipLeft(false);
@@ -158,15 +158,15 @@ HRESULT CUIequipmentslot::Add_Component(void)
 {
 	CComponent* pComponent = nullptr;
 
-	pComponent = m_pBufferCom = dynamic_cast<CRcTex*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_RcTex"));
+	pComponent = m_pBufferCom = static_cast<CRcTex*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_RcTex"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BUFFER, pComponent);
 
-	pComponent = m_pTransform = dynamic_cast<CTransform*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Transform"));
+	pComponent = m_pTransform = static_cast<CTransform*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Transform"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::TRANSFORM, pComponent);
 
-	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_EmptyslotUI"));
+	pComponent = m_pTextureCom = static_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_EmptyslotUI"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
 

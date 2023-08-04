@@ -61,9 +61,9 @@ _int CBossLostSoul::Update_Object(const _float& fTimeDelta)
 				m_fTime = 0.f;
 				Engine::CGameObject* pGameObject = nullptr;
 				pGameObject = CBossExplosion::Create(m_pGraphicDev);
-				dynamic_cast<CBossExplosion*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = m_pTransform->m_vInfo[INFO_POS];
+				static_cast<CBossExplosion*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = m_pTransform->m_vInfo[INFO_POS];
 				Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
-				dynamic_cast<CBossExplosion*>(pGameObject)->Set_Scale(1.2f);
+				static_cast<CBossExplosion*>(pGameObject)->Set_Scale(1.2f);
 				Engine::EventManager()->DeleteObject(this);
 			}
 			else
@@ -129,14 +129,14 @@ void CBossLostSoul::OnCollisionStay(CCollider* _pOther)
 		{
 			CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_SPIDER);
 			CSoundManager::GetInstance()->PlaySound(L"LostSoul3.wav", CHANNELID::SOUND_SPIDER, 1.f);
-			CPlayerStat& PlayerState = *(dynamic_cast<CPlayer*>(_pOther->Get_Host())->Get_Stat());
+			CPlayerStat& PlayerState = *(static_cast<CPlayer*>(_pOther->Get_Host())->Get_Stat());
 			PlayerState.Take_Damage(this->Get_BasicStat()->Get_Stat()->fAttack);
 			this->Set_AttackTick(true);
 			Engine::CGameObject* pGameObject = nullptr;
 			pGameObject = CBossExplosion::Create(m_pGraphicDev);
-			dynamic_cast<CBossExplosion*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = m_pTransform->m_vInfo[INFO_POS];
+			static_cast<CBossExplosion*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = m_pTransform->m_vInfo[INFO_POS];
 			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
-			dynamic_cast<CBossExplosion*>(pGameObject)->Set_Scale(1.2f);
+			static_cast<CBossExplosion*>(pGameObject)->Set_Scale(1.2f);
 			Engine::EventManager()->DeleteObject(this);
 		}
 	}
@@ -144,9 +144,9 @@ void CBossLostSoul::OnCollisionStay(CCollider* _pOther)
 	{
 		if ((m_eSoulState == SOULSTATE::SOUL_NORMAL))
 		{
-			if ((ITEMID::GENERAL_SHIELD == dynamic_cast<CItem*>(_pOther->Get_Host())->Get_ItemTag().eItemID))
+			if ((ITEMID::GENERAL_SHIELD == static_cast<CItem*>(_pOther->Get_Host())->Get_ItemTag().eItemID))
 			{
-				if (!dynamic_cast<CPlayer*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front())->Get_Parrying())
+				if (!static_cast<CPlayer*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front())->Get_Parrying())
 					return;
 
 				_matrix      matMonsterWorld = _pOther->Get_Host()->m_pTransform->WorldMatrix();
@@ -179,10 +179,10 @@ void CBossLostSoul::OnCollisionStay(CCollider* _pOther)
 			CSoundManager::GetInstance()->PlaySound(L"LostSoul2.wav", CHANNELID::SOUND_SPIDER, 1.f);
 			
 			pGameObject = CEffectExplosion::Create(m_pGraphicDev);
-			dynamic_cast<CEffectExplosion*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = m_pTransform->m_vInfo[INFO_POS];
+			static_cast<CEffectExplosion*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = m_pTransform->m_vInfo[INFO_POS];
 			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 			pGameObject = Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front();//보스데미지주기
-			dynamic_cast<CSkeletonKing*>(pGameObject)->Add_HitCount();
+			static_cast<CSkeletonKing*>(pGameObject)->Add_HitCount();
 			Engine::EventManager()->DeleteObject(this);
 		}
 	}
@@ -199,31 +199,31 @@ HRESULT CBossLostSoul::Add_Component(void)
 {
 	CComponent* pComponent = nullptr;
 
-	pComponent = m_pBuffer = dynamic_cast<CRcTex*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_RcTex"));
+	pComponent = m_pBuffer = static_cast<CRcTex*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_RcTex"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BUFFER, pComponent);
 
-	pComponent = m_pTransform = dynamic_cast<CTransform*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Transform"));
+	pComponent = m_pTransform = static_cast<CTransform*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Transform"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::TRANSFORM, pComponent);
 
-	pComponent = m_pTexture = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_LostSoul"));
+	pComponent = m_pTexture = static_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_LostSoul"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
 
-	pComponent = m_pBillBoard = dynamic_cast<CBillBoard*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BillBoard"));
+	pComponent = m_pBillBoard = static_cast<CBillBoard*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BillBoard"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::BILLBOARD, pComponent);
 
-	pComponent = m_pCollider = dynamic_cast<CCollider*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Collider"));
+	pComponent = m_pCollider = static_cast<CCollider*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Collider"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::COLLIDER, pComponent);
 
-	pComponent = m_pBasicStat = dynamic_cast<CBasicStat*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BasicStat"));
+	pComponent = m_pBasicStat = static_cast<CBasicStat*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BasicStat"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BASICSTAT, pComponent);
 
-	pComponent = m_pStateMachine = dynamic_cast<CStateMachine*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_State"));
+	pComponent = m_pStateMachine = static_cast<CStateMachine*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_State"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::STATEMACHINE, pComponent);
 

@@ -127,7 +127,7 @@ _int CDungeonWarrior::Update_Object(const _float& fTimeDelta)
 				{
 					CGameObject* pGameObject = CEffectBlood::Create(m_pGraphicDev);
 					pGameObject->m_pTransform->Translate(_vec3(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y - .95f, m_pTransform->m_vInfo[INFO_POS].z));
-					dynamic_cast<CTempEffect*>(pGameObject)->Set_EffectColor(ECOLOR_RED);
+					static_cast<CTempEffect*>(pGameObject)->Set_EffectColor(ECOLOR_RED);
 					Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 
 					m_bDeadCheck = true;
@@ -220,7 +220,7 @@ void CDungeonWarrior::OnCollisionStay(CCollider* _pOther)
 
 	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::ITEM)
 	{
-		ITEMTYPEID _eID = dynamic_cast<CItem*>(_pOther->Get_Host())->Get_ItemTag();
+		ITEMTYPEID _eID = static_cast<CItem*>(_pOther->Get_Host())->Get_ItemTag();
 
 		CPlayer& rPlayer = *SceneManager()->Get_Scene()->Get_MainPlayer();
 
@@ -254,7 +254,7 @@ HRESULT CDungeonWarrior::Add_Component()
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::COLLIDER, pComponent);
 
-	pComponent = m_pRigidBody = dynamic_cast<CRigidBody*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_RigidBody"));
+	pComponent = m_pRigidBody = static_cast<CRigidBody*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_RigidBody"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::RIGIDBODY, pComponent);
 

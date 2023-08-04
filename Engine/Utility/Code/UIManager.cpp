@@ -33,7 +33,7 @@ void CUIManager::Show_PopupUI(UIPOPUPLAYER _PopupID)
 		{
 			if (_PopupID == UIPOPUPLAYER::POPUP_LEVELUP) { // 레벨업 창 활성화
 				iter->Set_Dead(false);
-				dynamic_cast<CUILevelUp*>(iter)->Set_UseLevelUpUI(true);
+				static_cast<CUILevelUp*>(iter)->Set_UseLevelUpUI(true);
 			}
 			else
 				iter->Set_Dead(false);
@@ -49,7 +49,7 @@ void CUIManager::Hide_PopupUI(UIPOPUPLAYER _PopupID)
 		{
 			if (_PopupID == UIPOPUPLAYER::POPUP_LEVELUP) { // 레벨업 창 비활성화
 				iter->Set_Dead(true);
-				dynamic_cast<CUILevelUp*>(iter)->Set_NotUseLevelUpUI(true);
+				static_cast<CUILevelUp*>(iter)->Set_NotUseLevelUpUI(true);
 			}
 			else
 				iter->Set_Dead(true);
@@ -72,19 +72,19 @@ void CUIManager::Delete_FindItemUI(ITEMTYPEID _itemId)
 	{
 		if (*iter != nullptr)
 		{
-			ITEMTYPEID SlotItemType = dynamic_cast<CUIitem*>(*iter)->Get_ItemTag();
+			ITEMTYPEID SlotItemType = static_cast<CUIitem*>(*iter)->Get_ItemTag();
 
 			if (SlotItemType.eItemID == _itemId.eItemID)
 			{
 				if (SlotItemType.iCount > _itemId.iCount)
 				{
-					dynamic_cast<CUIitem*>(*iter)->Remove_ItemCount(_itemId.iCount);
+					static_cast<CUIitem*>(*iter)->Remove_ItemCount(_itemId.iCount);
 					return;
 				}
 				else
 				{
 					(*iter)->Set_Dead(true);
-					dynamic_cast<CTempUI*>(dynamic_cast<CUIitem*>(*iter)->Get_Parent())->Set_EmptyBool(true);
+					static_cast<CTempUI*>(static_cast<CUIitem*>(*iter)->Get_Parent())->Set_EmptyBool(true);
 					m_vecItemDead.push_back(*iter);
 					iter = m_mapPpopupUI[POPUP_ITEM][UI_DOWN].erase(iter);
 					return;
@@ -107,8 +107,8 @@ void CUIManager::Show_InvenItem(_uint iType)
 	for (auto& iter : m_mapPpopupUI[POPUP_ITEM][UI_DOWN]) {
 		if (iter != nullptr) {
 
-			CGameObject* pSlotObj = dynamic_cast<CTempUI*>(iter)->Get_Parent();
-			dynamic_cast<CTempUI*>(pSlotObj)->Get_UIObjID(_UIObjID, _UINumber);
+			CGameObject* pSlotObj = static_cast<CTempUI*>(iter)->Get_Parent();
+			static_cast<CTempUI*>(pSlotObj)->Get_UIObjID(_UIObjID, _UINumber);
 
 			if (iType == 0)
 			{
@@ -145,8 +145,8 @@ void CUIManager::Hide_InvenItem(_uint iType)
 	for (auto& iter : m_mapPpopupUI[POPUP_ITEM][UI_DOWN]) {
 		if (iter != nullptr) {
 
-			CGameObject* pSlotObj = dynamic_cast<CTempUI*>(iter)->Get_Parent();
-			dynamic_cast<CTempUI*>(pSlotObj)->Get_UIObjID(_UIObjID, _UINumber);
+			CGameObject* pSlotObj = static_cast<CTempUI*>(iter)->Get_Parent();
+			static_cast<CTempUI*>(pSlotObj)->Get_UIObjID(_UIObjID, _UINumber);
 
 			if (iType == 0)	{
 				if (_UIObjID != UIID_SLOTBASIC) {
@@ -177,11 +177,11 @@ CGameObject* CUIManager::Get_PopupObjectBasicSlot(ITEMTYPEID ItemType)
 	{
 		if (iter != nullptr)
 		{
-			CGameObject* pChildObj = dynamic_cast<CTempUI*>(iter)->Get_Child();
+			CGameObject* pChildObj = static_cast<CTempUI*>(iter)->Get_Child();
 			
 			if (pChildObj != nullptr)
 			{
-				ITEMTYPEID ItemId = dynamic_cast<CUIitem*>(pChildObj)->Get_ItemTag();
+				ITEMTYPEID ItemId = static_cast<CUIitem*>(pChildObj)->Get_ItemTag();
 
 				if (ItemId.eItemID == ItemType.eItemID)
 				{
@@ -195,11 +195,11 @@ CGameObject* CUIManager::Get_PopupObjectBasicSlot(ITEMTYPEID ItemType)
 	{
 		if (iter != nullptr)
 		{
-			CGameObject* pChilidObj = dynamic_cast<CTempUI*>(iter)->Get_Child();
+			CGameObject* pChilidObj = static_cast<CTempUI*>(iter)->Get_Child();
 
 			if (pChilidObj != nullptr)
 			{
-				ITEMTYPEID Itemid = dynamic_cast<CUIitem*>(pChilidObj)->Get_ItemTag();
+				ITEMTYPEID Itemid = static_cast<CUIitem*>(pChilidObj)->Get_ItemTag();
 
 				if (Itemid.eItemID == ItemType.eItemID)
 					return iter;
@@ -222,18 +222,18 @@ void CUIManager::Add_PopupGameobject(UIPOPUPLAYER ePopupLayer, UILAYER eType, CG
 void CUIManager::Add_ItemGameobject(CGameObject* pGameObject)
 {
 	// 들어온 아이템 오브젝트 아이템 타입 및 아이디, 개수를 가져옴.
-	ITEMTYPEID ItemType = dynamic_cast<CUIitem*>(pGameObject)->Get_ItemTag();
+	ITEMTYPEID ItemType = static_cast<CUIitem*>(pGameObject)->Get_ItemTag();
 
 	// 이미 보유하고 있는 아이템인지 검사한다.
 	// 기본 슬롯 5개 + 내부 슬롯에 보유하고 있는 아이템인지 먼저 검사
 	for (auto iter : m_mapPpopupUI[POPUP_ITEM][UI_DOWN]){
 		if (iter != nullptr){
-			ITEMTYPEID SlotItemType = dynamic_cast<CUIitem*>(iter)->Get_ItemTag();
+			ITEMTYPEID SlotItemType = static_cast<CUIitem*>(iter)->Get_ItemTag();
 
 			if (SlotItemType.eItemID == ItemType.eItemID)
 			{
 				// 같은 아이템이 존재할 시 해당 개수만큼 카운트 증가 후 들어온 아이템 삭제
-				dynamic_cast<CUIitem*>(iter)->Add_ItemCount(ItemType.iCount);
+				static_cast<CUIitem*>(iter)->Add_ItemCount(ItemType.iCount);
 				Safe_Release<CGameObject*>(pGameObject);
 				return;
 			}
@@ -243,18 +243,18 @@ void CUIManager::Add_ItemGameobject(CGameObject* pGameObject)
 	// 빈 공간이 있는지 검사후 할당 후 장착
 	for (auto iter : m_vecUIbasic[UI_DOWN])
 	{
-		if (dynamic_cast<CTempUI*>(iter)->Get_EmptyBool())
+		if (static_cast<CTempUI*>(iter)->Get_EmptyBool())
 		{
 			// 들어온 아이템 ui 포지션을 비어있는 해당 슬롯 포지션 값으로 대입 후 월드 행렬 셋팅
 			pGameObject->m_pTransform->m_vInfo[INFO_POS].x = iter->m_pTransform->m_vInfo[INFO_POS].x;
 			pGameObject->m_pTransform->m_vInfo[INFO_POS].y = iter->m_pTransform->m_vInfo[INFO_POS].y;
-			dynamic_cast<CTempUI*>(pGameObject)->WorldMatrix(pGameObject->m_pTransform->m_vInfo[INFO_POS].x, pGameObject->m_pTransform->m_vInfo[INFO_POS].y, pGameObject->m_pTransform->m_vLocalScale.x, pGameObject->m_pTransform->m_vLocalScale.y);
+			static_cast<CTempUI*>(pGameObject)->WorldMatrix(pGameObject->m_pTransform->m_vInfo[INFO_POS].x, pGameObject->m_pTransform->m_vInfo[INFO_POS].y, pGameObject->m_pTransform->m_vLocalScale.x, pGameObject->m_pTransform->m_vLocalScale.y);
 
 			// 아이템의 부모 오브젝트로 해당 슬롯 등록
-			dynamic_cast<CTempUI*>(pGameObject)->Set_Parent(iter);
+			static_cast<CTempUI*>(pGameObject)->Set_Parent(iter);
 			// 슬롯 자식 오브젝트로 해당 아이템 등록 후 비어있지 않다는 상태로 변경
-			dynamic_cast<CTempUI*>(iter)->Set_Child(pGameObject);
-			dynamic_cast<CTempUI*>(iter)->Set_EmptyBool(false);
+			static_cast<CTempUI*>(iter)->Set_Child(pGameObject);
+			static_cast<CTempUI*>(iter)->Set_EmptyBool(false);
 
 			Engine::UIManager()->Add_PopupGameobject(Engine::UIPOPUPLAYER::POPUP_ITEM, Engine::UILAYER::UI_DOWN, pGameObject);
 			Show_InvenItem(3);
@@ -264,15 +264,15 @@ void CUIManager::Add_ItemGameobject(CGameObject* pGameObject)
 
 	for (auto iter : m_mapPpopupUI[POPUP_INVEN][UI_DOWN])
 	{
-		if (dynamic_cast<CTempUI*>(iter)->Get_EmptyBool())
+		if (static_cast<CTempUI*>(iter)->Get_EmptyBool())
 		{
 			pGameObject->m_pTransform->m_vInfo[INFO_POS].x = iter->m_pTransform->m_vInfo[INFO_POS].x;
 			pGameObject->m_pTransform->m_vInfo[INFO_POS].y = iter->m_pTransform->m_vInfo[INFO_POS].y;
-			dynamic_cast<CTempUI*>(pGameObject)->WorldMatrix(pGameObject->m_pTransform->m_vInfo[INFO_POS].x, pGameObject->m_pTransform->m_vInfo[INFO_POS].y, pGameObject->m_pTransform->m_vLocalScale.x, pGameObject->m_pTransform->m_vLocalScale.y);
+			static_cast<CTempUI*>(pGameObject)->WorldMatrix(pGameObject->m_pTransform->m_vInfo[INFO_POS].x, pGameObject->m_pTransform->m_vInfo[INFO_POS].y, pGameObject->m_pTransform->m_vLocalScale.x, pGameObject->m_pTransform->m_vLocalScale.y);
 
-			dynamic_cast<CTempUI*>(pGameObject)->Set_Parent(iter);
-			dynamic_cast<CTempUI*>(iter)->Set_Child(pGameObject);
-			dynamic_cast<CTempUI*>(iter)->Set_EmptyBool(false);
+			static_cast<CTempUI*>(pGameObject)->Set_Parent(iter);
+			static_cast<CTempUI*>(iter)->Set_Child(pGameObject);
+			static_cast<CTempUI*>(iter)->Set_EmptyBool(false);
 
 			Engine::UIManager()->Add_PopupGameobject(Engine::UIPOPUPLAYER::POPUP_ITEM, Engine::UILAYER::UI_DOWN, pGameObject);
 			Hide_InvenItem(0); // 내부 아이템 숨김
@@ -286,18 +286,18 @@ void CUIManager::ReplayAdd_ItemGameobject(CGameObject* pGameObject)
 	// 빈 공간이 있는지 검사후 할당 후 장착
 	for (auto iter : m_vecUIbasic[UI_DOWN])
 	{
-		if (dynamic_cast<CTempUI*>(iter)->Get_EmptyBool())
+		if (static_cast<CTempUI*>(iter)->Get_EmptyBool())
 		{
 			// 들어온 아이템 ui 포지션을 비어있는 해당 슬롯 포지션 값으로 대입 후 월드 행렬 셋팅
 			pGameObject->m_pTransform->m_vInfo[INFO_POS].x = iter->m_pTransform->m_vInfo[INFO_POS].x;
 			pGameObject->m_pTransform->m_vInfo[INFO_POS].y = iter->m_pTransform->m_vInfo[INFO_POS].y;
-			dynamic_cast<CTempUI*>(pGameObject)->WorldMatrix(pGameObject->m_pTransform->m_vInfo[INFO_POS].x, pGameObject->m_pTransform->m_vInfo[INFO_POS].y, pGameObject->m_pTransform->m_vLocalScale.x, pGameObject->m_pTransform->m_vLocalScale.y);
+			static_cast<CTempUI*>(pGameObject)->WorldMatrix(pGameObject->m_pTransform->m_vInfo[INFO_POS].x, pGameObject->m_pTransform->m_vInfo[INFO_POS].y, pGameObject->m_pTransform->m_vLocalScale.x, pGameObject->m_pTransform->m_vLocalScale.y);
 
 			// 아이템의 부모 오브젝트로 해당 슬롯 등록
-			dynamic_cast<CTempUI*>(pGameObject)->Set_Parent(iter);
+			static_cast<CTempUI*>(pGameObject)->Set_Parent(iter);
 			// 슬롯 자식 오브젝트로 해당 아이템 등록 후 비어있지 않다는 상태로 변경
-			dynamic_cast<CTempUI*>(iter)->Set_Child(pGameObject);
-			dynamic_cast<CTempUI*>(iter)->Set_EmptyBool(false);
+			static_cast<CTempUI*>(iter)->Set_Child(pGameObject);
+			static_cast<CTempUI*>(iter)->Set_EmptyBool(false);
 
 			Engine::UIManager()->Add_PopupGameobject(Engine::UIPOPUPLAYER::POPUP_ITEM, Engine::UILAYER::UI_DOWN, pGameObject);
 			return;
@@ -306,15 +306,15 @@ void CUIManager::ReplayAdd_ItemGameobject(CGameObject* pGameObject)
 
 	for (auto iter : m_mapPpopupUI[POPUP_INVEN][UI_DOWN])
 	{
-		if (dynamic_cast<CTempUI*>(iter)->Get_EmptyBool())
+		if (static_cast<CTempUI*>(iter)->Get_EmptyBool())
 		{
 			pGameObject->m_pTransform->m_vInfo[INFO_POS].x = iter->m_pTransform->m_vInfo[INFO_POS].x;
 			pGameObject->m_pTransform->m_vInfo[INFO_POS].y = iter->m_pTransform->m_vInfo[INFO_POS].y;
-			dynamic_cast<CTempUI*>(pGameObject)->WorldMatrix(pGameObject->m_pTransform->m_vInfo[INFO_POS].x, pGameObject->m_pTransform->m_vInfo[INFO_POS].y, pGameObject->m_pTransform->m_vLocalScale.x, pGameObject->m_pTransform->m_vLocalScale.y);
+			static_cast<CTempUI*>(pGameObject)->WorldMatrix(pGameObject->m_pTransform->m_vInfo[INFO_POS].x, pGameObject->m_pTransform->m_vInfo[INFO_POS].y, pGameObject->m_pTransform->m_vLocalScale.x, pGameObject->m_pTransform->m_vLocalScale.y);
 
-			dynamic_cast<CTempUI*>(pGameObject)->Set_Parent(iter);
-			dynamic_cast<CTempUI*>(iter)->Set_Child(pGameObject);
-			dynamic_cast<CTempUI*>(iter)->Set_EmptyBool(false);
+			static_cast<CTempUI*>(pGameObject)->Set_Parent(iter);
+			static_cast<CTempUI*>(iter)->Set_Child(pGameObject);
+			static_cast<CTempUI*>(iter)->Set_EmptyBool(false);
 
 			Engine::UIManager()->Add_PopupGameobject(Engine::UIPOPUPLAYER::POPUP_ITEM, Engine::UILAYER::UI_DOWN, pGameObject);
 			//Hide_InvenItem(0); // 내부 아이템 숨김
@@ -327,7 +327,7 @@ CGameObject* CUIManager::Get_ItemUI(ITEMID _eItemID)
 {
 	for (auto iter : m_mapPpopupUI[POPUP_ITEM][UI_DOWN]) {
 		if (iter != nullptr) {
-			ITEMTYPEID SlotItemType = dynamic_cast<CUIitem*>(iter)->Get_ItemTag();
+			ITEMTYPEID SlotItemType = static_cast<CUIitem*>(iter)->Get_ItemTag();
 
 			if (SlotItemType.eItemID == _eItemID){
 				return iter;
@@ -364,7 +364,7 @@ CGameObject* CUIManager::Find_ColliderSlot()
 		{
 			for (auto iter : m_vecUIbasic[UI_DOWN])
 			{
-				dynamic_cast<CTempUI*>(iter)->Get_UIObjID(_UIObjID, _UINumber);
+				static_cast<CTempUI*>(iter)->Get_UIObjID(_UIObjID, _UINumber);
 				if (i == _UINumber)
 				{
 					return iter;
@@ -378,7 +378,7 @@ CGameObject* CUIManager::Find_ColliderSlot()
 		{
 			for (auto iter : m_mapPpopupUI[POPUP_EQUIPMENT][UI_DOWN])
 			{
-				dynamic_cast<CTempUI*>(iter)->Get_UIObjID(_UIObjID, _UINumber);
+				static_cast<CTempUI*>(iter)->Get_UIObjID(_UIObjID, _UINumber);
 				if (i == _UINumber)
 				{
 					return iter;
@@ -392,7 +392,7 @@ CGameObject* CUIManager::Find_ColliderSlot()
 		{
 			for (auto iter : m_mapPpopupUI[POPUP_INVEN][UI_DOWN])
 			{
-				dynamic_cast<CTempUI*>(iter)->Get_UIObjID(_UIObjID, _UINumber);
+				static_cast<CTempUI*>(iter)->Get_UIObjID(_UIObjID, _UINumber);
 				if (i == _UINumber)
 				{
 					return iter;

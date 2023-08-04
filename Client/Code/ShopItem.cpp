@@ -556,7 +556,7 @@ void CShopItem::Key_Input()
 			CSoundManager::GetInstance()->PlaySound(L"ui_buy.mp3", CHANNELID::SOUND_UI, 1.f);
 
 			CGameObject* pItem = nullptr;
-			CPlayer& rPlayer = *dynamic_cast<CPlayer*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
+			CPlayer& rPlayer = *static_cast<CPlayer*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
 
 			switch (m_ItemID.eItemID)
 			{
@@ -602,12 +602,12 @@ void CShopItem::Key_Input()
 				break;
 			}
 
-			ITEMTYPEID ItemType = dynamic_cast<CItem*>(pItem)->Get_ItemTag();
+			ITEMTYPEID ItemType = static_cast<CItem*>(pItem)->Get_ItemTag();
 
 			rPlayer.Get_Inventory()->Add_ItemObject(pItem);
 
 			Engine::CGameObject* pGameObjectUI = CUIitem::Create(m_pGraphicDev);
-			dynamic_cast<CUIitem*>(pGameObjectUI)->Set_ItemTag(ItemType.eItemType, ItemType.eItemID, ItemType.iCount);
+			static_cast<CUIitem*>(pGameObjectUI)->Set_ItemTag(ItemType.eItemType, ItemType.eItemID, ItemType.iCount);
 
 			if (ItemType.eItemType == ITEMTYPE_WEAPONITEM && !rPlayer.Get_ItemEquipRight())
 			{
@@ -620,7 +620,7 @@ void CShopItem::Key_Input()
 				Engine::UIManager()->Add_ItemGameobject(pGameObjectUI);
 
 				Engine::CGameObject* FindSlotObj = Engine::UIManager()->Get_PopupObjectBasicSlot(ItemType);
-				dynamic_cast<CUIbasicslot*>(dynamic_cast<CTempUI*>(FindSlotObj))->Set_FindSlot(true);
+				static_cast<CUIbasicslot*>(static_cast<CTempUI*>(FindSlotObj))->Set_FindSlot(true);
 			}
 //			else if (ItemType.eItemType == ITEMTYPE::ITEMTYPE_GENERALITEM && !rPlayer.Get_ItemEquipLeft())
 //			{
@@ -682,18 +682,18 @@ void CShopItem::Key_Input()
 //
 //				CGameObject* SlotObject = Engine::UIManager()->Get_PopupObject(Engine::UIPOPUPLAYER::POPUP_EQUIPMENT, Engine::UILAYER::UI_DOWN, UIID_SLOTEQUIPMENT, ItemSlotNumber);
 //
-//				if (dynamic_cast<CTempUI*>(SlotObject)->Get_EmptyBool()) // 해당 슬롯이 비어있으면
+//				if (static_cast<CTempUI*>(SlotObject)->Get_EmptyBool()) // 해당 슬롯이 비어있으면
 //				{
 //					// 들어온 아이템 ui 포지션을 비어있는 해당 슬롯 포지션 값으로 대입 후 월드 행렬 셋팅
 //					pGameObjectUI->m_pTransform->m_vInfo[INFO_POS].x = SlotObject->m_pTransform->m_vInfo[INFO_POS].x;
 //					pGameObjectUI->m_pTransform->m_vInfo[INFO_POS].y = SlotObject->m_pTransform->m_vInfo[INFO_POS].y;
-//					dynamic_cast<CTempUI*>(pGameObjectUI)->WorldMatrix(pGameObjectUI->m_pTransform->m_vInfo[INFO_POS].x, pGameObjectUI->m_pTransform->m_vInfo[INFO_POS].y, pGameObjectUI->m_pTransform->m_vLocalScale.x, pGameObjectUI->m_pTransform->m_vLocalScale.y);
+//					static_cast<CTempUI*>(pGameObjectUI)->WorldMatrix(pGameObjectUI->m_pTransform->m_vInfo[INFO_POS].x, pGameObjectUI->m_pTransform->m_vInfo[INFO_POS].y, pGameObjectUI->m_pTransform->m_vLocalScale.x, pGameObjectUI->m_pTransform->m_vLocalScale.y);
 //
 //					// 아이템의 부모 오브젝트로 해당 슬롯 등록
-//					dynamic_cast<CTempUI*>(pGameObjectUI)->Set_Parent(SlotObject);
+//					static_cast<CTempUI*>(pGameObjectUI)->Set_Parent(SlotObject);
 //					// 슬롯 자식 오브젝트로 해당 아이템 등록 후 비어있지 않다는 상태로 변경
-//					dynamic_cast<CTempUI*>(SlotObject)->Set_Child(pGameObjectUI);
-//					dynamic_cast<CTempUI*>(SlotObject)->Set_EmptyBool(false);
+//					static_cast<CTempUI*>(SlotObject)->Set_Child(pGameObjectUI);
+//					static_cast<CTempUI*>(SlotObject)->Set_EmptyBool(false);
 //
 //					Engine::UIManager()->AddPopupGameobject_UI(Engine::UIPOPUPLAYER::POPUP_ITEM, Engine::UILAYER::UI_DOWN, pGameObjectUI);
 //					Engine::UIManager()->Hide_InvenItem(0);
@@ -720,19 +720,19 @@ HRESULT CShopItem::Add_Component()
 {
 	CComponent* pComponent = nullptr;
 
-	pComponent = m_pBufferCom = dynamic_cast<CRcTex*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_RcTex"));
+	pComponent = m_pBufferCom = static_cast<CRcTex*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_RcTex"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BUFFER, pComponent);
 
-	pComponent = m_pTransform = dynamic_cast<CTransform*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Transform"));
+	pComponent = m_pTransform = static_cast<CTransform*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Transform"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::TRANSFORM, pComponent);
 
-	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_itemUI"));
+	pComponent = m_pTextureCom = static_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_itemUI"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
 
-	pComponent = m_pNameTexture = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_ShopFont"));
+	pComponent = m_pNameTexture = static_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_ShopFont"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
 

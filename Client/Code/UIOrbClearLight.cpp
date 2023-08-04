@@ -71,7 +71,7 @@ _int CUIOrbClearLight::Update_Object(const _float & fTimeDelta)
 	{
 		// 흰색 페이드 아웃 인
 		CGameObject* pGameObject = CWhiteOutIn::Create(m_pGraphicDev);
-		dynamic_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_BASIC, 7);
+		static_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_BASIC, 7);
 		Engine::UIManager()->Add_PopupGameobject(Engine::UIPOPUPLAYER::POPUP_BLACK, Engine::UILAYER::UI_DOWN, pGameObject);
 	
 		m_bPadeOutIn = true;
@@ -86,16 +86,16 @@ _int CUIOrbClearLight::Update_Object(const _float & fTimeDelta)
 		{
 			pGameObject = CEffectTwinkle::Create(m_pGraphicDev);
 			pGameObject->m_pTransform->m_vInfo[INFO_POS] = _vec3(m_pAltar->m_pTransform->m_vInfo[INFO_POS].x, m_pAltar->m_pTransform->m_vInfo[INFO_POS].y + 1.f, m_pAltar->m_pTransform->m_vInfo[INFO_POS].z);
-			dynamic_cast<CEffectTwinkle*>(pGameObject)->Set_Distance(.1f);
+			static_cast<CEffectTwinkle*>(pGameObject)->Set_Distance(.1f);
 			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 		}
 
 		// 오브 색상 밝게 변경
 		if(m_pOrb != nullptr)
-			dynamic_cast<COrb*>(m_pOrb)->Set_CurrentImage(43);
+			static_cast<COrb*>(m_pOrb)->Set_CurrentImage(43);
 		// 오브 제단 색상 밝게 변경
 		if(m_pAltar != nullptr)
-			dynamic_cast<CAltar*>(m_pAltar)->Set_ImageMode(52);
+			static_cast<CAltar*>(m_pAltar)->Set_ImageMode(52);
 
 		// 제단 주변 땅 색상 밝게 변경 : 원 이미지 출력
 		CGameObject* pAltarLight = COrbBlockLight::Create(m_pGraphicDev);
@@ -106,20 +106,20 @@ _int CUIOrbClearLight::Update_Object(const _float & fTimeDelta)
 		vector<CGameObject*> pEffectBlock = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BLOCK);
 		for (auto& iter : pEffectBlock)
 		{
-			if (dynamic_cast<CCubeBlock*>(iter)->Get_TextureNumber() == 53)
+			if (static_cast<CCubeBlock*>(iter)->Get_TextureNumber() == 53)
 			{
-				dynamic_cast<CCubeBlock*>(iter)->Set_TextureNumber(51);
+				static_cast<CCubeBlock*>(iter)->Set_TextureNumber(51);
 			}
 			else if (iter->m_pTransform->m_vInfo[INFO_POS].y > 50.f)
 			{
-				dynamic_cast<CCubeBlock*>(iter)->Set_TextureNumber(15);
+				static_cast<CCubeBlock*>(iter)->Set_TextureNumber(15);
 			}
 		}
 
 		// 스카이 박스 색상 이미지 교체
 		CGameObject* pSkyObject = SceneManager()->Get_ObjectList(LAYERTAG::ENVIRONMENT, OBJECTTAG::SKYBOX).front();
 		if (pSkyObject != nullptr)
-			dynamic_cast<CSkyBoxVillage*>(pSkyObject)->Set_SkyMode(1);
+			static_cast<CSkyBoxVillage*>(pSkyObject)->Set_SkyMode(1);
 
 		// 안개 색상 교체
 		Engine::Renderer()->Set_FogColor(100, 255, 170, 150);
@@ -129,14 +129,14 @@ _int CUIOrbClearLight::Update_Object(const _float & fTimeDelta)
 		for (auto& iter : pEffectList)
 		{
 			// 나뭇잎 이펙트 -> 꽃 이미지로 교체
-			if (dynamic_cast<CTempEffect*>(iter)->Get_EffectTag() == EFFECTTAG::EFFECT_LEAVES)
+			if (static_cast<CTempEffect*>(iter)->Get_EffectTag() == EFFECTTAG::EFFECT_LEAVES)
 			{
-				dynamic_cast<CEffectFallingleaves*>(iter)->Set_ChangeMode(true);
+				static_cast<CEffectFallingleaves*>(iter)->Set_ChangeMode(true);
 			}
 			// 반딧불이 이펙트 -> 나비 이미지로 교체
-			else if (dynamic_cast<CTempEffect*>(iter)->Get_EffectTag() == EFFECTTAG::EFFECT_FIREFLY)
+			else if (static_cast<CTempEffect*>(iter)->Get_EffectTag() == EFFECTTAG::EFFECT_FIREFLY)
 			{
-				dynamic_cast<CEffectFirefly*>(iter)->Set_ChangeMode(true);
+				static_cast<CEffectFirefly*>(iter)->Set_ChangeMode(true);
 			}
 		}
 
@@ -144,7 +144,7 @@ _int CUIOrbClearLight::Update_Object(const _float & fTimeDelta)
 		CGameObject* pPlayerObject = SceneManager()->Get_Scene()->Get_MainPlayer();
 		if (pPlayerObject != nullptr)
 		{
-			CPlayer& rPlayer = *dynamic_cast<CPlayer*>(pPlayerObject);
+			CPlayer& rPlayer = *static_cast<CPlayer*>(pPlayerObject);
 			rPlayer.Set_UseUI(false);
 		}
 		CGameObject* pCameraGameObject = CCameraManager::GetInstance()->Get_CurrentCam();
@@ -227,15 +227,15 @@ HRESULT CUIOrbClearLight::Add_Component(void)
 {
 	CComponent* pComponent = nullptr;
 
-	pComponent = m_pBufferCom = dynamic_cast<CRcTex*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_RcTex"));
+	pComponent = m_pBufferCom = static_cast<CRcTex*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_RcTex"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BUFFER, pComponent);
 
-	pComponent = m_pTransform = dynamic_cast<CTransform*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Transform"));
+	pComponent = m_pTransform = static_cast<CTransform*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Transform"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::TRANSFORM, pComponent);
 
-	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_UIOrbLight"));
+	pComponent = m_pTextureCom = static_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_UIOrbLight"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
 

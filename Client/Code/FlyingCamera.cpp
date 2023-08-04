@@ -119,11 +119,11 @@ HRESULT CFlyingCamera::Add_Component(void)
 {
 	CComponent* pComponent = nullptr;
 
-	pComponent = m_pTransform = dynamic_cast<CTransform*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Transform"));
+	pComponent = m_pTransform = static_cast<CTransform*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Transform"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::TRANSFORM, pComponent);
 
-	pComponent = m_pCamera = dynamic_cast<CCamera*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Camera"));
+	pComponent = m_pCamera = static_cast<CCamera*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Camera"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::CAMERA, pComponent);
 

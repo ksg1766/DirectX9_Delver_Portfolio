@@ -26,17 +26,17 @@ HRESULT CBoss_CloneMeteorState::Ready_State(CStateMachine* pOwner)
 
 STATE CBoss_CloneMeteorState::Update_State(const _float& fTimeDelta)
 {
-    if (STATE::BOSS_PH2SKILL5 != dynamic_cast<CSkeletonKing*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_StateMachine()->Get_State())
+    if (STATE::BOSS_PH2SKILL5 != static_cast<CSkeletonKing*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_StateMachine()->Get_State())
         return STATE::DEAD;
-     if (STATE::BOSS_IDLE == dynamic_cast<CSkeletonKing*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_StateMachine()->Get_State())
+     if (STATE::BOSS_IDLE == static_cast<CSkeletonKing*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_StateMachine()->Get_State())
         return STATE::DEAD;
 
     m_fDelay += fTimeDelta;
-    if ((3.f < m_fDelay)&&(dynamic_cast<CSkeletonKing_CloneMeteor*>(m_pOwner->Get_Host())->Get_bMove()))
+    if ((3.f < m_fDelay)&&(static_cast<CSkeletonKing_CloneMeteor*>(m_pOwner->Get_Host())->Get_bMove()))
     {
         Engine::CGameObject* pGameObject = nullptr;
         pGameObject = CBossProjectile::Create(m_pGraphicDev);
-        dynamic_cast<CBossProjectile*>(pGameObject)->Set_Target(m_pOwner->Get_Transform()->m_vInfo[INFO_POS]);
+        static_cast<CBossProjectile*>(pGameObject)->Set_Target(m_pOwner->Get_Transform()->m_vInfo[INFO_POS]);
         Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
         m_fDelay = 0.f;
 	    return STATE::IDLE;

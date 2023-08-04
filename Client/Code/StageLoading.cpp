@@ -46,7 +46,7 @@ Engine::_int CStageLoading::Update_Scene(const _float& fTimeDelta)
 	UIManager()->Update_UI(fTimeDelta);
 
 	CGameObject* pProgessbar = Engine::UIManager()->Get_BasicObject(UI_MIDDLE, UIID_BASIC, 1);
-	if (true == m_pLoading->Get_Finish() && dynamic_cast<CProgressBar*>(pProgessbar)->Get_Finish())
+	if (true == m_pLoading->Get_Finish() && static_cast<CProgressBar*>(pProgessbar)->Get_Finish())
 	{
 		Engine::UIManager()->Delete_BasicObject(Engine::UILAYER::UI_DOWN);
 		Engine::UIManager()->Delete_BasicObject(Engine::UILAYER::UI_MIDDLE);
@@ -122,18 +122,18 @@ HRESULT CStageLoading::Ready_Layer_Environment(LAYERTAG _eLayerTag)
 	// BackGround
 	pGameObject = CLoadingBackGround::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	dynamic_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_BASIC, 0);
+	static_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_BASIC, 0);
 	Engine::UIManager()->Add_BasicGameobject(Engine::UILAYER::UI_DOWN, pGameObject);
 	//Engine::UIManager()->AddPopupGameobject_UI(Engine::UIPOPUPLAYER::POPUP_STAT, Engine::UILAYER::UI_DOWN, pGameObject);
 
 	pGameObject = CProgressBar::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	dynamic_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_BASIC, 1);
+	static_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_BASIC, 1);
 	Engine::UIManager()->Add_BasicGameobject(Engine::UILAYER::UI_MIDDLE, pGameObject);
 
 	pGameObject = CLoadingPont::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	dynamic_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_BASIC, 2);
+	static_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_BASIC, 2);
 	Engine::UIManager()->Add_BasicGameobject(Engine::UILAYER::UI_MIDDLE, pGameObject);
 
 	return S_OK;

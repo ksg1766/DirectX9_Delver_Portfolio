@@ -87,7 +87,7 @@ void CImGuiManager::Key_Input(const _float& fTimeDelta)
             {
                 pGameObject = CCubeBlock::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
                 NULL_CHECK_RETURN(pGameObject);
-                dynamic_cast<CCubeBlock*>(pGameObject)->Set_TextureNumber(selected_texture_index);
+                static_cast<CCubeBlock*>(pGameObject)->Set_TextureNumber(selected_texture_index);
                 pGameObject->m_pTransform->Translate(vOut);
                 EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
             }
@@ -96,11 +96,11 @@ void CImGuiManager::Key_Input(const _float& fTimeDelta)
         {
             pGameObject = CSpawningPool::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
             NULL_CHECK_RETURN(pGameObject);
-            dynamic_cast<CSpawningPool*>(pGameObject)->Set_LifeCount(m_iSpawnerLife);
-            dynamic_cast<CSpawningPool*>(pGameObject)->Set_SpawnTime(m_fSpawnTime);
-            dynamic_cast<CSpawningPool*>(pGameObject)->Set_MonsterTag(m_eSpawnerTag);
-            dynamic_cast<CSpawningPool*>(pGameObject)->Set_PoolCapacity(m_iSpawnCapacity);
-            dynamic_cast<CSpawningPool*>(pGameObject)->Set_SpawnRadius(m_fSpawnRadius);
+            static_cast<CSpawningPool*>(pGameObject)->Set_LifeCount(m_iSpawnerLife);
+            static_cast<CSpawningPool*>(pGameObject)->Set_SpawnTime(m_fSpawnTime);
+            static_cast<CSpawningPool*>(pGameObject)->Set_MonsterTag(m_eSpawnerTag);
+            static_cast<CSpawningPool*>(pGameObject)->Set_PoolCapacity(m_iSpawnCapacity);
+            static_cast<CSpawningPool*>(pGameObject)->Set_SpawnRadius(m_fSpawnRadius);
             pGameObject->m_pTransform->Translate(vOut);
             EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
         }
@@ -110,7 +110,7 @@ void CImGuiManager::Key_Input(const _float& fTimeDelta)
             {
             case 0:
                 pGameObject = CBlade_Trap::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
-                dynamic_cast<CBlade_Trap*>(pGameObject)->Create_Blade();
+                static_cast<CBlade_Trap*>(pGameObject)->Create_Blade();
                 pGameObject->m_pTransform->Translate(_vec3(0.f, -0.8f, 0.f));
                 break;
 
@@ -135,41 +135,41 @@ void CImGuiManager::Key_Input(const _float& fTimeDelta)
             {
             case 0:
                 pGameObject = CTree::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
-                dynamic_cast<CTree*>(pGameObject)->Set_TreeType(m_iType, m_iHeight);
+                static_cast<CTree*>(pGameObject)->Set_TreeType(m_iType, m_iHeight);
                 pGameObject->m_pTransform->Scale(_vec3(m_fScaleX, m_fScaleY, 9.f));
                 pGameObject->m_pTransform->Translate(_vec3(0.f,m_fScaleY - 1.f, 0.f));
                 break;
 
             case 1:
                 pGameObject = CRock::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
-                dynamic_cast<CRock*>(pGameObject)->Set_RockNumber(m_iType);
+                static_cast<CRock*>(pGameObject)->Set_RockNumber(m_iType);
                 pGameObject->m_pTransform->Scale(_vec3(m_fScaleX, m_fScaleY, 9.f));
                 pGameObject->m_pTransform->Translate(_vec3(0.f, m_fScaleY - 1.f, 0.f));
                 break;
 
             case 2:
                 pGameObject = CGrass::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
-                dynamic_cast<CGrass*>(pGameObject)->Set_GrassNumber(m_iType);
+                static_cast<CGrass*>(pGameObject)->Set_GrassNumber(m_iType);
                 pGameObject->m_pTransform->Scale(_vec3(m_fScaleX, m_fScaleY, 9.f));
                 pGameObject->m_pTransform->Translate(_vec3(0.f, m_fScaleY - 1.f, 0.f));
                 break;
 
             case 3:
                 pGameObject = CMushroom::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
-                dynamic_cast<CMushroom*>(pGameObject)->Set_MushroomNumber(m_iType);
+                static_cast<CMushroom*>(pGameObject)->Set_MushroomNumber(m_iType);
                 pGameObject->m_pTransform->Scale(_vec3(m_fScaleX, m_fScaleY, 9.f));
                 pGameObject->m_pTransform->Translate(_vec3(0.f, m_fScaleY - 1.f, 0.f));
                 break;
 
             case 4:
                 pGameObject = CPumpkin::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
-                dynamic_cast<CPumpkin*>(pGameObject)->Set_PumpkinNumber(m_iType);
+                static_cast<CPumpkin*>(pGameObject)->Set_PumpkinNumber(m_iType);
                 pGameObject->m_pTransform->Scale(_vec3(m_fScaleX, m_fScaleY, 9.f));
                 pGameObject->m_pTransform->Translate(_vec3(0.f, m_fScaleY - 1.f, 0.f));
                 break;
             case 5:
                 pGameObject = CImmortalSprite::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
-                dynamic_cast<CImmortalSprite*>(pGameObject)->Set_SpriteNumber(m_iType);
+                static_cast<CImmortalSprite*>(pGameObject)->Set_SpriteNumber(m_iType);
                 pGameObject->m_pTransform->Scale(_vec3(m_fScaleX, m_fScaleY, 9.f));
                 pGameObject->m_pTransform->Translate(_vec3(0.f, m_fScaleY - 1.f, 0.f));
                 break;
@@ -226,7 +226,7 @@ void CImGuiManager::Key_Input(const _float& fTimeDelta)
             {
                 pGameObject = CCubeBlock::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
                 NULL_CHECK_RETURN(pGameObject);
-                dynamic_cast<CCubeBlock*>(pGameObject)->Set_TextureNumber(selected_texture_index);
+                static_cast<CCubeBlock*>(pGameObject)->Set_TextureNumber(selected_texture_index);
                 pGameObject->m_pTransform->Translate(vOut);
                 EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
             }
@@ -267,7 +267,7 @@ _vec3 CImGuiManager::PickingBlock()
 
     // 투영 -> 뷰 스페이스
     _matrix		matProj;
-    D3DXMatrixInverse(&matProj, 0, &dynamic_cast<CFlyingCamera*>(CCameraManager::GetInstance()
+    D3DXMatrixInverse(&matProj, 0, &static_cast<CFlyingCamera*>(CCameraManager::GetInstance()
         ->Get_CurrentCam())->Get_Camera()->Get_ProjMatrix());
     D3DXVec3TransformCoord(&vMousePos, &vMousePos, &matProj);
 
@@ -278,7 +278,7 @@ _vec3 CImGuiManager::PickingBlock()
 
     // 뷰 스페이스 -> 월드 스페이스
     _matrix		matView;
-    D3DXMatrixInverse(&matView, 0, &dynamic_cast<CFlyingCamera*>(CCameraManager::GetInstance()
+    D3DXMatrixInverse(&matView, 0, &static_cast<CFlyingCamera*>(CCameraManager::GetInstance()
         ->Get_CurrentCam())->Get_Camera()->Get_ViewMatrix());
     D3DXVec3TransformCoord(&vRayPos, &vRayPos, &matView);
     D3DXVec3TransformNormal(&vRayDir, &vRayDir, &matView);
@@ -287,7 +287,7 @@ _vec3 CImGuiManager::PickingBlock()
 
     for (auto& iter : vecBlock)
     {
-        CCubeBlock* pCubeBlock = dynamic_cast<CCubeBlock*>(iter);
+        CCubeBlock* pCubeBlock = static_cast<CCubeBlock*>(iter);
 
         _vec3 vRayPosWorld = vRayPos;
         _vec3 vRayDirWorld = vRayDir;
@@ -416,7 +416,7 @@ _vec3 CImGuiManager::PickingSpawner()
 
         // 투영 -> 뷰 스페이스
         _matrix		matProj;
-        D3DXMatrixInverse(&matProj, 0, &dynamic_cast<CFlyingCamera*>(CCameraManager::GetInstance()
+        D3DXMatrixInverse(&matProj, 0, &static_cast<CFlyingCamera*>(CCameraManager::GetInstance()
             ->Get_CurrentCam())->Get_Camera()->Get_ProjMatrix());
         D3DXVec3TransformCoord(&vMousePos, &vMousePos, &matProj);
 
@@ -425,7 +425,7 @@ _vec3 CImGuiManager::PickingSpawner()
 
         // 뷰 스페이스 -> 월드 스페이스
         _matrix		matView;
-        D3DXMatrixInverse(&matView, 0, &dynamic_cast<CFlyingCamera*>(CCameraManager::GetInstance()
+        D3DXMatrixInverse(&matView, 0, &static_cast<CFlyingCamera*>(CCameraManager::GetInstance()
             ->Get_CurrentCam())->Get_Camera()->Get_ViewMatrix());
         D3DXVec3TransformCoord(&vRayPos, &vRayPos, &matView);
         D3DXVec3TransformNormal(&vRayDir, &vRayDir, &matView);
@@ -452,8 +452,8 @@ _vec3 CImGuiManager::PickingSpawner()
                 D3DXVec3TransformCoord(&vRayPosWorld, &vRayPosWorld, &matWorld);
                 D3DXVec3TransformNormal(&vRayDirWorld, &vRayDirWorld, &matWorld);
 
-                const vector<_vec3>& pSpawnerVtxPos = dynamic_cast<CSpawningPool*>(iter)->LoadSpawnerVertex();
-                const vector<INDEX32>& pSpawnerIdxPos = dynamic_cast<CSpawningPool*>(iter)->LoadSpawnerIndex();
+                const vector<_vec3>& pSpawnerVtxPos = static_cast<CSpawningPool*>(iter)->LoadSpawnerVertex();
+                const vector<INDEX32>& pSpawnerIdxPos = static_cast<CSpawningPool*>(iter)->LoadSpawnerIndex();
 
                 _float	fU = 0.f, fV = 0.f, fDist = 0.f;
 
@@ -503,7 +503,7 @@ _vec3 CImGuiManager::PickingTrap()
 
         // 투영 -> 뷰 스페이스
         _matrix		matProj;
-        D3DXMatrixInverse(&matProj, 0, &dynamic_cast<CFlyingCamera*>(CCameraManager::GetInstance()
+        D3DXMatrixInverse(&matProj, 0, &static_cast<CFlyingCamera*>(CCameraManager::GetInstance()
             ->Get_CurrentCam())->Get_Camera()->Get_ProjMatrix());
         D3DXVec3TransformCoord(&vMousePos, &vMousePos, &matProj);
 
@@ -512,7 +512,7 @@ _vec3 CImGuiManager::PickingTrap()
 
         // 뷰 스페이스 -> 월드 스페이스
         _matrix		matView;
-        D3DXMatrixInverse(&matView, 0, &dynamic_cast<CFlyingCamera*>(CCameraManager::GetInstance()
+        D3DXMatrixInverse(&matView, 0, &static_cast<CFlyingCamera*>(CCameraManager::GetInstance()
             ->Get_CurrentCam())->Get_Camera()->Get_ViewMatrix());
         D3DXVec3TransformCoord(&vRayPos, &vRayPos, &matView);
         D3DXVec3TransformNormal(&vRayDir, &vRayDir, &matView);
@@ -539,8 +539,8 @@ _vec3 CImGuiManager::PickingTrap()
                 D3DXVec3TransformCoord(&vRayPosWorld, &vRayPosWorld, &matWorld);
                 D3DXVec3TransformNormal(&vRayDirWorld, &vRayDirWorld, &matWorld);
 
-                const vector<_vec3>& pTrapVtxPos = dynamic_cast<CTrap*>(iter)->LoadTrapVertex();
-                const vector<INDEX32>& pTrapIdxPos = dynamic_cast<CTrap*>(iter)->LoadTrapIndex();
+                const vector<_vec3>& pTrapVtxPos = static_cast<CTrap*>(iter)->LoadTrapVertex();
+                const vector<INDEX32>& pTrapIdxPos = static_cast<CTrap*>(iter)->LoadTrapIndex();
 
                 _float	fU = 0.f, fV = 0.f, fDist = 0.f;
 
@@ -590,7 +590,7 @@ _vec3 CImGuiManager::PickingEnvironment()
 
         // 투영 -> 뷰 스페이스
         _matrix		matProj;
-        D3DXMatrixInverse(&matProj, 0, &dynamic_cast<CFlyingCamera*>(CCameraManager::GetInstance()
+        D3DXMatrixInverse(&matProj, 0, &static_cast<CFlyingCamera*>(CCameraManager::GetInstance()
             ->Get_CurrentCam())->Get_Camera()->Get_ProjMatrix());
         D3DXVec3TransformCoord(&vMousePos, &vMousePos, &matProj);
 
@@ -599,7 +599,7 @@ _vec3 CImGuiManager::PickingEnvironment()
 
         // 뷰 스페이스 -> 월드 스페이스
         _matrix		matView;
-        D3DXMatrixInverse(&matView, 0, &dynamic_cast<CFlyingCamera*>(CCameraManager::GetInstance()
+        D3DXMatrixInverse(&matView, 0, &static_cast<CFlyingCamera*>(CCameraManager::GetInstance()
             ->Get_CurrentCam())->Get_Camera()->Get_ViewMatrix());
         D3DXVec3TransformCoord(&vRayPos, &vRayPos, &matView);
         D3DXVec3TransformNormal(&vRayDir, &vRayDir, &matView);
@@ -626,8 +626,8 @@ _vec3 CImGuiManager::PickingEnvironment()
                 D3DXVec3TransformCoord(&vRayPosWorld, &vRayPosWorld, &matWorld);
                 D3DXVec3TransformNormal(&vRayDirWorld, &vRayDirWorld, &matWorld);
 
-                const vector<_vec3>& pEnvVtxPos = dynamic_cast<CEnvironment*>(iter)->LoadEnvVertex();
-                const vector<INDEX32>& pEnvIdxPos = dynamic_cast<CEnvironment*>(iter)->LoadEnvIndex();
+                const vector<_vec3>& pEnvVtxPos = static_cast<CEnvironment*>(iter)->LoadEnvVertex();
+                const vector<INDEX32>& pEnvIdxPos = static_cast<CEnvironment*>(iter)->LoadEnvIndex();
 
                 _float	fU = 0.f, fV = 0.f, fDist = 0.f;
 
@@ -665,7 +665,7 @@ HRESULT CImGuiManager::SetUp_ImGui()
 	ImGui_ImplDX9_Init(Engine::CGraphicDev::GetInstance()->Get_GraphicDev());
 
     // resources
-    CTexture* pCubeTexture = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_Tile"));
+    CTexture* pCubeTexture = static_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_Tile"));
     m_pCubeTexture = pCubeTexture->Get_TextureList();
 
     m_iPickingMode = 0;
@@ -979,7 +979,7 @@ HRESULT CImGuiManager::OnSaveData()
 
                 if (OBJECTTAG::BLOCK == (OBJECTTAG)i)
                 {
-                    byTextureNumber = dynamic_cast<CCubeBlock*>(iter)->Get_TextureNumber();
+                    byTextureNumber = static_cast<CCubeBlock*>(iter)->Get_TextureNumber();
                     WriteFile(hFile, &byTextureNumber, sizeof(_ubyte), &dwByte, nullptr);
                 }
             }
@@ -999,11 +999,11 @@ HRESULT CImGuiManager::OnSaveData()
                     continue;
 
                 eTag = iter->Get_ObjectTag();
-                iSpawnerLife = dynamic_cast<CSpawningPool*>(iter)->Get_LifeCount();
-                eMonsterTag = dynamic_cast<CSpawningPool*>(iter)->Get_MonsterTag();
-                iPoolCapacity = dynamic_cast<CSpawningPool*>(iter)->Get_PoolCapacity();
-                fSpawnRadius = dynamic_cast<CSpawningPool*>(iter)->Get_SpawnRadius();
-                fSpawnTime = dynamic_cast<CSpawningPool*>(iter)->Get_SpawnTime();
+                iSpawnerLife = static_cast<CSpawningPool*>(iter)->Get_LifeCount();
+                eMonsterTag = static_cast<CSpawningPool*>(iter)->Get_MonsterTag();
+                iPoolCapacity = static_cast<CSpawningPool*>(iter)->Get_PoolCapacity();
+                fSpawnRadius = static_cast<CSpawningPool*>(iter)->Get_SpawnRadius();
+                fSpawnTime = static_cast<CSpawningPool*>(iter)->Get_SpawnTime();
 
                 WriteFile(hFile, &eTag, sizeof(OBJECTTAG), &dwByte, nullptr);
                 WriteFile(hFile, &(iter->m_pTransform->m_vInfo[INFO_POS].x), sizeof(_float), &dwByte, nullptr);
@@ -1027,7 +1027,7 @@ HRESULT CImGuiManager::OnSaveData()
                     continue;
 
                 eTag = iter->Get_ObjectTag();
-                TRAPTAG eTrapTag = dynamic_cast<CTrap*>(iter)->Get_TrapTag();
+                TRAPTAG eTrapTag = static_cast<CTrap*>(iter)->Get_TrapTag();
                 if (TRAPTAG::TRAP_END == eTrapTag)
                     continue;
 
@@ -1048,7 +1048,7 @@ HRESULT CImGuiManager::OnSaveData()
                     continue;
 
                 eTag = iter->Get_ObjectTag();
-                ENVIRONMENTTAG eEnvTag = dynamic_cast<CEnvironment*>(iter)->Get_EnvTag();
+                ENVIRONMENTTAG eEnvTag = static_cast<CEnvironment*>(iter)->Get_EnvTag();
                 if (ENVIRONMENTTAG::ENVIRONMENT_END == eEnvTag)
                     continue;
 
@@ -1067,32 +1067,32 @@ HRESULT CImGuiManager::OnSaveData()
 
                 if (eEnvTag == ENVIRONMENTTAG::TREE)
                 {
-                    _uint iTreeNumber = dynamic_cast<CTree*>(iter)->Get_TreeNumber();
+                    _uint iTreeNumber = static_cast<CTree*>(iter)->Get_TreeNumber();
                     WriteFile(hFile, &iTreeNumber, sizeof(OBJECTTAG), &dwByte, nullptr);
                 }
                 else if (eEnvTag == ENVIRONMENTTAG::ROCK)
                 {
-                    _uint iRockNumber = dynamic_cast<CRock*>(iter)->Get_RockNumber();
+                    _uint iRockNumber = static_cast<CRock*>(iter)->Get_RockNumber();
                     WriteFile(hFile, &iRockNumber, sizeof(OBJECTTAG), &dwByte, nullptr);
                 }
                 else if (eEnvTag == ENVIRONMENTTAG::GRASS)
                 {
-                    _uint iGrassNumber = dynamic_cast<CGrass*>(iter)->Get_GrassNumber();
+                    _uint iGrassNumber = static_cast<CGrass*>(iter)->Get_GrassNumber();
                     WriteFile(hFile, &iGrassNumber, sizeof(OBJECTTAG), &dwByte, nullptr);
                 }
                 else if (eEnvTag == ENVIRONMENTTAG::MUSHROOM)
                 {
-                    _uint iMushroomNumber = dynamic_cast<CMushroom*>(iter)->Get_MushroomNumber();
+                    _uint iMushroomNumber = static_cast<CMushroom*>(iter)->Get_MushroomNumber();
                     WriteFile(hFile, &iMushroomNumber, sizeof(OBJECTTAG), &dwByte, nullptr);
                 }
                 else if (eEnvTag == ENVIRONMENTTAG::PUMPKIN)
                 {
-                    _uint iPumpkinNumber = dynamic_cast<CPumpkin*>(iter)->Get_PumpkinNumber();
+                    _uint iPumpkinNumber = static_cast<CPumpkin*>(iter)->Get_PumpkinNumber();
                     WriteFile(hFile, &iPumpkinNumber, sizeof(OBJECTTAG), &dwByte, nullptr);
                 }
                 else if (eEnvTag == ENVIRONMENTTAG::ETC)
                 {
-                    _uint iSpriteNumber = dynamic_cast<CImmortalSprite*>(iter)->Get_SpriteNumber();
+                    _uint iSpriteNumber = static_cast<CImmortalSprite*>(iter)->Get_SpriteNumber();
                     WriteFile(hFile, &iSpriteNumber, sizeof(OBJECTTAG), &dwByte, nullptr);
                 }
             }
@@ -1106,7 +1106,7 @@ HRESULT CImGuiManager::OnSaveData()
                     continue;
 
                 eTag = iter->Get_ObjectTag();
-                FRAGILETAG eFragileTag = dynamic_cast<CFragile*>(iter)->Get_FragileTag();
+                FRAGILETAG eFragileTag = static_cast<CFragile*>(iter)->Get_FragileTag();
                 if (FRAGILETAG::FRAGILE_END == eFragileTag)
                     continue;
 
@@ -1181,7 +1181,7 @@ HRESULT CImGuiManager::OnLoadData()
 
             CGameObject* pGameObject = CCubeBlock::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
             NULL_CHECK_RETURN(pGameObject, E_FAIL);
-            dynamic_cast<CCubeBlock*>(pGameObject)->Set_TextureNumber(byTextureNumber);
+            static_cast<CCubeBlock*>(pGameObject)->Set_TextureNumber(byTextureNumber);
             pGameObject->m_pTransform->Translate(_vec3(fX, fY, fZ));
             pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
             //EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
@@ -1204,11 +1204,11 @@ HRESULT CImGuiManager::OnLoadData()
 
             CGameObject* pGameObject = CSpawningPool::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
             NULL_CHECK_RETURN(pGameObject, E_FAIL);
-            dynamic_cast<CSpawningPool*>(pGameObject)->Set_MonsterTag(eSpawnerTag);
-            dynamic_cast<CSpawningPool*>(pGameObject)->Set_LifeCount(iSpawnerLife);
-            dynamic_cast<CSpawningPool*>(pGameObject)->Set_PoolCapacity(iPoolCapacity);
-            dynamic_cast<CSpawningPool*>(pGameObject)->Set_SpawnRadius(fSpawnRadius);
-            dynamic_cast<CSpawningPool*>(pGameObject)->Set_SpawnTime(fSpawnTime);
+            static_cast<CSpawningPool*>(pGameObject)->Set_MonsterTag(eSpawnerTag);
+            static_cast<CSpawningPool*>(pGameObject)->Set_LifeCount(iSpawnerLife);
+            static_cast<CSpawningPool*>(pGameObject)->Set_PoolCapacity(iPoolCapacity);
+            static_cast<CSpawningPool*>(pGameObject)->Set_SpawnRadius(fSpawnRadius);
+            static_cast<CSpawningPool*>(pGameObject)->Set_SpawnTime(fSpawnTime);
             pGameObject->m_pTransform->Translate(_vec3(fX, fY, fZ));
             pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
             //EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
@@ -1232,7 +1232,7 @@ HRESULT CImGuiManager::OnLoadData()
             {
             case TRAPTAG::BLADE:
                 pGameObject = CBlade_Trap::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
-                dynamic_cast<CBlade_Trap*>(pGameObject)->Create_Blade();
+                static_cast<CBlade_Trap*>(pGameObject)->Create_Blade();
                 break;
 
             case TRAPTAG::STRIKEDOWN:
@@ -1278,7 +1278,7 @@ HRESULT CImGuiManager::OnLoadData()
                 ReadFile(hFile, &iTreeNumber, sizeof(_uint), &dwByte, nullptr);
 
                 pGameObject = CTree::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
-                dynamic_cast<CTree*>(pGameObject)->Set_TreeNumber(iTreeNumber);
+                static_cast<CTree*>(pGameObject)->Set_TreeNumber(iTreeNumber);
                 break;
             }
 
@@ -1289,7 +1289,7 @@ HRESULT CImGuiManager::OnLoadData()
                 ReadFile(hFile, &iRockNumber, sizeof(_uint), &dwByte, nullptr);
 
                 pGameObject = CRock::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
-                dynamic_cast<CRock*>(pGameObject)->Set_RockNumber(iRockNumber);
+                static_cast<CRock*>(pGameObject)->Set_RockNumber(iRockNumber);
                 break;
             }   
 
@@ -1300,7 +1300,7 @@ HRESULT CImGuiManager::OnLoadData()
                 ReadFile(hFile, &iGrassNumber, sizeof(_uint), &dwByte, nullptr);
 
                 pGameObject = CGrass::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
-                dynamic_cast<CGrass*>(pGameObject)->Set_GrassNumber(iGrassNumber);
+                static_cast<CGrass*>(pGameObject)->Set_GrassNumber(iGrassNumber);
                 break;
             }
 
@@ -1311,7 +1311,7 @@ HRESULT CImGuiManager::OnLoadData()
                 ReadFile(hFile, &iMushroomNumber, sizeof(_uint), &dwByte, nullptr);
 
                 pGameObject = CMushroom::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
-                dynamic_cast<CMushroom*>(pGameObject)->Set_MushroomNumber(iMushroomNumber);
+                static_cast<CMushroom*>(pGameObject)->Set_MushroomNumber(iMushroomNumber);
                 break;
             }
 
@@ -1322,7 +1322,7 @@ HRESULT CImGuiManager::OnLoadData()
                 ReadFile(hFile, &iPumpkinNumber, sizeof(_uint), &dwByte, nullptr);
 
                 pGameObject = CPumpkin::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
-                dynamic_cast<CPumpkin*>(pGameObject)->Set_PumpkinNumber(iPumpkinNumber);
+                static_cast<CPumpkin*>(pGameObject)->Set_PumpkinNumber(iPumpkinNumber);
                 break;
             }
 
@@ -1333,7 +1333,7 @@ HRESULT CImGuiManager::OnLoadData()
                 ReadFile(hFile, &iSpriteNumber, sizeof(_uint), &dwByte, nullptr);
 
                 pGameObject = CImmortalSprite::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
-                dynamic_cast<CImmortalSprite*>(pGameObject)->Set_SpriteNumber(iSpriteNumber);
+                static_cast<CImmortalSprite*>(pGameObject)->Set_SpriteNumber(iSpriteNumber);
                 break;
             }
             }

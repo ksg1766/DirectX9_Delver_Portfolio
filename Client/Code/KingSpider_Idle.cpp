@@ -42,9 +42,9 @@ HRESULT CKingSpider_Idle::Ready_State(CStateMachine* pOwner)
 STATE CKingSpider_Idle::Update_State(const _float& fTimeDelta)
 {
 	m_fDelay += fTimeDelta;
-	/*if (0 >= dynamic_cast<CKingSpider*>(m_pOwner->Get_Host())->Get_BasicStat()->Get_Stat()->fHP)
+	/*if (0 >= static_cast<CKingSpider*>(m_pOwner->Get_Host())->Get_BasicStat()->Get_Stat()->fHP)
 		return STATE::BOSS_DEAD;*/
-	if ((!m_bJumpRun)&&(0 >= dynamic_cast<CKingSpider*>(m_pOwner->Get_Host())->Get_BasicStat()->Get_Stat()->fHP))
+	if ((!m_bJumpRun)&&(0 >= static_cast<CKingSpider*>(m_pOwner->Get_Host())->Get_BasicStat()->Get_Stat()->fHP))
 	{
 		m_bJumpRun = true;
 		return STATE::BOSS_TELEPORT;
@@ -53,7 +53,7 @@ STATE CKingSpider_Idle::Update_State(const _float& fTimeDelta)
 	if (3.f < m_fDelay)
 	{
 		m_fDelay = 0.f;
-		if (BOSSPHASE::PHASE1 == dynamic_cast<CKingSpider*>(m_pOwner->Get_Host())->Get_Phase())
+		if (BOSSPHASE::PHASE1 == static_cast<CKingSpider*>(m_pOwner->Get_Host())->Get_Phase())
 		{
 			switch (m_iSkillCount)
 			{
@@ -79,7 +79,7 @@ STATE CKingSpider_Idle::Update_State(const _float& fTimeDelta)
 			}
 		}
 
-		else if (BOSSPHASE::PHASE2 == dynamic_cast<CKingSpider*>(m_pOwner->Get_Host())->Get_Phase()) 
+		else if (BOSSPHASE::PHASE2 == static_cast<CKingSpider*>(m_pOwner->Get_Host())->Get_Phase()) 
 		{
 			switch (m_iSkillCount)
 			{

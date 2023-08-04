@@ -263,9 +263,9 @@ void CCollisionManager::CheckCollisionByType(OBJECTTAG _eObjectLeft, OBJECTTAG _
 				continue;
 
 			CCollider* pLeftCol = iterL->Get_Collider();
-			//dynamic_cast<CCollider*>(iterL->Get_Component(COMPONENTTAG::COLLIDER, ID_DYNAMIC));
+			//static_cast<CCollider*>(iterL->Get_Component(COMPONENTTAG::COLLIDER, ID_DYNAMIC));
 			CCollider* pRightCol = iterR->Get_Collider();
-			//dynamic_cast<CCollider*>(iterR->Get_Component(COMPONENTTAG::COLLIDER, ID_DYNAMIC));
+			//static_cast<CCollider*>(iterR->Get_Component(COMPONENTTAG::COLLIDER, ID_DYNAMIC));
 
 			COLLIDER_ID ID;
 			ID.Left_id = pLeftCol->GetID();
@@ -350,9 +350,9 @@ void CCollisionManager::CheckCollisionStatic(OBJECTTAG _eObjectLeft)
 				continue;
 
 			CCollider* pLeftCol = iterL->Get_Collider();
-			//dynamic_cast<CCollider*>(iterL->Get_Component(COMPONENTTAG::COLLIDER, ID_DYNAMIC));
+			//static_cast<CCollider*>(iterL->Get_Component(COMPONENTTAG::COLLIDER, ID_DYNAMIC));
 			CCollider* pRightCol = iterR->Get_Collider();
-			//dynamic_cast<CCollider*>(iterR->Get_Component(COMPONENTTAG::COLLIDER, ID_DYNAMIC));
+			//static_cast<CCollider*>(iterR->Get_Component(COMPONENTTAG::COLLIDER, ID_DYNAMIC));
 
 			COLLIDER_ID ID;
 			ID.Left_id = pLeftCol->GetID();

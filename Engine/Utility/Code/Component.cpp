@@ -29,9 +29,9 @@ void CComponent::Init_Property(CGameObject * _pHost)
 	m_eObjectTag = m_pHost->Get_ObjectTag();
 
 	if(m_eObjectTag == OBJECTTAG::BLOCK || m_eObjectTag == OBJECTTAG::DOORBLOCK)
-		m_pTransform = dynamic_cast<CTransform*>(m_pHost->Get_Component(COMPONENTTAG::TRANSFORM, ID_STATIC));
+		m_pTransform = static_cast<CTransform*>(m_pHost->Get_Component(COMPONENTTAG::TRANSFORM, ID_STATIC));
 	else
-		m_pTransform = dynamic_cast<CTransform*>(m_pHost->Get_Component(COMPONENTTAG::TRANSFORM, ID_DYNAMIC));
+		m_pTransform = static_cast<CTransform*>(m_pHost->Get_Component(COMPONENTTAG::TRANSFORM, ID_DYNAMIC));
 }
 
 void CComponent::Free(void)

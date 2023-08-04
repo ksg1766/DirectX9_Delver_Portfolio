@@ -32,7 +32,7 @@ STATE CGrapPattern::Update_State(const _float& fTimeDelta)
 	if (5.f < m_fDelay)
 	{
 		pGameObject = CBoss_GrabBat::Create(m_pGraphicDev);
-		dynamic_cast<CBoss_GrabBat*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
+		static_cast<CBoss_GrabBat*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
 		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 		m_fDelay = 0.f;
 	}

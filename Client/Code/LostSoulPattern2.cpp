@@ -38,8 +38,8 @@ STATE CLostSoulPattern2::Update_State(const _float& fTimeDelta)
 	if (1.f < m_fDelay)
 	{
 		pGameObject = CBossLostSoul::Create(m_pGraphicDev);
-		dynamic_cast<CBossLostSoul*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
-		dynamic_cast<CBossLostSoul*>(pGameObject)->Set_Target(m_pOwner->Get_Transform()->m_vInfo[INFO_POS]+ m_vLaunchPos[m_iSkillCount]);
+		static_cast<CBossLostSoul*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
+		static_cast<CBossLostSoul*>(pGameObject)->Set_Target(m_pOwner->Get_Transform()->m_vInfo[INFO_POS]+ m_vLaunchPos[m_iSkillCount]);
 		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 	
 		m_fDelay = 0.f;

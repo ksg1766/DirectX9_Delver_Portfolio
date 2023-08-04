@@ -47,9 +47,9 @@ STATE CMeteorPh3::Update_State(const _float& fTimeDelta)
 	{
 		Engine::CGameObject* pGameObject = nullptr;
 		pGameObject = CBoss_MeteorCube3Ph::Create(m_pGraphicDev);
-		dynamic_cast<CBoss_MeteorCube3Ph*>(pGameObject)->Set_Center(m_pOwner->Get_Transform()->m_vInfo[INFO_POS]);
-		dynamic_cast<CBoss_MeteorCube3Ph*>(pGameObject)->Set_State(STATE::BOSS_PH3SKILL5);
-		dynamic_cast<CBoss_MeteorCube3Ph*>(pGameObject)->Channeling_Begin();
+		static_cast<CBoss_MeteorCube3Ph*>(pGameObject)->Set_Center(m_pOwner->Get_Transform()->m_vInfo[INFO_POS]);
+		static_cast<CBoss_MeteorCube3Ph*>(pGameObject)->Set_State(STATE::BOSS_PH3SKILL5);
+		static_cast<CBoss_MeteorCube3Ph*>(pGameObject)->Channeling_Begin();
 		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 		m_bSkillStart = true;
 	}
@@ -59,8 +59,8 @@ STATE CMeteorPh3::Update_State(const _float& fTimeDelta)
 		m_bSkillStart = false;
 
 		m_fChannel_Count = 0.f;
-		dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Set_Phase(BOSSPHASE::LASTPHASE);
-		dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Set_3Phase(false);
+		static_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Set_Phase(BOSSPHASE::LASTPHASE);
+		static_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Set_3Phase(false);
 		return STATE::BOSS_IDLE;
 	}
 	if (2.0f < m_fSpawnDelay)
@@ -96,8 +96,8 @@ void CMeteorPh3::Make_LostSoul()
 {
 	Engine::CGameObject* pGameObject = nullptr;
 	pGameObject = CBossLostSoul::Create(m_pGraphicDev);
-	dynamic_cast<CBossLostSoul*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS]= m_vLaunchPos[2];
-	dynamic_cast<CBossLostSoul*>(pGameObject)->Set_Target(m_vSpawnPos[0]);
+	static_cast<CBossLostSoul*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS]= m_vLaunchPos[2];
+	static_cast<CBossLostSoul*>(pGameObject)->Set_Target(m_vSpawnPos[0]);
 	Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 	m_fSpawnDelay = 0.f;
 }
@@ -113,7 +113,7 @@ void CMeteorPh3::Make_MiniMeteor()
 		auto generator = bind(distribution, engine);
 		m_iSpawnX = generator();
 		pGameObject = CBoss_WarningEff::Create(m_pGraphicDev);
-		dynamic_cast<CBoss_WarningEff*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = _vec3(m_pOwner->Get_Transform()->m_vInfo[INFO_POS].x + m_iSpawnX, m_pOwner->Get_Transform()->m_vInfo[INFO_POS].y + 5.f, m_pOwner->Get_Transform()->m_vInfo[INFO_POS].z + 5.f);
+		static_cast<CBoss_WarningEff*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = _vec3(m_pOwner->Get_Transform()->m_vInfo[INFO_POS].x + m_iSpawnX, m_pOwner->Get_Transform()->m_vInfo[INFO_POS].y + 5.f, m_pOwner->Get_Transform()->m_vInfo[INFO_POS].z + 5.f);
 		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 		m_fDelay = 0.f;
 		m_CautionCool = true;
@@ -121,8 +121,8 @@ void CMeteorPh3::Make_MiniMeteor()
 	if ((0.4f < m_fMiniDelay) && (m_CautionCool) && (!m_bCool))
 	{
 		pGameObject = CMiniMeteor::Create(m_pGraphicDev);
-		dynamic_cast<CMiniMeteor*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = _vec3(m_pOwner->Get_Transform()->m_vInfo[INFO_POS].x + m_iSpawnX, m_pOwner->Get_Transform()->m_vInfo[INFO_POS].y + 5.f, m_pOwner->Get_Transform()->m_vInfo[INFO_POS].z + 5.f);
-		dynamic_cast<CMiniMeteor*>(pGameObject)->Set_Dir(_vec3(0.f, 0.f, 0.3f));
+		static_cast<CMiniMeteor*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = _vec3(m_pOwner->Get_Transform()->m_vInfo[INFO_POS].x + m_iSpawnX, m_pOwner->Get_Transform()->m_vInfo[INFO_POS].y + 5.f, m_pOwner->Get_Transform()->m_vInfo[INFO_POS].z + 5.f);
+		static_cast<CMiniMeteor*>(pGameObject)->Set_Dir(_vec3(0.f, 0.f, 0.3f));
 		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 		m_bCool = true;
 	}

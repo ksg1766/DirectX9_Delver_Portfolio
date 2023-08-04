@@ -47,8 +47,8 @@ HRESULT CTempItem::Ready_Object(_bool _Item)
 		m_ItemID.eItemID = WEAPON_SWORD;
 		m_ItemID.iCount = 1;
 
-		CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pTransform->m_pParent->Get_Host());
-		//m_pTransform->Translate(pPlayer->m_pTransform->m_vInfo[INFO_POS] + *dynamic_cast<CPlayer*>(pPlayer)->Get_Offset());
+		CPlayer* pPlayer = static_cast<CPlayer*>(m_pTransform->m_pParent->Get_Host());
+		//m_pTransform->Translate(pPlayer->m_pTransform->m_vInfo[INFO_POS] + *static_cast<CPlayer*>(pPlayer)->Get_Offset());
 
 		CTransform* pPlayerTransform = pPlayer->m_pTransform;
 
@@ -91,9 +91,9 @@ _int CTempItem::Update_Object(const _float& fTimeDelta)
 
 	_int iExit = __super::Update_Object(fTimeDelta);
 
-	CPlayer* pPlayer = dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer());
+	CPlayer* pPlayer = static_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer());
 
-	CItem* ItemType = dynamic_cast<CItem*>(pPlayer->Get_CurrentEquipRight());
+	CItem* ItemType = static_cast<CItem*>(pPlayer->Get_CurrentEquipRight());
 	ITEMTYPEID ItemID = {};
 
 	if (Get_WorldItem())
@@ -202,11 +202,11 @@ void CTempItem::Render_Object(void)
 
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
 
-	CPlayer* pPlayer = dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer());
+	CPlayer* pPlayer = static_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer());
 
 	if (!Get_WorldItem() && pPlayer != nullptr)
 	{
-		CItem* ItemType = dynamic_cast<CItem*>(pPlayer->Get_CurrentEquipRight());
+		CItem* ItemType = static_cast<CItem*>(pPlayer->Get_CurrentEquipRight());
 
 		ITEMTYPEID ItemID = {};
 
@@ -235,40 +235,40 @@ HRESULT CTempItem::Add_Component(void)
 {
 	CComponent* pComponent = nullptr;
 
-	pComponent = m_pBuffer = dynamic_cast<CRcTex*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_RcTex"));
+	pComponent = m_pBuffer = static_cast<CRcTex*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_RcTex"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BUFFER, pComponent);
 
-	pComponent = m_pTransform = dynamic_cast<CTransform*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Transform"));
+	pComponent = m_pTransform = static_cast<CTransform*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Transform"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::TRANSFORM, pComponent);
 
-	pComponent = m_pTexture = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_Sword"));
+	pComponent = m_pTexture = static_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_Sword"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
 
-	pComponent = m_pCollider = dynamic_cast<CCollider*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Collider"));
+	pComponent = m_pCollider = static_cast<CCollider*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Collider"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::COLLIDER, pComponent);
 
-	pComponent = m_pBasicStat = dynamic_cast<CBasicStat*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BasicStat"));
+	pComponent = m_pBasicStat = static_cast<CBasicStat*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BasicStat"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BASICSTAT, pComponent);
 
-	pComponent = m_pRigidBody = dynamic_cast<CRigidBody*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_RigidBody"));
+	pComponent = m_pRigidBody = static_cast<CRigidBody*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_RigidBody"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::RIGIDBODY, pComponent);
 
 	if (!Get_WorldItem())
 	{
-		CPlayer* pPlayer = dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer());
+		CPlayer* pPlayer = static_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer());
 
 		m_pTransform->Set_Parent(pPlayer->m_pTransform);
 		m_pTransform->Copy_RUL(pPlayer->m_pTransform->m_vInfo);
 	}
 	else
 	{
-		pComponent = m_pBillBoard = dynamic_cast<CBillBoard*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BillBoard"));
+		pComponent = m_pBillBoard = static_cast<CBillBoard*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BillBoard"));
 		NULL_CHECK_RETURN(pComponent, E_FAIL);
 		m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::BILLBOARD, pComponent);
 	}
@@ -301,25 +301,25 @@ void CTempItem::OnCollisionEnter(CCollider* _pOther)
 
 	// 몬스터거나 플레이어면 밀어내지않는다.
 
-		CPlayer& pPlayer = *dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer());
+		CPlayer& pPlayer = *static_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer());
 		// 플레이어의 정보를 레퍼런스로 얻어옴.
 
 		if ((_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::MONSTER) || (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::BOSS))
 			// 무기 콜리전에 들어온 타입이 몬스터이면서, 플레이어의 스테이트가 공격이라면
 		{
 			if ((!pPlayer.Get_AttackTick() &&
-				dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_StateMachine()->Get_State() != STATE::DEAD))
+				static_cast<CMonster*>(_pOther->Get_Host())->Get_StateMachine()->Get_State() != STATE::DEAD))
 				// 공격 하지 않은 상태라면.
 			{
 				pPlayer.Set_AttackTick(true);
-				dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_StateMachine()->Set_State(STATE::HIT);
+				static_cast<CMonster*>(_pOther->Get_Host())->Get_StateMachine()->Set_State(STATE::HIT);
 
 
 				//////////////////////////////////////////////////////////////////////////////// 이펙트 
 				_matrix      matMonsterWorld = _pOther->Get_Host()->m_pTransform->WorldMatrix();
 				_vec3        vecMonsterPos = _vec3(matMonsterWorld._41, matMonsterWorld._42 + .5f, matMonsterWorld._43);
 				CGameObject* pGameObject = CEffectSquare::Create(m_pGraphicDev, vecMonsterPos, 50, EFFECTCOLOR::ECOLOR_NONE);
-				dynamic_cast<CEffectSquare*>(pGameObject)->Set_MonsterEffectColor(dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_MonsterTag());
+				static_cast<CEffectSquare*>(pGameObject)->Set_MonsterEffectColor(static_cast<CMonster*>(_pOther->Get_Host())->Get_MonsterTag());
 				Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 
 				pGameObject = CEffectDamage::Create(m_pGraphicDev);
@@ -348,7 +348,7 @@ void CTempItem::OnCollisionStay(CCollider* _pOther)
 		__super::OnCollisionStay(_pOther);
 	}*/
 
-	CPlayer& pPlayer = *dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer());
+	CPlayer& pPlayer = *static_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer());
 	// 플레이어의 정보를 레퍼런스로 얻어옴.
 
 	if (Get_WorldItem())
@@ -359,22 +359,22 @@ void CTempItem::OnCollisionStay(CCollider* _pOther)
 	else
 	{
 		if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::MONSTER && !pPlayer.Get_AttackTick() &&
-			dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_StateMachine()->Get_State() != STATE::DEAD)
+			static_cast<CMonster*>(_pOther->Get_Host())->Get_StateMachine()->Get_State() != STATE::DEAD)
 		{
 			++m_iHitCount;
 
 			if (m_iHitCount == 2)
 			{
 				m_iHitCount = 0;
-				dynamic_cast<CMonster*>(_pOther->Get_Host())->Set_KnockBack(true);
+				static_cast<CMonster*>(_pOther->Get_Host())->Set_KnockBack(true);
 			}
-			pPlayer.IsAttack(dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_BasicStat());
+			pPlayer.IsAttack(static_cast<CMonster*>(_pOther->Get_Host())->Get_BasicStat());
 
 			//////////////////////////////////////////////////////////////////////////////// 이펙트 
 			_matrix MonsterWorld = _pOther->Get_Host()->m_pTransform->WorldMatrix();
 			_vec3   vecMonsterPos = _vec3(MonsterWorld._41, MonsterWorld._42 + .5f, MonsterWorld._43);
 			CGameObject* pGameObject = CEffectSquare::Create(m_pGraphicDev, vecMonsterPos, 50, EFFECTCOLOR::ECOLOR_NONE);
-			dynamic_cast<CEffectSquare*>(pGameObject)->Set_MonsterEffectColor(dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_MonsterTag());
+			static_cast<CEffectSquare*>(pGameObject)->Set_MonsterEffectColor(static_cast<CMonster*>(_pOther->Get_Host())->Get_MonsterTag());
 			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 			//////////////////////////////////////////////////////////////////////////////// 이펙트 
 		}
@@ -385,7 +385,7 @@ void CTempItem::OnCollisionStay(CCollider* _pOther)
 			CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_BREAK);
 			CSoundManager::GetInstance()->PlaySound(L"clang_02.mp3", CHANNELID::SOUND_BREAK, 1.f);
 
-			dynamic_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam())->Shake_Camera();
+			static_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam())->Shake_Camera();
 		}
 	}
 }

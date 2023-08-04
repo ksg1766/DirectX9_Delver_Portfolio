@@ -48,7 +48,7 @@ _int CBoss_MeteorCube3Ph::Update_Object(const _float& fTimeDelta)
 	if (SceneManager()->Get_GameStop()) { return 0; }
 	_uint iExit = __super::Update_Object(fTimeDelta);
 
-	if (STATE::BOSS_STURN == dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_StateMachine()->Get_State())
+	if (STATE::BOSS_STURN == static_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_StateMachine()->Get_State())
 	{
 		m_bChanneling_Start = false;
 		m_bChanneling_End = false;
@@ -108,7 +108,7 @@ void CBoss_MeteorCube3Ph::Channeling_Begin()
 
 void CBoss_MeteorCube3Ph::Channeling_Now(const _float& fTimeDelta)
 {
-	CFlyingCamera* pCamera = dynamic_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam());
+	CFlyingCamera* pCamera = static_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam());
 	pCamera->Set_ShakeForce(0.f, 0.1f, 0.3f, 2.f);
 	pCamera->Shake_Camera();
 
@@ -138,14 +138,14 @@ void CBoss_MeteorCube3Ph::OnCollisionEnter(CCollider* _pOther)
 	if (SceneManager()->Get_GameStop()) { return; }
 	if (OBJECTTAG::PLAYER == _pOther->Get_ObjectTag())
 	{
-		CFlyingCamera* pCamera = dynamic_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam());
+		CFlyingCamera* pCamera = static_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam());
 		pCamera->Set_ShakeForce(0.f, 0.5f, 0.5f, 2.f);
 		pCamera->Shake_Camera();
 		m_bSound = false;
 
 			m_fMeteorExplosionTime = 0.f;
 			m_bHit = true;
-			CPlayerStat& PlayerState = *dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer())->Get_Stat();
+			CPlayerStat& PlayerState = *static_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer())->Get_Stat();
 			PlayerState.Take_Damage(m_fAttack);
 			this->Set_AttackTick(true);
 
@@ -157,9 +157,9 @@ void CBoss_MeteorCube3Ph::OnCollisionEnter(CCollider* _pOther)
 			Engine::CGameObject* pGameObject = nullptr;
 			pGameObject = CBossExplosion::Create(m_pGraphicDev);
 			m_vTargetPos = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front()->m_pTransform->m_vInfo[INFO_POS];
-			_vec3 m_vDis = (dynamic_cast<CPlayer*>(_pOther->Get_Host())->m_pTransform->m_vInfo[INFO_LOOK] * 0.2f);
-			dynamic_cast<CBossExplosion*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = _vec3(m_vTargetPos.x + m_vDis.x, m_pTransform->m_vInfo[INFO_POS].y, m_vTargetPos.z + m_vDis.z);
-			dynamic_cast<CBossExplosion*>(pGameObject)->Set_Scale(300.f);
+			_vec3 m_vDis = (static_cast<CPlayer*>(_pOther->Get_Host())->m_pTransform->m_vInfo[INFO_LOOK] * 0.2f);
+			static_cast<CBossExplosion*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = _vec3(m_vTargetPos.x + m_vDis.x, m_pTransform->m_vInfo[INFO_POS].y, m_vTargetPos.z + m_vDis.z);
+			static_cast<CBossExplosion*>(pGameObject)->Set_Scale(300.f);
 			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 			Engine::EventManager()->DeleteObject(this);
 	}
@@ -189,23 +189,23 @@ HRESULT CBoss_MeteorCube3Ph::Add_Component()
 {
 	CComponent* pComponent = nullptr;
 
-	pComponent = m_pCubeBf = dynamic_cast<CCubeBf*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_CubeBf"));
+	pComponent = m_pCubeBf = static_cast<CCubeBf*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_CubeBf"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BUFFER, pComponent);
 
-	pComponent = m_pTransform = dynamic_cast<CTransform*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Transform"));
+	pComponent = m_pTransform = static_cast<CTransform*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Transform"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::TRANSFORM, pComponent);
 
-	pComponent = m_pCollider = dynamic_cast<CCollider*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Collider"));
+	pComponent = m_pCollider = static_cast<CCollider*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Collider"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::COLLIDER, pComponent);
 
-	pComponent = m_pBasicStat = dynamic_cast<CBasicStat*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BasicStat"));
+	pComponent = m_pBasicStat = static_cast<CBasicStat*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BasicStat"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BASICSTAT, pComponent);
 
-	pComponent = m_pTexture = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_Cube"));
+	pComponent = m_pTexture = static_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_Cube"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::ANIMATOR, pComponent);
 

@@ -44,7 +44,7 @@ STATE CKingSpider_Jump::Update_State(const _float& fTimeDelta)
 	if (!m_bJumpStart)
 	{
 		m_fDelay+=fTimeDelta;
-		dynamic_cast<CKingSpider*>(m_pOwner->Get_Host())->Get_RigidBody()->UseGravity(false);
+		static_cast<CKingSpider*>(m_pOwner->Get_Host())->Get_RigidBody()->UseGravity(false);
 		if (1.f < m_fDelay)
 		{
 			m_fDelay = 0.f;
@@ -55,8 +55,8 @@ STATE CKingSpider_Jump::Update_State(const _float& fTimeDelta)
 	{
 		if (!m_bJumpAttack)
 		{
-			dynamic_cast<CKingSpider*>(m_pOwner->Get_Host())->Get_RigidBody()->Add_Force(_vec3(0.f, 20.f, 0.f));
-			dynamic_cast<CKingSpider*>(m_pOwner->Get_Host())->Get_RigidBody()->UseGravity(true);
+			static_cast<CKingSpider*>(m_pOwner->Get_Host())->Get_RigidBody()->Add_Force(_vec3(0.f, 20.f, 0.f));
+			static_cast<CKingSpider*>(m_pOwner->Get_Host())->Get_RigidBody()->UseGravity(true);
 			m_bJumpAttack = true;
 		}
 		if (m_bJumpAttack) 
@@ -64,18 +64,18 @@ STATE CKingSpider_Jump::Update_State(const _float& fTimeDelta)
 			if (14.99f >= m_pOwner->Get_Transform()->m_vInfo[INFO_POS].y)
 			{
 				m_pOwner->Get_Transform()->m_vInfo[INFO_POS].y = 15.f;
-				CFlyingCamera* pCamera = dynamic_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam());
+				CFlyingCamera* pCamera = static_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam());
 				pCamera->Set_ShakeForce(0.f, 0.2f, 1.5f, 2.f);
 				pCamera->Shake_Camera();
 
-				dynamic_cast<CKingSpider*>(m_pOwner->Get_Host())->Get_RigidBody()->UseGravity(false);
+				static_cast<CKingSpider*>(m_pOwner->Get_Host())->Get_RigidBody()->UseGravity(false);
 
 				CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_BOSS);
 				CSoundManager::GetInstance()->PlaySound(L"KingSpider_Landing.wav", CHANNELID::SOUND_BOSS, 1.f);
 
 				if (13.f >= SceneManager()->Get_Scene()->Get_MainPlayer()->m_pTransform->m_vInfo[INFO_POS].y)
 				{
-					CPlayerStat& PlayerState = *(dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer())->Get_Stat());
+					CPlayerStat& PlayerState = *(static_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer())->Get_Stat());
 					PlayerState.Take_Damage(3.f);
 				}
 
@@ -83,8 +83,8 @@ STATE CKingSpider_Jump::Update_State(const _float& fTimeDelta)
 				{
 					Engine::CGameObject* pGameObject = nullptr;
 					pGameObject = CKingSpiderFog::Create(m_pGraphicDev);
-					dynamic_cast<CKingSpiderFog*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = m_pOwner->Get_Transform()->m_vInfo[INFO_POS] + m_vFogPos[i];
-					dynamic_cast<CKingSpiderFog*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS].y = 13.f;
+					static_cast<CKingSpiderFog*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = m_pOwner->Get_Transform()->m_vInfo[INFO_POS] + m_vFogPos[i];
+					static_cast<CKingSpiderFog*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS].y = 13.f;
 					Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 				}
 				pCamera->Reset_ShakeForce();

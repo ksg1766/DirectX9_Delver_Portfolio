@@ -49,7 +49,7 @@ void CMonster_Jump::Render_State()
 
 STATE CMonster_Jump::Jump(const _float& fTimeDelta)
 {
-	CPlayer& rPlayer = *dynamic_cast<CPlayer*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
+	CPlayer& rPlayer = *static_cast<CPlayer*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
 
 
 	if (!m_bIsJumping)
@@ -65,8 +65,8 @@ STATE CMonster_Jump::Jump(const _float& fTimeDelta)
 		}
 		else
 		{
-			dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Set_AttackTick(false);
-			dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Set_JumpVelocity(15.f);
+			static_cast<CMonster*>(m_pOwner->Get_Host())->Set_AttackTick(false);
+			static_cast<CMonster*>(m_pOwner->Get_Host())->Set_JumpVelocity(15.f);
 			m_pOwner->Get_Animator()->Get_Animation()->Set_Loop(true);
 			m_vLastPos = rPlayer.m_pTransform->m_vInfo[INFO_POS];
 			m_bIsJumping = true;
@@ -84,16 +84,16 @@ STATE CMonster_Jump::Jump(const _float& fTimeDelta)
 
 		_vec3 vTest = _vec3(vDir.x, 0.f, vDir.z);
 
-		m_pOwner->Get_Transform()->m_vInfo[INFO_POS].y += dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Get_JumpVelocity() * fTimeDelta;
+		m_pOwner->Get_Transform()->m_vInfo[INFO_POS].y += static_cast<CMonster*>(m_pOwner->Get_Host())->Get_JumpVelocity() * fTimeDelta;
 		m_pOwner->Get_Transform()->m_vInfo[INFO_POS] += vDir * 15 * fTimeDelta;
 
 
-		if(dynamic_cast<CMonster*>(m_pOwner->Get_Host())->IsJump())
-			dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Add_JumpVelocity(-0.5f * fTimeDelta * fTimeDelta * 3000.f);
+		if(static_cast<CMonster*>(m_pOwner->Get_Host())->IsJump())
+			static_cast<CMonster*>(m_pOwner->Get_Host())->Add_JumpVelocity(-0.5f * fTimeDelta * fTimeDelta * 3000.f);
 	}
 
 	
-	if (!dynamic_cast<CMonster*>(m_pOwner->Get_Host())->IsJump())
+	if (!static_cast<CMonster*>(m_pOwner->Get_Host())->IsJump())
 	{
 		m_bIsJumping = false;
 		CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_SPIDER);
@@ -108,7 +108,7 @@ STATE CMonster_Jump::Jump(const _float& fTimeDelta)
 
 void CMonster_Jump::Jump_Sound()
 {
-	MONSTERTAG _eMonsterTag = dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Get_MonsterTag();
+	MONSTERTAG _eMonsterTag = static_cast<CMonster*>(m_pOwner->Get_Host())->Get_MonsterTag();
 
 	switch (_eMonsterTag)
 	{
@@ -125,7 +125,7 @@ void CMonster_Jump::Jump_Sound()
 
 void CMonster_Jump::Idle_Sound()
 {
-	MONSTERTAG _eMonsterTag = dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Get_MonsterTag();
+	MONSTERTAG _eMonsterTag = static_cast<CMonster*>(m_pOwner->Get_Host())->Get_MonsterTag();
 
 	switch (_eMonsterTag)
 	{

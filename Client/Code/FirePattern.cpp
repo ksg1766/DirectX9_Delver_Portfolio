@@ -42,7 +42,7 @@ STATE CFirePattern::Update_State(const _float& fTimeDelta)
         {
             pGameObject = CBossProjectile::Create(m_pGraphicDev);
             Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
-            dynamic_cast<CBossProjectile*>(pGameObject)->Set_Target(m_pOwner->Get_Transform()->m_vInfo[INFO_POS]);
+            static_cast<CBossProjectile*>(pGameObject)->Set_Target(m_pOwner->Get_Transform()->m_vInfo[INFO_POS]);
             m_fDelay = 0.f;
             ++m_iFireCount;
         }

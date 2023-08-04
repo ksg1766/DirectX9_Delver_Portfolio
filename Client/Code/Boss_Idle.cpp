@@ -23,7 +23,7 @@ HRESULT CBoss_Idle::Ready_State(CStateMachine* pOwner)
 
 STATE CBoss_Idle::Update_State(const _float& fTimeDelta)
 {
-    switch(dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_Phase())
+    switch(static_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_Phase())
     {
     case BOSSPHASE::PHASE1:
         return STATE::BOSS_ATTACK1;

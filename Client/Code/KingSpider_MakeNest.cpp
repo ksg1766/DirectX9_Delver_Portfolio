@@ -40,7 +40,7 @@ STATE CKingSpider_MakeNest::Update_State(const _float& fTimeDelta)
 		for (int i = 0; i < 4; ++i)
 		{
 			pGameObject = CDungeonSpider::Create(m_pGraphicDev);
-			dynamic_cast<CDungeonSpider*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = m_pOwner->Get_Transform()->m_vInfo[INFO_POS] + m_vSpawnPos[i];
+			static_cast<CDungeonSpider*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = m_pOwner->Get_Transform()->m_vInfo[INFO_POS] + m_vSpawnPos[i];
 			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 		}
 		m_bMakeNest = true;

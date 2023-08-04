@@ -76,8 +76,8 @@ _int CKingSpiderNest::Update_Object(const _float& fTimeDelta)
 		for (int i = 0; i < 4; ++i)
 		{
 			pGameObject = CDungeonSpider::Create(m_pGraphicDev);
-			dynamic_cast<CDungeonSpider*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = m_pTransform->m_vInfo[INFO_POS] + m_vSpawnPos[i];
-			dynamic_cast<CDungeonSpider*>(pGameObject)->Get_RigidBody()->Add_Force(_vec3(0.f,2.f,0.f));
+			static_cast<CDungeonSpider*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = m_pTransform->m_vInfo[INFO_POS] + m_vSpawnPos[i];
+			static_cast<CDungeonSpider*>(pGameObject)->Get_RigidBody()->Add_Force(_vec3(0.f,2.f,0.f));
 			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 		}
 		m_bMaxSize = true;
@@ -129,7 +129,7 @@ void CKingSpiderNest::OnCollisionStay(CCollider* _pOther)
 	
 	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::ITEM && !IsDead())
 	{
-		if ((dynamic_cast<CItem*>(_pOther->Get_Host())->
+		if ((static_cast<CItem*>(_pOther->Get_Host())->
 			Get_ItemTag().eItemType == ITEMTYPE::ITEMTYPE_WEAPONITEM &&
 			!m_bHit && rPlayer.Get_Attack()))
 		{
@@ -177,19 +177,19 @@ HRESULT CKingSpiderNest::Add_Component(void)
 {
 	CComponent* pComponent = nullptr;
 
-	pComponent = m_pBuffer = dynamic_cast<CRcTex*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_RcTex"));
+	pComponent = m_pBuffer = static_cast<CRcTex*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_RcTex"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BUFFER, pComponent);
 
-	pComponent = m_pTransform = dynamic_cast<CTransform*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Transform"));
+	pComponent = m_pTransform = static_cast<CTransform*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Transform"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::TRANSFORM, pComponent);
 
-	pComponent = m_pTexture = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_ImmortalSprite"));
+	pComponent = m_pTexture = static_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_ImmortalSprite"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
 
-	pComponent = m_pCollider = dynamic_cast<CCollider*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Collider"));
+	pComponent = m_pCollider = static_cast<CCollider*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Collider"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::COLLIDER, pComponent);
 

@@ -34,9 +34,9 @@ STATE CMonster_Fly::Update_State(const _float& fTimeDelta)
 	CPlayer& rPlayer = *SceneManager()->Get_Scene()->Get_MainPlayer();
 	_vec3 vMonsterPos = m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
 
-	_vec3 vCenterPos = dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Get_CenterPos();
+	_vec3 vCenterPos = static_cast<CMonster*>(m_pOwner->Get_Host())->Get_CenterPos();
 	_vec3 vTargetCenter = _vec3(rPlayer.m_pTransform->m_vInfo[INFO_POS].x, vMonsterPos.y, rPlayer.m_pTransform->m_vInfo[INFO_POS].z);
-	_float fMoveRange = dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Get_MoveRange();
+	_float fMoveRange = static_cast<CMonster*>(m_pOwner->Get_Host())->Get_MoveRange();
 
 	_vec3 vDirToCenter = vCenterPos - vMonsterPos;
 	_float fDistanceToCenter = D3DXVec3Length(&vDirToCenter);
@@ -50,8 +50,8 @@ STATE CMonster_Fly::Update_State(const _float& fTimeDelta)
 		{
 			m_bAttackCoolDown = false;
 			m_fChase = 0.f;
-			dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Set_State(STATE::ATTACK);
-			dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Set_AttackTick(false);
+			static_cast<CMonster*>(m_pOwner->Get_Host())->Set_State(STATE::ATTACK);
+			static_cast<CMonster*>(m_pOwner->Get_Host())->Set_AttackTick(false);
 		}
 	}
 
@@ -74,13 +74,13 @@ STATE CMonster_Fly::Update_State(const _float& fTimeDelta)
 	else if (fDistanceToCenter > fMoveRange)
 	{
 		D3DXVec3Normalize(&vDirToCenter, &vDirToCenter);
-		m_pOwner->Get_Transform()->Translate(vDirToCenter * dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Get_BasicStat()->Get_Stat()->fSpeed * fTimeDelta);
+		m_pOwner->Get_Transform()->Translate(vDirToCenter * static_cast<CMonster*>(m_pOwner->Get_Host())->Get_BasicStat()->Get_Stat()->fSpeed * fTimeDelta);
 
 		m_fReturnTime += fTimeDelta;
 
 		if (m_fReturnTime >= 2.5f)
 		{
-			dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Set_CenterPos(m_pOwner->Get_Transform()->m_vInfo[INFO_POS]);
+			static_cast<CMonster*>(m_pOwner->Get_Host())->Set_CenterPos(m_pOwner->Get_Transform()->m_vInfo[INFO_POS]);
 			m_fReturnTime = 0.f;
 			m_bCheck = false;
 		}
@@ -120,7 +120,7 @@ void CMonster_Fly::Get_RandomDir(_vec3& vDir, const _vec3& _vCenter, const _floa
 void CMonster_Fly::Lerp_Move(_vec3& vDir, const _float& fTimeDelta)
 {
 	_float fDistanceToTarget = D3DXVec3Length(&(m_vSavePos - vDir));
-	_float fLerpDistance = dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Get_BasicStat()->Get_Stat()->fSpeed * fTimeDelta;
+	_float fLerpDistance = static_cast<CMonster*>(m_pOwner->Get_Host())->Get_BasicStat()->Get_Stat()->fSpeed * fTimeDelta;
 
 	if (fDistanceToTarget <= fLerpDistance)
 	{
@@ -135,7 +135,7 @@ void CMonster_Fly::Lerp_Move(_vec3& vDir, const _float& fTimeDelta)
 
 		if (m_fLerpTime >= 2.0f)
 		{
-			dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Set_CenterPos(m_pOwner->Get_Transform()->m_vInfo[INFO_POS]);
+			static_cast<CMonster*>(m_pOwner->Get_Host())->Set_CenterPos(m_pOwner->Get_Transform()->m_vInfo[INFO_POS]);
 			m_fLerpTime = 0.f;
 			m_bCheck = false;
 		}

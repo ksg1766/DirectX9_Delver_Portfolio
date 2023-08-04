@@ -73,8 +73,8 @@ _int CShield::Update_Object(const _float& fTimeDelta)
 
 	_int iExit = __super::Update_Object(fTimeDelta);
 
-	CPlayer* pPlayer = dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer());
-	CItem* ItemType = dynamic_cast<CItem*>(pPlayer->Get_CurrentEquipLeft());
+	CPlayer* pPlayer = static_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer());
+	CItem* ItemType = static_cast<CItem*>(pPlayer->Get_CurrentEquipLeft());
 	ITEMTYPEID ItemID = {};
 
 	if (ItemType != nullptr)
@@ -174,11 +174,11 @@ void CShield::Render_Object(void)
 
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransform->WorldMatrix());
 
-	CPlayer* pPlayer = dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer());
+	CPlayer* pPlayer = static_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer());
 
 	if (!Get_WorldItem() && pPlayer != nullptr)
 	{
-		CItem* ItemType = dynamic_cast<CItem*>(pPlayer->Get_CurrentEquipLeft());
+		CItem* ItemType = static_cast<CItem*>(pPlayer->Get_CurrentEquipLeft());
 
 		ITEMTYPEID ItemID = {};
 
@@ -207,37 +207,37 @@ HRESULT CShield::Add_Component(void)
 {
 	CComponent* pComponent = nullptr;
 
-	pComponent = m_pBuffer = dynamic_cast<CRcTex*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_RcTex"));
+	pComponent = m_pBuffer = static_cast<CRcTex*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_RcTex"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BUFFER, pComponent);
 
-	pComponent = m_pTransform = dynamic_cast<CTransform*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Transform"));
+	pComponent = m_pTransform = static_cast<CTransform*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Transform"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::TRANSFORM, pComponent);
 
-	pComponent = m_pTexture = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_Shield"));
+	pComponent = m_pTexture = static_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_Shield"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
 
-	pComponent = m_pCollider = dynamic_cast<CCollider*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Collider"));
+	pComponent = m_pCollider = static_cast<CCollider*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Collider"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::COLLIDER, pComponent);
 
-	pComponent = m_pBasicStat = dynamic_cast<CBasicStat*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BasicStat"));
+	pComponent = m_pBasicStat = static_cast<CBasicStat*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BasicStat"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BASICSTAT, pComponent);
 
 
 	if (!Get_WorldItem())
 	{
-		CPlayer* pPlayer = dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer());
+		CPlayer* pPlayer = static_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer());
 
 		m_pTransform->Set_Parent(pPlayer->m_pTransform);
 		m_pTransform->Copy_RUL(pPlayer->m_pTransform->m_vInfo);
 	}
 	else if (Get_WorldItem())
 	{
-		pComponent = m_pBillBoard = dynamic_cast<CBillBoard*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BillBoard"));
+		pComponent = m_pBillBoard = static_cast<CBillBoard*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BillBoard"));
 		NULL_CHECK_RETURN(pComponent, E_FAIL);
 		m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::BILLBOARD, pComponent);
 	}
@@ -257,21 +257,21 @@ void CShield::OnCollisionEnter(CCollider* _pOther)
 		_pOther->Get_Host()->Get_ObjectTag() != OBJECTTAG::PLAYER))
 		__super::OnCollisionEnter(_pOther);*/
 
-	CPlayer& pPlayer = *dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer());
+	CPlayer& pPlayer = *static_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer());
 
 	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::MONSTER)
 	{
-		if (pPlayer.IsThrowShield() && dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_StateMachine()
+		if (pPlayer.IsThrowShield() && static_cast<CMonster*>(_pOther->Get_Host())->Get_StateMachine()
 			->Get_State() != STATE::DEAD)
 		{
-			pPlayer.IsAttack(dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_BasicStat());
+			pPlayer.IsAttack(static_cast<CMonster*>(_pOther->Get_Host())->Get_BasicStat());
 			++g_iCount;
 
-			if (dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_StateMachine()
+			if (static_cast<CMonster*>(_pOther->Get_Host())->Get_StateMachine()
 				->Get_PrevState() != STATE::HIT && g_iCount > 4)
 			{
 				g_iCount = 0;
-				dynamic_cast<CMonster*>(_pOther->Get_Host())->Get_StateMachine()->Set_State(STATE::HIT);
+				static_cast<CMonster*>(_pOther->Get_Host())->Get_StateMachine()->Set_State(STATE::HIT);
 			}
 
 			CGameObject* pGameObject = CEffectDamage::Create(m_pGraphicDev);

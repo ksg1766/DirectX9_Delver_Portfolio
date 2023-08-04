@@ -32,7 +32,7 @@ HRESULT CGhost_Attack::Ready_State(CStateMachine* pOwner)
 STATE CGhost_Attack::Update_State(const _float& fTimeDelta)
 {
 	CPlayer& pPlayer =
-		*dynamic_cast<CPlayer*>
+		*static_cast<CPlayer*>
 		(SceneManager()->GetInstance()->Get_ObjectList
 		(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
 
@@ -42,7 +42,7 @@ STATE CGhost_Attack::Update_State(const _float& fTimeDelta)
 	{
 		_float fAngle = i * 30;
 
-		_float fSpeed = dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Get_Speed();
+		_float fSpeed = static_cast<CMonster*>(m_pOwner->Get_Host())->Get_Speed();
 
 
 		_vec3 vDir = _vec3(cos(D3DXToRadian(fAngle)), 0.f, sinf(D3DXToRadian(fAngle)));

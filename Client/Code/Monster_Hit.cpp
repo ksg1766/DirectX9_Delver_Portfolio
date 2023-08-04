@@ -32,17 +32,17 @@ HRESULT CMonster_Hit::Ready_State(CStateMachine* pOwner)
 STATE CMonster_Hit::Update_State(const _float& fTimeDelta)
 {
 	
-	CPlayer& pPlayer = *dynamic_cast<CPlayer*>(SceneManager()->GetInstance()
+	CPlayer& pPlayer = *static_cast<CPlayer*>(SceneManager()->GetInstance()
 		->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
 
-	CItem* ItemType = dynamic_cast<CItem*>(pPlayer.Get_CurrentEquipRight());
+	CItem* ItemType = static_cast<CItem*>(pPlayer.Get_CurrentEquipRight());
 	ITEMTYPEID ItemID = {};
 
 	m_fChase += fTimeDelta;
 
 	if (m_bCanHitState)
 	{
-		if (dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Get_BasicStat()->Get_Stat()->fHP > 0)
+		if (static_cast<CMonster*>(m_pOwner->Get_Host())->Get_BasicStat()->Get_Stat()->fHP > 0)
 		{
 			m_bCanHitState = false;
 			Hit_Sound();
@@ -80,7 +80,7 @@ void CMonster_Hit::Render_State()
 
 void CMonster_Hit::Hit_Sound()
 {
-	MONSTERTAG _eMonsterTag = dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Get_MonsterTag();
+	MONSTERTAG _eMonsterTag = static_cast<CMonster*>(m_pOwner->Get_Host())->Get_MonsterTag();
 
 
 	switch (_eMonsterTag)

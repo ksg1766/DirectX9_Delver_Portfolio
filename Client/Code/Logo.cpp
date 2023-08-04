@@ -48,7 +48,7 @@ Engine::_int CLogo::Update_Scene(const _float& fTimeDelta)
 
 		Engine::CGameObject* pGameObject = CBlackOutIn::Create(m_pGraphicDev);
 		NULL_CHECK_RETURN(pGameObject, E_FAIL);
-		dynamic_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_BASIC, 1);
+		static_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_BASIC, 1);
 		Engine::UIManager()->Add_BasicGameobject(Engine::UILAYER::UI_UP, pGameObject);
 
 		// 로고랑 프래스 폰트 삭제
@@ -58,7 +58,7 @@ Engine::_int CLogo::Update_Scene(const _float& fTimeDelta)
 	if (m_bClick)
 	{
 		CGameObject* pBlackOut = Engine::UIManager()->Get_BasicObject(UI_UP, UIID_BASIC, 1);
-		if (pBlackOut != nullptr && dynamic_cast<CBlackOutIn*>(pBlackOut)->Get_Middle() && !m_bFadeEnd)
+		if (pBlackOut != nullptr && static_cast<CBlackOutIn*>(pBlackOut)->Get_Middle() && !m_bFadeEnd)
 		{
 			m_bFadeEnd = true;
 
@@ -155,7 +155,7 @@ HRESULT CLogo::Ready_Layer_Environment(LAYERTAG _eLayerTag)
 
 	pGameObject = CBlackIn::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	dynamic_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_BASIC, 0);
+	static_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_BASIC, 0);
 	Engine::UIManager()->Add_PopupGameobject(Engine::UIPOPUPLAYER::POPUP_BLACK, Engine::UILAYER::UI_DOWN, pGameObject);
 	//Engine::EventManager()->CreateObject(pGameObject, _eLayerTag);
 

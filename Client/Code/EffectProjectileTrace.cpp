@@ -24,7 +24,7 @@ HRESULT CEffectProjectileTrace::Ready_Object(void)
 	m_fLife  = 50.f;
 	m_fSpeed = 24.f;
 
-	CPlayer* pPlayer = dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer());
+	CPlayer* pPlayer = static_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer());
 	if (pPlayer != nullptr)
 	{
 		m_vecDir = pPlayer->m_pTransform->m_vInfo[INFO_LOOK];
@@ -48,8 +48,8 @@ Engine::_int CEffectProjectileTrace::Update_Object(const _float& fTimeDelta)
 
 			CGameObject* pGameObject = CEffectTrace::Create(m_pGraphicDev);
 			pGameObject->m_pTransform->Translate(_vec3(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vInfo[INFO_POS].z));
-			dynamic_cast<CEffectTrace*>(pGameObject)->Set_TraceNumber(m_fCreatCount);
-			dynamic_cast<CTempEffect*>(pGameObject)->Set_EffectColor(m_EffectColor);
+			static_cast<CEffectTrace*>(pGameObject)->Set_TraceNumber(m_fCreatCount);
+			static_cast<CTempEffect*>(pGameObject)->Set_EffectColor(m_EffectColor);
 			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 			//CPoolManager::GetInstance()->Create_Effect(EFFECTTAG::, TargetPos);
 
@@ -82,7 +82,7 @@ HRESULT CEffectProjectileTrace::Add_Component(void)
 {
 	CComponent*			pComponent = nullptr;
 
-	pComponent = m_pTransform = dynamic_cast<CTransform*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Transform_Logo"));
+	pComponent = m_pTransform = static_cast<CTransform*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Transform_Logo"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::TRANSFORM, pComponent);
 

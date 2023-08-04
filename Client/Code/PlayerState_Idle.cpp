@@ -31,7 +31,7 @@ STATE CPlayerState_Idle::Update_State(const _float& fTimeDelta)
 {
 	STATE eState = STATE::IDLE;
 
-	if (!dynamic_cast<CPlayer*>(m_pOwner->Get_Host())->Get_UseUI())
+	if (!static_cast<CPlayer*>(m_pOwner->Get_Host())->Get_UseUI())
 		eState = Key_Input(fTimeDelta);
 
 	return eState;
@@ -48,7 +48,7 @@ void CPlayerState_Idle::Render_State()
 
 STATE CPlayerState_Idle::Key_Input(const _float& fTimeDelta)
 {
-	CPlayer& pPlayer = *dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer());
+	CPlayer& pPlayer = *static_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer());
 
 	CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_PLAYER);
 
@@ -68,7 +68,7 @@ STATE CPlayerState_Idle::Key_Input(const _float& fTimeDelta)
 		{
 			if (Engine::InputDev()->Mouse_Pressing(DIM_LB))
 			{
-				dynamic_cast<CPlayer*>(m_pOwner->Get_Host())->Set_AttackTick(true);
+				static_cast<CPlayer*>(m_pOwner->Get_Host())->Set_AttackTick(true);
 				return STATE::ATTACK;
 			}
 		}
@@ -78,23 +78,23 @@ STATE CPlayerState_Idle::Key_Input(const _float& fTimeDelta)
 			// TODO : 마우스 오른 쪽 누르면 소모류는 사용 가능하게.
 			// 스테이트 반영은 필요X
 
-			CPlayer& pPlayer = *dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer());
+			CPlayer& pPlayer = *static_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer());
 
 			if (pPlayer.Get_CurrentEquipLeft() == nullptr)
 				return STATE::IDLE;
 
 			// 왼쪽 손에 맥주를 장착하고 있다면
-			if (dynamic_cast<CItem*>(pPlayer.Get_CurrentEquipLeft())->Get_ItemTag().eItemID == ITEMID::GENERAL_BEER)
+			if (static_cast<CItem*>(pPlayer.Get_CurrentEquipLeft())->Get_ItemTag().eItemID == ITEMID::GENERAL_BEER)
 			{
-				if (dynamic_cast<CBeer*>(pPlayer.Get_CurrentEquipLeft())->Get_BeerCount() >= 1.f)
+				if (static_cast<CBeer*>(pPlayer.Get_CurrentEquipLeft())->Get_BeerCount() >= 1.f)
 				{
-					dynamic_cast<CBeer*>(pPlayer.Get_CurrentEquipLeft())->Use_Beer(1.f);
+					static_cast<CBeer*>(pPlayer.Get_CurrentEquipLeft())->Use_Beer(1.f);
 
 					pPlayer.Set_Drunk(true);
 				}
 			}
 
-			if (dynamic_cast<CItem*>(pPlayer.Get_CurrentEquipLeft())->Get_ItemTag().eItemID == ITEMID::GENERAL_SHIELD)
+			if (static_cast<CItem*>(pPlayer.Get_CurrentEquipLeft())->Get_ItemTag().eItemID == ITEMID::GENERAL_SHIELD)
 			{
 				pPlayer.Set_ThrowShield(true);
 				return STATE::ATTACK;

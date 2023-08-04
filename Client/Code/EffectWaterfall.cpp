@@ -38,11 +38,11 @@ Engine::_int CEffectWaterfall::Update_Object(const _float& fTimeDelta)
 				CGameObject* pGameObject = CEffectWaterMove::Create(m_pGraphicDev);
 				NULL_CHECK_RETURN(pGameObject, E_FAIL);
 				pGameObject->m_pTransform->Translate(_vec3(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vInfo[INFO_POS].z));
-				dynamic_cast<CEffectWaterMove*>(pGameObject)->Set_OriginPos(m_pTransform->m_vInfo[INFO_POS]);
-				dynamic_cast<CEffectWaterMove*>(pGameObject)->Set_BoundingBox(m_EffectBoundingBox.vMin, m_EffectBoundingBox.vMax);
-				dynamic_cast<CEffectWaterMove*>(pGameObject)->Set_EffectMoveScale(m_vecMoveScale[0], m_vecMoveScale[1]);
-				dynamic_cast<CEffectWaterMove*>(pGameObject)->Set_PickNumber(i, m_iMoveCount);
-				dynamic_cast<CEffectWaterMove*>(pGameObject)->Set_EffectMoveSet(m_iMoveSet);
+				static_cast<CEffectWaterMove*>(pGameObject)->Set_OriginPos(m_pTransform->m_vInfo[INFO_POS]);
+				static_cast<CEffectWaterMove*>(pGameObject)->Set_BoundingBox(m_EffectBoundingBox.vMin, m_EffectBoundingBox.vMax);
+				static_cast<CEffectWaterMove*>(pGameObject)->Set_EffectMoveScale(m_vecMoveScale[0], m_vecMoveScale[1]);
+				static_cast<CEffectWaterMove*>(pGameObject)->Set_PickNumber(i, m_iMoveCount);
+				static_cast<CEffectWaterMove*>(pGameObject)->Set_EffectMoveSet(m_iMoveSet);
 
 				m_vecMove.push_back(pGameObject);
 			}
@@ -53,9 +53,9 @@ Engine::_int CEffectWaterfall::Update_Object(const _float& fTimeDelta)
 			CGameObject* pGameObject = CEffectWaterBubble::Create(m_pGraphicDev);
 			NULL_CHECK_RETURN(pGameObject, E_FAIL);
 			pGameObject->m_pTransform->Translate(_vec3(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vInfo[INFO_POS].z));
-			dynamic_cast<CEffectWaterBubble*>(pGameObject)->Set_OriginPos(m_pTransform->m_vInfo[INFO_POS]);
-			dynamic_cast<CEffectWaterBubble*>(pGameObject)->Set_BoundingBox(m_EffectBoundingBox.vMin, m_EffectBoundingBox.vMax);
-			dynamic_cast<CEffectWaterBubble*>(pGameObject)->Set_EffectBubbleScale(m_vecBubbleScale[0], m_vecBubbleScale[1]);
+			static_cast<CEffectWaterBubble*>(pGameObject)->Set_OriginPos(m_pTransform->m_vInfo[INFO_POS]);
+			static_cast<CEffectWaterBubble*>(pGameObject)->Set_BoundingBox(m_EffectBoundingBox.vMin, m_EffectBoundingBox.vMax);
+			static_cast<CEffectWaterBubble*>(pGameObject)->Set_EffectBubbleScale(m_vecBubbleScale[0], m_vecBubbleScale[1]);
 			m_vecBubble.push_back(pGameObject);
 		}
 	}
@@ -108,15 +108,15 @@ HRESULT CEffectWaterfall::Add_Component(void)
 {
 	CComponent*			pComponent = nullptr;
 
-	pComponent = m_pBufferCom = dynamic_cast<CRcTex*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_RcTex"));
+	pComponent = m_pBufferCom = static_cast<CRcTex*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_RcTex"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BUFFER, pComponent);
 
-	pComponent = m_pTransform = dynamic_cast<CTransform*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Transform_Logo"));
+	pComponent = m_pTransform = static_cast<CTransform*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Transform_Logo"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::TRANSFORM, pComponent);
 
-	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_EffectBlood"));
+	pComponent = m_pTextureCom = static_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_EffectBlood"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
 

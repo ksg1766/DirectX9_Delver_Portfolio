@@ -6,7 +6,7 @@
 
 CFrustum::CFrustum()
 {
-	//m_pCamera = dynamic_cast<CTempCamera*>(SceneManager()->Get_ObjectList(LAYERTAG::ENVIRONMENT, OBJECTTAG::CAMERA).front());
+	//m_pCamera = static_cast<CTempCamera*>(SceneManager()->Get_ObjectList(LAYERTAG::ENVIRONMENT, OBJECTTAG::CAMERA).front());
 	m_pCamera = SceneManager()->Get_ObjectList(LAYERTAG::ENVIRONMENT, OBJECTTAG::CAMERA).front();
 }
 

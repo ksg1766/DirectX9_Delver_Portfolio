@@ -139,7 +139,7 @@ void CSceneManager::Render_Scene(LPDIRECT3DDEVICE9 pGraphicDev)
 				break;
 			}
 
-			m_pCurrentScene->Set_MainPlayer(dynamic_cast<CPlayer*>(m_pPlayer));
+			m_pCurrentScene->Set_MainPlayer(static_cast<CPlayer*>(m_pPlayer));
 
 			m_pCamera->m_pTransform->Copy_RUL_AddPos(m_pPlayer->m_pTransform->m_vInfo);
 			Engine::EventManager()->CreateObject(m_pCamera,    LAYERTAG::ENVIRONMENT);

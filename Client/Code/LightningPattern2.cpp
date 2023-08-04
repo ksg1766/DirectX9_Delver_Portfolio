@@ -55,7 +55,7 @@ STATE CLightningPattern2::Update_State(const _float& fTimeDelta)
 		for (int i = 0; i < 10; ++i)
 		{
 			pGameObject = CBoss_CautionEff::Create(m_pGraphicDev);
-			dynamic_cast<CBoss_CautionEff*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = _vec3(m_pOwner->Get_Transform()->m_vInfo[INFO_POS].x + m_fRandomX, 35.f + (i * 2), m_pOwner->Get_Transform()->m_vInfo[INFO_POS].z + m_fRandomZ);
+			static_cast<CBoss_CautionEff*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = _vec3(m_pOwner->Get_Transform()->m_vInfo[INFO_POS].x + m_fRandomX, 35.f + (i * 2), m_pOwner->Get_Transform()->m_vInfo[INFO_POS].z + m_fRandomZ);
 			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 		}
 		m_bCool = true;
@@ -67,7 +67,7 @@ STATE CLightningPattern2::Update_State(const _float& fTimeDelta)
 		for (int i = 0; i < 10; ++i)
 		{
 				pGameObject = CBoss_Lightning::Create(m_pGraphicDev);
-				dynamic_cast<CBoss_Lightning*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = _vec3(m_pOwner->Get_Transform()->m_vInfo[INFO_POS].x + m_fRandomX, 35.f + (i * 2), m_pOwner->Get_Transform()->m_vInfo[INFO_POS].z + m_fRandomZ);
+				static_cast<CBoss_Lightning*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = _vec3(m_pOwner->Get_Transform()->m_vInfo[INFO_POS].x + m_fRandomX, 35.f + (i * 2), m_pOwner->Get_Transform()->m_vInfo[INFO_POS].z + m_fRandomZ);
 				Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 		}
 		m_fDelay = 0.f;

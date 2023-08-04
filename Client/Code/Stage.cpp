@@ -72,7 +72,7 @@ HRESULT CStage::Ready_Scene()
 {
 	Engine::CGameObject* pGameObject = CBlackIn::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	dynamic_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_BASIC, 0);
+	static_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_BASIC, 0);
 	Engine::UIManager()->Add_PopupGameobject(Engine::UIPOPUPLAYER::POPUP_BLACK, Engine::UILAYER::UI_DOWN, pGameObject);
 
 	m_eSceneTag = SCENETAG::STAGE;
@@ -176,22 +176,22 @@ HRESULT CStage::Ready_Layer_Environment(LAYERTAG _eLayerTag)
 	pGameObject = CEffectWaterfall::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	pGameObject->m_pTransform->Translate(_vec3(-37, 13.f, 15.f));
-	dynamic_cast<CEffectWaterfall*>(pGameObject)->Set_BoundingBox(_vec3(-2.f, 14.f, -1.f), _vec3(2.f, 20.f, 1.f));
-	dynamic_cast<CEffectWaterfall*>(pGameObject)->Set_EffectMoveScale(5, _vec3(.1f, .1f, .1f), _vec3(.5f, .5f, .5f));
-	dynamic_cast<CEffectWaterfall*>(pGameObject)->Set_EffectBubbleScale(7, _vec3(.2f, .2f, .2f), _vec3(1.f, 1.f, 1.f));
-	dynamic_cast<CEffectWaterfall*>(pGameObject)->Set_EffectDropHeight(1.f);
-	dynamic_cast<CEffectWaterfall*>(pGameObject)->Set_EffectMoveSet(0);
+	static_cast<CEffectWaterfall*>(pGameObject)->Set_BoundingBox(_vec3(-2.f, 14.f, -1.f), _vec3(2.f, 20.f, 1.f));
+	static_cast<CEffectWaterfall*>(pGameObject)->Set_EffectMoveScale(5, _vec3(.1f, .1f, .1f), _vec3(.5f, .5f, .5f));
+	static_cast<CEffectWaterfall*>(pGameObject)->Set_EffectBubbleScale(7, _vec3(.2f, .2f, .2f), _vec3(1.f, 1.f, 1.f));
+	static_cast<CEffectWaterfall*>(pGameObject)->Set_EffectDropHeight(1.f);
+	static_cast<CEffectWaterfall*>(pGameObject)->Set_EffectMoveSet(0);
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
 	// ÀÛÀº ÆøÆ÷ ÀÌÆåÆ®
 	pGameObject = CEffectWaterfall::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	pGameObject->m_pTransform->Translate(_vec3(1.5, 10.f, -46.f));
-	dynamic_cast<CEffectWaterfall*>(pGameObject)->Set_BoundingBox(_vec3(-2.f, 10.f, -1.f), _vec3(2.f, 20.f, 1.f));
-	dynamic_cast<CEffectWaterfall*>(pGameObject)->Set_EffectMoveScale(5, _vec3(.1f, .1f, .1f), _vec3(2.f, 2.f, 2.f));
-	dynamic_cast<CEffectWaterfall*>(pGameObject)->Set_EffectBubbleScale(10, _vec3(.1f, .1f, .1f), _vec3(.5f, .5f, .5f));
-	dynamic_cast<CEffectWaterfall*>(pGameObject)->Set_EffectDropHeight(-2.f);
-	dynamic_cast<CEffectWaterfall*>(pGameObject)->Set_EffectMoveSet(2);
+	static_cast<CEffectWaterfall*>(pGameObject)->Set_BoundingBox(_vec3(-2.f, 10.f, -1.f), _vec3(2.f, 20.f, 1.f));
+	static_cast<CEffectWaterfall*>(pGameObject)->Set_EffectMoveScale(5, _vec3(.1f, .1f, .1f), _vec3(2.f, 2.f, 2.f));
+	static_cast<CEffectWaterfall*>(pGameObject)->Set_EffectBubbleScale(10, _vec3(.1f, .1f, .1f), _vec3(.5f, .5f, .5f));
+	static_cast<CEffectWaterfall*>(pGameObject)->Set_EffectDropHeight(-2.f);
+	static_cast<CEffectWaterfall*>(pGameObject)->Set_EffectMoveSet(2);
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
 	m_mapLayer.insert({ _eLayerTag, pLayer });
@@ -304,7 +304,7 @@ HRESULT CStage::Load_Data()
 			{
 				pGameObject = CWaterFall::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
 				NULL_CHECK_RETURN(pGameObject, E_FAIL);
-				dynamic_cast<CWaterFall*>(pGameObject)->Set_TextureNumber(0);
+				static_cast<CWaterFall*>(pGameObject)->Set_TextureNumber(0);
 				pGameObject->m_pTransform->Translate(_vec3(fX, fY + 1.f, fZ));
 				pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 			}
@@ -312,7 +312,7 @@ HRESULT CStage::Load_Data()
 			{
 				pGameObject = CWater::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
 				NULL_CHECK_RETURN(pGameObject, E_FAIL);
-				dynamic_cast<CWater*>(pGameObject)->Set_TextureNumber(byTextureNumber);
+				static_cast<CWater*>(pGameObject)->Set_TextureNumber(byTextureNumber);
 				pGameObject->m_pTransform->Translate(_vec3(fX, fY + 1.f, fZ));
 				pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 			}
@@ -320,7 +320,7 @@ HRESULT CStage::Load_Data()
 			{
 				pGameObject = CCubeBlock::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
 				NULL_CHECK_RETURN(pGameObject, E_FAIL);
-				dynamic_cast<CCubeBlock*>(pGameObject)->Set_TextureNumber(byTextureNumber);
+				static_cast<CCubeBlock*>(pGameObject)->Set_TextureNumber(byTextureNumber);
 				pGameObject->m_pTransform->Translate(_vec3(fX, fY + 1.f, fZ));
 				pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 			}
@@ -343,11 +343,11 @@ HRESULT CStage::Load_Data()
 
 			CGameObject* pGameObject = CSpawningPool::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
 			NULL_CHECK_RETURN(pGameObject, E_FAIL);
-			dynamic_cast<CSpawningPool*>(pGameObject)->Set_MonsterTag(eSpawnerTag);
-			dynamic_cast<CSpawningPool*>(pGameObject)->Set_LifeCount(iSpawnerLife);
-			dynamic_cast<CSpawningPool*>(pGameObject)->Set_PoolCapacity(iPoolCapacity);
-			dynamic_cast<CSpawningPool*>(pGameObject)->Set_SpawnRadius(fSpawnRadius);
-			dynamic_cast<CSpawningPool*>(pGameObject)->Set_SpawnTime(fSpawnTime);
+			static_cast<CSpawningPool*>(pGameObject)->Set_MonsterTag(eSpawnerTag);
+			static_cast<CSpawningPool*>(pGameObject)->Set_LifeCount(iSpawnerLife);
+			static_cast<CSpawningPool*>(pGameObject)->Set_PoolCapacity(iPoolCapacity);
+			static_cast<CSpawningPool*>(pGameObject)->Set_SpawnRadius(fSpawnRadius);
+			static_cast<CSpawningPool*>(pGameObject)->Set_SpawnTime(fSpawnTime);
 			pGameObject->m_pTransform->Translate(_vec3(fX, fY + 1.f, fZ));
 			pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 		}
@@ -371,15 +371,15 @@ HRESULT CStage::Load_Data()
 			case TRAPTAG::BLADE:
 				pGameObject = CBlade_Trap::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
 				pGameObject->m_pTransform->Translate(_vec3(fX, fY + 1.f, fZ));
-				dynamic_cast<CBlade_Trap*>(pGameObject)->Create_Blade();
+				static_cast<CBlade_Trap*>(pGameObject)->Create_Blade();
 				NULL_CHECK_RETURN(pGameObject, E_FAIL);
 				break;
 
 			case TRAPTAG::STRIKEDOWN:
 				pGameObject = CStrikeDown_Trap::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
 				pGameObject->m_pTransform->Translate(_vec3(fX, fY + 1.f, fZ));
-				dynamic_cast<CStrikeDown_Trap*>(pGameObject)->Set_InitailHeight(10.f);
-				dynamic_cast<CStrikeDown_Trap*>(pGameObject)->Set_MinHeight(10.f);
+				static_cast<CStrikeDown_Trap*>(pGameObject)->Set_InitailHeight(10.f);
+				static_cast<CStrikeDown_Trap*>(pGameObject)->Set_MinHeight(10.f);
 				NULL_CHECK_RETURN(pGameObject, E_FAIL);
 				break;
 
@@ -421,7 +421,7 @@ HRESULT CStage::Load_Data()
 					ReadFile(hFile, &iTreeNumber, sizeof(_uint), &dwByte, nullptr);
 
 					pGameObject = CTree::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
-					dynamic_cast<CTree*>(pGameObject)->Set_TreeNumber(iTreeNumber);
+					static_cast<CTree*>(pGameObject)->Set_TreeNumber(iTreeNumber);
 				}
 				break;
 
@@ -432,7 +432,7 @@ HRESULT CStage::Load_Data()
 					ReadFile(hFile, &iRockNumber, sizeof(_uint), &dwByte, nullptr);
 
 					pGameObject = CRock::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
-					dynamic_cast<CRock*>(pGameObject)->Set_RockNumber(iRockNumber);
+					static_cast<CRock*>(pGameObject)->Set_RockNumber(iRockNumber);
 					break;
 				}
 				case ENVIRONMENTTAG::GRASS:
@@ -442,7 +442,7 @@ HRESULT CStage::Load_Data()
 					ReadFile(hFile, &iGrassNumber, sizeof(_uint), &dwByte, nullptr);
 
 					pGameObject = CGrass::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
-					dynamic_cast<CGrass*>(pGameObject)->Set_GrassNumber(iGrassNumber);
+					static_cast<CGrass*>(pGameObject)->Set_GrassNumber(iGrassNumber);
 					break;
 				}
 				case ENVIRONMENTTAG::MUSHROOM:
@@ -452,7 +452,7 @@ HRESULT CStage::Load_Data()
 					ReadFile(hFile, &iMushroomNumber, sizeof(_uint), &dwByte, nullptr);
 
 					pGameObject = CMushroom::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
-					dynamic_cast<CMushroom*>(pGameObject)->Set_MushroomNumber(iMushroomNumber);
+					static_cast<CMushroom*>(pGameObject)->Set_MushroomNumber(iMushroomNumber);
 					break;
 				}
 				case ENVIRONMENTTAG::PUMPKIN:
@@ -462,7 +462,7 @@ HRESULT CStage::Load_Data()
 					ReadFile(hFile, &iPumpkinNumber, sizeof(_uint), &dwByte, nullptr);
 
 					pGameObject = CPumpkin::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
-					dynamic_cast<CPumpkin*>(pGameObject)->Set_PumpkinNumber(iPumpkinNumber);
+					static_cast<CPumpkin*>(pGameObject)->Set_PumpkinNumber(iPumpkinNumber);
 					break;
 				}
 				case ENVIRONMENTTAG::ETC:
@@ -472,7 +472,7 @@ HRESULT CStage::Load_Data()
 					ReadFile(hFile, &iSpriteNumber, sizeof(_uint), &dwByte, nullptr);
 
 					pGameObject = CImmortalSprite::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
-					dynamic_cast<CImmortalSprite*>(pGameObject)->Set_SpriteNumber(iSpriteNumber);
+					static_cast<CImmortalSprite*>(pGameObject)->Set_SpriteNumber(iSpriteNumber);
 					break;
 				}
 			}

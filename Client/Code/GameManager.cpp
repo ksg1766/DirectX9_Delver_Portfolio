@@ -38,7 +38,7 @@ _int CGameManager::Update_Game(const _float& fTimeDelta)
 		m_pPlayer = SceneManager()->Get_Scene()->Get_MainPlayer();
 
 	if (!m_pCamera)
-		m_pCamera = dynamic_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam());
+		m_pCamera = static_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam());
 
 	if (!m_pBoss &&SCENETAG::BOSSSTAGE == SceneManager()->Get_Scene()->Get_SceneTag())
 		m_pBoss = static_cast<CSkeletonKing*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front());
@@ -174,7 +174,7 @@ void CGameManager::ShowVillage(const _float& fTimeDelta)
 			CGameObject* pGameObject = CUITitle::Create(Engine::CGraphicDev::GetInstance()->Get_GraphicDev());
 			NULL_CHECK(pGameObject, E_FAIL);
 			Engine::UIManager()->Add_BasicGameobject(Engine::UILAYER::UI_UP, pGameObject);
-			dynamic_cast<CTempUI*>(pGameObject)->Set_UIImage(0);
+			static_cast<CTempUI*>(pGameObject)->Set_UIImage(0);
 
 			return;
 		}
@@ -267,7 +267,7 @@ void CGameManager::ShowSewer(const _float& fTimeDelta)
 			CGameObject* pGameObject = CUITitle::Create(Engine::CGraphicDev::GetInstance()->Get_GraphicDev());
 			NULL_CHECK(pGameObject, E_FAIL);
 			Engine::UIManager()->Add_BasicGameobject(Engine::UILAYER::UI_UP, pGameObject);
-			dynamic_cast<CTempUI*>(pGameObject)->Set_UIImage(1);
+			static_cast<CTempUI*>(pGameObject)->Set_UIImage(1);
 
 			return;
 		}
@@ -310,7 +310,7 @@ void CGameManager::ShowTower(const _float& fTimeDelta)
 		CGameObject* pGameObject = CUITitle::Create(Engine::CGraphicDev::GetInstance()->Get_GraphicDev());
 		NULL_CHECK(pGameObject, E_FAIL);
 		Engine::UIManager()->Add_BasicGameobject(Engine::UILAYER::UI_UP, pGameObject);
-		dynamic_cast<CTempUI*>(pGameObject)->Set_UIImage(6);
+		static_cast<CTempUI*>(pGameObject)->Set_UIImage(6);
 
 		return;
 	}
@@ -409,7 +409,7 @@ void CGameManager::ShowBoss(const _float& fTimeDelta)
 			CGameObject* pGameObject = CUITitle::Create(Engine::CGraphicDev::GetInstance()->Get_GraphicDev());
 			NULL_CHECK(pGameObject, E_FAIL);
 			Engine::UIManager()->Add_BasicGameobject(Engine::UILAYER::UI_UP, pGameObject);
-			dynamic_cast<CTempUI*>(pGameObject)->Set_UIImage(2);
+			static_cast<CTempUI*>(pGameObject)->Set_UIImage(2);
 
 			return;
 		}
@@ -530,7 +530,7 @@ void CGameManager::ShowMiniBoss(const _float& fTimeDelta)
 		CGameObject* pGameObject = CUITitle::Create(Engine::CGraphicDev::GetInstance()->Get_GraphicDev());
 		NULL_CHECK(pGameObject, E_FAIL);
 		Engine::UIManager()->Add_BasicGameobject(Engine::UILAYER::UI_UP, pGameObject);
-		dynamic_cast<CTempUI*>(pGameObject)->Set_UIImage(4);
+		static_cast<CTempUI*>(pGameObject)->Set_UIImage(4);
 
 		return;
 	}
@@ -894,7 +894,7 @@ void CGameManager::ClearGame(const _float& fTimeDelta)
 		else
 		{
 			Engine::CGameObject* pGameObject = CBlackOutIn::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
-			dynamic_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_BASIC, 10);
+			static_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_BASIC, 10);
 			Engine::UIManager()->Add_PopupGameobject(Engine::UIPOPUPLAYER::POPUP_BLACK, Engine::UILAYER::UI_UP, pGameObject);
 
 			++m_iVisitCount;
@@ -903,7 +903,7 @@ void CGameManager::ClearGame(const _float& fTimeDelta)
 	else if (8 == m_iVisitCount)
 	{
 	    CGameObject* pBlackOut = Engine::UIManager()->Get_PopupObject(POPUP_BLACK, UI_UP, UIID_BASIC, 10);
-	    if (pBlackOut != nullptr && dynamic_cast<CBlackOutIn*>(pBlackOut)->Get_Middle()) {
+	    if (pBlackOut != nullptr && static_cast<CBlackOutIn*>(pBlackOut)->Get_Middle()) {
 	    	// 农饭调 UI 积己
 			Engine::CGameObject* pGameObject = CUICredit::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
 	    	Engine::UIManager()->Add_PopupGameobject(Engine::UIPOPUPLAYER::POPUP_BLACK, Engine::UILAYER::UI_DOWN, pGameObject);

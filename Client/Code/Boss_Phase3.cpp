@@ -33,24 +33,24 @@ HRESULT CBoss_Phase3::Ready_State(CStateMachine* pOwner)
 
 STATE CBoss_Phase3::Update_State(const _float& fTimeDelta)
 {
-    if (BOSSPHASE::PHASE3 != dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_Phase())
+    if (BOSSPHASE::PHASE3 != static_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_Phase())
         return STATE::BOSS_IDLE;
     m_fDelay += fTimeDelta;
     m_fPatternDelay += fTimeDelta;
     if (3.f < m_fDelay)
     {
-        CFlyingCamera* pCamera = dynamic_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam());
+        CFlyingCamera* pCamera = static_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam());
         pCamera->Reset_ShakeForce();
 
         if (m_bMeteor)
         {
-            dynamic_cast<CSkeletonKing*>(m_pOwner->Get_Host())->Set_Phase(BOSSPHASE::LASTPHASE);
+            static_cast<CSkeletonKing*>(m_pOwner->Get_Host())->Set_Phase(BOSSPHASE::LASTPHASE);
             return STATE::BOSS_TELEPORT;
         }
 
 
-        if (!dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_3Phase())
-            dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Set_3Phase(true);
+        if (!static_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_3Phase())
+            static_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Set_3Phase(true);
         m_fDelay = 0.f;
         return BossSkill(fTimeDelta);
     }
@@ -91,10 +91,10 @@ STATE CBoss_Phase3::BossSkill(const _float& fTimeDelta)
         return STATE::BOSS_PH3SKILL4;
         break;
     case 4:
-        if ((!m_bMeteor)&&(30.f > dynamic_cast<CSkeletonKing*>(m_pOwner->Get_Host())->Get_BasicStat()->Get_Stat()->fHP))
+        if ((!m_bMeteor)&&(30.f > static_cast<CSkeletonKing*>(m_pOwner->Get_Host())->Get_BasicStat()->Get_Stat()->fHP))
         {
             m_bMeteor = true;
-            dynamic_cast<CSkeletonKing*>(m_pOwner->Get_Host())->ReSet_Sturn();
+            static_cast<CSkeletonKing*>(m_pOwner->Get_Host())->ReSet_Sturn();
             CSoundManager::GetInstance()->PlaySound(L"Boss_Power2.wav", SOUND_BOSS, 1.f);
             m_fPatternDelay = 0.f;
             m_iSkillCount = 0;

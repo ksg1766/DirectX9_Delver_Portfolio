@@ -47,7 +47,7 @@ STATE CMiniMetorPattern::Update_State(const _float& fTimeDelta)
 		m_iSpawnX = generatorX();
 
 		pGameObject = CBoss_WarningEff::Create(m_pGraphicDev);
-		dynamic_cast<CBoss_WarningEff*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = _vec3(m_pOwner->Get_Transform()->m_vInfo[INFO_POS].x + m_iSpawnX, m_pOwner->Get_Transform()->m_vInfo[INFO_POS].y + 5.f, m_pOwner->Get_Transform()->m_vInfo[INFO_POS].z + 5.f);
+		static_cast<CBoss_WarningEff*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = _vec3(m_pOwner->Get_Transform()->m_vInfo[INFO_POS].x + m_iSpawnX, m_pOwner->Get_Transform()->m_vInfo[INFO_POS].y + 5.f, m_pOwner->Get_Transform()->m_vInfo[INFO_POS].z + 5.f);
 		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 		m_fDelay = 0.f;
 		m_CautionCool = true;
@@ -55,8 +55,8 @@ STATE CMiniMetorPattern::Update_State(const _float& fTimeDelta)
 	if ((0.4f < m_fDelay) && (m_CautionCool)&&(!m_bCool))
 	{
 		pGameObject = CMiniMeteor::Create(m_pGraphicDev);
-		dynamic_cast<CMiniMeteor*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = _vec3(m_pOwner->Get_Transform()->m_vInfo[INFO_POS].x + m_iSpawnX, m_pOwner->Get_Transform()->m_vInfo[INFO_POS].y + 5.f, m_pOwner->Get_Transform()->m_vInfo[INFO_POS].z + 5.f);
-		dynamic_cast<CMiniMeteor*>(pGameObject)->Set_Dir(_vec3(0.f, 0.f, 0.3f));
+		static_cast<CMiniMeteor*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = _vec3(m_pOwner->Get_Transform()->m_vInfo[INFO_POS].x + m_iSpawnX, m_pOwner->Get_Transform()->m_vInfo[INFO_POS].y + 5.f, m_pOwner->Get_Transform()->m_vInfo[INFO_POS].z + 5.f);
+		static_cast<CMiniMeteor*>(pGameObject)->Set_Dir(_vec3(0.f, 0.f, 0.3f));
 		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 		m_bCool = true;
 	}
@@ -95,7 +95,7 @@ void CMiniMetorPattern::Make_Thunder()
 		for (int i = 0; i < 10; ++i)
 		{
 			pGameObject = CBoss_CautionEff::Create(m_pGraphicDev);
-			dynamic_cast<CBoss_CautionEff*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = _vec3(m_vPlayerPos.x, 35.f + (i * 2), m_vPlayerPos.z);
+			static_cast<CBoss_CautionEff*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = _vec3(m_vPlayerPos.x, 35.f + (i * 2), m_vPlayerPos.z);
 			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 		}
 	}
@@ -106,7 +106,7 @@ void CMiniMetorPattern::Make_Thunder()
 		for (int i = 0; i < 10; ++i)
 		{
 			pGameObject = CBoss_Lightning::Create(m_pGraphicDev);
-			dynamic_cast<CBoss_Lightning*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = _vec3(m_vPlayerPos.x, 35.f + (i * 2), m_vPlayerPos.z);
+			static_cast<CBoss_Lightning*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = _vec3(m_vPlayerPos.x, 35.f + (i * 2), m_vPlayerPos.z);
 			Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 		}
 		m_fThunderDelay = 0.f;

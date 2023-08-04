@@ -37,7 +37,7 @@ HRESULT CPuzzle_Part::Ready_Object(_uint _PuzzleNumber)
 		if (pPlayer != nullptr)
 		{
 #pragma region HpPotion
-			m_pBasicStat->Get_Stat()->fMaxHP = dynamic_cast<CPlayer*>(pPlayer)->Get_Stat()->Get_Stat()->fMaxHP;
+			m_pBasicStat->Get_Stat()->fMaxHP = static_cast<CPlayer*>(pPlayer)->Get_Stat()->Get_Stat()->fMaxHP;
 #pragma endregion
 		}
 	}
@@ -89,23 +89,23 @@ HRESULT CPuzzle_Part::Add_Component(void)
 {
 	CComponent* pComponent = nullptr;
 
-	pComponent = m_pBuffer = dynamic_cast<CRcTex*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_RcTex"));
+	pComponent = m_pBuffer = static_cast<CRcTex*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_RcTex"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BUFFER, pComponent);
 
-	pComponent = m_pTransform = dynamic_cast<CTransform*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Transform"));
+	pComponent = m_pTransform = static_cast<CTransform*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Transform"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::TRANSFORM, pComponent);
 
-	pComponent = m_pTexture = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_QuestItem"));
+	pComponent = m_pTexture = static_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_QuestItem"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
 
-	pComponent = m_pCollider = dynamic_cast<CCollider*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Collider"));
+	pComponent = m_pCollider = static_cast<CCollider*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Collider"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::COLLIDER, pComponent);
 
-	pComponent = m_pBasicStat = dynamic_cast<CBasicStat*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BasicStat"));
+	pComponent = m_pBasicStat = static_cast<CBasicStat*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BasicStat"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BASICSTAT, pComponent);
 
@@ -124,15 +124,15 @@ void CPuzzle_Part::OnCollisionEnter(CCollider* _pOther)
 
 	if (_pOther->Get_Host()->Get_ObjectTag() == OBJECTTAG::PLAYER)
 	{
-		dynamic_cast<CPlayer*>(_pOther->Get_Host())->Grab_Puzzle();
+		static_cast<CPlayer*>(_pOther->Get_Host())->Grab_Puzzle();
 		CGameObject* pUI = CUIPuzzle::Create(m_pGraphicDev);
-		dynamic_cast<CUIPuzzle*>(pUI)->Set_UIImage(m_iPuzzleNumber);
+		static_cast<CUIPuzzle*>(pUI)->Set_UIImage(m_iPuzzleNumber);
 
 		CGameObject* pUiObject = nullptr;
 		pUiObject = Engine::UIManager()->Get_PopupObject(UIPOPUPLAYER::POPUP_MAP, UILAYER::UI_MIDDLE, UIID_PICTURE, 0);
 
 		if (pUiObject != nullptr)
-			dynamic_cast<CUIPuzzleBack*>(pUiObject)->Get_UIPuzzle().push_back(dynamic_cast<CUIPuzzle*>(pUI));
+			static_cast<CUIPuzzleBack*>(pUiObject)->Get_UIPuzzle().push_back(static_cast<CUIPuzzle*>(pUI));
 
 
 		EventManager()->DeleteObject(this);

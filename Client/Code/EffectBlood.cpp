@@ -133,10 +133,10 @@ Engine::_int CEffectBlood::Update_Object(const _float& fTimeDelta)
 		m_RandomSet = false;
 		CGameObject* pGameObject = CEffectBlood::Create(m_pGraphicDev);
 		pGameObject->m_pTransform->Translate(_vec3(m_pTransform->m_vInfo[INFO_POS].x + CTempEffect::Get_RandomFloat(-1.f, 1.f), m_pTransform->m_vInfo[INFO_POS].y + 0.01f, m_pTransform->m_vInfo[INFO_POS].z + CTempEffect::Get_RandomFloat(-1.f, 1.f)));
-		dynamic_cast<CTempEffect*>(pGameObject)->Set_Parent(false);
-		dynamic_cast<CTempEffect*>(pGameObject)->Set_Child(true);
-		dynamic_cast<CTempEffect*>(pGameObject)->Set_RandomSet(false);
-		dynamic_cast<CTempEffect*>(pGameObject)->Set_EffectColor(m_EffectColor);
+		static_cast<CTempEffect*>(pGameObject)->Set_Parent(false);
+		static_cast<CTempEffect*>(pGameObject)->Set_Child(true);
+		static_cast<CTempEffect*>(pGameObject)->Set_RandomSet(false);
+		static_cast<CTempEffect*>(pGameObject)->Set_EffectColor(m_EffectColor);
 		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 		//CPoolManager::GetInstance()->Create_Effect(EFFECTTAG::, TargetPos);
 	}
@@ -170,15 +170,15 @@ HRESULT CEffectBlood::Add_Component(void)
 {
 	CComponent*			pComponent = nullptr;
 
-	pComponent = m_pBufferCom = dynamic_cast<CRcTex*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_RcTex"));
+	pComponent = m_pBufferCom = static_cast<CRcTex*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_RcTex"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BUFFER, pComponent);
 
-	pComponent = m_pTransform = dynamic_cast<CTransform*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Transform_Logo"));
+	pComponent = m_pTransform = static_cast<CTransform*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Transform_Logo"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::TRANSFORM, pComponent);
 
-	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_EffectBlood"));
+	pComponent = m_pTextureCom = static_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_EffectBlood"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
 

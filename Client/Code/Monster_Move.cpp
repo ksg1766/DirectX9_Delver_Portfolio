@@ -27,7 +27,7 @@ HRESULT CMonster_Move::Ready_State(CStateMachine* pOwner)
 	m_fDistance = 30.f;
 	m_fAngle = 0.f;
 	m_fChase = 10.f;
-	m_fSpeed = dynamic_cast<CMonster*>(pOwner->Get_Host())->Get_BasicStat()->Get_Stat()->fSpeed;
+	m_fSpeed = static_cast<CMonster*>(pOwner->Get_Host())->Get_BasicStat()->Get_Stat()->fSpeed;
 	m_fRandomRange = 50.f;  // 이건 변수 넣는걸로 한다치고.
 	m_vSavePos = _vec3(0.f, 0.f, 0.f);
 	m_vRandomPos = _vec3(0.f, 0.f, 0.f);
@@ -46,9 +46,9 @@ STATE CMonster_Move::Update_State(const _float& fTimeDelta)
 	CPlayer& pPlayer = *SceneManager()->Get_Scene()->Get_MainPlayer();
 	_vec3 vMonsterPos = m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
 	
-	_vec3 vCenterPos = _vec3(dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Get_CenterPos().x, vMonsterPos.y, dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Get_CenterPos().z);
+	_vec3 vCenterPos = _vec3(static_cast<CMonster*>(m_pOwner->Get_Host())->Get_CenterPos().x, vMonsterPos.y, static_cast<CMonster*>(m_pOwner->Get_Host())->Get_CenterPos().z);
 	_vec3 vTargetCenter = _vec3(pPlayer.m_pTransform->m_vInfo[INFO_POS].x, vMonsterPos.y, pPlayer.m_pTransform->m_vInfo[INFO_POS].z);
-	_float fMoveRange = dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Get_MoveRange();
+	_float fMoveRange = static_cast<CMonster*>(m_pOwner->Get_Host())->Get_MoveRange();
 
 	_vec3 vDirToCenter = vCenterPos - vMonsterPos;
 	_float fDistanceToCenter = D3DXVec3Length(&vDirToCenter);
@@ -87,13 +87,13 @@ STATE CMonster_Move::Update_State(const _float& fTimeDelta)
 	else if (fDistanceToCenter > fMoveRange)
 	{
 		D3DXVec3Normalize(&vDirToCenter, &vDirToCenter);
-		m_pOwner->Get_Transform()->Translate(vDirToCenter * dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Get_BasicStat()->Get_Stat()->fSpeed * fTimeDelta);
+		m_pOwner->Get_Transform()->Translate(vDirToCenter * static_cast<CMonster*>(m_pOwner->Get_Host())->Get_BasicStat()->Get_Stat()->fSpeed * fTimeDelta);
 
 		m_fReturnTime += fTimeDelta;
 
 		if (m_fReturnTime >= 2.5f)
 		{
-			//dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Set_CenterPos(m_pOwner->Get_Transform()->m_vInfo[INFO_POS]);
+			//static_cast<CMonster*>(m_pOwner->Get_Host())->Set_CenterPos(m_pOwner->Get_Transform()->m_vInfo[INFO_POS]);
 			m_fReturnTime = 0.f;
 			m_bCheck = false;
 		}
@@ -114,7 +114,7 @@ STATE CMonster_Move::Update_State(const _float& fTimeDelta)
 
 void CMonster_Move::Move_Sound()
 {
-	MONSTERTAG _eMonsterTag = dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Get_MonsterTag();
+	MONSTERTAG _eMonsterTag = static_cast<CMonster*>(m_pOwner->Get_Host())->Get_MonsterTag();
 
 	switch (_eMonsterTag)
 	{
@@ -187,7 +187,7 @@ void CMonster_Move::Get_RandomDir(_vec3& vDir, const _vec3& _vCenter, const _flo
 void CMonster_Move::Lerp_Move(_vec3& vDir, const _float& fTimeDelta)
 {
 	_float fDistanceToTarget = D3DXVec3Length(&(m_vSavePos - vDir));
-	_float fLerpDistance = dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Get_BasicStat()->Get_Stat()->fSpeed * fTimeDelta;
+	_float fLerpDistance = static_cast<CMonster*>(m_pOwner->Get_Host())->Get_BasicStat()->Get_Stat()->fSpeed * fTimeDelta;
 
 	if (fDistanceToTarget <= fLerpDistance)
 	{
@@ -204,7 +204,7 @@ void CMonster_Move::Lerp_Move(_vec3& vDir, const _float& fTimeDelta)
 
 		if (m_fLerpTime >= 2.5f)
 		{
-			//dynamic_cast<CMonster*>(m_pOwner->Get_Host())->Set_CenterPos(m_pOwner->Get_Transform()->m_vInfo[INFO_POS]);
+			//static_cast<CMonster*>(m_pOwner->Get_Host())->Set_CenterPos(m_pOwner->Get_Transform()->m_vInfo[INFO_POS]);
 			m_fLerpTime = 0.f;
 			m_bCheck = false;
 		}

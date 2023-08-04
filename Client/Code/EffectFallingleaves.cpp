@@ -28,7 +28,7 @@ HRESULT CEffectFallingleaves::Ready_Object(void)
 	{
 		CGameObject* pGameObject = CEffectleaf::Create(m_pGraphicDev);
 		NULL_CHECK_RETURN(pGameObject, E_FAIL);
-		dynamic_cast<CEffectleaf*>(pGameObject)->Change_Move(NewDir, fMoveSpeed);
+		static_cast<CEffectleaf*>(pGameObject)->Change_Move(NewDir, fMoveSpeed);
 		m_vecLeaf.push_back(pGameObject);
 		Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 	}
@@ -44,7 +44,7 @@ Engine::_int CEffectFallingleaves::Update_Object(const _float& fTimeDelta)
 		m_bChange = false;
 
 		for (auto& iter : m_vecLeaf) {
-			dynamic_cast<CEffectleaf*>(iter)->Set_ChangeMode(true);
+			static_cast<CEffectleaf*>(iter)->Set_ChangeMode(true);
 		}
 	}
 
@@ -62,7 +62,7 @@ Engine::_int CEffectFallingleaves::Update_Object(const _float& fTimeDelta)
 		_float fMoveSpeed = CTempEffect::Get_RandomFloat(10.f, 20.f);
 		for (auto& iter : m_vecLeaf)
 		{
-			dynamic_cast<CEffectleaf*>(iter)->Change_Move(NewDir, fMoveSpeed);
+			static_cast<CEffectleaf*>(iter)->Change_Move(NewDir, fMoveSpeed);
 		}
 	}
 
@@ -87,7 +87,7 @@ HRESULT CEffectFallingleaves::Add_Component(void)
 {
 	CComponent*			pComponent = nullptr;
 
-	pComponent = m_pTransform = dynamic_cast<CTransform*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Transform_Logo"));
+	pComponent = m_pTransform = static_cast<CTransform*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Transform_Logo"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::TRANSFORM, pComponent);
 

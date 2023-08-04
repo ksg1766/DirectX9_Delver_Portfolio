@@ -45,7 +45,7 @@ STATE CBoss_Meteor2Ph::Update_State(const _float& fTimeDelta)
 	Engine::CGameObject* pGameObject = nullptr;
     if (!m_bSkill)
     {
-        dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Set_CloneCount(0);
+        static_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Set_CloneCount(0);
         if (!m_bPosReset)
         {
             if ((1.5f >= fabs(-72.5f - m_pOwner->Get_Transform()->m_vInfo[INFO_POS].x)) && (1.5f >= fabs(94.5f - m_pOwner->Get_Transform()->m_vInfo[INFO_POS].z)))
@@ -75,9 +75,9 @@ STATE CBoss_Meteor2Ph::Update_State(const _float& fTimeDelta)
         {
             pGameObject = CBoss_MeteorCube::Create(m_pGraphicDev);
             Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
-            dynamic_cast<CBoss_MeteorCube*>(pGameObject)->Set_Center(_vec3(-72.5f, 45.f, 94.5f));
-            dynamic_cast<CBoss_MeteorCube*>(pGameObject)->Set_State(STATE::BOSS_PH2SKILL5);
-            dynamic_cast<CBoss_MeteorCube*>(pGameObject)->Channeling_Begin();
+            static_cast<CBoss_MeteorCube*>(pGameObject)->Set_Center(_vec3(-72.5f, 45.f, 94.5f));
+            static_cast<CBoss_MeteorCube*>(pGameObject)->Set_State(STATE::BOSS_PH2SKILL5);
+            static_cast<CBoss_MeteorCube*>(pGameObject)->Channeling_Begin();
             m_bSkillStart = true;
         }
         else if (m_bSkillStart && (12.1f < m_fChannel_Count))
@@ -86,9 +86,9 @@ STATE CBoss_Meteor2Ph::Update_State(const _float& fTimeDelta)
             m_fDelay = 0.f;
             m_bSkillStart = false;
             m_fChannel_Count = 0.f;
-            if (10 >= dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_BasicStat()->Get_Stat()->fHP)
+            if (10 >= static_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_BasicStat()->Get_Stat()->fHP)
             { 
-                dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Set_Phase(BOSSPHASE::PHASE3);
+                static_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Set_Phase(BOSSPHASE::PHASE3);
                 CGameManager::GetInstance()->PlayMode(PD::ShowBossP3);
                 return STATE::BOSS_TELEPORT; 
             }
@@ -138,45 +138,45 @@ void CBoss_Meteor2Ph::Make_Clone()
     case 0:
         m_vTargetPos = m_vPillarPos[m_iIndex];
         pGameObject = CSkeletonKing_CloneMeteor::Create(m_pGraphicDev);
-        dynamic_cast<CSkeletonKing_CloneMeteor*>(pGameObject)->Set_bMeteor(true);
-        dynamic_cast<CSkeletonKing_CloneMeteor*>(pGameObject)->Set_Dir(m_vPillarPos[1]);
-        dynamic_cast<CSkeletonKing_CloneMeteor*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
+        static_cast<CSkeletonKing_CloneMeteor*>(pGameObject)->Set_bMeteor(true);
+        static_cast<CSkeletonKing_CloneMeteor*>(pGameObject)->Set_Dir(m_vPillarPos[1]);
+        static_cast<CSkeletonKing_CloneMeteor*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
         Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 
         pGameObject2 = CSkeletonKing_CloneMeteor::Create(m_pGraphicDev);
-        dynamic_cast<CSkeletonKing_CloneMeteor*>(pGameObject2)->Set_bMeteor(true);
-        dynamic_cast<CSkeletonKing_CloneMeteor*>(pGameObject2)->Set_Dir(m_vPillarPos[2]);
-        dynamic_cast<CSkeletonKing_CloneMeteor*>(pGameObject2)->m_pTransform->m_vInfo[INFO_POS] = m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
+        static_cast<CSkeletonKing_CloneMeteor*>(pGameObject2)->Set_bMeteor(true);
+        static_cast<CSkeletonKing_CloneMeteor*>(pGameObject2)->Set_Dir(m_vPillarPos[2]);
+        static_cast<CSkeletonKing_CloneMeteor*>(pGameObject2)->m_pTransform->m_vInfo[INFO_POS] = m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
         Engine::EventManager()->CreateObject(pGameObject2, LAYERTAG::GAMELOGIC);
         m_bSkill = true;
         break;
     case 1:
         m_vTargetPos = m_vPillarPos[m_iIndex];
         pGameObject = CSkeletonKing_CloneMeteor::Create(m_pGraphicDev);
-        dynamic_cast<CSkeletonKing_CloneMeteor*>(pGameObject)->Set_bMeteor(true);
-        dynamic_cast<CSkeletonKing_CloneMeteor*>(pGameObject)->Set_Dir(m_vPillarPos[2]);
-        dynamic_cast<CSkeletonKing_CloneMeteor*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
+        static_cast<CSkeletonKing_CloneMeteor*>(pGameObject)->Set_bMeteor(true);
+        static_cast<CSkeletonKing_CloneMeteor*>(pGameObject)->Set_Dir(m_vPillarPos[2]);
+        static_cast<CSkeletonKing_CloneMeteor*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
         Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 
         pGameObject2 = CSkeletonKing_CloneMeteor::Create(m_pGraphicDev);
-        dynamic_cast<CSkeletonKing_CloneMeteor*>(pGameObject2)->Set_bMeteor(true);
-        dynamic_cast<CSkeletonKing_CloneMeteor*>(pGameObject2)->Set_Dir(m_vPillarPos[0]);
-        dynamic_cast<CSkeletonKing_CloneMeteor*>(pGameObject2)->m_pTransform->m_vInfo[INFO_POS] = m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
+        static_cast<CSkeletonKing_CloneMeteor*>(pGameObject2)->Set_bMeteor(true);
+        static_cast<CSkeletonKing_CloneMeteor*>(pGameObject2)->Set_Dir(m_vPillarPos[0]);
+        static_cast<CSkeletonKing_CloneMeteor*>(pGameObject2)->m_pTransform->m_vInfo[INFO_POS] = m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
         Engine::EventManager()->CreateObject(pGameObject2, LAYERTAG::GAMELOGIC);
         m_bSkill = true;
         break;
     case 2:
         m_vTargetPos = m_vPillarPos[m_iIndex];
         pGameObject = CSkeletonKing_CloneMeteor::Create(m_pGraphicDev);
-        dynamic_cast<CSkeletonKing_CloneMeteor*>(pGameObject)->Set_bMeteor(true);
-        dynamic_cast<CSkeletonKing_CloneMeteor*>(pGameObject)->Set_Dir(m_vPillarPos[1]);
-        dynamic_cast<CSkeletonKing_CloneMeteor*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
+        static_cast<CSkeletonKing_CloneMeteor*>(pGameObject)->Set_bMeteor(true);
+        static_cast<CSkeletonKing_CloneMeteor*>(pGameObject)->Set_Dir(m_vPillarPos[1]);
+        static_cast<CSkeletonKing_CloneMeteor*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
         Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 
         pGameObject2 = CSkeletonKing_CloneMeteor::Create(m_pGraphicDev);
-        dynamic_cast<CSkeletonKing_CloneMeteor*>(pGameObject2)->Set_bMeteor(true);
-        dynamic_cast<CSkeletonKing_CloneMeteor*>(pGameObject2)->Set_Dir(m_vPillarPos[0]);
-        dynamic_cast<CSkeletonKing_CloneMeteor*>(pGameObject2)->m_pTransform->m_vInfo[INFO_POS] = m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
+        static_cast<CSkeletonKing_CloneMeteor*>(pGameObject2)->Set_bMeteor(true);
+        static_cast<CSkeletonKing_CloneMeteor*>(pGameObject2)->Set_Dir(m_vPillarPos[0]);
+        static_cast<CSkeletonKing_CloneMeteor*>(pGameObject2)->m_pTransform->m_vInfo[INFO_POS] = m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
         Engine::EventManager()->CreateObject(pGameObject2, LAYERTAG::GAMELOGIC);
         m_bSkill = true;
         break;
@@ -188,8 +188,8 @@ void CBoss_Meteor2Ph::Make_LostSoul()
 	Engine::CGameObject* pGameObject = nullptr;
 
 	pGameObject = CBossLostSoul::Create(m_pGraphicDev);
-	dynamic_cast<CBossLostSoul*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
-	dynamic_cast<CBossLostSoul*>(pGameObject)->Set_Target(m_pOwner->Get_Transform()->m_vInfo[INFO_POS]);
+	static_cast<CBossLostSoul*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
+	static_cast<CBossLostSoul*>(pGameObject)->Set_Target(m_pOwner->Get_Transform()->m_vInfo[INFO_POS]);
 	Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 }
 

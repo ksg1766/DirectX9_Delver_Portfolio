@@ -48,10 +48,10 @@ STATE CExplosionPattern::Update_State(const _float& fTimeDelta)
             for (int i = 0; i < 4; ++i)
             {
                 pGameObject = CBoss_WarningEff::Create(m_pGraphicDev);
-                dynamic_cast<CBoss_WarningEff*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = _vec3(m_pOwner->Get_Transform()->m_vInfo[INFO_POS] + (m_vExplosionin1[i] * m_iSkillCount * 4.f));
+                static_cast<CBoss_WarningEff*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = _vec3(m_pOwner->Get_Transform()->m_vInfo[INFO_POS] + (m_vExplosionin1[i] * m_iSkillCount * 4.f));
                 Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
                 pGameObject = CBoss_WarningEff::Create(m_pGraphicDev);
-                dynamic_cast<CBoss_WarningEff*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = _vec3(m_pOwner->Get_Transform()->m_vInfo[INFO_POS] + (m_vExplosionin2[i] * m_iSkillCount * 4.f));
+                static_cast<CBoss_WarningEff*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = _vec3(m_pOwner->Get_Transform()->m_vInfo[INFO_POS] + (m_vExplosionin2[i] * m_iSkillCount * 4.f));
                 Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
             }
         }
@@ -60,15 +60,15 @@ STATE CExplosionPattern::Update_State(const _float& fTimeDelta)
             for (int i = 0; i < 4; ++i)
             {
                 pGameObject = CBossExplosion::Create(m_pGraphicDev);
-                dynamic_cast<CBossExplosion*>(pGameObject)->Set_StartPos(m_pOwner->Get_Transform()->m_vInfo[INFO_POS] + (m_vExplosionin1[i] * m_iSkillCount*4.f));
-                dynamic_cast<CBossExplosion*>(pGameObject)->Set_StartPosY(-0.5f);
-                dynamic_cast<CBossExplosion*>(pGameObject)->Set_Scale(m_iSkillCount * 2.5f);
+                static_cast<CBossExplosion*>(pGameObject)->Set_StartPos(m_pOwner->Get_Transform()->m_vInfo[INFO_POS] + (m_vExplosionin1[i] * m_iSkillCount*4.f));
+                static_cast<CBossExplosion*>(pGameObject)->Set_StartPosY(-0.5f);
+                static_cast<CBossExplosion*>(pGameObject)->Set_Scale(m_iSkillCount * 2.5f);
                 Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 
                 pGameObject = CBossExplosion::Create(m_pGraphicDev);
-                dynamic_cast<CBossExplosion*>(pGameObject)->Set_StartPos(m_pOwner->Get_Transform()->m_vInfo[INFO_POS] + (m_vExplosionin2[i] * m_iSkillCount * 4.f));
-                dynamic_cast<CBossExplosion*>(pGameObject)->Set_StartPosY(-0.5f);
-                dynamic_cast<CBossExplosion*>(pGameObject)->Set_Scale(m_iSkillCount *2.5f);
+                static_cast<CBossExplosion*>(pGameObject)->Set_StartPos(m_pOwner->Get_Transform()->m_vInfo[INFO_POS] + (m_vExplosionin2[i] * m_iSkillCount * 4.f));
+                static_cast<CBossExplosion*>(pGameObject)->Set_StartPosY(-0.5f);
+                static_cast<CBossExplosion*>(pGameObject)->Set_Scale(m_iSkillCount *2.5f);
                 Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
             }
             ++m_iSkillCount;

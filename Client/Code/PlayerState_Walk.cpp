@@ -32,7 +32,7 @@ STATE CPlayerState_Walk::Update_State(const _float& fTimeDelta)
 
 	STATE eState = STATE::IDLE;
 
-	if (!dynamic_cast<CPlayer*>(m_pOwner->Get_Host())->Get_UseUI())
+	if (!static_cast<CPlayer*>(m_pOwner->Get_Host())->Get_UseUI())
 		eState = Key_Input(fTimeDelta);
 
 	return eState;
@@ -52,7 +52,7 @@ STATE CPlayerState_Walk::Key_Input(const _float& fTimeDelta)
 	_vec3 vLook = m_pOwner->Get_Transform()->m_vInfo[INFO_LOOK];
 	_vec3 vRight = m_pOwner->Get_Transform()->m_vInfo[INFO_RIGHT];
 
-	CPlayer& pPlayer = *dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer());
+	CPlayer& pPlayer = *static_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer());
 	STATE	_eState = STATE::IDLE;
 
 
@@ -62,9 +62,9 @@ STATE CPlayerState_Walk::Key_Input(const _float& fTimeDelta)
 		{
 			_vec3 vFront = vLook;
 			vFront.y = 0.f;
-			if(dynamic_cast<CPlayer*>(m_pOwner->Get_Host())->Get_Slow())
+			if(static_cast<CPlayer*>(m_pOwner->Get_Host())->Get_Slow())
 				m_pOwner->Get_Transform()->Translate(2.f * fTimeDelta * vFront);
-			else if (!dynamic_cast<CPlayer*>(m_pOwner->Get_Host())->Get_Slow())
+			else if (!static_cast<CPlayer*>(m_pOwner->Get_Host())->Get_Slow())
 				m_pOwner->Get_Transform()->Translate(6.f * fTimeDelta * vFront);
 			_eState = STATE::ROMIMG;
 		}
@@ -72,9 +72,9 @@ STATE CPlayerState_Walk::Key_Input(const _float& fTimeDelta)
 		{
 			_vec3 vFront = vLook;
 			vFront.y = 0.f;
-			if (dynamic_cast<CPlayer*>(m_pOwner->Get_Host())->Get_Slow())
+			if (static_cast<CPlayer*>(m_pOwner->Get_Host())->Get_Slow())
 				m_pOwner->Get_Transform()->Translate(2.f * fTimeDelta * -vFront);
-			else if(!dynamic_cast<CPlayer*>(m_pOwner->Get_Host())->Get_Slow())
+			else if(!static_cast<CPlayer*>(m_pOwner->Get_Host())->Get_Slow())
 				m_pOwner->Get_Transform()->Translate(6.f * fTimeDelta * -vFront);
 			_eState = STATE::ROMIMG;
 		}
@@ -82,9 +82,9 @@ STATE CPlayerState_Walk::Key_Input(const _float& fTimeDelta)
 		{
 			_vec3 vSide = vRight;
 			vSide.y = 0.f;
-			if (dynamic_cast<CPlayer*>(m_pOwner->Get_Host())->Get_Slow())
+			if (static_cast<CPlayer*>(m_pOwner->Get_Host())->Get_Slow())
 				m_pOwner->Get_Transform()->Translate(2.f * fTimeDelta * -vSide);
-			else if (!dynamic_cast<CPlayer*>(m_pOwner->Get_Host())->Get_Slow())
+			else if (!static_cast<CPlayer*>(m_pOwner->Get_Host())->Get_Slow())
 				m_pOwner->Get_Transform()->Translate(6.f * fTimeDelta * -vSide);
 			_eState = STATE::ROMIMG;
 		}
@@ -92,9 +92,9 @@ STATE CPlayerState_Walk::Key_Input(const _float& fTimeDelta)
 		{
 			_vec3 vSide = vRight;
 			vSide.y = 0.f;
-			if (dynamic_cast<CPlayer*>(m_pOwner->Get_Host())->Get_Slow())
+			if (static_cast<CPlayer*>(m_pOwner->Get_Host())->Get_Slow())
 				m_pOwner->Get_Transform()->Translate(2.f * fTimeDelta * vSide);
-			else if (!dynamic_cast<CPlayer*>(m_pOwner->Get_Host())->Get_Slow())
+			else if (!static_cast<CPlayer*>(m_pOwner->Get_Host())->Get_Slow())
 				m_pOwner->Get_Transform()->Translate(6.f * fTimeDelta * vSide);
 			_eState = STATE::ROMIMG;
 		}
@@ -102,7 +102,7 @@ STATE CPlayerState_Walk::Key_Input(const _float& fTimeDelta)
 		if (pPlayer.Get_CurrentEquipRight())
 			if (Engine::InputDev()->Mouse_Pressing(DIM_LB))
 			{
-				dynamic_cast<CPlayer*>(m_pOwner->Get_Host())->Set_AttackTick(true);
+				static_cast<CPlayer*>(m_pOwner->Get_Host())->Set_AttackTick(true);
 				_eState = STATE::ATTACK;
 			}
 
@@ -111,17 +111,17 @@ STATE CPlayerState_Walk::Key_Input(const _float& fTimeDelta)
 			// TODO : 마우스 오른 쪽 누르면 소모류는 사용 가능하게.
 			// 스테이트 반영은 필요X
 
-			CPlayer& pPlayer = *dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer());
+			CPlayer& pPlayer = *static_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer());
 
 			if (pPlayer.Get_CurrentEquipLeft() == nullptr)
 				return STATE::IDLE;
 
 			// 왼쪽 손에 맥주를 장착하고 있다면
-			if (dynamic_cast<CItem*>(pPlayer.Get_CurrentEquipLeft())->Get_ItemTag().eItemID == ITEMID::GENERAL_BEER)
-				if (dynamic_cast<CBeer*>(pPlayer.Get_CurrentEquipLeft())->Get_BeerCount() >= 1.f)
-					dynamic_cast<CBeer*>(pPlayer.Get_CurrentEquipLeft())->Use_Beer(1.f);
+			if (static_cast<CItem*>(pPlayer.Get_CurrentEquipLeft())->Get_ItemTag().eItemID == ITEMID::GENERAL_BEER)
+				if (static_cast<CBeer*>(pPlayer.Get_CurrentEquipLeft())->Get_BeerCount() >= 1.f)
+					static_cast<CBeer*>(pPlayer.Get_CurrentEquipLeft())->Use_Beer(1.f);
 
-			if (dynamic_cast<CItem*>(pPlayer.Get_CurrentEquipLeft())->Get_ItemTag().eItemID == ITEMID::GENERAL_SHIELD)
+			if (static_cast<CItem*>(pPlayer.Get_CurrentEquipLeft())->Get_ItemTag().eItemID == ITEMID::GENERAL_SHIELD)
 			{
 				pPlayer.Set_ThrowShield(true);
 				return STATE::ATTACK;

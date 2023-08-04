@@ -24,11 +24,11 @@ HRESULT CBlade_Trap_Blade::Ready_Object(void)
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	CState* pState = CBlade_Trap_Idle::Create(m_pGraphicDev, m_pStateMachine);
-	dynamic_cast<CBlade_Trap_Idle*>(pState)->Set_TrapCenter(m_vTrapCenter);
+	static_cast<CBlade_Trap_Idle*>(pState)->Set_TrapCenter(m_vTrapCenter);
 	m_pStateMachine->Add_State(STATE::IDLE, pState);
 
 	pState = CBlade_Trap_Attack::Create(m_pGraphicDev, m_pStateMachine);
-	dynamic_cast<CBlade_Trap_Attack*>(pState)->Set_TrapHeight(m_vTrapCenter.y);
+	static_cast<CBlade_Trap_Attack*>(pState)->Set_TrapHeight(m_vTrapCenter.y);
 	m_pStateMachine->Add_State(STATE::ATTACK, pState);
 	
 	CAnimation* pAnimation = CAnimation::Create(m_pGraphicDev,
@@ -90,11 +90,11 @@ HRESULT CBlade_Trap_Blade::Ready_Object2(_vec3 vCenterPos)
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	CState* pState = CBlade_Trap_Idle::Create(m_pGraphicDev, m_pStateMachine);
-	dynamic_cast<CBlade_Trap_Idle*>(pState)->Set_TrapCenter(vCenterPos);
+	static_cast<CBlade_Trap_Idle*>(pState)->Set_TrapCenter(vCenterPos);
 	m_pStateMachine->Add_State(STATE::IDLE, pState);
 
 	pState = CBlade_Trap_Attack::Create(m_pGraphicDev, m_pStateMachine);
-	dynamic_cast<CBlade_Trap_Attack*>(pState)->Set_TrapHeight(vCenterPos.y);
+	static_cast<CBlade_Trap_Attack*>(pState)->Set_TrapHeight(vCenterPos.y);
 	m_pStateMachine->Add_State(STATE::ATTACK, pState);
 
 	CAnimation* pAnimation = CAnimation::Create(m_pGraphicDev,
@@ -154,27 +154,27 @@ void CBlade_Trap_Blade::OnCollisionExit(CCollider* _pOther)
 HRESULT CBlade_Trap_Blade::Add_Component(void)
 {
 	CComponent* pComponent = nullptr;
-	pComponent = m_pBuffer = dynamic_cast<CRcTex*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_RcTex"));
+	pComponent = m_pBuffer = static_cast<CRcTex*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_RcTex"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BUFFER, pComponent);
 
-	pComponent = m_pTexture[(_uint)STATE::IDLE] = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_BladeTrapBlade"));
+	pComponent = m_pTexture[(_uint)STATE::IDLE] = static_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_BladeTrapBlade"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::ANIMATOR, pComponent);
 
-	pComponent = m_pCollider = dynamic_cast<CCollider*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Collider"));
+	pComponent = m_pCollider = static_cast<CCollider*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Collider"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::COLLIDER, pComponent);
 
-	pComponent = m_pTransform = dynamic_cast<CTransform*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Transform"));
+	pComponent = m_pTransform = static_cast<CTransform*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Transform"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::TRANSFORM, pComponent);
 
-	pComponent = m_pStateMachine = dynamic_cast<CStateMachine*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_State"));
+	pComponent = m_pStateMachine = static_cast<CStateMachine*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_State"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::STATEMACHINE, pComponent);
 
-	pComponent = m_pAnimator = dynamic_cast<CAnimator*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Animator"));
+	pComponent = m_pAnimator = static_cast<CAnimator*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Animator"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::ANIMATOR, pComponent);
 

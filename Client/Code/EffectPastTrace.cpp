@@ -36,7 +36,7 @@ Engine::_int CEffectPastTrace::Update_Object(const _float& fTimeDelta)
 	if (!m_bCreateSet) {
 		m_bCreateSet = true;
 
-		CPlayer* pPlayer = dynamic_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer());
+		CPlayer* pPlayer = static_cast<CPlayer*>(SceneManager()->Get_Scene()->Get_MainPlayer());
 		if (pPlayer != nullptr) {
 			m_pPlayerInfo = *pPlayer->m_pTransform->m_vInfo;
 
@@ -60,10 +60,10 @@ Engine::_int CEffectPastTrace::Update_Object(const _float& fTimeDelta)
 			for (_uint i = 0; i < 2; ++i)
 			{
 				CGameObject* pGameObject = CEffectPastTrace::Create(m_pGraphicDev);
-				dynamic_cast<CTempEffect*>(pGameObject)->Set_CreateSet(true);
-				dynamic_cast<CTempEffect*>(pGameObject)->Set_RandomSet(false);
+				static_cast<CTempEffect*>(pGameObject)->Set_CreateSet(true);
+				static_cast<CTempEffect*>(pGameObject)->Set_RandomSet(false);
 				pGameObject->m_pTransform->Copy_RUL(&m_pPlayerInfo);
-				dynamic_cast<CEffectPastTrace*>(pGameObject)->Set_EffectDir(m_vecDir);
+				static_cast<CEffectPastTrace*>(pGameObject)->Set_EffectDir(m_vecDir);
 
 				if (i == 0) {
 					pGameObject->m_pTransform->Translate(m_pTransform->m_vInfo[INFO_POS]);
@@ -123,19 +123,19 @@ HRESULT CEffectPastTrace::Add_Component(void)
 {
 	CComponent*			pComponent = nullptr;
 
-	pComponent = m_pBufferCom = dynamic_cast<CRcTex*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_RcTex"));
+	pComponent = m_pBufferCom = static_cast<CRcTex*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_RcTex"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BUFFER, pComponent);
 
-	pComponent = m_pTransform = dynamic_cast<CTransform*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Transform_Logo"));
+	pComponent = m_pTransform = static_cast<CTransform*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Transform_Logo"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::TRANSFORM, pComponent);
 
-	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_EffectPastTrace"));
+	pComponent = m_pTextureCom = static_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_EffectPastTrace"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
 
-	pComponent = m_pBillBoardCom = dynamic_cast<CBillBoard*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BillBoard"));
+	pComponent = m_pBillBoardCom = static_cast<CBillBoard*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_BillBoard"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::BILLBOARD, pComponent);
 

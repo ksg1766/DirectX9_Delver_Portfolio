@@ -35,20 +35,20 @@ HRESULT CBoss_Phase2::Ready_State(CStateMachine* pOwner)
 
 STATE CBoss_Phase2::Update_State(const _float& fTimeDelta)
 {
-    if (BOSSPHASE::PHASE2 != dynamic_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_Phase())
+    if (BOSSPHASE::PHASE2 != static_cast<CSkeletonKing*>(Engine::SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front())->Get_Phase())
         return STATE::BOSS_IDLE;
     m_fDelay += fTimeDelta;
     if (3.f < m_fDelay)
     {
-        if ((m_bMeteor)&&( 0.f >= dynamic_cast<CSkeletonKing*>(m_pOwner->Get_Host())->Get_BasicStat()->Get_Stat()->fHP))
+        if ((m_bMeteor)&&( 0.f >= static_cast<CSkeletonKing*>(m_pOwner->Get_Host())->Get_BasicStat()->Get_Stat()->fHP))
         {
             m_fDelay = 0.f;
-            dynamic_cast<CSkeletonKing*>(m_pOwner->Get_Host())->Set_Phase(BOSSPHASE::PHASE3);
+            static_cast<CSkeletonKing*>(m_pOwner->Get_Host())->Set_Phase(BOSSPHASE::PHASE3);
             CGameManager::GetInstance()->PlayMode(PD::ShowBossP3);
             return STATE::BOSS_TELEPORT;
         }
 
-        CFlyingCamera* pCamera = dynamic_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam());
+        CFlyingCamera* pCamera = static_cast<CFlyingCamera*>(CCameraManager::GetInstance()->Get_CurrentCam());
         pCamera->Reset_ShakeForce();
         m_fDelay = 0.f;
         return BossSkill(fTimeDelta);
@@ -90,7 +90,7 @@ STATE CBoss_Phase2::BossSkill(const _float& fTimeDelta)
         break;
     case 4:
         m_iSkillCount = 0;
-        dynamic_cast<CSkeletonKing*>(m_pOwner->Get_Host())->ReSet_Sturn();
+        static_cast<CSkeletonKing*>(m_pOwner->Get_Host())->ReSet_Sturn();
         CSoundManager::GetInstance()->PlaySound(L"Boss_Power1.wav", CHANNELID::SOUND_BOSS, 1.f);
         m_bMeteor = true;
         return STATE::BOSS_PH2SKILL5;

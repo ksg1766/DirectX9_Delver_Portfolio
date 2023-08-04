@@ -37,8 +37,8 @@ STATE CKingSpider_ShootPoison::Update_State(const _float& fTimeDelta)
 				CSoundManager::GetInstance()->PlaySound(L"KingSpider_Attack2.wav", CHANNELID::SOUND_BOSS, 1.f);
 
 				pGameObject = CKingSpiderPoison::Create(m_pGraphicDev);
-				dynamic_cast<CKingSpiderPoison*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
-				dynamic_cast<CKingSpiderPoison*>(pGameObject)->Set_DirParabola(SceneManager()->Get_Scene()->Get_MainPlayer()->m_pTransform->m_vInfo[INFO_POS]);
+				static_cast<CKingSpiderPoison*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = m_pOwner->Get_Transform()->m_vInfo[INFO_POS];
+				static_cast<CKingSpiderPoison*>(pGameObject)->Set_DirParabola(SceneManager()->Get_Scene()->Get_MainPlayer()->m_pTransform->m_vInfo[INFO_POS]);
 				Engine::EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
 				++m_iSkillCount;
 				m_fDelay = 0.f;

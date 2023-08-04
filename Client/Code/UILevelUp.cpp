@@ -38,8 +38,8 @@ HRESULT CUILevelUp::Ready_Object()
 	CGameObject* pGameObject = nullptr;
 	for (_uint i = 0; i < 6; ++i) {
 		pGameObject = CUILevelUpCard::Create(m_pGraphicDev);
-		dynamic_cast<CTempUI*>(pGameObject)->Set_Parent(this);
-		dynamic_cast<CUILevelUpCard*>(pGameObject)->Set_CardType(i);
+		static_cast<CTempUI*>(pGameObject)->Set_Parent(this);
+		static_cast<CUILevelUpCard*>(pGameObject)->Set_CardType(i);
 		m_vecCardObject.push_back(pGameObject);
 	}
 
@@ -90,8 +90,8 @@ _int CUILevelUp::Update_Object(const _float& fTimeDelta)
 			int fRanNum = Get_RandomFloatNumber(0.f, 5.f);
 			if (m_bSelectCard[fRanNum] == false) {
 
-				dynamic_cast<CUILevelUpCard*>(m_vecCardObject[fRanNum])->Set_PickNumber(m_iPickCount);
-				dynamic_cast<CUILevelUpCard*>(m_vecCardObject[fRanNum])->Set_UseCard(true);
+				static_cast<CUILevelUpCard*>(m_vecCardObject[fRanNum])->Set_PickNumber(m_iPickCount);
+				static_cast<CUILevelUpCard*>(m_vecCardObject[fRanNum])->Set_UseCard(true);
 				m_vecPickObject.push_back(m_vecCardObject[fRanNum]);
 
 				m_bSelectCard[fRanNum] = true;
@@ -154,15 +154,15 @@ HRESULT CUILevelUp::Add_Component(void)
 {
 	CComponent* pComponent = nullptr;
 
-	pComponent = m_pBufferCom = dynamic_cast<CRcTex*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_RcTex"));
+	pComponent = m_pBufferCom = static_cast<CRcTex*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_RcTex"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BUFFER, pComponent);
 
-	pComponent = m_pTransform = dynamic_cast<CTransform*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Transform"));
+	pComponent = m_pTransform = static_cast<CTransform*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Transform"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::TRANSFORM, pComponent);
 
-	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_LevelUpBackground"));
+	pComponent = m_pTextureCom = static_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_LevelUpBackground"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
 

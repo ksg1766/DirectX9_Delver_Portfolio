@@ -119,23 +119,23 @@ HRESULT CUIitem::Add_Component(void)
 {
 	CComponent* pComponent = nullptr;
 
-	pComponent = m_pBufferCom = dynamic_cast<CRcTex*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_RcTex"));
+	pComponent = m_pBufferCom = static_cast<CRcTex*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_RcTex"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BUFFER, pComponent);
 
-	pComponent = m_pTransform = dynamic_cast<CTransform*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Transform"));
+	pComponent = m_pTransform = static_cast<CTransform*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Transform"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::TRANSFORM, pComponent);
 
-	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_itemUI"));
+	pComponent = m_pTextureCom = static_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_itemUI"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
 
-	pComponent = m_pNumberTextureCom = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_NumberUI"));
+	pComponent = m_pNumberTextureCom = static_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_NumberUI"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE1, pComponent);
 
-	pComponent = m_pTooltipCom = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_tooltipUI"));
+	pComponent = m_pTooltipCom = static_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_tooltipUI"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE1, pComponent);
 
@@ -194,7 +194,7 @@ void CUIitem::Key_Input(void)
 				// 아이템 장착 아이템 타입인 경우 해당 UINumber 슬롯을 찾고 해당 슬롯 이미지 변경
 				if (m_ItemID.eItemType == ITEMTYPE_GENERALITEM || m_ItemID.eItemType == ITEMTYPE_EQUIPITEM) {
 					CGameObject* SlotObj = Engine::UIManager()->Get_PopupObject(Engine::UIPOPUPLAYER::POPUP_EQUIPMENT, Engine::UILAYER::UI_DOWN, UIID_SLOTEQUIPMENT, m_UINumber);
-					dynamic_cast<CUIequipmentslot*>(dynamic_cast<CTempUI*>(SlotObj))->Set_FindSlot(true);
+					static_cast<CUIequipmentslot*>(static_cast<CTempUI*>(SlotObj))->Set_FindSlot(true);
 				}
 			}
 		}
@@ -207,8 +207,8 @@ void CUIitem::Key_Input(void)
 				UIOBJECTTTAG UIColliderSlotObjID;
 				_uint        UIColliderSlotNumber;
 
-				CPlayer*    pPlayer    = dynamic_cast<CPlayer*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
-				CInventory* pInventory = dynamic_cast<CInventory*>(pPlayer->Get_Component(COMPONENTTAG::INVENTORY, ID_DYNAMIC));
+				CPlayer*    pPlayer    = static_cast<CPlayer*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::PLAYER).front());
+				CInventory* pInventory = static_cast<CInventory*>(pPlayer->Get_Component(COMPONENTTAG::INVENTORY, ID_DYNAMIC));
 
 				if (pPlayer == nullptr || pInventory == nullptr)
 					return;
@@ -226,16 +226,16 @@ void CUIitem::Key_Input(void)
 						_uint        UIParentSlotNumber;
 						CGameObject* pSlotObj = Get_Parent();
 
-						dynamic_cast<CTempUI*>(pSlotObj)->Get_UIObjID(UIParentSlotObjID, UIParentSlotNumber);
-						dynamic_cast<CTempUI*>(pSlotObj)->Set_BeforeChild(dynamic_cast<CTempUI*>(Get_Parent())->Get_Child());
-						dynamic_cast<CTempUI*>(pSlotObj)->Set_Child(nullptr);
-						dynamic_cast<CTempUI*>(pSlotObj)->Set_EmptyBool(true);
+						static_cast<CTempUI*>(pSlotObj)->Get_UIObjID(UIParentSlotObjID, UIParentSlotNumber);
+						static_cast<CTempUI*>(pSlotObj)->Set_BeforeChild(static_cast<CTempUI*>(Get_Parent())->Get_Child());
+						static_cast<CTempUI*>(pSlotObj)->Set_Child(nullptr);
+						static_cast<CTempUI*>(pSlotObj)->Set_EmptyBool(true);
 
 						if ((m_ItemID.eItemType != ITEMTYPE_GENERALITEM && m_ItemID.eItemType != ITEMTYPE_EQUIPITEM) || UIParentSlotObjID != UIID_SLOTEQUIPMENT) {
 							pInventory->delete_FindItem(m_ItemID);
 						}
 						else {
-							dynamic_cast<CUIequipmentslot*>(pSlotObj)->Set_ThrowItem(m_ItemID.eItemID);
+							static_cast<CUIequipmentslot*>(pSlotObj)->Set_ThrowItem(m_ItemID.eItemID);
 						}
 						// TODO
 
@@ -246,7 +246,7 @@ void CUIitem::Key_Input(void)
 
 						auto FindDropItem = [&eItemID](CGameObject* Item)
 						{
-							if (CItem* ItemCast = dynamic_cast<CItem*>(Item))
+							if (CItem* ItemCast = static_cast<CItem*>(Item))
 								return ItemCast->Get_ItemTag().eItemID == eItemID.eItemID;
 
 							return false;
@@ -256,19 +256,19 @@ void CUIitem::Key_Input(void)
 
 						if (Itemiter != vecWorldItem.end())
 						{
-							dynamic_cast<CItem*>(*Itemiter)->Set_WorldItem(true);
-							dynamic_cast<CItem*>(*Itemiter)->Set_DropItem(true);
-							dynamic_cast<CItem*>(*Itemiter)->Set_BillBoard();
+							static_cast<CItem*>(*Itemiter)->Set_WorldItem(true);
+							static_cast<CItem*>(*Itemiter)->Set_DropItem(true);
+							static_cast<CItem*>(*Itemiter)->Set_BillBoard();
 							vecWorldItem.erase(Itemiter);
 						}
 
-						if (m_ItemID.eItemType == ITEMTYPE_WEAPONITEM && pPlayer->Get_CurrentEquipRight() != nullptr && m_ItemID.eItemID == dynamic_cast<CItem*>(pPlayer->Get_CurrentEquipRight())->Get_ItemTag().eItemID)
+						if (m_ItemID.eItemType == ITEMTYPE_WEAPONITEM && pPlayer->Get_CurrentEquipRight() != nullptr && m_ItemID.eItemID == static_cast<CItem*>(pPlayer->Get_CurrentEquipRight())->Get_ItemTag().eItemID)
 						{ // 오른 손 무기 버렸을 시 
 							pPlayer->Set_PrevEquipRight(nullptr);
 							pPlayer->Set_CurrentEquipRight(nullptr);
 							pPlayer->Set_ItemEquipRight(false);
 						}
-						else if (m_ItemID.eItemType == ITEMTYPE_GENERALITEM && pPlayer->Get_CurrentEquipLeft() != nullptr && m_ItemID.eItemID == dynamic_cast<CItem*>(pPlayer->Get_CurrentEquipLeft())->Get_ItemTag().eItemID)
+						else if (m_ItemID.eItemType == ITEMTYPE_GENERALITEM && pPlayer->Get_CurrentEquipLeft() != nullptr && m_ItemID.eItemID == static_cast<CItem*>(pPlayer->Get_CurrentEquipLeft())->Get_ItemTag().eItemID)
 						{ // 왼 손 무기 버렸을 시 
 							pPlayer->Set_PrevEquipLeft(nullptr);
 							pPlayer->Set_CurrentEquipLeft(nullptr);
@@ -296,7 +296,7 @@ void CUIitem::Key_Input(void)
 
 						auto FindDropItem = [&eItemID](CGameObject* Item)
 						{
-							if (CItem* ItemCast = dynamic_cast<CItem*>(Item))
+							if (CItem* ItemCast = static_cast<CItem*>(Item))
 								return ItemCast->Get_ItemTag().eItemID == eItemID.eItemID;
 
 							return false;
@@ -306,9 +306,9 @@ void CUIitem::Key_Input(void)
 
 						if (Itemiter != vecWorldItem.end())
 						{
-							dynamic_cast<CItem*>(*Itemiter)->Set_WorldItem(true);
-							dynamic_cast<CItem*>(*Itemiter)->Set_DropItem(true);
-							dynamic_cast<CItem*>(*Itemiter)->Set_BillBoard();
+							static_cast<CItem*>(*Itemiter)->Set_WorldItem(true);
+							static_cast<CItem*>(*Itemiter)->Set_DropItem(true);
+							static_cast<CItem*>(*Itemiter)->Set_BillBoard();
 							vecWorldItem.erase(Itemiter);
 						}
 
@@ -322,7 +322,7 @@ void CUIitem::Key_Input(void)
 				else if (ColliderSlotObj != nullptr) // 이동할 슬롯을 찾았을 시
 				{
 					_bool bSucess = false;
-					dynamic_cast<CTempUI*>(ColliderSlotObj)->Get_UIObjID(UIColliderSlotObjID, UIColliderSlotNumber);
+					static_cast<CTempUI*>(ColliderSlotObj)->Get_UIObjID(UIColliderSlotObjID, UIColliderSlotNumber);
 
 					// 이동할 수 있는 슬롯인지 조건 검사
 					switch (UIColliderSlotObjID)
@@ -339,14 +339,14 @@ void CUIitem::Key_Input(void)
 						break;
 					}
 					
-					if (dynamic_cast<CTempUI*>(ColliderSlotObj)->Get_EmptyBool() && bSucess) // 이동할 슬롯이 비어있고 장착해도 될 슬롯일 경우에 이동
+					if (static_cast<CTempUI*>(ColliderSlotObj)->Get_EmptyBool() && bSucess) // 이동할 슬롯이 비어있고 장착해도 될 슬롯일 경우에 이동
 					{
 						UIOBJECTTTAG UIStartObjID;
 						_uint        UIStartNumber;
-						dynamic_cast<CTempUI*>(Get_Parent())->Get_UIObjID(UIStartObjID, UIStartNumber);
-						dynamic_cast<CTempUI*>(Get_Parent())->Set_BeforeChild(dynamic_cast<CTempUI*>(Get_Parent())->Get_Child());
-						dynamic_cast<CTempUI*>(Get_Parent())->Set_Child(nullptr);
-						dynamic_cast<CTempUI*>(Get_Parent())->Set_EmptyBool(true);
+						static_cast<CTempUI*>(Get_Parent())->Get_UIObjID(UIStartObjID, UIStartNumber);
+						static_cast<CTempUI*>(Get_Parent())->Set_BeforeChild(static_cast<CTempUI*>(Get_Parent())->Get_Child());
+						static_cast<CTempUI*>(Get_Parent())->Set_Child(nullptr);
+						static_cast<CTempUI*>(Get_Parent())->Set_EmptyBool(true);
 
 						// 장착 성공 시 해당 정보 인벤토리에 업데이트 // 위치 이동 및 이전 위치에는 정보 초기화 (해제 X)
 						pInventory->GoSwitch_InvenItem(m_ItemID, UIStartObjID, UIStartNumber, UIColliderSlotObjID, UIColliderSlotNumber);
@@ -356,8 +356,8 @@ void CUIitem::Key_Input(void)
 						WorldMatrix(m_pTransform->m_vInfo[INFO_POS].x, m_pTransform->m_vInfo[INFO_POS].y, m_pTransform->m_vLocalScale.x, m_pTransform->m_vLocalScale.y);
 
 						Set_Parent(ColliderSlotObj);
-						dynamic_cast<CTempUI*>(Get_Parent())->Set_Child(this);
-						dynamic_cast<CTempUI*>(Get_Parent())->Set_EmptyBool(false);
+						static_cast<CTempUI*>(Get_Parent())->Set_Child(this);
+						static_cast<CTempUI*>(Get_Parent())->Set_EmptyBool(false);
 
 
 						//CSoundManager::GetInstance()->StopSound(CHANNELID::SOUND_INVENTORY);
@@ -368,33 +368,33 @@ void CUIitem::Key_Input(void)
 							CGameObject* pRightItem = pPlayer->Get_CurrentEquipRight();
 							if (pRightItem != nullptr) {
 
-								ITEMTYPEID ItemId = dynamic_cast<CItem*>(pRightItem)->Get_ItemTag();
+								ITEMTYPEID ItemId = static_cast<CItem*>(pRightItem)->Get_ItemTag();
 								if (ItemId.eItemID == m_ItemID.eItemID) {
 									UIOBJECTTTAG UIFindObjID{};
 									_uint        UIFindNumber;
-									dynamic_cast<CTempUI*>(Get_Parent())->Get_UIObjID(UIFindObjID, UIFindNumber);
+									static_cast<CTempUI*>(Get_Parent())->Get_UIObjID(UIFindObjID, UIFindNumber);
 
 
 									if (UIFindObjID == UIID_SLOTBASIC)
-										dynamic_cast<CUIbasicslot*>(dynamic_cast<CTempUI*>(Get_Parent()))->Set_FindSlot(true);
+										static_cast<CUIbasicslot*>(static_cast<CTempUI*>(Get_Parent()))->Set_FindSlot(true);
 									else if (UIFindObjID == UIID_SLOTEMPTY)
-										dynamic_cast<CUIemptyslot*>(dynamic_cast<CTempUI*>(Get_Parent()))->Set_FindSlot(true);
+										static_cast<CUIemptyslot*>(static_cast<CTempUI*>(Get_Parent()))->Set_FindSlot(true);
 								}
 							}
 						}
 					}
-					else if (!dynamic_cast<CTempUI*>(ColliderSlotObj)->Get_EmptyBool() && bSucess) // 이동할 슬롯이 비어있지 않고 장착해도 될 슬롯일 경우에 서로 스위칭
+					else if (!static_cast<CTempUI*>(ColliderSlotObj)->Get_EmptyBool() && bSucess) // 이동할 슬롯이 비어있지 않고 장착해도 될 슬롯일 경우에 서로 스위칭
 					{
 						// 이동할 아이템 UI 및 부모 슬롯 주소
 						ITEMTYPEID   UIStartItemID = m_ItemID;
 						CGameObject* UIStartParentSlot = Get_Parent();
 						UIOBJECTTTAG UIStartObjID;
 						_uint        UIStartNumber;
-						dynamic_cast<CTempUI*>(UIStartParentSlot)->Get_UIObjID(UIStartObjID, UIStartNumber);
+						static_cast<CTempUI*>(UIStartParentSlot)->Get_UIObjID(UIStartObjID, UIStartNumber);
 
 						// 이동할 공간에 있는 아이템 UI를 가져오고 이전 자식으로 등록
-						CGameObject* pGoItemUI = dynamic_cast<CTempUI*>(ColliderSlotObj)->Get_Child();
-						ITEMTYPEID   UIGoItemID = dynamic_cast<CUIitem*>(pGoItemUI)->Get_ItemTag();
+						CGameObject* pGoItemUI = static_cast<CTempUI*>(ColliderSlotObj)->Get_Child();
+						ITEMTYPEID   UIGoItemID = static_cast<CUIitem*>(pGoItemUI)->Get_ItemTag();
 
 						// 이동당하는 아이템이 해당 슬롯에 들어가도 되는 지 검사
 						_bool bChangeSucess = false;
@@ -409,7 +409,7 @@ void CUIitem::Key_Input(void)
 						case Engine::UIID_SLOTEQUIPMENT:
 							UIOBJECTTTAG UIEndObjID;
 							_uint        UIEndNumber;
-							dynamic_cast<CTempUI*>(pGoItemUI)->Get_UIObjID(UIEndObjID, UIEndNumber);
+							static_cast<CTempUI*>(pGoItemUI)->Get_UIObjID(UIEndObjID, UIEndNumber);
 							if (UIEndNumber == UIStartNumber) { bChangeSucess = true; }
 							else { bChangeSucess = false; }
 							break;
@@ -417,8 +417,8 @@ void CUIitem::Key_Input(void)
 
 						if (bChangeSucess)
 						{
-							dynamic_cast<CTempUI*>(UIStartParentSlot)->Set_BeforeChild(dynamic_cast<CTempUI*>(UIStartParentSlot)->Get_Child());
-							dynamic_cast<CTempUI*>(ColliderSlotObj)->Set_BeforeChild(dynamic_cast<CTempUI*>(ColliderSlotObj)->Get_Child());
+							static_cast<CTempUI*>(UIStartParentSlot)->Set_BeforeChild(static_cast<CTempUI*>(UIStartParentSlot)->Get_Child());
+							static_cast<CTempUI*>(ColliderSlotObj)->Set_BeforeChild(static_cast<CTempUI*>(ColliderSlotObj)->Get_Child());
 
 							// 위치 이동
 							m_pTransform->m_vInfo[INFO_POS].x = ColliderSlotObj->m_pTransform->m_vInfo[INFO_POS].x;
@@ -427,7 +427,7 @@ void CUIitem::Key_Input(void)
 
 							pGoItemUI->m_pTransform->m_vInfo[INFO_POS].x = UIStartParentSlot->m_pTransform->m_vInfo[INFO_POS].x;
 							pGoItemUI->m_pTransform->m_vInfo[INFO_POS].y = UIStartParentSlot->m_pTransform->m_vInfo[INFO_POS].y;
-							dynamic_cast<CUIitem*>(pGoItemUI)->WorldMatrix(pGoItemUI->m_pTransform->m_vInfo[INFO_POS].x, pGoItemUI->m_pTransform->m_vInfo[INFO_POS].y, pGoItemUI->m_pTransform->m_vLocalScale.x, pGoItemUI->m_pTransform->m_vLocalScale.y);
+							static_cast<CUIitem*>(pGoItemUI)->WorldMatrix(pGoItemUI->m_pTransform->m_vInfo[INFO_POS].x, pGoItemUI->m_pTransform->m_vInfo[INFO_POS].y, pGoItemUI->m_pTransform->m_vLocalScale.x, pGoItemUI->m_pTransform->m_vLocalScale.y);
 
 							// 서로 부모 자식 설정
 							if (UIColliderSlotObjID == UIID_SLOTEQUIPMENT) // 이동하는 곳이 장착 슬롯일 시 이전 상태 해제 후 해당 정보 업데이트 필요
@@ -436,49 +436,49 @@ void CUIitem::Key_Input(void)
 								// 재 장착 상태
 
 								Set_Parent(ColliderSlotObj);
-								dynamic_cast<CTempUI*>(Get_Parent())->Set_Child(nullptr);
-								dynamic_cast<CTempUI*>(Get_Parent())->Set_EmptyBool(true);
+								static_cast<CTempUI*>(Get_Parent())->Set_Child(nullptr);
+								static_cast<CTempUI*>(Get_Parent())->Set_EmptyBool(true);
 
-								dynamic_cast<CTempUI*>(Get_Parent())->Set_NextChild(this);
-								dynamic_cast<CTempUI*>(Get_Parent())->Set_EmptyBool(false);
+								static_cast<CTempUI*>(Get_Parent())->Set_NextChild(this);
+								static_cast<CTempUI*>(Get_Parent())->Set_EmptyBool(false);
 
-								dynamic_cast<CUIitem*>(pGoItemUI)->Set_Parent(UIStartParentSlot);
+								static_cast<CUIitem*>(pGoItemUI)->Set_Parent(UIStartParentSlot);
 
-								dynamic_cast<CTempUI*>(UIStartParentSlot)->Set_Child(nullptr);
-								dynamic_cast<CTempUI*>(UIStartParentSlot)->Set_EmptyBool(true);
-								dynamic_cast<CTempUI*>(UIStartParentSlot)->Set_Child(pGoItemUI);
-								dynamic_cast<CTempUI*>(UIStartParentSlot)->Set_EmptyBool(false);
+								static_cast<CTempUI*>(UIStartParentSlot)->Set_Child(nullptr);
+								static_cast<CTempUI*>(UIStartParentSlot)->Set_EmptyBool(true);
+								static_cast<CTempUI*>(UIStartParentSlot)->Set_Child(pGoItemUI);
+								static_cast<CTempUI*>(UIStartParentSlot)->Set_EmptyBool(false);
 
 							}
 							else if (UIStartObjID == UIID_SLOTEQUIPMENT)
 							{
 								Set_Parent(ColliderSlotObj);
-								dynamic_cast<CTempUI*>(Get_Parent())->Set_Child(nullptr);
-								dynamic_cast<CTempUI*>(Get_Parent())->Set_EmptyBool(true);
-								dynamic_cast<CTempUI*>(Get_Parent())->Set_Child(this);
-								dynamic_cast<CTempUI*>(Get_Parent())->Set_EmptyBool(false);
+								static_cast<CTempUI*>(Get_Parent())->Set_Child(nullptr);
+								static_cast<CTempUI*>(Get_Parent())->Set_EmptyBool(true);
+								static_cast<CTempUI*>(Get_Parent())->Set_Child(this);
+								static_cast<CTempUI*>(Get_Parent())->Set_EmptyBool(false);
 
-								dynamic_cast<CUIitem*>(pGoItemUI)->Set_Parent(UIStartParentSlot);
+								static_cast<CUIitem*>(pGoItemUI)->Set_Parent(UIStartParentSlot);
 
-								dynamic_cast<CTempUI*>(UIStartParentSlot)->Set_Child(nullptr);
-								dynamic_cast<CTempUI*>(UIStartParentSlot)->Set_EmptyBool(true);
-								dynamic_cast<CTempUI*>(UIStartParentSlot)->Set_NextChild(pGoItemUI);
-								dynamic_cast<CTempUI*>(UIStartParentSlot)->Set_EmptyBool(false);
+								static_cast<CTempUI*>(UIStartParentSlot)->Set_Child(nullptr);
+								static_cast<CTempUI*>(UIStartParentSlot)->Set_EmptyBool(true);
+								static_cast<CTempUI*>(UIStartParentSlot)->Set_NextChild(pGoItemUI);
+								static_cast<CTempUI*>(UIStartParentSlot)->Set_EmptyBool(false);
 							}
 							else
 							{
 								Set_Parent(ColliderSlotObj);
-								dynamic_cast<CTempUI*>(Get_Parent())->Set_Child(nullptr);
-								dynamic_cast<CTempUI*>(Get_Parent())->Set_EmptyBool(true);
-								dynamic_cast<CTempUI*>(Get_Parent())->Set_Child(this);
-								dynamic_cast<CTempUI*>(Get_Parent())->Set_EmptyBool(false);
+								static_cast<CTempUI*>(Get_Parent())->Set_Child(nullptr);
+								static_cast<CTempUI*>(Get_Parent())->Set_EmptyBool(true);
+								static_cast<CTempUI*>(Get_Parent())->Set_Child(this);
+								static_cast<CTempUI*>(Get_Parent())->Set_EmptyBool(false);
 
-								dynamic_cast<CUIitem*>(pGoItemUI)->Set_Parent(UIStartParentSlot);
+								static_cast<CUIitem*>(pGoItemUI)->Set_Parent(UIStartParentSlot);
 
-								dynamic_cast<CTempUI*>(UIStartParentSlot)->Set_Child(nullptr);
-								dynamic_cast<CTempUI*>(UIStartParentSlot)->Set_EmptyBool(true);
-								dynamic_cast<CTempUI*>(UIStartParentSlot)->Set_Child(pGoItemUI);
-								dynamic_cast<CTempUI*>(UIStartParentSlot)->Set_EmptyBool(false);
+								static_cast<CTempUI*>(UIStartParentSlot)->Set_Child(nullptr);
+								static_cast<CTempUI*>(UIStartParentSlot)->Set_EmptyBool(true);
+								static_cast<CTempUI*>(UIStartParentSlot)->Set_Child(pGoItemUI);
+								static_cast<CTempUI*>(UIStartParentSlot)->Set_EmptyBool(false);
 							}
 
 							// 장착 성공 시 해당 정보 인벤토리에 업데이트
@@ -487,25 +487,25 @@ void CUIitem::Key_Input(void)
 							// 장착하고 있는 아이템을 이동한 경우 또는 이동 당한 경우에 불빛 조정
 							CGameObject* pRightItem = pPlayer->Get_CurrentEquipRight();
 							if (pRightItem != nullptr) {
-								ITEMTYPEID ItemId = dynamic_cast<CItem*>(pRightItem)->Get_ItemTag();
+								ITEMTYPEID ItemId = static_cast<CItem*>(pRightItem)->Get_ItemTag();
 
 								// 장착 아이템을 이동한 경우 이전 슬롯 불을 끄고 이동한 슬롯 불을 킨다.
 								if (m_ItemID.eItemType == ITEMTYPE_WEAPONITEM && ItemId.eItemID == m_ItemID.eItemID)
 								{
 									// 이전 슬롯을 찾아 불을 끈다.
 									if (UIStartObjID == UIID_SLOTBASIC) {
-										dynamic_cast<CUIbasicslot*>(dynamic_cast<CTempUI*>(UIStartParentSlot))->Set_FindSlot(false);
+										static_cast<CUIbasicslot*>(static_cast<CTempUI*>(UIStartParentSlot))->Set_FindSlot(false);
 									}
 									else if (UIStartObjID == UIID_SLOTEMPTY) {
-										dynamic_cast<CUIemptyslot*>(dynamic_cast<CTempUI*>(UIStartParentSlot))->Set_FindSlot(false);
+										static_cast<CUIemptyslot*>(static_cast<CTempUI*>(UIStartParentSlot))->Set_FindSlot(false);
 									}
 
 									// 이동한 슬롯을 찾으 불을 킨다.
 									if (UIColliderSlotObjID == UIID_SLOTBASIC) {
-										dynamic_cast<CUIbasicslot*>(dynamic_cast<CTempUI*>(Get_Parent()))->Set_FindSlot(true);
+										static_cast<CUIbasicslot*>(static_cast<CTempUI*>(Get_Parent()))->Set_FindSlot(true);
 									}
 									else if (UIColliderSlotObjID == UIID_SLOTEMPTY) {
-										dynamic_cast<CUIemptyslot*>(dynamic_cast<CTempUI*>(Get_Parent()))->Set_FindSlot(true);
+										static_cast<CUIemptyslot*>(static_cast<CTempUI*>(Get_Parent()))->Set_FindSlot(true);
 									}
 								}
 								// 장착 아이템이 이동 당한 경우 기존 이전 슬롯은 불을 끄고 이동당한 슬롯은 불을 킨다.
@@ -513,18 +513,18 @@ void CUIitem::Key_Input(void)
 								{
 									// 이전 슬롯을 찾아 불을 끈다.
 									if (UIColliderSlotObjID == UIID_SLOTBASIC) {
-										dynamic_cast<CUIbasicslot*>(dynamic_cast<CTempUI*>(Get_Parent()))->Set_FindSlot(false);
+										static_cast<CUIbasicslot*>(static_cast<CTempUI*>(Get_Parent()))->Set_FindSlot(false);
 									}
 									else if (UIColliderSlotObjID == UIID_SLOTEMPTY) {
-										dynamic_cast<CUIemptyslot*>(dynamic_cast<CTempUI*>(Get_Parent()))->Set_FindSlot(false);
+										static_cast<CUIemptyslot*>(static_cast<CTempUI*>(Get_Parent()))->Set_FindSlot(false);
 									}
 
 									// 이동한 슬롯을 찾으 불을 킨다.
 									if (UIStartObjID == UIID_SLOTBASIC) {
-										dynamic_cast<CUIbasicslot*>(dynamic_cast<CTempUI*>(UIStartParentSlot))->Set_FindSlot(true);
+										static_cast<CUIbasicslot*>(static_cast<CTempUI*>(UIStartParentSlot))->Set_FindSlot(true);
 									}
 									else if (UIStartObjID == UIID_SLOTEMPTY) {
-										dynamic_cast<CUIemptyslot*>(dynamic_cast<CTempUI*>(UIStartParentSlot))->Set_FindSlot(true);
+										static_cast<CUIemptyslot*>(static_cast<CTempUI*>(UIStartParentSlot))->Set_FindSlot(true);
 									}
 								}
 							}
@@ -552,7 +552,7 @@ void CUIitem::Key_Input(void)
 				// 초록불 들어온 슬롯 초기화
 				if (m_ItemID.eItemType == ITEMTYPE_GENERALITEM || m_ItemID.eItemType == ITEMTYPE_EQUIPITEM) {
 					CGameObject* SlotObj = Engine::UIManager()->Get_PopupObject(Engine::UIPOPUPLAYER::POPUP_EQUIPMENT, Engine::UILAYER::UI_DOWN, UIID_SLOTEQUIPMENT, m_UINumber);
-					dynamic_cast<CUIequipmentslot*>(dynamic_cast<CTempUI*>(SlotObj))->Set_FindSlot(false);
+					static_cast<CUIequipmentslot*>(static_cast<CTempUI*>(SlotObj))->Set_FindSlot(false);
 				}
 			}
 		}

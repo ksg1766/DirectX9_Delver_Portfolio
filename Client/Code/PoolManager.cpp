@@ -56,7 +56,7 @@ CMonster* CPoolManager::Create_Monster(MONSTERTAG _eMonsterTag, _vec3 _vSpawnPos
 
 		pRay = CSpiderRay::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
 		EventManager()->CreateObject(pRay, LAYERTAG::GAMELOGIC);
-		dynamic_cast<CSpiderRay*>(pRay)->Set_Host(pGameObject);
+		static_cast<CSpiderRay*>(pRay)->Set_Host(pGameObject);
 	}
 
 	EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);

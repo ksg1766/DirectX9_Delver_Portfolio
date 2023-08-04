@@ -103,13 +103,13 @@ void CBlade_Trap::Create_Blade()
 	for (int i = 0; i < 9; ++i)
 	{
 		pGameObject = CBlade_Trap_Blade::Create(m_pGraphicDev, m_pTransform->m_vInfo[INFO_POS]);
-		dynamic_cast<CBlade_Trap_Blade*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = m_pTransform->m_vInfo[INFO_POS];
-		dynamic_cast<CBlade_Trap_Blade*>(pGameObject)->m_pTransform->Translate(m_vBladePos[i] - _vec3(0.f, 1.f, 0.f));
+		static_cast<CBlade_Trap_Blade*>(pGameObject)->m_pTransform->m_vInfo[INFO_POS] = m_pTransform->m_vInfo[INFO_POS];
+		static_cast<CBlade_Trap_Blade*>(pGameObject)->m_pTransform->Translate(m_vBladePos[i] - _vec3(0.f, 1.f, 0.f));
 		if (i == 6)
-			dynamic_cast<CBlade_Trap_Blade*>(pGameObject)->Set_Collider();
+			static_cast<CBlade_Trap_Blade*>(pGameObject)->Set_Collider();
 		if (i < 7)
-			dynamic_cast<CBlade_Trap_Blade*>(pGameObject)->m_pTransform->Rotate(m_vBladeDir[i]);
-		m_vecTrapBlade.push_back(dynamic_cast<CBlade_Trap_Blade*>(pGameObject));
+			static_cast<CBlade_Trap_Blade*>(pGameObject)->m_pTransform->Rotate(m_vBladeDir[i]);
+		m_vecTrapBlade.push_back(static_cast<CBlade_Trap_Blade*>(pGameObject));
 	}
 }
 
@@ -139,19 +139,19 @@ HRESULT CBlade_Trap::Add_Component(void)
 {
 	CComponent* pComponent = nullptr;
 
-	pComponent = m_pCubeBf = dynamic_cast<CCubeBf*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_CubeBf"));
+	pComponent = m_pCubeBf = static_cast<CCubeBf*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_CubeBf"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::BUFFER, pComponent);
 
-	pComponent = m_pTexture = dynamic_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_BladeTrapBody"));
+	pComponent = m_pTexture = static_cast<CTexture*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Texture_BladeTrapBody"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_STATIC].emplace(COMPONENTTAG::TEXTURE0, pComponent);
 
-	pComponent = m_pTransform = dynamic_cast<CTransform*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Transform"));
+	pComponent = m_pTransform = static_cast<CTransform*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Transform"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::TRANSFORM, pComponent);
 
-	pComponent = m_pCollider = dynamic_cast<CCollider*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Collider"));
+	pComponent = m_pCollider = static_cast<CCollider*>(Engine::PrototypeManager()->Clone_Proto(L"Proto_Collider"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].emplace(COMPONENTTAG::COLLIDER, pComponent);
 

@@ -77,10 +77,10 @@ void CFootRay::OnCollisionEnter(CCollider* _pOther)
 		// 새로 충돌한 지형은 타겟에 저장
 		m_pColTarget = pOtherObj;
 
-		if (dynamic_cast<CCubeBlock*>(pOtherObj)->Get_BlockTag() == BLOCKTAG::WATER_BLOCK)
+		if (static_cast<CCubeBlock*>(pOtherObj)->Get_BlockTag() == BLOCKTAG::WATER_BLOCK)
 			rPlayer.Set_InWater(true);
 
-		// (dynamic_cast<CCubeBlock*>(pOtherObj)->Get_BlockTag() != BLOCKTAG::NORMAL_BLOCK)
+		// (static_cast<CCubeBlock*>(pOtherObj)->Get_BlockTag() != BLOCKTAG::NORMAL_BLOCK)
 		//Player.Set_DropWather(false);
 	}
 }
@@ -116,7 +116,7 @@ void CFootRay::OnCollisionExit(CCollider* _pOther)
 		static_cast<CPlayer*>(m_pHost)->Set_JumpState(true);
 		static_cast<CPlayer*>(m_pHost)->Get_RigidBody()->UseGravity(true);
 
-		if (dynamic_cast<CCubeBlock*>(pOtherObj)->Get_BlockTag() == BLOCKTAG::WATER_BLOCK)
+		if (static_cast<CCubeBlock*>(pOtherObj)->Get_BlockTag() == BLOCKTAG::WATER_BLOCK)
 			rPlayer.Set_InWater(false);
 	}
 }

@@ -68,7 +68,7 @@ CVillage::~CVillage()
 HRESULT CVillage::Ready_Scene()
 {
 	Engine::CGameObject* pGameObject = CBlackIn::Create(m_pGraphicDev);
-	dynamic_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_BASIC, 0);
+	static_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_BASIC, 0);
 	Engine::UIManager()->Add_PopupGameobject(Engine::UIPOPUPLAYER::POPUP_BLACK, Engine::UILAYER::UI_DOWN, pGameObject);
 
 	m_eSceneTag = SCENETAG::VILLAGE;
@@ -218,46 +218,46 @@ HRESULT CVillage::Ready_Layer_Environment(LAYERTAG _eLayerTag)
 	pGameObject = CEffectWaterfall::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	pGameObject->m_pTransform->Translate(_vec3(-23.f, 1.f, - 71.f)); 
-	dynamic_cast<CEffectWaterfall*>(pGameObject)->Set_BoundingBox(_vec3(-2.f, 4.f, -1.f), _vec3(2.f, 5.f, 1.f));
-	dynamic_cast<CEffectWaterfall*>(pGameObject)->Set_EffectMoveScale(5, _vec3(.2f, .2f, .2f), _vec3(1.5f, 1.5f, 1.5f));
-	dynamic_cast<CEffectWaterfall*>(pGameObject)->Set_EffectBubbleScale(7, _vec3(.2f, .2f, .2f), _vec3(1.f, 1.f, 1.f));
-	dynamic_cast<CEffectWaterfall*>(pGameObject)->Set_EffectDropHeight(1.f);
-	dynamic_cast<CEffectWaterfall*>(pGameObject)->Set_EffectMoveSet(1);
+	static_cast<CEffectWaterfall*>(pGameObject)->Set_BoundingBox(_vec3(-2.f, 4.f, -1.f), _vec3(2.f, 5.f, 1.f));
+	static_cast<CEffectWaterfall*>(pGameObject)->Set_EffectMoveScale(5, _vec3(.2f, .2f, .2f), _vec3(1.5f, 1.5f, 1.5f));
+	static_cast<CEffectWaterfall*>(pGameObject)->Set_EffectBubbleScale(7, _vec3(.2f, .2f, .2f), _vec3(1.f, 1.f, 1.f));
+	static_cast<CEffectWaterfall*>(pGameObject)->Set_EffectDropHeight(1.f);
+	static_cast<CEffectWaterfall*>(pGameObject)->Set_EffectMoveSet(1);
 ;	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
 #pragma region TREE
 	// 시작 시 왼쪽 그룹
 	pGameObject = CTree::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	dynamic_cast<CTree*>(pGameObject)->Set_TreeType(0, 0);
+	static_cast<CTree*>(pGameObject)->Set_TreeType(0, 0);
 	pGameObject->m_pTransform->Scale(_vec3(9.f, 9.f, 9.f));
 	pGameObject->m_pTransform->Translate(_vec3(-8.f, 12.f, -62.f));
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
 	pGameObject = CTree::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	dynamic_cast<CTree*>(pGameObject)->Set_TreeType(1, 1);
+	static_cast<CTree*>(pGameObject)->Set_TreeType(1, 1);
 	pGameObject->m_pTransform->Scale(_vec3(8.f, 8.f, 8.f));
 	pGameObject->m_pTransform->Translate(_vec3(-12.5f, 11.f, -66.f));
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
 	pGameObject = CTree::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	dynamic_cast<CTree*>(pGameObject)->Set_TreeType(2, 3);
+	static_cast<CTree*>(pGameObject)->Set_TreeType(2, 3);
 	pGameObject->m_pTransform->Scale(_vec3(3.f, 3.f, 3.f));
 	pGameObject->m_pTransform->Translate(_vec3(-7.f, 5.f, -65.f));
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
 	pGameObject = CTree::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	dynamic_cast<CTree*>(pGameObject)->Set_TreeType(0, 3);
+	static_cast<CTree*>(pGameObject)->Set_TreeType(0, 3);
 	pGameObject->m_pTransform->Scale(_vec3(2.f, 2.f, 2.f));
 	pGameObject->m_pTransform->Translate(_vec3(-6.f, 4.f, -67.f));
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
 	pGameObject = CTree::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	dynamic_cast<CTree*>(pGameObject)->Set_TreeType(0, 3);
+	static_cast<CTree*>(pGameObject)->Set_TreeType(0, 3);
 	pGameObject->m_pTransform->Scale(_vec3(2.5f, 2.5f, 2.5f));
 	pGameObject->m_pTransform->Translate(_vec3(-16.f, 4.5f, -68.f));
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
@@ -265,28 +265,28 @@ HRESULT CVillage::Ready_Layer_Environment(LAYERTAG _eLayerTag)
 	// 시작 시 오른쪽 그룹
 	pGameObject = CTree::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	dynamic_cast<CTree*>(pGameObject)->Set_TreeType(1, 1);
+	static_cast<CTree*>(pGameObject)->Set_TreeType(1, 1);
 	pGameObject->m_pTransform->Scale(_vec3(7.f, 7.f, 7.f));
 	pGameObject->m_pTransform->Translate(_vec3(10.f, 10.f, -64.f));
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
 	pGameObject = CTree::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	dynamic_cast<CTree*>(pGameObject)->Set_TreeType(0, 0);
+	static_cast<CTree*>(pGameObject)->Set_TreeType(0, 0);
 	pGameObject->m_pTransform->Scale(_vec3(8.f, 8.f, 8.f));
 	pGameObject->m_pTransform->Translate(_vec3(15.f, 11.f, -67.5f));
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
 	pGameObject = CTree::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	dynamic_cast<CTree*>(pGameObject)->Set_TreeType(0, 3);
+	static_cast<CTree*>(pGameObject)->Set_TreeType(0, 3);
 	pGameObject->m_pTransform->Scale(_vec3(5.f, 5.f, 5.f));
 	pGameObject->m_pTransform->Translate(_vec3(21.f, 6.f, -65.f));
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 
 	pGameObject = CTree::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	dynamic_cast<CTree*>(pGameObject)->Set_TreeType(2, 3);
+	static_cast<CTree*>(pGameObject)->Set_TreeType(2, 3);
 	pGameObject->m_pTransform->Scale(_vec3(3.f, 3.f, 3.f));
 	pGameObject->m_pTransform->Translate(_vec3(28.f, 5.f, -62.f));
 	pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
@@ -313,13 +313,13 @@ HRESULT CVillage::Ready_Layer_GameLogic(LAYERTAG _eLayerTag)
 		NULL_CHECK_RETURN(pGameObject, E_FAIL);
 		pGameObject->m_pTransform->Translate(_vec3(0.f, 0.f, -70.f));
 		pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-		m_pPlayer = dynamic_cast<CPlayer*>(pGameObject);
+		m_pPlayer = static_cast<CPlayer*>(pGameObject);
 
 		// FootRay
 		pGameObject = CFootRay::Create(m_pGraphicDev);
 		NULL_CHECK_RETURN(pGameObject, E_FAIL);
 		pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
-		dynamic_cast<CFootRay*>(pGameObject)->Set_Host(m_pPlayer);
+		static_cast<CFootRay*>(pGameObject)->Set_Host(m_pPlayer);
 		//pGameObject->m_pTransform->Translate(m_pPlayer->m_pTransform->m_vInfo[INFO_POS] + _vec3(0.f, -1.25f, 0.f));
 	}
 
@@ -374,7 +374,7 @@ HRESULT CVillage::Ready_Layer_UI(LAYERTAG _eLayerTag)
 		CGameObject* pGameObject = CUITitle::Create(Engine::CGraphicDev::GetInstance()->Get_GraphicDev());
 		NULL_CHECK_RETURN(pGameObject, E_FAIL);
 		Engine::UIManager()->Add_BasicGameobject(Engine::UILAYER::UI_UP, pGameObject);
-		dynamic_cast<CTempUI*>(pGameObject)->Set_UIImage(3);
+		static_cast<CTempUI*>(pGameObject)->Set_UIImage(3);
 	}
 
 	if (!Engine::SceneManager()->Get_VisitScene(m_eSceneTag))
@@ -386,9 +386,9 @@ HRESULT CVillage::Ready_Layer_UI(LAYERTAG _eLayerTag)
 			NULL_CHECK_RETURN(pGameObject, E_FAIL);
 			pGameObject->m_pTransform->m_vInfo[INFO_POS].x = 520.f + (60.f * i);
 			pGameObject->m_pTransform->m_vInfo[INFO_POS].y = WINCY - 30.f;
-			dynamic_cast<CTempUI*>(pGameObject)->WorldMatrix(pGameObject->m_pTransform->m_vInfo[INFO_POS].x, pGameObject->m_pTransform->m_vInfo[INFO_POS].y, pGameObject->m_pTransform->m_vLocalScale.x, pGameObject->m_pTransform->m_vLocalScale.y);
-			dynamic_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_SLOTBASIC, i);
-			dynamic_cast<CTempUI*>(pGameObject)->Set_Setup(true);
+			static_cast<CTempUI*>(pGameObject)->WorldMatrix(pGameObject->m_pTransform->m_vInfo[INFO_POS].x, pGameObject->m_pTransform->m_vInfo[INFO_POS].y, pGameObject->m_pTransform->m_vLocalScale.x, pGameObject->m_pTransform->m_vLocalScale.y);
+			static_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_SLOTBASIC, i);
+			static_cast<CTempUI*>(pGameObject)->Set_Setup(true);
 			Engine::UIManager()->Add_BasicGameobject(Engine::UILAYER::UI_DOWN, pGameObject);
 		}
 
@@ -404,9 +404,9 @@ HRESULT CVillage::Ready_Layer_UI(LAYERTAG _eLayerTag)
 				NULL_CHECK_RETURN(pGameObject, E_FAIL);
 				pGameObject->m_pTransform->m_vInfo[INFO_POS].x = 350.f + (60.f * ix);
 				pGameObject->m_pTransform->m_vInfo[INFO_POS].y = WINCY - 135.f - (60.f * iy);
-				dynamic_cast<CTempUI*>(pGameObject)->WorldMatrix(pGameObject->m_pTransform->m_vInfo[INFO_POS].x, pGameObject->m_pTransform->m_vInfo[INFO_POS].y, pGameObject->m_pTransform->m_vLocalScale.x, pGameObject->m_pTransform->m_vLocalScale.y);
-				dynamic_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_SLOTEQUIPMENT, Index);
-				dynamic_cast<CTempUI*>(pGameObject)->Set_Setup(true);
+				static_cast<CTempUI*>(pGameObject)->WorldMatrix(pGameObject->m_pTransform->m_vInfo[INFO_POS].x, pGameObject->m_pTransform->m_vInfo[INFO_POS].y, pGameObject->m_pTransform->m_vLocalScale.x, pGameObject->m_pTransform->m_vLocalScale.y);
+				static_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_SLOTEQUIPMENT, Index);
+				static_cast<CTempUI*>(pGameObject)->Set_Setup(true);
 				Engine::UIManager()->Add_PopupGameobject(Engine::UIPOPUPLAYER::POPUP_EQUIPMENT, Engine::UILAYER::UI_DOWN, pGameObject);
 			}
 		}
@@ -421,9 +421,9 @@ HRESULT CVillage::Ready_Layer_UI(LAYERTAG _eLayerTag)
 				NULL_CHECK_RETURN(pGameObject, E_FAIL);
 				pGameObject->m_pTransform->m_vInfo[INFO_POS].x = 490.f + (60.f * ix);
 				pGameObject->m_pTransform->m_vInfo[INFO_POS].y = WINCY - 135.f - (60.f * iy);
-				dynamic_cast<CTempUI*>(pGameObject)->WorldMatrix(pGameObject->m_pTransform->m_vInfo[INFO_POS].x, pGameObject->m_pTransform->m_vInfo[INFO_POS].y, pGameObject->m_pTransform->m_vLocalScale.x, pGameObject->m_pTransform->m_vLocalScale.y);
-				dynamic_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_SLOTEMPTY, iy * 6 + ix);
-				dynamic_cast<CTempUI*>(pGameObject)->Set_Setup(true);
+				static_cast<CTempUI*>(pGameObject)->WorldMatrix(pGameObject->m_pTransform->m_vInfo[INFO_POS].x, pGameObject->m_pTransform->m_vInfo[INFO_POS].y, pGameObject->m_pTransform->m_vLocalScale.x, pGameObject->m_pTransform->m_vLocalScale.y);
+				static_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_SLOTEMPTY, iy * 6 + ix);
+				static_cast<CTempUI*>(pGameObject)->Set_Setup(true);
 				Engine::UIManager()->Add_PopupGameobject(Engine::UIPOPUPLAYER::POPUP_INVEN, Engine::UILAYER::UI_DOWN, pGameObject);
 			}
 		}
@@ -435,15 +435,15 @@ HRESULT CVillage::Ready_Layer_UI(LAYERTAG _eLayerTag)
 			NULL_CHECK_RETURN(pGameObject, E_FAIL);
 			pGameObject->m_pTransform->m_vInfo[INFO_POS].x = 850.f;
 			pGameObject->m_pTransform->m_vInfo[INFO_POS].y = 595.f - (40 * iy);
-			dynamic_cast<CTempUI*>(pGameObject)->WorldMatrix(pGameObject->m_pTransform->m_vInfo[INFO_POS].x, pGameObject->m_pTransform->m_vInfo[INFO_POS].y, pGameObject->m_pTransform->m_vLocalScale.x, pGameObject->m_pTransform->m_vLocalScale.y);
-			dynamic_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_INVENBUTTON, iy);
+			static_cast<CTempUI*>(pGameObject)->WorldMatrix(pGameObject->m_pTransform->m_vInfo[INFO_POS].x, pGameObject->m_pTransform->m_vInfo[INFO_POS].y, pGameObject->m_pTransform->m_vLocalScale.x, pGameObject->m_pTransform->m_vLocalScale.y);
+			static_cast<CTempUI*>(pGameObject)->Set_UIObjID(UIOBJECTTTAG::UIID_INVENBUTTON, iy);
 			if (iy == 0)
 			{
-				dynamic_cast<CTempUI*>(pGameObject)->Set_UIImage(1);
+				static_cast<CTempUI*>(pGameObject)->Set_UIImage(1);
 			}
 			else
 			{
-				dynamic_cast<CTempUI*>(pGameObject)->Set_UIImage(3);
+				static_cast<CTempUI*>(pGameObject)->Set_UIImage(3);
 			}
 
 			Engine::UIManager()->Add_PopupGameobject(Engine::UIPOPUPLAYER::POPUP_EQUIPMENT, Engine::UILAYER::UI_DOWN, pGameObject);
@@ -606,7 +606,7 @@ HRESULT CVillage::Load_Data()
 			{
 				pGameObject = CWaterFall::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
 				NULL_CHECK_RETURN(pGameObject, E_FAIL);
-				dynamic_cast<CWaterFall*>(pGameObject)->Set_TextureNumber(0);
+				static_cast<CWaterFall*>(pGameObject)->Set_TextureNumber(0);
 				pGameObject->m_pTransform->Translate(_vec3(fX, fY + 1.f, fZ));
 				pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 				//EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
@@ -615,7 +615,7 @@ HRESULT CVillage::Load_Data()
 			{
 				pGameObject = CWater::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
 				NULL_CHECK_RETURN(pGameObject, E_FAIL);
-				dynamic_cast<CWater*>(pGameObject)->Set_TextureNumber(byTextureNumber);
+				static_cast<CWater*>(pGameObject)->Set_TextureNumber(byTextureNumber);
 				pGameObject->m_pTransform->Translate(_vec3(fX, fY + 1.f, fZ));
 				pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 				//EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
@@ -624,7 +624,7 @@ HRESULT CVillage::Load_Data()
 			{
 				pGameObject = CCubeBlock::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
 				NULL_CHECK_RETURN(pGameObject, E_FAIL);
-				dynamic_cast<CCubeBlock*>(pGameObject)->Set_TextureNumber(53);
+				static_cast<CCubeBlock*>(pGameObject)->Set_TextureNumber(53);
 				pGameObject->m_pTransform->Translate(_vec3(fX, fY + 1.f, fZ));
 				pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 			}
@@ -633,10 +633,10 @@ HRESULT CVillage::Load_Data()
 				pGameObject = CCubeBlock::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
 				NULL_CHECK_RETURN(pGameObject, E_FAIL);
 				if (fY > 50.f) {
-					dynamic_cast<CCubeBlock*>(pGameObject)->Set_TextureNumber(54);
+					static_cast<CCubeBlock*>(pGameObject)->Set_TextureNumber(54);
 				}
 				else
-					dynamic_cast<CCubeBlock*>(pGameObject)->Set_TextureNumber(byTextureNumber);
+					static_cast<CCubeBlock*>(pGameObject)->Set_TextureNumber(byTextureNumber);
 				pGameObject->m_pTransform->Translate(_vec3(fX, fY + 1.f, fZ));
 				pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 				//EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
@@ -659,10 +659,10 @@ HRESULT CVillage::Load_Data()
 
 			CGameObject* pGameObject = CSpawningPool::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
 			NULL_CHECK_RETURN(pGameObject, E_FAIL);
-			dynamic_cast<CSpawningPool*>(pGameObject)->Set_MonsterTag(eSpawnerTag);
-			dynamic_cast<CSpawningPool*>(pGameObject)->Set_PoolCapacity(iPoolCapacity);
-			dynamic_cast<CSpawningPool*>(pGameObject)->Set_SpawnRadius(fSpawnRadius);
-			dynamic_cast<CSpawningPool*>(pGameObject)->Set_SpawnTime(fSpawnTime);
+			static_cast<CSpawningPool*>(pGameObject)->Set_MonsterTag(eSpawnerTag);
+			static_cast<CSpawningPool*>(pGameObject)->Set_PoolCapacity(iPoolCapacity);
+			static_cast<CSpawningPool*>(pGameObject)->Set_SpawnRadius(fSpawnRadius);
+			static_cast<CSpawningPool*>(pGameObject)->Set_SpawnTime(fSpawnTime);
 			pGameObject->m_pTransform->Translate(_vec3(fX, fY + 1.f, fZ));
 			pLayer->Add_GameObject(pGameObject->Get_ObjectTag(), pGameObject);
 			//EventManager()->CreateObject(pGameObject, LAYERTAG::GAMELOGIC);
@@ -696,7 +696,7 @@ HRESULT CVillage::Load_Data()
 				ReadFile(hFile, &iTreeNumber, sizeof(_uint), &dwByte, nullptr);
 
 				pGameObject = CTree::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
-				dynamic_cast<CTree*>(pGameObject)->Set_TreeNumber(iTreeNumber);
+				static_cast<CTree*>(pGameObject)->Set_TreeNumber(iTreeNumber);
 				break;
 			}
 
@@ -707,7 +707,7 @@ HRESULT CVillage::Load_Data()
 				ReadFile(hFile, &iRockNumber, sizeof(_uint), &dwByte, nullptr);
 
 				pGameObject = CRock::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
-				dynamic_cast<CRock*>(pGameObject)->Set_RockNumber(iRockNumber);
+				static_cast<CRock*>(pGameObject)->Set_RockNumber(iRockNumber);
 				break;
 			}
 
@@ -718,7 +718,7 @@ HRESULT CVillage::Load_Data()
 				ReadFile(hFile, &iGrassNumber, sizeof(_uint), &dwByte, nullptr);
 
 				pGameObject = CGrass::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
-				dynamic_cast<CGrass*>(pGameObject)->Set_GrassNumber(iGrassNumber);
+				static_cast<CGrass*>(pGameObject)->Set_GrassNumber(iGrassNumber);
 				break;
 			}
 
@@ -729,7 +729,7 @@ HRESULT CVillage::Load_Data()
 				ReadFile(hFile, &iMushroomNumber, sizeof(_uint), &dwByte, nullptr);
 
 				pGameObject = CMushroom::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
-				dynamic_cast<CMushroom*>(pGameObject)->Set_MushroomNumber(iMushroomNumber);
+				static_cast<CMushroom*>(pGameObject)->Set_MushroomNumber(iMushroomNumber);
 				break;
 			}
 
@@ -740,7 +740,7 @@ HRESULT CVillage::Load_Data()
 				ReadFile(hFile, &iPumpkinNumber, sizeof(_uint), &dwByte, nullptr);
 
 				pGameObject = CPumpkin::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
-				dynamic_cast<CPumpkin*>(pGameObject)->Set_PumpkinNumber(iPumpkinNumber);
+				static_cast<CPumpkin*>(pGameObject)->Set_PumpkinNumber(iPumpkinNumber);
 				break;
 			}
 
@@ -751,7 +751,7 @@ HRESULT CVillage::Load_Data()
 				ReadFile(hFile, &iSpriteNumber, sizeof(_uint), &dwByte, nullptr);
 
 				pGameObject = CImmortalSprite::Create(CGraphicDev::GetInstance()->Get_GraphicDev());
-				dynamic_cast<CImmortalSprite*>(pGameObject)->Set_SpriteNumber(iSpriteNumber);
+				static_cast<CImmortalSprite*>(pGameObject)->Set_SpriteNumber(iSpriteNumber);
 				break;
 			}
 
