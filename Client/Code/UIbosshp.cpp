@@ -53,15 +53,17 @@ void CUIbosshp::LateUpdate_Object(void)
 	CTempUI::LateUpdate_Object();
 
 	// 보스 hp 가져와서 할당
-	m_pObject =  dynamic_cast<CSkeletonKing*>(SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS).front());
-	if (m_pObject != nullptr)
+	vector<CGameObject*> pGameObjectList = SceneManager()->Get_ObjectList(LAYERTAG::GAMELOGIC, OBJECTTAG::BOSS);
+	if (!pGameObjectList.empty())
 	{
-		CSkeletonKing& rBoss = *dynamic_cast<CSkeletonKing*>(m_pObject);
+		if (pGameObjectList.front() != nullptr) {
+			CSkeletonKing& rBoss = *dynamic_cast<CSkeletonKing*>(pGameObjectList.front());
 
-		m_fMaxHp = rBoss.Get_BasicStat()->Get_Stat()->fMaxHP;
-		m_fCurrentHp = rBoss.Get_BasicStat()->Get_Stat()->fHP;
+			m_fMaxHp = rBoss.Get_BasicStat()->Get_Stat()->fMaxHP;
+			m_fCurrentHp = rBoss.Get_BasicStat()->Get_Stat()->fHP;
 
-		Update_NumverUI();
+			Update_NumverUI();
+		}
 	}
 }
 
