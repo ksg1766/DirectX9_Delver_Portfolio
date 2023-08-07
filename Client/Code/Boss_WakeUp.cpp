@@ -49,10 +49,15 @@ STATE CBoss_WakeUp::Update_State(const _float& fTimeDelta)
             m_fDelay = 0.f;
             m_bWakeUp = false;
 
-            CGameObject* pGameObject = CUITitle::Create(Engine::CGraphicDev::GetInstance()->Get_GraphicDev());
-           // NULL_CHECK_RETURN(pGameObject, E_FAIL);
-            static_cast<CTempUI*>(pGameObject)->Set_UIImage(5);
-            Engine::UIManager()->Add_BasicGameobject(Engine::UILAYER::UI_UP, pGameObject);
+            if (m_bTitle)
+            {
+                CGameObject* pGameObject = CUITitle::Create(Engine::CGraphicDev::GetInstance()->Get_GraphicDev());
+                // NULL_CHECK_RETURN(pGameObject, E_FAIL);
+                static_cast<CTempUI*>(pGameObject)->Set_UIImage(5);
+                Engine::UIManager()->Add_BasicGameobject(Engine::UILAYER::UI_UP, pGameObject);
+
+                m_bTitle = false;
+            }
 
             return STATE::BOSS_IDLE;
         }

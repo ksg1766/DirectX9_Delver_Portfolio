@@ -184,7 +184,7 @@ void CFlyingCamera::Key_Input(const _float& fTimeDelta)
 	}
 	
 
-	if (Engine::InputDev()->Key_Down(DIK_F2) && SCENETAG::EDITOR != SceneManager()->Get_Scene()->Get_SceneTag())
+	if (Engine::InputDev()->Key_Down(DIK_F1) && SCENETAG::EDITOR != SceneManager()->Get_Scene()->Get_SceneTag())
 	{
 		Change_Mode();
 	}
