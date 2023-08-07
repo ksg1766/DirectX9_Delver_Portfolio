@@ -55,9 +55,9 @@ HRESULT CSkeletonKing::Ready_Object(void)
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 	m_pRigidBody->UseGravity(false);
 	m_pTransform->Scale(_vec3(3.f, 3.f, 3.f));
-	m_pBasicStat->Get_Stat()->fHP = 100.f;
+	m_pBasicStat->Get_Stat()->fHP = 0.f;
 	Init_Stat();
-	m_ePhase = BOSSPHASE::PHASE1;
+	m_ePhase = BOSSPHASE::LASTPHASE;
 	m_iHitCount = 0;
 	m_fHitCool = 0.f;
 	m_fMoveDelay = 0.f;
